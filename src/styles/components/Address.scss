@@ -1,0 +1,400 @@
+.addresslist-main {
+
+    display: flex;
+
+}
+
+.addres-name {
+    font-weight: 600;
+    font-size: 20px;
+    color: #43494B;
+
+    @media only screen and (max-width: 567px) {
+        font-size: 14px;
+
+    }
+
+}
+
+.address-default-button {
+    // width: 73;
+    // height: 28;
+    background: #EEEBFA;
+    border-radius: 4px;
+    padding-top: 4px;
+    padding-right: 12px;
+    padding-bottom: 4px;
+    padding-left: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: $primary_color ;
+    margin-left: 15px;
+
+    @media only screen and (max-width: 567px) {
+        font-size: 12px;
+
+    }
+
+}
+
+.address-fulladdress {
+    font-weight: 400;
+    font-size: 16px;
+    color: #43494B;
+    margin: 15px 0px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+
+    @media only screen and (max-width: 567px) {
+        font-size: 12px;
+
+    }
+}
+
+.address-phone {
+    font-weight: 600;
+    font-size: 16px;
+    color: #43494B;
+
+    @media only screen and (max-width: 567px) {
+        font-size: 12px;
+
+    }
+
+
+}
+
+.address-top {
+    display: flex;
+    align-items: center;
+}
+
+.address-page-edit-remove-btn {
+
+    gap: 8px;
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    border-width: 1px;
+    background: #FCFCFC;
+    border: 1px solid #E7E8E9;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-title {
+    font-weight: 600;
+    font-size: 12px;
+    color: #43494B;
+    padding-left: 5px;
+}
+
+.edit-remove-main {
+    display: flex;
+    justify-content: end;
+
+    @media only screen and (max-width: 991px) {
+        display: flex;
+        justify-content: start;
+        margin-left: 22px;
+        margin-top: 10px;
+
+    }
+}
+
+.add-addressbtn {
+    font-weight: 600;
+    font-size: 16px;
+    color: $primary_active_Color;
+}
+
+
+
+
+
+
+// ........................ myaccount address
+.Myaccount-rightsidecard {
+    background: #FFFFFF;
+    box-shadow: 0px 4px 12px 0px #0000000F;
+    padding: 30px;
+    border-radius: 16px;
+
+    .title {
+        font-weight: 600;
+        font-size: 24px;
+        color: #191B1C;
+
+    }
+
+    .discription {
+        font-weight: 400;
+        font-size: 14px;
+        color: #43494B;
+        padding-bottom: 30px;
+
+
+    }
+}
+
+.addaddressbtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $primary_active_Color;
+    height: 100%;
+    border: 1px solid #E7E8E9;
+    cursor: pointer;
+}
+
+.addresscard {
+    height: 100%;
+    background: #FCFCFC;
+    border: 1px solid #E7E8E9;
+    border-radius: 12px;
+    padding: 20px;
+
+}
+
+.myaccount-addresslist-radiobtn {
+    width: 20px;
+    height: 20px;
+}
+
+.profileviewsubmitbtn {
+    @media only screen and (min-width: 991px) {
+        width: fit-content !important;
+        align-items: end;
+
+    }
+}
+
+.locate_me_btn {
+    width: 127px;
+    height: 41px;
+    right: 5px;
+    bottom: 50px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background: #fff;
+    display: flex;
+    font-size: 12px;
+    font-family: var(--primary_font);
+    text-transform: uppercase;
+    font-weight: 600;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 6px;
+}
+
+.address_form {
+    font-family: var(--primary_font);
+
+    .address_form_header {
+        h5 {
+            font-weight: 600;
+            font-size: 24px;
+            color: rgba(25, 27, 28, 1);
+        }
+
+        h6 {
+            font-weight: 400;
+            font-size: 14px;
+            color: rgba(158, 165, 168, 1);
+
+        }
+
+        .address_search_input_box {
+            width: 100%;
+            border-radius: 50px;
+            padding: 5px 10px;
+            border: 1px solid rgba(231, 232, 233, 1);
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+            input {
+                border: 0;
+                width: 100%;
+
+                &:focus {
+                    outline: none;
+
+                }
+            }
+
+            input::placeholder {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .address_input_box {
+        border: 0;
+        border-bottom: 1px solid rgba(206, 210, 212, 1);
+        width: 100%;
+        margin-bottom: 30px;
+        padding-bottom: 8px;
+        color: rgba(67, 73, 75, 1);
+
+        @media only screen and (max-width: 567px) {
+            margin-bottom: 15px;
+            border: 1px solid rgba(206, 210, 212, 1);
+            border-radius: 8px;
+            padding: 10px;
+
+        }
+
+    }
+
+    .address_input_box::placeholder {
+        font-size: 14px;
+    }
+
+    .address_input_box:focus {
+        outline: none;
+    }
+
+
+
+    .search_location_dropdown {
+        background: #fff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        height: 400px;
+        position: absolute;
+        padding: 10px 15px;
+
+        .suggestion-item {
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+    }
+
+
+}
+
+.profileviewsubmitbtn {
+    @media only screen and (min-width: 991px) {
+        width: fit-content !important;
+        align-items: end;
+
+    }
+}
+
+.mobile_address_modal {
+    .mobile_address_modal_header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0px 16px;
+        height: 62px;
+
+        .mobile_address .header-inputbox {
+            border: 1px solid rgba(206, 210, 212, 1) !important;
+            height: 35px;
+        }
+    }
+
+
+}
+
+.modal_address_footer {
+    position: absolute;
+    bottom: 0px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 110px;
+    background: #fff;
+    width: 100%;
+    padding: 15px;
+
+    .comp_1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h6 {
+            color: rgba(59, 130, 246, 1);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        h5 {
+            font-size: 14px;
+            color: rgba(25, 27, 28, 1);
+            font-weight: 600;
+            -webkit-line-clamp: 2;
+            width: 60%;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+        }
+    }
+}
+
+.address_btn_current_location {
+    background: rgba(206, 210, 212, 1);
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    justify-content: center;
+    font-weight: 600;
+    font-family: var(--primary_font);
+    color: rgba(67, 73, 75, 1);
+    cursor: pointer;
+}
+
+
+
+
+.mobile_search_location_dropdown {
+    position: absolute;
+    padding: 10px 15px;
+
+    .suggestion-item {
+        margin-bottom: 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        .two_lines {
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+        }
+    }
+}
+
+.address_dropdown .modal-content {
+    background: #FCFCFC !important;
+}
+
+.mobile_address_form {
+    padding: 20px;
+
+    h5 {
+        font-family: var(--primary_font);
+        font-weight: 600;
+        font-size: 16px;
+    }
+}
+
+.address_btn {
+    border: none;
+    background: rgba(206, 210, 212, 1);
+    height: 52px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-family: var(--primary_font);
+    color: rgba(67, 73, 75, 1);
+    cursor: pointer;
+}

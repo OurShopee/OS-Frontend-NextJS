@@ -1,0 +1,93 @@
+.breadcomp-titles {
+    font-weight: 400;
+    font-size: 16px;
+    color: #43494B;
+    padding: 0px 5px;
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+        padding: 0px 2px;
+      }
+
+}
+
+.activebreadcomp-titles {
+    color: $primary_color;
+    font-weight: 600;
+    font-size: 18px;
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+  
+      }
+
+}
+
+
+//....................myaccount breadcomp
+.myaccountBreadcomp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap
+}
+
+.Myaccounthome-title {
+    font-weight: 400;
+    font-size: 12px;
+    color: #43494B;
+    @media only screen and (min-width: 768px) {
+     font-size: 16px;
+  
+      }
+}
+
+.myaccount-breadcomp-slash {
+    padding: 0px 5px;
+    font-size: 12px;
+
+}
+
+.myaccountbreadcomp-activetitle {
+    font-weight: 600;
+    font-size: 16px;
+    color: $primary_color;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:300px;
+    @media only screen and (max-width: 768px) {
+        font-size: 10px;
+        width: none !important;
+    // width: 100px;
+         }
+}
+
+.page-titile {
+    font-weight: 800;
+    font-style: italic;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #191B1C;
+    padding: 10px 0px;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

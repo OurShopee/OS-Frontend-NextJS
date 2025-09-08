@@ -1,0 +1,49 @@
+.myprofile_left_side {
+    font-family: var(--primary_font);
+
+    .profile_card {
+        border-radius: 16px;
+        background: rgba(252, 252, 252, 1);
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        padding: 20px;
+        margin-bottom: 20px;
+
+        .card_heading {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(25, 27, 28, 1);
+        }
+
+        .card_body {
+            .card_active_item {
+                background: rgba(238, 235, 250, 1);
+            }
+
+           
+
+            .card_item {
+                display: flex;
+                align-items: center;
+                background: rgba(238, 235, 250, 1);
+                padding: 10px;
+                border-radius: 8px;
+                margin-bottom: 5px;
+                .person_Account{
+                    background: rgba(206, 210, 212, 1);
+                    width: 74px;
+                    height: 74px;
+                    border-radius: 50%;
+                    align-items: center;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                h5 {
+                    font-size: 16px;
+                    margin-left: 12px;
+                    margin-bottom: unset;
+                }
+            }
+        }
+    }
+}

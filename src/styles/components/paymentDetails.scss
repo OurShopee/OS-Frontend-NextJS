@@ -1,0 +1,117 @@
+.payment-details-title {
+    font-weight: 600;
+    font-size: 20px;
+    color: #191B1C;
+    padding-bottom: 10px;
+    @media only screen and (max-width: 576px) {
+        font-size: 16px;
+    }
+
+}
+
+.payment-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.payment-type-title {
+    font-weight: 500;
+    font-size: 16px;
+    color: #43494B;
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+    }
+}
+
+.payment-type-cost {
+    font-weight: 600;
+    font-size: 16px;
+    color: #191B1C;
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+    }
+}
+
+.payment-type-shipping {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background: linear-gradient(198.87deg, #EDFFDE 14.92%, rgba(251, 255, 239, 0.2) 101.64%);
+
+}
+
+.payment-type-shippingtitle {
+    font-weight: 500;
+    font-size: 16px;
+    color: #40B862;
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+    }
+
+}
+
+.pricedetails {
+    background: #FFFFFF;
+  
+    border-radius: 8px;
+    margin-bottom: 20px;
+    @media only screen and (min-width: 576px) {
+        border: 1px solid #E7E8E9;
+        box-shadow: 0px 4px 12px 0px #0000000F;
+        padding: 25px;
+    }
+}
+
+.payment-cost {
+    padding-top: 16px;
+    padding-right: 32px;
+    padding-bottom: 16px;
+    padding-left: 32px;
+    gap: 10px;
+    border-radius: 8px;
+    background: $primary_color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.payment-type-total {
+
+    font-weight: 600;
+    font-size: 18px;
+    color: #191B1C;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 16px;
+    }
+
+}
+
+.totalvat {
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 3px;
+    color: #191B1C;
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+        color: #9EA5A8;
+
+    }
+
+}
+
+.payment-type-totalcost {
+    font-weight: 600;
+    font-size: 18px;
+    color: #191B1C;
+    @media only screen and (max-width: 576px) {
+        font-size: 16px;
+
+    }
+
+}

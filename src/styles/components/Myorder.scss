@@ -1,0 +1,405 @@
+.myorder-main {
+  background: #F2F2F2;
+  border: 1px solid #E7E8E9;
+  box-shadow: 0px 4px 12px 0px #0000000F;
+  border-radius: 16px;
+}
+
+.myorder-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.order-title {
+  font-weight: 400;
+  font-size: 14px;
+  color: #43494B;
+
+  @media only screen and (max-width: 576px) {
+    font-size: 10px;
+  }
+}
+
+.order-content {
+  font-weight: 600;
+  font-size: 14px;
+  color: #43494B;
+
+  @media only screen and (max-width: 576px) {
+    font-size: 12px;
+  }
+
+}
+
+.myorder-productdetails {
+  padding: 15px;
+  background: #fff;
+  border-radius: 16px;
+}
+
+.myorder-product-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.myorder-orderstatus {
+  background: #ECF8E3;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #33B056;
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+
+  @media only screen and (max-width: 576px) {
+    font-size: 12px;
+  }
+
+}
+
+.ordersbox-img {
+  width: 20px;
+  height: 20px;
+
+  @media only screen and (max-width: 576px) {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.order-deliverytitle {
+  font-weight: 400;
+  font-size: 16px;
+  color: #43494B;
+
+  @media only screen and (max-width: 576px) {
+    font-size: 12px;
+  }
+
+}
+
+.ordertitleend {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+}
+
+.order-date {
+  font-weight: 600;
+  font-size: 16px;
+  color: #191B1C;
+
+  @media only screen and (max-width: 576px) {
+    font-size: 12px;
+  }
+}
+.order-image {
+  width: 112px;
+  object-fit: contain;
+}
+
+.order-detailbutton {
+  border-radius: 8px;
+  padding: 6px;
+  border-width: 1px;
+  background: #FCFCFC;
+  border: 1px solid #CED2D4;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #43494B;
+  cursor: pointer;
+
+  @media only screen and (max-width: 576px) {
+    font-size: 12px;
+  }
+
+}
+
+.order-details {
+  background: #FCFCFC;
+  border: 1px solid #E7E8E9;
+  box-shadow: 0px 4px 12px 0px #0000000F;
+  padding: 10px;
+  border-radius: 16px;
+  margin-top: 10px;
+
+}
+
+.orderdetail-title {
+  font-weight: 600;
+  font-size: 24px;
+  color: #191B1C;
+
+}
+
+.orderdetails-content {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 12px 0px #0000000F;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+
+.order-paymentdetail-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #191B1C;
+  padding-bottom: 10px;
+
+}
+
+.order-paymenttype-title {
+  font-weight: 400;
+  font-size: 14px;
+
+}
+
+.order-paymenttype-cost {
+  font-weight: 600;
+  font-size: 14px;
+  color: #191B1C;
+  white-space: normal;
+    word-break: break-word;
+
+}
+
+
+
+.tracker {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  padding: 20px 0;
+  overflow-x: auto;
+}
+
+.tracker-step-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-line-container {
+  position: absolute;
+  top: 10px;
+  left: -50%;
+  width: 100%;
+  z-index: 0;
+}
+
+.step-line {
+  height: 2px;
+  width: 100%;
+  border: 1px dashed #e5e7eb;
+  // background-color: #e5e7eb; /* gray-200 */
+}
+
+.line-active {
+  border: 1px dashed #22c55e;
+  // background-color: #22c55e; /* green-500 */
+}
+
+.step-circle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.step-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.active-circle {
+  background-color: #22c55e;
+  /* green */
+  color: white;
+}
+
+.cancelled_bg {
+  background: #F34845;
+  /* green */
+  color: white;
+}
+
+.inactive-circle {
+  background-color: #d1d5db;
+  /* gray */
+  color: white;
+}
+
+.step-text {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.step-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.step-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Make mobile-friendly */
+@media (max-width: 768px) {
+  .tracker {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+
+  .tracker-step-container {
+    min-width: 100px;
+  }
+
+  .step-title {
+    font-size: 12px;
+  }
+
+  .step-date {
+    font-size: 10px;
+  }
+}
+
+
+
+.order-timeline {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 0px 8px;
+  position: relative;
+}
+
+/* ✅ Everything up to current step gets green background */
+.completed-step_cancelled {
+  background-color: #FFDFDF;
+  /* light green */
+  border-radius: 4px;
+}
+
+.timeline-indicator {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.circle-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  /* gray */
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.dot-active {
+  background-color: #22c55e;
+  /* green */
+}
+.dot-active_canceleld {
+  background-color: #F34845;
+  /* green */
+}
+
+.completed-step {
+  background-color: #ecfdf5;
+  border-radius: 4px;
+}
+
+.vertical-line {
+  width: 2px;
+  height: 40px;
+  background-image: repeating-linear-gradient(to bottom,
+      #d1d5db,
+      #d1d5db 4px,
+      transparent 4px,
+      transparent 8px);
+  margin-top: 4px;
+}
+
+.timeline-content {
+  flex: 1;
+  padding-left: 8px;
+}
+
+.step-title {
+  font-weight: 600;
+  color: #111827;
+  /* dark gray */
+  margin-bottom: 4px;
+}
+
+.step-date {
+  font-size: 14px;
+  color: #6b7280;
+  /* gray-500 */
+}
+
+/* ✅ Right check icon on current step */
+.right-icon {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.right-check {
+  font-size: 16px;
+  color: #22c55e;
+  font-weight: bold;
+}
+.cancelreturnbtn{
+  border: 1px solid #E7E8E9;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 2px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.address-style {
+  white-space: normal;  /* Ensures text wraps normally */
+  word-break: break-word;  /* Break long strings if needed */
+
+}

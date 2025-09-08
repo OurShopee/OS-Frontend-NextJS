@@ -1,0 +1,1 @@
+export { default as MediaQueries } from "./MediaQueries";

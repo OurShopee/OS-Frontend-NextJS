@@ -1,0 +1,108 @@
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
+// @import './components/global.scss';
+// @import './components/Home.scss';
+// @import './components/Header.scss';
+// @import './components/Footer.scss';
+// @import './components/Categorylist.scss';
+// @import './components/placeholders.scss';
+// @import './components/Bottomtabs.scss';
+// @import './components/Sidebar.scss';
+// @import './components/search.scss';
+// @import './components/Forms.scss';
+// @import './components/paymentDetails.scss';
+// @import './components/Cart.scss';
+// @import './components/product_detail.scss';
+// @import './components/Breadcomp.scss';
+// @import './components/Address.scss';
+// @import './components/Payment.scss';
+// @import './components/tabbyplan.scss';
+// @import './components/Snplmodal.scss';
+// @import './components/my_profile.scss';
+// @import './components/Trackorder.scss';
+// @import './components/Complaints.scss';
+// @import './components/Myorder.scss';
+// @import './components/home_page/home_carousel.scss';
+// @import './components/home_page/home_categories.scss';
+// @import './components/home_page/carousel_products.scss';
+// @import './components/home_page/filters.scss';
+// @import './components/Footerpages/privacypolicy.scss';
+// @import './components/Footerpages/FAQs.scss';
+// @import './components/Footerpages/Affriate.scss';
+// @import './components/Footerpages/Blogs.scss';
+// @import './components/Footerpages/Contactus.scss';
+// @import './components/Footerpages/Aboutus.scss';
+// @import './components/CartModal.scss';
+
+// :root {
+//   --background: #ffffff;
+//   --foreground: #171717;
+// }
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --background: #0a0a0a;
+//     --foreground: #ededed;
+//   }
+// }
+
+
+// html,
+// body {
+//   max-width: 100vw;
+//   overflow-x: hidden;
+// }
+
+// body {
+//   color: var(--foreground);
+//   background: var(--background);
+//   font-family: Arial, Helvetica, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+
+// * {
+//   box-sizing: border-box;
+//   padding: 0;
+//   margin: 0;
+// }
+
+// a {
+//   color: inherit;
+//   text-decoration: none;
+// }
+
+// @media (prefers-color-scheme: dark) {
+//   html {
+//     color-scheme: dark;
+//   }
+// }
+
+// .custom-scrollbar::-webkit-scrollbar {
+//   width: 2px;
+// }
+
+// .custom-scrollbar::-webkit-scrollbar-track {
+//   background: #f1f1f1;
+//   border-radius: 10px;
+// }
+
+// .custom-scrollbar::-webkit-scrollbar-thumb {
+//   background: #5232c2;
+//   border-radius: 10px;
+// }
+
+// .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+//   background: #7759d8;
+// }
+
+// .hide-scrollbar {
+//   -ms-overflow-style: none;
+//   scrollbar-width: none;
+// }
+
+// .hide-scrollbar::-webkit-scrollbar {
+//   display: none;
+// }

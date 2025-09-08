@@ -1,0 +1,387 @@
+.paymentoption-title {
+    display: flex;
+    justify-content: space-between;
+    //   padding: 15px;
+
+}
+
+.paymentoptionsnpl {
+    display: flex;
+    justify-content: space-between;
+}
+
+.paytitle {
+    font-weight: 600;
+    font-size: 24px;
+    color: #191B1C;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 18px;
+    }
+
+}
+
+.monthlytitle {
+    background: #EEEBFA;
+    border: 1px solid #DDD6F5;
+    margin: 10px 0px;
+    border-radius: 99px;
+    padding: 5px 15px;
+    border-width: 1px;
+    width: fit-content;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 10px;
+    }
+}
+
+.snpltrack {
+    background: #FFFFFF;
+    // box-shadow: 0px 4px 12px 0px #0000000F;
+
+
+}
+
+
+
+.subscription-card {
+    border-radius: 16px;
+    /* Basic font */
+    position: relative;
+    /* Needed for absolute positioning of the track line */
+    box-shadow: 0px 4px 12px 0px #0000000F;
+
+}
+
+.monthly-toggle {
+    background-color: #e0dcf2;
+    color: #594d72;
+    border-radius: 20px;
+    padding: 8px 16px;
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding: 18px 16px;
+    position: relative;
+    /* Needed for positioning the indicator */
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #CED2D4;
+
+
+    margin-right: 12px;
+    z-index: 1;
+    /* Ensure the circle is above the track line */
+}
+
+.indicator.green {
+    background-color: #2ecc71;
+    /* Example green color */
+}
+
+.label {
+    flex-grow: 1;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0%;
+    color: #43494B;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+}
+
+.price {
+    font-weight: 600;
+    font-size: 14px;
+    color: #43494B;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+}
+
+.today .label {
+    // font-weight: bold;
+}
+
+.learn-more-button {
+    background-color: #673ab7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.learn-more-button:hover {
+    background-color: #512da8;
+}
+
+.track-line {
+    position: absolute;
+    top: 27px;
+    bottom: 34px;
+    left: 23px;
+    width: 2px;
+    border-left: 1px dashed #CED2D4;
+    z-index: 0;
+    /* Ensure the track line is behind the circles */
+}
+
+.activeback {
+    background: #EEEBFA;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    position: relative;
+
+}
+
+.activeindicator {
+    background: #33B056;
+
+
+}
+
+.activeindicator::after {
+    position: absolute;
+    top: 38%;
+    left: 20px;
+    font-family: sans-serif;
+    content: " ✔";
+    color: #FFFFFF;
+    font-size: 10px;
+    /* Adjust size as needed */
+    /* Add any other styling you need (padding, margin, etc.) */
+}
+
+.activetitle {
+    color: #5232C2;
+    font-weight: 600;
+
+
+}
+
+.snplmodal {
+    padding: 10px;
+
+    @media only screen and (max-width: 576px) {
+        padding: 5px;
+    }
+}
+
+
+/* Basic modal styling can be extended from Bootstrap */
+
+.tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Avoid wrapping if you want horizontal scroll */
+    gap: 2px;
+    padding: 16px;
+    overflow-x: auto;
+    /* Enables horizontal scrolling */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+
+    @media only screen and (max-width: 576px) {
+        padding: 10px 5px;
+    }
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.tab-btn {
+
+    border-radius: 99px;
+    padding-top: 8px;
+    padding-right: 20px;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    border-width: 1px;
+    background: #FCFCFC;
+    border: 1px solid #CED2D4;
+    font-weight: 500;
+    font-size: 14px;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+}
+
+.bankoffercard {
+    background: #FCFCFC;
+    padding: 20px 15px;
+    border-radius: 12px;
+
+    @media only screen and (max-width: 576px) {
+        padding: 10px 10px;
+    }
+}
+
+.tab-btn.active {
+    background: #EEEBFA;
+    border: 1px solid #B8AAE9;
+    color: #5232C2;
+    font-weight: 600;
+    font-size: 14px;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+}
+
+.details-box {
+    background: #EFEFEF;
+
+    padding: 16px;
+    margin: 16px;
+    border-radius: 16px;
+
+    @media only screen and (max-width: 576px) {
+        margin: 0px;
+    }
+}
+
+.details-row,
+.emi-line,
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+
+    justify-content: space-between;
+
+    background: #FCFCFC;
+
+
+}
+
+.total-row {
+    font-weight: 600;
+}
+
+.total {
+    font-weight: 600;
+
+    font-size: 18px;
+    color: #5232C2;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+}
+
+.no-emi-box {
+    background-color: #f6f6f6;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    color: #333;
+    margin: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.no-emi-box h4 {
+    font-weight: 600;
+    font-size: 24px;
+    color: #191B1C;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+    }
+
+}
+
+.no-emi-box p {
+    font-weight: 400;
+    font-size: 16px;
+    color: #43494B;
+
+    text-align: center;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+}
+
+.bankoffersubtitle {
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 10px;
+    color: #191B1C;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+        padding-left: 5px;
+    }
+}
+
+.bankofferinterst {
+    font-weight: 600;
+    font-size: 16px;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+}
+
+.bankoffercost {
+    font-weight: 600;
+    font-size: 18px;
+    color: #43494B;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+}
+
+.bankoffer-titles {
+    font-weight: 500;
+    font-size: 16px;
+
+    color: #43494B;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+}
+
+.bankoffer-totaltitle {
+    font-weight: 600;
+    font-size: 16px;
+    color: #43494B;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+    }
+
+
+}

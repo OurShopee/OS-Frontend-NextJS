@@ -1,0 +1,107 @@
+.complaintcard {
+    border-radius: 12px;
+    padding: 60px 0px;
+    border-width: 1px;
+    background: #FFFFFF;
+    border: 1px solid #E7E8E9;
+    box-shadow: 0px 4px 12px 0px #0000000F;
+
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    @media only screen and (max-width: 576px) {
+        display: flex;
+        flex-direction: row;
+        padding: 25px;
+        border: none;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0px;
+    }
+}
+
+.compliantimg {
+    width: 40px;
+    justify-content: center;
+
+    @media only screen and (max-width: 576px) {
+        margin-right: 10px;
+        width: 20px;
+    }
+}
+
+.complianttitle {
+    font-weight: 600;
+    font-size: 18px;
+    color: #3B82F6;
+
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
+
+.textareabox {
+    font-weight: 400;
+    font-size: 14px;
+
+
+}
+
+.textareabox::placeholder {
+    color: #CED2D4;
+
+}
+
+.invitefrndimg {
+    width: 100%;
+}
+.captcha-box {
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px;
+    color: #191B1C;
+    background: #F2F2F2;
+    border-radius: 8px;
+}
+.captcha-refresh-btn{
+    padding-left: 15px;
+
+}
+.success-complaints{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.successcomplaint-main{
+font-weight: 600;
+font-size: 16px;
+color: #191B1C;
+
+
+
+}
+.successcomplaint-sub{
+font-weight: 600;
+font-size: 14px;
+color: #43494B;
+padding-top: 20px;
+
+}
+.successcomplaint-btn{
+border-radius: 8px;
+padding-top: 16px;
+padding-right: 32px;
+padding-bottom: 16px;
+padding-left: 32px;
+background: #5232C2;
+font-weight: 600;
+font-size: 16px;
+color: #FCFCFC;
+margin-top: 15px;
+margin-bottom: 20px;
+}

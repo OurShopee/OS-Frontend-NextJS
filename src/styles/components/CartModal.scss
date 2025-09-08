@@ -1,0 +1,198 @@
+.modal-backdrop-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+.modal-custom-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1050;
+    animation: slideUp 0.3s ease-out;
+}
+
+.modal-custom-wrapper-desktop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 28vw;
+    z-index: 1050;
+}
+
+.modal-slide-in {
+    animation: slideLeft 0.3s ease-out forwards;
+}
+
+.modal-slide-out {
+    animation: slideRight 0.3s ease-out forwards;
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.modal-custom-content {
+    background-color: #fff;
+    border-radius: 16px 16px 0 0;
+    padding: 1rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-custom-content-desktop {
+    background-color: #fff;
+    border-radius: 16px 0 0 16px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Header */
+.modal-custom-header {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    // border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.5rem;
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #000;
+    cursor: pointer;
+}
+
+/* Body */
+.modal-custom-body {
+    padding: 0;
+    gap: 2px
+}
+
+/* Footer */
+.modal-custom-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.shimmer-overlay {
+    transform: skew(-12deg);
+    animation: shimmerMove 3s ease infinite;
+}
+
+@keyframes shimmerMove {
+    0% {
+        transform: skew(-40deg) translateX(-100%);
+    }
+
+    100% {
+        transform: skew(-40deg) translateX(100%);
+    }
+}
+
+// border-top: 1px solid #dee2e6;
+// padding-top: 0.75rem;
+
+.save-cartModal {
+    background-image: url("../../components/icons/You_save_banner.png");
+    background-size: 150px 30px;
+    // flex-grow: 1;
+
+    // padding: 1rem 1rem;
+    background-repeat: no-repeat; // 🛑 Prevents tiling
+    background-size: contain; // ✅ Maintains proportions
+    background-position: center center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Cart Item */
+.cart-item {
+    display: flex;
+    align-items: start;
+    margin-top: 3px;
+}
+
+.cart-item-image {
+    width: 100px;
+    height: 123px;
+    object-fit: cover;
+    margin-left: 3px;
+    border-radius: 8px;
+}
+
+.cart-item-info {
+    flex: 1;
+    font-family: "Outfit";
+    font-size: 14px;
+}
+
+.item-name {
+    font-family: "Outfit";
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+
+}
+
+.item-price {
+    // margin-top: 1px;
+    // color: #666;
+    // font-size: 0.95rem;
+}
+
+.item-qty {
+    background: #ECECEC;
+    font-size: 0.85rem;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0%);
+    }
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.small {
+    font-size: 0.875rem;
+}
+
+.fw-semibold {
+    font-weight: 500;
+}

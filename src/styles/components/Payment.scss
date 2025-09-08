@@ -1,0 +1,122 @@
+.paymentmethod-image {
+    width: 75px;
+    border-radius: 2px;
+    padding-right: 10px;
+}
+
+.paymentmethod-label {
+    font-weight: 600;
+    font-size: 18px;
+    color: #191B1C;
+    @media only screen and (max-width: 576px) {
+      font-size: 14px;
+    }
+}
+
+.paymentmethod-sublabel {
+    font-weight: 400;
+    font-size: 14px;
+    color: #6F787C;
+    @media only screen and (max-width: 576px) {
+        font-size: 12px;
+      }
+
+}
+
+.payment-radiobtn {
+    width: 30px;
+    height: 20px;
+}
+
+.payment-border-bottom {
+    border-bottom: 1px solid #E7E8E9;
+    margin: 20px 0px;
+}
+
+.coupanapply {
+    width: 100px;
+    color: #191B1C;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.coupan-input {
+
+    border: 1px solid #ccc !important;
+}
+
+.ordersummary-title {
+    font-weight: 600;
+    font-size: 20px;
+    color: #191B1C;
+    @media only screen and (max-width: 576px) {
+        font-size: 16px;
+    }
+}
+
+.coupan-title {
+    font-weight: 600;
+    font-size: 18px;
+    padding-bottom: 5px;
+    @media only screen and (max-width: 576px) {
+        font-size: 16px;
+    }
+}
+
+.viewavailable-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #33B056;
+    padding-top: 10px;
+}
+// .mobilepricedetails{
+//     margin-bottom: 150px;
+// }
+.donate-titleclass {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    @media only screen and (max-width: 576px) {
+        font-size: 14px;
+    }
+
+}
+.donatecheckbox{
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    border-radius: 15px;
+    // @media only screen and (max-width: 576px) {
+    //     width: 18px;
+    //     height: 18px;
+    // }
+}
+.checboximg{
+    font-size: 24px;
+    margin: 3px 8px 3px 0px;
+    color: #3B82F6;
+
+}
+.donate-input{
+    padding: 6px 16px;
+    border-radius: 51px;
+    border-width: 1px;
+    font-weight: 600;
+    background: #F6F6F6;
+
+    font-size: 12px;
+    width: 85%;
+    align-items: center;
+    margin-left: 24px;
+}

@@ -1,0 +1,516 @@
+[
+  {
+    "id": 1,
+    "url": "https://dev.ourshopee.com",
+    "dev_url": "http://localhost:3000",
+    "name": "UAE",
+    "currency": "AED",
+    "backedn_api": "https://apidevs.ourshopee.com/",
+    "gtm_tag": "GTM-MJN7RD8",
+    "image": "UAE.svg",
+    "fb_link": "https://www.facebook.com/ourshopee.ae",
+    "insta_link": "https://www.instagram.com/ourshopee?igsh=Nmx2amtnNmJjazNo&utm_source=qr",
+    "helpline_numbers": {
+      "hotline": "(971) 4 4120000",
+      "whatsapp": "(971) 521881678",
+      "address": "Ourshopee Trading L.L.C  | Office - number 16 - 10 | Doha Rd - Al Qusais Industrial Area 1 | Dubai | UAE"
+    },
+    "isTabbyRequired": true,
+    "emi_months": 4,
+    "isAreaCodeRequired": true,
+    "isDonationRequired": true,
+    "country_code": "+971",
+    "nav_items": [
+      {
+        "id": 1,
+        "title": "Perfume Fiesta",
+        "url": "/perfumes",
+        "section_id": 165,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 2,
+        "title": "Time Fest",
+        "url": "/time-fest",
+        "section_id": 140,
+        "infinite_required": false,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 3,
+        "title": "TV Super Sale",
+        "url": "/TV-Super-Sale",
+        "section_id": 212,
+        "infinite_required": false,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 4,
+        "title": "Clearence Sale",
+        "url": "/clearance",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 5,
+        "title": "Pre-Owned Products",
+        "url": "/categories/pre-owned",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 6,
+        "title": "Saver Zone",
+        "url": "/saver-zone",
+        "section_id": 16,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 7,
+        "title": "Deal of The Day",
+        "url": "/deals-of-the-day",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 8,
+        "title": "Top Selling Products",
+        "url": "/deals/Top-Selling-Products",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 9,
+        "title": "AED-1-to-20",
+        "url": "/AED-1-to-20",
+        "section_id": 205,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      },
+      {
+        "id": 10,
+        "title": "bundle deals",
+        "url": "/bundle-deals",
+        "section_id": 19,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      }
+    ],
+    "number_count": 7
+  },
+  {
+    "id": 2,
+    "url": "https://omandev.ourshopee.com",
+    "dev_url": "http://localhost:5900",
+    "name": "Oman",
+    "currency": "OMR",
+    "backedn_api": "https://apiomrdev.ourshopee.com/",
+    "gtm_tag": "GTM-KTJMPS8",
+    "image": "oman.svg",
+    "helpline_numbers": {
+      "hotline": "(968) 2 4769100",
+      "whatsapp": "(968) 79361181",
+      "address": "Ourshopee | Nizwa building  | Near Aliz Islamic bank | Cbd area | Muscut"
+    },
+    "fb_link": "https://www.facebook.com/Ourshopee.om",
+    "insta_link": "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
+    "isTabbyRequired": false,
+    "emi_months": 0,
+    "isAreaCodeRequired": false,
+    "isDonationRequired": false,
+    "country_code": "+968",
+    "nav_items": [
+      {
+        "id": 1,
+        "title": "Perfume Fiesta",
+        "url": "/perfumes",
+        "section_id": 185,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 3,
+        "title": "TV Super Sale",
+        "url": "/TV-Super-Sale",
+        "section_id": 213,
+        "infinite_required": false,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 4,
+        "title": "Clearence Sale",
+        "url": "/clearance",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 5,
+        "title": "Pre-Owned Products",
+        "url": "/categories/pre-owned",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 6,
+        "title": "Saver Zone",
+        "url": "/saver-zone",
+        "section_id": 55,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 7,
+        "title": "Deal of The Day",
+        "url": "/deals-of-the-day",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 8,
+        "title": "Top Selling Products",
+        "url": "/deals/Top-Selling-Products",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 8,
+        "title": "OMR-0-to-2",
+        "url": "/OMR-0-to-2",
+        "section_id": 157,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      },
+      {
+        "id": 10,
+        "title": "bundle deals",
+        "url": "/bundle-deals",
+        "section_id": 120,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      }
+    ],
+    "number_count": 8
+  },
+  {
+    "id": 3,
+    "url": "https://qtrdev.ourshopee.com",
+    "dev_url": "http://localhost:3001",
+    "name": "Qatar",
+    "currency": "QAR",
+    "backedn_api": "https://apiqardev.ourshopee.com/",
+    "gtm_tag": "GTM-TRZMJF6",
+    "image": "qatar.svg",
+    "helpline_numbers": {
+      "hotline": "(974) 41406100",
+      "whatsapp": "(974) 66090052",
+      "address": "Ourshopee Office | New Salata Complex D Ring Road | Street No. 250  Zone No. 40 | Doha | Qatar"
+    },
+    "fb_link": "https://www.facebook.com/OurshopeeOffers",
+    "insta_link": "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
+    "isTabbyRequired": false,
+    "emi_months": 0,
+    "isAreaCodeRequired": false,
+    "isDonationRequired": false,
+    "country_code": "+974",
+    "nav_items": [
+      {
+        "id": 1,
+        "title": "Perfume Fiesta",
+        "url": "/perfumes",
+        "section_id": 145,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 2,
+        "title": "Mobile Fest",
+        "url": "/mobile-fest",
+        "section_id": 208,
+        "infinite_required": false,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 4,
+        "title": "Clearence Sale",
+        "url": "/clearance",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 5,
+        "title": "Pre-Owned Products",
+        "url": "/categories/pre-owned",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 7,
+        "title": "Deal of The Day",
+        "url": "/deals-of-the-day",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 9,
+        "title": "QAR-1-to-20",
+        "url": "/QAR-1-to-20",
+        "section_id": 154,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      },
+      {
+        "id": 10,
+        "title": "bundle deals",
+        "url": "/bundle-deals",
+        "section_id": 35,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      },
+      {
+        "id": 6,
+        "title": "Saver Zone",
+        "url": "/saver-zone",
+        "section_id": 60,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      }
+    ],
+    "number_count": 8
+  },
+  {
+    "id": 5,
+    "url": "https://kuwaitdev.ourshopee.com",
+    "dev_url": "http://localhost:5700",
+    "name": "Kuwait",
+    "currency": "KD",
+    "backedn_api": "https://apikwtdev.ourshopee.com/",
+    "gtm_tag": "GTM-PBBLGVM",
+    "image": "kuwait.svg",
+    "helpline_numbers": {
+      "hotline": "(965) 6040 2993",
+      "whatsapp": "(965) 6040 2993",
+      "address": "Ourshopee.com | Office no1 | Floor no:3 | Canary opposit | Najumma Building | Farwaniya block 1 | Kuwait"
+    },
+    "fb_link": "https://www.facebook.com/Ourshopeekuwaitonline/",
+    "insta_link": "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
+    "isTabbyRequired": true,
+    "emi_months": 4,
+    "isAreaCodeRequired": false,
+    "isDonationRequired": false,
+    "country_code": "+965",
+    "nav_items": [
+      {
+        "id": 1,
+        "title": "Perfume Fiesta",
+        "url": "/perfumes",
+        "section_id": 187,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 4,
+        "title": "Clearence Sale",
+        "url": "/clearance",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 5,
+        "title": "Pre-Owned Products",
+        "url": "/categories/pre-owned",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 6,
+        "title": "Saver Zone",
+        "url": "/saver-zone",
+        "section_id": 84,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 7,
+        "title": "Deal of The Day",
+        "url": "/deals-of-the-day",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 8,
+        "title": "Top Selling Products",
+        "url": "/deals/Top-Selling-Products",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 5,
+        "title": "KHD-0-to-2",
+        "url": "/KD-0-to-2",
+        "section_id": 160,
+        "infinite_required": true,
+        "status": 0
+      },
+      {
+        "id": 10,
+        "title": "bundle deals",
+        "url": "/bundle-deals",
+        "section_id": 171,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      }
+    ],
+    "number_count": 8
+  },
+  {
+    "id": 6,
+    "url": "https://bahraindev.ourshopee.com",
+    "dev_url": "http://localhost:3002",
+    "name": "Bahrain",
+    "currency": "BHD",
+    "backedn_api": "https://apibahdev.ourshopee.com/",
+    "gtm_tag": "GTM-T2H2947",
+    "image": "bahrain.svg",
+    "helpline_numbers": {
+      "hotline": "(973) 1311 0888",
+      "whatsapp": "(973) 34616280",
+      "address": "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Manama | Bahrain"
+    },
+    "isTabbyRequired": false,
+    "emi_months": 0,
+    "isAreaCodeRequired": false,
+    "isDonationRequired": false,
+    "country_code": "+973",
+    "fb_link": "https://www.facebook.com/bahrainourshopee",
+    "insta_link": "https://www.instagram.com/ourshopeebahrain?igsh=MWczYzRweWpuZDV0cw%3D%3D&utm_source=qr",
+    "nav_items": [
+      {
+        "id": 1,
+        "title": "Perfume Fiesta",
+        "url": "/perfumes",
+        "section_id": 186,
+        "infinite_required": true,
+        "status": 1
+      },
+      {
+        "id": 2,
+        "title": "Time Fest",
+        "url": "/time-fest",
+        "section_id": 144,
+        "infinite_required": false,
+        "status": 1
+      },
+      {
+        "id": 3,
+        "title": "TV Super Sale",
+        "url": "/TV-Super-Sale",
+        "section_id": 216,
+        "infinite_required": false,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "title": "Mobile Fest",
+        "url": "/mobile-fest",
+        "section_id": 211,
+        "infinite_required": false,
+        "status": 1
+      },
+      {
+        "id": 5,
+        "title": "BHD-0-to-2",
+        "url": "/BHD-0-to-2",
+        "section_id": 206,
+        "infinite_required": true,
+        "status": 0
+      },
+      {
+        "id": 11,
+        "title": "Pre-Owned Products",
+        "url": "/categories/pre-owned",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 17,
+        "title": "Deal of The Day",
+        "url": "/deals-of-the-day",
+        "section_id": 0,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 1
+      },
+      {
+        "id": 6,
+        "title": "Saver Zone",
+        "url": "/saver-zone",
+        "section_id": 73,
+        "infinite_required": true,
+        "status": 1
+      },
+      {
+        "id": 10,
+        "title": "bundle deals",
+        "url": "/bundle-deals",
+        "section_id": 64,
+        "infinite_required": true,
+        "infinite_api": "sdsddsdsfdsfdfsdfsfds",
+        "status": 0
+      }
+    ],
+    "number_count": 8
+  }
+]
