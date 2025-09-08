@@ -96,7 +96,7 @@ const Home = () => {
   const nowZoned = toZonedTime(new Date(), timeZone);
 
   const isInWindow = nowZoned >= startZoned && nowZoned <= endZoned;
-
+console.log("currentcountry",currentcountry)
   useEffect(() => {
     const keys = [
       "sectionBanner1",

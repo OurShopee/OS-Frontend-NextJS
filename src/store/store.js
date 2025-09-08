@@ -2,8 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers } from "redux";
 import userslice from "./slice/userslice";
-import globalslice from "./slice/globalslice";
-import cartslice from "./slice/cartslice";
+// Use the slices from /src/redux/ since that's where AppInitializer imports from
+import globalslice from "../redux/globalslice";
+import cartslice from "../redux/cartslice";
+import homeslice from "../redux/homeslice";
+import formslice from "../redux/formslice";
+import categoryslice from "../redux/categoryslice";
+import productslice from "../redux/productslice";
+import addresslice from "../redux/addresslice";
+import paymentslice from "../redux/paymentslice";
 
 let storage;
 if (typeof window !== "undefined") {
@@ -20,6 +27,12 @@ const rootReducer = combineReducers({
   userslice,
   globalslice,
   cartslice,
+  homeslice,
+  formslice,
+  categoryslice,
+  productslice,
+  addresslice,
+  paymentslice,
 });
 
 const persistConfig = {

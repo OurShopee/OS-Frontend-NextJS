@@ -5,13 +5,13 @@
 
 #Workflow
 .github/
-
+.next/
 # Node artifact files
 node_modules/
 dist/
 .env
 /.env
-
+/.next/
 # Environment files
 .env.local
 .env.development
