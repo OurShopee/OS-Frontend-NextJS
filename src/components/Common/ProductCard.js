@@ -46,27 +46,27 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
     }
   };
   const productcard = (cardname) => {
-  if (section_name && section_name.trim() !== "") {
-    // If section_name is present, run this logic
-    pushToDataLayer("clicked_card_in_section", currentcountry.name, {
-      card_name: cardname,
-      section_name: section_name,
-      page: window.location.pathname,
-    });
-  } else {
-    // If section_name is absent or empty, run this logic
-    pushToDataLayer("click_Product_card", currentcountry.name, {
-      card_name: cardname,
-      page: window.location.pathname,
-    });
-  }
-};
+    if (section_name && section_name.trim() !== "") {
+      // If section_name is present, run this logic
+      pushToDataLayer("clicked_card_in_section", currentcountry.name, {
+        card_name: cardname,
+        section_name: section_name,
+        page: window.location.pathname,
+      });
+    } else {
+      // If section_name is absent or empty, run this logic
+      pushToDataLayer("click_Product_card", currentcountry.name, {
+        card_name: cardname,
+        page: window.location.pathname,
+      });
+    }
+  };
 
   return (
     <div
       className={`product_container ${eid_sale ? "eid_sale" : ""} ${
-        !isMobile && "hover:tw-scale-[96%]"
-      } tw-transition-transform tw-duration-300 tw-ease-in-out product-card`}
+        !isMobile && "hover:scale-[96%]"
+      } transition-transform duration-300 ease-in-out product-card`}
       onClick={() => productcard(item.name)}
     >
       {hasError ? (
@@ -74,25 +74,25 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       ) : eid_sale ? (
         <div
           style={{ borderRadius: "14px" }}
-          className="bg-white tw-overflow-hidden"
+          className="bg-white overflow-hidden"
         >
           <img
             style={{ mixBlendMode: "darken" }}
             src={item.image}
             onError={() => setHasError(true)}
-            className={`tw-w-full tw-h-full tw-object-cover tw-ease-in-out tw-transition-transform tw-duration-500 ${
+            className={`w-full h-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
           />
         </div>
       ) : (
-        <div className="tw-overflow-hidden tw-rounded-xl">
+        <div className="overflow-hidden rounded-xl">
           {" "}
           {/* 🔴 added line */}
           <img
             src={item.image}
             onError={() => setHasError(true)}
-            className={`tw-w-full tw-h-full tw-object-cover tw-ease-in-out tw-transition-transform tw-duration-500 ${
+            className={`w-full h-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
           />
@@ -117,7 +117,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         </div>
       )}
 
-      <div className="product_content tw-w-full">
+      <div className="product_content w-full">
         {/* <div className='product_rating_container'>
                     <span>4.1</span>
                     <span><TiStarFullOutline size={12} color={'rgba(64, 184, 98, 1)'} /></span>
@@ -135,7 +135,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             </div>
 
             {item.old_price && item.percentage > 0 && (
-              <div className="striked_price tw-gap-1">
+              <div className="striked_price gap-1">
                 <span>
                   {currentcountry.currency} {item.old_price}
                 </span>

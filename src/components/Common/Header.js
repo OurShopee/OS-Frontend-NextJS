@@ -1,0 +1,499 @@
+import { useEffect, useRef, useState } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { FaUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../../src/images/Logo.png";
+import buyimg from "../../images/Buy.png";
+import buy1img from "../../images/Buy1.png";
+import Pagedropdown from "./Pagedropdown";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { MdOutlineQrCodeScanner } from "react-icons/md";
+import leftimg from "../../images/Arrow - Left 2.png";
+import { setformmodal, setformstatus } from "../../redux/formslice";
+import Carousel3D from "../Carousel3D";
+import CategorySlider from "../CategorySlider";
+import { CurrentLocation } from "../Common";
+import Mobileforms from "../Common/Mobileforms";
+import { trackCartClick } from "../utils/dataUserpush";
+import Categorylist from "./Categorylist";
+import CountryDropdown from "./CountryDropdown";
+import Modal from "./Modal";
+import AppDownloadModal from "./Modals/AppDownloadModal";
+import Search from "./Search";
+import Sidebar from "./Sidebar";
+import ToolTip from "./ToolTip";
+import Category from "./desktopViewComponents/Category";
+
+const Header = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isBigScreen = useMediaQuery({ query: "(min-width: 991px)" });
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isToolTip, setIsToolTip] = useState(true);
+  const dropdownRef = useRef(null);
+  const categoryList = useSelector((state) => state.globalslice.data);
+  const formmodal = useSelector((state) => state.globalslice.formmodal);
+  const countryDropdown = useSelector(
+    (state) => state.globalslice.countryDropdown
+  );
+  const currentcountry = useSelector(
+    (state) => state.globalslice.currentcountry
+  );
+  const filteredItems =
+    currentcountry?.nav_items?.filter(
+      (item) => item?.status === 1 && item?.id === 11
+    ) || [];
+  const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
+  const addresslistdata = useSelector(
+    (state) => state.addresslice.addresslistdata
+  );
+  const authstatus = useSelector((state) => state.formslice.authstatus);
+  const logindata = useSelector((state) => state.formslice.logindata);
+  const addressdata = addresslistdata?.data?.filter(
+    (ele) => ele.default_address == 1
+  );
+  const pageName = window.location.pathname;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const loginclick = () => {
+    dispatch(setformmodal(!formmodal));
+    dispatch(setformstatus(1));
+  };
+
+  const handleToolTip = () => {
+    setIsToolTip(!isToolTip);
+  };
+
+  const [showFirst, setShowFirst] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowFirst((prev) => !prev);
+    }, 3000); // Switch every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const flipVariants = {
+    enter: {
+      opacity: 0,
+      rotateY: -180, // Start flipped to the left
+      x: -50,
+    },
+    center: {
+      opacity: 1,
+      rotateY: 0, // Normal position
+      x: 0,
+      zIndex: 2,
+    },
+    exit: {
+      opacity: 0,
+      rotateY: 180, // Flip to the right
+      x: 50,
+      zIndex: 1,
+    },
+  };
+
+  return (
+    <>
+      {!isBigScreen && isToolTip && (
+        <div className="mainheader">
+          <ToolTip
+            text="Revamped & Ready. Open the App!"
+            handleToolTip={handleToolTip}
+          />
+        </div>
+      )}
+      <div className="mainheader">
+        {/* Middle Header */}
+        <div className="header-middle-main primarybackground">
+          <div className="header-middle homepagecontainer">
+            {/* Sidebar and Logo */}
+            <div className="companylogomain d-flex justify-content-between">
+              {!isBigScreen && (
+                <div onClick={() => setSidebarOpen(true)}>
+                  <AiOutlineMenu
+                    size={20}
+                    className="me-1"
+                    style={{ marginTop: 2 }}
+                  />
+                </div>
+              )}
+              <Sidebar
+                isOpen={isSidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+              />
+              <div className="d-flex tw-items-center tw-gap-6 tw-justify-between ">
+                <NavLink to="/" className="d-flex align-items-center">
+                  <img
+                    className="companylogo d-flex align-items-center"
+                    src={logo}
+                    alt="logo"
+                  />
+                </NavLink>
+
+                {isBigScreen && <Category />}
+                <div className="tw-flex tw-flex-grow tw-flex-1">
+                  {isBigScreen && <Search />}
+                </div>
+              </div>
+            </div>
+
+            {/* Search */}
+
+            <div className="header-middle-right">
+              {isBigScreen && (
+                <NavLink
+                  to={authstatus ? "/address" : ""}
+                  className="headertop-leftcorner delivertext cursor-pointer textdecoration-none"
+                >
+                  <img
+                    src={"/assets/vector_icons/location.png"}
+                    className="headertop-icons"
+                    alt="location"
+                  />
+                  <span className="ps-1 headertoptitle">Deliver to</span>
+                  {!authstatus ? (
+                    <CurrentLocation />
+                  ) : (
+                    <span className="ps-1 currentlocation-address">
+                      {addressdata?.[0]?.address}
+                    </span>
+                  )}
+                </NavLink>
+              )}
+              {isBigScreen && (
+                <div
+                  className="tw-flex tw-gap-1 px-2 tw-items-center tw-cursor-pointer"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <span>
+                    <MdOutlineQrCodeScanner size={21} />
+                  </span>
+                  <span className="tw-font-[Outfit] tw-font-semibold tw-text-white tw-text-[14px]">
+                    Download App
+                  </span>
+                </div>
+              )}
+
+              {/* Modal */}
+              <AppDownloadModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+              />
+              {isBigScreen && (
+                <CountryDropdown countryDropdown={countryDropdown} />
+              )}
+
+              {/* User */}
+              {!authstatus ? (
+                <div
+                  className="header-middle-rightsub pe-4 cursor-pointer"
+                  onClick={loginclick}
+                >
+                  <div className="cursor-pointer  flex usermain items-center">
+                    <FaUser size={16} />
+                    <span className="ps-2 header-middle-right-title username">
+                      Login
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <Pagedropdown logindata={logindata} />
+              )}
+              {/* Cart */}
+              <NavLink
+                to="/cart"
+                className={`header-middle-rightsub d-flex cart-hover text-decoration-none ${
+                  cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
+                }`}
+                onClick={() => trackCartClick(currentcountry.name, pageName)}
+              >
+                <div className="headercart-icon">
+                  {/* Show when cart is empty */}
+                  {(!cartlistdata?.data?.result?.length ||
+                    cartlistdata.data.result.length === 0) && (
+                    <>
+                      <img
+                        src={buyimg}
+                        alt="empty cart"
+                        className="cart-image-default mb-1"
+                      />
+                      <img
+                        src={buy1img}
+                        alt="hover cart"
+                        className="cart-image-hover yellow-filter mb-1"
+                      />
+                    </>
+                  )}
+
+                  {/* Show when cart has items */}
+                  {cartlistdata?.data?.result?.length > 0 && (
+                    <>
+                      <img
+                        src={buy1img}
+                        alt="filled cart"
+                        className="cart-image-default yellow-filter mb-1"
+                      />
+                      <img
+                        src={buy1img}
+                        alt="hover cart"
+                        className="cart-image-hover yellow-filter mb-1"
+                      />
+                    </>
+                  )}
+
+                  {cartlistdata?.data?.result?.length > 0 && (
+                    <div className="cartcount">
+                      {cartlistdata.data.result.length}
+                    </div>
+                  )}
+                </div>
+
+                {isBigScreen && (
+                  <span
+                    className={`ps-1 ${
+                      cartlistdata?.data?.result?.length > 0
+                        ? "cartcolor"
+                        : "header-middle-right-title"
+                    }`}
+                  >
+                    Cart
+                  </span>
+                )}
+              </NavLink>
+            </div>
+          </div>
+
+          {/* Search in Mobile */}
+          {!isBigScreen && (
+            <div className="mobile-header-search mt-1 mb-2">
+              {window.location.pathname !== "/" && (
+                <img
+                  className="header-leftimg"
+                  src={leftimg}
+                  alt=""
+                  onClick={() => navigate(-1)}
+                ></img>
+              )}
+              <Search />
+            </div>
+          )}
+
+          {/* Location & Country in Mobile */}
+          <div className="d-flex justify-content-between align-items-center">
+            {!isBigScreen &&
+              (authstatus ? (
+                <NavLink
+                  to="/address"
+                  className="headertop-leftcorner delivertext cursor-pointer textdecoration-none"
+                >
+                  <img
+                    src={"/assets/vector_icons/location.png"}
+                    className="headertop-icons"
+                    alt=""
+                    width={15}
+                  />
+                  <span className="ps-1 headertoptitle">Deliver to</span>
+                  <span className="ps-1 currentlocation-address">
+                    {addressdata?.[0]?.address}
+                  </span>
+                </NavLink>
+              ) : (
+                <div className="headertop-leftcorner">
+                  <img
+                    src={"/assets/vector_icons/location.png"}
+                    className="headertop-icons"
+                    alt=""
+                    width={15}
+                  />
+                  <span className="ps-1 headertoptitle">Deliver to</span>
+                  <CurrentLocation />
+                </div>
+              ))}
+
+            {!isBigScreen && (
+              <CountryDropdown countryDropdown={countryDropdown} />
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Navigation */}
+        {!isBigScreen && (
+          <div className="header-bottom-main">
+            <div className="header-bottom homepagecontainer">
+              {!isBigScreen ? (
+                <div className="mobileAll-title">All</div>
+              ) : (
+                <div ref={dropdownRef}>
+                  <Categorylist />
+                </div>
+              )}
+              <div className="header-mobile-bottom">
+                {Object.keys(currentcountry).length > 0 &&
+                  currentcountry?.nav_items
+                    .filter(({ status }) => status == 1)
+                    .map((nav_item) => {
+                      return (
+                        <NavLink
+                          to={nav_item.url}
+                          className={({ isActive }) =>
+                            `header-bottom-titles text-decoration-none ${
+                              window.location.pathname == nav_item.url
+                                ? "active-link"
+                                : ""
+                            }`
+                          }
+                        >
+                          {nav_item.title}
+                        </NavLink>
+                      );
+                    })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Auth Modals */}
+        {isBigScreen ? <Modal /> : <Mobileforms />}
+      </div>
+      {isBigScreen && window.location.pathname === "/" && (
+        <div className="tw-flex tw-items-center tw-max-w-full tw-overflow-x-hidden tw-relative">
+          {filteredItems?.length > 0 && (
+            <NavLink to={filteredItems?.[0]?.url}>
+              <div
+                className="tw-relative tw-min-w-[150px] tw-flex tw-justify-center tw-items-center tw-h-[80px]"
+                style={{ perspective: "1200px" }}
+              >
+                <AnimatePresence>
+                  {showFirst ? (
+                    <motion.div
+                      key="first"
+                      className="tw-flex tw-pl-6 pr-2 tw-items-center tw-justify-center animate-rotate-load tw-absolute tw-inset-0 tw-m-auto"
+                      initial={{
+                        opacity: 0,
+                        scale: 0.8,
+                        rotateY: -180,
+                        x: -100,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        rotateY: 0,
+                        x: 0,
+                        zIndex: 2,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0.8,
+                        rotateY: 180,
+                        x: 100,
+                        zIndex: 1,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: [0.165, 0.84, 0.44, 1],
+                      }}
+                      style={{
+                        transformStyle: "preserve-3d",
+                        backfaceVisibility: "hidden",
+                        width: "fit-content",
+                        height: "fit-content",
+                      }}
+                    >
+                      <div className="tw-w-[84px] tw-h-[46px]">
+                        <img
+                          className="tw-w-full tw-h-full"
+                          src="/assets/homepage/sale-icon.png"
+                          alt=""
+                        />
+                      </div>
+                      <div className="tw-w-[32px] tw-h-[44px] animate-flash-pulse">
+                        <img
+                          className="tw-w-full tw-h-full"
+                          src="/assets/homepage/flash-icon.png"
+                          alt=""
+                        />
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="second"
+                      className="tw-absolute tw-inset-0 tw-m-auto"
+                      initial={{
+                        opacity: 0,
+                        scale: 0.8,
+                        rotateY: -180,
+                        x: -100,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        rotateY: 0,
+                        x: 0,
+                        zIndex: 2,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0.8,
+                        rotateY: 180,
+                        x: 100,
+                        zIndex: 1,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: [0.165, 0.84, 0.44, 1],
+                      }}
+                      style={{
+                        transformStyle: "preserve-3d",
+                        backfaceVisibility: "hidden",
+                        width: "100px",
+                        height: "80px",
+                      }}
+                    >
+                      <img
+                        className="tw-w-full tw-h-full"
+                        src={filteredItems?.[0]?.image}
+                        alt=""
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </NavLink>
+          )}
+
+          <div className="tw-px-2">
+            <Carousel3D />
+          </div>
+          <div className="tw-h-[4.5rem] tw-bg-gray-300 tw-px-[1.5px] tw-rounded-full tw-mx-2" />
+          <div className="tw-relative tw-flex-grow tw-w-full tw-overflow-x-hidden">
+            {/* Left blur overlay */}
+            <div
+              className="tw-absolute tw-left-0 tw-top-0 tw-h-full tw-w-11 tw-z-10 tw-pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to right, rgba(255,255,255,1),rgba(255,255,255,1), rgba(255,255,255,0.8), transparent)",
+              }}
+            />
+
+            {/* Marquee content */}
+            <CategorySlider categoryList={categoryList} />
+          </div>
+          {/* Right blur overlay */}
+          <div
+            className="tw-absolute tw-right-0 tw-top-0 tw-h-full tw-w-16 tw-z-10 tw-pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to left, rgba(255,255,255,1),rgba(255,255,255,1), rgba(255,255,255,0.8), transparent)",
+            }}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Header;

@@ -35,8 +35,8 @@ const DynamicBanners = ({
     className: className
       ? className
       : isMobile
-      ? "mt-4 tw-rounded-3xl"
-      : "mt-4  tw-rounded-3xl",
+      ? "mt-4 rounded-3xl"
+      : "mt-4  rounded-3xl",
     ...(enableAos && {
       "data-aos": aosType,
       "data-aos-duration": "700",
@@ -60,7 +60,7 @@ const DynamicBanners = ({
       <img {...imgProps} />
     </Link>
   ) : (
-    <div className="single_banner tw-cursor-default">
+    <div className="single_banner cursor-default">
       <img {...imgProps} style={{ cursor: "default" }} />
     </div>
   );

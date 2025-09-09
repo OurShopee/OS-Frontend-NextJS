@@ -25,16 +25,16 @@ const Tabs = ({ breakPointsProps, tabs }) => {
         setLoading(false);
         return;
       }
-      
+
       try {
-         const imgUrl = tabConfig.imgUrl || "";
-         const imgRedirectionUrl = tabConfig.imgRedirectionUrl || "";
+        const imgUrl = tabConfig.imgUrl || "";
+        const imgRedirectionUrl = tabConfig.imgRedirectionUrl || "";
         const { data } = await tabConfig.endpoint();
 
         if (data.status === "success") {
           const products = tabConfig.path
             ? data?.data?.[tabConfig.path]
-            : data.data || []
+            : data.data || [];
 
           // Store the data for this tab
           setTabData((prev) => ({
@@ -129,19 +129,19 @@ const Tabs = ({ breakPointsProps, tabs }) => {
   const isCurrentTabLoading = loading || !tabData[activeTab];
 
   return (
-    <div className="tw-w-full tw-h-full mt-4 tw-rounded-2xl">
+    <div className="w-full h-full mt-4 rounded-2xl">
       {/* Tabs */}
-      <div className="tw-relative tw-flex tw-gap-6 tw-pl-2 tw-border-b tw-border-gray-200 tw-mb-4 tw-overflow-x-auto tw-whitespace-nowrap tw-flex-nowrap hide-scrollbar">
+      <div className="relative flex gap-6 pl-2 border-b border-gray-200 mb-4 overflow-x-auto whitespace-nowrap flex-nowrap hide-scrollbar">
         {tabs?.map((tab, index) => (
           <div
             key={tab.title}
             ref={(el) => (tabRefs.current[index] = el)}
             onClick={() => handleTabClick(tab.title, index)}
-            className={`tw-relative tw-pb-2 tw-font-[Outfit] tw-text-xl lg:tw-text-[24px] tw-tracking-[-0.01em] tw-leading-[140%] tw-capitalize tw-cursor-pointer tw-transition-all tw-duration-300
+            className={`relative pb-2 font-[Outfit] text-xl lg:text-[24px] tracking-[-0.01em] leading-[140%] capitalize cursor-pointer transition-all duration-300
               ${
                 activeTab === tab.title
-                  ? "tw-text-[#43494B] tw-font-semibold"
-                  : "tw-text-[#43494B] tw-text-opacity-65 tw-font-medium"
+                  ? "text-[#43494B] font-semibold"
+                  : "text-[#43494B] text-opacity-65 font-medium"
               }`}
           >
             {tab.title}
@@ -150,7 +150,7 @@ const Tabs = ({ breakPointsProps, tabs }) => {
 
         {/* Animated underline */}
         <div
-          className="tw-absolute tw-bottom-0 tw-h-[2px] md:tw-h-[2.5px] tw-bg-[#5B2EFF] tw-rounded-t tw-transition-all tw-duration-300"
+          className="absolute bottom-0 h-[2px] md:h-[2.5px] bg-[#5B2EFF] rounded-t transition-all duration-300"
           style={{
             left: underlineStyle.left,
             width: underlineStyle.width,

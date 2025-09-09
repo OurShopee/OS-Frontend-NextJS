@@ -114,18 +114,18 @@ export default function CarouselProducts({
     <div
       className={`carousel_products ${eid_sale && "bg-transparent"} ${
         (type == 2 || type == 3) && "p-0"
-      } ${isMobile ? "tw-flex tw-flex-col tw-gap-4" : "tw-flex tw-gap-4"}`}
+      } ${isMobile ? "flex flex-col gap-4" : "flex gap-4"}`}
       style={{ background: !isMobile && inner_bg }}
     >
       {imgUrl !== "" && (
         <Link href={imgRedirectionUrl}>
-          <div className="tw-min-w-[200px] lg:tw-min-w-[300px]">
+          <div className="min-w-[200px] lg:min-w-[300px]">
             <img
               data-aos="fade-right"
               data-aos-easing="ease-in-out"
               src={imgUrl}
               alt={imgUrl}
-              className="tw-w-full tw-object-cover tw-rounded-2xl"
+              className="w-full object-cover rounded-2xl"
               style={
                 isMobile
                   ? { maxHeight: "300px" } // ✅ Mobile: limit max height
@@ -153,7 +153,7 @@ export default function CarouselProducts({
         onSlideChange={handleSlideChange}
         breakpoints={breakPoints}
         spaceBetween={isMobile ? 8 : 15}
-        className="carouselSwiper tw-h-full"
+        className="carouselSwiper h-full"
         ref={swiperContainerRef}
       >
         {products?.length > 0 &&
@@ -165,7 +165,7 @@ export default function CarouselProducts({
                   url.length >= 2 ? (
                     <Link
                       href={`/details/${item.url}`}
-                      className={"text-decoration-none tw-h-full"}
+                      className={"text-decoration-none h-full"}
                     >
                       <ProductCard
                         item={item}
@@ -178,7 +178,7 @@ export default function CarouselProducts({
                   ) : (
                     <Link
                       href={`/details/${item.url}/${item.sku}`}
-                      className={"text-decoration-none tw-h-full"}
+                      className={"text-decoration-none h-full"}
                     >
                       <ProductCard
                         item={item}
@@ -192,7 +192,7 @@ export default function CarouselProducts({
                 ) : (
                   <Link
                     href={`/details/${item.url}`}
-                    className={"text-decoration-none tw-h-full"}
+                    className={"text-decoration-none h-full"}
                   >
                     <ProductCard item={item} eid_sale={eid_sale} />
                   </Link>
@@ -208,14 +208,14 @@ export default function CarouselProducts({
                 <IoChevronBack size={25} />
               </div>
             ) : (
-              <div className="left_indicator previous disabled no_bg no_drop_shadow tw-hidden" />
+              <div className="left_indicator previous disabled no_bg no_drop_shadow hidden" />
             )}
             {!isEnd ? (
               <div className="right_indicator next" onClick={handleNext}>
                 <IoChevronForward size={25} />
               </div>
             ) : (
-              <div className="right_indicator next disabled no_bg no_drop_shadow tw-hidden" />
+              <div className="right_indicator next disabled no_bg no_drop_shadow hidden" />
             )}
           </div>
         )}
@@ -228,7 +228,7 @@ export default function CarouselProducts({
               data-aos-easing="ease-in-out"
               src={imgPostUrl}
               alt={imgPostUrl}
-              className="tw-w-full tw-object-cover tw-rounded-2xl"
+              className="w-full object-cover rounded-2xl"
               style={
                 isMobile
                   ? { maxHeight: "300px" } // ✅ Mobile: limit max height

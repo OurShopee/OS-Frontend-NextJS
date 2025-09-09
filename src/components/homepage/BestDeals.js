@@ -55,30 +55,27 @@ function BestDeals({ carousel_data, breakPointsProps }) {
         className="padding_custom"
         style={!isMobile && !isTablet ? { height: rightHeight } : {}}
       >
-        <div className="tw-relative tw-rounded-2xl tw-overflow-hidden tw-bg-[#2d2d2d] tw-h-full">
+        <div className="relative rounded-2xl overflow-hidden bg-[#2d2d2d] h-full">
           <Carousel
             fade
             controls={false}
-            className="home_carousel top_picks_carousel tw-h-full"
+            className="home_carousel top_picks_carousel h-full"
             indicators={false}
             activeIndex={index}
             onSelect={handleSelect}
           >
             {carousel_data.map((item) => (
-              <Carousel.Item
-                key={item.brand_id}
-                className="tw-h-full tw-relative"
-              >
+              <Carousel.Item key={item.brand_id} className="h-full relative">
                 <img
                   src={item.image_slider}
                   alt=""
-                  className="tw-w-full tw-h-full tw-rounded-2xl"
+                  className="w-full h-full rounded-2xl"
                 />
               </Carousel.Item>
             ))}
           </Carousel>
 
-          <div className="tw-absolute tw-bottom-8 -tw-right-6 -tw-translate-x-1/2 tw-flex tw-items-center tw-gap-2 tw-z-10">
+          <div className="absolute bottom-8 -right-6 -translate-x-1/2 flex items-center gap-2 z-10">
             {carousel_data.map((_, index1) => (
               <motion.div
                 key={index1}
@@ -90,7 +87,7 @@ function BestDeals({ carousel_data, breakPointsProps }) {
                     setData([]);
                   }
                 }}
-                className="tw-h-2 tw-cursor-pointer"
+                className="h-2 cursor-pointer"
                 animate={{
                   width: 43,
                   height: index === index1 ? 5 : 3,
@@ -106,7 +103,7 @@ function BestDeals({ carousel_data, breakPointsProps }) {
       </Col>
 
       {/* step 1: apply ref here */}
-      <Col lg={8} className={isLaptop && "!tw-mt-3"} ref={rightColRef}>
+      <Col lg={8} className={isLaptop && "!mt-3"} ref={rightColRef}>
         {isTablet ? (
           <Swiper
             ref={sliderRef}

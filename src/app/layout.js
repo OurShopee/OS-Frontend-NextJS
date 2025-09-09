@@ -1,5 +1,7 @@
 import "@/styles/globals.scss";
 import ReduxProvider from "@/store/Provider";
+import BootstrapClient from "../components/BootstrapClient";
+import Footer from "@/components/Common/Footer";
 
 export const metadata = {
   title: "My App",
@@ -13,6 +15,8 @@ export default function RootLayout({ children }) {
       <body>
         <ReduxProvider>
           <div className="mainbody">{children}</div>
+          <BootstrapClient />
+          <Footer />
         </ReduxProvider>
       </body>
     </html>

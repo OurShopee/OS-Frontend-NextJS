@@ -18,7 +18,7 @@ const ComponentHeader = ({
       </div>
       {url != undefined && (
         <Link href={url} className="text-decoration-none view_all">
-          <div className="link tw-text-nowrap">View all</div>
+          <div className="link text-nowrap">View all</div>
           <div className="link_icon">
             <BsArrowRight color="#43494B" size={20} />
           </div>

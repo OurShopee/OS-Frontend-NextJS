@@ -43,17 +43,17 @@ export default function BrandOfTheWeekUpdated({ products }) {
 
   return (
     <div
-      className="tw-rounded-3xl tw-px-4 tw-py-6 mt-4 !md:tw-p-6 tw-relative tw-overflow-hidden"
+      className="rounded-3xl px-4 py-6 mt-4 !md:p-6 relative overflow-hidden"
       style={{
         backgroundImage: `url(${brandData?.brandWeekBg?.image_web})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="tw-flex tw-items-center tw-justify-center tw-mb-4 tw-pt-6 tw-pb-2">
+      <div className="flex items-center justify-center mb-4 pt-6 pb-2">
         {/* Yellow box with right-side cut */}
         <div
-          className=" tw-px-4 tw-z-0"
+          className=" px-4 z-0"
           style={{
             backgroundColor: "#FACC15",
 
@@ -62,11 +62,11 @@ export default function BrandOfTheWeekUpdated({ products }) {
           }}
         >
           <span className="inner-shadow-text">
-            <span className="brand-inner-shadow tw-font-[Anta] tw-text-[20px] md:tw-text-[38px] lg:tw-text-[60px]">
+            <span className="brand-inner-shadow font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]">
               BRAND&nbsp;
             </span>
             <span
-              className="inner-shadow-text tw-font-[Anta] tw-text-[20px] md:tw-text-[38px] lg:tw-text-[60px]"
+              className="inner-shadow-text font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]"
               style={{ color: "black" }}
             >
               OF&nbsp;
@@ -76,7 +76,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
 
         {/* pull "THE" back under the diagonal overlap */}
         <span
-          className="rest-inner-shadow tw-font-[Anta] tw-text-[20px] md:tw-text-[38px] lg:tw-text-[60px] tw-z-10 tw-text-black tw-font-bold"
+          className="rest-inner-shadow font-[Anta] text-[20px] md:text-[38px] lg:text-[60px] z-10 text-black font-bold"
           style={{
             marginLeft: "-20px",
             letterSpacing: "2px",
@@ -87,7 +87,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
         </span>
       </div>
 
-      <div className="tw-rounded-2xl tw-flex tw-flex-wrap md:tw-flex-nowrap tw-items-stretch tw-gap-6 md:tw-gap-1">
+      <div className="rounded-2xl flex flex-wrap md:flex-nowrap items-stretch gap-6 md:gap-1">
         {/* Left Banner */}
         {(!isMobile &&
           brandData?.brandWeekImg?.url_web &&
@@ -110,11 +110,11 @@ export default function BrandOfTheWeekUpdated({ products }) {
                 page: router.pathname,
               });
             }}
-            className="tw-w-full md:tw-w-[36%] tw-rounded-2xl tw-overflow-hidden tw-cursor-pointer"
+            className="w-full md:w-[36%] rounded-2xl overflow-hidden cursor-pointer"
             style={!isMobile ? { height: rightHeight } : {}}
           >
             <div
-              className="tw-relative tw-w-full tw-h-full tw-flex tw-items-stretch"
+              className="relative w-full h-full flex items-stretch"
               data-aos="fade-right"
               data-aos-easing="ease-in-out"
             >
@@ -125,19 +125,19 @@ export default function BrandOfTheWeekUpdated({ products }) {
                     : brandData?.brandWeekImg?.image_app
                 }
                 alt="banner"
-                className="tw-object-cover tw-w-full tw-h-full tw-rounded-2xl"
+                className="object-cover w-full h-full rounded-2xl"
               />
-              {/* <div className="tw-absolute tw-flex tw-flex-col tw-justify-center tw-items-center tw-bottom-8 tw-left-8 md:tw-bottom-16 md:tw-left-16 tw-text-white tw-text-lg tw-font-medium">
-                <div className="tw-bg-white/50 tw-rounded-full tw-w-16 tw-h-16 tw-flex tw-items-center tw-justify-center tw-mb-2">
-                  <div className="tw-w-8 tw-h-8 tw-bg-white tw-rounded-full" />
+              {/* <div className="absolute flex flex-col justify-center items-center bottom-8 left-8 md:bottom-16 md:left-16 text-white text-lg font-medium">
+                <div className="bg-white/50 rounded-full w-16 h-16 flex items-center justify-center mb-2">
+                  <div className="w-8 h-8 bg-white rounded-full" />
                 </div>
-                <span className="tw-text-[32px]">Buy Here</span>
+                <span className="text-[32px]">Buy Here</span>
               </div> */}
             </div>
           </Link>
         ) : (
           <div
-            className="tw-w-full md:tw-w-[36%] tw-rounded-2xl tw-overflow-hidden"
+            className="w-full md:w-[36%] rounded-2xl overflow-hidden"
             style={!isMobile ? { height: rightHeight } : {}}
             data-aos="fade-right"
             data-aos-easing="ease-in-out"
@@ -149,17 +149,17 @@ export default function BrandOfTheWeekUpdated({ products }) {
                   : brandData?.brandWeekImg?.image_app
               }
               alt="banner"
-              className="tw-object-cover tw-w-full tw-h-full tw-rounded-2xl"
+              className="object-cover w-full h-full rounded-2xl"
             />
           </div>
         )}
 
         {/* Right Carousel */}
         <div
-          className="tw-w-full md:tw-w-[64%] tw-flex tw-items-stretch md:tw-px-4"
+          className="w-full md:w-[64%] flex items-stretch md:px-4"
           ref={rightRef}
         >
-          <div className="tw-w-full tw-h-full">
+          <div className="w-full h-full">
             <CarouselProducts
               products={products}
               type={1}

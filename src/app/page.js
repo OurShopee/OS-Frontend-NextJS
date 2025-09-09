@@ -61,7 +61,9 @@ const Home = () => {
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const saver_zone_loading = useSelector((state) => state?.homeslice?.loading3);
   const TopSelling_loading = useSelector((state) => state?.homeslice?.loading4);
-  const DealOfTheDay_loading = useSelector((state) => state?.homeslice?.loading2);
+  const DealOfTheDay_loading = useSelector(
+    (state) => state?.homeslice?.loading2
+  );
   const categoryList = useSelector((state) => state?.globalslice?.data);
   const categoryloading = useSelector((state) => state?.globalslice?.loading);
 
@@ -96,7 +98,7 @@ const Home = () => {
   const nowZoned = toZonedTime(new Date(), timeZone);
 
   const isInWindow = nowZoned >= startZoned && nowZoned <= endZoned;
-console.log("currentcountry",currentcountry)
+  console.log("currentcountry", currentcountry);
   useEffect(() => {
     const keys = [
       "sectionBanner1",
@@ -129,9 +131,9 @@ console.log("currentcountry",currentcountry)
   }, [sectionId]);
 
   useEffect(() => {
-    const id = currentcountry.nav_items.find((i) => i.id === 11)?.section_id;
+    const id = currentcountry.nav_items?.find((i) => i.id === 11)?.section_id;
     setSectionId(id);
-    const saverId = currentcountry.nav_items.find(
+    const saverId = currentcountry?.nav_items.find(
       (i) => i.id === 6
     )?.section_id;
     setSaverId(saverId);
@@ -172,7 +174,7 @@ console.log("currentcountry",currentcountry)
     : (categoryList || [])?.slice(0, 9);
 
   return (
-    <div className="tw-overflow-hidden" style={{ maxWidth: "max-content" }}>
+    <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
       {/* <SeoMeta
         title="Online Shopping UAE - Mobiles, Laptops, Appliances & More | OurShopee"
         description="Shop online for great deals on electronics, home appliances, perfumes, watches & more at OurShopee UAE. Browse our collections today - Fast Delivery & Easy Returns!"
@@ -200,12 +202,9 @@ console.log("currentcountry",currentcountry)
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
 
         {/* Tabs with Sale Ends in Section */}
-        <div className="tw-flex tw-h-full tw-flex-col lg:tw-flex-row tw-pt-2">
+        <div className="flex h-full flex-col lg:flex-row pt-2">
           {/* Tabs Component - 3/5 Width */}
-          <div
-            className="tw-w-full tw-h-full lg:tw-w-3/5 tw-pr-3"
-            ref={leftColRef}
-          >
+          <div className="w-full h-full lg:w-3/5 pr-3" ref={leftColRef}>
             <Tabs
               tabs={[
                 {
@@ -239,31 +238,31 @@ console.log("currentcountry",currentcountry)
 
           {/* Sale Ends In Section - 2/5 Width */}
           <div
-            className="tw-w-full lg:tw-w-2/5"
+            className="w-full lg:w-2/5"
             style={!isMobile && !isTablet ? { height: leftHeight } : {}}
           >
             <div
-              className={`tw-bg-white tw-rounded-3xl tw-pt-4 tw-h-full tw-flex tw-flex-col tw-overflow-hidden ${
-                isInWindow ? "tw-gap-5" : ""
+              className={`bg-white rounded-3xl pt-4 h-full flex flex-col overflow-hidden ${
+                isInWindow ? "gap-5" : ""
               }`}
             >
               {/* Header */}
               <div
-                className={`tw-flex tw-justify-between tw-items-center tw-flex-shrink-0 ${
-                  isInWindow ? "lg:tw-min-h-[45px]" : "lg:tw-min-h-[65px]"
+                className={`flex justify-between items-center flex-shrink-0 ${
+                  isInWindow ? "lg:min-h-[45px]" : "lg:min-h-[65px]"
                 }`}
               >
                 {isInWindow ? (
                   <>
-                    <h2 className="tw-text-xl md:tw-text-2xl tw-font-semibold tw-text-[#2D2D2D] tw-mb-0">
+                    <h2 className="text-xl md:text-2xl font-semibold text-[#2D2D2D] mb-0">
                       {bannerList?.dynamicTopSection?.title}
                     </h2>
                     <div
                       data-aos="fade-left"
                       data-aos-easing="ease-in-out"
-                      className="tw-bg-[#ffce0973] tw-text-[#5132c2] tw-text-[16px] md:tw-text-[22px] tw-p-3 tw-rounded-xl tw-flex tw-items-center tw-gap-3 tw-font-semibold tw-leading-[1em] tw-tracking-[0em]"
+                      className="bg-[#ffce0973] text-[#5132c2] text-[16px] md:text-[22px] p-3 rounded-xl flex items-center gap-3 font-semibold leading-[1em] tracking-[0em]"
                     >
-                      <MdTimer className="tw-text-lg" />
+                      <MdTimer className="text-lg" />
                       <Countdown
                         date={endZoned}
                         renderer={({
@@ -279,19 +278,19 @@ console.log("currentcountry",currentcountry)
                             return (
                               <span>
                                 {zeroPad(days)}
-                                <span className="tw-text-[#5132c2] tw-text-opacity-45">
+                                <span className="text-[#5132c2] text-opacity-45">
                                   D
                                 </span>{" "}
                                 : {zeroPad(hours)}
-                                <span className="tw-text-[#5132c2] tw-text-opacity-45">
+                                <span className="text-[#5132c2] text-opacity-45">
                                   h
                                 </span>{" "}
                                 : {zeroPad(minutes)}
-                                <span className="tw-text-[#5132c2] tw-text-opacity-45">
+                                <span className="text-[#5132c2] text-opacity-45">
                                   m
                                 </span>{" "}
                                 : {zeroPad(seconds)}
-                                <span className="tw-text-[#5132c2] tw-text-opacity-45">
+                                <span className="text-[#5132c2] text-opacity-45">
                                   s
                                 </span>
                               </span>
@@ -302,20 +301,20 @@ console.log("currentcountry",currentcountry)
                     </div>
                   </>
                 ) : (
-                  <div className="lg:tw-h-[65px]" />
+                  <div className="lg:h-[65px]" />
                 )}
               </div>
 
               {/* Content Grid */}
-              <div className="tw-grid tw-grid-cols-12 tw-gap-[15px] tw-flex-1 tw-min-h-0 tw-overflow-hidden">
+              <div className="grid grid-cols-12 gap-[15px] flex-1 min-h-0 overflow-hidden">
                 {/* Left Promo Box */}
-                <div className="tw-col-span-7 tw-h-full tw-min-h-0">
+                <div className="col-span-7 h-full min-h-0">
                   {sectionBanners?.sectionBanner1 && (
                     <div
                       data-aos="zoom-in"
                       data-aos-duration="700"
                       data-aos-easing="ease-in-out"
-                      className="tw-bg-cover tw-bg-center tw-rounded-2xl tw-h-full tw-relative tw-overflow-hidden tw-cursor-pointer"
+                      className="bg-cover bg-center rounded-2xl h-full relative overflow-hidden cursor-pointer"
                       onClick={() => {
                         const url = !isMobile
                           ? sectionBanners?.sectionBanner1?.url_web
@@ -334,7 +333,7 @@ console.log("currentcountry",currentcountry)
                             ? sectionBanners?.sectionBanner1?.image_web
                             : sectionBanners?.sectionBanner1?.image_web
                         }
-                        className="tw-w-full tw-h-full  tw-rounded-2xl"
+                        className="w-full h-full  rounded-2xl"
                         alt="Banners"
                       />
                     </div>
@@ -342,12 +341,12 @@ console.log("currentcountry",currentcountry)
                 </div>
 
                 {/* Right Stacked Images */}
-                <div className="tw-col-span-5 tw-grid tw-grid-rows-2 tw-gap-[15px] tw-h-full tw-min-h-0">
+                <div className="col-span-5 grid grid-rows-2 gap-[15px] h-full min-h-0">
                   {sectionBanners?.sectionBanner2 && (
                     <div
                       data-aos="fade-left"
                       data-aos-easing="ease-in-out"
-                      className="tw-bg-cover tw-bg-center tw-rounded-2xl tw-h-full tw-relative tw-overflow-hidden tw-cursor-pointer tw-min-h-0"
+                      className="bg-cover bg-center rounded-2xl h-full relative overflow-hidden cursor-pointer min-h-0"
                       onClick={() => {
                         const url = !isMobile
                           ? sectionBanners?.sectionBanner2?.url_web
@@ -366,7 +365,7 @@ console.log("currentcountry",currentcountry)
                             ? sectionBanners?.sectionBanner2?.image_web
                             : sectionBanners?.sectionBanner2?.image_web
                         }
-                        className="tw-w-full tw-h-full tw-rounded-2xl"
+                        className="w-full h-full rounded-2xl"
                         alt="Banners"
                       />
                     </div>
@@ -375,7 +374,7 @@ console.log("currentcountry",currentcountry)
                     <div
                       data-aos="fade-left"
                       data-aos-easing="ease-in-out"
-                      className="tw-bg-cover tw-bg-center tw-rounded-2xl tw-h-full tw-relative tw-overflow-hidden tw-cursor-pointer tw-min-h-0"
+                      className="bg-cover bg-center rounded-2xl h-full relative overflow-hidden cursor-pointer min-h-0"
                       onClick={() => {
                         const url = !isMobile
                           ? sectionBanners?.sectionBanner3?.url_web
@@ -394,7 +393,7 @@ console.log("currentcountry",currentcountry)
                             ? sectionBanners?.sectionBanner3?.image_web
                             : sectionBanners?.sectionBanner3?.image_web
                         }
-                        className="tw-w-full tw-h-full tw-rounded-2xl"
+                        className="w-full h-full rounded-2xl"
                         alt="Banners"
                       />
                     </div>
@@ -409,14 +408,14 @@ console.log("currentcountry",currentcountry)
 
         {/* Top Brands Section  */}
         <div
-          className={`tw-text-xl mt-4 lg:tw-text-[28px] tw-pl-4 tw-text-[#43494B] tw-font-outfit tw-font-bold mb-4`}
+          className={`text-xl mt-4 lg:text-[28px] pl-4 text-[#43494B] font-outfit font-bold mb-4`}
         >
           Shop By Top Brands
         </div>
         <div
           data-aos="fade"
           data-aos-easing="ease-in-out"
-          className="tw-mb-4 tw-overflow-hidden tw-max-w-full"
+          className="mb-4 overflow-hidden max-w-full"
         >
           <Marquee
             autoFill={true}
@@ -427,13 +426,13 @@ console.log("currentcountry",currentcountry)
             gradient={false}
             className="overflow"
           >
-            <div className="tw-flex tw-gap-4">
+            <div className="flex gap-4">
               {topBrands.map((b, index) => {
                 return (
                   <Link
                     key={index}
                     href={b?.url}
-                    className="tw-bg-[#000000]/[4%] tw-p-6 lg:tw-p-10 tw-rounded-xl tw-flex-shrink-0 tw-w-32 sm:tw-w-40 lg:tw-w-48 last:tw-mr-4"
+                    className="bg-[#000000]/[4%] p-6 lg:p-10 rounded-xl flex-shrink-0 w-32 sm:w-40 lg:w-48 last:mr-4"
                     data-aos="fade"
                     data-aos-easing="linear"
                     onClick={() => {
@@ -451,7 +450,7 @@ console.log("currentcountry",currentcountry)
                   >
                     <img
                       loading="lazy"
-                      className="tw-mix-blend-multiply tw-w-full tw-h-auto tw-object-contain"
+                      className="mix-blend-multiply w-full h-auto object-contain"
                       src={b.desktopImage}
                       alt={`${b.name || "Brand"} logo`}
                     />
@@ -515,17 +514,17 @@ console.log("currentcountry",currentcountry)
 
         {/* Category List */}
         <div
-          className={`tw-text-xl lg:tw-text-[28px] tw-pl-4 tw-pt-7 tw-text-[#43494B] tw-font-outfit tw-font-bold mb-4`}
+          className={`text-xl lg:text-[28px] pl-4 pt-7 text-[#43494B] font-outfit font-bold mb-4`}
         >
           Browse Popular Categories
         </div>
-        <div className="tw-grid tw-grid-cols-2 md:tw-grid-cols-9 tw-gap-2 tw-overflow-hidden tw-max-w-full">
+        <div className="grid grid-cols-2 md:grid-cols-9 gap-2 overflow-hidden max-w-full">
           {categoriesToShow?.map((cat, idx) => (
             <div
               data-aos="fade"
               data-aos-easing="ease-in-out"
               key={idx}
-              className="tw-flex tw-h-full tw-items-center tw-justify-center tw-py-3 tw-cursor-pointer"
+              className="flex h-full items-center justify-center py-3 cursor-pointer"
               onClick={() => {
                 pushToDataLayer(
                   "clicked_card_in_section",
@@ -539,18 +538,18 @@ console.log("currentcountry",currentcountry)
                 router.push("/categories/" + cat.url);
               }}
             >
-              <div className="tw-relative tw-transition-transform tw-duration-[300ms] group-hover:tw-duration-[800ms] group-hover:tw-scale-110 tw-z-10 tw-flex tw-flex-col tw-items-center tw-justify-start">
-                <div className="tw-w-36 tw-h-36 md:tw-w-16 md:tw-h-16 xl:tw-w-24 xl:tw-h-24 tw-rounded-full tw-flex tw-items-center tw-justify-center">
+              <div className="relative transition-transform duration-[300ms] group-hover:duration-[800ms] group-hover:scale-110 z-10 flex flex-col items-center justify-start">
+                <div className="w-36 h-36 md:w-16 md:h-16 xl:w-24 xl:h-24 rounded-full flex items-center justify-center">
                   <img
                     src={cat.vector_icon}
                     alt={cat.category_name}
-                    className="tw-w-full tw-h-full tw-object-contain"
+                    className="w-full h-full object-contain"
                     style={{
                       filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
                     }}
                   />
                 </div>
-                <h5 className="tw-mt-1 tw-text-base md:tw-text-xs lg:tw-text-base tw-text-center tw-font-medium tw-text-gray-700 tw-break-words tw-whitespace-normal tw-leading-tight tw-min-h-10">
+                <h5 className="mt-1 text-base md:text-xs lg:text-base text-center font-medium text-gray-700 break-words whitespace-normal leading-tight min-h-10">
                   {cat.category_name}
                 </h5>
               </div>
