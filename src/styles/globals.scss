@@ -44,11 +44,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    
+    --background: #ededed;
     --foreground: #ededed;
   }
 }
+:root {
+  /* keep your normal light values here */
+  --background: #ffffff;   /* <- use your light bg */
+  --foreground: #111111;   /* <- use your light text */
+}
 
+/* Lock built-in controls to light as well */
+html { color-scheme: light; }
+
+/* Optional: keep the dark query but do NOT redefine tokens */
+@media (prefers-color-scheme: dark) {
+  :root { /* intentionally empty so light values are used */ }
+}
 
 html,
 body {

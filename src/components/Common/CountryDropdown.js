@@ -1,7 +1,5 @@
 "use client";
-import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import { useState, useRef, useEffect } from "react";
 import flag from "@/images/Flag.png";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -17,65 +15,85 @@ const options = [
 export default function CountryDropdown({ countryDropdown }) {
   const [selected, setSelected] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
 
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleOptionClick = (option) => {
+    if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
+      window.open(option.dev_url, "_blank");
+    } else {
+      window.open(option.url, "_blank");
+    }
+
+    setSelected(option);
+    setIsOpen(false);
+  };
+
   return (
-    <Dropdown
-      className="header-middle-rightsub countrydropdown font-semibold"
-      show={isOpen}
-      onMouseEnter={() => setIsOpen(true)} // Open on hover
-      onMouseLeave={() => setIsOpen(false)} // Close on hover out
+    <div
+      ref={dropdownRef}
+      className="relative font-semibold cursor-pointer"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
     >
       {Object.keys(currentcountry).length > 0 && (
-        <Dropdown.Toggle className="flex items-center counterslecteddropdown">
+        <div className="flex items-center">
           <img
             src={`/flags/${currentcountry.image}`}
             alt={currentcountry.name}
             className="mr-2"
             width="20"
           />
-          {currentcountry.name}
-
+          <span className="text-white text-sm font-outfit font-semibold md:text-sm">
+            {currentcountry.name}
+          </span>
           {isOpen ? (
-            <FaAngleUp className="ml-1 secondarycolor" />
+            <FaAngleUp className="ml-1 text-secondary" />
           ) : (
             <FaAngleDown className="ml-1" />
           )}
-        </Dropdown.Toggle>
+        </div>
       )}
 
-      <Dropdown.Menu className="custom-dropdown-menu">
-        {countryDropdown.length > 0 &&
-          countryDropdown
-            .filter(({ id }) => id != currentcountry.id)
-            .map((option) => (
-              <Dropdown.Item
-                key={option.name}
-                onClick={() => {
-                  if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
-                    window.open(option.dev_url, "_blank");
-                  } else {
-                    window.open(option.url, "_blank");
-                  }
-
-                  setSelected(option);
-                  setIsOpen(false);
-                }}
-                className="flex items-center custom-dropdown-item"
-              >
-                <img
-                  src={`/flags/${option.image}`}
-                  alt={option.name}
-                  className="mr-2"
-                  width="20"
-                />
-                {option.name}
-              </Dropdown.Item>
-            ))}
-      </Dropdown.Menu>
-    </Dropdown>
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50 min-w-full">
+          {countryDropdown.length > 0 &&
+            countryDropdown
+              .filter(({ id }) => id != currentcountry.id)
+              .map((option) => (
+                <div
+                  key={option.name}
+                  onClick={() => handleOptionClick(option)}
+                  className="flex items-center px-3 py-2 text-sm font-semibold text-primary hover:bg-purple-50 hover:text-primary rounded cursor-pointer transition-colors duration-150"
+                >
+                  <img
+                    src={`/flags/${option.image}`}
+                    alt={option.name}
+                    className="mr-2"
+                    width="20"
+                  />
+                  {option.name}
+                </div>
+              ))}
+        </div>
+      )}
+    </div>
   );
 }

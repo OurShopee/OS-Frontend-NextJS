@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import user from "../../../public/images/user.png"; // Make sure this file exists
+import user from "@images/user.png";
 
 const Blogslist = ({ data }) => {
   return (

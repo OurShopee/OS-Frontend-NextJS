@@ -168,7 +168,7 @@ const Header = () => {
 
             {/* Search */}
 
-            <div className="header-middle-right">
+            <div className="header-middle-right gap-2">
               {isBigScreen && (
                 <NavLink
                   to={authstatus ? "/address" : ""}
@@ -244,12 +244,12 @@ const Header = () => {
                       <Image
                         src={buyimg}
                         alt="empty cart"
-                        className="cart-image-default mb-1"
+                        className="cart-image-default"
                       />
                       <Image
                         src={buy1img}
                         alt="hover cart"
-                        className="cart-image-hover yellow-filter mb-1"
+                        className="cart-image-hover yellow-filter"
                       />
                     </>
                   )}

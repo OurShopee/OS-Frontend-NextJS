@@ -32,7 +32,7 @@ const countriesData = [
         infinite_required: true,
         image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 1,
+        status: 0,
       },
       {
         id: 1,
@@ -169,7 +169,7 @@ const countriesData = [
         infinite_required: true,
         image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 1,
+        status: 0,
       },
       {
         id: 1,
@@ -296,7 +296,7 @@ const countriesData = [
         infinite_required: true,
         image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 1,
+        status: 0,
       },
       {
         id: 1,
@@ -413,7 +413,7 @@ const countriesData = [
         infinite_required: true,
         image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 1,
+        status: 0,
       },
       {
         id: 1,
@@ -529,7 +529,7 @@ const countriesData = [
         infinite_required: true,
         image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 1,
+        status: 0,
       },
       {
         id: 1,
