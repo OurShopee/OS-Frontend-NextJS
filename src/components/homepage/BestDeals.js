@@ -1,16 +1,16 @@
+"use client";
 import { motion } from "framer-motion";
-import React, { useEffect, useRef, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import Carousel from "react-bootstrap/Carousel";
 import Link from "next/link";
-import { Grid, Pagination } from "swiper/modules";
+import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
+import { Grid } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductCard } from "../Common";
 import { MediaQueries } from "../utils";
 import TopPicksCarouselProducts from "./TopPicksCarouselProducts";
+import Carousel from "../Common/Carousel";
 
 function BestDeals({ carousel_data, breakPointsProps }) {
   const sliderRef = useRef(null);
@@ -48,11 +48,10 @@ function BestDeals({ carousel_data, breakPointsProps }) {
   }, [data, isTablet, isMobile]); // update height when data or layout changes
 
   return (
-    <Row>
+    <div className="flex flex-wrap -mx-2">
       {/* step 4: apply inline height */}
-      <Col
-        lg={4}
-        className="padding_custom"
+      <div
+        className="w-full lg:w-1/3 px-2 padding_custom"
         style={!isMobile && !isTablet ? { height: rightHeight } : {}}
       >
         <div className="relative rounded-2xl overflow-hidden bg-[#2d2d2d] h-full">
@@ -100,10 +99,13 @@ function BestDeals({ carousel_data, breakPointsProps }) {
             ))}
           </div>
         </div>
-      </Col>
+      </div>
 
       {/* step 1: apply ref here */}
-      <Col lg={8} className={isLaptop && "!mt-3"} ref={rightColRef}>
+      <div
+        className={`w-full lg:w-2/3 px-2 ${isLaptop && "!mt-3"}`}
+        ref={rightColRef}
+      >
         {isTablet ? (
           <Swiper
             ref={sliderRef}
@@ -126,10 +128,7 @@ function BestDeals({ carousel_data, breakPointsProps }) {
             {data.map((item) => {
               return (
                 <SwiperSlide key={item.sku}>
-                  <Link
-                    href={`/details/${item.url}`}
-                    className={"text-decoration-none"}
-                  >
+                  <Link href={`/details/${item.url}`} className="no-underline">
                     <ProductCard item={item} />
                   </Link>
                 </SwiperSlide>
@@ -145,8 +144,8 @@ function BestDeals({ carousel_data, breakPointsProps }) {
             section_name={"Top Picks"}
           />
         )}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }
 

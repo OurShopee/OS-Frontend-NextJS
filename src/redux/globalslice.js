@@ -1,7 +1,6 @@
 import { blogByCatId, getAreasApi, getblogs, getLocationsApi } from "@/api/others";
 import { getbannerlistapi, Navigationapi } from "@/api/products";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { Navigationapi, getbannerlistapi,getLocationsApi,getAreasApi,getblogs ,blogByCatId} from "../services/Apis"
 
 export const getnavigation = createAsyncThunk("navigation/fetchNavigation", async () => {
     const res = await Navigationapi();

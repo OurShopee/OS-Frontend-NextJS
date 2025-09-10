@@ -1,3 +1,4 @@
+"use client";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -114,24 +115,21 @@ export default function TopPicksCarouselProducts({
                     {url.length >= 2 ? (
                       <Link
                         href={`/details/${item.url}`}
-                        className={"text-decoration-none"}
+                        className="no-underline"
                       >
                         <ProductCard item={item} section_name={section_name} />
                       </Link>
                     ) : (
                       <Link
                         href={`/details/${item.url}/${item.sku}`}
-                        className={"text-decoration-none"}
+                        className="no-underline"
                       >
                         <ProductCard item={item} section_name={section_name} />
                       </Link>
                     )}
                   </>
                 ) : (
-                  <Link
-                    href={`/details/${item.url}`}
-                    className={"text-decoration-none"}
-                  >
+                  <Link href={`/details/${item.url}`} className="no-underline">
                     <ProductCard item={item} section_name={section_name} />
                   </Link>
                 )}

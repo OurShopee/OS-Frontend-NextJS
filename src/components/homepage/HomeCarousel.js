@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
+"use client";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { trackBannerClick } from "../utils/dataUserpush";
+import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import Carousel from "../Common/Carousel";
+import { trackBannerClick } from "../utils/dataUserpush";
 import DynamicBanners from "./DynamicBanners";
-import { useRouter } from "next/navigation";
 
 function HomeCarousel({ carousel_data, searchPage = true }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const leftRef = useRef(null);
   const [leftHeight, setLeftHeight] = useState(null);
-  const router = useRouter();
-  const isHomePage = router.pathname === "/";
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const safeCarouselData = Array.isArray(carousel_data) ? carousel_data : [];
 
   const [hasSetHeight, setHasSetHeight] = useState(false);
@@ -20,8 +21,8 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
     (state) => state.globalslice.currentcountry
   );
 
-  // Use router.pathname instead of window.location.pathname for SSR compatibility
-  const pageName = router.pathname;
+  // Use pathname instead of router.pathname for SSR compatibility
+  const pageName = pathname;
 
   const handleFirstImageLoad = () => {
     if (!hasSetHeight && leftRef.current && window.innerWidth >= 768) {
@@ -40,17 +41,19 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
   }, [safeCarouselData]);
 
   const carouselColClasses = isHomePage
-    ? "col-lg-9 col-md-8 col-sm-12"
-    : "col-12"; // full width when not on homepage
+    ? "w-full lg:w-3/4 md:w-2/3 sm:w-full"
+    : "w-full"; // full width when not on homepage
 
   return (
-    <div className="container-fluid">
+    <div className="w-full px-4">
       <div
-        className={`row ${isHomePage ? "pr-3" : ""} ${searchPage && "mb-3"}`}
+        className={`flex flex-wrap -mx-2 ${isHomePage ? "pr-3" : ""} ${
+          searchPage && "mb-3"
+        }`}
       >
         {/* Left: Carousel */}
         <div
-          className={`${carouselColClasses} relative ${
+          className={`${carouselColClasses} px-2 relative ${
             !searchPage && "h-[45vh]"
           }`}
           ref={leftRef}
@@ -130,7 +133,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
         {/* Right: Text/Content */}
         {isHomePage && (
           <div
-            className="hidden md:block col-lg-3 col-md-4 !px-0 col-sm-12 relative overflow-hidden rounded-2xl"
+            className="hidden md:block w-full lg:w-1/4 md:w-1/3 px-0 sm:w-full relative overflow-hidden rounded-2xl"
             style={leftHeight ? { height: leftHeight } : {}}
           >
             <DynamicBanners

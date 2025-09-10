@@ -1,3 +1,5 @@
+import useCurrentLocation from "@/hooks/useCurrentLocation";
+import useFormValidation from "@/hooks/useFormValidation";
 import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
@@ -5,24 +7,22 @@ import { CiLocationOn } from "react-icons/ci";
 import { IoClose, IoSearch } from "react-icons/io5";
 import { PiGps } from "react-icons/pi";
 import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
+  geocodeByAddress,
+  getLatLng,
 } from "react-places-autocomplete";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
-import useCurrentLocation from "@/hooks/useCurrentLocation";
-import useFormValidation from "@/hooks/useFormValidation";
 import { toggleMobileAddressModal } from "../../../redux/addresslice";
 
 import {
-    getalladdressesapi,
-    postUserAddress,
-    setAddressButtonLoading,
+  getalladdressesapi,
+  postUserAddress,
+  setAddressButtonLoading,
 } from "../../../redux/addresslice";
 import {
-    checkmobileotpapi,
-    setcheckemailerror,
-    setregistermobile
+  checkmobileotpapi,
+  setcheckemailerror,
+  setregistermobile
 } from "../../../redux/formslice";
 import { getAreas, getLocations } from "../../../redux/globalslice";
 import { InputBox1 } from "../formInputs";

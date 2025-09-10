@@ -1,9 +1,10 @@
+"use client";
 import React from "react";
 import { MediaQueries } from "../utils";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const DynamicBanners = ({
   bannerKey,
@@ -13,7 +14,7 @@ const DynamicBanners = ({
 }) => {
   const bannerList = useSelector((state) => state.homeslice.bannerList);
   const { isMobile } = MediaQueries();
-  const router = useRouter();
+  const pathname = usePathname();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
@@ -36,7 +37,7 @@ const DynamicBanners = ({
       ? className
       : isMobile
       ? "mt-4 rounded-3xl"
-      : "mt-4  rounded-3xl",
+      : "mt-4 rounded-3xl",
     ...(enableAos && {
       "data-aos": aosType,
       "data-aos-duration": "700",
@@ -53,7 +54,7 @@ const DynamicBanners = ({
         const imgName = imgSrc;
         pushToDataLayer("clicked_banner", currentcountry.name, {
           banner_name: imgName,
-          page_name: router.pathname,
+          page_name: pathname,
         });
       }}
     >

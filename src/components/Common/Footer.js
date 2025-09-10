@@ -1,6 +1,5 @@
-"use client"
+"use client";
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -50,21 +49,21 @@ const Footer = () => {
   return (
     <>
       <div className="footermain primarybackground">
-        <Container fluid>
-          <Row>
-            <Col lg={3}>
-              <Image src={footerlogo} alt="Footer Logo" />
+        <div className="container-fluid">
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-12 lg:col-span-3">
+              <img src={footerlogo} alt="Footer Logo" />
               <div className="footer-discription">
                 UAE and Beyond! Established in 2015, Ourshopee.com has proudly
                 established itself as a prominent and rapidly growing online
                 shopping platform in the region...
               </div>
               <div>
-                <Image src={ConsumerRights} alt="Consumer Rights" />
+                <img src={ConsumerRights} alt="Consumer Rights" />
                 {isBigScreen && (
                   <>
                     <div className="footer-titles">Connect with us</div>
-                    <div className="d-flex footercontactus">
+                    <div className="flex footercontactus">
                       <input
                         type="text"
                         placeholder="Enter Your Mail"
@@ -78,7 +77,7 @@ const Footer = () => {
                 )}
               </div>
               <div className="footer-titles">Keep in Touch</div>
-              <div className="d-flex">
+              <div className="flex">
                 <Link
                   href={currentcountry?.fb_link || "#"}
                   target="_blank"
@@ -115,9 +114,9 @@ const Footer = () => {
                   <FaYoutube className="footer-contact-icon" />
                 </Link>
               </div>
-            </Col>
+            </div>
 
-            <Col lg={2} md={4} sm={6} xs={6}>
+            <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2">
               <div className="footerlink-titles">Online Shopping</div>
               <div className="footer-pages-main">
                 {footerdata &&
@@ -125,78 +124,66 @@ const Footer = () => {
                   footerdata.slice(0, 10).map((ele) => (
                     <NavLink
                       href={`/categories/${ele.url}`}
-                      className="footerlinks text-decoration-none"
+                      className="footerlinks no-underline"
                       key={ele.category_id}
                     >
                       {ele.category_name}
                     </NavLink>
                   ))}
               </div>
-            </Col>
+            </div>
 
-            <Col lg={2} md={4} sm={6} xs={6} className="footer-pages-main">
+            <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">
               <div className="footerlink-titles">Customer Policies</div>
-              <NavLink
-                href="/aboutus"
-                className="footerlinks textdecoration-none"
-              >
+              <NavLink href="/aboutus" className="footerlinks no-underline">
                 About Ourshopee
               </NavLink>
-              <NavLink
-                href="/contactus"
-                className="footerlinks textdecoration-none"
-              >
+              <NavLink href="/contactus" className="footerlinks no-underline">
                 Contact Us
               </NavLink>
-              <NavLink
-                href="/blogs"
-                className="footerlinks textdecoration-none"
-              >
+              <NavLink href="/blogs" className="footerlinks no-underline">
                 Our Blog
               </NavLink>
               <NavLink
                 href="/terms-and-conditions"
-                className="footerlinks textdecoration-none"
+                className="footerlinks no-underline"
               >
                 Terms and Conditions
               </NavLink>
-              <NavLink href="/faqs" className="footerlinks textdecoration-none">
+              <NavLink href="/faqs" className="footerlinks no-underline">
                 FAQs
               </NavLink>
               <NavLink
                 href="/privacy-policy"
-                className="footerlinks textdecoration-none"
+                className="footerlinks no-underline"
               >
                 Privacy Policy
               </NavLink>
-            </Col>
+            </div>
 
-            <Col lg={2} md={4} sm={6} xs={6} className="footer-pages-main">
+            <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">
               <div className="footerlink-titles">Useful Links</div>
-              <NavLink
-                href="/sitemap"
-                className="footerlinks textdecoration-none"
-              >
+              <NavLink href="/sitemap" className="footerlinks no-underline">
                 Site Map
               </NavLink>
               <NavLink
                 href="/sell-with-us"
-                className="footerlinks textdecoration-none"
+                className="footerlinks no-underline"
               >
                 Sell With Us
               </NavLink>
               <NavLink
                 href="/affiliate-program"
-                className="footerlinks textdecoration-none"
+                className="footerlinks no-underline"
               >
                 Affiliate Program
               </NavLink>
-            </Col>
+            </div>
 
             {!isBigScreen && (
-              <Col md={6} sm={6} xs={9}>
+              <div className="col-span-9 sm:col-span-6 md:col-span-6">
                 <div className="footer-titles">Connect with us</div>
-                <div className="d-flex footercontactus">
+                <div className="flex footercontactus">
                   <input
                     type="text"
                     placeholder="Enter Your Mail"
@@ -206,10 +193,10 @@ const Footer = () => {
                     <SiMinutemailer />
                   </div>
                 </div>
-              </Col>
+              </div>
             )}
 
-            <Col lg={3} md={4} sm={6} xs={12}>
+            <div className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
               <div>
                 <div className="footerlink-titles">24/7 Customer Support</div>
                 <div className="footer-discription">
@@ -250,7 +237,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Image
+                    <img
                       src={appstore}
                       className="pb-2 applinks"
                       alt="App Store"
@@ -263,7 +250,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Image
+                    <img
                       src={playstore}
                       className="pb-2 applinks"
                       alt="Play Store"
@@ -271,74 +258,74 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-            </Col>
-          </Row>
-        </Container>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="footercopyrights">
-        <Container fluid>
-          <Row>
+        <div className="container-fluid">
+          <div className="grid grid-cols-12 gap-4">
             {!isBigScreen && (
-              <Col lg={6} md={6} sm={12}>
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                 <div>
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg1}
                     alt="Footer Bottom 1"
                   />
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg2}
                     alt="Footer Bottom 2"
                   />
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg3}
                     alt="Footer Bottom 3"
                   />
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg4}
                     alt="Footer Bottom 4"
                   />
                 </div>
-              </Col>
+              </div>
             )}
-            <Col lg={6} md={6} sm={12}>
+            <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
               <div className="copyright-contant">
                 © Copyright 2025 [www.ourshopee.com](https://www.ourshopee.com).
                 All rights reserved.
               </div>
-            </Col>
+            </div>
             {isBigScreen && (
-              <Col lg={6} md={6} sm={12}>
+              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                 <div className="footerbottom">
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg1}
                     alt="Footer Bottom 1"
                   />
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg2}
                     alt="Footer Bottom 2"
                   />
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg3}
                     alt="Footer Bottom 3"
                   />
-                  <Image
-                    className="pe-2"
+                  <img
+                    className="pr-2"
                     src={Footerbottomimg4}
                     alt="Footer Bottom 4"
                   />
                 </div>
-              </Col>
+              </div>
             )}
-          </Row>
-        </Container>
+          </div>
+        </div>
       </div>
     </>
   );

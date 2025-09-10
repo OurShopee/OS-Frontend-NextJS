@@ -1,3 +1,4 @@
+"use client";
 import React, {
   useRef,
   useCallback,
@@ -165,7 +166,7 @@ export default function CarouselProducts({
                   url.length >= 2 ? (
                     <Link
                       href={`/details/${item.url}`}
-                      className={"text-decoration-none h-full"}
+                      className="no-underline h-full"
                     >
                       <ProductCard
                         item={item}
@@ -178,7 +179,7 @@ export default function CarouselProducts({
                   ) : (
                     <Link
                       href={`/details/${item.url}/${item.sku}`}
-                      className={"text-decoration-none h-full"}
+                      className="no-underline h-full"
                     >
                       <ProductCard
                         item={item}
@@ -192,7 +193,7 @@ export default function CarouselProducts({
                 ) : (
                   <Link
                     href={`/details/${item.url}`}
-                    className={"text-decoration-none h-full"}
+                    className="no-underline h-full"
                   >
                     <ProductCard item={item} eid_sale={eid_sale} />
                   </Link>

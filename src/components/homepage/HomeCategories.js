@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useCallback, useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -150,10 +151,10 @@ export default function HomeCategories({ category_list, no_bg, type }) {
                   (type == 5 && "/products-subcategory/" + cat_item.url) ||
                   (type == 4 && cat_item.url)
                 }`}
-                className={"text-decoration-none"}
+                className="no-underline"
               >
                 <div
-                  className={`position-relative ${
+                  className={`relative ${
                     (type == 2 || no_bg != undefined) && "no_bg"
                   }`}
                 >
@@ -195,7 +196,7 @@ export default function HomeCategories({ category_list, no_bg, type }) {
       </Swiper>
 
       {isMobile && category_list.length > 5 && (
-        <div className="d-flex justify-content-center">
+        <div className="flex justify-center">
           <div className="progress_trackbar">
             <motion.div
               className="custom_progress_bar"

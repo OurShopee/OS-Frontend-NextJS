@@ -2,7 +2,6 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import React, { useEffect, useRef, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
 import Countdown, { zeroPad } from "react-countdown";
 import { toZonedTime } from "date-fns-tz";
 import { MdTimer } from "react-icons/md";
@@ -98,7 +97,7 @@ const Home = () => {
   const nowZoned = toZonedTime(new Date(), timeZone);
 
   const isInWindow = nowZoned >= startZoned && nowZoned <= endZoned;
-  console.log("currentcountry", currentcountry);
+
   useEffect(() => {
     const keys = [
       "sectionBanner1",
@@ -137,7 +136,7 @@ const Home = () => {
       (i) => i.id === 6
     )?.section_id;
     setSaverId(saverId);
-  }, [currentcountry]);
+  }, [currentcountry.nav_items]);
 
   useEffect(() => {
     const sectionData = saleData?.other_section;
@@ -185,9 +184,9 @@ const Home = () => {
 
       {!loading ? (
         isLaptop ? (
-          <Container fluid className="pt-2">
+          <div className="w-full px-4 pt-2">
             <HomeMobileCarousel carousel_data={bannerList?.carousel} />
-          </Container>
+          </div>
         ) : (
           <HomeCarousel
             carousel_data={bannerList?.carousel}
@@ -198,7 +197,7 @@ const Home = () => {
         <HomeBannerPlaceholder height={424} />
       )}
 
-      <Container fluid>
+      <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
 
         {/* Tabs with Sale Ends in Section */}
@@ -208,13 +207,13 @@ const Home = () => {
             <Tabs
               tabs={[
                 {
-                  title: "Saver zone",
-                  endpoint: () => getSaverZoneProducts(saverId),
+                  title: "Top Selling",
+                  endpoint: getTopSellingApi,
                   path: "",
                 },
                 {
-                  title: "Top Selling",
-                  endpoint: getTopSellingApi,
+                  title: "Saver zone",
+                  endpoint: () => getSaverZoneProducts(saverId),
                   path: "",
                 },
                 {
@@ -588,42 +587,14 @@ const Home = () => {
         </div>
 
         {/* MultiPle Banners */}
-        <Row className="multi_banners mt-4">
+        <div className="flex flex-wrap -mx-2 multi_banners mt-4">
           {!loading && (
             <>
               {bannerList?.multibanners?.map((banner, index) => {
                 return (
-                  <Col lg={6} key={banner.banner_id} className="padding_custom">
-                    <Link
-                      href={banner.url}
-                      onClick={() => {
-                        pushToDataLayer("clicked_card", currentcountry.name, {
-                          card_name: banner.banner_image,
-                          page: window.location.pathname,
-                        });
-                      }}
-                    >
-                      <img src={banner.banner_image} />
-                    </Link>
-                  </Col>
-                );
-              })}
-            </>
-          )}
-        </Row>
-
-        <Row className={`multi_banners_four ${!isMobile && "mt-0"}`}>
-          {!loading && (
-            <>
-              {bannerList?.banner?.map((banner) => {
-                return (
-                  <Col
-                    lg={3}
-                    md={3}
+                  <div
                     key={banner.banner_id}
-                    sm={6}
-                    xs={6}
-                    className="pr-unset"
+                    className="w-full lg:w-1/2 px-2 padding_custom"
                   >
                     <Link
                       href={banner.url}
@@ -636,12 +607,43 @@ const Home = () => {
                     >
                       <img src={banner.banner_image} />
                     </Link>
-                  </Col>
+                  </div>
                 );
               })}
             </>
           )}
-        </Row>
+        </div>
+
+        <div
+          className={`flex flex-wrap -mx-2 multi_banners_four ${
+            !isMobile && "mt-0"
+          }`}
+        >
+          {!loading && (
+            <>
+              {bannerList?.banner?.map((banner) => {
+                return (
+                  <div
+                    key={banner.banner_id}
+                    className="w-full lg:w-1/4 md:w-1/4 sm:w-1/2 px-2 pr-unset"
+                  >
+                    <Link
+                      href={banner.url}
+                      onClick={() => {
+                        pushToDataLayer("clicked_card", currentcountry.name, {
+                          card_name: banner.banner_image,
+                          page: window.location.pathname,
+                        });
+                      }}
+                    >
+                      <img src={banner.banner_image} />
+                    </Link>
+                  </div>
+                );
+              })}
+            </>
+          )}
+        </div>
 
         <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
 
@@ -673,7 +675,7 @@ const Home = () => {
             })}
           </>
         )}
-      </Container>
+      </div>
     </div>
   );
 };

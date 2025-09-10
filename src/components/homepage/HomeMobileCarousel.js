@@ -1,18 +1,32 @@
-import Carousel from "react-bootstrap/Carousel";
+"use client";
 import { motion } from "framer-motion";
-import React, { useState, useEffect } from "react";
-import { pushToDataLayer, trackBannerClick } from "../utils/dataUserpush";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
+import { pushToDataLayer, trackBannerClick } from "../utils/dataUserpush";
+import Carousel from "../Common/Carousel";
+
+// Custom NavLink component for Next.js App Router
+const NavLink = ({ to, children, onClick, ...props }) => {
+  const pathname = usePathname();
+  const isActive = pathname === to;
+
+  return (
+    <Link href={to} {...props}>
+      <span onClick={onClick}>{children}</span>
+    </Link>
+  );
+};
 
 function HomeMobileCarousel({ carousel_data }) {
   const [current_index, setcurrent_index] = useState(0);
-  const router = useRouter();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-  const pageName = router.pathname;
+  const pathname = usePathname();
+  const pageName =
+    typeof window !== "undefined" ? window.location.pathname : pathname;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,7 +35,7 @@ function HomeMobileCarousel({ carousel_data }) {
         : setcurrent_index(current_index + 1);
     }, 3000);
     return () => clearInterval(interval);
-  }, [current_index]);
+  }, [current_index, carousel_data.length]);
 
   return (
     <>
@@ -38,8 +52,8 @@ function HomeMobileCarousel({ carousel_data }) {
           const formattedTitle = lastPart.replace(/[-_]/g, " ");
           return (
             <Carousel.Item key={item.carousel_id}>
-              <Link
-                href={item.url}
+              <NavLink
+                to={item.url}
                 onClick={() => {
                   const imgUrl = item.mobile_image_url;
                   trackBannerClick(
@@ -50,16 +64,19 @@ function HomeMobileCarousel({ carousel_data }) {
                   );
                   pushToDataLayer("clicked_banner", currentcountry.name, {
                     banner_name: imgUrl,
-                    page_name: router.pathname,
+                    page_name: pageName,
                   });
                 }}
               >
                 <img
-                  className={`${carousel_data.length > 1 ? "" : "rounded-0"}`}
+                  className={`${
+                    carousel_data.length > 1 ? "" : "rounded-none"
+                  }`}
                   src={item.mobile_image_url}
-                  alt=""
+                  alt={formattedTitle}
+                  priority={current_index === 0}
                 />
-              </Link>
+              </NavLink>
             </Carousel.Item>
           );
         })}
@@ -68,13 +85,17 @@ function HomeMobileCarousel({ carousel_data }) {
         <div className="track_indicators">
           {carousel_data.map((indicator_item, index) => {
             return (
-              <motion.div
+              <motion.button
                 key={index}
                 layout
                 data-isOpen={current_index == index}
                 initial={{ borderRadius: 50 }}
-                className="indicator"
+                className="indicator bg-transparent border-none p-2 cursor-pointer"
                 onTap={() => setcurrent_index(index)}
+                onClick={() => setcurrent_index(index)}
+                aria-label={`Go to slide ${index + 1}`}
+                tabIndex={0}
+                type="button"
               />
             );
           })}

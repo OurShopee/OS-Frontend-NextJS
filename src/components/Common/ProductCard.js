@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { TiStarFullOutline } from "react-icons/ti";
+"use client";
+import { useState } from "react";
 import Countdown, { zeroPad } from "react-countdown";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { postWishList, getWishLists } from "../../redux/cartslice";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { pushToDataLayer } from "../utils/dataUserpush";
+import { getWishLists, postWishList } from "../../redux/cartslice";
 import { MediaQueries } from "../utils";
+import { pushToDataLayer } from "../utils/dataUserpush";
+
 const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const dispatch = useDispatch();
   const [hasError, setHasError] = useState(false);
@@ -15,6 +16,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   );
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const { isMobile } = MediaQueries();
+
   const handleWishList = async (e, item) => {
     e.preventDefault();
     var input_data = {
@@ -27,7 +29,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
-      return <p style={{ marginTop: 30, marginBottom: 20 }}>{""}</p>;
+      return <p className="mt-8 mb-5">{""}</p>;
     } else {
       // Render a countdown
       return (
@@ -36,7 +38,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             <img
               className="timecount-image"
               src={"/assets/vector_icons/countdown.png"}
-              style={{}}
+              alt="countdown"
             />{" "}
             {zeroPad(days) + " h"} : {zeroPad(minutes) + " m"} :{" "}
             {zeroPad(seconds) + " s"}
@@ -45,6 +47,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       );
     }
   };
+
   const productcard = (cardname) => {
     if (section_name && section_name.trim() !== "") {
       // If section_name is present, run this logic
@@ -83,25 +86,27 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             className={`w-full h-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
+            alt={item.name}
+            width={300}
+            height={300}
           />
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl">
-          {" "}
-          {/* 🔴 added line */}
           <img
             src={item.image}
             onError={() => setHasError(true)}
             className={`w-full h-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
+            alt={item.name}
           />
-        </div> // 🔴 added line
+        </div>
       )}
 
       {authstatus && (
         <div
-          className="position-absolute custom_wish_heart"
+          className="absolute custom_wish_heart"
           onClick={(e) => handleWishList(e, item)}
         >
           {wishListData &&
@@ -118,13 +123,6 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       )}
 
       <div className="product_content w-full">
-        {/* <div className='product_rating_container'>
-                    <span>4.1</span>
-                    <span><TiStarFullOutline size={12} color={'rgba(64, 184, 98, 1)'} /></span>
-                    <span style={{ color: 'rgba(158, 165, 168, 1)' }}>|</span>
-                    <span style={{ color: 'rgba(158, 165, 168, 1)' }}>(22)</span>
-                </div> */}
-
         <h3>{item.name}</h3>
 
         <div className="product_price_container">
@@ -146,6 +144,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             )}
           </div>
         </div>
+
         {type != 2 &&
           item.countdown != "Invalid date" &&
           new Date(item.countdown) > new Date() && (
@@ -153,21 +152,24 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               <Countdown date={item.countdown} renderer={renderer} />
             </div>
           )}
+
         {type == 2 && (
           <div className="grab_it_now">
             <img
               src={"/assets/vector_icons/grab_it_now_bg.png"}
               className="background-image"
+              alt="grab it now background"
             />
             <div className="overlay-text">GRAB IT NOW!</div>
           </div>
         )}
 
         {type2 == 1 && (
-          <div className="d-flex align-items-center mb-1">
+          <div className="flex items-center mb-1">
             <img
               src={"/assets/vector_icons/flash.png"}
               className="selling_fast_img"
+              alt="flash icon"
             />
             <div className="selling_fast_title">Selling out fast</div>
           </div>

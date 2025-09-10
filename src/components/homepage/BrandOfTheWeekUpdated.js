@@ -1,11 +1,29 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import CarouselProducts from "./CarouselProducts";
 import { MediaQueries } from "../utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { getImagesByKey } from "../utils/getImagesByKey";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { useRouter } from "next/navigation";
+
+const NavLink = ({ to, children, onClick, className, style, ...props }) => {
+  const pathname = usePathname();
+  const isActive = pathname === to;
+
+  return (
+    <Link href={to} {...props}>
+      <span
+        className={`${className} ${isActive ? "active" : ""}`}
+        onClick={onClick}
+        style={style}
+      >
+        {children}
+      </span>
+    </Link>
+  );
+};
 
 const brandData = {
   bannerImage: "assets/11-sale/Image.png",
@@ -13,7 +31,6 @@ const brandData = {
 };
 
 export default function BrandOfTheWeekUpdated({ products }) {
-  const router = useRouter();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
@@ -22,6 +39,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
   const rightRef = useRef(null);
   const [rightHeight, setRightHeight] = useState(0);
   const [brandData, setBrandData] = useState({});
+  const pathname = usePathname();
 
   useEffect(() => {
     const keys = ["brandWeekBg", "brandWeekImg"];
@@ -41,25 +59,28 @@ export default function BrandOfTheWeekUpdated({ products }) {
     }
   }, [isMobile, products]);
 
+  const pageName =
+    typeof window !== "undefined" ? window.location.pathname : pathname;
+
   return (
-    <div
-      className="rounded-3xl px-4 py-6 mt-4 !md:p-6 relative overflow-hidden"
+    <section
+      className="rounded-3xl px-4 py-6 mt-4 md:p-6 relative overflow-hidden"
       style={{
         backgroundImage: `url(${brandData?.brandWeekBg?.image_web})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
+      aria-label="Brand of the Week"
     >
       <div className="flex items-center justify-center mb-4 pt-6 pb-2">
         {/* Yellow box with right-side cut */}
         <div
-          className=" px-4 z-0"
+          className="px-4 z-0"
           style={{
             backgroundColor: "#FACC15",
-
-            /* cut 20px off the right edge */
             clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%)",
           }}
+          aria-hidden="true"
         >
           <span className="inner-shadow-text">
             <span className="brand-inner-shadow font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]">
@@ -87,7 +108,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
         </span>
       </div>
 
-      <div className="rounded-2xl flex flex-wrap md:flex-nowrap items-stretch gap-6 md:gap-1">
+      <div className="rounded-2xl flex md:!flex-nowrap items-stretch gap-6 md:gap-1">
         {/* Left Banner */}
         {(!isMobile &&
           brandData?.brandWeekImg?.url_web &&
@@ -97,7 +118,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
           brandData?.brandWeekImg?.url_app &&
           brandData?.brandWeekImg?.url_app !== "0" &&
           brandData?.brandWeekImg?.url_app !== "") ? (
-          <Link
+          <a
             href={
               !isMobile
                 ? brandData?.brandWeekImg?.url_web
@@ -107,10 +128,10 @@ export default function BrandOfTheWeekUpdated({ products }) {
               pushToDataLayer("clicked_card_in_section", currentcountry.name, {
                 card_name: "Brand of the Week Banner",
                 section_name: "Brand of the Week",
-                page: router.pathname,
+                page: pageName,
               });
             }}
-            className="w-full md:w-[36%] rounded-2xl overflow-hidden cursor-pointer"
+            className="w-full md:w-[36%] rounded-2xl overflow-hidden cursor-pointer block"
             style={!isMobile ? { height: rightHeight } : {}}
           >
             <div
@@ -124,17 +145,11 @@ export default function BrandOfTheWeekUpdated({ products }) {
                     ? brandData?.brandWeekImg?.image_web
                     : brandData?.brandWeekImg?.image_app
                 }
-                alt="banner"
+                alt="Brand of the Week promotional banner"
                 className="object-cover w-full h-full rounded-2xl"
               />
-              {/* <div className="absolute flex flex-col justify-center items-center bottom-8 left-8 md:bottom-16 md:left-16 text-white text-lg font-medium">
-                <div className="bg-white/50 rounded-full w-16 h-16 flex items-center justify-center mb-2">
-                  <div className="w-8 h-8 bg-white rounded-full" />
-                </div>
-                <span className="text-[32px]">Buy Here</span>
-              </div> */}
             </div>
-          </Link>
+          </a>
         ) : (
           <div
             className="w-full md:w-[36%] rounded-2xl overflow-hidden"
@@ -148,7 +163,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
                   ? brandData?.brandWeekImg?.image_web
                   : brandData?.brandWeekImg?.image_app
               }
-              alt="banner"
+              alt="Brand of the Week promotional banner"
               className="object-cover w-full h-full rounded-2xl"
             />
           </div>
@@ -179,6 +194,6 @@ export default function BrandOfTheWeekUpdated({ products }) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
