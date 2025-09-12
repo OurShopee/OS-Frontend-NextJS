@@ -1,11 +1,11 @@
 "use client";
 import { reSendOtpeOtp, reSendOtpWhatsapp } from "@/api/user";
 import {
-    setformmodal,
-    setformstatus,
-    setotperror,
-    setotpmodal,
-    verifyMobileOtpapi,
+  setformmodal,
+  setformstatus,
+  setotperror,
+  setotpmodal,
+  verifyMobileOtpapi,
 } from "@/redux/formslice";
 import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";

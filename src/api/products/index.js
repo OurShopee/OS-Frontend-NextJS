@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+import { createAxiosInstance } from "../config";
 
 export const Navigationapi = async () => {
   const res = await axios.get("api/getcategorylist");
@@ -93,10 +93,22 @@ export const getfiltered_items = async (input_data) => {
   return response;
 };
 
-export const getproduct_detail = async (sku) => {
-  const response = await axios.get(`api/product_detail?sku=${sku}`);
-  return response;
-};
+export async function getproduct_detail(productSku, req = null) {
+  try {
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get(`api/product_detail?sku=${productSku}`);
+      console.log("response >>>>>>>>> response", response);
+      return response.data;
+    } else {
+      const response = await axios.get(`api/product_detail?sku=${productSku}`);
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching product detail:", error);
+    return null;
+  }
+}
 
 export const getcategory_itemsApi = async (sku) => {
   const response = await axios.get(`api/category_items`);

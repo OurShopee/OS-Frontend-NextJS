@@ -8,11 +8,10 @@ import Link from "next/link";
 import { Navigationapi } from "@/api/products";
 
 const Categorylist = () => {
-  
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-  const [categorydata, setCategorydata] = useState([])
+  const [categorydata, setCategorydata] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [hoveredSubCategory, setHoveredSubCategory] = useState(null);
