@@ -1,32 +1,54 @@
+"use client";
 import { animate, motion } from "framer-motion";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import deleteimg from "../../../images/Delete.png";
+import deleteimg from "@/images/Delete.png";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import {
   GetPlaceOrderapi,
   setpaymentmethodsdata,
-} from "../../../redux/paymentslice";
-import { CalculatePaymentDetails } from "../../utils/Cart";
+} from "@/redux/paymentslice";
+import { CalculatePaymentDetails } from "@/components/utils/Cart";
 import {
   cartlistWithoutLoaderapi,
   changeCartQuantityapi,
   removeFromCartapi,
-} from "../../../redux/cartslice";
-import { setformmodal, setformstatus } from "../../../redux/formslice";
+} from "@/redux/cartslice";
+import { setformmodal, setformstatus } from "@/redux/formslice";
 import AlertModal from "../AlertModal";
-import OdometerCounter from "../../OdometerCounter";
+import OdometerCounter from "@/components/OdometerCounter";
+
+// Custom NavLink component for Next.js App Router
+const NavLink = ({ to, children, className, onClick, ...props }) => {
+  const pathname = usePathname();
+  const isActive = pathname === to;
+
+  return (
+    <Link href={to} {...props}>
+      <span
+        className={`${className} ${isActive ? "active" : ""}`}
+        onClick={onClick}
+      >
+        {children}
+      </span>
+    </Link>
+  );
+};
 
 const CartModalDesktop = ({ show, onHide }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const router = useRouter();
   const debounceTimers = useRef({});
+  const modalRef = useRef(null);
+  const previouslyFocusedElement = useRef(null);
   const [cartQuantities, setCartQuantities] = useState({});
+
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
@@ -43,12 +65,13 @@ const CartModalDesktop = ({ show, onHide }) => {
   const [showGif, setShowGif] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [deletingProduct, setDeletingProduct] = useState({});
-  const prevTotalSavings = useRef(0); // Track previous totalSavings
+  const prevTotalSavings = useRef(0);
 
   const cartItems = useMemo(() => {
     const result = cartlistdata?.data?.result;
     return Array.isArray(result) ? result : [];
   }, [cartlistdata]);
+
   const totalSavings = useMemo(() => {
     const rawSavings = cartItems?.reduce((sum, item) => {
       const oldTotal = item.old_price * item.quantity;
@@ -69,6 +92,63 @@ const CartModalDesktop = ({ show, onHide }) => {
   const [animatedValue, setAnimatedValue] = useState(0);
   const [displayValue, setDisplayValue] = useState(0);
 
+  // Focus management and accessibility
+  useEffect(() => {
+    if (show) {
+      // Save previous focus and prevent body scroll
+      previouslyFocusedElement.current = document.activeElement;
+      document.body.style.overflow = "hidden";
+
+      // Focus modal after it renders
+      const timer = setTimeout(() => {
+        modalRef.current?.focus();
+      }, 100);
+
+      // Handle keyboard events for accessibility
+      const handleKeydown = (e) => {
+        if (e.key === "Escape") {
+          onHide();
+          return;
+        }
+
+        if (e.key === "Tab") {
+          const focusableElements = modalRef.current?.querySelectorAll(
+            'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusableElements && focusableElements.length > 0) {
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (e.shiftKey) {
+              if (document.activeElement === firstElement) {
+                lastElement.focus();
+                e.preventDefault();
+              }
+            } else {
+              if (document.activeElement === lastElement) {
+                firstElement.focus();
+                e.preventDefault();
+              }
+            }
+          }
+        }
+      };
+
+      document.addEventListener("keydown", handleKeydown);
+
+      return () => {
+        clearTimeout(timer);
+        document.removeEventListener("keydown", handleKeydown);
+      };
+    } else {
+      // Restore focus and body scroll
+      document.body.style.overflow = "auto";
+      if (previouslyFocusedElement.current) {
+        previouslyFocusedElement.current.focus();
+      }
+    }
+  }, [show, onHide]);
+
   useEffect(() => {
     const start = Math.max(0, totalSavings - 5);
     const controls = animate(start, totalSavings, {
@@ -76,7 +156,6 @@ const CartModalDesktop = ({ show, onHide }) => {
       onUpdate(value) {
         setAnimatedValue(value);
 
-        // Only show GIF if savings increased
         if (
           Math.abs(value - totalSavings) < 0.01 &&
           totalSavings > prevTotalSavings.current
@@ -99,17 +178,6 @@ const CartModalDesktop = ({ show, onHide }) => {
   }, [animatedValue]);
 
   useEffect(() => {
-    if (show) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [show]);
-
-  useEffect(() => {
     if (cartlistdata?.data?.result?.length) {
       const initialQuantities = {};
       cartlistdata.data.result.forEach((item) => {
@@ -119,7 +187,7 @@ const CartModalDesktop = ({ show, onHide }) => {
     } else {
       onHide();
     }
-  }, [cartlistdata]);
+  }, [cartlistdata, onHide]);
 
   const handleQuantityChange = (cart_id, newQty) => {
     if (
@@ -203,99 +271,165 @@ const CartModalDesktop = ({ show, onHide }) => {
       dispatch(setformstatus(1));
     } else {
       if (addresslistdata?.data?.length > 0) {
-        navigate("/Payment");
+        router.push("/Payment");
       } else {
-        navigate("/deliveryaddress");
+        router.push("/deliveryaddress");
       }
     }
   };
 
   const navigateToProduct = (url, sku) => {
-    navigate(`/details/${url}/${sku}`);
+    router.push(`/details/${url}/${sku}`);
     onHide();
   };
 
   if (!show) return null;
+
   return (
     <>
-      {show && <div className="modal-backdrop-custom" onClick={onHide}></div>}
+      {show && (
+        <div
+          className="modal-backdrop-custom fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={onHide}
+          aria-hidden="true"
+        />
+      )}
       <div
-        className={`modal-custom-wrapper-desktop fixed top-0 right-0 h-screen w-[25vw] z-[1050] ${
+        className={`modal-custom-wrapper-desktop fixed top-0 right-0 h-screen w-[25vw] z-50 ${
           show ? "modal-slide-in" : "modal-slide-out"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cart-modal-title"
+        aria-describedby="cart-modal-description"
+        ref={modalRef}
+        tabIndex={-1}
       >
         <div className="flex flex-col h-full bg-white rounded-l-xl">
           <div className="flex-1 overflow-y-auto py-4 pt-0 px-4">
             <div className="sticky py-4 top-0 z-20 bg-white border-b flex justify-between items-center select-none">
-              <h5 className="flex items-center gap-1 text-[#43494B] mb-0">
-                <span className="font-[700] text-[24px]">In Cart</span>{" "}
+              <h2
+                id="cart-modal-title"
+                className="flex items-center gap-1 text-[#43494B] mb-0"
+              >
+                <span className="font-[700] text-[24px]">In Cart</span>
                 <span className="text-[19px] font-[600]">
                   ({cartItems.length})
                 </span>
-              </h5>
-              <IoClose
+              </h2>
+              <button
                 onClick={onHide}
-                className="text-3xl cursor-pointer text-[#43494B]"
-              />
+                className="text-3xl cursor-pointer text-[#43494B] hover:text-gray-600 transition-colors bg-transparent border-0 p-1 rounded"
+                aria-label="Close cart"
+                type="button"
+              >
+                <IoClose />
+              </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-0">
+            <div
+              className="flex-1 overflow-y-auto p-0"
+              id="cart-modal-description"
+              aria-label="Shopping cart items"
+            >
               {cartItems.length > 0 ? (
                 cartItems.map((item, i) => (
                   <React.Fragment key={i}>
-                    <div className="flex items-center gap-3">
-                      <img
+                    <article className="flex items-center gap-3 py-2">
+                      <button
                         onClick={() => navigateToProduct(item.url, item.sku)}
-                        src={item.image}
-                        alt={item.name}
-                        className="cursor-pointer object-contain w-[25%] h-max"
-                      />
-                      <div className="cart-item-info">
-                        <span
+                        className="cursor-pointer object-contain w-[25%] h-max bg-transparent border-0 p-0"
+                        aria-label={`View ${item.name} details`}
+                        type="button"
+                      >
+                        <img
+                          src={item.image}
+                          alt={`${item.name} product image`}
+                          className="w-full h-full object-contain"
+                        />
+                      </button>
+
+                      <div className="cart-item-info flex-1">
+                        <button
                           onClick={() => navigateToProduct(item.url, item.sku)}
-                          className="cursor-pointer item-name fw-semibold flex-1"
+                          className="cursor-pointer item-name font-semibold flex-1 text-left bg-transparent border-0 p-0 hover:underline"
+                          type="button"
                         >
                           {item.name.split(" ").length > 15
                             ? item.name.split(" ").slice(0, 15).join(" ") +
                               "..."
                             : item.name}
-                        </span>
-                        <div className="d-flex justify-content-between my-2 select-none">
-                          <div className="flex items-center justify-center border rounded-lg gap-3 !p-1">
+                        </button>
+
+                        <div className="flex justify-between my-2 select-none">
+                          <div
+                            className="flex items-center justify-center border rounded-lg gap-3 p-1"
+                            role="group"
+                            aria-label={`Quantity controls for ${item.name}`}
+                          >
                             {cartQuantities[item.cart_id] === 1 ? (
-                              <img
-                                src={deleteimg}
-                                alt="delete"
-                                className="cursor-pointer"
+                              <button
                                 onClick={() => openAlertModel(item)}
-                              />
+                                className="cursor-pointer bg-transparent border-0 p-1 hover:bg-red-100 rounded transition-colors"
+                                aria-label={`Remove ${item.name} from cart`}
+                                type="button"
+                              >
+                                <img
+                                  src={deleteimg}
+                                  alt=""
+                                  aria-hidden="true"
+                                />
+                              </button>
                             ) : (
-                              <FiMinus
-                                className="cursor-pointer"
+                              <button
                                 onClick={() =>
                                   handleQuantityChange(
                                     item.cart_id,
                                     cartQuantities[item.cart_id] - 1
                                   )
                                 }
-                              />
+                                className="cursor-pointer bg-transparent border-0 p-1 hover:bg-gray-100 rounded transition-colors"
+                                aria-label={`Decrease quantity of ${item.name}`}
+                                type="button"
+                              >
+                                <FiMinus />
+                              </button>
                             )}
 
-                            <div>{cartQuantities[item.cart_id]}</div>
+                            <span
+                              className="min-w-[40px] text-center"
+                              aria-live="polite"
+                              aria-label={`Current quantity: ${
+                                cartQuantities[item.cart_id]
+                              }`}
+                            >
+                              {cartQuantities[item.cart_id]}
+                            </span>
 
-                            <FiPlus
-                              className="cursor-pointer"
+                            <button
                               onClick={() =>
                                 handleQuantityChange(
                                   item.cart_id,
                                   cartQuantities[item.cart_id] + 1
                                 )
                               }
-                            />
+                              className="cursor-pointer bg-transparent border-0 p-1 hover:bg-gray-100 rounded transition-colors"
+                              aria-label={`Increase quantity of ${item.name}`}
+                              type="button"
+                            >
+                              <FiPlus />
+                            </button>
                           </div>
                         </div>
+
                         <div className="text-lg font-semibold">
-                          <span>
+                          <span
+                            aria-label={`Current price: ${
+                              currentcountry?.currency
+                            } ${(item.single_price * item.quantity).toFixed(
+                              2
+                            )}`}
+                          >
                             {currentcountry?.currency}{" "}
                             {(item.single_price * item.quantity).toFixed(2)}
                           </span>
@@ -304,18 +438,26 @@ const CartModalDesktop = ({ show, onHide }) => {
                             {item.percentage}% OFF
                           </span>
                           <div className="text-sm line-through text-[#9EA5A8]">
-                            AED {(item.old_price * item.quantity).toFixed(2)}
+                            <span
+                              aria-label={`Original price: AED ${(
+                                item.old_price * item.quantity
+                              ).toFixed(2)}`}
+                            >
+                              AED {(item.old_price * item.quantity).toFixed(2)}
+                            </span>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </article>
                     {i !== cartItems.length - 1 && (
-                      <div className="border-gray my-6 "></div>
+                      <hr className="border-gray my-6" />
                     )}
                   </React.Fragment>
                 ))
               ) : (
-                <div className="text-center py-4">Your cart is empty.</div>
+                <div className="text-center py-4" role="status">
+                  Your cart is empty.
+                </div>
               )}
             </div>
           </div>
@@ -325,11 +467,19 @@ const CartModalDesktop = ({ show, onHide }) => {
               <p className="mb-0 capitalize">total cart value</p>
               <div className="flex items-center gap-1">
                 <p className="mb-0 text-sm line-through text-[#9EA5A8]">
-                  AED {totalOld}
+                  <span aria-label={`Original total: AED ${totalOld}`}>
+                    AED {totalOld}
+                  </span>
                 </p>
-                <p className="mb-0">{cartlistdata?.data?.grand_total}</p>
+                <p
+                  className="mb-0"
+                  aria-label={`Current total: ${cartlistdata?.data?.grand_total}`}
+                >
+                  {cartlistdata?.data?.grand_total}
+                </p>
               </div>
             </div>
+
             <div
               style={{
                 backgroundImage:
@@ -339,7 +489,10 @@ const CartModalDesktop = ({ show, onHide }) => {
             >
               <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-b from-transparent to-white/80"></div>
               <div className="flex items-center gap-1">
-                <RiDiscountPercentFill className="text-2xl" />
+                <RiDiscountPercentFill
+                  className="text-2xl"
+                  aria-hidden="true"
+                />
                 <p className="mb-0 font-semibold capitalize">
                   Your total savings
                 </p>
@@ -348,18 +501,25 @@ const CartModalDesktop = ({ show, onHide }) => {
                 <span className="text-[1.125rem] text-lg">
                   {currentcountry?.currency}
                 </span>
-                <OdometerCounter
-                  value={totalSavings}
-                  duration={1500}
-                  format="(ddd)"
-                />
+                <span
+                  aria-live="polite"
+                  aria-label={`Total savings: ${currentcountry?.currency} ${totalSavings}`}
+                >
+                  <OdometerCounter
+                    value={totalSavings}
+                    duration={1500}
+                    format="(ddd)"
+                  />
+                </span>
               </div>
             </div>
 
             <div className="px-4">
               <button
                 onClick={() => handleCheckoutNow()}
-                className="hover:text-lg bg-[#5232C2] border-none select-none mt-3 w-full relative inline-flex items-center justify-center h-12 px-6 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out"
+                className="hover:text-lg bg-[#5232C2] border-0 select-none mt-3 w-full relative inline-flex items-center justify-center h-12 px-6 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-300"
+                aria-label="Proceed to checkout with current cart items"
+                type="button"
               >
                 <span className="z-10 uppercase font-semibold">
                   Checkout now
@@ -374,12 +534,14 @@ const CartModalDesktop = ({ show, onHide }) => {
               <img
                 className="absolute inset-0 w-full h-full object-contain bottom-0"
                 src="/assets/animation.gif"
-                alt="animation"
+                alt=""
+                aria-hidden="true"
               />
             )}
           </div>
         </div>
       </div>
+
       <AlertModal
         show={showAlert}
         setShow={setShowAlert}

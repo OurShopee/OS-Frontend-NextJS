@@ -1,12 +1,12 @@
 const countriesData = [
   {
     id: 1,
-    url: process.env.REACT_APP_UAE_URL,
+    url: process.env.NEXT_PUBLIC_UAE_URL,
     // dev_url: "http://192.168.1.63:3000",
     dev_url: "http://localhost:3000",
     name: "UAE",
     currency: "AED",
-    backedn_api: process.env.REACT_APP_UAE_BACKEND_API,
+    backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
     gtm_tag: "GTM-MJN7RD8",
     image: "UAE.svg",
     fb_link: "https://www.facebook.com/ourshopee.ae",
@@ -139,11 +139,11 @@ const countriesData = [
   },
   {
     id: 2,
-    url: process.env.REACT_APP_OMAN_URL,
+    url: process.env.NEXT_PUBLIC_OMAN_URL,
     dev_url: "http://localhost:5900",
     name: "Oman",
     currency: "OMR",
-    backedn_api: process.env.REACT_APP_OMAN_BACKEND_API,
+    backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
     gtm_tag: "GTM-KTJMPS8",
     image: "oman.svg",
     helpline_numbers: {
@@ -266,11 +266,11 @@ const countriesData = [
   },
   {
     id: 3,
-    url: process.env.REACT_APP_QATAR_URL,
+    url: process.env.NEXT_PUBLIC_QATAR_URL,
     dev_url: "http://localhost:3001",
     name: "Qatar",
     currency: "QAR",
-    backedn_api: process.env.REACT_APP_QATAR_BACKEND_API,
+    backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
     gtm_tag: "GTM-TRZMJF6",
     image: "qatar.svg",
     helpline_numbers: {
@@ -383,11 +383,11 @@ const countriesData = [
   },
   {
     id: 5,
-    url: process.env.REACT_APP_KUWAIT_URL,
+    url: process.env.NEXT_PUBLIC_KUWAIT_URL,
     dev_url: "http://localhost:5700",
     name: "Kuwait",
     currency: "KD",
-    backedn_api: process.env.REACT_APP_KUWAIT_BACKEND_API,
+    backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
     gtm_tag: "GTM-PBBLGVM",
     image: "kuwait.svg",
     helpline_numbers: {
@@ -499,11 +499,11 @@ const countriesData = [
   },
   {
     id: 6,
-    url: process.env.REACT_APP_BAHRAIN_URL,
+    url: process.env.NEXT_PUBLIC_BAHRAIN_URL,
     dev_url: "http://localhost:3002",
     name: "Bahrain",
     currency: "BHD",
-    backedn_api: process.env.REACT_APP_BAHRAIN_BACKEND_API,
+    backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
     gtm_tag: "GTM-T2H2947",
     image: "bahrain.svg",
     helpline_numbers: {

@@ -1,29 +1,25 @@
 "use client";
-import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMediaQuery } from "react-responsive";
-import { useSelector } from "react-redux";
-import { SiMinutemailer } from "react-icons/si";
-import { TiSocialInstagram } from "react-icons/ti";
 import {
   FaFacebookF,
-  FaTwitter,
   FaLinkedinIn,
+  FaTwitter,
   FaYoutube,
 } from "react-icons/fa";
-import { AiFillTwitterCircle } from "react-icons/ai";
+import { SiMinutemailer } from "react-icons/si";
+import { TiSocialInstagram } from "react-icons/ti";
+import { useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
-// Import your images - place these in the public folder
+import ConsumerRights from "@/images/ConsumerRights.png";
 import footerlogo from "@/images/Logo.png";
 import appstore from "@/images/appstore.png";
-import playstore from "@/images/playstore.png";
-import ConsumerRights from "@/images/ConsumerRights.png";
-import Footerbottomimg1 from "@/images/footerbottem4.png";
-import Footerbottomimg2 from "@/images/footerboottom(1).png";
 import Footerbottomimg3 from "@/images/footerboottom (2).png";
+import Footerbottomimg2 from "@/images/footerboottom(1).png";
 import Footerbottomimg4 from "@/images/footerboottom(3).png";
+import Footerbottomimg1 from "@/images/footerbottem4.png";
+import playstore from "@/images/playstore.png";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ href, children, className, ...props }) => {

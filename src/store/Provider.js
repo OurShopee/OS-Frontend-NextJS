@@ -10,6 +10,7 @@ import Toast from "@/components/Common/Toast";
 
 export default function ReduxProvider({ children }) {
   useEffect(() => {
+    // Configure axios for client-side requests
     configureAxios();
   }, []);
 

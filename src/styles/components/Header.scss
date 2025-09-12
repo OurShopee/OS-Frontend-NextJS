@@ -190,10 +190,6 @@
         background: #EEEBFA;
         display: flex;
         justify-content: center;
-        
-        .dark & {
-            background: var(--muted);
-        }
     }
 
     .header-bottom {
@@ -245,10 +241,6 @@
         @media only screen and (max-width: 991px) {
             font-size: 12px;
             padding: 5px 15px;
-        }
-        
-        .dark & {
-            color: var(--foreground);
         }
     }
 
@@ -318,10 +310,6 @@
     vertical-align: middle;
     color: #43494B;
 
-    .dark & {
-        background: var(--input);
-        color: var(--foreground);
-    }
 }
 
 
@@ -472,10 +460,6 @@
         font-size: 14px !important;
         color: #FCFCFC !important;
         font-family: Outfit;
-        background-color: transparent !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
 
         @media only screen and (max-width: 991px) {
             font-size: 12px !important;
@@ -514,13 +498,12 @@
     .btn {
 
         --bs-btn-border-color: none !important;
-        background-color: transparent !important;
-        background: transparent !important;
+        background-color: none !important;
     }
 
     .btn-primary {
-        --bs-btn-bg: transparent !important;
-        --bs-btn-hover-bg: transparent !important;
+        --bs-btn-bg: none !important;
+        --bs-btn-hover-bg: none !important;
     }
 }
 

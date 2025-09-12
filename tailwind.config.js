@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class',
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -41,14 +41,10 @@ module.exports = {
         sm: "600px",
         md: "728px",
         lg: "984px",
-        xl: "1240px", 
-        "2xl": "1470px", 
+        xl: "1240px",
+        "2xl": "1470px",
       },
     },
   },
   plugins: [],
-  // Disable Tailwind's preflight to avoid conflicts with Bootstrap
-  corePlugins: {
-    preflight: false,
-  },
 };
