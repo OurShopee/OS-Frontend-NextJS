@@ -163,7 +163,7 @@ const ProductPageLayout = ({
             className="lg:col-span-7 max-h-[calc(100vh-160px)] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             <div className="w-full">
-              <h1 className="mb-0 border-b pb-2 text-wrap text-dark text-base font-semibold text-gray-900 sm:text-2xl">
+              <h1 className="mb-0 border-b pb-2 text-wrap text-dark text-base font-semibold text-gray-900 lg:text-xl">
                 {product.name || 'Product Name Unavailable'}
               </h1>
               <div className="mb-3 flex items-center gap-2 border-b">

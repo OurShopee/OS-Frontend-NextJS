@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
+  // Ensure Tailwind utilities have highest priority
+  important: true,
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -49,6 +51,5 @@ module.exports = {
   plugins: [],
   // Disable Tailwind's preflight to avoid conflicts with Bootstrap
   corePlugins: {
-    preflight: false,
   },
 };

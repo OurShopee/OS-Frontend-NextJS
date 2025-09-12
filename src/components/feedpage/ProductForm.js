@@ -423,7 +423,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 {/* Name Input */}
                 <div className="space-y-2">
-                    <label htmlFor="form_name" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="form_name" className="block text-sm font-semibold text-gray-700">
                         Full Name <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -447,7 +447,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
                 {/* Phone Number and Quantity Input */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label htmlFor="contact_no" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="contact_no" className="block text-sm font-semibold text-gray-700">
                             Phone Number <span className="text-red-500">*</span>
                         </label>
                         <div className="flex">
@@ -476,7 +476,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
 
                     {/* Quantity Input */}
                     <div className="space-y-2">
-                        <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="quantity" className="block text-sm font-semibold text-gray-700">
                             Quantity <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -500,7 +500,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
 
                 {/* Location Select */}
                 <div className="space-y-2">
-                    <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="location" className="block text-sm font-semibold text-gray-700">
                         Location <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -534,7 +534,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
 
                 {/* Area Select */}
                 <div className="space-y-2">
-                    <label htmlFor="area" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="area" className="block text-sm font-semibold text-gray-700">
                         Area <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -568,7 +568,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
 
                 {/* Delivery Address */}
                 <div className="space-y-2">
-                    <label htmlFor="delivery_address" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="delivery_address" className="block text-sm font-semibold text-gray-700">
                         Delivery Address <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -593,7 +593,7 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
                 <div className="w-full">
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
+                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-md transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? (
