@@ -1,8 +1,8 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
@@ -11,26 +11,72 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   );
   const [savedPrice, setSavedPrice] = useState(0);
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const navigate = useNavigate();
+  const router = useRouter();
+
   useEffect(() => {
-    const offData = productData?.old_price * (productData.percentage / 100);
+    const offData = productData?.old_price * (productData?.percentage / 100);
     setSavedPrice(offData ? offData.toFixed(2) : 0);
   }, [productData]);
+
+  // Focus management for accessibility
+  useEffect(() => {
+    if (show) {
+      // Trap focus in modal when opened
+      const modal = document.querySelector('[role="dialog"]');
+      const focusableElements = modal?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements?.length > 0) {
+        focusableElements[0].focus();
+      }
+    }
+  }, [show]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && show) {
+        onHide();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [show, onHide]);
+
   if (!show) return null;
+
   return (
-    <Container fluid className="pb-3 homepagecontainer">
-      <div className="modal-backdrop-custom" onClick={onHide}></div>
-      <div className="modal-custom-wrapper">
-        <div className="modal-custom-content">
-          <div className="modal-custom-body pb-4">
-            <div className="cart-item gap-3">
-              <div style={{ position: "relative", display: "inline-block" }}>
+    <div className="pb-3 homepagecontainer max-w-full mx-auto px-4">
+      <div
+        className="modal-backdrop-custom fixed inset-0 bg-black bg-opacity-50 z-50"
+        onClick={onHide}
+        aria-hidden="true"
+      ></div>
+      <div className="modal-custom-wrapper fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+          className="modal-custom-content bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cart-modal-title"
+          aria-describedby="cart-modal-description"
+        >
+          <div className="modal-custom-body pb-4 p-6">
+            <h2 id="cart-modal-title" className="sr-only">
+              Item added to cart
+            </h2>
+            <div id="cart-modal-description" className="sr-only">
+              Product details and options to continue shopping or checkout
+            </div>
+
+            <div className="cart-item gap-3 flex items-start">
+              <div className="relative inline-block">
                 <img
                   src={productData.image}
-                  alt={productData.name}
+                  alt={`${productData.name} product image`}
                   className="cart-item-image"
                   style={{
-                    width: "100px", // adjust as needed
+                    width: "100px",
                     height: "100px",
                     borderRadius: "8px",
                     objectFit: "cover",
@@ -38,7 +84,8 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                 />
                 <img
                   src="/assets/vector_icons/successfull.gif"
-                  alt="Success Check"
+                  alt=""
+                  aria-hidden="true"
                   style={{
                     position: "absolute",
                     top: "-8px",
@@ -49,26 +96,31 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                 />
               </div>
 
-              <div className="cart-item-info">
-                <span className="item-name  flex-1" style={{ fontWeight: 500 }}>
+              <div className="cart-item-info flex-1">
+                <span
+                  className="item-name flex-1 font-medium block"
+                  style={{ fontWeight: 500 }}
+                >
                   {productData.name.split(" ").length > 12
                     ? productData?.name.split(" ").slice(0, 12).join(" ") +
                       "..."
                     : productData.name}
                 </span>
+
                 <div
-                  className="item-price fw-semibold py-1"
+                  className="item-price font-semibold py-1"
                   style={{ fontFamily: "Outfit", fontSize: "16px" }}
                 >
-                  <div className="d-flex align-items-center">
+                  <div className="flex items-center">
                     <span>{currentcountry?.currency}&nbsp;</span>
                     <span className="" style={{ fontWeight: 600 }}>
                       {productData.display_price * quantity}&nbsp;
                     </span>
                   </div>
-                  <div className="d-flex align-items-center gap-2 ">
+
+                  <div className="flex items-center gap-2">
                     <span
-                      className="text-muted text-decoration-line-through "
+                      className="text-muted line-through"
                       style={{
                         fontWeight: 400,
                         color: "#9EA5A8",
@@ -80,13 +132,15 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                       </span>{" "}
                       {Math.ceil(productData?.old_price * quantity)}
                     </span>
+
                     {savedPrice > 0 && (
-                      <div className="save-cartModal d-flex align-items-center justify-content-center px-2 gap-0">
-                        <div className="py-2 d-flex align-items-center">
-                          <span className="badge-icon d-inline-flex align-items-center justify-content-center">
+                      <div className="save-cartModal flex items-center justify-center px-2 gap-0">
+                        <div className="py-2 flex items-center">
+                          <span className="badge-icon inline-flex items-center justify-center">
                             <img
                               src="/assets/vector_icons/Vector.png"
-                              alt="%"
+                              alt=""
+                              aria-hidden="true"
                               width={13}
                               height={13}
                             />
@@ -116,15 +170,15 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                   </div>
                 </div>
 
-                <div className="d-flex align-item-center gap-2">
+                <div className="flex items-center gap-2">
                   <div
-                    className="item-qty small border fw-semibold rounded-pill px-3 py-1 "
+                    className="item-qty text-sm border font-semibold rounded-full px-3 py-1"
                     style={{ fontFamily: "Outfit", fontSize: "10px" }}
                   >
                     Qty. {quantity}
-                  </div>{" "}
+                  </div>
                   <span
-                    className="text-success"
+                    className="text-green-600"
                     style={{ fontFamily: "Outfit" }}
                   ></span>
                 </div>
@@ -133,34 +187,32 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
           </div>
 
           {/* Footer */}
-          <div className="modal-custom-footer d-flex gap-1 align-items-center">
-            <div className="w-50">
+          <div className="modal-custom-footer flex gap-1 items-center p-4 border-t">
+            <div className="w-1/2">
               <button
-                className="btn w-full h-12 rounded-xl  bg-white text-black font-semibold"
+                className="w-full h-12 rounded-xl bg-white text-black font-semibold border-2 border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors"
                 onClick={onHide}
                 style={{
                   fontFamily: "Outfit",
                   fontWeight: 600,
                   fontSize: "14px",
                   lineHeight: "140%",
-                  border: "2px solid #ccc",
                   borderRadius: "12px",
                 }}
+                aria-label="Continue shopping and close modal"
               >
                 CONTINUE SHOPPING
               </button>
             </div>
-            {/* <div className="w-50">
-                            <button className="btn w-full h-12  ">Continue</button>
-                        </div> */}
 
-            <div className="w-50">
+            <div className="w-1/2">
               <button
                 onClick={() => onBuyNow(productData.id, quantity)}
-                className="w-full bg-[#5232C2] border-none uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out"
+                className="w-full bg-[#5232C2] border-0 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-300"
+                aria-label="Proceed to checkout with selected items"
               >
                 <span
-                  className="z-10  whitespace-nowrap font-semibold"
+                  className="z-10 whitespace-nowrap font-semibold"
                   style={{ fontSize: "14px", fontFamily: "Outfit" }}
                 >
                   Checkout Now
@@ -174,7 +226,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
