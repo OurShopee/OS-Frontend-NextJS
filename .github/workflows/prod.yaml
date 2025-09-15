@@ -25,13 +25,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1          
 
-      - name: Fetch .env from Secret Manager
-        run: |
-          rm -rf .env*
-          SECRET_NAME="prod/ourshopee/next-FE"
-          SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id "$SECRET_NAME" --region ap-south-1 --query SecretString --output text)
-          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
-
       - name: Upload build to S3.
         run: |
           aws s3 sync . s3://ourshopee-build-backup/next-fe/prod/ --delete
@@ -51,7 +44,32 @@ jobs:
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy React build to EC2" \
-            --parameters '{"commands":["DIR=\"/usr/share/nginx/next-fe.ourshopee.com\"","export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v20.19.4/bin","sudo rm -rf $DIR","sudo mkdir -p $DIR","sudo aws s3 sync s3://ourshopee-build-backup/next-fe/prod/ $DIR/ --delete > /dev/null", "aws s3 sync s3://ourshopee-build-backup/storefront/production/.well-known/ /usr/share/nginx/next-fe.ourshopee.com/.well-known/ > /dev/null", "cd $APP_DIR", "npm install -f", "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build" , "sudo chown -R ec2-user:ec2-user $DIR","sudo find $DIR -type d -exec chmod 755 {} \\;","sudo find $DIR -type f -exec chmod 644 {} \\;", "sudo date > /usr/share/nginx/next-fe.ourshopee.com.txt", "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && pm2 restart next-fe --update-env  || pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' "]}' \
+            --parameters '{
+                "commands":[
+                    "APP_DIR=/usr/share/nginx/next-fe.ourshopee.com/",
+                    "S3_DEV=s3://ourshopee-build-backup/next-fe/prod/",
+                    "SECRET_NAME=dev/ourshopee/next-FE",
+                    "REGION=ap-south-1",
+                    "export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v20.19.4/bin",
+
+                    "echo Syncing latest build...",
+                    "rm -rf $APP_DIR",
+                    "mkdir -p $APP_DIR",
+                    "aws s3 sync $S3_DEV $APP_DIR --delete > /dev/null 2>&1",
+                    "aws s3 sync s3://ourshopee-build-backup/storefront/production/.well-known/ $APP_DIR.well-known/ > /dev/null", 
+
+                    "aws secretsmanager get-secret-value --secret-id \"$SECRET_NAME\" --region \"$REGION\" --query SecretString --output text | jq -r '\''to_entries[] | \"\\(.key)=\\(.value)\"'\'' > $APP_DIR/.env",
+
+                    "cd $APP_DIR",
+                    "echo Installing Dev deps...",
+                    "npm install --legacy-peer-deps",
+                    "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build",
+                    "chown -R ec2-user:ec2-user $APP_DIR",
+
+                    "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && pm2 restart next-fe --update-env  || pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
+                    "sudo date > /usr/share/nginx/next-fe.ourshopee.com.txt"
+                ]
+            }' \
             --instance-ids ${{ env.INSTANCE_IDS }} \
             --region ap-south-1 \
             --timeout-seconds 600 \
