@@ -1,0 +1,67 @@
+name: Deploy main React App
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build-and-deploy-main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.3'
+
+      - name: Install dependencies
+        run: |
+          rm -rf node_modules package-lock.json build
+          npm install --force
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1          
+
+      - name: Fetch .env from Secret Manager
+        run: |
+          rm -rf .env*
+          SECRET_NAME="prod/ourshopee/next-FE"
+          SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id "$SECRET_NAME" --region ap-south-1 --query SecretString --output text)
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
+
+      - name: Build React app
+        run: CI=false NODE_OPTIONS="--max-old-space-size=4096" npm run build
+
+      - name: Upload build to S3.
+        run: |
+          aws s3 sync .next/ s3://ourshopee-build-backup/next-fe/prod/ --delete
+
+      - name: Get EC2 Instance IDs by Tag
+        id: get-instances
+        run: |
+          INSTANCE_IDS=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=Ourshopee-Dev" "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[].InstanceId" \
+            --output text)
+          echo "INSTANCE_IDS=$INSTANCE_IDS" >> $GITHUB_ENV
+          echo "Target instances: $INSTANCE_IDS"
+
+      - name: Trigger SSM to sync from S3 to EC2
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy React build to EC2" \
+            --parameters '{"commands":["DIR=\"/usr/share/nginx/next-fe.ourshopee.com\"","export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v20.19.4/bin","sudo rm -rf $DIR","sudo mkdir -p $DIR","sudo aws s3 sync s3://ourshopee-build-backup/next-fe/prod/ $DIR/ --delete > /dev/null", "aws s3 sync s3://ourshopee-build-backup/storefront/production/.well-known/ /usr/share/nginx/next-fe.ourshopee.com/.well-known/ > /dev/null", "sudo chown -R ec2-user:ec2-user $DIR","sudo find $DIR -type d -exec chmod 755 {} \\;","sudo find $DIR -type f -exec chmod 644 {} \\;", "sudo date > /usr/share/nginx/next-fe.ourshopee.com.txt", "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && pm2 restart next-fe --update-env  || pm2 start npm --name dev-api-backend --update-env  -- run start || pm2 list'"'"' "]}' \
+            --instance-ids ${{ env.INSTANCE_IDS }} \
+            --region ap-south-1 \
+            --timeout-seconds 600 \
+            --max-concurrency "50" \
+            --max-errors "0"
