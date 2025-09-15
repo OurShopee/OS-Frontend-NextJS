@@ -62,8 +62,8 @@ jobs:
 
                     "cd $APP_DIR",
                     "echo Installing Dev deps...",
-                    "npm install --force",
-                    "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build",
+                    "npm install --force > /dev/null 2>&1",
+                    "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build > /dev/null 2>&1",
                     "chown -R ec2-user:ec2-user $APP_DIR",
 
                     "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && pm2 restart next-fe --update-env  || pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
