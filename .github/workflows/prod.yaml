@@ -48,7 +48,7 @@ jobs:
                 "commands":[
                     "APP_DIR=/usr/share/nginx/next-fe.ourshopee.com/",
                     "S3_DEV=s3://ourshopee-build-backup/next-fe/prod/",
-                    "SECRET_NAME=dev/ourshopee/next-FE",
+                    "SECRET_NAME=prod/ourshopee/next-FE",
                     "REGION=ap-south-1",
                     "export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v20.19.4/bin",
 
@@ -62,7 +62,7 @@ jobs:
 
                     "cd $APP_DIR",
                     "echo Installing Dev deps...",
-                    "npm install --legacy-peer-deps",
+                    "npm install --force",
                     "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build",
                     "chown -R ec2-user:ec2-user $APP_DIR",
 
