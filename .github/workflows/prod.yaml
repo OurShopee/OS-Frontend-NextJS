@@ -61,7 +61,7 @@ jobs:
                     "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build > /dev/null 2>&1",
                     "chown -R ec2-user:ec2-user $APP_DIR",
 
-                    "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && pm2 restart next-fe --update-env  || pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
+                    "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && PORT=4001 pm2 restart next-fe --update-env  || PORT=4001 pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
                     "sudo date > /usr/share/nginx/next-fe.ourshopee.com.txt"
                 ]
             }' \
