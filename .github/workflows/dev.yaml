@@ -3,7 +3,7 @@ name: Deploy main React App
 on:
   push:
     branches:
-      - dev
+      - development
 
 jobs:
   build-and-deploy-main:
