@@ -168,6 +168,13 @@ const Home = () => {
     pushToDataLayer("viewed_home_page", currentcountry.name);
   }, []);
 
+  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
+  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
+  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
+  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
+  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
+  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
+
   const categoriesToShow = isMobile
     ? (categoryList || [])?.slice(0, 6)
     : (categoryList || [])?.slice(0, 9);
