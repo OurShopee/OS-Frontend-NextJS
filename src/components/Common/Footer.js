@@ -45,7 +45,7 @@ const Footer = () => {
   return (
     <>
       <div className="footermain primarybackground">
-        <div className="container-fluid">
+        <div className="container">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 lg:col-span-3">
               <img src={footerlogo} alt="Footer Logo" />
@@ -260,7 +260,7 @@ const Footer = () => {
       </div>
 
       <div className="footercopyrights">
-        <div className="container-fluid">
+        <div className="container">
           <div className="grid grid-cols-12 gap-4">
             {!isBigScreen && (
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">

@@ -128,14 +128,14 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         <div className="product_price_container">
           <div className="price_block">
             <div className="display_price">
-              <span>{currentcountry.currency}</span>
+              <span>{currentcountry?.currency}</span>
               <h3>{item.display_price || item.special_price || item.price}</h3>
             </div>
 
             {item.old_price && item.percentage > 0 && (
               <div className="striked_price gap-1">
                 <span>
-                  {currentcountry.currency} {item.old_price}
+                  {currentcountry?.currency} {item.old_price}
                 </span>
                 {item.old_price && item.percentage > 0 && (
                   <div className="discount_percent">{item.percentage}%OFF</div>

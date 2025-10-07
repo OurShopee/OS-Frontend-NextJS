@@ -39,7 +39,10 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
     }, 3000);
     return () => clearInterval(interval);
   }, [safeCarouselData]);
-
+  const staticPagePrefixes = ["/categories", "/products-category"];
+  const shouldWrapWithNavLink = !staticPagePrefixes.some((prefix) =>
+    location.pathname.startsWith(prefix)
+  );
   const carouselColClasses = isHomePage
     ? "w-full lg:w-3/4 md:w-2/3 sm:w-full"
     : "w-full"; // full width when not on homepage
@@ -54,7 +57,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
         {/* Left: Carousel */}
         <div
           className={`${carouselColClasses} px-2 relative ${
-            !searchPage && "h-[45vh]"
+            !searchPage && "h-full"
           }`}
           ref={leftRef}
         >
@@ -64,7 +67,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
             onSelect={(i) => setActiveIndex(i)}
             controls={safeCarouselData?.length > 1}
             indicators={false}
-            className="home_carousel border rounded-lg"
+            className="home_carousel  rounded-lg"
           >
             {safeCarouselData.length > 0 &&
               safeCarouselData?.map((item, index) => {
@@ -98,8 +101,8 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                         src={formatImageUrl(item.image_url)}
                         alt=""
                         className={`rounded-[13px] w-full ${
-                          !searchPage && "h-[45vh]"
-                        }`}
+                          !searchPage && "aspect-[1200/450]"
+                        } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
                         // 🟥 This will set height only once on initial image load
                         onLoad={index === 0 ? handleFirstImageLoad : undefined}
                       />
@@ -140,7 +143,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
               bannerKey="heroBanner"
               enableAos={false}
               className={`w-full ${
-                !searchPage && "h-[50vh]"
+                !searchPage && "aspect-[410/450]"
               } object-cover rounded-2xl block`}
             />
           </div>
