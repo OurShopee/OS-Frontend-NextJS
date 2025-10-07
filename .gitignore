@@ -13,6 +13,8 @@ dist/
 /.env
 /.next/
 # Environment files
+
+public/react-build
 .env.local
 .env.development
 .env.test

@@ -22,7 +22,7 @@ export default function CategorySlider({ categoryList }) {
         gradient={false}
         className="gap-1 overflow"
       >
-        {categoryList.map((cat, idx) => (
+        {categoryList?.map((cat, idx) => (
           <div
             key={idx}
             className="group w-[6.3rem] mx-0 relative flex flex-col items-center justify-start overflow-visible cursor-pointer"

@@ -131,7 +131,7 @@ const Tabs = ({ breakPointsProps, tabs }) => {
   return (
     <div className="w-full h-full mt-4 rounded-2xl">
       {/* Tabs */}
-      <div className="relative flex gap-6 pl-2 border-b border-gray-200 mb-4 overflow-x-auto whitespace-nowrap flex-nowrap hide-scrollbar">
+      <div className="relative flex gap-6 pl-2 mb-4 overflow-x-auto whitespace-nowrap flex-nowrap hide-scrollbar">
         {tabs?.map((tab, index) => (
           <div
             key={tab.title}

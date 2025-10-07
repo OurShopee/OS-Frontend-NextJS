@@ -3,7 +3,7 @@ const countriesData = [
     id: 1,
     url: process.env.NEXT_PUBLIC_UAE_URL,
     // dev_url: "http://192.168.1.63:3000",
-    dev_url: "http://localhost:4001",
+    dev_url: "http://localhost:3000",
     name: "UAE",
     currency: "AED",
     backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,

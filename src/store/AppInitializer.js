@@ -172,7 +172,7 @@ export default function AppInitializer() {
   }, [jwtToken, dispatch]); // Using jwtToken state to track changes
 
   // When Auth Status Changes: Fetch User's Address, Wishlist, and Order Info
-  useMemo(() => {
+  useEffect(() => {
     if (authstatus && logindata?.user_id) {
       dispatch(getalladdressesapi(0));
       dispatch(getWishLists());
@@ -206,7 +206,11 @@ export default function AppInitializer() {
 
   // Load GTM Script When Current Country Info is Available
   useEffect(() => {
-    if (Object.keys(currentcountry).length > 0 && currentcountry.gtm_tag) {
+    if (
+      currentcountry &&
+      Object.keys(currentcountry).length > 0 &&
+      currentcountry.gtm_tag
+    ) {
       loadGTM(currentcountry.gtm_tag);
     }
   }, [currentcountry]);
