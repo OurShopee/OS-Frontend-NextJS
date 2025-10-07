@@ -116,7 +116,7 @@ const Categorylist = () => {
             <div className="flex gap-6 items-start h-[500px] w-[850px] xl:w-[1100px] 2xl:w-[1200px]">
               <div className="w-[30%] xl:w-[25%] 2xl:w-[25%] pr-4 h-full overflow-y-auto custom-scrollbar border-r-2 border-[#EEEBFA]">
                 {categorydata?.map((cat) => (
-                  <div
+                  <Link
                     key={cat.category_id}
                     onMouseEnter={() => setHoveredCategory(cat)}
                     className={`flex items-center justify-between py-2 px-3 rounded-md cursor-pointer text-[15px] text-[#43494B] hover:bg-gray-100 ${
@@ -124,6 +124,7 @@ const Categorylist = () => {
                         ? "bg-[#EEEBFA] text-[#5232C2]"
                         : ""
                     } font-[Outfit] font-medium`}
+                    href={"/categories/" + cat?.url}
                   >
                     {cat.category_name}
                     <BiSolidRightArrow
@@ -134,7 +135,7 @@ const Categorylist = () => {
                           : "text-gray-400"
                       }
                     />
-                  </div>
+                  </Link>
                 ))}
               </div>
 
