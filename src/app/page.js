@@ -130,13 +130,13 @@ const Home = () => {
   }, [sectionId]);
 
   useEffect(() => {
-    const id = currentcountry.nav_items?.find((i) => i.id === 11)?.section_id;
+    const id = currentcountry?.nav_items?.find((i) => i.id === 11)?.section_id;
     setSectionId(id);
     const saverId = currentcountry?.nav_items.find(
       (i) => i.id === 6
     )?.section_id;
     setSaverId(saverId);
-  }, [currentcountry.nav_items]);
+  }, [currentcountry?.nav_items]);
 
   useEffect(() => {
     const sectionData = saleData?.other_section;
@@ -165,7 +165,7 @@ const Home = () => {
   }, [isMobile, isTablet, isLaptop]);
 
   useEffect(() => {
-    pushToDataLayer("viewed_home_page", currentcountry.name);
+    pushToDataLayer("viewed_home_page", currentcountry?.name);
   }, []);
 
   console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
@@ -326,7 +326,7 @@ const Home = () => {
                           ? sectionBanners?.sectionBanner1?.url_web
                           : sectionBanners?.sectionBanner1?.url_web;
 
-                        pushToDataLayer("clicked_card", currentcountry.name, {
+                        pushToDataLayer("clicked_card", currentcountry?.name, {
                           card_name: sectionBanners?.sectionBanner1?.image_web,
                           page: window.location.pathname,
                         });
@@ -358,7 +358,7 @@ const Home = () => {
                           ? sectionBanners?.sectionBanner2?.url_web
                           : sectionBanners?.sectionBanner2?.url_web;
 
-                        pushToDataLayer("clicked_card", currentcountry.name, {
+                        pushToDataLayer("clicked_card", currentcountry?.name, {
                           card_name: sectionBanners?.sectionBanner2?.image_web,
                           page: window.location.pathname,
                         });
@@ -386,7 +386,7 @@ const Home = () => {
                           ? sectionBanners?.sectionBanner3?.url_web
                           : sectionBanners?.sectionBanner3?.url_web;
 
-                        pushToDataLayer("clicked_card", currentcountry.name, {
+                        pushToDataLayer("clicked_card", currentcountry?.name, {
                           card_name: sectionBanners?.sectionBanner3?.image_web,
                           page: window.location.pathname,
                         });
@@ -445,7 +445,7 @@ const Home = () => {
                       const brandName = b.name;
                       pushToDataLayer(
                         "clicked_card_in_section",
-                        currentcountry.name,
+                        currentcountry?.name,
                         {
                           card_name: brandName,
                           section_name: "Shop By Top Brands",
@@ -534,7 +534,7 @@ const Home = () => {
               onClick={() => {
                 pushToDataLayer(
                   "clicked_card_in_section",
-                  currentcountry.name,
+                  currentcountry?.name,
                   {
                     card_name: cat.category_name,
                     section_name: "Browse Popular Categories",
@@ -606,7 +606,7 @@ const Home = () => {
                     <Link
                       href={banner.url}
                       onClick={() => {
-                        pushToDataLayer("clicked_card", currentcountry.name, {
+                        pushToDataLayer("clicked_card", currentcountry?.name, {
                           card_name: banner.banner_image,
                           page: window.location.pathname,
                         });
@@ -637,7 +637,7 @@ const Home = () => {
                     <Link
                       href={banner.url}
                       onClick={() => {
-                        pushToDataLayer("clicked_card", currentcountry.name, {
+                        pushToDataLayer("clicked_card", currentcountry?.name, {
                           card_name: banner.banner_image,
                           page: window.location.pathname,
                         });

@@ -33,7 +33,7 @@ function BestDeals({ carousel_data, breakPointsProps }) {
   };
 
   useEffect(() => {
-    if (carousel_data[0]?.productlist !== undefined) {
+    if (carousel_data?.[0]?.productlist !== undefined) {
       setData(carousel_data[0].productlist);
     } else {
       setData([]);
@@ -63,7 +63,7 @@ function BestDeals({ carousel_data, breakPointsProps }) {
             activeIndex={index}
             onSelect={handleSelect}
           >
-            {carousel_data.map((item) => (
+            {carousel_data?.map((item) => (
               <Carousel.Item key={item.brand_id} className="h-full relative">
                 <img
                   src={item.image_slider}
@@ -75,7 +75,7 @@ function BestDeals({ carousel_data, breakPointsProps }) {
           </Carousel>
 
           <div className="absolute bottom-8 -right-6 -translate-x-1/2 flex items-center gap-2 z-10">
-            {carousel_data.map((_, index1) => (
+            {carousel_data?.map((_, index1) => (
               <motion.div
                 key={index1}
                 onClick={() => {

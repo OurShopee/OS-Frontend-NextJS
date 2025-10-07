@@ -53,16 +53,16 @@ export default function CountryDropdown({ countryDropdown }) {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      {Object.keys(currentcountry).length > 0 && (
+      {currentcountry && Object.keys(currentcountry).length > 0 && (
         <div className="flex items-center">
           <img
-            src={`/flags/${currentcountry.image}`}
-            alt={currentcountry.name}
+            src={`/flags/${currentcountry?.image}`}
+            alt={currentcountry?.name || "Country"}
             className="mr-2"
             width="20"
           />
           <span className="text-white text-sm font-outfit font-semibold md:text-sm">
-            {currentcountry.name}
+            {currentcountry?.name}
           </span>
           {isOpen ? (
             <FaAngleUp className="ml-1 text-secondary" />
@@ -74,10 +74,10 @@ export default function CountryDropdown({ countryDropdown }) {
 
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50 min-w-full">
-          {countryDropdown.length > 0 &&
+          {countryDropdown?.length > 0 &&
             countryDropdown
-              .filter(({ id }) => id != currentcountry.id)
-              .map((option) => (
+              ?.filter(({ id }) => id != currentcountry.id)
+              ?.map((option) => (
                 <div
                   key={option.name}
                   onClick={() => handleOptionClick(option)}

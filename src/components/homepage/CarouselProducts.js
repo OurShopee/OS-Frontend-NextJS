@@ -209,14 +209,14 @@ export default function CarouselProducts({
                 <IoChevronBack size={25} />
               </div>
             ) : (
-              <div className="left_indicator previous disabled no_bg no_drop_shadow hidden" />
+              <div className="left_indicator previous disabled no_bg no_drop_shadow tw-hidden" />
             )}
             {!isEnd ? (
               <div className="right_indicator next" onClick={handleNext}>
                 <IoChevronForward size={25} />
               </div>
             ) : (
-              <div className="right_indicator next disabled no_bg no_drop_shadow hidden" />
+              <div className="right_indicator next disabled no_bg no_drop_shadow tw-hidden" />
             )}
           </div>
         )}
