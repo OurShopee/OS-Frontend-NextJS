@@ -313,7 +313,7 @@ const Footer = () => {
                     alt="Footer Bottom 3"
                   />
                   <img
-                    className="pr-2"
+                    className="pr-2 w-10"
                     src={Footerbottomimg4.src}
                     alt="Footer Bottom 4"
                   />
