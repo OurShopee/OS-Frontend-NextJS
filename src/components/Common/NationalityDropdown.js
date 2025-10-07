@@ -153,7 +153,7 @@ const NationalityDropdown = ({
         <div className="up-downarrow absolute right-2 top-1/2 -translate-y-1/2">
           {showDropdown ? (
             <img
-              src={uparrow}
+              src={uparrow.src}
               alt="Collapse options"
        
               onClick={() => setShowDropdown(false)}
@@ -161,7 +161,7 @@ const NationalityDropdown = ({
             />
           ) : (
             <img
-              src={downarrow}
+              src={downarrow.src}
               alt="Expand options"
        
               onClick={() => {

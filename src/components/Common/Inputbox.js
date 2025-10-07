@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import dangerimage from "@/images/Danger Triangle.png";
 import Openeye from "@/images/openeye.png";
-import Closedeye from "@/images/closeeye.png";
+import Closedeye from "@/images/closeeye.png"
 import { useSelector } from "react-redux";
 import Image from "next/image";
 
@@ -60,7 +60,7 @@ const Inputbox = ({
             aria-pressed={showPassword}
           >
             <img
-              src={showPassword ? Closedeye : Openeye}
+              src={showPassword ? Closedeye.src : Openeye.src}
               alt={showPassword ? "Hide password" : "Show password"}
             />
           </button>
@@ -73,7 +73,7 @@ const Inputbox = ({
           id={`${id}-error`}
           role="alert"
         >
-          <img src={dangerimage} alt="Error" />
+          <img src={dangerimage.src} alt="Error" />
           <span className="incooretinput pl-2">{error}</span>
         </div>
       )}

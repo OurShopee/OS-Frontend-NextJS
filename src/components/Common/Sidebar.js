@@ -116,7 +116,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         <div className="sidebattopsection">
           <div>
             <img
-              src={arrowleft}
+              src={arrowleft.src}
               alt="Back arrow"
               onClick={backcategory}
               className="cursor-pointer"
@@ -129,7 +129,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </div>
 
         <div className="sidebar-top-details">
-          <img src={userimg} alt="User" />
+          <img src={userimg.src} alt="User" />
           {/* <BiSolidUserCircle size={40} /> */}
           <div className="sidebaruser">
             {!authstatus ? (

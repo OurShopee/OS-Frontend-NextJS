@@ -258,12 +258,12 @@ const Header = () => {
                   {cartlistdata?.data?.result?.length > 0 && (
                     <>
                       <img
-                        src={buy1img}
+                        src={buy1img.src}
                         alt="filled cart"
                         className="cart-image-default yellow-filter mb-1"
                       />
                       <img
-                        src={buy1img}
+                        src={buy1img.src}
                         alt="hover cart"
                         className="cart-image-hover yellow-filter mb-1"
                       />

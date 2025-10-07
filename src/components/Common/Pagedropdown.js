@@ -96,7 +96,7 @@ export default function Pagedropdown({ logindata }) {
             className="userdropdown no-underline cursor-pointer"
             onClick={closeDropdown}
           >
-            <img src={logout} alt="logout" />
+            <img src={logout.src} alt="logout" />
             <div className="dropdownpages">Logout</div>
           </div>
         </Dropdown.Item>
