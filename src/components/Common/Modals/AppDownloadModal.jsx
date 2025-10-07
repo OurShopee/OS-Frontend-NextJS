@@ -20,55 +20,48 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.85, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 max-w-md w-[90%] md:w-[60%] relative shadow-2xl border border-white/20 transition-all"
+          className="relative rounded-3xl overflow-hidden shadow-2xl w-[90%] md:w-[610px]"
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-1.5 right-2 p-2 border-none bg-transparent hover:scale-110 transition"
+            className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-[#EAEAEA] rounded-full backdrop-blur-md hover:scale-110 transition border-none"
           >
-            <MdClose className="text-gray-700 text-2xl" />
+            <MdClose className="text-[#575D68] text-xl h-7 w-7" />
           </button>
 
-          {/* Title */}
-          <h2 className="font-semibold text-2xl bg-gradient-to-r from-[#7151E3] via-[#220066] via-80% to-[#5232C2] bg-clip-text text-transparent text-center font-[Outfit] mb-8">
-            Scan to Download Our App
-          </h2>
-
-          {/* QR Codes Section */}
-          <div className="flex justify-around gap-8 items-center flex-wrap">
-            {/* Android */}
-            <div className="flex flex-col items-center gap-3 group">
-              <div className="rounded-2xl p-3 shadow-md group-hover:scale-105 transition-transform">
+          {/* Full Image */}
+          <img
+            src="/assets/qrs/qr.png"
+            alt="QR"
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute bottom-7 right-24 sm:bottom-16 sm:right-40 z-10 w-8 h-8 flex items-center justify-center ">
+            <div className="flex justify-center items-center gap-2 sm:gap-4">
+              <a
+                href="https://play.google.com/store/apps/details?id=www.ourshopee.com&hl=en_IN&pli=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer"
+              >
                 <img
-                  src="/assets/qrs/Android.png"
-                  alt="Android QR"
-                  className="w-32 h-32 object-contain rounded-md shadow-inner"
+                  src="/assets/qrs/play-store.png"
+                  alt="Play Store"
+                  className="w-[54px] sm:w-32 hover:opacity-80 transition-opacity"
                 />
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <FaAndroid className="text-gray-700 text-xl" />
-                <span className="text-sm font-semibold text-gray-800 font-[Outfit]">
-                  Android App
-                </span>
-              </div>
-            </div>
-
-            {/* iOS */}
-            <div className="flex flex-col items-center gap-3 group">
-              <div className="rounded-2xl p-3 shadow-lg group-hover:scale-105 transition-transform">
+              </a>
+              <a
+                href="https://apps.apple.com/us/app/ourshopee-online-shopping/id1226954989"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer"
+              >
                 <img
-                  src="/assets/qrs/Apple.png"
-                  alt="iOS QR"
-                  className="w-32 h-32 object-contain rounded-md shadow-inner"
+                  src="/assets/qrs/app-store.png"
+                  alt="App Store"
+                  className="w-[54px] sm:w-32 hover:opacity-80 transition-opacity"
                 />
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <FaApple className="text-gray-800 text-xl" />
-                <span className="text-sm font-semibold text-gray-800 font-[Outfit]">
-                  iOS App
-                </span>
-              </div>
+              </a>
             </div>
           </div>
         </motion.div>

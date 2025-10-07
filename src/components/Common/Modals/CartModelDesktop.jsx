@@ -375,7 +375,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                                 type="button"
                               >
                                 <img
-                                  src={deleteimg}
+                                  src={deleteimg.src}
                                   alt=""
                                   aria-hidden="true"
                                 />

@@ -104,7 +104,7 @@ export default function AppInitializer() {
     // sometimes https://ourshopee.com user goes with this any url we have to come here only thats why we formatting
     if (countryDropdown.length > 0) {
       let data;
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
         data = countryDropdown.find(
           ({ dev_url }) => dev_url === window.location.origin
         );

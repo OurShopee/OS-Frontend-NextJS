@@ -132,7 +132,7 @@ const Header = () => {
       <div className="mainheader">
         {/* Middle Header */}
         <div className="header-middle-main primarybackground">
-          <div className="header-middle homepagecontainer">
+          <div className="container header-middle homepagecontainer">
             {/* Sidebar and Logo */}
             <div className="companylogomain flex justify-between">
               {!isBigScreen && (
@@ -171,7 +171,7 @@ const Header = () => {
             <div className="header-middle-right gap-2">
               {isBigScreen && (
                 <NavLink
-                  to={authstatus ? "/address" : ""}
+                  to={authstatus ? "/address" : "/address"}
                   className="headertop-leftcorner delivertext cursor-pointer !no-underline"
                 >
                   <img
@@ -258,12 +258,12 @@ const Header = () => {
                   {cartlistdata?.data?.result?.length > 0 && (
                     <>
                       <img
-                        src={buy1img}
+                        src={buy1img.src}
                         alt="filled cart"
                         className="cart-image-default yellow-filter mb-1"
                       />
                       <img
-                        src={buy1img}
+                        src={buy1img.src}
                         alt="hover cart"
                         className="cart-image-hover yellow-filter mb-1"
                       />
@@ -327,7 +327,7 @@ const Header = () => {
                   </span>
                 </NavLink>
               ) : (
-                <div className="headertop-leftcorner">
+                <NavLink to="/address" className="headertop-leftcorner">
                   <img
                     src={"/assets/vector_icons/location.png"}
                     className="headertop-icons"
@@ -336,7 +336,7 @@ const Header = () => {
                   />
                   <span className="pl-1 headertoptitle">Deliver to</span>
                   <CurrentLocation />
-                </div>
+                </NavLink>
               ))}
 
             {!isBigScreen && (
@@ -382,7 +382,7 @@ const Header = () => {
         {isBigScreen ? <Modal /> : <Mobileforms />}
       </div>
       {isBigScreen && pathname === "/" && (
-        <div className="flex items-center max-w-full overflow-x-hidden relative">
+        <div className="container flex items-center mx-auto overflow-x-hidden relative">
           {filteredItems?.length > 0 && (
             <NavLink to={filteredItems?.[0]?.url}>
               <div

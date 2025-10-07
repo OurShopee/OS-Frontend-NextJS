@@ -51,13 +51,13 @@ const GenderDropdown = ({ selectedGender, onSelect, title }) => {
         <div className="up-downarrow">
           {showDropdown ? (
             <img
-              src={uparrow}
+              src={uparrow.src}
               alt="Collapse options"
               onClick={() => setShowDropdown(false)}
             />
           ) : (
             <img
-              src={downarrow}
+              src={downarrow.src}
               alt="Expand options"
               onClick={() => setShowDropdown(true)}
             />

@@ -13,12 +13,12 @@ import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
 import ConsumerRights from "@/images/ConsumerRights.png";
-import footerlogo from "@/images/Logo.png";
+import footerlogo from "@/images/Logo.svg";
 import appstore from "@/images/appstore.png";
-import Footerbottomimg3 from "@/images/footerboottom (2).png";
-import Footerbottomimg2 from "@/images/footerboottom(1).png";
-import Footerbottomimg4 from "@/images/footerboottom(3).png";
-import Footerbottomimg1 from "@/images/footerbottem4.png";
+import Footerbottomimg2 from "@/images/footer-cash.png";
+import Footerbottomimg4 from "@/images/footer-master.png";
+import Footerbottomimg3 from "@/images/footer-tabby.png";
+import Footerbottomimg1 from "@/images/footer-visa.png";
 import playstore from "@/images/playstore.png";
 
 // Custom NavLink component for Next.js App Router
@@ -45,17 +45,17 @@ const Footer = () => {
   return (
     <>
       <div className="footermain primarybackground">
-        <div className="container-fluid">
+        <div className="container">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 lg:col-span-3">
-              <img src={footerlogo} alt="Footer Logo" />
+              <img src={footerlogo.src} alt="Footer Logo" />
               <div className="footer-discription">
                 UAE and Beyond! Established in 2015, Ourshopee.com has proudly
                 established itself as a prominent and rapidly growing online
                 shopping platform in the region...
               </div>
               <div>
-                <img src={ConsumerRights} alt="Consumer Rights" />
+                <img src={ConsumerRights.src} alt="Consumer Rights"  className="w-20"/>
                 {isBigScreen && (
                   <>
                     <div className="footer-titles">Connect with us</div>
@@ -234,7 +234,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                   >
                     <img
-                      src={appstore}
+                      src={appstore.src}
                       className="pb-2 applinks"
                       alt="App Store"
                     />
@@ -247,7 +247,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                   >
                     <img
-                      src={playstore}
+                      src={playstore.src}
                       className="pb-2 applinks"
                       alt="Play Store"
                     />
@@ -260,29 +260,29 @@ const Footer = () => {
       </div>
 
       <div className="footercopyrights">
-        <div className="container-fluid">
+        <div className="container">
           <div className="grid grid-cols-12 gap-4">
             {!isBigScreen && (
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                 <div>
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg1}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg1.src}
                     alt="Footer Bottom 1"
                   />
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg2}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg2.src}
                     alt="Footer Bottom 2"
                   />
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg3}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg3.src}
                     alt="Footer Bottom 3"
                   />
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg4}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg4.src}
                     alt="Footer Bottom 4"
                   />
                 </div>
@@ -298,23 +298,23 @@ const Footer = () => {
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                 <div className="footerbottom">
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg1}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg1.src}
                     alt="Footer Bottom 1"
                   />
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg2}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg2.src}
                     alt="Footer Bottom 2"
                   />
                   <img
-                    className="pr-2"
-                    src={Footerbottomimg3}
+                    className="pr-2 w-10"
+                    src={Footerbottomimg3.src}
                     alt="Footer Bottom 3"
                   />
                   <img
                     className="pr-2"
-                    src={Footerbottomimg4}
+                    src={Footerbottomimg4.src}
                     alt="Footer Bottom 4"
                   />
                 </div>

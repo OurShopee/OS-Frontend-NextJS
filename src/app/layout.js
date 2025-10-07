@@ -51,9 +51,9 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ReduxProvider>
-          <div className="container md:mx-auto">
+          <div className="bg-white md:mx-auto">
             <Header />
-            <div className="mainbody">{children}</div>
+            <div className="container mainbody">{children}</div>
             <BootstrapClient />
             <Footer />
           </div>

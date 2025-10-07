@@ -40,7 +40,7 @@ const Mobileforms = () => {
         <div className="form-topcontent">
           <div className="modalclose formmodal-topicons">
             <img
-              src={leftarrow}
+              src={leftarrow.src}
               alt="Back arrow"
               onClick={modalbackaction}
               className="cursor-pointer"
