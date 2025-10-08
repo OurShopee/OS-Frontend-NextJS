@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Cookies from "universal-cookie";
-import { setauthstatus } from "../redux/formslice";
-import { useSelector, useDispatch } from "react-redux";
 import { setcartlistdata } from "../redux/cartslice";
+import { setauthstatus } from "../redux/formslice";
 export default function useCart() {
     const cookies = new Cookies();
     const dispatch = useDispatch();

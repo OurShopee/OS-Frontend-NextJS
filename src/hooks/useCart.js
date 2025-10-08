@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import Cookies from "universal-cookie";
-import { cartlistapi } from "@/redux/cartslice";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+"use client"
 import { addToCartApi } from "@/api/cart";
+import { cartlistapi } from "@/redux/cartslice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "universal-cookie";
 export default function useCart() {
   const [isLoading, setIsLoading] = useState(false);
   const cookies = new Cookies();

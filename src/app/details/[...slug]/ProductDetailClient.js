@@ -25,16 +25,21 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import Cookies from "universal-cookie";
 import {
-    setbankoffermodal,
-    setformmodal,
-    setformstatus,
-    setsnplmodal,
+  setbankoffermodal,
+  setformmodal,
+  setformstatus,
+  setsnplmodal,
 } from "@/redux/formslice";
 import {
-    getProductDetail,
-    getrelatedItems,
-    setprodcatloading,
+  getProductDetail,
+  getrelatedItems,
+  setprodcatloading,
 } from "@/redux/productslice";
+import ReviewNoRating from "@/components/rating-reviews/ReviewNoRating";
+import ReviewOnlyRating from "@/components/rating-reviews/ReviewOnlyRating";
+import ReviewWithRating from "@/components/rating-reviews/ReviewWithRating";
+import CustomStarRating from "@/components/rating-reviews/CustomStarRating";
+import { getAllReviews } from "@/api/review";
 
 const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const cookies = new Cookies();
@@ -45,6 +50,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const [productReviews, setProductReviews] = useState();
+  const [allProductReviews, setAllProductReviews] = useState();
 
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const logindata = useSelector((state) => state.formslice.logindata);
@@ -118,6 +125,24 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
     dispatch(setbankoffermodal(true));
     setbankofferdata(bank_offer);
   };
+
+  useEffect(() => {
+    const getAllReviewsdata = async () => {
+      try {
+        const res = await getAllReviews(productDetail[0]?.id);
+        if (res?.data?.status === "success") {
+          setProductReviews(res.data);
+          setAllProductReviews(res.data);
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    if (productDetail[0]?.id) {
+      getAllReviewsdata();
+    }
+  }, [productDetail, logindata, authstatus]);
 
   const saveCookies = () => {
     if (cookies.get("sku") == undefined) {
@@ -357,12 +382,12 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
   return (
     <>
-      <div className="relative">
+      <div className="">
         {/* Container fluid -> w-full px-4 */}
         <div className="pb-3 px-3">
           {!loading ? (
             <div
-              className={`2xl:tw-container flex ${
+              className={`2xl:container flex ${
                 isMobile && "flex-col"
               } gap-5 !m-auto relative`}
             >
@@ -377,6 +402,32 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         <h3 className="text-lg text-[#191B1C] font-semibold">
                           {productDetail[0]?.name}
                         </h3>
+                        {allProductReviews?.data?.stats?.averageRating > 0 && (
+                          <div className="flex gap-1 justify-start items-center">
+                            <CustomStarRating
+                              rating={
+                                allProductReviews?.data?.stats?.averageRating
+                              }
+                              starSpacing="0px"
+                              size="22px"
+                              svgIconViewBox="0 3 40 40"
+                              path="M18.1901 2.64701L22.0515 10.4427C22.1394 10.6406 22.2775 10.812 22.4522 10.9398C22.6269 11.0676 22.8321 11.1475 23.0472 11.1713L31.5714 12.4342C31.8184 12.4659 32.0511 12.5672 32.2425 12.7262C32.4338 12.8852 32.5761 13.0955 32.6524 13.3323C32.7289 13.5691 32.7362 13.8228 32.6738 14.0637C32.6116 14.3046 32.4819 14.5228 32.3 14.6927L26.1557 20.7884C25.9991 20.935 25.8813 21.1183 25.8135 21.322C25.7455 21.5255 25.7298 21.7429 25.7672 21.9542L27.2486 30.5269C27.2916 30.7734 27.2644 31.0267 27.1704 31.2584C27.0764 31.4901 26.9193 31.6907 26.7167 31.8376C26.5144 31.9843 26.2747 32.0712 26.0253 32.0887C25.7759 32.106 25.5265 32.053 25.3057 31.9355L17.6315 27.8798C17.435 27.7834 17.219 27.7333 17.0001 27.7333C16.7812 27.7333 16.5652 27.7834 16.3687 27.8798L8.69438 31.9355C8.47359 32.053 8.2243 32.106 7.97486 32.0887C7.72542 32.0712 7.48585 31.9843 7.28342 31.8376C7.08098 31.6907 6.9238 31.4901 6.82977 31.2584C6.73576 31.0267 6.70863 30.7734 6.75152 30.5269L8.23295 21.857C8.27049 21.6457 8.25461 21.4284 8.18676 21.2248C8.1189 21.0212 8.00119 20.8378 7.84438 20.6913L1.62724 14.6927C1.44331 14.5181 1.31395 14.2939 1.25485 14.0473C1.19575 13.8006 1.20944 13.5421 1.29425 13.3031C1.37907 13.0641 1.53137 12.8548 1.73272 12.7005C1.93406 12.5463 2.17581 12.4538 2.42866 12.4342L10.9529 11.1713C11.1681 11.1475 11.3733 11.0676 11.548 10.9398C11.7227 10.812 11.8608 10.6406 11.9487 10.4427L15.8101 2.64701C15.9152 2.41996 16.0832 2.22774 16.294 2.09302C16.5049 1.9583 16.7499 1.88672 17.0001 1.88672C17.2503 1.88672 17.4953 1.9583 17.7062 2.09302C17.917 2.22774 18.0849 2.41996 18.1901 2.64701Z"
+                            />
+                            <span className="font-semibold text-[#43494B]">
+                              {Number.isInteger(
+                                allProductReviews?.data?.stats?.averageRating
+                              )
+                                ? `${allProductReviews?.data?.stats?.averageRating}.0`
+                                : allProductReviews?.data?.stats?.averageRating?.toFixed(
+                                    1
+                                  )}
+                            </span>
+                            <span className="text-[#9EA5A8] font-medium">
+                              | ({allProductReviews?.data?.stats?.reviewCount}{" "}
+                              Reviews)
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </>
@@ -434,6 +485,34 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       <h3 className="!text-[22px] !font-semibold mb-3">
                         {productDetail[0]?.name}
                       </h3>
+                      {allProductReviews?.data?.stats?.averageRating > 0 && (
+                        <div className="flex gap-1 justify-start items-center">
+                          <CustomStarRating
+                            rating={
+                              allProductReviews?.data?.stats?.averageRating
+                            }
+                            starSpacing="0px"
+                            size="24px"
+                            svgIconViewBox="0 0 40 40"
+                            path="M18.1901 2.64701L22.0515 10.4427C22.1394 10.6406 22.2775 10.812 22.4522 10.9398C22.6269 11.0676 22.8321 11.1475 23.0472 11.1713L31.5714 12.4342C31.8184 12.4659 32.0511 12.5672 32.2425 12.7262C32.4338 12.8852 32.5761 13.0955 32.6524 13.3323C32.7289 13.5691 32.7362 13.8228 32.6738 14.0637C32.6116 14.3046 32.4819 14.5228 32.3 14.6927L26.1557 20.7884C25.9991 20.935 25.8813 21.1183 25.8135 21.322C25.7455 21.5255 25.7298 21.7429 25.7672 21.9542L27.2486 30.5269C27.2916 30.7734 27.2644 31.0267 27.1704 31.2584C27.0764 31.4901 26.9193 31.6907 26.7167 31.8376C26.5144 31.9843 26.2747 32.0712 26.0253 32.0887C25.7759 32.106 25.5265 32.053 25.3057 31.9355L17.6315 27.8798C17.435 27.7834 17.219 27.7333 17.0001 27.7333C16.7812 27.7333 16.5652 27.7834 16.3687 27.8798L8.69438 31.9355C8.47359 32.053 8.2243 32.106 7.97486 32.0887C7.72542 32.0712 7.48585 31.9843 7.28342 31.8376C7.08098 31.6907 6.9238 31.4901 6.82977 31.2584C6.73576 31.0267 6.70863 30.7734 6.75152 30.5269L8.23295 21.857C8.27049 21.6457 8.25461 21.4284 8.18676 21.2248C8.1189 21.0212 8.00119 20.8378 7.84438 20.6913L1.62724 14.6927C1.44331 14.5181 1.31395 14.2939 1.25485 14.0473C1.19575 13.8006 1.20944 13.5421 1.29425 13.3031C1.37907 13.0641 1.53137 12.8548 1.73272 12.7005C1.93406 12.5463 2.17581 12.4538 2.42866 12.4342L10.9529 11.1713C11.1681 11.1475 11.3733 11.0676 11.548 10.9398C11.7227 10.812 11.8608 10.6406 11.9487 10.4427L15.8101 2.64701C15.9152 2.41996 16.0832 2.22774 16.294 2.09302C16.5049 1.9583 16.7499 1.88672 17.0001 1.88672C17.2503 1.88672 17.4953 1.9583 17.7062 2.09302C17.917 2.22774 18.0849 2.41996 18.1901 2.64701Z"
+                          />
+                          <span className="text-lg font-semibold text-[#43494B]">
+                            {Number.isInteger(
+                              allProductReviews?.data?.stats?.averageRating
+                            )
+                              ? `${allProductReviews?.data?.stats?.averageRating}.0`
+                              : allProductReviews?.data?.stats?.averageRating?.toFixed(
+                                  1
+                                )}
+                          </span>
+                          {allProductReviews?.data?.stats?.reviewCount > 0 && (
+                            <span className="text-base text-[#9EA5A8] font-medium">
+                              | ({allProductReviews?.data?.stats?.reviewCount}{" "}
+                              Reviews)
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
                   {!isMobile && <hr className="text-[#b3aaaa] mb-0" />}
@@ -476,6 +555,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         )}
                       </div>
                     </div>
+
                     {productDetail[0]?.hasOwnProperty("old_price") &&
                       Number(productDetail[0]?.display_price) <
                         Number(productDetail[0]?.old_price) && (
@@ -967,7 +1047,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
             >
               <div
                 ref={headerRef}
-                className="p-3 cursor-default border-b flex justify-between items-center"
+                className="p-3 cursor-default flex justify-between items-center"
               >
                 <span
                   /* fw-semibold -> font-semibold */
@@ -1084,28 +1164,47 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   className="text-[#007bff] cursor-pointer font-medium font-outfit"
                 >
                   {expanded ? (
-                    <>
+                    <div className="flex items-center justify-center">
                       <span className="mr-1">View Less</span>
                       <img
                         src="/assets/downArrow.png"
                         alt="Up Arrow"
-                        className="w-4 h-4 rotate-180"
+                        className="w-4 h-4 rotate-180 mt-1"
                       />
-                    </>
+                    </div>
                   ) : (
-                    <>
+                    <div className="flex items-center justify-center">
                       <span className="mr-1">View More</span>
                       <img
                         src="/assets/downArrow.png"
                         alt="Down Arrow"
-                        className="w-4 h-4"
+                        className="w-4 h-4 mt-1"
                       />
-                    </>
+                    </div>
                   )}
                 </span>
               </div>
             </div>
           </div>
+
+          {/* component to show when there are no ratings except the current user's pending review */}
+          {allProductReviews?.data?.result?.length === 0 &&
+            (!allProductReviews?.data?.userReview ||
+              allProductReviews?.data?.userReview?.rstatus === 0) && (
+              <ReviewNoRating
+                setProductReviews={setProductReviews}
+                productReviews={productReviews}
+                setAllProductReviews={setAllProductReviews}
+              />
+            )}
+          {allProductReviews?.data?.stats?.averageRating > 0 && (
+            <ReviewWithRating
+              setProductReviews={setProductReviews}
+              productReviews={productReviews}
+              allProductReviews={allProductReviews}
+              setAllProductReviews={setAllProductReviews}
+            />
+          )}
 
           {/* Related Products */}
           {!loading1 ? (

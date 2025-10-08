@@ -31,7 +31,7 @@ module.exports = {
       fontFamily: {
         bayon: ['"Bayon"', "sans-serif"],
         bevietnam: ['"Be Vietnam Pro"', "sans-serif"],
-        outfit: ['"Outfit"', "sans-serif"],
+        Outfit: ["Outfit", "sans-serif"],
         OtomanopeeOne: ['"OtomanopeeOne"', "sans-serif"],
         pressStar: ['"Press Start 2P"', "sans-serif"],
         crisis: ['"ClimateCrisis"', "sans-serif"],

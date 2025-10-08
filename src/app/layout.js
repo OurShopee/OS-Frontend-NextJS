@@ -3,6 +3,7 @@ import ReduxProvider from "@/store/Provider";
 import BootstrapClient from "../components/BootstrapClient";
 import Footer from "@/components/Common/Footer";
 import Header from "@/components/Common/Header";
+import { ScrollTop } from "@/hooks";
 
 export const metadata = {
   title: "OurShopee - Online Shopping",
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
           crossOrigin="true"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
         <link
@@ -51,11 +52,13 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ReduxProvider>
-          <div className="bg-white md:mx-auto">
-            <Header />
-            <div className="container mainbody">{children}</div>
-            <BootstrapClient />
-            <Footer />
+          <div className="bg-white md:mx-auto relative">
+            <ScrollTop>
+              <Header />
+              <div className="container mainbody">{children}</div>
+              <BootstrapClient />
+              <Footer />
+            </ScrollTop>
           </div>
         </ReduxProvider>
       </body>
