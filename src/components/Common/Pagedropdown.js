@@ -123,7 +123,7 @@ export default function Pagedropdown({ logindata }) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="custom-dropdown-menu absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md min-w-[150px] z-50 py-1">
+        <div className="custom-dropdown-menu absolute top-full right-0 mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3">
           {dropdownItems.length > 0 &&
             dropdownItems.map((item, index) => (
               <div key={item.to} className="dropdown-item">

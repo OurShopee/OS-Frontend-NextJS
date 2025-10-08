@@ -3,7 +3,7 @@ import { useState } from "react";
 import Countdown, { zeroPad } from "react-countdown";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { getWishLists, postWishList } from "../../redux/cartslice";
+import { getWishLists, postWishList } from "@/redux/cartslice";
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
 
@@ -83,7 +83,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             style={{ mixBlendMode: "darken" }}
             src={item.image}
             onError={() => setHasError(true)}
-            className={`w-full h-full object-cover ease-in-out transition-transform duration-500 ${
+            className={`w-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
             alt={item.name}
@@ -96,7 +96,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           <img
             src={item.image}
             onError={() => setHasError(true)}
-            className={`w-full h-full object-cover ease-in-out transition-transform duration-500 ${
+            className={`w-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
             alt={item.name}

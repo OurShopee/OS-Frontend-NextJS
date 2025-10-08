@@ -168,7 +168,7 @@ const Header = () => {
 
             {/* Search */}
 
-            <div className="header-middle-right gap-2">
+            <div className="header-middle-right gap-5">
               {isBigScreen && (
                 <NavLink
                   to={authstatus ? "/address" : "/address"}

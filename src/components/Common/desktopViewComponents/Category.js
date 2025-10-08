@@ -97,9 +97,9 @@ const Categorylist = () => {
         <div className="flex items-center justify-between gap-1 py-1">
           <img
             src="/assets/vector_icons/burgericon.png"
-            height={15}
+            height={22}
             width={15}
-            className="me-1 text-[17px] cursor-pointer flex"
+            className="mr-1 text-[17px] cursor-pointer flex"
             alt="burger"
           />
           <span className="text-white font-[Outfit] text-[15px] cursor-pointer font-medium">
@@ -184,45 +184,88 @@ const Categorylist = () => {
                     <h3 className="font-semibold mb-2 text-black font-[Outfit] text-left text-[18px] sticky top-0 bg-white z-10 py-2">
                       Shop by Sub-Category
                     </h3>
-                    <div className="flex flex-col gap-6">
-                      {subSubcategories.map((subsub) => (
-                        <Link
-                          href={`/products-subcategory/${subsub.url}`}
-                          key={subsub.sub_subcategory_id}
-                          className="group py-1 px-1 rounded font-[Outfit] text-left hover:bg-[#F1EDFE]"
-                        >
-                          <span className="text-[16px] font-medium text-[#595959] group-hover:text-[#5232C2]">
-                            {subsub.sub_subcategory_name}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
+                    {subSubcategories.length > 0 ? (
+                      <div className="flex flex-col gap-6">
+                        {subSubcategories.map((subsub) => {
+                          return (
+                            <Link
+                              href={`/products-subcategory/${subsub.url}`}
+                              key={subsub.sub_subcategory_id}
+                              onClick={(e) => {
+                                const landingUrl =
+                                  "/products-category/" + subsub.url;
+                                pushToDataLayer(
+                                  "clicked_subcategory2_from_menu",
+                                  currentcountry.name,
+                                  {
+                                    category_name:
+                                      hoveredCategory.category_name,
+                                    sub_category2_name:
+                                      subsub.sub_subcategory_name,
+                                    page_name: landingUrl,
+                                  }
+                                );
+                              }}
+                              className="group py-1 px-1 rounded font-[Outfit] text-left no-underline hover:bg-[#F1EDFE]"
+                            >
+                              <span className="text-[16px] font-medium font-[Outfit] text-[#595959] group-hover:text-[#5232C2]">
+                                {subsub.sub_subcategory_name}
+                              </span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <span className="text-gray-500">No Categories Found</span>
+                    )}
                   </div>
 
                   <div className="w-1/2 overflow-y-auto pr-2 custom-scrollbar">
-                    {brands?.length > 0 && (
-                      <h3 className="font-semibold mb-2 text-black font-[Outfit] text-left text-[18px] sticky top-0 bg-white z-10 py-2">
-                        Top Brands
-                      </h3>
-                    )}
+                    <h3 className="font-semibold mb-2 text-black font-[Outfit] text-left text-[18px] sticky top-0 bg-white z-10 py-2">
+                      Top Brands
+                    </h3>
+
                     <div className="grid grid-cols-3 gap-x-4 xl:gap-x-12 gap-y-4">
-                      {[
-                        ...new Map(
-                          brands.map((item) => [item.name, item])
-                        ).values(),
-                      ].map((brand) => (
-                        <Link
-                          href={`/brands/${brand.url}/${brand.subcategory_id}`}
-                          key={brand.name}
-                          className="group p-2 flex items-center bg-[#F4F4F4] justify-center w-full h-[80px] rounded-xl hover:no-underline transition-all duration-200"
-                        >
-                          <img
-                            src={brand.image}
-                            alt={brand.name}
-                            className="h-6 mix-blend-multiply w-auto object-contain filter grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-200"
-                          />
-                        </Link>
-                      ))}
+                      {brands.length > 0 ? (
+                        [
+                          ...new Map(
+                            brands.map((item) => [item.name, item])
+                          ).values(),
+                        ].map((brand) => {
+                          return (
+                            <Link
+                              href={`/brands/${brand.url}/${brand.subcategory_id}`}
+                              key={brand.name}
+                              onClick={(e) => {
+                                const landingUrl =
+                                  "/products-category/" +
+                                  brand.url +
+                                  "/" +
+                                  brand.subcategory_id;
+                                pushToDataLayer(
+                                  "clicked_brand_from_menu",
+                                  currentcountry.name,
+                                  {
+                                    category_name:
+                                      hoveredCategory.category_name,
+                                    brand_name: brand.name,
+                                    page_name: landingUrl,
+                                  }
+                                );
+                              }}
+                              className="group p-2 flex items-center bg-[#F4F4F4] justify-center w-full h-[80px] rounded-xl no-underline transition-all duration-200"
+                            >
+                              <img
+                                src={brand.image}
+                                alt={brand.name}
+                                className="h-[1.6rem] xl:h-8 mix-blend-multiply w-auto object-contain filter grayscale group-hover:scale-110 transition-all duration-200"
+                              />
+                            </Link>
+                          );
+                        })
+                      ) : (
+                        <div className="text-gray-500 whitespace-nowrap">No brands found</div>
+                      )}
                     </div>
                   </div>
                 </div>

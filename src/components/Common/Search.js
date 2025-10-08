@@ -154,7 +154,7 @@ const Search = () => {
       <input
         type="text"
         placeholder="What are you looking for?"
-        className="header-inputbox w-[300px]"
+        className="header-inputbox w-[350px]"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onFocus={() => {
@@ -172,7 +172,7 @@ const Search = () => {
       </div>
       {smallcsreen && (searchQuery || isFocused) && (
         <div className="searchcanclebtn" onClick={clearSearch}>
-          Cancle <MdClose size={10} className="ml-1" />
+          Cancel <MdClose size={10} className="ml-1" />
         </div>
       )}
       {/* Search Dropdown */}
