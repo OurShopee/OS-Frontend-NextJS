@@ -24,7 +24,7 @@ export const addComplaint = async (input_data) => {
 };
 export const getComplaint = async (input_data) => {
   const res = await axios.post("api/getComplaint", input_data, {
-    headers: { authorization: "Barear " + Cookies.get("jwt_token") },
+    headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
   });
   return res.data;
 };

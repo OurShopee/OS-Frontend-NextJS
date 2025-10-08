@@ -55,7 +55,8 @@ export default function AppInitializer() {
   useEffect(() => {
     const token = Cookies.get("jwt_token");
     setJwtToken(token);
-  }, []);
+    console.log(Cookies.get("jwt_token"));
+  }, [authstatus]);
 
   // UTM storage logic (runs once on client side)
   useEffect(() => {
@@ -79,13 +80,13 @@ export default function AppInitializer() {
   }, [pathname]);
 
   // On App Load: Set Auth Status and Login Data from JWT Token if exists
-  useMemo(() => {
-    const token = Cookies.get("jwt_token");
-    if (token !== undefined) {
-      dispatch(setauthstatus(true));
-      dispatch(setlogindata(jwtDecode(token)));
-    }
-  }, [dispatch]);
+  // useMemo(() => {
+  //   const token = Cookies.get("jwt_token");
+  //   if (token !== undefined) {
+  //     dispatch(setauthstatus(true));
+  //     dispatch(setlogindata(jwtDecode(token)));
+  //   }
+  // }, [dispatch]);
 
   // On App Load: Set Country Dropdown Data from JSON (multicountries.json)
   useEffect(() => {
@@ -152,16 +153,15 @@ export default function AppInitializer() {
     dispatch(getbundle_clearance_sale());
   }, [dispatch]);
 
-  // On App Load: Again Validate JWT and Set Login Data (second validation as in original)
   useEffect(() => {
     const token = Cookies.get("jwt_token");
+    console.log("token",token);
     if (token) {
       dispatch(setauthstatus(true));
       dispatch(setlogindata(jwtDecode(token)));
     }
   }, [dispatch]);
 
-  // After JWT Token Change: Call Cart List API (Pass UserID or Cart IP)
   useEffect(() => {
     const token = Cookies.get("jwt_token");
     const input_data = {
@@ -169,9 +169,8 @@ export default function AppInitializer() {
       user_id: token !== undefined ? jwtDecode(token).user_id : 0,
     };
     dispatch(cartlistapi(input_data));
-  }, [jwtToken, dispatch]); // Using jwtToken state to track changes
+  }, [jwtToken, dispatch]); 
 
-  // When Auth Status Changes: Fetch User's Address, Wishlist, and Order Info
   useEffect(() => {
     if (authstatus && logindata?.user_id) {
       dispatch(getalladdressesapi(0));

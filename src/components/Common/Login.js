@@ -1,12 +1,13 @@
 "use client";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { loginapidata, setformstatus } from "@/redux/formslice";
 import Cookies from "js-cookie";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useMediaQuery } from "react-responsive";
 
-import Formvalidation from "@/components/Validation/Formvalidation";
 import Inputbox from "./Inputbox";
+import Formvalidation from "@/components/Validation/Formvalidation";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,11 +20,13 @@ const Login = () => {
   });
 
   const [errors, setErrors] = useState();
-
   const handleNext = async () => {
     const res = await dispatch(loginapidata(formData));
+    if (res?.payload?.status === "success") {
+      toast.success(res.payload.message);
+    }
     if (res?.payload?.status === "failure") {
-      setErrors(res.payload.message.split("err:")[1]);
+      setErrors(res.payload.message);
     }
   };
 
@@ -44,13 +47,6 @@ const Login = () => {
 
   const isFormValid = formData.email && formData.password;
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (isFormValid) {
-      handleSubmit();
-    }
-  };
-
   return (
     <div className="signup-form">
       {isBigScreen && (
@@ -68,24 +64,18 @@ const Login = () => {
         </div>
       )}
 
-      <form
-        onSubmit={handleFormSubmit}
-        className="form-mobile-design"
-        noValidate
-      >
-        <div className="inputbox-margin">
+      <form action="" className="form-mobile-design">
+        <div className="mb-6">
           <Inputbox
             id="email"
-            type="email"
+            type="text"
             placeholder="Enter Email"
             value={formData.email}
             handleChange={handleChange}
-            aria-label="Email address"
-            aria-required="true"
           />
         </div>
 
-        <div className="inputbox-margin">
+        <div className="mb-6">
           <Inputbox
             id="password"
             type="password"
@@ -93,55 +83,49 @@ const Login = () => {
             value={formData.password}
             handleChange={handleChange}
             error={errors ? errors : ""}
-            aria-label="Password"
-            aria-required="true"
-            aria-describedby={errors ? "password-error" : undefined}
           />
         </div>
 
-        <div className="flex justify-between items-center">
-          <label className="registercheckbox flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              name="agreeTermFsends"
-              checked={formData.agreeTerms || false}
-              onChange={handleChange}
-              className="mr-2"
-              aria-label="Remember me"
-            />
-            <span className="ml-2">Remember me</span>
+        <div className="flex justify-between items-center mb-6">
+          <label className="registercheckbox">
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="agreeTermFsends"
+                checked={formData.agreeTerms}
+                onChange={handleChange}
+              />
+              <span className="ml-2">Remember me</span>
+            </div>
           </label>
-          <button
-            type="button"
-            className="forgotpasswordtext cursor-pointer bg-transparent border-0 p-0 underline text-blue-600 hover:text-blue-800"
+          <div
+            className="forgotpasswordtext cursor-pointer text-blue-500 hover:underline"
             onClick={openforgotpassword}
-            aria-label="Reset your password"
           >
             Forgot Password?
-          </button>
+          </div>
         </div>
-
         <button
-          type="submit"
           className={
-            isFormValid ? "activeformsubmitbutton" : "formsubmitbutton"
+            isFormValid
+              ? "activeformsubmitbutton bg-blue-600 text-white px-4 py-2 rounded"
+              : "formsubmitbutton bg-gray-300 text-gray-700 px-4 py-2 rounded cursor-not-allowed"
           }
           disabled={!isFormValid}
-          aria-label="Sign in to your account"
+          onClick={isFormValid && handleSubmit}
         >
           Login
         </button>
 
-        <div className="formbotton">
+        <div className="formbotton mt-4">
           If you don't have an account,
-          <button
-            type="button"
-            className="primarycolor termstitle bg-transparent border-0 p-0 ml-1 underline cursor-pointer hover:opacity-80"
+          <span
+            className="primarycolor termstitle ml-1 cursor-pointer underline text-blue-600"
             onClick={openregister}
-            aria-label="Create a new account"
           >
-            Sign up
-          </button>
+            {" "}
+            Sign up{" "}
+          </span>
         </div>
       </form>
     </div>
