@@ -5,7 +5,7 @@ export const getProductDetail = createAsyncThunk(
   "getProductDetail",
   async (slug) => {
     const res = await getproduct_detail(slug);
-    return res.data.data.product;
+    return res.data.product;
   }
 );
 

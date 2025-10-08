@@ -55,7 +55,6 @@ export default function AppInitializer() {
   useEffect(() => {
     const token = Cookies.get("jwt_token");
     setJwtToken(token);
-    console.log(Cookies.get("jwt_token"));
   }, [authstatus]);
 
   // UTM storage logic (runs once on client side)
@@ -155,7 +154,6 @@ export default function AppInitializer() {
 
   useEffect(() => {
     const token = Cookies.get("jwt_token");
-    console.log("token",token);
     if (token) {
       dispatch(setauthstatus(true));
       dispatch(setlogindata(jwtDecode(token)));

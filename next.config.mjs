@@ -9,15 +9,17 @@ const nextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        // Serve React app static assets directly
         {
           source: "/react-build/static/:path*",
           destination: "/react-build/static/:path*",
         },
-        // Explicitly ensure homepage is handled by Next.js
         {
           source: "/",
           destination: "/",
+        },
+        {
+          source: "/details/:path*",
+          destination: "/details/:path*",
         },
         {
           source: "/products-category/:path*",
@@ -25,9 +27,12 @@ const nextConfig = {
         },
       ],
       afterFiles: [
-        // Match everything EXCEPT empty path ("") and single slash ("/")
         {
-          source: "/((?!products-subcategory/).+)", // This matches ONLY paths with at least one character after "/"
+          source: "/((?!details/).+)", // negative lookahead to exclude details
+          destination: "/react-build/index.html",
+        },
+        {
+          source: "/((?!products-category/).+)", // negative lookahead to exclude products-category
           destination: "/react-build/index.html",
         },
       ],

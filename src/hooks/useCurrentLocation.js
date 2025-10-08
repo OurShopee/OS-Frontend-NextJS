@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
-import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
-} from 'react-places-autocomplete';
+"use client"
+import { useEffect, useState } from "react";
 
 export default function useCurrentLocation({address_header}) {
     const [location, setLocation] = useState({});

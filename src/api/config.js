@@ -62,7 +62,6 @@ export const createAxiosInstance = (req = null) => {
   } else {
     axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
   }
-  console.log(countryData?.id);
   if (countryData?.id) {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
   }
