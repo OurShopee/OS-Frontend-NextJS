@@ -129,7 +129,7 @@ const Header = () => {
           />
         </div>
       )}
-      <div className="mainheader">
+      <div className="mainheader select-none">
         {/* Middle Header */}
         <div className="header-middle-main primarybackground">
           <div className="container header-middle homepagecontainer">

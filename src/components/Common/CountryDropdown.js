@@ -50,8 +50,9 @@ export default function CountryDropdown({ countryDropdown }) {
     <div
       ref={dropdownRef}
       className="relative font-semibold cursor-pointer"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      // onMouseEnter={() => setIsOpen(true)}
+      // onMouseLeave={() => setIsOpen(false)}
+      onClick={() => setIsOpen(!isOpen)}
     >
       {currentcountry && Object.keys(currentcountry).length > 0 && (
         <div className="flex items-center">

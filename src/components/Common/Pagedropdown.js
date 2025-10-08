@@ -9,12 +9,10 @@ import { setcartlistdata } from "@/redux/cartslice";
 import {
     setauthstatus
 } from "@/redux/formslice";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import { useState, useRef, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,72 +33,121 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
 };
 
 const dropdownItems = [
-  { to: "/myaccount", img: profileimg, label: "My Profile" },
-  { to: "/my-orders", img: orderimg, label: "My Order" },
-  { to: "/my-wishlist", img: whistlistimage, label: "Wishlist" },
-  { to: "/track-your-order", img: trackorder, label: "Track Order" },
-  { to: "/address", img: trackorder, label: "Address" },
-  { to: "/complaints", img: complaints, label: "Complaints" },
+  { to: "/myaccount", img: profileimg.src, label: "My Profile" },
+  { to: "/my-orders", img: orderimg.src, label: "My Order" },
+  { to: "/my-wishlist", img: whistlistimage.src, label: "Wishlist" },
+  { to: "/track-your-order", img: trackorder.src, label: "Track Order" },
+  { to: "/address", img: trackorder.src, label: "Address" },
+  { to: "/complaints", img: complaints.src, label: "Complaints" },
 ];
 
 export default function Pagedropdown({ logindata }) {
-  const closeDropdown = () => setIsDropdownOpen(false);
-  const toggleUserDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const closeDropdown = () => setIsOpen(false);
+  
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleMouseLeave = () => {
+    // Add a small delay before closing to allow smooth transition to menu
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  };
+
+  const handleMouseEnter = () => {
+    // Clear the timeout if user re-enters
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsOpen(true);
+  };
+
   const logoutclick = () => {
     Cookies.remove("jwt_token");
     Cookies.remove("cart_ip_address");
     dispatch(setauthstatus(false));
     dispatch(setcartlistdata([]));
+    closeDropdown();
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const currentcountry = useSelector(
-    (state) => state.globalslice.currentcountry
-  );
-  const dispatch = useDispatch();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <Dropdown
-      className="header-middle-rightsub countrydropdown"
-      show={isOpen}
-      onMouseEnter={() => setIsOpen(true)} // Open on hover
-      onMouseLeave={() => setIsOpen(false)} // Close on hover out
+    <div 
+      className="header-middle-rightsub countrydropdown relative"
+      ref={dropdownRef}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
     >
-      <Dropdown.Toggle className="cursor-pointer headermain flex usermain items-center">
+      {/* Dropdown Toggle Button */}
+      <div 
+        className="cursor-pointer headermain flex usermain items-center"
+        onClick={toggleDropdown}
+      >
         <FaUser size={16} />
         <span className="pl-2 header-middle-right-title username">
           {logindata.first_name.trim().length > 20
             ? logindata.first_name.trim().substring(0, 20) + "..."
             : logindata.first_name.trim()}
         </span>
-      </Dropdown.Toggle>
+      </div>
 
-      <Dropdown.Menu className="custom-dropdown-menu">
-        {dropdownItems.length > 0 &&
-          dropdownItems.map((item, index) => (
-            <Dropdown.Item key={item.to}>
-              <NavLink
-                key={index}
-                className="userdropdown no-underline"
-                to={item.to}
-                onClick={closeDropdown}
-              >
-                <img src={item.img} alt={item.label} />
-                <div className="dropdownpages">{item.label}</div>
-              </NavLink>
-            </Dropdown.Item>
-          ))}
-        <Dropdown.Item onClick={logoutclick}>
-          <div
-            className="userdropdown no-underline cursor-pointer"
-            onClick={closeDropdown}
-          >
-            <img src={logout.src} alt="logout" />
-            <div className="dropdownpages">Logout</div>
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div className="custom-dropdown-menu absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md min-w-[150px] z-50 py-1">
+          {dropdownItems.length > 0 &&
+            dropdownItems.map((item, index) => (
+              <div key={item.to} className="dropdown-item">
+                <NavLink
+                  key={index}
+                  className="userdropdown no-underline block"
+                  to={item.to}
+                  onClick={closeDropdown}
+                >
+                  <div className="flex items-center">
+                    <img src={item.img} alt={item.label} />
+                    <div className="dropdownpages">{item.label}</div>
+                  </div>
+                </NavLink>
+              </div>
+            ))}
+          <div className="dropdown-item" onClick={logoutclick}>
+            <div className="userdropdown no-underline cursor-pointer">
+              <img src={logout.src} alt="logout" />
+              <div className="dropdownpages">Logout</div>
+            </div>
           </div>
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+        </div>
+      )}
+    </div>
   );
 }
