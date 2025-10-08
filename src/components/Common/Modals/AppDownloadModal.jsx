@@ -36,7 +36,7 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
             alt="QR"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute bottom-7 right-24 sm:bottom-16 sm:right-40 z-10 w-8 h-8 flex items-center justify-center ">
+          <div className="absolute bottom-7 right-[10vw] sm:bottom-16 sm:right-[52px] z-10 flex items-center justify-center ">
             <div className="flex justify-center items-center gap-2 sm:gap-4">
               <a
                 href="https://play.google.com/store/apps/details?id=www.ourshopee.com&hl=en_IN&pli=1"
@@ -47,7 +47,7 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
                 <img
                   src="/assets/qrs/play-store.png"
                   alt="Play Store"
-                  className="w-[54px] sm:w-32 hover:opacity-80 transition-opacity"
+                  className="w-[66px] sm:w-32 hover:opacity-80 transition-opacity"
                 />
               </a>
               <a
@@ -59,7 +59,7 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
                 <img
                   src="/assets/qrs/app-store.png"
                   alt="App Store"
-                  className="w-[54px] sm:w-32 hover:opacity-80 transition-opacity"
+                  className="w-[66px] sm:w-32 hover:opacity-80 transition-opacity"
                 />
               </a>
             </div>

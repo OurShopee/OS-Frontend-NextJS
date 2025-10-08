@@ -73,7 +73,7 @@ export default function CountryDropdown({ countryDropdown }) {
       )}
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50 min-w-full">
+        <div className="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 p-2.5 z-50 min-w-[120px]">
           {countryDropdown?.length > 0 &&
             countryDropdown
               ?.filter(({ id }) => id != currentcountry.id)

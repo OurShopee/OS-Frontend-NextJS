@@ -365,7 +365,7 @@ export default function CategorySlider({ categoryList }) {
   }, [emblaApi, handleWheel]);
 
   return (
-    <div className="w-full bg-gray-100 pt-2 relative">
+    <div className="w-full pt-2 relative">
     {/* Embla Carousel */}
     <div
       className="overflow-hidden px-6"

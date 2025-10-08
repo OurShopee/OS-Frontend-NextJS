@@ -43,8 +43,8 @@ const Footer = () => {
   );
 
   return (
-    <>
-      <div className="footermain primarybackground">
+    <div className="">
+      <div className="footermain primarybackground px-4">
         <div className="container">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 lg:col-span-3">
@@ -55,7 +55,11 @@ const Footer = () => {
                 shopping platform in the region...
               </div>
               <div>
-                <img src={ConsumerRights.src} alt="Consumer Rights"  className="w-20"/>
+                <img
+                  src={ConsumerRights.src}
+                  alt="Consumer Rights"
+                  className="w-20"
+                />
                 {isBigScreen && (
                   <>
                     <div className="footer-titles">Connect with us</div>
@@ -263,29 +267,27 @@ const Footer = () => {
         <div className="container">
           <div className="grid grid-cols-12 gap-4">
             {!isBigScreen && (
-              <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-                <div>
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg1.src}
-                    alt="Footer Bottom 1"
-                  />
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg2.src}
-                    alt="Footer Bottom 2"
-                  />
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg3.src}
-                    alt="Footer Bottom 3"
-                  />
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg4.src}
-                    alt="Footer Bottom 4"
-                  />
-                </div>
+              <div className="flex col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
+                <img
+                  className="pr-2 w-10"
+                  src={Footerbottomimg1.src}
+                  alt="Footer Bottom 1"
+                />
+                <img
+                  className="pr-2 w-10"
+                  src={Footerbottomimg2.src}
+                  alt="Footer Bottom 2"
+                />
+                <img
+                  className="pr-2 w-10"
+                  src={Footerbottomimg3.src}
+                  alt="Footer Bottom 3"
+                />
+                <img
+                  className="pr-2 w-10"
+                  src={Footerbottomimg4.src}
+                  alt="Footer Bottom 4"
+                />
               </div>
             )}
             <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
@@ -323,7 +325,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
