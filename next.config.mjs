@@ -19,11 +19,15 @@ const nextConfig = {
           source: "/",
           destination: "/",
         },
+        {
+          source: "/products-category/:path*",
+          destination: "/products-category/:path*",
+        },
       ],
       afterFiles: [
         // Match everything EXCEPT empty path ("") and single slash ("/")
         {
-          source: "/(.+)", // This matches ONLY paths with at least one character after "/"
+          source: "/((?!products-subcategory/).+)", // This matches ONLY paths with at least one character after "/"
           destination: "/react-build/index.html",
         },
       ],

@@ -7,7 +7,7 @@ import {
   getSectionPagesApi,
   gettop_selling_productsApi,
 } from "@/api/products";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setcatloading,
@@ -38,19 +38,21 @@ const Category = () => {
     (state) => state.homeslice.trending_products
   );
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const getSubCatScreenList = async (input_data) => {
     if (input_data.page < 1) {
       dispatch(setcatloading(true));
     }
-    if (router.pathname.split("/")[1] == "brands") {
+    if (pathname.split("/")[1] == "brands") {
       var response = await filtered_items({
         ...input_data,
         searchString: input_data.slug || input_data.searchString,
       });
       // var response = await getAllBrandItemsApi(input_data);
-    } else if (router.pathname.split("/")[1] == "search-result") {
-      const subcategoryValue = router.query.subcategory;
+    } else if (pathname.split("/")[1] == "search-result") {
+      const subcategoryValue = searchParams.get("subcategory");
       const subcategoryId = subcategoryValue
         ? subcategoryValue.split("_")[0]
         : "search";
@@ -101,10 +103,12 @@ const Category = () => {
           dispatch(sethas_more(true));
         }
         dispatch(setcatloading(false));
+        return response.data.data;
       }
     } else {
       dispatch(setcatloading(true));
     }
+    return null;
   };
 
   const getInfiniteScrollList = async (type, page, sethas_more) => {
