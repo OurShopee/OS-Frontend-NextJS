@@ -7,7 +7,7 @@ const countriesData = [
     name: "UAE",
     currency: "AED",
     backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
-    gtm_tag: "GTM-MJN7RD8",
+    gtm_tag: "G-D46Y4GMH65", // GA4 Measurement ID
     image: "UAE.svg",
     fb_link: "https://www.facebook.com/ourshopee.ae",
     insta_link:
