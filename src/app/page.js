@@ -47,22 +47,9 @@ const Home = () => {
   const home_category_items = useSelector(
     (state) => state?.homeslice?.home_category_items
   );
-  const bundle_clearance = useSelector(
-    (state) => state?.homeslice?.bundle_clearance_sale
-  );
-  const deals_offers = useSelector((state) => state?.homeslice?.deals_offers);
-  const DealOfTheDay = useSelector((state) => state?.homeslice?.DealOfTheDay);
-  const saver_zone = useSelector((state) => state?.homeslice?.saver_zone);
-  const TopSelling = useSelector((state) => state?.homeslice?.TopSelling);
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
-  const deals_loading = useSelector((state) => state?.homeslice?.loading1);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
-  const saver_zone_loading = useSelector((state) => state?.homeslice?.loading3);
-  const TopSelling_loading = useSelector((state) => state?.homeslice?.loading4);
-  const DealOfTheDay_loading = useSelector(
-    (state) => state?.homeslice?.loading2
-  );
   const categoryList = useSelector((state) => state?.globalslice?.data);
   const categoryloading = useSelector((state) => state?.globalslice?.loading);
 
@@ -167,13 +154,6 @@ const Home = () => {
   useEffect(() => {
     pushToDataLayer("viewed_home_page", currentcountry?.name);
   }, []);
-
-  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
-  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
-  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
-  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
-  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
-  console.log("This is Next.js Page>>>>>>>>>>>>>>>>");
 
   const categoriesToShow = isMobile
     ? (categoryList || [])?.slice(0, 6)

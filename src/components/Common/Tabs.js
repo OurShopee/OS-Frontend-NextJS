@@ -9,20 +9,63 @@ const Tabs = ({ breakPointsProps, tabs }) => {
   const [loading, setLoading] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
   const tabRefs = useRef([]);
+  const tabDataRef = useRef({});
+  const loadingRef = useRef({});
+  const CACHE_KEY = 'homepage_tabs_cache';
+  const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+  // Load cached data from sessionStorage
+  const loadCachedData = useCallback(() => {
+    try {
+      const cached = sessionStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data: cachedData, timestamp } = JSON.parse(cached);
+        const now = Date.now();
+        
+        // Check if cache is still valid
+        if (now - timestamp < CACHE_DURATION) {
+          return cachedData;
+        } else {
+          // Cache expired, remove it
+          sessionStorage.removeItem(CACHE_KEY);
+        }
+      }
+    } catch (error) {
+      console.error("Error loading cached data:", error);
+    }
+    return null;
+  }, [CACHE_KEY, CACHE_DURATION]);
+
+  // Save data to sessionStorage
+  const saveCachedData = useCallback((data) => {
+    try {
+      const cacheObject = {
+        data,
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(cacheObject));
+    } catch (error) {
+      console.error("Error saving cached data:", error);
+    }
+  }, [CACHE_KEY]);
 
   const loadProducts = useCallback(
     async (tabTitle) => {
-      // Check if we already have data for this tab
-      if (tabData[tabTitle]) {
+      // Check if we already have data for this tab or if it's currently loading
+      if (tabDataRef.current[tabTitle] || loadingRef.current[tabTitle]) {
         setLoading(false);
         return;
       }
 
+      // Mark this tab as loading
+      loadingRef.current[tabTitle] = true;
       setLoading(true);
+      
       const tabConfig = tabs.find((tab) => tab.title === tabTitle);
       if (!tabConfig || typeof tabConfig.endpoint !== "function") {
         console.error("Invalid tab or endpoint");
         setLoading(false);
+        loadingRef.current[tabTitle] = false;
         return;
       }
 
@@ -36,47 +79,74 @@ const Tabs = ({ breakPointsProps, tabs }) => {
             ? data?.data?.[tabConfig.path]
             : data.data || [];
 
-          // Store the data for this tab
-          setTabData((prev) => ({
-            ...prev,
-            [tabTitle]: {
-              products,
-              imgUrl,
-              imgRedirectionUrl,
-            },
-          }));
+          const tabInfo = {
+            products,
+            imgUrl,
+            imgRedirectionUrl,
+          };
+
+          // Store the data for this tab in both ref and state
+          tabDataRef.current[tabTitle] = tabInfo;
+          setTabData((prev) => {
+            const newData = {
+              ...prev,
+              [tabTitle]: tabInfo,
+            };
+            // Save to cache
+            saveCachedData(newData);
+            return newData;
+          });
         } else {
+          const emptyTabInfo = {
+            products: [],
+            imgUrl: "",
+          };
+          
+          tabDataRef.current[tabTitle] = emptyTabInfo;
           setTabData((prev) => ({
             ...prev,
-            [tabTitle]: {
-              products: [],
-              imgUrl: "",
-            },
+            [tabTitle]: emptyTabInfo,
           }));
           console.error("API returned failure:", data);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+        const emptyTabInfo = {
+          products: [],
+          imgUrl: "",
+        };
+        
+        tabDataRef.current[tabTitle] = emptyTabInfo;
         setTabData((prev) => ({
           ...prev,
-          [tabTitle]: {
-            products: [],
-            imgUrl: "",
-          },
+          [tabTitle]: emptyTabInfo,
         }));
       }
 
       setLoading(false);
+      loadingRef.current[tabTitle] = false;
       if (initialLoad) {
         setInitialLoad(false);
       }
     },
-    [tabs, tabData, initialLoad]
+    [tabs, initialLoad, saveCachedData]
   );
+
+  // Initialize cache on mount
+  useEffect(() => {
+    const cachedData = loadCachedData();
+    if (cachedData) {
+      // Restore cached data to both ref and state
+      tabDataRef.current = cachedData;
+      setTabData(cachedData);
+      setLoading(false);
+      setInitialLoad(false);
+    }
+  }, [loadCachedData]);
 
   // Load initial tab data on mount
   useEffect(() => {
-    if (activeTab) {
+    if (activeTab && !tabDataRef.current[activeTab]) {
       loadProducts(activeTab);
     }
   }, [activeTab, loadProducts]);
@@ -88,7 +158,7 @@ const Tabs = ({ breakPointsProps, tabs }) => {
       const nextIndex = (currentIndex + 1) % tabs.length;
       const nextTab = tabs[nextIndex];
 
-      if (nextTab && !tabData[nextTab.title]) {
+      if (nextTab && !tabDataRef.current[nextTab.title] && !loadingRef.current[nextTab.title]) {
         // Preload next tab data with a slight delay
         const timeoutId = setTimeout(() => {
           loadProducts(nextTab.title);
@@ -97,7 +167,7 @@ const Tabs = ({ breakPointsProps, tabs }) => {
         return () => clearTimeout(timeoutId);
       }
     }
-  }, [activeTab, initialLoad, tabs, tabData, loadProducts]);
+  }, [activeTab, initialLoad, tabs, loadProducts]);
 
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
@@ -119,7 +189,7 @@ const Tabs = ({ breakPointsProps, tabs }) => {
     });
 
     // Load products for the clicked tab if not already loaded
-    if (!tabData[tabTitle]) {
+    if (!tabDataRef.current[tabTitle] && !loadingRef.current[tabTitle]) {
       loadProducts(tabTitle);
     }
   };

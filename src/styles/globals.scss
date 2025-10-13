@@ -58,15 +58,40 @@
 /* Lock built-in controls to light as well */
 html { color-scheme: light; }
 
+/* Global input and textarea styling to prevent dark mode issues */
+input, textarea, select {
+  background-color: #ffffff !important;
+  color: #191B1C !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #A0A0A0 !important;
+}
+
+/* Ensure inputs stay light in dark mode */
+@media (prefers-color-scheme: dark) {
+  input, textarea, select {
+    background-color: #ffffff !important;
+    color: #191B1C !important;
+    border-color: #E7E8E9 !important;
+  }
+  
+  input::placeholder, textarea::placeholder {
+    color: #A0A0A0 !important;
+  }
+}
+
 /* Optional: keep the dark query but do NOT redefine tokens */
 @media (prefers-color-scheme: dark) {
   :root { /* intentionally empty so light values are used */ }
 }
 
-html,
+html {
+  max-width: 100vw;
+}
+
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
