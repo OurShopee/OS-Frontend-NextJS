@@ -132,7 +132,7 @@ const Home = () => {
   useEffect(() => {
     const id = currentcountry?.nav_items?.find((i) => i.id === 11)?.section_id;
     setSectionId(id);
-    const saverId = currentcountry?.nav_items.find(
+    const saverId = currentcountry?.nav_items?.find(
       (i) => i.id === 6
     )?.section_id;
     setSaverId(saverId);

@@ -45,7 +45,7 @@ const nextConfig = {
       afterFiles: [
         {
           source:
-            "/((?!_next/data|api|details/|products-category/|products-subcategory/|brands/|search-result/|categories/).*)",
+            "/((?!_next/data|api|details/|products-category/|products-subcategory/|brands/|search-result/|categories/|feed/).*)",
           destination: "/react-build/index.html",
         },
       ],
