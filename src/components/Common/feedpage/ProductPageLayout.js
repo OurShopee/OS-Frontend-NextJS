@@ -111,7 +111,8 @@ const ProductPageLayout = ({
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
   const [qty, setQty] = useState(1);
-  const { slug } = useParams();
+  const { sku } = useParams();
+
 
   // --- ProductForm State Integration ---
   const [formData, setFormData] = useState({
@@ -868,7 +869,7 @@ const ProductPageLayout = ({
                           </div>
                           <div className="flex flex-wrap mt-4 gap-5 items-center">
                             {attribute.list.map((attribute_item) => {
-                              const isActive = slug === attribute_item.sku;
+                              const isActive = sku == attribute_item.sku;
                               const colorCircleStyle = {
                                 background: attribute_item?.code?.startsWith(
                                   "#"
@@ -909,7 +910,7 @@ const ProductPageLayout = ({
                                         <div style={colorCircleStyle}></div>
                                       </div>
                                       <h6
-                                        className={`mt-3 text-[14px] mb-0 text-center whitespace-nowrap ${
+                                        className={`mt-3 text-[14px] mb-0 text-center ${
                                           isActive
                                             ? "text-[#43494B] font-semibold text-[15px]"
                                             : "text-[#91979A] font-medium"
@@ -962,7 +963,7 @@ const ProductPageLayout = ({
             </div>
           </div>
           <div
-            className="w-full lg:w-4/12 sticky top-[80px] mt-2 sm:mt-0 h-full flex justify-center items-center mb-10 sm:mb-0"
+            className="w-full lg:w-4/12 flex-grow top-[10px] sm:top-[20px] sticky self-start"
             data-aos={isMobile ? "fade-down" : "fade-left"}
             data-aos-easing="ease-out-back"
             data-aos-duration="1000"
