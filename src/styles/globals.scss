@@ -63,10 +63,12 @@ html { color-scheme: light; }
   :root { /* intentionally empty so light values are used */ }
 }
 
-html,
+html {
+  max-width: 100vw;
+}
+
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {

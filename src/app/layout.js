@@ -52,14 +52,16 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ReduxProvider>
-          <div className="bg-white md:mx-auto relative">
-            <ScrollTop>
-              <Header />
-              <div className="container mainbody">{children}</div>
-              <BootstrapClient />
-              <Footer />
-            </ScrollTop>
-          </div>
+          <ScrollTop>
+            <Header />
+            <div className="overflow-x-hidden">
+              <div className="bg-white md:mx-auto relative">
+                <div className="container mainbody">{children}</div>
+                <BootstrapClient />
+                <Footer />
+              </div>
+            </div>
+          </ScrollTop>
         </ReduxProvider>
       </body>
     </html>
