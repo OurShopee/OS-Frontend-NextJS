@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import ProductDetailClient from "./ProductDetailClient";
 import { getproduct_detail } from "@/api/products";
 import { headers } from "next/headers";
+import { getServerSideHeaders } from "@/lib/serverUtils";
 
 function extractProductInfo(slug) {
   if (!slug || slug.length < 2) {
@@ -24,12 +25,7 @@ export async function generateMetadata({ params }) {
   }
 
   // Get headers for server-side country detection
-  const headersList = await headers();
-  const req = {
-    headers: {
-      host: headersList.get("host") || headersList.get("x-forwarded-host"),
-    },
-  };
+  const req = await getServerSideHeaders();
 
   const productData = await getproduct_detail(productInfo.productSku, req);
 
@@ -70,14 +66,7 @@ export default async function ProductDetailsPage({ params }) {
   }
 
   // Get headers for server-side country detection
-  const headersList = await headers();
-  const req = {
-    headers: {
-      host: headersList.get("host") || headersList.get("x-forwarded-host"),
-      "x-forwarded-proto": headersList.get("x-forwarded-proto"),
-      "x-forwarded-port": headersList.get("x-forwarded-port"),
-    },
-  };
+  const req = await getServerSideHeaders();
 
   const productData = await getproduct_detail(productInfo.productSku, req);
 

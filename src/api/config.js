@@ -70,7 +70,6 @@ export const createAxiosInstance = (req = null) => {
 
 // Client-side axios configuration (existing)
 export const configureAxios = () => {
-
   const countryData = getCountryData();
   if (countryData && countryData.backedn_api) {
     axios.defaults.baseURL = countryData.backedn_api;

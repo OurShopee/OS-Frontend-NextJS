@@ -7,10 +7,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setformmodal,
-  setformstatus
-} from "../../redux/formslice";
+import { setformmodal, setformstatus } from "../../redux/formslice";
 import { pushToDataLayer } from "../utils/dataUserpush";
 
 // Custom NavLink component for Next.js App Router
@@ -120,7 +117,6 @@ const Sidebar = ({ isOpen, onClose }) => {
               alt="Back arrow"
               onClick={backcategory}
               className="cursor-pointer"
-              
             />
           </div>
           <div onClick={onClose}>

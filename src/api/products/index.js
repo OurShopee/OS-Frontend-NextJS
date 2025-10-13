@@ -69,10 +69,31 @@ export const getTopPicksApi = async () => {
   return response;
 };
 
-export const getCatScreenApi = async (slug) => {
-  const response = await axios.get(`api/getallcategoryItems?cat_url=${slug}`);
-  return response;
-};
+// export const getCatScreenApi = async (slug) => {
+//   console.log("slug", `api/getallcategoryItems?cat_url=${slug}`);
+//   const response = await axios.get(`api/getallcategoryItems?cat_url=${slug}`);
+//   return response;
+// };
+
+export async function getCatScreenApi(slug, req = null) {
+  try {
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get(
+        `api/getallcategoryItems?cat_url=${slug}`
+      );
+      return response.data;
+    } else {
+      const response = await axios.get(
+        `api/getallcategoryItems?cat_url=${slug}`
+      );
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching product detail:", error);
+    return null;
+  }
+}
 
 export const getSubCatScreenApi = async (input_data) => {
   let res;
@@ -97,7 +118,9 @@ export async function getproduct_detail(productSku, req = null) {
   try {
     if (req) {
       const axiosInstance = createAxiosInstance(req);
-      const response = await axiosInstance.get(`api/product_detail?sku=${productSku}`);
+      const response = await axiosInstance.get(
+        `api/product_detail?sku=${productSku}`
+      );
       return response.data;
     } else {
       const response = await axios.get(`api/product_detail?sku=${productSku}`);

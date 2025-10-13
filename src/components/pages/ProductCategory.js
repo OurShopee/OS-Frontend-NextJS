@@ -1,26 +1,23 @@
 "use client";
+import Link from "next/link";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { memo, useEffect, useRef, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
 import { FaChevronUp } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
-import { usePathname, useParams, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { Category } from "../../actions";
+import { Navigationapi } from "../../api/products";
+import { Loader } from "../../app/feed/[sku]/page";
+import { sethas_more } from "../../redux/categoryslice";
 import { ComponentHeader, ProductCard } from "../Common";
 import BreadComps from "../Common/Breadcomps";
+import LoadMoreButton from "../Common/LoadMoreButton";
 import { HomeBannerPlaceholder } from "../Common/Placeholders";
 import Pricerange from "../Common/Pricerange";
 import { HomeCarousel, HomeCategories, HomeMobileCarousel } from "../homepage";
 import { ProductCardPlaceHolder, SubcategoryPlaceHolder } from "../placeholders/ProductCategory";
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { sethas_more } from "../../redux/categoryslice";
-import { Loader } from "../../app/feed/[sku]/page";
-import { Navigationapi } from "../../api/products";
-import LoadMoreButton from "../Common/LoadMoreButton";
 
 const ProductCategory = () => {
   const sort_byArray = [

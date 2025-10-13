@@ -25,14 +25,27 @@ const nextConfig = {
           source: "/products-category/:path*",
           destination: "/products-category/:path*",
         },
+        {
+          source: "/products-subcategory/:path*",
+          destination: "/products-subcategory/:path*",
+        },
+        {
+          source: "/brands/:path*",
+          destination: "/brands/:path*",
+        },
+        {
+          source: "/search-result/:path*",
+          destination: "/search-result/:path*",
+        },
+        {
+          source: "/categories/:path*",
+          destination: "/categories/:path*",
+        },
       ],
       afterFiles: [
         {
-          source: "/((?!details/).+)", // negative lookahead to exclude details
-          destination: "/react-build/index.html",
-        },
-        {
-          source: "/((?!products-category/).+)", // negative lookahead to exclude products-category
+          source:
+            "/((?!_next/data|api|details/|products-category/|products-subcategory/|brands/|search-result/|categories/).*)",
           destination: "/react-build/index.html",
         },
       ],

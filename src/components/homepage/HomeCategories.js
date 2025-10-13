@@ -1,21 +1,18 @@
 "use client";
-import React, { useRef, useCallback, useState, useEffect } from "react";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
-// Import Swiper styles
-import { Grid, Mousewheel } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/grid";
-import { motion, useScroll } from "framer-motion";
-import { MediaQueries } from "../utils";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import "swiper/css";
+import "swiper/css/grid";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Grid, Mousewheel } from "swiper/modules";
+import { MediaQueries } from "../utils";
 
 // import required modules
-import { handleCategoryClick } from "../utils/dataUserpush";
 
 export default function HomeCategories({ category_list, no_bg, type }) {
   const { isMobile } = MediaQueries();
@@ -48,8 +45,17 @@ export default function HomeCategories({ category_list, no_bg, type }) {
   const [isEnd, setIsEnd] = useState(false);
 
   const handleSlideChange = (swiper) => {
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
+    const beginning = swiper.isBeginning;
+    const end = swiper.isEnd;
+
+    console.log("Slide change:", {
+      beginning,
+      end,
+      activeIndex: swiper.activeIndex,
+    });
+
+    setIsBeginning(beginning);
+    setIsEnd(end);
   };
 
   const params = useParams();
@@ -57,19 +63,36 @@ export default function HomeCategories({ category_list, no_bg, type }) {
   useEffect(() => {
     if (sliderRef1.current) {
       const swiper = sliderRef1.current.swiper;
-      setIsBeginning(swiper.isBeginning);
-      setIsEnd(swiper.isEnd);
+      const beginning = swiper.isBeginning;
+      const end = swiper.isEnd;
+
+      setIsBeginning(beginning);
+      setIsEnd(end);
       swiper.slideTo(0); // optional: reset to start if needed
     }
   }, [params, category_list]);
 
+  // Additional effect to handle initial state after swiper is fully loaded
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (sliderRef1.current) {
+        const swiper = sliderRef1.current.swiper;
+        const beginning = swiper.isBeginning;
+        const end = swiper.isEnd;
+        setIsBeginning(beginning);
+        setIsEnd(end);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [category_list, slidesPerView]);
+
   const formatImageUrl = (url) => {
     if (
-      url.startsWith("https://www.ourshopee") ||
-      url.startsWith("https://ourshopee")
+      url?.startsWith("https://www.ourshopee") ||
+      url?.startsWith("https://ourshopee")
     ) {
-      const split = url.split("ourshopee.com/")[1];
-      console.log(`https://cdn.ourshopee.com/${split}`);
+      const split = url?.split("ourshopee.com/")[1];
       return `https://cdn.ourshopee.com/${split}`;
     } else {
       return url;
@@ -77,7 +100,35 @@ export default function HomeCategories({ category_list, no_bg, type }) {
   };
 
   return (
-    <div className="home_categories">
+    <div
+      className={`home_categories relative ${
+        isBeginning ? "hide-left-overlay" : ""
+      } ${isEnd ? "hide-right-overlay" : ""}`}
+    >
+      {/* Navigation arrows with original styling but higher z-index */}
+      {!isMobile && (
+        <div className="arrows inset-0 pointer-events-none items-center !absolute !top-1/2 !left-1/2 !transform !-translate-x-1/2 !-translate-y-1/2">
+          {!isBeginning ? (
+            <div
+              className="left_indicator previous pointer-events-auto"
+              onClick={handlePrev}
+            >
+              <IoChevronBack size={25} />
+            </div>
+          ) : (
+            <div className="left_indicator previous disabled no_bg no_drop_shadow pointer-events-auto" />
+          )}
+          {!isEnd && (
+            <div
+              className="right_indicator next pointer-events-auto"
+              onClick={handleNext}
+            >
+              <IoChevronForward size={25} />
+            </div>
+          )}
+        </div>
+      )}
+
       <Swiper
         ref={sliderRef1}
         cssMode={!isMobile && true}
@@ -117,6 +168,11 @@ export default function HomeCategories({ category_list, no_bg, type }) {
         spaceBetween={isMobile ? 15 : 30}
         onBreakpoint={(swiper, breakpoint) => {
           setslidesperView(isMobile ? 8 : breakpoint.slidesPerView);
+          // Re-check beginning/end state after breakpoint change
+          setTimeout(() => {
+            setIsBeginning(swiper.isBeginning);
+            setIsEnd(swiper.isEnd);
+          }, 50);
         }}
         className="mySwiper"
         onSlideChange={(swiper) => {
@@ -138,12 +194,25 @@ export default function HomeCategories({ category_list, no_bg, type }) {
             );
           }
         }}
+        onReachBeginning={() => {
+          setIsBeginning(true);
+        }}
+        onReachEnd={() => {
+          setIsEnd(true);
+        }}
+        onFromEdge={() => {
+          console.log("From edge");
+          if (sliderRef1.current) {
+            const swiper = sliderRef1.current.swiper;
+            setIsBeginning(swiper.isBeginning);
+            setIsEnd(swiper.isEnd);
+          }
+        }}
       >
-        {category_list?.map((cat_item) => {
+        {category_list?.map((cat_item, index) => {
           return (
-            <SwiperSlide key={cat_item.url}>
+            <SwiperSlide key={index}>
               <Link
-                // onClick={() => type == 1 ? category_selected(cat_item) : undefined}
                 href={`${
                   (type == 1 && "/categories/" + cat_item.url) ||
                   (type == 2 && "/products-category/" + cat_item.url) ||
@@ -151,7 +220,7 @@ export default function HomeCategories({ category_list, no_bg, type }) {
                   (type == 5 && "/products-subcategory/" + cat_item.url) ||
                   (type == 4 && cat_item.url)
                 }`}
-                className="no-underline"
+                className={"text-decoration-none"}
               >
                 <div
                   className={`relative ${
@@ -176,27 +245,10 @@ export default function HomeCategories({ category_list, no_bg, type }) {
             </SwiperSlide>
           );
         })}
-
-        {!isMobile && (
-          <div className="arrows">
-            {!isBeginning ? (
-              <div className="left_indicator previous" onClick={handlePrev}>
-                <IoChevronBack size={25} />
-              </div>
-            ) : (
-              <div className="left_indicator previous disabled no_bg no_drop_shadow" />
-            )}
-            {!isEnd && (
-              <div className="right_indicator next" onClick={handleNext}>
-                <IoChevronForward size={25} />
-              </div>
-            )}
-          </div>
-        )}
       </Swiper>
 
       {isMobile && category_list.length > 5 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <div className="progress_trackbar">
             <motion.div
               className="custom_progress_bar"

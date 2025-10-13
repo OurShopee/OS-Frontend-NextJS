@@ -1,12 +1,14 @@
+import { notFound } from "next/navigation";
+import CategoryClient from "./CategoriesClient";
+import { headers } from "next/headers";
 import { getCatScreenApi } from "@/api/products";
 import { getServerSideHeaders } from "@/lib/serverUtils";
-import { notFound } from "next/navigation";
-import ProductCategoryClient from "./ProductCategoryClient";
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await Promise.resolve(params);
   const { slug } = resolvedParams;
 
+  // Get headers for locale/country detection (optional)
   const req = await getServerSideHeaders();
 
   const categoryData = await getCatScreenApi(slug, req);
@@ -52,6 +54,9 @@ export default async function CategoryPage({ params }) {
   }
 
   return (
-    <ProductCategoryClient />
+    <CategoryClient
+      initialCategoryData={categoryData?.data}
+      categorySlug={slug}
+    />
   );
 }
