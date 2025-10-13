@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { memo, useEffect, useRef, useState } from "react";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FaChevronUp } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +27,21 @@ const ProductCategory = () => {
     { id: 4, title: "Position", slug: "Position" },
   ];
 
+  // Debouncing utility function
+  const debounce = useCallback((func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }, []);
+
   const dispatch = useDispatch();
+  const router = useRouter();
   const pathname = usePathname();
   const { isMobile } = MediaQueries();
   const segments = pathname.split("/");
@@ -38,7 +52,7 @@ const ProductCategory = () => {
   const urlParams = new URLSearchParams(searchParams);
   const setUrlParams = (params) => {
     const newUrl = `${pathname}?${params.toString()}`;
-    window.history.pushState({}, "", newUrl);
+    router.replace(newUrl, { scroll: false });
   };
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
@@ -140,9 +154,16 @@ const ProductCategory = () => {
   const getSubSubCatData = async () => {
     let catdataLocal = categorydata;
     if (!categorydata) {
-      const data = await Navigationapi();
-      catdataLocal = data.data;
-      setCategoryData(data?.data);
+      // Use existing categoryList from Redux instead of making new API call
+      if (categoryList && categoryList.length > 0) {
+        catdataLocal = categoryList;
+        setCategoryData(categoryList);
+      } else {
+        // Only fetch if not available in Redux
+        const data = await Navigationapi();
+        catdataLocal = data.data;
+        setCategoryData(data?.data);
+      }
     }
     const matchedData = catdataLocal.filter((category) =>
       category.subcategory?.some(
@@ -343,14 +364,14 @@ const ProductCategory = () => {
       await generateFilterInputs(urlParams, slug1);
 
     let input_data = {};
-    if (window.location.pathname.includes("brands")) {
+    if (pathname.includes("brands")) {
       input_data = {
         ...(slug && { slug }),
         filtered_items: [{ title: "brands", value: [slug] }, ...filtered_items],
         ...(priceInput.length > 0 && { price_range: priceInput }),
         limit: 50,
       };
-    } else if (window.location.pathname.includes("search-result")) {
+    } else if (pathname.includes("search-result")) {
       input_data = {
         filtered_items,
         searchString: slug,
@@ -358,7 +379,7 @@ const ProductCategory = () => {
         subcategory_id: "search",
         limit: 50,
       };
-    } else if (window.location.pathname.includes("products-subcategory")) {
+    } else if (pathname.includes("products-subcategory")) {
       input_data = {
         ...(slug && { slug }),
         ...(slug1 && { slug1 }),
@@ -397,6 +418,12 @@ const ProductCategory = () => {
     setTotalCount(res?.display_items?.total_count);
     setCurrentPage((prev) => (forcedPage != null ? nextPage + 1 : prev + 1));
   };
+
+  // Debounced version of getNextPageData to prevent multiple rapid calls
+  const debouncedGetNextPageData = useMemo(
+    () => debounce(getNextPageData, 300),
+    [getNextPageData, debounce]
+  );
 
   useEffect(() => {
     if (displayed_products?.length >= totalCount) {
@@ -701,23 +728,29 @@ const ProductCategory = () => {
 
               {/* Subcategories */}
               {slug1 == undefined &&
-                !window.location.pathname.split("/").includes("brands") &&
-                !window.location.pathname.split("/").includes("search-result") &&
+                !pathname.split("/").includes("brands") &&
+                !pathname.split("/").includes("search-result") &&
                 (!categoryloading ? (
-                  <div className="col-span-12">
-                    <div className="component_1 cat_carousel">
-                      <ComponentHeader title={"Shop by Sub-Categories"} view_all={"rgba(82, 50, 194, 1)"} />
-                      <HomeCategories
-                        category_list={
-                          categoryList
-                            .map((item) => item?.subcategory)
-                            .flat()
-                            .filter(({ url }) => url == slug)[0]?.sub_subcategory
-                        }
-                        type={slug1 == undefined ? 5 : 3}
-                      />
-                    </div>
-                  </div>
+                  (() => {
+                    const subCategories = categoryList && categoryList.length > 0
+                      ? categoryList
+                          .map((item) => item?.subcategory)
+                          .flat()
+                          .filter(({ url }) => url == slug)[0]?.sub_subcategory || []
+                      : [];
+                    
+                    return subCategories.length > 0 ? (
+                      <div className="col-span-12">
+                        <div className="component_1 cat_carousel">
+                          <ComponentHeader title={"Shop by Sub-Categories"} view_all={"rgba(82, 50, 194, 1)"} />
+                          <HomeCategories
+                            category_list={subCategories}
+                            type={slug1 == undefined ? 5 : 3}
+                          />
+                        </div>
+                      </div>
+                    ) : null;
+                  })()
                 ) : (
                   <>
                     {[1, 2, 3, 4, 5, 6].map((product, i) => (
@@ -737,7 +770,7 @@ const ProductCategory = () => {
                       const [subId, catId] = item?.split("-");
                       let data = null;
                       if (filters?.filters?.categories?.length > 0) {
-                        if (window.location.pathname.split("/").includes("search-result")) {
+                        if (pathname.split("/").includes("search-result")) {
                           const category = filters?.filters?.categories.find((c) => String(c.categoryid) === catId)
                             ?.children;
                           data = category?.find((c) => String(c.subcategoryid) === subId);
@@ -865,7 +898,7 @@ const ProductCategory = () => {
 
                       {has_more && displayed_products.length > 0 && (
                         <div className="flex justify-center">
-                          <LoadMoreButton onClick={() => getNextPageData()} />
+                          <LoadMoreButton onClick={() => debouncedGetNextPageData()} />
                         </div>
                       )}
                     </>
