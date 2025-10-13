@@ -19,11 +19,6 @@ import { getalladdressesapi } from "@/redux/addresslice";
 import { GetPlaceOrderapi } from "@/redux/paymentslice";
 import {
   getbannerList,
-  getdeal_offersList,
-  getDealOfTheDayList,
-  getbundle_clearance_sale,
-  getSaverZoneList,
-  getTopSellingList,
   getTopPicksList,
   getbrand_week,
 } from "@/redux/homeslice";
@@ -148,13 +143,8 @@ export default function AppInitializer() {
   useMemo(() => {
     if (pathname === '/') {
       dispatch(getbannerList());
-      dispatch(getdeal_offersList());
-      dispatch(getSaverZoneList());
-      dispatch(getTopSellingList());
-      dispatch(getDealOfTheDayList());
       dispatch(getTopPicksList());
       dispatch(getbrand_week());
-      dispatch(getbundle_clearance_sale());
     }
   }, [dispatch, pathname]);
 
@@ -173,15 +163,15 @@ export default function AppInitializer() {
       user_id: token !== undefined ? jwtDecode(token).user_id : 0,
     };
     dispatch(cartlistapi(input_data));
-  }, [jwtToken, dispatch]); 
+  }, [jwtToken]); 
 
-  useEffect(() => {
-    if (authstatus && logindata?.user_id) {
+  useMemo(() => {
+    if (authstatus) {
       dispatch(getalladdressesapi(0));
       dispatch(getWishLists());
       dispatch(GetPlaceOrderapi(logindata.user_id));
     }
-  }, [authstatus, logindata, dispatch]);
+  }, [authstatus]);
 
   // Function: Dynamically Load Google Analytics 4 Based on Current Country's Tag ID
   const loadGA4 = (id) => {
