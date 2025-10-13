@@ -7,7 +7,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Category } from "../../actions";
 import { Navigationapi } from "../../api/products";
-import { Loader } from "../../app/feed/[sku]/page";
+import { Loader } from "../../app/loader";
 import { sethas_more } from "../../redux/categoryslice";
 import { ComponentHeader, ProductCard } from "../Common";
 import BreadComps from "../Common/Breadcomps";
