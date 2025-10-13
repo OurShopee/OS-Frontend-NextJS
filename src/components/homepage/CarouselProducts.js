@@ -203,7 +203,7 @@ export default function CarouselProducts({
           })}
 
         {!isMobile && products?.length > 0 && (
-          <div className="arrows">
+          <div className="">
             {/* Show left arrow only when not at the beginning */}
             {!isBeginning ? (
               <div className="left_indicator previous" onClick={handlePrev}>

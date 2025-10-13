@@ -66,7 +66,7 @@ const ImageCarousel = ({
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [currentImage]);
+  }, [currentImage, ]);
 
   if (isMobile) {
     return <ImageCarouselMobile images={images} product={product} />;

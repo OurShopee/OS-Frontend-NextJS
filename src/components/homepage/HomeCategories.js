@@ -107,7 +107,7 @@ export default function HomeCategories({ category_list, no_bg, type }) {
     >
       {/* Navigation arrows with original styling but higher z-index */}
       {!isMobile && (
-        <div className="arrows inset-0 pointer-events-none items-center !absolute !top-1/2 !left-1/2 !transform !-translate-x-1/2 !-translate-y-1/2">
+        <div className="arrows inset-0 pointer-events-none items-center">
           {!isBeginning ? (
             <div
               className="left_indicator previous pointer-events-auto"

@@ -38,7 +38,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
       );
     }, 3000);
     return () => clearInterval(interval);
-  }, [safeCarouselData]);
+  }, [safeCarouselData, activeIndex]);
   const staticPagePrefixes = ["/categories", "/products-category"];
   const shouldWrapWithNavLink = !staticPagePrefixes.some((prefix) =>
     location.pathname.startsWith(prefix)
