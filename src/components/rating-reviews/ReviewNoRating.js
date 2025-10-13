@@ -408,7 +408,7 @@ const ReviewNoRating = ({
                     value={reviewText}
                     onChange={handleReviewChange}
                     placeholder="Leave a review here...."
-                    className={`w-full p-4 h-32 border rounded-lg text-gray-700 placeholder-gray-400 resize-auto focus:outline-none focus:ring-1 ${
+                    className={`w-full p-4 h-32 bg-white border rounded-lg text-gray-700 placeholder-gray-400 resize-auto focus:outline-none focus:ring-1 ${
                       reviewText.length === 200
                         ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                         : "border-gray-200 focus:border-purple-500 focus:ring-purple-500"

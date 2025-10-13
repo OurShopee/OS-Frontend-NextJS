@@ -524,7 +524,7 @@ const HasReview = ({
                   placeholder="Leave a review here...."
                   className={`${
                     !isEditing && "cursor-not-allowed"
-                  } w-full max-h-[300px] p-3 md:p-4 bg-[#F5F5F5] border border-none sm:border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 overflow-hidden`}
+                  } w-full max-h-[300px] p-3 md:p-4 bg-white border border-none sm:border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 overflow-hidden`}
                   maxLength={200}
                   rows={1}
                 />

@@ -134,7 +134,7 @@ const PostReview = ({
             value={reviewText}
             onChange={handleReviewChange}
             placeholder="Leave a review here...."
-            className="w-full h-32 p-4 border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+            className="w-full h-32 p-4 bg-white border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             maxLength={200}
           />
           <div className="absolute bottom-3 right-4 text-sm text-gray-400">
