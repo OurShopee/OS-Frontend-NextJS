@@ -47,13 +47,26 @@
 .textareabox {
     font-weight: 400;
     font-size: 14px;
-
-
+    background-color: #ffffff !important;
+    color: #191B1C !important;
+    border: 1px solid #E7E8E9 !important;
 }
 
 .textareabox::placeholder {
-    color: #CED2D4;
+    color: #A0A0A0 !important;
+}
 
+/* Ensure textarea stays light in dark mode */
+@media (prefers-color-scheme: dark) {
+    .textareabox {
+        background-color: #ffffff !important;
+        color: #191B1C !important;
+        border-color: #E7E8E9 !important;
+    }
+    
+    .textareabox::placeholder {
+        color: #A0A0A0 !important;
+    }
 }
 
 .invitefrndimg {
