@@ -68,6 +68,7 @@ export const createAxiosInstance = (req = null) => {
   }
   if (countryData?.id) {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
+    axiosInstance.defaults.headers.common["Content-Type"] = "application/json";
     console.log("axiosInstance.defaults.headers", axiosInstance.defaults.headers)
   }
   return axiosInstance;
