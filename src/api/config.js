@@ -59,8 +59,10 @@ export const createAxiosInstance = (req = null) => {
 
   if (countryData?.backedn_api) {
     axiosInstance.defaults.baseURL = countryData.backedn_api;
+    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.baseURL)
   } else {
     axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
+    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.baseURL)
   }
   if (countryData?.id) {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
@@ -80,9 +82,11 @@ export const configureAxios = () => {
   if (!isInterceptorSetup && typeof window !== "undefined") {
     axios.interceptors.request.use(
       (config) => {
+        console.log("config", config)
         const countryDataForRequest = getCountryData();
         if (countryDataForRequest && countryDataForRequest.id) {
           config.headers["Country-Id"] = countryDataForRequest.id;
+          console.log("config.headers", config.headers)
         }
         return config;
       },

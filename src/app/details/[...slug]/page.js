@@ -60,7 +60,7 @@ export async function generateMetadata({ params }) {
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
   const productInfo = extractProductInfo(slug);
-
+console.log("productInfo", productInfo)
   if (!productInfo) {
     notFound();
   }
@@ -69,6 +69,7 @@ export default async function ProductDetailsPage({ params }) {
   const req = await getServerSideHeaders();
 
   const productData = await getproduct_detail(productInfo.productSku, req);
+  console.log("productData", productData)
 
   if (!productData) {
     notFound();
