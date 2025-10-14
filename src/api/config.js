@@ -15,7 +15,6 @@ export const getCountryDataFromRequest = (req) => {
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
     const origin = `http://${hostname}`;
-    console.log("origin", origin)
     data = countryDropdown.find(({ dev_url }) => dev_url === origin);
   } else {
     const normalized = normalizeUrl(`https://${hostname}`);
