@@ -121,6 +121,7 @@ export async function getproduct_detail(productSku, req = null) {
       const response = await axiosInstance.get(
         `api/product_detail?sku=${productSku}`
       );
+      console.log("response", response)
       return response.data;
     } else {
       const response = await axios.get(`api/product_detail?sku=${productSku}`);

@@ -107,6 +107,7 @@ export default function AppInitializer() {
         data = countryDropdown.find(
           ({ url }) => url === normalizeUrl(window.location.origin)
         );
+        console.log("data", data)
       }
       dispatch(setcurrentcountry(data));
     }
