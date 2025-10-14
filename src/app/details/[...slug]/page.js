@@ -67,9 +67,15 @@ console.log("productInfo", productInfo)
 
   // Get headers for server-side country detection
   const req = await getServerSideHeaders();
-
-  const productData = await getproduct_detail(productInfo.productSku, req);
-  console.log("productData", productData)
+  let productData ;
+try{
+  console.log("req", req)
+   productData = await getproduct_detail(productInfo.productSku, req);
+}
+catch(error){
+  console.log("error", error)
+  console.log("error.message", error.message)
+}
 
   if (!productData) {
     notFound();

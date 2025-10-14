@@ -21,7 +21,6 @@ export const getCountryDataFromRequest = (req) => {
     const normalized = normalizeUrl(`https://${hostname}`);
     console.log("normalized", normalized)
     data = countryDropdown.find(({ url }) => url === normalized);
-    console.log("data", data)
   }
   return data;
 };
@@ -65,7 +64,6 @@ export const createAxiosInstance = (req = null) => {
     console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.headers)
   } else {
     axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
-    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.baseURL)
    
   }
   if (countryData?.id) {
