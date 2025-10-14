@@ -61,7 +61,7 @@ html { color-scheme: light; }
 /* Global input and textarea styling to prevent dark mode issues */
 input, textarea, select {
   background-color: #ffffff !important;
-  color: #191B1C !important;
+  // color: #191B1C !important;
 }
 
 input::placeholder, textarea::placeholder {
