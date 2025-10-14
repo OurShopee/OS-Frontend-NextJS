@@ -62,12 +62,15 @@ export const createAxiosInstance = (req = null) => {
   if (countryData?.backedn_api) {
     axiosInstance.defaults.baseURL = countryData.backedn_api;
     console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.baseURL)
+    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.headers)
   } else {
     axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
     console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.baseURL)
+   
   }
   if (countryData?.id) {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
+    console.log("axiosInstance.defaults.headers", axiosInstance.defaults.headers)
   }
   return axiosInstance;
 };
