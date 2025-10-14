@@ -72,7 +72,7 @@ const GenderDropdown = ({ selectedGender, onSelect, title }) => {
             {["Male", "Female", "other"].map((gender) => (
               <label
                 key={gender}
-                className="flex justify-between subcategory-item cursor-pointer p-2 hover:bg-gray-100"
+                className="flex justify-between items-center subcategory-item cursor-pointer p-2 hover:bg-gray-100"
                 role="option"
                 aria-selected={selectedGender === gender}
               >
