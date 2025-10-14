@@ -20,6 +20,7 @@ module.exports = {
         },
       },
       screens: {
+        "2xl": "1470px",
         "3xl": "1700px",
       },
       colors: {
