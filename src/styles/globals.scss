@@ -42,26 +42,15 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    
-    --background: #ededed;
-    --foreground: #ededed;
-  }
+/* Force light mode for the entire application */
+html { 
+  color-scheme: light; 
 }
-:root {
-  /* keep your normal light values here */
-  --background: #ffffff;   /* <- use your light bg */
-  --foreground: #111111;   /* <- use your light text */
-}
-
-/* Lock built-in controls to light as well */
-html { color-scheme: light; }
 
 /* Global input and textarea styling to prevent dark mode issues */
 input, textarea, select {
   background-color: #ffffff !important;
-  // color: #191B1C !important;
+  color: #E7E8E9 !important;
 }
 
 input::placeholder, textarea::placeholder {
@@ -79,11 +68,7 @@ input::placeholder, textarea::placeholder {
   input::placeholder, textarea::placeholder {
     color: #A0A0A0 !important;
   }
-}
-
-/* Optional: keep the dark query but do NOT redefine tokens */
-@media (prefers-color-scheme: dark) {
-  :root { /* intentionally empty so light values are used */ }
+  
 }
 
 html {
@@ -113,11 +98,7 @@ a {
   text-decoration: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+/* Remove conflicting dark mode color-scheme rule */
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 2px;
