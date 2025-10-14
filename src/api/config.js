@@ -18,7 +18,6 @@ export const getCountryDataFromRequest = (req) => {
     data = countryDropdown.find(({ dev_url }) => dev_url === origin);
   } else {
     const normalized = normalizeUrl(`https://${hostname}`);
-    console.log("normalized", normalized)
     data = countryDropdown.find(({ url }) => url === normalized);
   }
   return data;
