@@ -76,7 +76,7 @@ const SignupForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
-    if (formData.email.includes("@gmail.com")) {
+    if (formData.email.includes(".com")) {
       dispatch(CheckEmailapi({ email: formData.email }));
     }
   }, [formData.email]);
