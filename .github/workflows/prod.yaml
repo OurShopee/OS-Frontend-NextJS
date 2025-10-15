@@ -104,7 +104,7 @@ jobs:
 
                     "echo Restarting PM2 and Nginx process...",
                     "sudo systemctl restart nginx",
-                    "su - ec2-user -c '"'"'cd /usr/share/nginx/next-fe.ourshopee.com/ && PORT=4000 pm2 restart next-fe --update-env  || PORT=4000 pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
+                    "su - ec2-user -c '"'"'cd /usr/share/nginx/html/frontend/ && PORT=4000 pm2 restart next-fe --update-env  || PORT=4000 pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
                     "sudo date > /usr/share/nginx/next-fe.ourshopee.com.txt"
                 ]
             }' \
