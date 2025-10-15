@@ -47,6 +47,7 @@ jobs:
           S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP
           aws s3 sync s3://ourshopee-build-backup/next-fe/prod/ $S3_BACKUP_BASE
           aws s3 sync s3://ourshopee-build-backup/storefront/next-prod/ $S3_BACKUP_BASE/public/react-build 
+          ls -al           
           aws s3 sync .env $S3_BACKUP_BASE/.env
           aws s3 sync . s3://ourshopee-build-backup/next-fe/prod/ --delete
 
