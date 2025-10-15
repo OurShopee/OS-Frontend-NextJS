@@ -391,7 +391,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 isMobile && "flex-col"
               } gap-5 !m-auto relative`}
             >
-              <div className={`${!isMobile && "flex-[0_0_47%] w-[47%]"}`}>
+              <div className={`${!isMobile && "flex-[0_0_47%] w-[47%] sticky top-5 self-start"}`}>
                 {isMobile && (
                   <>
                     <div className="product_Detail_right_side">

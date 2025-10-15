@@ -1519,6 +1519,16 @@ body:has(.webfeed-bg) {
   }
 }
 
+// Override root layout overflow for product detail pages
+body:has(.product_Detail_left_side) {
+  @media only screen and (min-width: 1024px) {
+    .overflow-x-hidden {
+      overflow-x: clip !important;
+      overflow-y: visible !important;
+    }
+  }
+}
+
 .bg-shadow-feed-form {
   backdrop-filter: blur(8.5px);
 
