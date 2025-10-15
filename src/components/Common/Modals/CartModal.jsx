@@ -165,7 +165,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                             </span>
                           </span>
                         </div>
-                      </div>
+                      </div> 
                     )}
                   </div>
                 </div>
