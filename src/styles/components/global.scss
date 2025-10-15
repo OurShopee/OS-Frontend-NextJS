@@ -28,6 +28,10 @@ b, strong {
     font-weight: bolder;
 }
 
+a, a:hover {
+  text-decoration: none !important;
+}
+
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;

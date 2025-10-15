@@ -74,7 +74,7 @@ export default function CountryDropdown({ countryDropdown }) {
       )}
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 p-2.5 z-50 min-w-[120px]">
+        <div className="absolute top-full -left-1/2 sm:left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 p-2.5 z-50 min-w-[120px]">
           {countryDropdown?.length > 0 &&
             countryDropdown
               ?.filter(({ id }) => id != currentcountry.id)
@@ -82,7 +82,7 @@ export default function CountryDropdown({ countryDropdown }) {
                 <div
                   key={option.name}
                   onClick={() => handleOptionClick(option)}
-                  className="flex items-center px-3 py-2 text-sm font-semibold text-primary hover:bg-purple-50 hover:text-primary rounded cursor-pointer transition-colors duration-150"
+                  className="flex items-center px-3 py-2 text-sm font-semibold text-black hover:bg-purple-50 hover:text-primary rounded cursor-pointer transition-colors duration-150"
                 >
                   <img
                     src={`/flags/${option.image}`}

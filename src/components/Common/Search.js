@@ -5,7 +5,7 @@ import { GoArrowUpLeft } from "react-icons/go";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { pushToDataLayer } from "../utils/dataUserpush";
 import { Category } from "@/actions";
 import { setcurrent_page } from "@/redux/categoryslice";
@@ -16,6 +16,7 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const location = usePathname()
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
@@ -23,6 +24,13 @@ const Search = () => {
   const smallcsreen = useMediaQuery({ query: "(max-width: 991px)" });
   const dispatch = useDispatch();
   const router = useRouter();
+  useEffect(() => {
+    if (!location.startsWith("/search-result")) {
+      setSearchQuery("");
+      setSearchResults([]);
+      setShowDropdown(false);
+    }
+  }, [location]); 
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -154,7 +162,7 @@ const Search = () => {
       <input
         type="text"
         placeholder="What are you looking for?"
-        className="header-inputbox w-[350px]"
+        className="header-inputbox w-[350px] text-black"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onFocus={() => {

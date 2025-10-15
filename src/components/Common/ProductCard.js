@@ -128,6 +128,13 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         <div className="product_price_container">
           <div className="price_block">
             <div className="display_price">
+              {/* {currentcountry?.currency == "AED" ? (
+                <div>
+                  <img src="assets/feed/aed-icon.png" className="w-4 h-auto p-0" />
+                </div>
+              ) : (
+                <span>{currentcountry?.currency}</span>
+              )} */}
               <span>{currentcountry?.currency}</span>
               <h3>{item.display_price || item.special_price || item.price}</h3>
             </div>
