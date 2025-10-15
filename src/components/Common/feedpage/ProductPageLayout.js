@@ -748,16 +748,16 @@ const ProductPageLayout = ({
                               />
                             </div>
                           ) : (
-                            <span className="currency-symbol mr-1 text-[24px] md:text-[26px]">
+                            <span className="currency-symbol mr-1 text-[24px] md:text-[26px] font-bold">
                               {currentcountry.currency}
                             </span>
                           )}
-                          <span className="text-[24px] md:text-[26px]">
+                          <span className="text-[24px] md:text-[26px] font-bold">
                             {product?.display_price}
                           </span>
                         </div>
                         {savedPrice > 0 && (
-                          <div className="ml-4 px-3 py-2 flex items-center font-medium">
+                          <div className="save-banner ml-4 px-3 py-2 flex items-center font-medium">
                             <span className="badge-icon mr-2 flex items-center justify-center">
                               <img
                                 src="/assets/vector_icons/Vector.png"
@@ -765,10 +765,10 @@ const ProductPageLayout = ({
                                 className="discount-icon"
                               />
                             </span>
-                            <span className="text-sm">
+                            <span className="flex gap-1 items-center text-sm">
                               You saved{" "}
                               <span className="currency-symbol text-sm">
-                                {currentcountry.currency}{" "}
+                               {currentcountry.currency=="AED" ? <img src="/assets/feed/aed-icon.png" alt="AED" className="w-4 h-full mix-blend-multiply " style={{color: "black"}}/>: currentcountry.currency}
                               </span>
                               {Math.ceil(savedPrice)}
                             </span>
