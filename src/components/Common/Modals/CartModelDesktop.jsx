@@ -190,13 +190,13 @@ const CartModalDesktop = ({ show, onHide }) => {
   }, [cartlistdata, onHide]);
 
   const handleQuantityChange = (cart_id, newQty) => {
-    if (
-      cartlistdata.data.result.find((ele) => ele.cart_id === cart_id)
-        .available_quantity < newQty
-    ) {
-      toast.warning("You've reached the maximum quantity available");
-      return;
-    }
+    // if (
+    //   cartlistdata.data.result.find((ele) => ele.cart_id === cart_id)
+    //     .available_quantity < newQty
+    // ) {
+    //   toast.warning("You've reached the maximum quantity available");
+    //   return;
+    // }
     if (newQty < 1) return;
 
     setCartQuantities((prev) => ({ ...prev, [cart_id]: newQty }));
@@ -295,7 +295,7 @@ const CartModalDesktop = ({ show, onHide }) => {
         />
       )}
       <div
-        className={`modal-custom-wrapper-desktop fixed top-0 right-0 h-screen w-[25vw] z-50 ${
+        className={`modal-custom-wrapper-desktop fixed top-0 right-0 h-screen w-[25vw] z-[99] ${
           show ? "modal-slide-in" : "modal-slide-out"
         }`}
         role="dialog"
@@ -352,7 +352,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                       <div className="cart-item-info flex-1">
                         <button
                           onClick={() => navigateToProduct(item.url, item.sku)}
-                          className="cursor-pointer item-name font-semibold flex-1 text-left bg-transparent border-0 p-0 hover:underline"
+                          className="cursor-pointer item-name font-semibold flex-1 text-left bg-transparent border-0 p-0"
                           type="button"
                         >
                           {item.name.split(" ").length > 15

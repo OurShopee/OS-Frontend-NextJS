@@ -1,11 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
-import { Grid } from "swiper/modules";
+import { Grid, Keyboard, Mousewheel, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductCard } from "../Common";
 import { MediaQueries } from "../utils";
@@ -20,6 +20,14 @@ function BestDeals({ carousel_data, breakPointsProps }) {
   const [rightHeight, setRightHeight] = useState(0); // step 2: state for height
 
   const [data, setData] = useState([]);
+
+  const paginationConfig = useMemo(() => {
+    if (!isMobile) return false;
+
+    return {
+      clickable: true,
+    };
+  }, [isMobile]);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -110,7 +118,12 @@ function BestDeals({ carousel_data, breakPointsProps }) {
           <Swiper
             ref={sliderRef}
             effect={"fade"}
-            modules={[Grid]}
+            pagination={paginationConfig}
+            modules={
+              isMobile
+                ? [Grid, Pagination]
+                : [Grid, Pagination, Navigation, Mousewheel, Keyboard]
+            }
             grid={isTablet ? { rows: 2, fill: "row" } : undefined}
             breakpoints={{
               200: { slidesPerView: 2 },
