@@ -50,11 +50,15 @@ jobs:
           aws s3 cp .env $S3_BACKUP_BASE/.env
           aws s3 sync . s3://ourshopee-build-backup/next-fe/prod/ --delete
 
-          echo "Cleaning old backups..."
-          BACKUPS=$(aws s3 ls $S3_BACKUP_BASE/ | awk '{print $2}' | sort)
+          echo "Keeping only last 3 backups for common"
+          BACKUPS=$(aws s3 ls s3://ourshopee-build-backup/next-fe/backup/ | awk '{print $2}' | sort)
           COUNT=$(echo "$BACKUPS" | wc -l)
-          DEL=$(($COUNT - 3))
-          if [ $DEL -gt 0 ]; then echo "$BACKUPS" | head -n $DEL | while read OLD; do aws s3 rm --recursive $S3_BACKUP_BASE/$OLD > /dev/null 2>&1; done; fi
+          DELETE_COUNT=$((COUNT - 3))
+          if [ "$DELETE_COUNT" -gt 0 ]; then
+            echo "$BACKUPS" | head -n $DELETE_COUNT | while read old_folder; do
+              aws s3 rm s3://ourshopee-build-backup/next-fe/backup/$old_folder --recursive
+            done
+          fi
 
       - name: Get EC2 Instance IDs by Tag
         id: get-instances
