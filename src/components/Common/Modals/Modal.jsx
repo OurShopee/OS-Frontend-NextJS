@@ -66,7 +66,7 @@ export default function Modal({
       <div className={`relative h-full w-full flex justify-center ${position}`}>
         <div
           ref={panelRef}
-          className={`relative bg-white rounded-2xl shadow-2xl ${panelSize} max-h-[90vh] overflow-y-auto ${panelClassName}`}
+          className={`relative bg-white rounded-2xl shadow-2xl ${panelSize} max-w-lg max-h-[90vh] overflow-y-auto ${panelClassName}`}
           onClick={(e) => e.stopPropagation()}
         >
           {children}

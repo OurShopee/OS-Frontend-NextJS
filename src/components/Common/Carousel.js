@@ -5,6 +5,7 @@ const Carousel = ({
   className = '', 
   controls = false, 
   indicators = true, 
+  setActiveIndex,
   activeIndex = 0,
   children,
   onIndexChange
@@ -20,6 +21,7 @@ const Carousel = ({
   const goToPrevious = () => {
     const newIndex = currentIndex === 0 ? totalItems - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
+    setActiveIndex(newIndex);
     if (onIndexChange) {
       onIndexChange(newIndex);
     }
@@ -28,6 +30,7 @@ const Carousel = ({
   const goToNext = () => {
     const newIndex = currentIndex === totalItems - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
+    setActiveIndex(newIndex);
     if (onIndexChange) {
       onIndexChange(newIndex);
     }
@@ -35,6 +38,7 @@ const Carousel = ({
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
+    setActiveIndex(index);
     if (onIndexChange) {
       onIndexChange(index);
     }

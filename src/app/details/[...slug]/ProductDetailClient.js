@@ -73,6 +73,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const [contentHeight, setContentHeight] = useState(0);
   const innerRef = useRef(null);
   const wrapperRef = useRef(null);
+  const reviewRef = useRef(null);
+  const [showCard, setShowCard] = useState(false);
   const headerRef = useRef(null);
   const [qty, setQty] = useState(1);
   const loading = useSelector((state) => state.productslice.loading);
@@ -85,6 +87,25 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const [show, setShow] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowCard(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // Adjust as needed for how much of review section should be visible before showing footer
+    );
+
+    if (reviewRef.current) {
+      observer.observe(reviewRef.current);
+    }
+
+    return () => {
+      if (reviewRef.current) {
+        observer.unobserve(reviewRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -172,6 +193,13 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
       dispatch(getrelatedItems(input_data));
     }
   }, [loading]);
+
+  let a_plus_images;
+  if (isMobile) {
+    a_plus_images = productDetail?.[0]?.m_web_a_plus_images;
+  } else {
+    a_plus_images = productDetail?.[0]?.a_plus_images;
+  }
 
   const trustBadges = [
     {
@@ -334,7 +362,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
   const handleChangeQty = (action) => {
     if (action === "inc") {
-      if (product?.quantity > qty) setQty(qty + 1);
+      setQty(qty + 1);
     } else if (action === "dec") {
       if (qty > 1) setQty(qty - 1);
     }
@@ -387,11 +415,16 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         <div className="pb-3 px-3">
           {!loading ? (
             <div
-              className={`2xl:container flex ${
+              className={`2xl:container top-[20px] flex ${
                 isMobile && "flex-col"
               } gap-5 !m-auto relative`}
             >
-              <div className={`${!isMobile && "flex-[0_0_47%] w-[47%]"}`}>
+              <div
+                className={`${
+                  !isMobile &&
+                  "flex-[0_0_47%] w-[47%] sticky top-[76px] self-start"
+                }`}
+              >
                 {isMobile && (
                   <>
                     <div className="product_Detail_right_side">
@@ -773,18 +806,16 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             >
                               <FiMinus
                                 height={22}
-                                /* cursorpointer -> cursor-pointer */
-                                className="cursor-pointer"
+                                className={`cursor-pointer ${
+                                  qty == 1 && "text-[#ddd9d9] text-opacity-50 !cursor-default"
+                                }`}
                                 onClick={() => handleChangeQty("dec")}
                               />
                             </button>
                             <div className="font-semibold flex-1 text-center">
                               {qty}
                             </div>
-                            <button
-                              disabled={qty >= product?.quantity}
-                              className="border-none flex-1 bg-transparent flex items-center justify-center px-0"
-                            >
+                            <button className="border-none flex-1 bg-transparent flex items-center justify-center px-0">
                               <FiPlus
                                 height={22}
                                 onClick={() => handleChangeQty("inc")}
@@ -1187,24 +1218,35 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
             </div>
           </div>
 
+          {/* A+ content section */}
+          {a_plus_images?.length > 0 && (
+            <div className="tw-flex tw-flex-col tw-pb-7 sm:tw-pb-0">
+              {a_plus_images?.map((i) => (
+                <img className="tw-w-full tw-h-auto" src={i} alt="img" />
+              ))}
+            </div>
+          )}
+
           {/* component to show when there are no ratings except the current user's pending review */}
-          {allProductReviews?.data?.result?.length === 0 &&
-            (!allProductReviews?.data?.userReview ||
-              allProductReviews?.data?.userReview?.rstatus === 0) && (
-              <ReviewNoRating
+          <div ref={reviewRef} id="review-rating-section">
+            {allProductReviews?.data?.result?.length === 0 &&
+              (!allProductReviews?.data?.userReview ||
+                allProductReviews?.data?.userReview?.rstatus === 0) && (
+                <ReviewNoRating
+                  setProductReviews={setProductReviews}
+                  productReviews={productReviews}
+                  setAllProductReviews={setAllProductReviews}
+                />
+              )}
+            {allProductReviews?.data?.stats?.averageRating > 0 && (
+              <ReviewWithRating
                 setProductReviews={setProductReviews}
                 productReviews={productReviews}
+                allProductReviews={allProductReviews}
                 setAllProductReviews={setAllProductReviews}
               />
             )}
-          {allProductReviews?.data?.stats?.averageRating > 0 && (
-            <ReviewWithRating
-              setProductReviews={setProductReviews}
-              productReviews={productReviews}
-              allProductReviews={allProductReviews}
-              setAllProductReviews={setAllProductReviews}
-            />
-          )}
+          </div>
 
           {/* Related Products */}
           {!loading1 ? (
@@ -1297,7 +1339,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
       {!isTablet && (
         <div
           className={`fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${
-            show ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+            showCard
+              ? "translate-y-0 opacity-100"
+              : "translate-y-full opacity-0"
           }`}
         >
           <div className="flex justify-end pr-4 pb-1">
@@ -1453,18 +1497,16 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           className="flex-1 border-none bg-transparent flex items-center justify-center px-0"
                         >
                           <FiMinus
-                            /* cursorpointer -> cursor-pointer */
-                            className="cursor-pointer"
+                            className={`cursor-pointer ${
+                              qty == 1 && "text-[#ddd9d9] text-opacity-50 !cursor-default"
+                            }`}
                             onClick={() => handleChangeQty("dec")}
                           />
                         </button>
                         <div className="font-semibold flex-1 text-center">
                           {qty}
                         </div>
-                        <button
-                          disabled={qty >= product?.quantity}
-                          className="border-none flex-1 bg-transparent flex items-center justify-center px-0"
-                        >
+                        <button className="border-none flex-1 bg-transparent flex items-center justify-center px-0">
                           <FiPlus onClick={() => handleChangeQty("inc")} />
                         </button>
                       </div>

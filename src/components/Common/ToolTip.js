@@ -34,7 +34,7 @@ const ToolTip = ({ text, handleToolTip }) => {
           rel="noopener noreferrer"
           className="font-bold px-2 py-1 bg-yellow-400 text-black rounded-lg text-sm whitespace-nowrap hover:bg-yellow-500 transition-colors"
         >
-          {store === "android" ? "Get on Play Store" : "Download on App Store"}
+        Click here
         </a>
       );
     }

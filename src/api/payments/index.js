@@ -2,14 +2,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export const GetPlaceOrder = async (userId) => {
-  const res = await axios.get(`api/GetPlaceOrder?userId=${userId}`, {
+  const res = await axios.get(`api/v2/GetPlaceOrder?userId=${userId}`, {
     headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
   });
   return res.data;
 };
 
 export const checkoutSingleProd = async (input_data) => {
-  const res = await axios.post("/api/GetDirectPlaceOrder", input_data, {
+  const res = await axios.post("/api/v2/GetDirectPlaceOrder", input_data, {
     headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
   });
   return res;

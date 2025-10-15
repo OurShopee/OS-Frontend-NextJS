@@ -49,19 +49,19 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   return (
     <div className="pb-3 homepagecontainer max-w-full mx-auto px-4">
       <div
-        className="modal-backdrop-custom fixed inset-0 bg-black bg-opacity-50 z-50"
+        className="modal-backdrop-custom"
         onClick={onHide}
         aria-hidden="true"
       ></div>
-      <div className="modal-custom-wrapper fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="modal-custom-wrapper">
         <div
-          className="modal-custom-content bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          className="modal-custom-content"
           role="dialog"
           aria-modal="true"
           aria-labelledby="cart-modal-title"
           aria-describedby="cart-modal-description"
         >
-          <div className="modal-custom-body pb-4 p-6">
+          <div className="modal-custom-body pb-4">
             <h2 id="cart-modal-title" className="sr-only">
               Item added to cart
             </h2>
@@ -69,7 +69,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
               Product details and options to continue shopping or checkout
             </div>
 
-            <div className="cart-item gap-3 flex items-start">
+            <div className="cart-item gap-3">
               <div className="relative inline-block">
                 <img
                   src={productData.image}
@@ -96,7 +96,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                 />
               </div>
 
-              <div className="cart-item-info flex-1">
+              <div className="cart-item-info">
                 <span
                   className="item-name flex-1 font-medium block"
                   style={{ fontWeight: 500 }}
@@ -165,14 +165,14 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                             </span>
                           </span>
                         </div>
-                      </div>
+                      </div> 
                     )}
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <div
-                    className="item-qty text-sm border font-semibold rounded-full px-3 py-1"
+                    className="item-qty border font-semibold rounded-full px-3 py-1"
                     style={{ fontFamily: "Outfit", fontSize: "10px" }}
                   >
                     Qty. {quantity}
@@ -187,19 +187,19 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
           </div>
 
           {/* Footer */}
-          <div className="modal-custom-footer flex gap-1 items-center p-4 border-t">
+          <div className="modal-custom-footer flex gap-1 items-center">
             <div className="w-1/2">
               <button
-                className="w-full h-12 rounded-xl bg-white text-black font-semibold border-2 border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors"
+                className="w-full h-12 rounded-xl bg-white text-black font-semibold "
                 onClick={onHide}
                 style={{
                   fontFamily: "Outfit",
                   fontWeight: 600,
                   fontSize: "14px",
                   lineHeight: "140%",
+                  border: "2px solid #ccc",
                   borderRadius: "12px",
                 }}
-                aria-label="Continue shopping and close modal"
               >
                 CONTINUE SHOPPING
               </button>
@@ -208,7 +208,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
             <div className="w-1/2">
               <button
                 onClick={() => onBuyNow(productData.id, quantity)}
-                className="w-full bg-[#5232C2] border-0 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-300"
+                className="w-full bg-[#5232C2] border-0 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out"
                 aria-label="Proceed to checkout with selected items"
               >
                 <span

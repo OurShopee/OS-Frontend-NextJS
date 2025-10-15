@@ -111,7 +111,8 @@ const ProductPageLayout = ({
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
   const [qty, setQty] = useState(1);
-  const { slug } = useParams();
+  const { sku } = useParams();
+
 
   // --- ProductForm State Integration ---
   const [formData, setFormData] = useState({
@@ -158,6 +159,21 @@ const ProductPageLayout = ({
       delay: 200,
       duration: 500,
     });
+    
+    // Fix overflow-x-hidden breaking sticky positioning
+    const overflowHiddenDiv = document.querySelector('.overflow-x-hidden');
+    if (overflowHiddenDiv && window.innerWidth >= 1024) {
+      overflowHiddenDiv.style.overflowX = 'clip';
+      overflowHiddenDiv.style.overflowY = 'visible';
+    }
+    
+    return () => {
+      // Restore on unmount
+      if (overflowHiddenDiv) {
+        overflowHiddenDiv.style.overflowX = '';
+        overflowHiddenDiv.style.overflowY = '';
+      }
+    };
   }, []);
 
   const { galleryImages, isOutOfStock, productInfoDetails } = useMemo(
@@ -663,9 +679,9 @@ const ProductPageLayout = ({
   return (
     <div className="webfeed-bg relative">
       <div className="sm:px-4 sm:py-4 container">
-        <div className="flex flex-col sm:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           {/* Left Side - Product Images and Overview */}
-          <div className="w-full lg:w-8/12">
+          <div className="w-full lg:w-8/12 flex-shrink-0">
             <div className="bg-white bg-opacity-[0.9] sm:rounded-[20px] p-4 sm:shadow-sm">
               {/* Main Product Image */}
               <div className="sm:hidden mb-2 w-max flex items-center brand-feed-shadow px-3 py-1 rounded-full shadow">
@@ -732,16 +748,16 @@ const ProductPageLayout = ({
                               />
                             </div>
                           ) : (
-                            <span className="currency-symbol mr-1 text-[24px] md:text-[26px]">
+                            <span className="currency-symbol mr-1 text-[24px] md:text-[26px] font-bold">
                               {currentcountry.currency}
                             </span>
                           )}
-                          <span className="text-[24px] md:text-[26px]">
+                          <span className="text-[24px] md:text-[26px] font-bold">
                             {product?.display_price}
                           </span>
                         </div>
                         {savedPrice > 0 && (
-                          <div className="ml-4 px-3 py-2 flex items-center font-medium">
+                          <div className="save-banner ml-4 px-3 py-2 flex items-center font-medium">
                             <span className="badge-icon mr-2 flex items-center justify-center">
                               <img
                                 src="/assets/vector_icons/Vector.png"
@@ -749,10 +765,10 @@ const ProductPageLayout = ({
                                 className="discount-icon"
                               />
                             </span>
-                            <span className="text-sm">
+                            <span className="flex gap-1 items-center text-sm">
                               You saved{" "}
                               <span className="currency-symbol text-sm">
-                                {currentcountry.currency}{" "}
+                               {currentcountry.currency=="AED" ? <img src="/assets/feed/aed-icon.png" alt="AED" className="w-4 h-full mix-blend-multiply " style={{color: "black"}}/>: currentcountry.currency}
                               </span>
                               {Math.ceil(savedPrice)}
                             </span>
@@ -868,7 +884,7 @@ const ProductPageLayout = ({
                           </div>
                           <div className="flex flex-wrap mt-4 gap-5 items-center">
                             {attribute.list.map((attribute_item) => {
-                              const isActive = slug === attribute_item.sku;
+                              const isActive = sku == attribute_item.sku;
                               const colorCircleStyle = {
                                 background: attribute_item?.code?.startsWith(
                                   "#"
@@ -909,7 +925,7 @@ const ProductPageLayout = ({
                                         <div style={colorCircleStyle}></div>
                                       </div>
                                       <h6
-                                        className={`mt-3 text-[14px] mb-0 text-center whitespace-nowrap ${
+                                        className={`mt-3 text-[14px] mb-0 text-center ${
                                           isActive
                                             ? "text-[#43494B] font-semibold text-[15px]"
                                             : "text-[#91979A] font-medium"
@@ -962,14 +978,16 @@ const ProductPageLayout = ({
             </div>
           </div>
           <div
-            className="w-full lg:w-4/12 sticky top-[80px] mt-2 sm:mt-0 h-full flex justify-center items-center mb-10 sm:mb-0"
-            data-aos={isMobile ? "fade-down" : "fade-left"}
-            data-aos-easing="ease-out-back"
-            data-aos-duration="1000"
-            data-aos-delay="100"
+            className="w-full lg:w-4/12 webfeed-order-form-sticky"
+            {...(isMobile ? {
+              "data-aos": "fade-down",
+              "data-aos-easing": "ease-out-back",
+              "data-aos-duration": "1000",
+              "data-aos-delay": "100"
+            } : {})}
             id="order-form"
           >
-            <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form h-full">
+            <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form">
               <div>
                 <h4 className="font-bold mb-5 text-xl sm:text-2xl">
                   Place Your Order Here

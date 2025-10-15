@@ -77,7 +77,7 @@ const ImageCarousel = ({
       <div className="flex flex-col w-full flex-grow gap-10">
         {/* Main Image Magnifier */}
         <div className="relative rounded-xl overflow-hidden flex-grow">
-          <div>
+          <div className="w-full h-full">
             <ReactImageMagnify
               {...{
                 smallImage: {
@@ -87,20 +87,25 @@ const ImageCarousel = ({
                 },
                 largeImage: {
                   src: images?.[currentImage],
-                  width: 1000,
-                  height: 1000,
-                  zIndex: 10,
+                  width: 600,
+                  height: 600,
                 },
                 enlargedImagePosition: "over",
                 enlargedImageContainerDimensions: {
                   width: "100%",
                   height: "100%",
                 },
+                enlargedImageContainerStyle: {
+                  zIndex: 9,
+                },
                 imageStyle: {
                   maxHeight: webfeed ? "240px" : "450px",
                   width: "100%",
                   objectFit: "contain",
-                  zIndex: 999,
+                },
+                shouldUsePositiveSpaceLens: true,
+                lensStyle: {
+                  backgroundColor: "rgba(0,0,0,.2)",
                 },
               }}
             />
@@ -160,9 +165,7 @@ const ImageCarousel = ({
         {/* Thumbnail Swiper with manual autoplay */}
         <div
           className={`${
-            webfeed
-              ? "h-[60px] w-[28vw]"
-              : "h-[110px]  w-[47vw] 2xl:w-[680px]"
+            webfeed ? "h-[60px] w-[28vw]" : "h-[110px]  w-[47vw] 2xl:w-[680px]"
           } relative overflow-hidden max-w-[800px]`}
         >
           <Swiper

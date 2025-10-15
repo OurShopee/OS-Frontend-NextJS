@@ -74,6 +74,14 @@ export default function CarouselProducts({
     };
   }, [products]);
 
+  const paginationConfig = useMemo(() => {
+    if (!isMobile) return false;
+
+    return {
+      clickable: true,
+    };
+  }, [isMobile]);
+
   // Update height when swiper is ready
   const handleSwiperInit = (swiper) => {
     setIsBeginning(swiper.isBeginning);
@@ -142,11 +150,11 @@ export default function CarouselProducts({
         cssMode={!isMobile && true}
         mousewheel={true}
         keyboard={true}
-        pagination={false} // keep false since you're not showing bullets
+        pagination={paginationConfig} // keep false since you're not showing bullets
         navigation={false} // false since you're using custom arrows
         modules={
           isMobile
-            ? [Grid]
+            ? [Grid, Pagination]
             : [Grid, Pagination, Navigation, Mousewheel, Keyboard]
         }
         grid={type == 1 && isMobile ? { rows: 2, fill: "row" } : undefined}
@@ -203,7 +211,7 @@ export default function CarouselProducts({
           })}
 
         {!isMobile && products?.length > 0 && (
-          <div className="arrows">
+          <div className="">
             {/* Show left arrow only when not at the beginning */}
             {!isBeginning ? (
               <div className="left_indicator previous" onClick={handlePrev}>

@@ -116,7 +116,6 @@ const NationalityDropdown = ({
       onSelect(value);
       setShowDropdown(false);
       setFocusedIndex(-1);
-      inputRef.current?.focus();
     }
   };
 

@@ -108,8 +108,8 @@ export default function BrandOfTheWeekUpdated({ products }) {
         </span>
       </div>
 
-      <div className="rounded-2xl flex md:!flex-nowrap items-stretch gap-6 md:gap-1">
-        {/* Left Banner */}
+      <div className={`rounded-2xl ${isMobile ? 'flex flex-col' : 'flex md:!flex-nowrap'} items-stretch  md:gap-1`}>
+        {/* Main Promotional Image */}
         {(!isMobile &&
           brandData?.brandWeekImg?.url_web &&
           brandData?.brandWeekImg?.url_web !== "0" &&
@@ -131,8 +131,8 @@ export default function BrandOfTheWeekUpdated({ products }) {
                 page: pageName,
               });
             }}
-            className="w-full md:w-[36%] rounded-2xl overflow-hidden cursor-pointer block"
-            style={!isMobile ? { height: rightHeight } : {}}
+            className={`${isMobile ? 'w-full mb-4' : 'w-full md:w-[36%]'} rounded-2xl overflow-hidden cursor-pointer block`}
+            style={!isMobile ? { height: rightHeight } : { minHeight: isMobile ? '200px' : 'auto' }}
           >
             <div
               className="relative w-full h-full flex items-stretch"
@@ -152,8 +152,8 @@ export default function BrandOfTheWeekUpdated({ products }) {
           </a>
         ) : (
           <div
-            className="w-full md:w-[36%] rounded-2xl overflow-hidden"
-            style={!isMobile ? { height: rightHeight } : {}}
+            className={`${isMobile ? 'w-full mb-4' : 'w-full md:w-[36%]'} rounded-2xl overflow-hidden`}
+            style={!isMobile ? { height: rightHeight } : { minHeight: isMobile ? '200px' : 'auto' }}
             data-aos="fade-right"
             data-aos-easing="ease-in-out"
           >
@@ -169,9 +169,9 @@ export default function BrandOfTheWeekUpdated({ products }) {
           </div>
         )}
 
-        {/* Right Carousel */}
+        {/* Product Cards Carousel */}
         <div
-          className="w-full md:w-[64%] flex items-stretch md:px-4"
+          className={`${isMobile ? 'w-full' : 'w-full md:w-[64%]'} flex items-stretch md:px-4`}
           ref={rightRef}
         >
           <div className="w-full h-full">

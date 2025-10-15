@@ -292,8 +292,8 @@ const Footer = () => {
             )}
             <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
               <div className="copyright-contant">
-                © Copyright 2025 [www.ourshopee.com](https://www.ourshopee.com).
-                All rights reserved.
+                © Copyright 2025 www.{window.location.hostname}. All rights
+                reserved.
               </div>
             </div>
             {isBigScreen && (
