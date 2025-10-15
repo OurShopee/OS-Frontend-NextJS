@@ -33,9 +33,28 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1          
 
-      - name: Upload build to S3.
+      - name: Fetch .env from Secret Manager
         run: |
+          rm -rf .env*
+          SECRET_NAME="prodos/ourshopee/next-FE"
+          SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id "$SECRET_NAME" --region ap-south-1 --query SecretString --output text)
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
+
+      - name: Upload build and backups to S3
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          echo "Backing up current prod build to s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP"
+          S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP
+          aws s3 sync s3://ourshopee-build-backup/next-fe/prod/ $S3_BACKUP_BASE --delete
+          aws s3 sync s3://ourshopee-build-backup/storefront/next-prod/ $S3_BACKUP_BASE/public/react-build --delete
+          aws s3 sync .env $S3_BACKUP_BASE/ --delete          
           aws s3 sync . s3://ourshopee-build-backup/next-fe/prod/ --delete
+
+          echo "Cleaning old backups..."
+          BACKUPS=$(aws s3 ls $S3_BACKUP_BASE/ | awk '{print $2}' | sort)
+          COUNT=$(echo "$BACKUPS" | wc -l)
+          DEL=$(($COUNT - 3))
+          if [ $DEL -gt 0 ]; then echo "$BACKUPS" | head -n $DEL | while read OLD; do aws s3 rm --recursive $S3_BACKUP_BASE/$OLD > /dev/null 2>&1; done; fi
 
       - name: Get EC2 Instance IDs by Tag
         id: get-instances
@@ -51,7 +70,7 @@ jobs:
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --comment "Deploy React prod build to EC2" \
+            --comment "Deploy NextJS prod build to EC2" \
             --parameters '{
                 "commands":[
                     "APP_DIR=/usr/share/nginx/html/frontend/",
@@ -62,17 +81,7 @@ jobs:
                     "S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP",             
                     "SECRET_NAME=prodos/ourshopee/next-FE",
                     "REGION=ap-south-1",
-
-                    "echo Backing up current app to $S3_BACKUP_BASE...",
-                    "if [ -d $APP_DIR ]; then aws s3 sync $APP_DIR $S3_BACKUP_BASE > /dev/null 2>&1; fi",
-
-                    "echo Cleaning old backups...",
-                    "BACKUPS=$(aws s3 ls $S3_BACKUP_BASE/ | awk '\''{print $2}'\'' | sort)",
-                    "COUNT=$(echo \"$BACKUPS\" | wc -l)",
-                    "DEL=$(($COUNT - 3))",
-                    "if [ $DEL -gt 0 ]; then echo \"$BACKUPS\" | head -n $DEL | while read OLD; do aws s3 rm --recursive $S3_BACKUP_BASE/$OLD > /dev/null 2>&1; done; fi",
-
-
+                    
                     "echo Syncing latest build...",
                     "mkdir -p $APP_DIR1",
                     "aws s3 sync $S3_PROD $APP_DIR1 --delete > /dev/null 2>&1",
