@@ -387,7 +387,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         <div className="pb-3 px-3">
           {!loading ? (
             <div
-              className={`2xl:container flex ${
+              className={`2xl:container top-[20px] flex ${
                 isMobile && "flex-col"
               } gap-5 !m-auto relative`}
             >
