@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
 import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 
@@ -16,6 +15,9 @@ function AlertModal({ show, setShow, title, message, action, product }) {
       // Save current focus
       previouslyFocusedElement.current = document.activeElement;
 
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = "hidden";
+
       // Focus first button when modal opens
       const timer = setTimeout(() => {
         if (removeButtonRef.current) {
@@ -28,6 +30,23 @@ function AlertModal({ show, setShow, title, message, action, product }) {
         if (e.key === "Escape") {
           setShow(false);
         }
+
+        // Trap focus within modal
+        if (e.key === "Tab" && modalRef.current) {
+          const focusableElements = modalRef.current.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (e.shiftKey && document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          } else if (!e.shiftKey && document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       };
 
       document.addEventListener("keydown", handleKeyDown);
@@ -35,6 +54,7 @@ function AlertModal({ show, setShow, title, message, action, product }) {
       return () => {
         clearTimeout(timer);
         document.removeEventListener("keydown", handleKeyDown);
+        document.body.style.overflow = "unset";
       };
     } else {
       // Restore focus when modal closes
@@ -52,23 +72,29 @@ function AlertModal({ show, setShow, title, message, action, product }) {
     setShow(false);
   };
 
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setShow(false);
+    }
+  };
+
+  if (!show) return null;
+
   return (
-    <>
-      <Modal
-        show={show}
-        onHide={handleCancel}
-        keyboard={true}
-        centered
-        dialogClassName="alert-width"
-        size="md"
-        aria-labelledby="alert-modal-title"
-        aria-describedby="alert-modal-description"
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300"
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="alert-modal-title"
+      aria-describedby="alert-modal-description"
+    >
+      <div
+        className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 transform transition-all duration-300 scale-100 animate-fadeIn"
+        ref={modalRef}
+        role="document"
       >
-        <div
-          className="p-6 w-full font-[Outfit]"
-          ref={modalRef}
-          role="document"
-        >
+        <div className="p-6 w-full font-[Outfit]">
           <div className="flex items-center justify-between border-b pb-3">
             {title && (
               <h2
@@ -104,7 +130,7 @@ function AlertModal({ show, setShow, title, message, action, product }) {
               ref={removeButtonRef}
               type="button"
               onClick={handleRemove}
-              className="flex-1 text-sm font-semibold text-[#F34845] px-4 py-3 bg-white uppercase danderborder rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+              className="flex-1 text-sm font-semibold text-[#F34845] px-4 py-3 bg-white uppercase danderborder rounded-lg hover:bg-red-50 focus:outline-none  transition-colors"
               aria-describedby="alert-modal-description"
             >
               Remove
@@ -118,8 +144,8 @@ function AlertModal({ show, setShow, title, message, action, product }) {
             </button>
           </div>
         </div>
-      </Modal>
-    </>
+      </div>
+    </div>
   );
 }
 
