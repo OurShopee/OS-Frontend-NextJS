@@ -12,7 +12,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
   const leftRef = useRef(null);
   const [leftHeight, setLeftHeight] = useState(null);
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  const isHomePage = location.pathname === "/";
   const safeCarouselData = Array.isArray(carousel_data) ? carousel_data : [];
 
   const [hasSetHeight, setHasSetHeight] = useState(false);
@@ -20,9 +20,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-
-  // Use pathname instead of router.pathname for SSR compatibility
-  const pageName = pathname;
+  const pageName = window.location.pathname;
 
   const handleFirstImageLoad = () => {
     if (!hasSetHeight && leftRef.current && window.innerWidth >= 768) {
@@ -39,6 +37,8 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
     }, 3000);
     return () => clearInterval(interval);
   }, [safeCarouselData, activeIndex]);
+
+  // Check current page pathname instead of banner URL
   const staticPagePrefixes = ["/categories", "/products-category"];
   const shouldWrapWithNavLink = !staticPagePrefixes.some((prefix) =>
     location.pathname.startsWith(prefix)
@@ -67,7 +67,8 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
             onSelect={(i) => setActiveIndex(i)}
             controls={safeCarouselData?.length > 1}
             indicators={false}
-            className="home_carousel  rounded-lg"
+            setActiveIndex={setActiveIndex}
+            className="home_carousel rounded-lg"
           >
             {safeCarouselData.length > 0 &&
               safeCarouselData?.map((item, index) => {
