@@ -120,7 +120,7 @@ const Login = () => {
         <div className="formbotton mt-4">
           If you don't have an account,
           <span
-            className="primarycolor termstitle ml-1 cursor-pointer underline text-blue-600"
+            className="primarycolor termstitle ml-1 cursor-pointer no-underline text-blue-600"
             onClick={openregister}
           >
             {" "}
