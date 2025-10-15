@@ -159,6 +159,21 @@ const ProductPageLayout = ({
       delay: 200,
       duration: 500,
     });
+    
+    // Fix overflow-x-hidden breaking sticky positioning
+    const overflowHiddenDiv = document.querySelector('.overflow-x-hidden');
+    if (overflowHiddenDiv && window.innerWidth >= 1024) {
+      overflowHiddenDiv.style.overflowX = 'clip';
+      overflowHiddenDiv.style.overflowY = 'visible';
+    }
+    
+    return () => {
+      // Restore on unmount
+      if (overflowHiddenDiv) {
+        overflowHiddenDiv.style.overflowX = '';
+        overflowHiddenDiv.style.overflowY = '';
+      }
+    };
   }, []);
 
   const { galleryImages, isOutOfStock, productInfoDetails } = useMemo(
@@ -664,9 +679,9 @@ const ProductPageLayout = ({
   return (
     <div className="webfeed-bg relative">
       <div className="sm:px-4 sm:py-4 container">
-        <div className="flex flex-col sm:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           {/* Left Side - Product Images and Overview */}
-          <div className="w-full lg:w-8/12">
+          <div className="w-full lg:w-8/12 flex-shrink-0">
             <div className="bg-white bg-opacity-[0.9] sm:rounded-[20px] p-4 sm:shadow-sm">
               {/* Main Product Image */}
               <div className="sm:hidden mb-2 w-max flex items-center brand-feed-shadow px-3 py-1 rounded-full shadow">
@@ -963,14 +978,16 @@ const ProductPageLayout = ({
             </div>
           </div>
           <div
-            className="w-full lg:w-4/12 flex-grow top-[10px] sm:top-[20px] sticky self-start"
-            data-aos={isMobile ? "fade-down" : "fade-left"}
-            data-aos-easing="ease-out-back"
-            data-aos-duration="1000"
-            data-aos-delay="100"
+            className="w-full lg:w-4/12 webfeed-order-form-sticky"
+            {...(isMobile ? {
+              "data-aos": "fade-down",
+              "data-aos-easing": "ease-out-back",
+              "data-aos-duration": "1000",
+              "data-aos-delay": "100"
+            } : {})}
             id="order-form"
           >
-            <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form h-full">
+            <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form">
               <div>
                 <h4 className="font-bold mb-5 text-xl sm:text-2xl">
                   Place Your Order Here
