@@ -259,6 +259,12 @@
     width: 50px !important;
     height: 50px !important;
     border-radius: 10px;
+    border: 1px solid #191B1C;
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+    background-color: #ffffff;
+    color: #191B1C;
 }
 
 .registercheckbox {
@@ -328,8 +334,9 @@
 
 .up-downarrow {
     position: absolute;
-    top: 15%;
-    right: 3%;
+    top: 50%;
+    right: 2%;
+    cursor: pointer;
 }
 
 .otpverification-main {

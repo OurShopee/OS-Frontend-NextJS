@@ -387,11 +387,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         <div className="pb-3 px-3">
           {!loading ? (
             <div
-              className={`2xl:container flex ${
+              className={`2xl:container top-[20px] flex ${
                 isMobile && "flex-col"
               } gap-5 !m-auto relative`}
             >
-              <div className={`${!isMobile && "flex-[0_0_47%] w-[47%]"}`}>
+              <div className={`${!isMobile && "flex-[0_0_47%] w-[47%] sticky top-5 self-start"}`}>
                 {isMobile && (
                   <>
                     <div className="product_Detail_right_side">

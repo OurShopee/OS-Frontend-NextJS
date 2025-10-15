@@ -20,6 +20,7 @@ module.exports = {
         },
       },
       screens: {
+        "2xl": "1470px",
         "3xl": "1700px",
       },
       colors: {
@@ -40,12 +41,15 @@ module.exports = {
     container: {
       center: true,
       screens: {
-        sm: "600px",
-        md: "728px",
-        lg: "984px",
-        xl: "1240px",
         "2xl": "1470px",
       },
+    },
+    screens: {
+      sm: "600px",
+      md: "728px",
+      lg: "984px",
+      xl: "1240px",
+      "2xl": "1470px",
     },
   },
   plugins: [],

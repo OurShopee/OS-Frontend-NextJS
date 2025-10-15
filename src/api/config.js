@@ -15,7 +15,6 @@ export const getCountryDataFromRequest = (req) => {
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
     const origin = `http://${hostname}`;
-
     data = countryDropdown.find(({ dev_url }) => dev_url === origin);
   } else {
     const normalized = normalizeUrl(`https://${hostname}`);
@@ -59,11 +58,16 @@ export const createAxiosInstance = (req = null) => {
 
   if (countryData?.backedn_api) {
     axiosInstance.defaults.baseURL = countryData.backedn_api;
+    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.baseURL)
+    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.headers)
   } else {
     axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
+   
   }
   if (countryData?.id) {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
+    axiosInstance.defaults.headers.common["Content-Type"] = "application/json";
+    console.log("axiosInstance.defaults.headers", axiosInstance.defaults.headers)
   }
   return axiosInstance;
 };
@@ -80,9 +84,11 @@ export const configureAxios = () => {
   if (!isInterceptorSetup && typeof window !== "undefined") {
     axios.interceptors.request.use(
       (config) => {
+        console.log("config", config)
         const countryDataForRequest = getCountryData();
         if (countryDataForRequest && countryDataForRequest.id) {
           config.headers["Country-Id"] = countryDataForRequest.id;
+          console.log("config.headers", config.headers)
         }
         return config;
       },

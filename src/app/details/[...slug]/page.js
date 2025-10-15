@@ -60,15 +60,22 @@ export async function generateMetadata({ params }) {
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
   const productInfo = extractProductInfo(slug);
-
+console.log("productInfo", productInfo)
   if (!productInfo) {
     notFound();
   }
 
   // Get headers for server-side country detection
   const req = await getServerSideHeaders();
-
-  const productData = await getproduct_detail(productInfo.productSku, req);
+  let productData ;
+try{
+  console.log("req", req)
+   productData = await getproduct_detail(productInfo.productSku, req);
+}
+catch(error){
+  console.log("error", error)
+  console.log("error.message", error.message)
+}
 
   if (!productData) {
     notFound();

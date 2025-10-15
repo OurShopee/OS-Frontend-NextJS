@@ -1493,6 +1493,40 @@ html {
 }
 .webfeed-bg {
   background: linear-gradient(81.3deg, #d2dbdd 12.28%, #eeefda 74.08%);
+  
+  @media only screen and (min-width: 1024px) {
+    overflow: visible !important;
+  }
+}
+
+// Fix for sticky positioning - remove overflow from parent containers
+.webfeed-bg {
+  @media only screen and (min-width: 1024px) {
+    // Target the container parent to allow sticky
+    ~ * {
+      overflow: visible !important;
+    }
+  }
+}
+
+// Override root layout overflow for feed pages
+body:has(.webfeed-bg) {
+  @media only screen and (min-width: 1024px) {
+    .overflow-x-hidden {
+      overflow-x: clip !important;
+      overflow-y: visible !important;
+    }
+  }
+}
+
+// Override root layout overflow for product detail pages
+body:has(.product_Detail_left_side) {
+  @media only screen and (min-width: 1024px) {
+    .overflow-x-hidden {
+      overflow-x: clip !important;
+      overflow-y: visible !important;
+    }
+  }
 }
 
 .bg-shadow-feed-form {
@@ -1525,6 +1559,16 @@ html {
 
 .brand-feed-shadow {
   box-shadow: 0px 2px 4px 0px #b5b5b540;
+}
+
+.webfeed-order-form-sticky {
+  @media only screen and (min-width: 1024px) {
+    position: sticky !important;
+    top: 70px !important;
+    align-self: flex-start !important;
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
+  }
 }
 
 .webfeed-form-input {
