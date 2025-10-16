@@ -12,11 +12,16 @@ module.exports = {
     extend: {
       animation: {
         "progress-bar": "fillBar 3s linear forwards",
+        "fadeIn": "fadeIn 0.2s ease-in-out",
       },
       keyframes: {
         fillBar: {
           "0%": { width: "0%" },
           "100%": { width: "100%" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
         },
       },
       screens: {
