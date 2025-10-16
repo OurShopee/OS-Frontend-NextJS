@@ -184,10 +184,12 @@ const CartModalDesktop = ({ show, onHide }) => {
         initialQuantities[item.cart_id] = item.quantity;
       });
       setCartQuantities(initialQuantities);
-    } else {
+    } else if (cartlistdata?.data?.result?.length === 0 && show && Object.keys(cartQuantities).length > 0) {
+      // Only auto-hide if cart becomes empty after previously having items
+      // This prevents closing on initial open when cart is being populated
       onHide();
     }
-  }, [cartlistdata, onHide]);
+  }, [cartlistdata, onHide, show, cartQuantities]);
 
   const handleQuantityChange = (cart_id, newQty) => {
     // if (

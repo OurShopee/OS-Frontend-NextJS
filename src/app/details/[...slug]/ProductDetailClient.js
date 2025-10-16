@@ -933,8 +933,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           <img
                             src={"/assets/vector_icons/Tabby_web.png"}
                             alt="Tabby Offer"
-                            className="flex-1 max-w-full"
+                            className="flex-1 max-w-full cursor-pointer"
                             style={{ borderRadius: "12px" }}
+                            onClick={() => dispatch(setsnplmodal(true))}
                           />
                         </div>
                       </>
