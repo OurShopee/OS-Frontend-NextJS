@@ -1,41 +1,43 @@
-// @import 'bootstrap/dist/css/bootstrap.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import './components/global.scss';
-@import './components/Home.scss';
-@import './components/Header.scss';
-@import './components/Footer.scss';
-@import './components/Categorylist.scss';
-@import './components/placeholders.scss';
-@import './components/Bottomtabs.scss';
-@import './components/Sidebar.scss';
-@import './components/search.scss';
-@import './components/Forms.scss';
-@import './components/paymentDetails.scss';
-@import './components/Cart.scss';
-@import './components/product_detail.scss';
-@import './components/Breadcomp.scss';
-@import './components/Address.scss';
-@import './components/Payment.scss';
-@import './components/tabbyplan.scss';
-@import './components/Snplmodal.scss';
-@import './components/my_profile.scss';
-@import './components/Trackorder.scss';
-@import './components/Complaints.scss';
-@import './components/Myorder.scss';
-@import './components/home_page/home_carousel.scss';
-@import './components/home_page/home_categories.scss';
-@import './components/home_page/carousel_products.scss';
-@import './components/home_page/filters.scss';
-@import './components/Footerpages/privacypolicy.scss';
-@import './components/Footerpages/FAQs.scss';
-@import './components/Footerpages/Affriate.scss';
-@import './components/Footerpages/Blogs.scss';
-@import './components/Footerpages/Contactus.scss';
-@import './components/Footerpages/Aboutus.scss';
-@import './components/CartModal.scss';
+// Bootstrap import after Tailwind to ensure Tailwind has priority
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@import "./components/global.scss";
+@import "./components/Home.scss";
+@import "./components/Header.scss";
+@import "./components/Footer.scss";
+@import "./components/Categorylist.scss";
+@import "./components/placeholders.scss";
+@import "./components/Bottomtabs.scss";
+@import "./components/Sidebar.scss";
+@import "./components/search.scss";
+@import "./components/Forms.scss";
+@import "./components/paymentDetails.scss";
+@import "./components/Cart.scss";
+@import "./components/product_detail.scss";
+@import "./components/Breadcomp.scss";
+@import "./components/Address.scss";
+@import "./components/Payment.scss";
+@import "./components/tabbyplan.scss";
+@import "./components/Snplmodal.scss";
+@import "./components/my_profile.scss";
+@import "./components/Trackorder.scss";
+@import "./components/Complaints.scss";
+@import "./components/Myorder.scss";
+@import "./components/home_page/home_carousel.scss";
+@import "./components/home_page/home_categories.scss";
+@import "./components/home_page/carousel_products.scss";
+@import "./components/home_page/filters.scss";
+@import "./components/Footerpages/privacypolicy.scss";
+@import "./components/Footerpages/FAQs.scss";
+@import "./components/Footerpages/Affriate.scss";
+@import "./components/Footerpages/Blogs.scss";
+@import "./components/Footerpages/Contactus.scss";
+@import "./components/Footerpages/Aboutus.scss";
+@import "./components/CartModal.scss";
 
 :root {
   --background: #ffffff;
@@ -43,32 +45,37 @@
 }
 
 /* Force light mode for the entire application */
-html { 
-  color-scheme: light; 
+html {
+  color-scheme: light;
 }
 
 /* Global input and textarea styling to prevent dark mode issues */
-input, textarea, select {
+input,
+textarea,
+select {
   background-color: #ffffff !important;
-  color: #E7E8E9 !important;
+  color: #e7e8e9 !important;
 }
 
-input::placeholder, textarea::placeholder {
-  color: #A0A0A0 !important;
+input::placeholder,
+textarea::placeholder {
+  color: #a0a0a0 !important;
 }
 
 /* Ensure inputs stay light in dark mode */
 @media (prefers-color-scheme: dark) {
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     background-color: #ffffff !important;
-    color: #191B1C !important;
-    border-color: #E7E8E9 !important;
+    color: #191b1c !important;
+    border-color: #e7e8e9 !important;
   }
-  
-  input::placeholder, textarea::placeholder {
-    color: #A0A0A0 !important;
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #a0a0a0 !important;
   }
-  
 }
 
 html {
