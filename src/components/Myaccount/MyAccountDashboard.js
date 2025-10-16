@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from "react";
 import { IoPerson } from "react-icons/io5";
 import { CiLocationOn, CiEdit, CiCircleQuestion } from "react-icons/ci";
@@ -5,13 +6,15 @@ import { CiHeart } from "react-icons/ci";
 import { PiSignOut } from "react-icons/pi";
 import { FiBox } from "react-icons/fi";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { NavLink } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { MediaQueries } from "../../components/utils";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setauthstatus } from "../../redux/formslice";
 const MyAccountDashboard = () => {
+    const pathname = usePathname()
     const dispatch =useDispatch()
     const logindata = useSelector(state => state.formslice.logindata)
     const authstatus = useSelector(state => state.formslice.authstatus)
@@ -30,26 +33,26 @@ const MyAccountDashboard = () => {
                 {
                     id: 1,
                     name: 'Profile',
-                    url: isMobile ? 'myaccount/profile' : 'myaccount',
-                    icon: <IoPerson size={20} color={window.location.pathname.split('/')[1] == 'myaccount' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    url: `${isMobile ? 'myaccount/profile' : 'myaccount'}`,
+                    icon: <IoPerson size={20} color={pathname?.split('/')[1] == 'myaccount' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 2,
                     name: 'Address',
                     url: 'address',
-                    icon: <CiLocationOn size={20} color={window.location.pathname.split('/')[1] == 'address' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    icon: <CiLocationOn size={20} color={pathname?.split('/')[1] == 'address' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 3,
                     name: 'Change Password',
                     url: 'change-password',
-                    icon: <CiEdit size={20} color={window.location.pathname.split('/')[1] == 'change-password' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    icon: <CiEdit size={20} color={pathname?.split('/')[1] == 'change-password' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 4,
                     name: 'Wishlist',
                     url: 'my-wishlist',
-                    icon: <CiHeart size={20} color={window.location.pathname.split('/')[1] == 'my-wishlist' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    icon: <CiHeart size={20} color={pathname?.split('/')[1] == 'my-wishlist' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
             ]
         },
@@ -61,13 +64,13 @@ const MyAccountDashboard = () => {
                     id: 1,
                     name: 'My orders',
                     url: 'my-orders',
-                    icon: <FiBox size={20} color={window.location.pathname.split('/')[1] == 'my-orders' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    icon: <FiBox size={20} color={pathname?.split('/')[1] == 'my-orders' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 2,
                     name: 'Track Your Order',
                     url: 'track-your-order',
-                    icon: <LiaShippingFastSolid size={20} color={window.location.pathname.split('/')[1] == 'track-your-order' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    icon: <LiaShippingFastSolid size={20} color={pathname?.split('/')[1] == 'track-your-order' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 }
             ]
         },
@@ -79,7 +82,7 @@ const MyAccountDashboard = () => {
                     id: 1,
                     name: 'Complaints',
                     url: 'complaints',
-                    icon: <CiCircleQuestion size={20} color={window.location.pathname.split('/')[1] == 'complaints' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                    icon: <CiCircleQuestion size={20} color={pathname?.split('/')[1] == 'complaints' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 }
             ]
         }
@@ -138,8 +141,8 @@ const MyAccountDashboard = () => {
                     return (
                       <>
                         {isMobile ? (
-                          <NavLink
-                            to={`/${card_item.url}`}
+                          <Link
+                            href={`/${card_item.url}`}
                             className="card_item justify-content-between text-decoration-none"
                             style={{ background: "#fff" }}
                           >
@@ -149,12 +152,12 @@ const MyAccountDashboard = () => {
                                 style={{
                                   color:
                                     card_item.url ==
-                                    window.location.pathname.split("/")[1]
+                                    pathname?.split("/")[1]
                                       ? "var(--primary_color)"
                                       : "rgba(67, 73, 75, 1)",
                                   fontWeight:
                                     card_item.url ==
-                                    window.location.pathname.split("/")[1]
+                                    pathname?.split("/")[1]
                                       ? 600
                                       : 500,
                                 }}
@@ -163,15 +166,15 @@ const MyAccountDashboard = () => {
                               </h5>
                             </div>
                             <img src="/assets/vector_icons/arrow_right.png" />
-                          </NavLink>
+                          </Link>
                         ) : (
-                          <NavLink
-                            to={`/${card_item.url}`}
+                          <Link
+                            href={`/${card_item.url}`}
                             className="card_item text-decoration-none"
                             style={{
                               background:
                                 card_item.url !=
-                                  window.location.pathname.split("/")[1] &&
+                                  pathname?.split("/")[1] &&
                                 "#fff",
                             }}
                           >
@@ -180,19 +183,19 @@ const MyAccountDashboard = () => {
                               style={{
                                 color:
                                   card_item.url ==
-                                  window.location.pathname.split("/")[1]
+                                  pathname?.split("/")[1]
                                     ? "var(--primary_color)"
                                     : "rgba(67, 73, 75, 1)",
                                 fontWeight:
                                   card_item.url ==
-                                  window.location.pathname.split("/")[1]
+                                  pathname?.split("/")[1]
                                     ? 600
                                     : 500,
                               }}
                             >
                               {card_item.name}
                             </h5>
-                          </NavLink>
+                          </Link>
                         )}
                       </>
                     );

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import deleteimg from "../../images/Delete.png";
-import editimg from "../../images/Edit.png";
+import deleteimg from "@/images/Delete.png";
+import editimg from "@/images/Edit.png";
 import { deleteUserAddressapi, saveDefaultAddressapi, getalladdressesapi } from "../../redux/addresslice";
 import { setformmodal, setaddressnumber } from '../../redux/formslice';
 
@@ -97,14 +97,14 @@ const Address = () => {
                             </label>
                             <div className="d-flex mt-4">
                                 <div className="address-page-edit-remove-btn hoverbox-shadow" onClick={() => handleEditAddress(ele.idaddress)}>
-                                    <img src={editimg} alt="Edit" />
+                                    <img src={editimg.src} alt="Edit" />
                                     <span className="btn-title">Edit</span>
                                 </div>
                                 <div
                                     className="address-page-edit-remove-btn hoverbox-shadow"
                                     onClick={() => deleteAddress(ele.idaddress)}
                                 >
-                                    <img src={deleteimg} alt="Delete" />
+                                    <img src={deleteimg.src} alt="Delete" />
                                     <span className="btn-title">Remove</span>
                                 </div>
                             </div>

@@ -59,13 +59,11 @@
 // import React, { useCallback, useEffect, useState, useRef } from "react";
 // import useEmblaCarousel from "embla-carousel-react";
 // import Autoplay from "embla-carousel-autoplay";
-// import { useNavigate } from "react-router-dom";
 // import { pushToDataLayer } from "./utils/dataUserpush";
 // import { useSelector } from "react-redux";
 
 // export default function CategorySlider({ categoryList }) {
 //   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
-//   const navigate = useNavigate();
 
 //   // Use useRef to store the autoplay plugin instance
 //   const autoplayRef = useRef(
@@ -249,7 +247,7 @@
 //                     category_name: cat.category_name,
 //                     page: window.location.pathname,
 //                   });
-//                   navigate("/categories/" + cat.url);
+//                   // Navigate to category page
 //                 }}
 //               >
 //                 <div className="relative transition-transform duration-[300ms] group-hover:duration-[800ms] group-hover:scale-110 z-10 flex flex-col items-center justify-start">

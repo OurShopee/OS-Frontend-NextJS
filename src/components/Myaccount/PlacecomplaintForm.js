@@ -9,13 +9,13 @@ import { MediaQueries } from "../../components/utils";
 import { addComplaint } from '../../services/Apis';
 import { useSelector } from 'react-redux';
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 const PlacecomplaintForm = () => {
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
 
     const { isMobile } = MediaQueries();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const [formData, setFormData] = useState({
         orderid: "",
@@ -61,7 +61,7 @@ const PlacecomplaintForm = () => {
                 theme: "light",
             });
         } else {
-            navigate(`/success-complaints?complaint_id=${response.data.complaint_id}`)
+            router.push(`/success-complaints?complaint_id=${response.data.complaint_id}`)
         }
     };
 
