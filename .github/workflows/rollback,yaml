@@ -1,0 +1,83 @@
+name: Rollback NextJS PROD Frontend from S3 Backup (via SSM)
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment to rollback (production or staging)'
+        required: true
+        default: 'prod-nextjs-fe'
+      timestamp:
+        description: 'Backup timestamp to restore (e.g., 20250620130000)'
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if user is allowed
+        run: |
+          ALLOWED_USERS=("ankush-ourshopee" "HarishSharma4782" "ankitsura"  "aayushourshopee" "tek-thapa-ourshopee")  # Add allowed GitHub usernames here
+          if [[ ! " ${ALLOWED_USERS[@]} " =~ " ${GITHUB_ACTOR} " ]]; then
+            echo "You are not authorized to trigger this workflow."
+            exit 1
+          fi
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Get EC2 Instance IDs by Tag
+        id: get-instances
+        run: |
+          TAG_KEY=Name"
+          TAG_VALUE="${{ github.event.inputs.env == 'production' && 'prod-nextjs-fe'}}"
+          INSTANCE_IDS=$(aws ec2 describe-instances \
+            --filters "Name=tag:${TAG_KEY},Values=${TAG_VALUE}" "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[].InstanceId" \
+            --output text)
+          echo "INSTANCE_IDS=$INSTANCE_IDS" >> $GITHUB_ENV
+          echo "Target instances: $INSTANCE_IDS"
+
+      - name: Trigger SSM Rollback Command
+        run: |
+          ENV="${{ github.event.inputs.env }}"
+          TIMESTAMP="${{ github.event.inputs.timestamp }}"
+          BACKUP_PATH="s3://ourshopee-build-backup/next-fe/backup/${TIMESTAMP}"
+
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --comment "Rollback frontend for ${ENV} via SSM" \
+            --instance-ids ${{ env.INSTANCE_IDS }} \
+            --region ap-south-1 \
+            --parameters '{
+              "commands": [
+                "TARGET_DIR=/usr/share/nginx/html/frontend/",
+                "TARGET_DIR1=/usr/share/nginx/html/frontend1/",
+                "if aws s3 ls '"$BACKUP_PATH"' > /dev/null 2>&1; then",
+                "sudo aws s3 sync '"$BACKUP_PATH"' $TARGET_DIR1",
+                "cd $TARGET_DIR1",
+                "npm install --force > /dev/null 2>&1",
+                "CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build > /dev/null 2>&1",
+                "chown -R ec2-user:ec2-user $TARGET_DIR1",
+                "rm -rf $TARGET_DIR",
+                "mv $TARGET_DIR1 $TARGET_DIR",
+                "echo Restarting PM2 and Nginx process...",
+                "su - ec2-user -c '"'"'cd /usr/share/nginx/html/frontend/ && PORT=4000 pm2 restart next-fe --update-env  || PORT=4000 pm2 start npm --name  next-fe --update-env  -- run start || pm2 list'"'"' ",
+                "sudo systemctl restart nginx",                
+                "echo Rollback complete.",
+                "else",
+                "echo ERROR: Backup not found at '"$BACKUP_PATH"'",
+                "exit 1",
+                "fi",
+                "sudo systemctl reload nginx"
+              ]
+            }' \
+            --timeout-seconds 600 \
+            --max-concurrency "50" \
+            --max-errors "0"
+            
