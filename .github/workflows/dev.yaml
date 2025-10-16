@@ -1,4 +1,4 @@
-name: Deploy main React App
+name: Deploy development React App
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - development
 
 jobs:
-  build-and-deploy-main:
+  build-and-deploy-development:
     runs-on: ubuntu-latest
 
     steps:
