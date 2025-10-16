@@ -34,10 +34,8 @@ jobs:
       - name: Get EC2 Instance IDs by Tag
         id: get-instances
         run: |
-          TAG_KEY=Name"
-          TAG_VALUE="${{ github.event.inputs.env == 'production' && 'prod-nextjs-fe'}}"
           INSTANCE_IDS=$(aws ec2 describe-instances \
-            --filters "Name=tag:${TAG_KEY},Values=${TAG_VALUE}" "Name=instance-state-name,Values=running" \
+            --filters "Name=tag:Name,Values=prod-nextjs-fe" "Name=instance-state-name,Values=running" \
             --query "Reservations[].Instances[].InstanceId" \
             --output text)
           echo "INSTANCE_IDS=$INSTANCE_IDS" >> $GITHUB_ENV
