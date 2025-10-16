@@ -807,7 +807,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               <FiMinus
                                 height={22}
                                 className={`cursor-pointer ${
-                                  qty == 1 && "text-[#ddd9d9] text-opacity-50 !cursor-default"
+                                  qty == 1 &&
+                                  "text-[#ddd9d9] text-opacity-50 !cursor-default"
                                 }`}
                                 onClick={() => handleChangeQty("dec")}
                               />
@@ -1221,9 +1222,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
           {/* A+ content section */}
           {a_plus_images?.length > 0 && (
-            <div className="tw-flex tw-flex-col tw-pb-7 sm:tw-pb-0">
+            <div className="flex flex-col pb-7 sm:pb-0">
               {a_plus_images?.map((i) => (
-                <img className="tw-w-full tw-h-auto" src={i} alt="img" />
+                <img className="w-full h-auto" src={i} alt="img" />
               ))}
             </div>
           )}
@@ -1499,7 +1500,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         >
                           <FiMinus
                             className={`cursor-pointer ${
-                              qty == 1 && "text-[#ddd9d9] text-opacity-50 !cursor-default"
+                              qty == 1 &&
+                              "text-[#ddd9d9] text-opacity-50 !cursor-default"
                             }`}
                             onClick={() => handleChangeQty("dec")}
                           />

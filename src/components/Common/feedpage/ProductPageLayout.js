@@ -113,7 +113,6 @@ const ProductPageLayout = ({
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
 
-
   // --- ProductForm State Integration ---
   const [formData, setFormData] = useState({
     form_name: "",
@@ -159,19 +158,19 @@ const ProductPageLayout = ({
       delay: 200,
       duration: 500,
     });
-    
+
     // Fix overflow-x-hidden breaking sticky positioning
-    const overflowHiddenDiv = document.querySelector('.overflow-x-hidden');
+    const overflowHiddenDiv = document.querySelector(".overflow-x-hidden");
     if (overflowHiddenDiv && window.innerWidth >= 1024) {
-      overflowHiddenDiv.style.overflowX = 'clip';
-      overflowHiddenDiv.style.overflowY = 'visible';
+      overflowHiddenDiv.style.overflowX = "clip";
+      overflowHiddenDiv.style.overflowY = "visible";
     }
-    
+
     return () => {
       // Restore on unmount
       if (overflowHiddenDiv) {
-        overflowHiddenDiv.style.overflowX = '';
-        overflowHiddenDiv.style.overflowY = '';
+        overflowHiddenDiv.style.overflowX = "";
+        overflowHiddenDiv.style.overflowY = "";
       }
     };
   }, []);
@@ -768,7 +767,16 @@ const ProductPageLayout = ({
                             <span className="flex gap-1 items-center text-sm">
                               You saved{" "}
                               <span className="currency-symbol text-sm">
-                               {currentcountry.currency=="AED" ? <img src="/assets/feed/aed-icon.png" alt="AED" className="w-4 h-full mix-blend-multiply " style={{color: "black"}}/>: currentcountry.currency}
+                                {currentcountry.currency == "AED" ? (
+                                  <img
+                                    src="/assets/feed/aed-icon.png"
+                                    alt="AED"
+                                    className="w-4 h-full mix-blend-multiply "
+                                    style={{ color: "black" }}
+                                  />
+                                ) : (
+                                  currentcountry.currency
+                                )}
                               </span>
                               {Math.ceil(savedPrice)}
                             </span>
@@ -979,12 +987,14 @@ const ProductPageLayout = ({
           </div>
           <div
             className="w-full lg:w-4/12 webfeed-order-form-sticky"
-            {...(isMobile ? {
-              "data-aos": "fade-down",
-              "data-aos-easing": "ease-out-back",
-              "data-aos-duration": "1000",
-              "data-aos-delay": "100"
-            } : {})}
+            {...(isMobile
+              ? {
+                  "data-aos": "fade-down",
+                  "data-aos-easing": "ease-out-back",
+                  "data-aos-duration": "1000",
+                  "data-aos-delay": "100",
+                }
+              : {})}
             id="order-form"
           >
             <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form">
@@ -1134,7 +1144,7 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="location"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input tw-rounded-lg tw-appearance-none tw-pr-12 ${
+                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
                           errors.location ? "is-invalid" : ""
                         }`}
                         value={formData.location}

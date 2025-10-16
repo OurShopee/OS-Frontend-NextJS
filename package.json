@@ -29,6 +29,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.6",
+    "gsap": "^3.13.0",
     "he": "^1.2.0",
     "html-entities": "^2.6.0",
     "js-cookie": "^3.0.5",
