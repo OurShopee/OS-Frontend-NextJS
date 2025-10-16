@@ -175,7 +175,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                     className="item-qty border font-semibold rounded-full px-3 py-1"
                     style={{ fontFamily: "Outfit", fontSize: "10px" }}
                   >
-                    Qty. {quantity}
+                    Qty. {quantity} 
                   </div>
                   <span
                     className="text-green-600"
