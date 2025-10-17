@@ -2,12 +2,12 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { MediaQueries } from "@/components/utils";
-import Changepassword from "@/components/Common/Changepassword";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
+import Mangecomplaintform from "@/components/Myaccount/Mangecomplaintform"
+import Invitefriend from "@/components/Common/Invitefriend"
 import withAuth from "@/components/Common/withAuth";
-
-const PasswordChange = () => {
+const ManageComplaints = () => {
 
     const { isMobile } = MediaQueries()
 
@@ -21,30 +21,31 @@ const PasswordChange = () => {
                             <MyAccountDashboard />
                         </Col>
                     }
-                    {
-                        isMobile ?
-                            <Col lg={12}>
-                                <div>
-                                    <BreadComp title={"Change Password"} />
-                                    <div className="page-titile">CHANGE PASSWORD
-                                    </div>
-                                    <Changepassword />
-                                </div>
-                            </Col>
-                            :
 
-                            <Col lg={9}>
+
+
+                    <Col lg={9} md={9} sm={12}>
+                        {
+                            isMobile ?
+                                <div>
+                                    <BreadComp title={"Place a complaints"} title0={"Manage Complaints"} />
+                                    <div className="page-titile">Track your Complaints
+                                    </div>
+                                </div> :
                                 <div className="Myaccount-rightsidecard">
-                                    <div className="title">Change Password</div>
-                                    <div className="discription">Enter your current password and new password to change the password</div>
-                                    <Changepassword />
+                                    <div className="title">Track your Complaints</div>
+                                    <div className="discription">Register Your Complaints here..Our Customer Care Executive will get back to you soon.</div>
                                 </div>
-                            </Col>
-                    }
+                        }
+                         <Invitefriend/>
+                        <Mangecomplaintform />
+
+                    </Col>
+
                 </Row>
             </Container>
         </>
     );
 };
 
-export default withAuth(PasswordChange);
+export default withAuth(ManageComplaints);

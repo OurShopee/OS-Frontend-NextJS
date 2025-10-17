@@ -60,7 +60,7 @@ const TrackbyReferenceid = () => {
         </div>
         <div className="d-flex justify-content-end">
                 <div
-                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn tw-cursor-pointer" : "formsubmitbutton profileviewsubmitbtn tw-cursor-pointer"}
+                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn cursor-pointer" : "formsubmitbutton profileviewsubmitbtn cursor-pointer"}
                     onClick={isFormValid() ? handleSubmit : null}
                 >
                     Submit

@@ -5,11 +5,12 @@ import deleteimg from "@/images/Delete.png";
 import editimg from "@/images/Edit.png";
 import { deleteUserAddressapi, saveDefaultAddressapi, getalladdressesapi } from "@/redux/addresslice";
 import { FaPlus } from "react-icons/fa6";
-import { MediaQueries } from "@/utils";
+import { MediaQueries } from "@/components/utils";
 import { toggleMobileAddressModal, setaddress_header } from "@/redux/addresslice";
 import { setaddressnumber, setformmodal, setformstatus } from '../../redux/formslice';
-import {selectaddressclick} from "@/utils/dataUserpush"
+
 import MobileAddressModal from "../Common/Modals/MobileAddressModal";
+import { selectaddressclick } from "../utils/dataUserpush";
 
 const MobileAddress = () => {
     const dispatch = useDispatch();

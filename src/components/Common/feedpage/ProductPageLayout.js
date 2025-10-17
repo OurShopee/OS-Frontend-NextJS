@@ -1134,7 +1134,7 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="location"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input tw-rounded-lg tw-appearance-none tw-pr-12 ${
+                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
                           errors.location ? "is-invalid" : ""
                         }`}
                         value={formData.location}

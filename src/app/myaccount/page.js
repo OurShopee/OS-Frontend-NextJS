@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import ProfileView from "@/components/Myaccount/ProfileView";
 import { MediaQueries } from "@/components/utils";
+import withAuth from "@/components/Common/withAuth";
 
 
 const MyAccount = () => {
@@ -34,4 +35,4 @@ const MyAccount = () => {
     );
 };
 
-export default MyAccount;
+export default withAuth(MyAccount);

@@ -82,14 +82,14 @@ const Mangecomplaintform = () => {
                 />
                 {resData && 
                     <div
-                        className="tw-text-green-700 tw-font-semibold"
+                        className="text-green-700 font-semibold"
                         dangerouslySetInnerHTML={{ __html: resData.msg }}
                     />
                 }
             </div>
             <div className="d-flex justify-content-end mt-3">
                 <span
-                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn tw-cursor-pointer" : "formsubmitbutton profileviewsubmitbtn tw-cursor-pointer"}
+                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn cursor-pointer" : "formsubmitbutton profileviewsubmitbtn cursor-pointer"}
                     onClick={isFormValid() ? handleTrackOrder : undefined}
                 >
                     Track a complaint

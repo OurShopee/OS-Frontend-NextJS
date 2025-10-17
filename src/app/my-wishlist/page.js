@@ -11,6 +11,7 @@ import { postWishList, getWishLists } from "@/redux/cartslice";
 import { useCart } from "@/hooks";
 import Cookies from "universal-cookie";
 import Link from "next/link";
+import withAuth from "@/components/Common/withAuth";
 const page = () => {
   const { isMobile } = MediaQueries();
   const dispatch = useDispatch();
@@ -150,4 +151,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default withAuth(page);

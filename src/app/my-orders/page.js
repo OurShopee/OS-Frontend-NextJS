@@ -8,6 +8,7 @@ import BreadComp from "@/components/Myaccount/BreadComp";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Order} from "@/actions/index"
+import withAuth from "@/components/Common/withAuth";
 const page = () => {
     const dispatch = useDispatch();
     const { isMobile } = MediaQueries();
@@ -76,4 +77,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default withAuth(page);

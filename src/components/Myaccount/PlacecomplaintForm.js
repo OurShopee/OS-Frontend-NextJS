@@ -3,13 +3,12 @@ import { useDispatch } from 'react-redux';
 import Inputbox from '../Common/Inputbox';
 import TextareaBox from '../Common/TextareaBox';
 import Formvalidation from "../Validation/Formvalidation";
-import { addComplaintapi } from "../../redux/formslice"; // assume you have or will create this
 import BreadComp from './BreadComp';
 import { MediaQueries } from "../../components/utils";
-import { addComplaint } from '../../services/Apis';
 import { useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 import { useRouter } from 'next/navigation';
+import { addComplaint } from '@/api/others';
 const PlacecomplaintForm = () => {
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
 
@@ -48,7 +47,7 @@ const PlacecomplaintForm = () => {
             comment: formData.comments
         };
 
-        var response = await addComplaint(input_data);
+        const response = await dispatch(addComplaint(input_data));
         if (response.status === false) {
             toast.error(response?.message, {
                 position: "top-center",
@@ -124,7 +123,7 @@ const PlacecomplaintForm = () => {
 
             <div className="d-flex justify-content-end ">
                 <span
-                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn tw-cursor-pointer" : "formsubmitbutton profileviewsubmitbtn tw-cursor-pointer"}
+                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn cursor-pointer" : "formsubmitbutton profileviewsubmitbtn cursor-pointer"}
                     onClick={isFormValid() ? handleSubmit : null}
                 >
                     Submit

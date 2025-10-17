@@ -3,8 +3,10 @@ import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { MediaQueries } from "../../components/utils";
 import Addresslist from "@/components/Myaccount/Addresslist";
+import MobileAddress from "@/components/Myaccount/MobileAddress";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
+import withAuth from "@/components/Common/withAuth";
 
 
 const Address = () => {
@@ -27,7 +29,7 @@ const Address = () => {
                                 <div>
                                     <BreadComp title={"Address"} />
                                     <div className="page-titile">My Address</div>
-                                    <Mobileaddress />
+                                    <MobileAddress />
                                 </div>
                             </Col>
                             :
@@ -46,7 +48,7 @@ const Address = () => {
     );
 };
 
-export default Address;
+export default withAuth(Address);
 
 
 
