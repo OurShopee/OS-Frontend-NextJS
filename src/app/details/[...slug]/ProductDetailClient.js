@@ -807,7 +807,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               <FiMinus
                                 height={22}
                                 className={`cursor-pointer ${
-                                  qty == 1 && "text-[#ddd9d9] text-opacity-50 !cursor-default"
+                                  qty == 1 &&
+                                  "text-[#ddd9d9] text-opacity-50 !cursor-default"
                                 }`}
                                 onClick={() => handleChangeQty("dec")}
                               />
@@ -1499,7 +1500,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         >
                           <FiMinus
                             className={`cursor-pointer ${
-                              qty == 1 && "text-[#ddd9d9] text-opacity-50 !cursor-default"
+                              qty == 1 &&
+                              "text-[#ddd9d9] text-opacity-50 !cursor-default"
                             }`}
                             onClick={() => handleChangeQty("dec")}
                           />

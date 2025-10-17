@@ -1,0 +1,8 @@
+.seller-card {
+  background: linear-gradient(to bottom, #6d28d9, #5c43b5);
+  transition: background 0.3s;
+}
+.seller-card-hover:hover {
+  background: white !important;
+  background-image: none !important;
+} 
