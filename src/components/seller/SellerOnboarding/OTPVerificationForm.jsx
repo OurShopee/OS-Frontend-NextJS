@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import {
   sent_mobile_email_otp,
   verifyMobileOtpForSeller,
-} from "../../services/Apis";
-import DoubleGradientButton from "../Common/Button";
+} from "@/api/seller";
+import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
 
 const OTPVerificationForm = ({ email, mobile, onNext, onBack }) => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);

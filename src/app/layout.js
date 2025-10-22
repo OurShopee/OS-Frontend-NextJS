@@ -2,8 +2,9 @@ import "@/styles/globals.scss";
 import ReduxProvider from "@/store/Provider";
 import BootstrapClient from "../components/BootstrapClient";
 import Footer from "@/components/Common/Footer";
-import Header from "@/components/Common/Header";
 import { ScrollTop } from "@/hooks";
+import DynamicHeader from "@/components/Common/DynamicHeader";
+import "react-intl-tel-input/dist/main.css";
 
 export const metadata = {
   title: "OurShopee - Online Shopping",
@@ -53,7 +54,7 @@ export default function RootLayout({ children }) {
       <body>
         <ReduxProvider>
           <ScrollTop>
-            <Header />
+            <DynamicHeader />
             <div className="overflow-x-hidden">
               <div className="bg-white md:mx-auto relative">
                 <div className="container mainbody">{children}</div>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import IntlTelInput from "react-intl-tel-input";
 import "react-intl-tel-input/dist/main.css";
-import DoubleGradientButton from "../Common/Button";
-import { sent_mobile_email_otp } from "../../services/Apis";
+import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
+import { sent_mobile_email_otp } from "@/api/seller";
 import { toast } from "react-toastify";
 
 const docFields = [

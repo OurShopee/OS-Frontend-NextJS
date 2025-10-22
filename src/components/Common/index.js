@@ -6,4 +6,4 @@ export {default as ProductCard } from "./ProductCard";
 export {default as CurrentLocation} from './CurrentLocation';
 // export {default as Bottomtabs} from './Bottomtabs';
 // export {default as Countrychange} from './Countrychange'
-// export {default as AddressForm} from './AddressForm'
+export {default as AddressForm} from './AddressForm'

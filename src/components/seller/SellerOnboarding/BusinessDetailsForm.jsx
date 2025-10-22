@@ -1,13 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { MultiSelect } from "react-multi-select-component";
-import DoubleGradientButton from "../Common/Button";
-import {
-  getAllAreasByEmirateId,
-  getAllCategoryList,
-  getAreasApi,
-  getLocationsApi,
-} from "../../services/Apis";
+import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
+import { getAllAreasByEmirateId, getAllCategoryList, getLocationsApi } from "@/api/products";
 
 const BusinessDetailsForm = ({ formData, setFormData, onBack, onNext }) => {
   const [selectedLocations, setSelectedLocations] = useState([]);

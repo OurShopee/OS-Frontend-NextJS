@@ -1,31 +1,27 @@
-"use client";
+import Modal from "react-bootstrap/Modal";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
 import {
   setformmodal,
   setotpmodal,
-  setprofilenotupdate,
-} from "../../redux/formslice";
+  setprofilenotupdate
+} from "@/redux/formslice";
 import { AddressForm } from "../Common";
 import ForgotPssword from "./ForgotPssword";
 import Login from "./Login";
+import SuccessModal from "./Modals/SuccessModal";
 import OTPVerification from "./OtpVerifiaction";
 import Register from "./Register";
-import Modal from "./Modals/Modal";
 
 function Example() {
   const formmodal = useSelector((state) => state.formslice.formmodal);
   const optmodalopen = useSelector((state) => state.formslice.optmodalopen);
   const formstatus = useSelector((state) => state.formslice.formstatus);
+  console.log("formstatus", formstatus);
   const profilenotupdate = useSelector(
     (state) => state.formslice.profilenotupdate
   );
   const dispatch = useDispatch();
-
-  // Refs for modal content
-  const formModalRef = useRef(null);
-  const otpModalRef = useRef(null);
 
   const otpmodalhandle = () => {
     dispatch(setotpmodal(!optmodalopen));
@@ -35,47 +31,7 @@ function Example() {
   const handleClose = () => dispatch(setotpmodal(false));
   const handleClose1 = () => dispatch(setformmodal(false));
 
-  // Handle outside click for form modal
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        formModalRef.current &&
-        !formModalRef.current.contains(event.target) &&
-        formmodal
-      ) {
-        handleClose1();
-      }
-    };
-
-    if (formmodal) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [formmodal]);
-
-  // Handle outside click for OTP modal
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        otpModalRef.current &&
-        !otpModalRef.current.contains(event.target) &&
-        optmodalopen
-      ) {
-        handleClose();
-      }
-    };
-
-    if (optmodalopen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [optmodalopen]);
+  if (formstatus == 5) return <SuccessModal />
 
   return (
     <>
@@ -83,37 +39,63 @@ function Example() {
         show={formmodal}
         onHide={handleClose1}
         keyboard={false}
-        size={formstatus === 3 ? "lg" : "md"}
+        size={formstatus == 3 && "lg"}
         centered
-        className={optmodalopen ? "z-30" : ""}
+        className={optmodalopen && "z-3"}
       >
-        <div ref={formModalRef}>
-          <div className="modalclose flex cursor-pointer justify-end pr-2 pt-2">
-            <IoClose
-              size={20}
-              onClick={() => {
-                dispatch(setformmodal(!formmodal));
-              }}
-            />
-          </div>
-
-          {formstatus === 1 && <Login />}
-          {formstatus === 2 && <Register />}
-          {formstatus === 3 && <AddressForm />}
-          {formstatus === 4 && <ForgotPssword />}
+        <div className="modalclose d-flex cursor-pointer justify-content-end pe-2 pt-2 ">
+          <IoClose
+            size={20}
+            onClick={() => {
+              dispatch(setformmodal(!formmodal));
+            }}
+          />
         </div>
-      </Modal>
 
-      <Modal show={optmodalopen} onHide={handleClose} keyboard={false} centered>
-        <div ref={otpModalRef}>
-          <div className="modalclose cursor-pointer flex justify-end pr-2 pt-2">
-            <IoClose size={20} onClick={otpmodalhandle} />
-          </div>
-          <OTPVerification />
-        </div>
-      </Modal>
-    </>
-  );
+                {
+                    formstatus == 1 &&
+                    <Login />
+                }
+                {
+                    formstatus == 2 &&
+                    <Register />
+                }
+                {
+                    formstatus == 3 &&
+                    <AddressForm />
+                }
+                {
+                    formstatus ==4 &&
+                    <ForgotPssword />
+                }
+
+
+
+            </Modal>
+            
+            <Modal
+                show={optmodalopen}
+                onHide={handleClose}
+                keyboard={false}
+                centered
+            >
+                <div className='modalclose cursor-pointer d-flex justify-content-end pe-2 pt-2 '>
+                    <IoClose size={20} onClick={ otpmodalhandle} />
+                </div>
+                <OTPVerification 
+                    onVerificationSuccess={() => {
+                        // This will be handled by Redux state in ProductForm
+                        console.log("OTP verification successful");
+                    }}
+                    onClose={() => {
+                        // This will be handled by Redux state in ProductForm
+                        console.log("OTP modal closed");
+                    }}
+                />
+
+            </Modal>
+        </>
+    );
 }
 
 export default Example;
