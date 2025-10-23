@@ -1,5 +1,5 @@
+"use client";
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Inputbox from '../Common/Inputbox';
 import TextareaBox from '../Common/TextareaBox';
 import Formvalidation from "../Validation/Formvalidation";
@@ -13,7 +13,6 @@ const PlacecomplaintForm = () => {
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
 
     const { isMobile } = MediaQueries();
-    const dispatch = useDispatch();
     const router = useRouter();
 
     const [formData, setFormData] = useState({
@@ -46,8 +45,9 @@ const PlacecomplaintForm = () => {
             email: formData.email,
             comment: formData.comments
         };
-
-        const response = await dispatch(addComplaint(input_data));
+        console.log("input_data",input_data)
+        const response = await addComplaint(input_data);
+        console.log("tes",response)
         if (response.status === false) {
             toast.error(response?.message, {
                 position: "top-center",

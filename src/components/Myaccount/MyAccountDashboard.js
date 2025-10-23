@@ -139,7 +139,7 @@ const MyAccountDashboard = () => {
                 <div className="card_body mt-3">
                   {item.card_items.map((card_item) => {
                     return (
-                      <>
+                      <div key={card_item.id}>
                         {isMobile ? (
                           <Link
                             href={`/${card_item.url}`}
@@ -197,7 +197,7 @@ const MyAccountDashboard = () => {
                             </h5>
                           </Link>
                         )}
-                      </>
+                      </div>
                     );
                   })}
                 </div>

@@ -189,7 +189,7 @@ const CartModalDesktop = ({ show, onHide }) => {
       // This prevents closing on initial open when cart is being populated
       onHide();
     }
-  }, [cartlistdata, onHide, show, cartQuantities]);
+  }, [cartlistdata, onHide, show]);
 
   const handleQuantityChange = (cart_id, newQty) => {
     // if (
