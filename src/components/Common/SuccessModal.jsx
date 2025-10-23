@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Small responsive success modal.
- * - Uses Tailwind classes with `tw-` prefix.
+ * - Uses Tailwind classes with `` prefix.
  *
  * Props:
  * - isOpen: boolean – controls visibility
@@ -13,8 +13,8 @@ import React from 'react';
 const SuccessModal = ({
   isOpen,
   onClose,
-  title = 'Thank you!',
-  message = 'We\u2019ll get back to you soon.',
+  title = "Thank you!",
+  message = "We\u2019ll get back to you soon.",
 }) => {
   if (!isOpen) return null;
 
@@ -24,37 +24,64 @@ const SuccessModal = ({
 
   return (
     <div
-      className="tw-fixed tw-inset-0 tw-z-50 tw-flex tw-items-center tw-justify-center tw-bg-black/50 tw-backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="success-modal-title"
       aria-describedby="success-modal-desc"
     >
-      <div className="tw-w-[90%] tw-max-w-sm tw-rounded-lg tw-bg-white tw-p-5 tw-shadow-xl tw-relative tw-text-center tw-mx-4">
+      <div className="w-[90%] max-w-sm rounded-lg bg-white p-5 shadow-xl relative text-center mx-4">
         <button
           onClick={onClose}
           aria-label="Close"
-          className="tw-absolute tw-right-3 tw-top-3 tw-rounded-full tw-p-1 tw-text-gray-500 hover:tw-text-gray-700 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"
+          className="absolute right-3 top-3 rounded-full p-1 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="tw-h-5 tw-w-5">
-            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="h-5 w-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+              clipRule="evenodd"
+            />
           </svg>
         </button>
 
-        <div className="tw-mx-auto tw-mb-3 tw-flex tw-h-12 tw-w-12 tw-items-center tw-justify-center tw-rounded-full tw-bg-green-100">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="tw-h-6 tw-w-6 tw-text-green-600">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            className="h-6 w-6 text-green-600"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
 
-        <h3 id="success-modal-title" className="tw-text-lg tw-font-semibold tw-text-gray-900">{title}</h3>
-        <p id="success-modal-desc" className="tw-mt-1 tw-text-sm tw-text-gray-600">{message}</p>
+        <h3
+          id="success-modal-title"
+          className="text-lg font-semibold text-gray-900"
+        >
+          {title}
+        </h3>
+        <p id="success-modal-desc" className="mt-1 text-sm text-gray-600">
+          {message}
+        </p>
 
-        <div className="tw-mt-4">
+        <div className="mt-4">
           <button
             onClick={onClose}
-            className="tw-inline-flex tw-items-center tw-justify-center tw-rounded-md tw-bg-blue-600 tw-px-4 tw-py-2 tw-text-white hover:tw-bg-blue-700 tw-transition tw-duration-150"
+            className="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition duration-150"
           >
             Close
           </button>
@@ -65,5 +92,3 @@ const SuccessModal = ({
 };
 
 export default SuccessModal;
-
-
