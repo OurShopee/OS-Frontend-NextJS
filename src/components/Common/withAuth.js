@@ -1,32 +1,46 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import Notlogin from "./Notlogin";
 
-/**
- * Higher Order Component to protect routes
- * Checks if jwt_token cookie exists
- * If not, shows Notlogin component instead of the wrapped component
- * 
- * Usage:
- * export default withAuth(YourComponent);
- */
 const withAuth = (WrappedComponent) => {
-    const AuthComponent = (props) => {
-        const isAuthenticated = Cookies.get("jwt_token") !== undefined;
+  const AuthComponent = (props) => {
+    const [isChecking, setIsChecking] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-        if (!isAuthenticated) {
-            return <Notlogin />;
-        }
+    // Get authentication state from Redux store
+    const authStatus = useSelector((state) => state.formslice.authstatus);
 
-        return <WrappedComponent {...props} />;
-    };
+    useEffect(() => {
+      const token = Cookies.get("jwt_token");
+      const hasToken = token !== undefined;
+      setIsAuthenticated(hasToken);
+      setIsChecking(false);
+    }, []);
 
-    // Set display name for better debugging
-    AuthComponent.displayName = `withAuth(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+    // Listen to Redux authentication state changes
+    useEffect(() => {
+      setIsAuthenticated(authStatus);
+    }, [authStatus]);
 
-    return AuthComponent;
+    // Show loading state while checking
+    if (isChecking) {
+      return <div>Loading...</div>; // Or your loading component
+    }
+
+    if (!isAuthenticated) {
+      return <Notlogin />;
+    }
+
+    return <WrappedComponent {...props} />;
+  };
+
+  AuthComponent.displayName = `withAuth(${
+    WrappedComponent.displayName || WrappedComponent.name || "Component"
+  })`;
+
+  return AuthComponent;
 };
 
 export default withAuth;
-
