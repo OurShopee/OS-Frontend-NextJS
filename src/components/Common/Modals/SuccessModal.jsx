@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setformstatus } from "../../../redux/formslice";
 import Lottie from "lottie-react";
-import success from '@/components/rating-reviews/success.json'
+import success from "@/components/rating-reviews/success.json";
 
 const SuccessModal = () => {
   const dispatch = useDispatch();

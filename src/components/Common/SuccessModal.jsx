@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Small responsive success modal.
+ * - Uses Tailwind classes with `` prefix.
  * - Uses Tailwind classes with `` prefix.
  *
  * Props:
@@ -13,8 +14,8 @@ import React from 'react';
 const SuccessModal = ({
   isOpen,
   onClose,
-  title = 'Thank you!',
-  message = 'We\u2019ll get back to you soon.',
+  title = "Thank you!",
+  message = "We\u2019ll get back to you soon.",
 }) => {
   if (!isOpen) return null;
 
@@ -37,19 +38,46 @@ const SuccessModal = ({
           aria-label="Close"
           className="absolute right-3 top-3 rounded-full p-1 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
-            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="h-5 w-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+              clipRule="evenodd"
+            />
           </svg>
         </button>
 
         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-6 w-6 text-green-600">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            className="h-6 w-6 text-green-600"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
 
-        <h3 id="success-modal-title" className="text-lg font-semibold text-gray-900">{title}</h3>
-        <p id="success-modal-desc" className="mt-1 text-sm text-gray-600">{message}</p>
+        <h3
+          id="success-modal-title"
+          className="text-lg font-semibold text-gray-900"
+        >
+          {title}
+        </h3>
+        <p id="success-modal-desc" className="mt-1 text-sm text-gray-600">
+          {message}
+        </p>
 
         <div className="mt-4">
           <button
@@ -65,5 +93,3 @@ const SuccessModal = ({
 };
 
 export default SuccessModal;
-
-

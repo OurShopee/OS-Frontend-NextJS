@@ -51,17 +51,17 @@ html {
 }
 
 /* Global input and textarea styling to prevent dark mode issues */
-input,
-textarea,
-select {
-  background-color: #ffffff !important;
-  color: #e7e8e9 !important;
-}
+// input,
+// textarea,
+// select {
+//   background-color: #ffffff !important;
+//   color: #e7e8e9 !important;
+// }
 
-input::placeholder,
-textarea::placeholder {
-  color: #a0a0a0 !important;
-}
+// input::placeholder,
+// textarea::placeholder {
+//   color: #a0a0a0 !important;
+// }
 
 /* Ensure inputs stay light in dark mode */
 @media (prefers-color-scheme: dark) {
