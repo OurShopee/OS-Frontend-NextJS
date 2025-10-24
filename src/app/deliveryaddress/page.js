@@ -10,6 +10,7 @@ import Addresslist from "@/components/Common/Addresslist"
 import { pushToDataLayer } from "@/components/utils/dataUserpush"
 import { useSearchParams } from "next/navigation";
 import { GetPlaceOrderapi } from "@/redux/paymentslice";
+import withAuth from "@/components/Common/withAuth";
 const Address = () => {
     const dispatch = useDispatch();
     const { isMobile } = MediaQueries();
