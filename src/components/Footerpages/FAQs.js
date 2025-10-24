@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react";
-import starimg from "@/images/Sta 5r.png"
+import starimg from "@/images/Sta5r.png"
 import { Container } from "react-bootstrap";
 import BreadComp from "@/components/Myaccount/BreadComp";
 const FAQs = () => {

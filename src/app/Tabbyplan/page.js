@@ -1,7 +1,7 @@
 "use client";
 
 import { MediaQueries } from "@/components/utils";
-import starimg from "@/images/Sta 5r.png";
+import starimg from "@/images/Sta5r.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 

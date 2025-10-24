@@ -1,6 +1,6 @@
 "use client";
 
-import notcartimg from "@./images/approval.png";
+import notcartimg from "@/images/approval.png";
 import { updateCartStatusApi } from "@/api/cart";
 import { get_orderSuccessItems, getOrderPaymentStatus } from "@/api/payments";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
