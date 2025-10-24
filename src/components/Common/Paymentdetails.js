@@ -102,7 +102,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
       value: parseInt(paymentData.final_total.split(" ")[1]),
       items: cartlistdata?.data?.result?.map((each) => {
         return {
-          item_id: each.product_id,
+          item_id: each.sku,
           item_name: each.name,
           item_category: each.subcategory_name,
           price: each.single_price,
