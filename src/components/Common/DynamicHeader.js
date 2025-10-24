@@ -9,4 +9,3 @@ export default function DynamicHeader() {
 
   return isSeller ? <HeaderSeller /> : <Header />;
 }
-

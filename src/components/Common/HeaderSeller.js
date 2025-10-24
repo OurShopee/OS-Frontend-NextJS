@@ -37,10 +37,10 @@ const HeaderSeller = () => {
     e.preventDefault();
     e.stopPropagation();
 
-     if (sectionId === "contact-form") {
-       router.push("/onboarding");
-       return;
-     }
+    if (sectionId === "contact-form") {
+      router.push("/onboarding");
+      return;
+    }
 
     if (pathname === "/seller") {
       setTimeout(() => {

@@ -81,7 +81,7 @@ const SellerAlignCards = ({ data }) => {
 
       {/* Button */}
       <button
-        onClick={() => router.push("/Onboarding")}
+        onClick={() => router.push("/onboarding")}
         className="xl:opacity-0 group-hover:opacity-100 duration-500 delay-[150ms] transition-all ease-in-out absolute bottom-4 left-4 bg-[#5232C2] text-white font-medium text-sm px-1.5 py-2 rounded-lg border-none flex items-center gap-2"
       >
         Become a Seller

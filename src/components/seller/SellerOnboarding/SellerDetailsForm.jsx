@@ -235,7 +235,7 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
             onPhoneNumberChange={handlePhoneNumberChange}
             onPhoneNumberBlur={handlePhoneNumberBlur}
             fieldName="contact_phone"
-            inputClassName="w-full border rounded-[4px] px-4 py-2 outline-none focus:border-[#b9a6ff] input-focus"
+            inputClassName="w-full border rounded-[4px] py-2 outline-none focus:border-[#b9a6ff] input-focus"
           />
         </div>
         {errors.contact_phone && (

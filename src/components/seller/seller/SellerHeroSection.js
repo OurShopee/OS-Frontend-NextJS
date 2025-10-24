@@ -21,7 +21,11 @@ const SellerHeroSection = () => {
   }, []);
   return (
     <div className="container relative w-screen h-[500px] xl:h-[660px] overflow-hidden select-none">
-      <img src={Hero.src} alt="Hero" className="w-full h-full object-cover z-1" />
+      <img
+        src={Hero.src}
+        alt="Hero"
+        className="w-full h-full object-cover z-1"
+      />
       <div className="absolute inset-0 flex flex-col items-center pt-2 xl:justify-center z-15">
         <div
           data-aos="fade-down"
@@ -38,7 +42,7 @@ const SellerHeroSection = () => {
           </p>
           <div className="flex items-center justify-center gap-3 xl:gap-6 mt-6 xl:my-6">
             <button
-              onClick={() => router.push("/Onboarding")}
+              onClick={() => router.push("/onboarding")}
               className="bg-black text-white px-4 py-2 xl:py-3 rounded-lg text-sm xl:text-lg shadow-lg transition hover:bg-gray-800 border-none flex gap-3 xl:gap-4"
             >
               Get started for free
