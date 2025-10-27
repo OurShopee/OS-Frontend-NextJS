@@ -14,7 +14,7 @@ const Categorylist = () => {
   const [categorydata, setCategorydata] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [hoveredSubCategory, setHoveredSubCategory] = useState(null);
+  const [hoveredSubCategory, setHoveredSubCategory] = useState([]);
   const [subSubcategories, setSubSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const dropdownRef = useRef(null);
@@ -34,11 +34,11 @@ const Categorylist = () => {
   useEffect(() => {
     if (hoveredCategory) {
       const firstSub = hoveredCategory.subcategory?.[0];
-      setHoveredSubCategory(firstSub || null);
+      setHoveredSubCategory(firstSub || []);
       setSubSubcategories(firstSub?.sub_subcategory || []);
       setBrands(firstSub?.brands || []);
     } else {
-      setHoveredSubCategory(null);
+      setHoveredSubCategory([]);
       setSubSubcategories([]);
       setBrands([]);
     }
@@ -74,7 +74,7 @@ const Categorylist = () => {
 
   const handleDropdownClose = () => {
     setShowDropdown(false);
-    setHoveredCategory(null);
+    setHoveredCategory([]);
     setHoveredSubCategory(null);
     setSubSubcategories([]);
     setBrands([]);
@@ -150,9 +150,7 @@ const Categorylist = () => {
                         href={`/products-category/${sub.url}`}
                         key={sub.sub_category_id}
                         onMouseEnter={() =>
-                          setHoveredSubCategory(
-                            sub?.sub_subcategory?.length > 0 ? sub : null
-                          )
+                          setHoveredSubCategory(sub)
                         }
                         className={`flex-shrink-0 w-[100px] flex flex-col items-center text-center group ${
                           hoveredSubCategory === sub ? "text-[#5232C2]" : ""

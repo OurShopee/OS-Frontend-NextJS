@@ -386,7 +386,7 @@ const countriesData = [
     url: process.env.NEXT_PUBLIC_KUWAIT_URL,
     dev_url: "http://localhost:5700",
     name: "Kuwait",
-    currency: "KD",
+    currency: "KWD",
     backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
     gtm_tag: "GTM-PBBLGVM",
     image: "kuwait.svg",
