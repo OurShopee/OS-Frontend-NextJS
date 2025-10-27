@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
-import logo_new from "../../../src/images/logo_new.png";
-import account_logo from "../../../src/images/account_logo.png";
+import logo_new from "@/images/Logo.png";
+import account_logo from "@/images/account_logo.png";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
-import CountryDropdown from "./CountryDropdown";
 import { useSelector } from "react-redux";
 
 const HeaderSeller = () => {
@@ -67,7 +66,9 @@ const HeaderSeller = () => {
       >
         <div>
           <Link href="/">
-            <img className="companylogo" src={logo_new.src} alt="logo" />
+            <img className="companylogo" src={logo_new.src} alt="OurShopee Logo"
+                    width={120}
+                    height={40} />
           </Link>
         </div>
         <div className="hidden xl:flex gap-5">
