@@ -22,6 +22,7 @@ import {
   setotperror,
 } from "../../redux/formslice";
 import Formvalidation from "@/components/Validation/Formvalidation";
+import { toast } from "react-toastify";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, onClick, ...props }) => {
@@ -108,8 +109,11 @@ const SignupForm = () => {
     } else {
       var mobileNumber = `${phoneNumber}`;
     }
-
-    dispatch(setcheckemailerror(""));
+  dispatch(setcheckemailerror(""));
+   if(formData.password.length < 6) {
+    toast.error("Password must be at least 6 characters long");
+    return;
+   }
     const res = await dispatch(checkmobileotpapi({ mobile: mobileNumber }));
     if (res.payload.status === "blocked") {
       dispatch(setotperror(res.payload.message));
