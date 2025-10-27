@@ -187,7 +187,7 @@ const AddressForm = () => {
     return (
         <div className="address_form">
             <LoadScript
-                googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
                 libraries={["drawing", "places"]}
             >
 
