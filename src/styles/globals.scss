@@ -42,9 +42,11 @@
 $primary_color: #5232c2;
 $primary_active_Color: rgba(59, 130, 246, 1);
 $secondary_color: #ffcf0a;
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary_color: #5232c2;
 }
 
 /* Force light mode for the entire application */

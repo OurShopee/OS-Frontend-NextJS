@@ -506,7 +506,7 @@ function MobileAddressModal() {
                 {address_header == 0 && !step ? (
                   <div
                     className="address_btn_current_location mt-2"
-                    style={{ background: "var(--primary_color", color: "#fff" }}
+                    style={{ background: "var(--primary_color)", color: "#fff" }}
                     onClick={() => {
                       handleLocateme();
                       setcurrent_Step(1);
@@ -518,7 +518,7 @@ function MobileAddressModal() {
                 ) : (
                   <div
                     className="address_btn_current_location mt-2"
-                    style={{ background: "var(--primary_color", color: "#fff" }}
+                    style={{ background: "var(--primary_color)", color: "#fff" }}
                     onClick={() => {
                       setcurrent_Step(1);
                       setIsFocused(true);
@@ -535,7 +535,7 @@ function MobileAddressModal() {
                   className="address_btn"
                   onClick={handleSubmit}
                   style={{
-                    background: isClickable && "var(--primary_color",
+                    background: isClickable && "var(--primary_color)",
                     color: isClickable && "#fff",
                   }}
                 >
