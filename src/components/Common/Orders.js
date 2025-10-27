@@ -223,7 +223,7 @@ const Orders = ({ orderlistdata }) => {
                           ).toFixed(2)}
                         </div>
                       </div>
-                      {(currentcountry?.currency !== "KD" &&
+                      {(currentcountry?.currency !== "KWD" &&
                         currentcountry?.currency !== "QAR") && (
                           <div className="payment-type">
                             <div className="order-paymenttype-title">VAT</div>
@@ -260,7 +260,7 @@ const Orders = ({ orderlistdata }) => {
                       <div className="payment-type pt-3 pb-2">
                         <div className="payment-type-total">
                           Total 
-                          {(currentcountry?.currency !== "KD" &&
+                          {(currentcountry?.currency !== "KWD" &&
                             currentcountry?.currency !== "QAR") && (
                               <span className="totalvat">
                                 (Inclusive of VAT){" "}
@@ -381,7 +381,7 @@ const Orders = ({ orderlistdata }) => {
 
                     </div>
                   </div>
-                  {(currentcountry?.currency !== "KD" &&
+                  {(currentcountry?.currency !== "KWD" &&
                     currentcountry?.currency !== "QAR") && (
                       <div className="payment-type">
                         <div className="order-paymenttype-title">VAT</div>
@@ -417,7 +417,7 @@ const Orders = ({ orderlistdata }) => {
                   <div className="payment-type pt-3 pb-2">
                     <div className="payment-type-total">
                       Total
-                      {(currentcountry?.currency !== "KD" &&
+                      {(currentcountry?.currency !== "KWD" &&
                         currentcountry?.currency !== "QAR") && (
                           <span className="totalvat">(Inclusive of VAT) </span>
                         )}
