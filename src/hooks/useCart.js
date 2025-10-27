@@ -3,6 +3,7 @@ import { addToCartApi } from "@/api/cart";
 import { cartlistapi } from "@/redux/cartslice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 export default function useCart() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,16 +27,9 @@ export default function useCart() {
       };
       dispatch(cartlistapi(input_data));
       setIsLoading(false);
-      // toast.success('Added To Cart', {
-      //     position: "top-center",
-      //     autoClose: 1000,
-      //     hideProgressBar: false,
-      //     closeOnClick: false,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "light",
-      // });
+      toast.success('Added To Cart', {
+          autoClose: 1000,
+        });
     } else {
       setIsLoading(false);
     }
