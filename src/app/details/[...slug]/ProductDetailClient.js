@@ -46,6 +46,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const { isMobile, isLaptop, isTablet } = MediaQueries();
   const { add2cart, isLoading } = useCart();
   const [showCartModalDesktop, setShowCartModalDesktop] = useState(false);
+  const [showVendorList, setShowVendorList] = useState(false);
   const [product, setProduct] = useState(initialProductData);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -59,9 +60,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const addresslistdata = useSelector(
     (state) => state.addresslice.addresslistdata
   );
-  const countryDropdown = useSelector(
-    (state) => state.globalslice.countryDropdown
-  );
+
+  const [selectedVendor, setSelectedVendor] = useState({});
+  const [allVendors, setAllVendor] = useState({});
 
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
@@ -126,15 +127,17 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  const toggleVendorList = () => {
+    setShowVendorList(!showVendorList);
+  }
+
   useEffect(() => {
     dispatch(setsnplmodal(false));
     dispatch(setbankoffermodal(false));
   }, []);
 
   useEffect(() => {
-    const offData =
-      productDetail[0]?.old_price * (productDetail[0]?.percentage / 100);
-    setSavedPrice(offData ? offData.toFixed(2) : 0);
+    setAllVendor(productDetail?.[0]?.sellers)
     setBankSlider(productDetail[0]?.bank_offers);
   }, [productDetail[0]]);
 
@@ -142,10 +145,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
     return decode(html);
   }
 
-  const bankofferclick = (bank_offer) => {
-    dispatch(setbankoffermodal(true));
-    setbankofferdata(bank_offer);
-  };
+  useEffect(() => {
+    setSelectedVendor(allVendors?.[0])
+  }, [allVendors]);
+
+  const changeVendor = (id) => {
+    const vendor = allVendors?.find(v => v?.vendor_details?.vendor_id === id);
+    setSelectedVendor(vendor);
+    toggleVendorList();
+  }
 
   useEffect(() => {
     const getAllReviewsdata = async () => {
@@ -452,8 +460,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               )
                                 ? `${allProductReviews?.data?.stats?.averageRating}.0`
                                 : allProductReviews?.data?.stats?.averageRating?.toFixed(
-                                    1
-                                  )}
+                                  1
+                                )}
                             </span>
                             <span className="text-[#9EA5A8] font-medium">
                               | ({allProductReviews?.data?.stats?.reviewCount}{" "}
@@ -491,33 +499,60 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {isTablet && (
                     <StickyActionBar
                       quantity={qty}
+                      submitNotifyMe={submitNotifyMe}
                       onIncrease={() => setQty((q) => q + 1)}
                       onDecrease={() => setQty((q) => Math.max(1, q - 1))}
                       onAddToCart={handleClick}
                       onBuyNow={(id, qty, sku) => handleBuyNow(id, qty, sku)}
                       productData={productDetail[0]}
+                      selectedVendor={selectedVendor}
                     />
                   )}
                 </div>
               </div>
               <div
-                className={`${
-                  !isMobile && "flex-grow basis-0 overflow-hidden"
-                }`}
+                className={`${!isMobile && "flex-grow basis-0 overflow-hidden"
+                  }`}
               >
                 <div
-                  className={`product_Detail_right_side ${
-                    isMobile ? "mt-0" : "mt-10"
-                  }`}
+                  className={`product_Detail_right_side ${isMobile ? "mt-0" : "mt-10"
+                    }`}
                 >
                   {!isMobile && (
-                    <div className="mb-7">
-                      <h6 className="text-[#6F787C] font-medium mb-2 leading-[1.2rem]">
-                        {productDetail[0]?.brand}
-                      </h6>
-                      <h3 className="!text-[22px] !font-semibold mb-3">
-                        {productDetail[0]?.name}
-                      </h3>
+                    <div className="flex flex-col gap-2 mb-7">
+                      <div className="">
+                        <h6 className="text-[#6F787C]">
+                          {productDetail[0]?.brand}
+                        </h6>
+                        <h3 className="!text-[22px] !font-semibold mb-0">
+                          {productDetail[0]?.name}
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          <p className="text-lg text-gray-600 mb-0">
+                            Sold by{" "}
+                            <span className="font-semibold text-[#43494B]">
+                              {selectedVendor?.vendor_details?.business_name}
+                            </span>
+                          </p>
+                          {
+                            allVendors?.length > 1 &&
+                            <>
+                              <div style={{ border: ".5px solid #9EA5A8" }} className=" bg-[#9EA5A8] rounded-full h-[18px]" />
+                              <div onClick={toggleVendorList} className="cursor-pointer flex items-center justify-center">
+                                <p className="font-semibold text-[#43494B] mb-0 mr-2">
+                                  View Other Sellers
+                                </p>
+                                <span style={{ border: "1.54px solid #FFFFFF" }} className="h-9 w-9 flex items-center justify-center rounded-full bg-[#F3F3F3]">
+                                  <img className="h-4 w-4" src="/assets/Store.svg" alt="store" />
+                                </span>
+                                <span style={{ border: "1.54px solid #FFFFFF" }} className="-ml-3 h-9 w-9 flex items-center justify-center rounded-full bg-[#F3F3F3]">
+                                  +{allVendors?.length}
+                                </span>
+                              </div>
+                            </>
+                          }
+                        </div>
+                      </div>
                       {allProductReviews?.data?.stats?.averageRating > 0 && (
                         <div className="flex gap-1 justify-start items-center">
                           <CustomStarRating
@@ -535,8 +570,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             )
                               ? `${allProductReviews?.data?.stats?.averageRating}.0`
                               : allProductReviews?.data?.stats?.averageRating?.toFixed(
-                                  1
-                                )}
+                                1
+                              )}
                           </span>
                           {allProductReviews?.data?.stats?.reviewCount > 0 && (
                             <span className="text-base text-[#9EA5A8] font-medium">
@@ -550,9 +585,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   )}
                   {!isMobile && <hr className="text-[#b3aaaa] mb-0" />}
                   <div className={`${!isMobile && "my-7"}`}>
-                    {/* d-flex -> flex */}
                     <div className="product_Detail_price_container flex">
-                      {/* d-flex align-items-center -> flex items-center */}
                       <div className="display_price flex items-center">
                         {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
                         <span className="font-bold text-xl flex items-center">
@@ -562,7 +595,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           </span>
                           <span className="text-[24px] md:text-[26px]">
                             {" "}
-                            {productDetail[0]?.display_price}
+                            {selectedVendor?.display_price}
                           </span>
                         </span>
 
@@ -588,19 +621,19 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         )}
                       </div>
                     </div>
-
-                    {productDetail[0]?.hasOwnProperty("old_price") &&
-                      Number(productDetail[0]?.display_price) <
-                        Number(productDetail[0]?.old_price) && (
+                    {/* Show old price & % OFF only if display price is less than old price */}
+                    {selectedVendor?.hasOwnProperty("old_price") &&
+                      Number(selectedVendor?.display_price) <
+                      Number(selectedVendor?.old_price) && (
                         <div className="old_price">
                           <span>
                             {currentcountry.currency +
                               " " +
-                              productDetail[0]?.old_price}
+                              selectedVendor?.old_price}
                           </span>
                           <div className="product_Detail_price_container">
                             <div className="display_percentage">
-                              {productDetail[0]?.percentage + "% OFF"}
+                              {selectedVendor?.percentage + "% OFF"}
                             </div>
                           </div>
                           <p className="text-[#9EA5A8] mb-0 text-base">
@@ -609,10 +642,46 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         </div>
                       )}
                   </div>
+                  {isMobile &&
+                    <>
+                      <div className="mt-6 bg-white rounded-lg p-[1.25rem] border border-gray-200" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 -2px 8px rgba(0, 0, 0, 0.05)' }}>
+                        <div className="flex items-center gap-2">
+                          <span style={{ border: "1.54px solid #FFFFFF" }} className="h-[32px] w-[32px] flex items-center justify-center rounded-lg bg-[#eeebfa]">
+                            <img className="h-6 w-6" src="/assets/Store.svg" alt="store" />
+                          </span>
+                          <p className="text-[16px] font-semibold text-gray-600 mb-0">
+                            Sold by{" "}
+                            <span className="font-semibold text-[#3B82F6] text-[16px] underline">
+                              {selectedVendor?.vendor_details?.business_name}
+                            </span>
+                          </p>
+                        </div>
+                        {allVendors?.length > 1 && <> <hr className="my-2 border-gray-400" />
+                          <div onClick={toggleVendorList} className="cursor-pointer flex justify-between items-center">
+                            <p className="font-semibold text-lg text-[#43494B] mb-0 mr-2">
+                              View All Sellers
+                            </p>
+                            <div className="flex ">
+                              <span style={{ border: "1.54px solid #FFFFFF" }} className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F3F3F3]">
+                                <img className="h-4 w-4" src="/assets/Store.svg" alt="store" />
+                              </span>
+                              <span style={{ border: "1.54px solid #FFFFFF" }} className="-ml-3 h-10 w-10 flex items-center justify-center rounded-full bg-[#eeebfa]">
+                                +{allVendors?.length}
+                              </span>
+                            </div>
+                          </div> </>}
+                      </div>
+                    </>
+                  }
+                  {
+                    currentcountry.id == 1 &&
+                    <tamara-widget type="tamara-summary" amount={productDetail[0]?.display_price} inline-type='2' inline-variant='text' config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'>
+
+                    </tamara-widget>
+                  }
                   <div className="my-6">
-                    {productDetail[0]?.stock === "In stock" && (
+                    {selectedVendor?.stock === "In stock" && (
                       <>
-                        {/* d-flex gap-3 -> flex gap-3 */}
                         <div className="product_Detail_btn_container flex gap-3">
                           <span
                             /* ms-1 fw-semibold -> ml-1 font-semibold */
@@ -621,7 +690,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           >
                             IN STOCK
                           </span>
-                          {/* d-flex align-items-center justify-content-center -> flex items-center justify-center */}
                           <div className="flex items-center justify-center">
                             <img
                               src={"/assets/vector_icons/fire.png"}
@@ -690,7 +758,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     )}
                   </div>
                   {isMobile && (
-                    /* my-4 -> my-4 */
                     <div className="my-4">
                       <div className="grid grid-cols-4 gap-1">
                         {trustBadges.map((badge, index) => (
@@ -713,12 +780,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       </div>
                     </div>
                   )}
-                  {/* Alternative Attributes */}
                   {productDetail[0]?.alternateAttributes.map(
                     (attribute, index) => {
                       if (!attribute?.list?.length) return null;
                       return (
-                        /* mb-3 -> mb-3 */
                         <div className="mb-3" key={`attribute-${index}`}>
                           <div>
                             <h6 className="mb-0 font-semibold text-lg font-[Outfit]">
@@ -792,10 +857,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       );
                     }
                   )}
-                  {/* Add to Cart Section */}
                   {!isTablet &&
                   product?.stock === "In stock" &&
-                  product?.display_price > 0 ? (
+                  selectedVendor?.display_price > 0 ? (
                     <div className="grid lg:flex gap-3 mt-4 items-center select-none mb-3">
                       <div className="flex w-full gap-3 items-center">
                         <div className="flex flex-col gap-4">
@@ -834,7 +898,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           />
                           Add to cart
                           {isLoading && (
-                            /* ms-3 -> ml-3 */
                             <ClipLoader
                               className="ml-3"
                               size={16}
@@ -886,7 +949,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         <div className="producrdetailnotifybtn mt-3 uppercase !text-base">
                           Notify me
                           {isLoading && (
-                            /* ms-3 -> ml-3 */
                             <ClipLoader
                               className="ml-3"
                               size={16}
@@ -901,13 +963,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     )
                   )}
                   {!isMobile && (
-                    /* my-4 -> my-4 */
                     <div className="my-4">
                       <div className="grid gap-2 grid-cols-2 xl:flex xl:justify-between">
                         {trustBadges.map((badge, index) => (
                           <div
                             key={index}
-                            /* text-center gap-2 -> text-center gap-2 */
                             className="flex text-center gap-2 items-center"
                           >
                             <img
@@ -926,7 +986,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       </div>
                     </div>
                   )}
-                  {/* Tabby Section */}
                   <div className="">
                     {currentcountry?.isTabbyRequired && (
                       <>
@@ -948,12 +1007,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {
                     <Snplmodal
                       productcost={
-                        productDetail[0]?.display_price /
+                        selectedVendor?.display_price /
                         currentcountry?.emi_months
                       }
                     />
                   }
-
                   <div className="mt-4"></div>
                 </div>
               </div>
@@ -968,7 +1026,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     className="placeholder_color"
                     style={{ width: "100%", height: 450, borderRadius: 8 }}
                   />
-                  {/* d-flex mt-3 -> flex mt-3 */}
                   <div className="flex mt-3">
                     {[1, 2, 3, 4, 5].map((_i) => {
                       return (
@@ -995,7 +1052,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     style={{ width: "80%", height: 10, borderRadius: 5 }}
                   />
                   <div
-                    /* mt-3 -> mt-3 */
                     className="placeholder_color mt-3"
                     style={{ width: "20%", height: 10, borderRadius: 5 }}
                   />
@@ -1004,8 +1060,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     {[1, 2, 3, 4, 5, 6].map((_i) => {
                       return (
                         <div
-                          key={_i}
-                          /* mt-3 -> mt-3 */
                           className="placeholder_color mt-3"
                           style={{
                             width: "50%",
@@ -1016,7 +1070,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       );
                     })}
                   </div>
-                  {/* d-flex mt-5 -> flex mt-5 */}
                   <div className="flex mt-5">
                     <div
                       /* me-3 -> mr-3 */
@@ -1028,7 +1081,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       style={{ width: "8%", height: 10, borderRadius: 5 }}
                     />
                   </div>
-                  {/* d-flex mt-3 -> flex mt-3 */}
                   <div className="flex mt-3">
                     {[1, 2, 3, 4, 5].map((_i) => {
                       return (
@@ -1044,7 +1096,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {/* d-flex mt-5 -> flex mt-5 */}
                   <div className="flex mt-5">
                     <div
-                      /* me-3 -> mr-3 */
                       className="placeholder_color mr-3"
                       style={{ width: "15%", height: 10, borderRadius: 5 }}
                     />
@@ -1190,7 +1241,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   </div>
                 </div>
               </div>
-              {/* mt-2 -> mt-2 */}
               <div className="text-center mt-2 absolute z-10 left-[50%] -translate-x-[50%] bottom-4">
                 <span
                   onClick={handleToggle}
@@ -1249,8 +1299,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
               />
             )}
           </div>
-
-          {/* Related Products */}
           {!loading1 ? (
             <div className="component_1 product_Detail_carousel_prod mt-5">
               {productDetail_products?.hasOwnProperty("related_products") && (
@@ -1263,7 +1311,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   view_all={"rgba(82, 50, 194, 1)"}
                 />
               )}
-              {/* mt-3 -> mt-3 */}
               {isMobile && <div className="mt-3"></div>}
               <CarouselProducts
                 products={productDetail_products?.related_products}
@@ -1287,10 +1334,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
               })}
             </div>
           )}
-
-          {/* Recently Viewed */}
           {!loading1 ? (
-            /* mt-4 -> mt-4 */
             <div className="component_1 product_Detail_carousel_prod mt-4">
               {productDetail_products?.hasOwnProperty("recently_viewed") && (
                 <ComponentHeader
@@ -1302,7 +1346,6 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   view_all={"rgba(82, 50, 194, 1)"}
                 />
               )}
-              {/* mt-3 -> mt-3 */}
               {isMobile && <div className="mt-3"></div>}
               <CarouselProducts
                 products={productDetail_products?.recently_viewed}
@@ -1383,15 +1426,13 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         </span>
                         <span className="!text-[22px]">
                           {" "}
-                          {product?.display_price}
+                          {selectedVendor?.display_price}
                         </span>
                       </span>
 
                       {savedPrice > 0 && (
-                        /* ms-2 px-3 py-2 d-flex align-items-center -> ml-2 px-3 py-2 flex items-center */
-                        <div className="save-banner ml-2 px-3 py-2 flex items-center !font-medium">
-                          {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
-                          <span className="badge-icon mr-2 inline-flex items-center justify-center">
+                        <div className="save-banner ms-2 px-3 py-2 flex items-center !font-medium">
+                          <span className="badge-icon me-2 inline-flex items-center justify-center">
                             <img
                               src="/assets/vector_icons/Vector.png"
                               alt="%"
@@ -1411,28 +1452,32 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       )}
                     </div>
                   </div>
-                  {product?.hasOwnProperty("old_price") && (
-                    <div className="old_price">
-                      <span className="text-base xl:text-lg">
-                        {currentcountry.currency + " " + product?.old_price}
-                      </span>
-                      <div className="product_Detail_price_container">
-                        <div className="display_percentage text-base xl:text-lg">
-                          {product?.percentage + "% OFF"}
+
+                  {selectedVendor?.hasOwnProperty("old_price") &&
+                    Number(selectedVendor?.display_price) <
+                    Number(selectedVendor?.old_price) && (
+                      <div className="old_price">
+                        <span>
+                          {currentcountry.currency +
+                            " " +
+                            selectedVendor?.old_price}
+                        </span>
+                        <div className="product_Detail_price_container">
+                          <div className="display_percentage">
+                            {selectedVendor?.percentage + "% OFF"}
+                          </div>
                         </div>
+                        <p className="text-[#9EA5A8] mb-0 text-base">
+                          (Inc. of VAT)
+                        </p>
                       </div>
-                      <p className="text-[#9EA5A8] mb-0 text-base xl:text-lg">
-                        (Inc. of VAT)
-                      </p>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             </div>
 
             <div className="hidden xl:block">
               <div className="product_Detail_price_container flex">
-                {/* d-flex align-items-center -> flex items-center */}
                 <div className="display_price flex items-center">
                   {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
                   <span className="font-bold text-xl flex items-center">
@@ -1442,7 +1487,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     </span>
                     <span className="text-base xl:text-[22px]">
                       {" "}
-                      {product?.display_price}
+                      {selectedVendor?.display_price}
                     </span>
                   </span>
 
@@ -1471,24 +1516,26 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 </div>
               </div>
 
-              {product?.hasOwnProperty("old_price") && (
-                <div className="old_price">
-                  <span className="text-base xl:text-lg">
-                    {currentcountry.currency + " " + product?.old_price}
-                  </span>
-                  <div className="product_Detail_price_container">
-                    <div className="display_percentage text-base xl:text-lg">
-                      {product?.percentage + "% OFF"}
+              {selectedVendor?.hasOwnProperty("old_price") &&
+                Number(selectedVendor?.display_price) <
+                Number(selectedVendor?.old_price) && (
+                  <div className="old_price">
+                    <span className="text-base xl:text-lg">
+                      {currentcountry.currency + " " + product?.old_price}
+                    </span>
+                    <div className="product_Detail_price_container">
+                      <div className="display_percentage text-base xl:text-lg">
+                        {product?.percentage + "% OFF"}
+                      </div>
                     </div>
+                    <p className="text-[#9EA5A8] mb-0 text-base xl:text-lg">
+                      (Inc. of VAT)
+                    </p>
                   </div>
-                  <p className="text-[#9EA5A8] mb-0 text-base xl:text-lg">
-                    (Inc. of VAT)
-                  </p>
-                </div>
-              )}
+                )}
             </div>
-
-            {product?.stock === "In stock" && product?.display_price > 0 ? (
+            {/* Right Part */}
+            {product?.stock === "In stock" && selectedVendor?.display_price > 0 ? (
               <>
                 <div className="flex w-28 flex-col gap-4">
                   {product?.stock === "In stock" &&
@@ -1499,10 +1546,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           className="flex-1 border-none bg-transparent flex items-center justify-center px-0"
                         >
                           <FiMinus
-                            className={`cursor-pointer ${
-                              qty == 1 &&
+                            className={`cursor-pointer ${qty == 1 &&
                               "text-[#ddd9d9] text-opacity-50 !cursor-default"
-                            }`}
+                              }`}
                             onClick={() => handleChangeQty("dec")}
                           />
                         </button>
