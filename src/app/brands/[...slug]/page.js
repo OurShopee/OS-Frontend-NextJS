@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
   const category = categoryData?.data?.meta_tags;
 
   return {
-    title: category?.seo_title || category?.name || "Category title",
+    title: category?.seo_title || category?.name || slug[0]+ " - OurShoppe",
     description:
       category?.seo_description || category?.details || "Category description",
     keywords: category?.seo_keywords || "Category keywords",
