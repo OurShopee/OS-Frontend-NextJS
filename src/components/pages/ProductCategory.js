@@ -533,7 +533,7 @@ const ProductCategory = () => {
 
   return (
     <>
-      <div className="w-full pt-2 pb-3 px-3 md:px-6 lg:px-8">
+      <div className="w-full pt-2 pb-3 px-3">
         {/* Breadcrumbs */}
         {!isMobile &&
           (categorytype === "products-category" ? (
@@ -558,12 +558,13 @@ const ProductCategory = () => {
           <div className="hidden lg:block col-span-12 lg:col-span-3">
             {!isMobile && (
               <>
-                <h5 className="text-lg font-semibold mb-3">Filters</h5>
+                <h5 className="text-lg font-semibold mb-2">Filters</h5>
+                <hr />
 
                 {/* Category */}
                 <div
                   onClick={handleCategoryToggle}
-                  className="cursor-pointer flex items-center justify-between mb-3"
+                  className="cursor-pointer flex items-center justify-between mb-3 mt-1.5"
                 >
                   <h5 className="mb-0 text-base font-semibold">Category</h5>
                 </div>
@@ -871,7 +872,7 @@ const ProductCategory = () => {
 
               {/* Total count */}
               {!catloading && filters?.display_items?.total_count !== undefined && (
-                <div className="col-span-12 mb-2">
+                <div className="col-span-12">
                   <h6 className="mb-0 text-xl font-semibold">
                     Products ({filters.display_items.total_count})
                   </h6>
