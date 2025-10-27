@@ -353,7 +353,7 @@ const AddressForm = () => {
                                 }} /><label className="ms-2 cursor-pointer" htmlFor="id_Checked">Make this is my default address</label></div>
                             </Col>
 
-                            <button className="address_btn" onClick={handleSubmit} style={{ background: isClickable && 'var(--primary_color', color: isClickable && '#fff', cursor: !isClickable && 'not-allowed' }}>
+                            <button className="address_btn" onClick={handleSubmit} style={{ background: isClickable && 'var(--primary_color)', color: isClickable && '#fff', cursor: !isClickable && 'not-allowed' }}>
                                 Add Address
                                 {
                                     addressButtonLoader &&
