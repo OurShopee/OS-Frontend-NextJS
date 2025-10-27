@@ -20,7 +20,7 @@ const SellerHeroSection = () => {
     });
   }, []);
   return (
-    <div className="container relative w-screen h-[500px] xl:h-[660px] overflow-hidden select-none">
+    <div className="relative h-[500px] xl:h-[660px] overflow-hidden select-none">
       <img
         src={Hero.src}
         alt="Hero"
