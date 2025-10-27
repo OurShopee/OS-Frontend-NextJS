@@ -51,10 +51,7 @@ const usePayment = () => {
           form.submit();
         }
 
-        if (
-          response.data.pmode === "tabby" &&
-          response.data.hasOwnProperty("redirectionURL")
-        ) {
+        if (response.data.action === "REDIRECT" && response.data.hasOwnProperty("redirectionURL"))  {
           window.location.href = response.data.redirectionURL;
         }
       }
