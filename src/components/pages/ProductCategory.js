@@ -711,16 +711,16 @@ const ProductCategory = () => {
             {/* Banners - Full width of right column */}
             {!catloading && filters?.display_items?.hasOwnProperty("banners") ? (
               isMobile ? (
-                <div className="my-3">
+                <div className="mb-3">
                   <HomeMobileCarousel carousel_data={filters.display_items.banners} />
                 </div>
               ) : (
-                <div className="my-6">
+                <div className="mb-3">
                   <HomeCarousel carousel_data={filters.display_items.banners} searchPage={true} />
                 </div>
               )
             ) : (
-              <div className="my-3">
+              <div className="mb-3">
                 <HomeBannerPlaceholder height={isMobile ? 125 : 250} />
               </div>
             )}
