@@ -25,7 +25,97 @@ export async function fetchCategoriesForCountry(countryId, backendApi) {
 }
 
 /**
- * Extract all URLs from category hierarchy (categories, subcategories, sub-subcategories)
+ * Fetch all products for a country (no limit - fetches ALL products)
+ * @param {number} countryId - Country ID
+ * @param {string} backendApi - Backend API base URL
+ * @returns {Array} Array of product URL objects
+ */
+export async function fetchProductsForCountry(countryId, backendApi) {
+  try {
+    const axiosInstance = axios.create({
+      baseURL: backendApi,
+      headers: {
+        "Country-Id": countryId,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // First, get all categories
+    const categoriesResponse = await axiosInstance.get("api/getcategorylist");
+    const categories = categoriesResponse.data.data || [];
+
+    const productUrls = [];
+    const seenSkus = new Set(); // To avoid duplicates
+
+    // Fetch products from each category
+    for (const category of categories) {
+      if (!category.url) continue;
+
+      try {
+        let page = 1;
+        let hasMore = true;
+
+        // Fetch all pages for this category
+        while (hasMore) {
+          const response = await axiosInstance.get(
+            `api/getallitems?cat_url=${category.url}&page=${page}`
+          );
+
+          const products = response.data?.data || [];
+
+          // If no products returned, stop fetching more pages
+          if (!products || products.length === 0) {
+            hasMore = false;
+            break;
+          }
+
+          // Process products
+          for (const product of products) {
+            if (!product.sku || seenSkus.has(product.sku)) continue;
+
+            seenSkus.add(product.sku);
+
+            // Build product URL
+            if (product.url || product.slug) {
+              const productSlug = product.url || product.slug;
+              productUrls.push({
+                url: `/details/${productSlug}/${product.sku}`,
+                changefreq: "weekly",
+                priority: 0.5,
+              });
+            }
+          }
+
+          // If fewer than expected products, likely last page
+          if (products.length < 50) {
+            // Assuming 50 items per page
+            hasMore = false;
+          } else {
+            page++;
+          }
+        }
+
+        console.log(
+          `Fetched ${seenSkus.size} unique products so far from category ${category.url}`
+        );
+      } catch (error) {
+        // Log but continue with other categories
+        console.error(
+          `Error fetching products for category ${category.url}:`,
+          error
+        );
+      }
+    }
+
+    return productUrls;
+  } catch (error) {
+    console.error(`Error fetching products for country ${countryId}:`, error);
+    return [];
+  }
+}
+
+/**
+ * Extract all URLs from category hierarchy (categories, subcategories, sub-subcategories, and brands)
  * @param {Array} categories - Array of category objects
  * @returns {Array} Array of URL objects with metadata
  */
@@ -42,7 +132,7 @@ export function extractCategoryUrls(categories) {
       });
     }
 
-    // Add subcategory URLs
+    // Add subcategory URLs and brands
     if (category.subcategory && category.subcategory.length > 0) {
       category.subcategory.forEach((subcategory) => {
         if (subcategory.url) {
@@ -54,11 +144,27 @@ export function extractCategoryUrls(categories) {
         }
 
         // Add sub-subcategory URLs
-        if (subcategory.sub_subcategory && subcategory.sub_subcategory.length > 0) {
+        if (
+          subcategory.sub_subcategory &&
+          subcategory.sub_subcategory.length > 0
+        ) {
           subcategory.sub_subcategory.forEach((subSubcategory) => {
             if (subSubcategory.url) {
               urls.push({
                 url: `/products-subcategory/${subcategory.url}/${subSubcategory.url}`,
+                changefreq: "weekly",
+                priority: 0.6,
+              });
+            }
+          });
+        }
+
+        // Add brand URLs
+        if (subcategory.brands && subcategory.brands.length > 0) {
+          subcategory.brands.forEach((brand) => {
+            if (brand.url || brand.slug) {
+              urls.push({
+                url: `/brands/${brand.url || brand.slug}`,
                 changefreq: "weekly",
                 priority: 0.6,
               });
@@ -79,7 +185,7 @@ export function extractCategoryUrls(categories) {
  */
 export function getSpecialPages(country) {
   const pages = [];
-  
+
   if (country.nav_items && country.nav_items.length > 0) {
     country.nav_items.forEach((item) => {
       // Only include pages with status 1 (active)
@@ -107,17 +213,17 @@ export function getStaticPages() {
     { url: "/aboutus", changefreq: "monthly", priority: 0.5 },
     { url: "/contactus", changefreq: "monthly", priority: 0.5 },
     { url: "/faqs", changefreq: "monthly", priority: 0.5 },
-    
+
     // Legal pages
     { url: "/privacy-policy", changefreq: "monthly", priority: 0.3 },
     { url: "/terms-and-conditions", changefreq: "monthly", priority: 0.3 },
     { url: "/return-policy", changefreq: "monthly", priority: 0.3 },
-    
+
     // Business pages
     { url: "/affiliate-program", changefreq: "monthly", priority: 0.4 },
     { url: "/sell-with-us", changefreq: "monthly", priority: 0.4 },
     { url: "/seller", changefreq: "monthly", priority: 0.4 },
-    
+
     // Product and deal pages
     { url: "/brands", changefreq: "weekly", priority: 0.6 },
     { url: "/clearance", changefreq: "daily", priority: 0.8 },
@@ -128,6 +234,13 @@ export function getStaticPages() {
     { url: "/TV-Super-Sale", changefreq: "weekly", priority: 0.7 },
     { url: "/mobile-fest", changefreq: "weekly", priority: 0.7 },
     { url: "/bundle-deals", changefreq: "daily", priority: 0.8 },
+
+    // User account and support pages (public accessible)
+    { url: "/cart", changefreq: "daily", priority: 0.5 },
+    { url: "/track-your-order", changefreq: "monthly", priority: 0.3 },
+    { url: "/place-a-complaints", changefreq: "monthly", priority: 0.3 },
+
+    // Utility pages
     { url: "/sitemap", changefreq: "weekly", priority: 0.3 },
   ];
 }
