@@ -140,7 +140,7 @@ let eventPayload = {
     selected_address:selectedaddress,
     region: region,
   },false);
-  window.dataLayer.push(eventPayload);
+  // window.dataLayer.push(eventPayload);
 };
 
 export const handleSummerCard = (region, data) => {

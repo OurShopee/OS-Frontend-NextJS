@@ -213,7 +213,6 @@ const ProductPageLayout = ({
       optmodalopen
     );
     if (registerapicall && pendingFormData && !optmodalopen) {
-      console.log("OTP verification successful, submitting form...");
       const submitForm = async () => {
         try {
           await submitFormAfterOTP();

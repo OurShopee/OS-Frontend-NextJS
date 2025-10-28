@@ -48,11 +48,6 @@ export default function HomeCategories({ category_list, no_bg, type }) {
     const beginning = swiper.isBeginning;
     const end = swiper.isEnd;
 
-    console.log("Slide change:", {
-      beginning,
-      end,
-      activeIndex: swiper.activeIndex,
-    });
 
     setIsBeginning(beginning);
     setIsEnd(end);

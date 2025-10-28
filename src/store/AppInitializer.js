@@ -173,41 +173,77 @@ export default function AppInitializer() {
     }
   }, [authstatus]);
 
-  // Function: Dynamically Load Google Analytics 4 Based on Current Country's Tag ID
-  const loadGA4 = (id) => {
-    // Check if GA4 script already exists to prevent duplicates
-    const existingScript = document.querySelector(
-      `script[src*="googletagmanager.com/gtag/js?id=${id}"]`
+  // Function: Load Google Tag Manager (GTM) - Different for each country
+  const loadGTM = (gtmContainerId) => {
+    // Check if GTM script already exists to prevent duplicates
+    const existingGtmScript = document.querySelector(
+      `script[src*="googletagmanager.com/gtm.js?id=${gtmContainerId}"]`
     );
-    if (existingScript) return;
+    if (existingGtmScript) return;
 
-    // Load the gtag.js script
+    // Initialize dataLayer for GTM
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js'
+    });
+
+    // Load GTM script
+    const gtmScript = document.createElement('script');
+    gtmScript.async = true;
+    gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${gtmContainerId}`;
+    document.head.appendChild(gtmScript);
+
+    // Add GTM noscript iframe for cases where JavaScript is disabled
+    const gtmNoscript = document.createElement('noscript');
+    gtmNoscript.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmContainerId}" 
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>`;
+    document.body.insertBefore(gtmNoscript, document.body.firstChild);
+    
+    console.log("GTM initialized with Container ID:", gtmContainerId);
+  };
+
+  // Function: Load Google Analytics 4 (GA4) - Same for all regions
+  const loadGA4 = (ga4MeasurementId) => {
+    // Check if GA4 script already exists to prevent duplicates
+    const existingGa4Script = document.querySelector(
+      `script[src*="googletagmanager.com/gtag/js?id=${ga4MeasurementId}"]`
+    );
+    if (existingGa4Script) return;
+
+    // Load the gtag.js script for GA4
     const script = document.createElement("script");
     script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}`;
     document.head.appendChild(script);
 
-    // Initialize gtag
+    // Initialize gtag for GA4
     const inlineScript = document.createElement("script");
     inlineScript.innerHTML = `
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '${id}');
+      gtag('config', '${ga4MeasurementId}');
     `;
     document.head.appendChild(inlineScript);
     
-    console.log("GA4 initialized with ID:", id);
+    console.log("GA4 initialized with Measurement ID:", ga4MeasurementId);
   };
 
-  // Load GA4 Script When Current Country Info is Available
+  // Load GTM and GA4 Scripts When Current Country Info is Available
   useEffect(() => {
     if (
       currentcountry &&
-      Object.keys(currentcountry).length > 0 &&
-      currentcountry.gtm_tag
+      Object.keys(currentcountry).length > 0
     ) {
-      loadGA4(currentcountry.gtm_tag);
+      // Load GTM - different container ID for each country from gtm_tag
+      if (currentcountry.gtm_tag) {
+        loadGTM(currentcountry.gtm_tag);
+      }
+      
+      // Load GA4 - same measurement ID for all regions
+      const ga4MeasurementId = "G-D46Y4GMH65";
+      loadGA4(ga4MeasurementId);
     }
   }, [currentcountry]);
 
