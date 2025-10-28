@@ -8,7 +8,9 @@ const __dirname = path.dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
-    removeConsole: process.env.NEXT_PUBLIC_NODE_ENV === "production",
+    removeConsole: process.env.NEXT_PUBLIC_NODE_ENV === "production" 
+      ? { exclude: ["error", "warn"] } 
+      : false,
   },
   webpack: (config) => {
     config.resolve.alias = {

@@ -55,7 +55,7 @@ export const pushToDataLayer = (eventName,region, eventData = {}, excludeUTM = f
         eventPayload = { ...eventPayload };
     }
     if (typeof gtag === "function") {
-      console.log(eventPayload,"eventPayload")
+      console.warn(eventPayload,"eventPayload")
       gtag('event', eventName, eventPayload);
     } else {
     }
