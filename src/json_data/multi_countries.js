@@ -147,7 +147,7 @@ const countriesData = [
     gtm_tag: "GTM-KTJMPS8",
     image: "oman.svg",
     helpline_numbers: {
-      hotline: "(968) 2 4769100",
+      hotline: "(968) 2 2360100",
       whatsapp: "(968) 79361181",
       address:
         "Ourshopee | Nizwa building  | Near Aliz Islamic bank | Cbd area | Muscut",
