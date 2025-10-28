@@ -36,7 +36,7 @@ jobs:
       - name: Fetch .env from Secret Manager
         run: |
           rm -rf .env*
-          SECRET_NAME="prodos/ourshopee/next-FE"
+          SECRET_NAME="prod/ourshopee/next-FE"
           SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id "$SECRET_NAME" --region ap-south-1 --query SecretString --output text)
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
 
