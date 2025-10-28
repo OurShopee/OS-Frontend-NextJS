@@ -17,7 +17,6 @@ function Example() {
   const formmodal = useSelector((state) => state.formslice.formmodal);
   const optmodalopen = useSelector((state) => state.formslice.optmodalopen);
   const formstatus = useSelector((state) => state.formslice.formstatus);
-  console.log("formstatus", formstatus);
   const profilenotupdate = useSelector(
     (state) => state.formslice.profilenotupdate
   );

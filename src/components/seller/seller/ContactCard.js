@@ -35,7 +35,6 @@ export default function ContactCard() {
 
   const handlePhoneNumberBlur = (status) => {
     setFormData((prev) => ({ ...prev, phoneNumber: prev.formattedPhone }));
-    console.log(formData?.phoneNumber, status);
     if (formData?.phoneNumber && !status) {
       setErrors((prev) => ({
         ...prev,
