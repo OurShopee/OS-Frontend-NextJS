@@ -81,7 +81,7 @@ jobs:
                     "S3_PROD=s3://ourshopee-build-backup/next-fe/prod/",
                     "TIMESTAMP=$(date +%Y%m%d%H%M%S)",
                     "S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP",             
-                    "SECRET_NAME=prodos/ourshopee/next-FE",
+                    "SECRET_NAME=prod/ourshopee/next-FE",
                     "REGION=ap-south-1",
                     
                     "echo Syncing latest build...",
