@@ -1,3 +1,10 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
+
+# Sitemaps for all regions
+Sitemap: https://ourshopee.com/sitemap.xml
+Sitemap: https://kuwait.ourshopee.com/sitemap.xml
+Sitemap: https://bahrain.ourshopee.com/sitemap.xml
+Sitemap: https://oman.ourshopee.com/sitemap.xml
+Sitemap: https://qatar.ourshopee.com/sitemap.xml
