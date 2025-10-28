@@ -1,4 +1,4 @@
-name: Deploy development React App
+name: Deploy development NextJS App
 
 on:
   push:
@@ -43,7 +43,6 @@ jobs:
                 "commands":[
                     "APP_DIR=/usr/share/nginx/next-fe-dev.ourshopee.com/",
                     "S3_DEV=s3://ourshopee-build-backup/next-fe/dev/",
-                    "S3_REACT_DEV=s3://ourshopee-build-backup/storefront/next-dev/",
                     "SECRET_NAME=dev/ourshopee/next-FE",
                     "REGION=ap-south-1",
                     "export PATH=$PATH:/home/ec2-user/.nvm/versions/node/v20.19.4/bin",
@@ -52,7 +51,6 @@ jobs:
                     "rm -rf $APP_DIR",
                     "mkdir -p $APP_DIR",
                     "aws s3 sync $S3_DEV $APP_DIR --delete > /dev/null 2>&1",
-                    "aws s3 sync $S3_REACT_DEV $APP_DIR/public/react-build/ --delete > /dev/null 2>&1",
                     "aws s3 sync s3://ourshopee-build-backup/storefront/production/.well-known/ $APP_DIR.well-known/ > /dev/null", 
 
                     "aws secretsmanager get-secret-value --secret-id \"$SECRET_NAME\" --region \"$REGION\" --query SecretString --output text | jq -r '\''to_entries[] | \"\\(.key)=\\(.value)\"'\'' > $APP_DIR/.env",
