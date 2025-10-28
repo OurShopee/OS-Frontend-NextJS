@@ -199,6 +199,9 @@ const formslice = createSlice({
     setaddressnumber: (state, action) => {
       state.addressnumber = action.payload;
     },
+    setregisterapicall: (state, action) => {
+      state.registerapicall = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -343,6 +346,7 @@ const formslice = createSlice({
           state.addressnumber = true;
         } else {
           state.checkotperror = action.payload.message;
+          state.registerapicall = false;
         }
         // state.formmodal = false;
       })
@@ -352,8 +356,10 @@ const formslice = createSlice({
 
         if (action.payload.status === "success") {
           state.formmodal = false;
+          state.registerapicall = false; // Reset after successful signup
         } else {
           state.checkotperror = action.payload.message;
+          state.registerapicall = false; // Reset on error too
         }
         // state.formmodal = false;
       })
@@ -417,5 +423,6 @@ export const {
   setcheckemailerror,
   setregistermobile,
   setaddressnumber,
+  setregisterapicall,
 } = formslice.actions;
 export default formslice.reducer;

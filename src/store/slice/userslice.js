@@ -343,6 +343,7 @@ const userslice = createSlice({
           state.addressnumber = true;
         } else {
           state.checkotperror = action.payload.message;
+          state.registerapicall = false;
         }
         // state.formmodal = false;
       })
