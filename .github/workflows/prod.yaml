@@ -1,4 +1,4 @@
-name: Deploy prod main React App
+name: Deploy prod main NextJS App
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Check if user is allowed
         run: |
-          ALLOWED_USERS=("ankush-ourshopee" "HarishSharma4782" "ankitsura"  "aayushourshopee" "tek-thapa-ourshopee")  # Add allowed GitHub usernames here
+          ALLOWED_USERS=("ankush-ourshopee" "HarishSharma4782" "ankitsura"  "aayushourshopee" "tek-thapa-ourshopee" "himanshu-chaturvedi-ourshopee")  # Add allowed GitHub usernames here
           if [[ ! " ${ALLOWED_USERS[@]} " =~ " ${GITHUB_ACTOR} " ]]; then
             echo "You are not authorized to trigger this workflow."
             exit 1
@@ -46,7 +46,6 @@ jobs:
           echo "Backing up current prod build to s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP"
           S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP
           aws s3 sync s3://ourshopee-build-backup/next-fe/prod/ $S3_BACKUP_BASE
-          aws s3 sync s3://ourshopee-build-backup/storefront/next-prod/ $S3_BACKUP_BASE/public/react-build 
           aws s3 cp .env $S3_BACKUP_BASE/.env
           aws s3 sync . s3://ourshopee-build-backup/next-fe/prod/ --delete
 
@@ -80,7 +79,6 @@ jobs:
                     "APP_DIR=/usr/share/nginx/html/frontend/",
                     "APP_DIR1=/usr/share/nginx/html/frontend1/",
                     "S3_PROD=s3://ourshopee-build-backup/next-fe/prod/",
-                    "S3_REACT_PROD=s3://ourshopee-build-backup/storefront/next-prod/",    
                     "TIMESTAMP=$(date +%Y%m%d%H%M%S)",
                     "S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP",             
                     "SECRET_NAME=prodos/ourshopee/next-FE",
@@ -89,7 +87,6 @@ jobs:
                     "echo Syncing latest build...",
                     "mkdir -p $APP_DIR1",
                     "aws s3 sync $S3_PROD $APP_DIR1 --delete > /dev/null 2>&1",
-                    "aws s3 sync $S3_REACT_PROD $APP_DIR1/public/react-build/ --delete > /dev/null 2>&1",
                     "aws s3 sync s3://ourshopee-build-backup/storefront/production/.well-known/ $APP_DIR1.well-known/ > /dev/null", 
 
                     "aws secretsmanager get-secret-value --secret-id \"$SECRET_NAME\" --region \"$REGION\" --query SecretString --output text | jq -r '\''to_entries[] | \"\\(.key)=\\(.value)\"'\'' > $APP_DIR1/.env",
