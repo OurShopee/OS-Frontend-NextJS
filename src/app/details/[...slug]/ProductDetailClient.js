@@ -1072,7 +1072,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
           )}
 
           {/* Product Specifications */}
-          <div className={`${!isMobile && "mt-4"}`}>
+          <div className={`${!isMobile ? "mt-8" : "mt-4"}`}>
             <div
               className={`${
                 expanded ? "accordian_border1" : "accordian_border"

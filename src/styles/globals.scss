@@ -143,6 +143,25 @@ a {
   width: 100% !important;
   margin-right: auto !important;
   margin-left: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Remove left/right padding for mobile devices */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  /* Ensure full width on mobile */
+  .w-full {
+    width: 100% !important;
+  }
 }
 
 @media (min-width: 600px) {
@@ -174,4 +193,3 @@ a {
     max-width: 1470px !important;
   }
 }
-
