@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import { useAuth } from "@/hooks";
 import { normalizeUrl } from "@/components/utils/helpers";
 import multi_countries from "@/json_data/multi_countries.js";
+import { useServerData } from "@/contexts/ServerDataContext";
 
 // Redux Actions - Update these import paths according to your structure
 import {
@@ -21,6 +22,7 @@ import {
   getbannerList,
   getTopPicksList,
   getbrand_week,
+  getcategory_items,
 } from "@/redux/homeslice";
 import {
   setauthstatus,
@@ -35,6 +37,15 @@ export default function AppInitializer() {
   const pathname = usePathname();
   const { logout } = useAuth();
   const [jwtToken, setJwtToken] = useState(null);
+
+  // Get server-side data if available
+  let serverData = null;
+  try {
+    serverData = useServerData();
+  } catch (error) {
+    // ServerData context not available, continue with client-side calls
+    serverData = null;
+  }
 
   // Redux State Selectors
   const authstatus = useSelector((state) => state?.formslice?.authstatus);
@@ -134,19 +145,24 @@ export default function AppInitializer() {
     };
   }, [logout, dispatch]);
 
-  // On App Load: Fetch Navigation Data (Always needed)
+  // On App Load: Fetch Navigation Data (Only if not available from server)
   useMemo(() => {
-    dispatch(getnavigation());
-  }, [dispatch]);
+    if (!serverData?.navigationData) {
+      dispatch(getnavigation());
+    }
+  }, [dispatch, serverData?.navigationData]);
 
-  // Load Homepage APIs only when on homepage
+  // Load Homepage APIs only when on homepage and not available from server
   useMemo(() => {
-    if (pathname === '/') {
+    if (pathname === "/" && !serverData?.bannerListData) {
       dispatch(getbannerList());
+    }
+    if (pathname === "/") {
+      // These APIs don't have server-side equivalents yet, so keep them
       dispatch(getTopPicksList());
       dispatch(getbrand_week());
     }
-  }, [dispatch, pathname]);
+  }, [dispatch, pathname, serverData?.bannerListData]);
 
   useEffect(() => {
     const token = Cookies.get("jwt_token");
@@ -163,7 +179,7 @@ export default function AppInitializer() {
       user_id: token !== undefined ? jwtDecode(token).user_id : 0,
     };
     dispatch(cartlistapi(input_data));
-  }, [jwtToken]); 
+  }, [jwtToken]);
 
   useMemo(() => {
     if (authstatus) {
@@ -184,22 +200,22 @@ export default function AppInitializer() {
     // Initialize dataLayer for GTM
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'gtm.start': new Date().getTime(),
-      event: 'gtm.js'
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
     });
 
     // Load GTM script
-    const gtmScript = document.createElement('script');
+    const gtmScript = document.createElement("script");
     gtmScript.async = true;
     gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${gtmContainerId}`;
     document.head.appendChild(gtmScript);
 
     // Add GTM noscript iframe for cases where JavaScript is disabled
-    const gtmNoscript = document.createElement('noscript');
+    const gtmNoscript = document.createElement("noscript");
     gtmNoscript.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmContainerId}" 
       height="0" width="0" style="display:none;visibility:hidden"></iframe>`;
     document.body.insertBefore(gtmNoscript, document.body.firstChild);
-    
+
     console.log("GTM initialized with Container ID:", gtmContainerId);
   };
 
@@ -226,21 +242,18 @@ export default function AppInitializer() {
       gtag('config', '${ga4MeasurementId}');
     `;
     document.head.appendChild(inlineScript);
-    
+
     console.log("GA4 initialized with Measurement ID:", ga4MeasurementId);
   };
 
   // Load GTM and GA4 Scripts When Current Country Info is Available
   useEffect(() => {
-    if (
-      currentcountry &&
-      Object.keys(currentcountry).length > 0
-    ) {
+    if (currentcountry && Object.keys(currentcountry).length > 0) {
       // Load GTM - different container ID for each country from gtm_tag
       if (currentcountry.gtm_tag) {
         loadGTM(currentcountry.gtm_tag);
       }
-      
+
       // Load GA4 - same measurement ID for all regions
       const ga4MeasurementId = "G-D46Y4GMH65";
       loadGA4(ga4MeasurementId);

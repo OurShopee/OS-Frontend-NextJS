@@ -6,10 +6,42 @@ export const Navigationapi = async () => {
   return res.data;
 };
 
+export async function NavigationapiServer(req = null) {
+  try {
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get("api/getcategorylist");
+      return response.data;
+    } else {
+      const response = await axios.get("api/getcategorylist");
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching navigation data:", error);
+    return null;
+  }
+}
+
 export const getbannerlistapi = async () => {
   const res = await axios.get("api/getbannerlist");
   return res.data;
 };
+
+export async function getbannerlistapiServer(req = null) {
+  try {
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get("api/getbannerlist");
+      return response.data;
+    } else {
+      const response = await axios.get("api/getbannerlist");
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching banner list:", error);
+    return null;
+  }
+}
 
 export const getbrand_weekApi = async () => {
   const res = await axios.get("api/brand_week");
@@ -121,7 +153,7 @@ export async function getproduct_detail(productSku, req = null) {
       const response = await axiosInstance.get(
         `api/product_detail?sku=${productSku}`
       );
-      console.log("response", response)
+      console.log("response", response);
       return response.data;
     } else {
       const response = await axios.get(`api/product_detail?sku=${productSku}`);
@@ -137,6 +169,22 @@ export const getcategory_itemsApi = async (sku) => {
   const response = await axios.get(`api/category_items`);
   return response;
 };
+
+export async function getcategory_itemsApiServer(req = null) {
+  try {
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get("api/category_items");
+      return response.data.data;
+    } else {
+      const response = await axios.get("api/category_items");
+      return response.data.data;
+    }
+  } catch (error) {
+    console.error("Error fetching category items:", error);
+    return null;
+  }
+}
 
 export const getdeal_of_the_dayApi = async (page) => {
   const response = await axios.get(`api/deal_of_the_day?page=${page}`);
@@ -162,6 +210,27 @@ export const getSectionPagesApi = async (id, eidSale) => {
   const response = await axios.get(query);
   return response;
 };
+
+export async function getSectionPagesApiServer(id, eidSale, req = null) {
+  try {
+    let query = `api/saver_zone1?section_id=${id}`;
+    if (eidSale !== undefined) {
+      query += `&eid_sale=${eidSale}`;
+    }
+
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get(query);
+      return response.data;
+    } else {
+      const response = await axios.get(query);
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching section pages:", error);
+    return null;
+  }
+}
 
 export const getSaverZoneProducts = async (id, eidSale) => {
   let query = `api/saver_zone1?section_id=${id}`;
