@@ -668,14 +668,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               const afterDelivery =
                                 deliveryText.split("Delivery ")[1] || "";
                               const [beforeExpected, afterExpected] =
-                                afterDelivery.split("Expected By");
+                                afterDelivery.split("Expected ");
 
                               return (
                                 <>
                                   {beforeExpected}
+                               
                                   {afterExpected && (
                                     <>
-                                      {" Expected By "}
+                                      {" Expected  "}
                                       <strong className="font-bold text-base">
                                         {afterExpected.trim()}
                                       </strong>
