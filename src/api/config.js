@@ -1,6 +1,7 @@
 import axios from "axios";
 import countryDropdown from "@/json_data/multi_countries";
 import { normalizeUrl } from "@/components/utils/helpers.js";
+import { logError } from "@/lib/errorLogger.js";
 
 let isInterceptorSetup = false;
 
@@ -58,7 +59,6 @@ export const createAxiosInstance = (req = null) => {
 
   if (countryData?.backedn_api) {
     axiosInstance.defaults.baseURL = countryData.backedn_api;
-    console.log("axiosInstance.defaults.baseURL", axiosInstance.defaults.headers)
   } else {
     axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API;
    
@@ -66,8 +66,18 @@ export const createAxiosInstance = (req = null) => {
   if (countryData?.id) {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
     axiosInstance.defaults.headers.common["Content-Type"] = "application/json";
-    console.log("axiosInstance.defaults.headers", axiosInstance.defaults.headers)
   }
+
+  // Add error interceptor for server-side instances
+  axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      // Log the error
+      await logError(error, error.config);
+      return Promise.reject(error);
+    }
+  );
+
   return axiosInstance;
 };
 
@@ -81,9 +91,9 @@ export const configureAxios = () => {
   }
 
   if (!isInterceptorSetup && typeof window !== "undefined") {
+    // Request interceptor
     axios.interceptors.request.use(
       (config) => {
-        console.log("config", config)
         const countryDataForRequest = getCountryData();
         if (countryDataForRequest && countryDataForRequest.id) {
           config.headers["Country-Id"] = countryDataForRequest.id;
@@ -92,9 +102,21 @@ export const configureAxios = () => {
         return config;
       },
       (error) => {
+        console.log(error)
         return Promise.reject(error);
       }
     );
+
+    // Response interceptor for error logging
+    axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        // Log the error
+        await logError(error, error.config);
+        return Promise.reject(error);
+      }
+    );
+
     isInterceptorSetup = true;
   }
 };
