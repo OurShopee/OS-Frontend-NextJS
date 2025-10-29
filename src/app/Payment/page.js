@@ -81,7 +81,7 @@ const Payment = () => {
       payment_method: selecteddeafultoption?.[0]?.payment_method,
       amount: paymentMethods?.final_total,
     });
-  }, [currentcountry.name, selecteddeafultoption, paymentMethods?.final_total]);
+  }, []);
 
   useEffect(() => {
     dispatch(
