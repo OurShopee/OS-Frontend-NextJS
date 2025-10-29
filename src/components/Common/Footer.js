@@ -159,6 +159,12 @@ const Footer = () => {
               >
                 Privacy Policy
               </NavLink>
+              <NavLink
+                href="/return-and-replacement-policy"
+                className="footerlinks textdecoration-none"
+              >
+                Return and Replacement Policy
+              </NavLink>
             </div>
 
             <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">

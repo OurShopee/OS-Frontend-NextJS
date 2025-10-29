@@ -36,7 +36,7 @@ jobs:
       - name: Fetch .env from Secret Manager
         run: |
           rm -rf .env*
-          SECRET_NAME="prodos/ourshopee/next-FE"
+          SECRET_NAME="prod/ourshopee/next-FE"
           SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id "$SECRET_NAME" --region ap-south-1 --query SecretString --output text)
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
 
@@ -81,7 +81,7 @@ jobs:
                     "S3_PROD=s3://ourshopee-build-backup/next-fe/prod/",
                     "TIMESTAMP=$(date +%Y%m%d%H%M%S)",
                     "S3_BACKUP_BASE=s3://ourshopee-build-backup/next-fe/backup/$TIMESTAMP",             
-                    "SECRET_NAME=prodos/ourshopee/next-FE",
+                    "SECRET_NAME=prod/ourshopee/next-FE",
                     "REGION=ap-south-1",
                     
                     "echo Syncing latest build...",

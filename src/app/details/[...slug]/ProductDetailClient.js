@@ -422,7 +422,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
               <div
                 className={`${
                   !isMobile &&
-                  "flex-[0_0_47%] w-[47%] sticky top-[76px] self-start"
+                  "flex-[0_0_47%] w-[47%] sticky top-[0px] self-start"
                 }`}
               >
                 {isMobile && (
