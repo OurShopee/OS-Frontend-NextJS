@@ -51,14 +51,14 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
   return (
     <div className="container-fluid">
       <div
-        className={`row ${isHomePage ? "tw-pr-3" : ""} ${
-          searchPage && "tw-mb-3"
+        className={`row ${isHomePage ? "pr-3" : ""} ${
+          searchPage && "mb-3"
         }`}
       >
         {/* Left: Carousel */}
         <div
-          className={`${carouselColClasses} tw-relative ${
-            !searchPage && "tw-h-full"
+          className={`${carouselColClasses} relative ${
+            !searchPage && "h-full"
           }`}
           ref={leftRef}
         >
@@ -68,7 +68,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
             onSelect={(i) => setActiveIndex(i)}
             controls={safeCarouselData?.length > 1}
             indicators={false}
-            className="home_carousel tw-border tw-rounded-lg"
+            className="home_carousel border rounded-lg"
           >
             {safeCarouselData.length > 0 &&
               safeCarouselData?.map((item, index) => {
@@ -89,9 +89,9 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                   <img
                     src={formatImageUrl(item.image_url)}
                     alt=""
-                    className={`tw-rounded-[13px] tw-w-full ${
-                      !searchPage && "tw-aspect-[1200/450]"
-                    } ${!shouldWrapWithNavLink ? "tw-cursor-default" : ""}`}
+                    className={`rounded-[13px] w-full ${
+                      !searchPage && "aspect-[1200/450]"
+                    } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
                     onLoad={index === 0 ? handleFirstImageLoad : undefined}
                     style={!shouldWrapWithNavLink ? { cursor: "default" } : {}}
                   />
@@ -122,21 +122,21 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
           </Carousel>
 
           {/* Indicators */}
-          <div className="tw-flex tw-gap-2 tw-absolute tw-bottom-4 tw-left-1/2 tw--translate-x-1/2 tw-z-10">
+          <div className="flex gap-2 absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
             {safeCarouselData?.map((_, idx) => {
               const isActive = activeIndex === idx;
               return (
                 <div
                   key={idx}
                   onClick={() => setActiveIndex(idx)}
-                  className={`tw-relative tw-h-3 ${
+                  className={`relative h-3 ${
                     isActive
-                      ? "tw-w-24 tw-rounded-full"
-                      : "tw-w-4 tw-rounded-full"
-                  } tw-bg-black/20 tw-overflow-hidden tw-transition-all tw-duration-300 tw-cursor-pointer`}
+                      ? "w-24 rounded-full"
+                      : "w-4 rounded-full"
+                  } bg-black/20 overflow-hidden transition-all duration-300 cursor-pointer`}
                 >
                   {isActive && (
-                    <div className="tw-absolute tw-left-0 tw-top-0 tw-h-full tw-bg-black/60 tw-rounded-full tw-animate-progress-bar" />
+                    <div className="absolute left-0 top-0 h-full bg-black/60 rounded-full animate-progress-bar" />
                   )}
                 </div>
               );
@@ -147,15 +147,15 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
         {/* Right: Text/Content */}
         {isHomePage && (
           <div
-            className="tw-hidden md:tw-block col-lg-3 col-md-4 !tw-px-0 col-sm-12 tw-relative tw-overflow-hidden tw-rounded-2xl"
+            className="hidden md:block col-lg-3 col-md-4 !px-0 col-sm-12 relative overflow-hidden rounded-2xl"
             style={leftHeight ? { height: leftHeight } : {}}
           >
             <DynamicBanners
               bannerKey="heroBanner"
               enableAos={false}
-              className={`tw-w-full ${
-                !searchPage && "tw-aspect-[410/450]"
-              } tw-object-cover tw-rounded-2xl tw-block`}
+              className={`w-full ${
+                !searchPage && "aspect-[410/450]"
+              } object-cover rounded-2xl block`}
             />
           </div>
         )}
