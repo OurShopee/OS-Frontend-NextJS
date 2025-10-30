@@ -151,16 +151,34 @@ export async function getproduct_detail(productSku, req = null) {
   try {
     if (req) {
       const axiosInstance = createAxiosInstance(req);
+      // Server-side: read JWT from incoming request cookies if available
+      let token;
+      const rawCookie = req?.headers?.cookie || "";
+      if (rawCookie) {
+        const parts = rawCookie.split(";").map((c) => c.trim());
+        for (const p of parts) {
+          if (p.startsWith("jwt_token=")) {
+            token = p.substring("jwt_token=".length);
+            break;
+          }
+        }
+      }
+
+      const config = token
+        ? { headers: { authorization: "Bearer " + token } }
+        : undefined;
       const response = await axiosInstance.get(
-        `api/product_detail?sku=${productSku}`
-      ,{
-        headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
-      });
+        `api/product_detail?sku=${productSku}`,
+        config
+      );
       return response.data;
     } else {
-      const response = await axios.get(`api/product_detail?sku=${productSku}`  ,{
-        headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
-      });
+      // Client-side: include Authorization header only if token exists
+      const token = Cookies.get("jwt_token");
+      const config = token
+        ? { headers: { authorization: "Bearer " + token } }
+        : undefined;
+      const response = await axios.get(`api/product_detail?sku=${productSku}`, config);
       return response.data;
     }
   } catch (error) {

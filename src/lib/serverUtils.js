@@ -7,6 +7,7 @@ export const getServerSideHeaders = async () => {
       host: headersList.get("host") || headersList.get("x-forwarded-host"),
       "x-forwarded-proto": headersList.get("x-forwarded-proto"),
       "x-forwarded-port": headersList.get("x-forwarded-port"),
+      cookie: headersList.get("cookie"),
     },
   };
 };
