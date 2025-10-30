@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createAxiosInstance } from "../config";
+import Cookies from "js-cookie";
 
 export const Navigationapi = async () => {
   const res = await axios.get("api/getcategorylist");
@@ -152,11 +153,14 @@ export async function getproduct_detail(productSku, req = null) {
       const axiosInstance = createAxiosInstance(req);
       const response = await axiosInstance.get(
         `api/product_detail?sku=${productSku}`
-      );
-      console.log("response", response);
+      ,{
+        headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+      });
       return response.data;
     } else {
-      const response = await axios.get(`api/product_detail?sku=${productSku}`);
+      const response = await axios.get(`api/product_detail?sku=${productSku}`  ,{
+        headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+      });
       return response.data;
     }
   } catch (error) {
