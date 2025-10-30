@@ -15,7 +15,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
   const coupanmsg = useSelector((state) => state.paymentslice.coupanmsg);
   const coupon = useSelector((state) => state.paymentslice.coupon);
-  const [coupancode, setCoupancode] = useState(coupon?.coupon);
+  const [coupancode, setCoupancode] = useState("");
   const skulist = cartlistdata?.data?.result?.map((ele) => ele.sku);
 
   const onchange = (e) => {
@@ -50,7 +50,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
     if (prodId && qty) {
       setSingleCheckout(true);
     }
-    if (coupon?.coupon) {
+    if (coupancode) {
       checkcoupan();
     }
   }, [prodId, qty, sku]);
