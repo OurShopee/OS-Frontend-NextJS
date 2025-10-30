@@ -9,7 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { HiMiniCheckBadge } from "react-icons/hi2";
 
-const CheckCoupan = ({ prodId, qty, sku, paymentMethods }) => {
+const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
   const dispatch = useDispatch();
   const [singleCheckout, setSingleCheckout] = useState(false);
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
@@ -26,7 +26,16 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods }) => {
   };
 
   const checkcoupan = async () => {
+    const computedCartIds = prodId && qty
+      ? `${prodId}|${qty}|${price}`
+      : cartlistdata?.data?.result
+          .map(
+            (each) => `${each.product_id}|${each.quantity}|${each.single_price}`
+          )
+          .join(",");
+
     const input_data = {
+      cartIds: computedCartIds,
       coupon: coupancode,
       skulist: singleCheckout ? [sku] : skulist,
       offer: 0,
