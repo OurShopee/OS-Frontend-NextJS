@@ -26,6 +26,7 @@ const Payment = () => {
   const prodId = searchParams.get("prodId");
   const qty = searchParams.get("qty");
   const sku = searchParams.get("sku");
+  const price = searchParams.get("price");
   const addresslistdata = useSelector(
     (state) => state.addresslice.addresslistdata
   );
@@ -216,6 +217,7 @@ const Payment = () => {
                 qty={qty}
                 sku={sku}
                 paymentMethods={paymentMethods}
+                price={price}
               />
               {isMobile && <div className="payment-border-bottom"></div>}
               {currentcountry.isDonationRequired && (

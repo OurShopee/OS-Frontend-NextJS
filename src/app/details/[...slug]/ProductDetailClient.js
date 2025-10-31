@@ -353,9 +353,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         false
       );
       if (addresslistdata?.data?.length > 0) {
-        router.push(`/Payment?prodId=${id}&qty=${qty}&sku=${sku}`);
+        router.push(`/Payment?prodId=${id}&qty=${qty}&sku=${sku}&price=${productDetail[0]?.display_price}`);
       } else {
-        router.push(`/deliveryaddress?prodId=${id}&qty=${qty}&sku=${sku}`);
+        router.push(`/deliveryaddress?prodId=${id}&qty=${qty}&sku=${sku}&price=${productDetail[0]?.display_price}`);
       }
     }
   };
