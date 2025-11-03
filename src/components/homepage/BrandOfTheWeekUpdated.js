@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { getImagesByKey } from "../utils/getImagesByKey";
 import { pushToDataLayer } from "../utils/dataUserpush";
+import { useContent } from "@/hooks";
 
 const NavLink = ({ to, children, onClick, className, style, ...props }) => {
   const pathname = usePathname();
@@ -40,6 +41,10 @@ export default function BrandOfTheWeekUpdated({ products }) {
   const [rightHeight, setRightHeight] = useState(0);
   const [brandData, setBrandData] = useState({});
   const pathname = usePathname();
+
+  // Language content
+  const brandOfTheWeekShort = useContent("specialPages.brandOfTheWeekShort");
+  const theWeek = useContent("specialPages.theWeek");
 
   useEffect(() => {
     const keys = ["brandWeekBg", "brandWeekImg"];
@@ -84,13 +89,7 @@ export default function BrandOfTheWeekUpdated({ products }) {
         >
           <span className="inner-shadow-text">
             <span className="brand-inner-shadow font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]">
-              BRAND&nbsp;
-            </span>
-            <span
-              className="inner-shadow-text font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]"
-              style={{ color: "black" }}
-            >
-              OF&nbsp;
+              {brandOfTheWeekShort}&nbsp;
             </span>
           </span>
         </div>
@@ -104,11 +103,15 @@ export default function BrandOfTheWeekUpdated({ products }) {
             textShadow: " 0px 4px 1.5px 0px #8C8C8C40 inset",
           }}
         >
-          THE WEEK
+          {theWeek}
         </span>
       </div>
 
-      <div className={`rounded-2xl ${isMobile ? 'flex flex-col' : 'flex md:!flex-nowrap'} items-stretch  md:gap-1`}>
+      <div
+        className={`rounded-2xl ${
+          isMobile ? "flex flex-col" : "flex md:!flex-nowrap"
+        } items-stretch  md:gap-1`}
+      >
         {/* Main Promotional Image */}
         {(!isMobile &&
           brandData?.brandWeekImg?.url_web &&
@@ -131,8 +134,14 @@ export default function BrandOfTheWeekUpdated({ products }) {
                 page: pageName,
               });
             }}
-            className={`${isMobile ? 'w-full mb-4' : 'w-full md:w-[36%]'} rounded-2xl overflow-hidden cursor-pointer block`}
-            style={!isMobile ? { height: rightHeight } : { minHeight: isMobile ? '200px' : 'auto' }}
+            className={`${
+              isMobile ? "w-full mb-4" : "w-full md:w-[36%]"
+            } rounded-2xl overflow-hidden cursor-pointer block`}
+            style={
+              !isMobile
+                ? { height: rightHeight }
+                : { minHeight: isMobile ? "200px" : "auto" }
+            }
           >
             <div
               className="relative w-full h-full flex items-stretch"
@@ -152,8 +161,14 @@ export default function BrandOfTheWeekUpdated({ products }) {
           </a>
         ) : (
           <div
-            className={`${isMobile ? 'w-full mb-4' : 'w-full md:w-[36%]'} rounded-2xl overflow-hidden`}
-            style={!isMobile ? { height: rightHeight } : { minHeight: isMobile ? '200px' : 'auto' }}
+            className={`${
+              isMobile ? "w-full mb-4" : "w-full md:w-[36%]"
+            } rounded-2xl overflow-hidden`}
+            style={
+              !isMobile
+                ? { height: rightHeight }
+                : { minHeight: isMobile ? "200px" : "auto" }
+            }
             data-aos="fade-right"
             data-aos-easing="ease-in-out"
           >
@@ -171,7 +186,9 @@ export default function BrandOfTheWeekUpdated({ products }) {
 
         {/* Product Cards Carousel */}
         <div
-          className={`${isMobile ? 'w-full' : 'w-full md:w-[64%]'} flex items-stretch md:px-4`}
+          className={`${
+            isMobile ? "w-full" : "w-full md:w-[64%]"
+          } flex items-stretch md:px-4`}
           ref={rightRef}
         >
           <div className="w-full h-full">

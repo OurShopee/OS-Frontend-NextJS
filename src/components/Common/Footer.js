@@ -11,6 +11,7 @@ import { SiMinutemailer } from "react-icons/si";
 import { TiSocialInstagram } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import { useContent } from "@/hooks";
 
 import ConsumerRights from "@/images/ConsumerRights.png";
 import footerlogo from "@/images/Logo.svg";
@@ -42,6 +43,30 @@ const Footer = () => {
     (state) => state.globalslice.currentcountry
   );
 
+  // Language content
+  const aboutCompany = useContent("footer.aboutCompany");
+  const connectWithUs = useContent("footer.connectWithUs");
+  const enterYourMail = useContent("footer.enterYourMail");
+  const keepInTouch = useContent("footer.keepInTouch");
+  const customerService = useContent("footer.customerService");
+  const quickLinks = useContent("footer.quickLinks");
+  const information = useContent("footer.information");
+  const aboutUs = useContent("footer.aboutUs");
+  const contactUs = useContent("footer.contactUs");
+  const faqs = useContent("footer.faqs");
+  const privacyPolicy = useContent("footer.privacyPolicy");
+  const termsAndConditions = useContent("footer.termsAndConditions");
+  const returnPolicy = useContent("footer.returnPolicy");
+  const returnAndReplacementPolicy = useContent(
+    "footer.returnAndReplacementPolicy"
+  );
+  const sitemap = useContent("footer.sitemap");
+  const affiliateProgram = useContent("footer.affiliateProgram");
+  const sellWithUs = useContent("footer.sellWithUs");
+  const trackYourOrder = useContent("footer.trackYourOrder");
+  const changePassword = useContent("footer.changePassword");
+  const deliveryAddress = useContent("footer.deliveryAddress");
+
   return (
     <div className="">
       <div className="footermain primarybackground px-4">
@@ -49,11 +74,7 @@ const Footer = () => {
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 lg:col-span-3">
               <img src={footerlogo.src} alt="Footer Logo" />
-              <div className="footer-discription">
-                UAE and Beyond! Established in 2015, Ourshopee.com has proudly
-                established itself as a prominent and rapidly growing online
-                shopping platform in the region...
-              </div>
+              <div className="footer-discription">{aboutCompany}</div>
               <div>
                 <img
                   src={ConsumerRights.src}
@@ -62,11 +83,11 @@ const Footer = () => {
                 />
                 {isBigScreen && (
                   <>
-                    <div className="footer-titles">Connect with us</div>
+                    <div className="footer-titles">{connectWithUs}</div>
                     <div className="flex footercontactus">
                       <input
                         type="text"
-                        placeholder="Enter Your Mail"
+                        placeholder={enterYourMail}
                         className="header-inputbox"
                       />
                       <div className="header-search secondarybackground">
@@ -76,7 +97,7 @@ const Footer = () => {
                   </>
                 )}
               </div>
-              <div className="footer-titles">Keep in Touch</div>
+              <div className="footer-titles">{keepInTouch}</div>
               <div className="flex">
                 <Link
                   href={currentcountry?.fb_link || "#"}
@@ -136,10 +157,10 @@ const Footer = () => {
             <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">
               <div className="footerlink-titles">Customer Policies</div>
               <NavLink href="/aboutus" className="footerlinks no-underline">
-                About Ourshopee
+                {aboutUs}
               </NavLink>
               <NavLink href="/contactus" className="footerlinks no-underline">
-                Contact Us
+                {contactUs}
               </NavLink>
               <NavLink href="/blogs" className="footerlinks no-underline">
                 Our Blog
@@ -148,51 +169,51 @@ const Footer = () => {
                 href="/terms-and-conditions"
                 className="footerlinks no-underline"
               >
-                Terms and Conditions
+                {termsAndConditions}
               </NavLink>
               <NavLink href="/faqs" className="footerlinks no-underline">
-                FAQs
+                {faqs}
               </NavLink>
               <NavLink
                 href="/privacy-policy"
                 className="footerlinks no-underline"
               >
-                Privacy Policy
+                {privacyPolicy}
               </NavLink>
               <NavLink
                 href="/return-and-replacement-policy"
                 className="footerlinks textdecoration-none"
               >
-                Return and Replacement Policy
+                {returnAndReplacementPolicy}
               </NavLink>
             </div>
 
             <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">
               <div className="footerlink-titles">Useful Links</div>
               <NavLink href="/sitemap" className="footerlinks no-underline">
-                Site Map
+                {sitemap}
               </NavLink>
               <NavLink
                 href="/sell-with-us"
                 className="footerlinks no-underline"
               >
-                Sell With Us
+                {sellWithUs}
               </NavLink>
               <NavLink
                 href="/affiliate-program"
                 className="footerlinks no-underline"
               >
-                Affiliate Program
+                {affiliateProgram}
               </NavLink>
             </div>
 
             {!isBigScreen && (
               <div className="col-span-9 sm:col-span-6 md:col-span-6">
-                <div className="footer-titles">Connect with us</div>
+                <div className="footer-titles">{connectWithUs}</div>
                 <div className="flex footercontactus">
                   <input
                     type="text"
-                    placeholder="Enter Your Mail"
+                    placeholder={enterYourMail}
                     className="header-inputbox"
                   />
                   <div className="header-search secondarybackground">

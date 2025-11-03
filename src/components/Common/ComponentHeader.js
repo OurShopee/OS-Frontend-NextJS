@@ -1,6 +1,7 @@
 import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import Link from "next/link";
+import { useContent } from "@/hooks";
 
 const ComponentHeader = ({
   url,
@@ -11,6 +12,8 @@ const ComponentHeader = ({
   title,
   first_title,
 }) => {
+  const viewAllText = useContent("buttons.viewAll");
+
   return (
     <div className="component_header">
       <div>
@@ -18,7 +21,7 @@ const ComponentHeader = ({
       </div>
       {url != undefined && (
         <Link href={url} className="no-underline view_all">
-          <div className="link whitespace-nowrap">View all</div>
+          <div className="link whitespace-nowrap">{viewAllText}</div>
           <div className="link_icon">
             <BsArrowRight color="#43494B" size={20} />
           </div>

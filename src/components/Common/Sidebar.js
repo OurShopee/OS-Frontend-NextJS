@@ -9,6 +9,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { setformmodal, setformstatus } from "../../redux/formslice";
 import { pushToDataLayer } from "../utils/dataUserpush";
+import { useContent } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, onClick, ...props }) => {
@@ -39,6 +40,12 @@ const Sidebar = ({ isOpen, onClose }) => {
   const formmodal = useSelector((state) => state.globalslice.formmodal);
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const [openStatus, setOpenStatus] = useState(1);
+
+  // Language content
+  const loginText = useContent("header.login");
+  const signupText = useContent("header.signup");
+  const welcomeText = useContent("header.welcome");
+  const categoriesText = useContent("header.categories");
 
   const handleSubcategoryToggle = (category) => {
     setOpenSubcategory(category);
@@ -131,12 +138,12 @@ const Sidebar = ({ isOpen, onClose }) => {
             {!authstatus ? (
               <div className="sidebar-login cursor-pointer">
                 {" "}
-                <span onClick={loginclick}>Login </span> /{" "}
-                <span onClick={signupclick}>Signup</span>
+                <span onClick={loginclick}>{loginText} </span> /{" "}
+                <span onClick={signupclick}>{signupText}</span>
               </div>
             ) : (
               <div className="side-welcome">
-                {`Welcome ${
+                {`${welcomeText} ${
                   logindata?.first_name?.trim().length > 15
                     ? logindata.first_name.trim().substring(0, 15) + "..."
                     : logindata?.first_name?.trim()
@@ -151,7 +158,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         {/* Main Categories */}
         {openStatus === 1 && (
           <div>
-            <div className="category-headers">Categories</div>
+            <div className="category-headers">{categoriesText}</div>
             {categorydata?.map((category, i) => (
               <NavLink
                 className="sidebar-category no-underline"

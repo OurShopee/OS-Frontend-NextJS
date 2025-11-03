@@ -23,7 +23,9 @@ import Mobileforms from "../Common/Mobileforms";
 import { trackCartClick } from "../utils/dataUserpush";
 import Categorylist from "./Categorylist";
 import CountryDropdown from "./CountryDropdown";
+import LanguageDropdown from "./LanguageDropdown";
 import Modal from "./Modal";
+import { useContent } from "@/hooks";
 import AppDownloadModal from "./Modals/AppDownloadModal";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
@@ -56,6 +58,12 @@ const Header = () => {
   const [isToolTip, setIsToolTip] = useState(true);
   const dropdownRef = useRef(null);
   const categoryList = useSelector((state) => state.globalslice.data);
+
+  // Language content
+  const deliverToText = useContent("nav.deliverTo");
+  const downloadAppText = useContent("nav.downloadApp");
+  const loginText = useContent("nav.login");
+  const cartText = useContent("nav.cart");
   const formmodal = useSelector((state) => state.globalslice.formmodal);
   const countryDropdown = useSelector(
     (state) => state.globalslice.countryDropdown
@@ -179,7 +187,7 @@ const Header = () => {
                     className="headertop-icons"
                     alt="location"
                   />
-                  <span className="pl-1 headertoptitle">Deliver to</span>
+                  <span className="pl-1 headertoptitle">{deliverToText}</span>
                   {!authstatus ? (
                     <CurrentLocation />
                   ) : (
@@ -198,7 +206,7 @@ const Header = () => {
                     <MdOutlineQrCodeScanner size={21} />
                   </span>
                   <span className="font-[Outfit] font-semibold text-white text-[14px]">
-                    Download App
+                    {downloadAppText}
                   </span>
                 </div>
               )}
@@ -211,6 +219,7 @@ const Header = () => {
               {isBigScreen && (
                 <CountryDropdown countryDropdown={countryDropdown} />
               )}
+              {isBigScreen && <LanguageDropdown />}
 
               {/* User */}
               {!authstatus ? (
@@ -221,7 +230,7 @@ const Header = () => {
                   <div className="cursor-pointer flex usermain items-center">
                     <FaUser size={16} />
                     <span className="pl-2 header-middle-right-title username">
-                      Login
+                      {loginText}
                     </span>
                   </div>
                 </div>
@@ -285,7 +294,7 @@ const Header = () => {
                         : "header-middle-right-title"
                     }`}
                   >
-                    Cart
+                    {cartText}
                   </span>
                 )}
               </NavLink>
@@ -321,7 +330,7 @@ const Header = () => {
                     alt=""
                     width={15}
                   />
-                  <span className="pl-1 headertoptitle">Deliver to</span>
+                  <span className="pl-1 headertoptitle">{deliverToText}</span>
                   <span className="pl-1 currentlocation-address">
                     {addressdata?.[0]?.address}
                   </span>
@@ -334,7 +343,7 @@ const Header = () => {
                     alt=""
                     width={15}
                   />
-                  <span className="pl-1 headertoptitle">Deliver to</span>
+                  <span className="pl-1 headertoptitle">{deliverToText}</span>
                   <CurrentLocation />
                 </NavLink>
               ))}
@@ -342,6 +351,7 @@ const Header = () => {
             {!isBigScreen && (
               <CountryDropdown countryDropdown={countryDropdown} />
             )}
+            {!isBigScreen && <LanguageDropdown />}
           </div>
         </div>
 

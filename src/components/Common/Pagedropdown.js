@@ -6,15 +6,14 @@ import profileimg from "@/images/Profile.png";
 import whistlistimage from "@/images/Stroke 1.png";
 import orderimg from "@/images/order.png";
 import { setcartlistdata } from "@/redux/cartslice";
-import {
-    setauthstatus
-} from "@/redux/formslice";
+import { setauthstatus } from "@/redux/formslice";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { useContent } from "@/hooks";
 
 const NavLink = ({ to, children, className, onClick, ...props }) => {
   const pathname = usePathname();
@@ -32,14 +31,7 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
   );
 };
 
-const dropdownItems = [
-  { to: "/myaccount", img: profileimg.src, label: "My Profile" },
-  { to: "/my-orders", img: orderimg.src, label: "My Order" },
-  { to: "/my-wishlist", img: whistlistimage.src, label: "Wishlist" },
-  { to: "/track-your-order", img: trackorder.src, label: "Track Order" },
-  { to: "/address", img: trackorder.src, label: "Address" },
-  { to: "/complaints", img: complaints.src, label: "Complaints" },
-];
+// Note: dropdownItems will be populated inside component to use useContent hook
 
 export default function Pagedropdown({ logindata }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +39,28 @@ export default function Pagedropdown({ logindata }) {
   const closeTimeoutRef = useRef(null);
   const dispatch = useDispatch();
 
+  // Language content
+  const myProfile = useContent("header.myProfile");
+  const myOrder = useContent("header.myOrder");
+  const wishlist = useContent("header.wishlist");
+  const trackOrder = useContent("header.trackOrder");
+  const address = useContent("header.address");
+  const complaints = useContent("header.complaints");
+  const logout = useContent("header.logout");
+
+  const logoutText = useContent("header.logout");
+
+  const dropdownItems = [
+    { to: "/myaccount", img: profileimg.src, label: myProfile },
+    { to: "/my-orders", img: orderimg.src, label: myOrder },
+    { to: "/my-wishlist", img: whistlistimage.src, label: wishlist },
+    { to: "/track-your-order", img: trackorder.src, label: trackOrder },
+    { to: "/address", img: trackorder.src, label: address },
+    { to: "/complaints", img: complaints.src, label: complaints },
+  ];
+
   const closeDropdown = () => setIsOpen(false);
-  
+
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleMouseLeave = () => {
@@ -102,14 +114,14 @@ export default function Pagedropdown({ logindata }) {
   }, []);
 
   return (
-    <div 
+    <div
       className="header-middle-rightsub countrydropdown relative"
       ref={dropdownRef}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
     >
       {/* Dropdown Toggle Button */}
-      <div 
+      <div
         className="cursor-pointer headermain flex usermain items-center"
         onClick={toggleDropdown}
       >
@@ -143,7 +155,7 @@ export default function Pagedropdown({ logindata }) {
           <div className="dropdown-item" onClick={logoutclick}>
             <div className="userdropdown no-underline cursor-pointer">
               <img src={logout.src} alt="logout" />
-              <div className="dropdownpages">Logout</div>
+              <div className="dropdownpages">{logoutText}</div>
             </div>
           </div>
         </div>

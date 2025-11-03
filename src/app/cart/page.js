@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
+import { useContent } from "@/hooks";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,13 @@ const Cart = () => {
   const [cartQuantities, setCartQuantities] = useState({});
   const debounceTimers = useRef({});
   const { isTablet, isMobile } = MediaQueries();
+  
+  // Language content
+  const myCart = useContent("cart.myCart");
+  const qtyText = useContent("cart.qty");
+  const removeText = useContent("cart.remove");
+  const subtotalText = useContent("cart.subtotal");
+  const loginRegisterText = useContent("cart.loginRegister");
 
   useEffect(() => {
     pushToDataLayer("viewed_cart_page", currentcountry.name);
@@ -136,7 +144,7 @@ const Cart = () => {
               <Breadcomp />
             </div>
 
-            <div className="Cart-titile">My cart</div>
+            <div className="Cart-titile">{myCart}</div>
             <Row>
               <Col lg={8}>
                 {cartlistdata.data.result.map((ele) => (
@@ -171,7 +179,7 @@ const Cart = () => {
                         </Link>
                         {!isTablet && (
                           <div>
-                            <div className="quantity-title">Qty</div>
+                            <div className="quantity-title">{qtyText}</div>
                             <div className="d-flex justify-content-between">
                               <div className="cart-product-quantitybtn">
                                 <FiMinus
@@ -201,7 +209,7 @@ const Cart = () => {
                                 onClick={() => removeproduct(ele.cart_id)}
                               >
                                 <img src={deleteimg.src} alt="delete" />
-                                <span className="cartremone">Remove</span>
+                                <span className="cartremone">{removeText}</span>
                               </div>
                             </div>
                           </div>
@@ -239,7 +247,7 @@ const Cart = () => {
                           onClick={() => removeproduct(ele.cart_id)}
                         >
                           <img src={deleteimg.src} alt="delete" />
-                          <span className="cartremone">Remove</span>
+                          <span className="cartremone">{removeText}</span>
                         </div>
                       </div>
                     )}
@@ -257,7 +265,7 @@ const Cart = () => {
                       {!isMobile && (
                         <>
                           <div className="payment-type">
-                            <div className="payment-type-title">Subtotal</div>
+                            <div className="payment-type-title">{subtotalText}</div>
                             <div className="payment-type-cost">
                               {currentcountry.currency}{" "}
                               {CalculatePaymentDetails(
@@ -267,15 +275,15 @@ const Cart = () => {
                             </div>
                           </div>
                           <div className="payment-cost" onClick={loginclick}>
-                            Login/Register
+                            {loginRegisterText}
                           </div>
                         </>
                       )}
                       {isMobile && (
                         <div className=" mobile_version_cart_bottom">
-                          <div className="mobile-payment-total">
+                            <div className="mobile-payment-total">
                             <div className="payment-type">
-                              <div className="payment-type-title">Subtotal</div>
+                              <div className="payment-type-title">{subtotalText}</div>
                               <div className="payment-type-cost">
                                 {currentcountry.currency}{" "}
                                 {CalculatePaymentDetails(
@@ -285,7 +293,7 @@ const Cart = () => {
                               </div>
                             </div>
                             <div className="payment-cost" onClick={loginclick}>
-                              Login/Register
+                              {loginRegisterText}
                             </div>
                           </div>
                         </div>

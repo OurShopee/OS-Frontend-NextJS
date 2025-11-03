@@ -36,6 +36,7 @@ import {
   getSectionPagesApi,
   getTopSellingApi,
 } from "@/api/products";
+import { useContent } from "@/hooks";
 
 const HomeClient = ({
   initialNavigationData,
@@ -78,6 +79,19 @@ const HomeClient = ({
   const [sectionId, setSectionId] = useState([]);
   const [saverId, setSaverId] = useState();
   const [sectionBanners, setSectionBanners] = useState({});
+
+  // Language content
+  const topSelling = useContent("specialPages.topSelling");
+  const saverZone = useContent("specialPages.saverZone");
+  const clearanceDeals = useContent("specialPages.clearanceDeals");
+  const dealsOfTheDay = useContent("specialPages.dealsOfTheDay");
+  const bundleDeals = useContent("specialPages.bundleDeals");
+  const excitingOffers = useContent("specialPages.excitingOffers");
+  const shopByTopBrands = useContent("specialPages.shopByTopBrands");
+  const browsePopularCategories = useContent(
+    "specialPages.browsePopularCategories"
+  );
+  const topPicks = useContent("specialPages.topPicks");
 
   const timeZoneMap = {
     AE: "Asia/Dubai",
@@ -221,17 +235,17 @@ const HomeClient = ({
             <Tabs
               tabs={[
                 {
-                  title: "Top Selling",
+                  title: topSelling,
                   endpoint: getTopSellingApi,
                   path: "",
                 },
                 {
-                  title: "Saver zone",
+                  title: saverZone,
                   endpoint: () => getSaverZoneProducts(saverId),
                   path: "",
                 },
                 {
-                  title: "Clearance Deals",
+                  title: clearanceDeals,
                   endpoint: clearance_saleApi,
                   path: "items",
                 },
@@ -423,7 +437,7 @@ const HomeClient = ({
         <div
           className={`text-xl mt-4 lg:text-[28px] pl-4 text-[#43494B] font-outfit font-bold mb-4`}
         >
-          Shop By Top Brands
+          {shopByTopBrands}
         </div>
         <div
           data-aos="fade"
@@ -455,7 +469,7 @@ const HomeClient = ({
                         currentcountry?.name,
                         {
                           card_name: brandName,
-                          section_name: "Shop By Top Brands",
+                          section_name: shopByTopBrands,
                           page: window.location.pathname,
                         }
                       );
@@ -480,7 +494,7 @@ const HomeClient = ({
         <Tabs
           tabs={[
             {
-              title: "Deals of the Day",
+              title: dealsOfTheDay,
               endpoint: getDealOfTheDayApi,
               path: "",
               imgUrl: !isMobile
@@ -491,7 +505,7 @@ const HomeClient = ({
                 : sectionBanners?.tabBanner1?.url_app,
             },
             {
-              title: "Bundle Deals",
+              title: bundleDeals,
               endpoint: bundle_clearance_sale,
               path: "bundle_deals",
               imgUrl: !isMobile
@@ -502,7 +516,7 @@ const HomeClient = ({
                 : sectionBanners?.tabBanner2?.url_app,
             },
             {
-              title: "Exciting Offers",
+              title: excitingOffers,
               endpoint: getdeal_offersApi,
               path: "exciting_offers",
               imgUrl: !isMobile
@@ -529,7 +543,7 @@ const HomeClient = ({
         <div
           className={`text-xl lg:text-[28px] pl-4 pt-7 text-[#43494B] font-outfit font-bold mb-4`}
         >
-          Browse Popular Categories
+          {browsePopularCategories}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-9 gap-2 overflow-hidden max-w-full">
           {categoriesToShow?.map((cat, idx) => (
@@ -544,7 +558,7 @@ const HomeClient = ({
                   currentcountry?.name,
                   {
                     card_name: cat.category_name,
-                    section_name: "Browse Popular Categories",
+                    section_name: browsePopularCategories,
                     page: window.location.pathname,
                   }
                 );
@@ -574,10 +588,7 @@ const HomeClient = ({
 
         {/* Best Deals section */}
         <div className="component_1 mt-4">
-          <ComponentHeader
-            title={"Top Picks"}
-            view_all={"rgba(82, 50, 194, 1)"}
-          />
+          <ComponentHeader title={topPicks} view_all={"rgba(82, 50, 194, 1)"} />
           <div
             className="carousel_products"
             style={{ background: !isMobile && "rgba(238, 235, 250, 1)" }}

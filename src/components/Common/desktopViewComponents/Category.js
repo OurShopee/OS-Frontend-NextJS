@@ -6,6 +6,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { Navigationapi } from "@/api/products";
+import { useContent } from "@/hooks";
+import { pushToDataLayer } from "../../utils/dataUserpush";
 
 const Categorylist = () => {
   const currentcountry = useSelector(
@@ -18,6 +20,14 @@ const Categorylist = () => {
   const [subSubcategories, setSubSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const dropdownRef = useRef(null);
+
+  // Language content
+  const categoryText = useContent("header.category");
+  const shopByCategory = useContent("header.shopByCategory");
+  const shopBySubCategory = useContent("header.shopBySubCategory");
+  const topBrands = useContent("header.topBrands");
+  const noCategoriesFound = useContent("header.noCategoriesFound");
+  const noBrandsFound = useContent("header.noBrandsFound");
 
   const toggleBodyScroll = (disable) => {
     document.body.style.overflow = disable ? "hidden" : "unset";
@@ -103,7 +113,7 @@ const Categorylist = () => {
             alt="burger"
           />
           <span className="text-white font-[Outfit] text-[15px] cursor-pointer font-medium">
-            Category
+            {categoryText}
           </span>
           <MdKeyboardArrowDown className="text-white cursor-pointer" />
         </div>
@@ -142,16 +152,14 @@ const Categorylist = () => {
               <div className="w-[70%] xl:w-[75%] 2xl:w-[75%] h-full overflow-y-auto px-4 custom-scrollbar">
                 <div className="mb-6">
                   <h3 className="font-semibold mb-4 text-black font-[Outfit] text-left text-[18px]">
-                    Shop by Category
+                    {shopByCategory}
                   </h3>
                   <div className="flex gap-4 overflow-x-auto pb-2 hide-scrollbar">
                     {hoveredCategory?.subcategory?.map((sub) => (
                       <Link
                         href={`/products-category/${sub.url}`}
                         key={sub.sub_category_id}
-                        onMouseEnter={() =>
-                          setHoveredSubCategory(sub)
-                        }
+                        onMouseEnter={() => setHoveredSubCategory(sub)}
                         className={`flex-shrink-0 w-[100px] flex flex-col items-center text-center group ${
                           hoveredSubCategory === sub ? "text-[#5232C2]" : ""
                         }`}
@@ -180,7 +188,7 @@ const Categorylist = () => {
                 <div className="flex gap-6 max-h-[270px]">
                   <div className="w-1/2 overflow-y-auto pr-2 custom-scrollbar">
                     <h3 className="font-semibold mb-2 text-black font-[Outfit] text-left text-[18px] sticky top-0 bg-white z-10 py-2">
-                      Shop by Sub-Category
+                      {shopBySubCategory}
                     </h3>
                     {subSubcategories.length > 0 ? (
                       <div className="flex flex-col gap-6">
@@ -214,13 +222,13 @@ const Categorylist = () => {
                         })}
                       </div>
                     ) : (
-                      <span className="text-gray-500">No Categories Found</span>
+                      <span className="text-gray-500">{noCategoriesFound}</span>
                     )}
                   </div>
 
                   <div className="w-1/2 overflow-y-auto pr-2 custom-scrollbar">
                     <h3 className="font-semibold mb-2 text-black font-[Outfit] text-left text-[18px] sticky top-0 bg-white z-10 py-2">
-                      Top Brands
+                      {topBrands}
                     </h3>
 
                     <div className="grid grid-cols-3 gap-x-4 xl:gap-x-12 gap-y-4">
@@ -262,7 +270,9 @@ const Categorylist = () => {
                           );
                         })
                       ) : (
-                        <div className="text-gray-500 whitespace-nowrap">No brands found</div>
+                        <div className="text-gray-500 whitespace-nowrap">
+                          {noBrandsFound}
+                        </div>
                       )}
                     </div>
                   </div>
