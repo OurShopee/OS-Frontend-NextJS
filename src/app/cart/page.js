@@ -132,9 +132,9 @@ const Cart = () => {
       {!loading ? (
         cartlistdata?.data?.result?.length > 0 ? (
           <Container fluid className="homepagecontainer">
-            <div className={`${isMobile ? "pt-1 pb-1" : "pt-3 pb-3"}`}>
+            {/* <div className={`${isMobile ? "pt-1 pb-1" : "pt-3 pb-3"}`}>
               <Breadcomp />
-            </div>
+            </div> */}
 
             <div className="Cart-titile">My cart</div>
             <Row>
