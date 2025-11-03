@@ -20,8 +20,8 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const handleWishList = async (e, item) => {
     e.preventDefault();
     var input_data = {
-      product_id: item.id,
-      sku: item.hasOwnProperty("sku") ? item.sku : item.url.split("/")[1],
+      product_id: item?.id,
+      sku: item?.hasOwnProperty("sku") ? item?.sku : item?.url.split("/")[1],
     };
     await dispatch(postWishList(input_data));
     dispatch(getWishLists());
@@ -70,7 +70,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       className={`product_container ${eid_sale ? "eid_sale" : ""} ${
         !isMobile && "hover:scale-[96%]"
       } transition-transform duration-300 ease-in-out product-card`}
-      onClick={() => productcard(item.name)}
+      onClick={() => productcard(item?.name)}
     >
       {hasError ? (
         <div className="no_image_placeholder"></div>
@@ -81,12 +81,12 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         >
           <img
             style={{ mixBlendMode: "darken" }}
-            src={item.image}
+            src={item?.image}
             onError={() => setHasError(true)}
             className={`w-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
-            alt={item.name}
+            alt={item?.name}
             width={300}
             height={300}
           />
@@ -94,12 +94,12 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       ) : (
         <div className="overflow-hidden rounded-xl">
           <img
-            src={item.image}
+            src={item?.image}
             onError={() => setHasError(true)}
             className={`w-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
-            alt={item.name}
+            alt={item?.name}
           />
         </div>
       )}
@@ -114,7 +114,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           wishListData
             .map(({ id }) => id)
             .flat()
-            .includes(item.id) ? (
+            .includes(item?.id) ? (
             <AiFillHeart color={"#ff4a4a"} size={20} />
           ) : (
             <AiOutlineHeart size={20} color={"#000"} />
@@ -123,7 +123,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       )}
 
       <div className="product_content w-full">
-        <h3>{item.name}</h3>
+        <h3>{item?.name}</h3>
 
         <div className="product_price_container">
           <div className="price_block">
@@ -136,16 +136,16 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 <span>{currentcountry?.currency}</span>
               )} */}
               <span>{currentcountry?.currency}</span>
-              <h3>{item.display_price || item.special_price || item.price}</h3>
+              <h3>{item?.display_price || item?.special_price || item?.price}</h3>
             </div>
 
-            {item.old_price && item.percentage > 0 && (
+            {item?.old_price && item?.percentage > 0 && (
               <div className="striked_price gap-1">
                 <span>
-                  {currentcountry?.currency} {item.old_price}
+                  {currentcountry?.currency} {item?.old_price}
                 </span>
-                {item.old_price && item.percentage > 0 && (
-                  <div className="discount_percent">{item.percentage}%OFF</div>
+                {item?.old_price && item?.percentage > 0 && (
+                  <div className="discount_percent">{item?.percentage}%OFF</div>
                 )}
               </div>
             )}
@@ -153,10 +153,10 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         </div>
 
         {type != 2 &&
-          item.countdown != "Invalid date" &&
-          new Date(item.countdown) > new Date() && (
+          item?.countdown != "Invalid date" &&
+          new Date(item?.countdown) > new Date() && (
             <div className="countdown">
-              <Countdown date={item.countdown} renderer={renderer} />
+              <Countdown date={item?.countdown} renderer={renderer} />
             </div>
           )}
 
