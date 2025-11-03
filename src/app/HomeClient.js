@@ -36,6 +36,9 @@ import {
   getSectionPagesApi,
   getTopSellingApi,
 } from "@/api/products";
+import MastZone from "@/components/homepage/MastZone";
+import TopSelling from "@/components/homepage/TopSelling";
+import PromotionalBanners from "@/components/homepage/PromotionalBanners";
 
 const HomeClient = ({
   initialNavigationData,
@@ -213,6 +216,23 @@ const HomeClient = ({
 
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
+
+        <div className="grid grid-cols-3 gap-[14px] max-h-[350px] overflow-hidden my-6">
+          {/* Left Section - Mast Zone */}
+          <div className="">
+            <MastZone />
+          </div>
+
+          {/* Middle Section - Top Selling */}
+          <div className="">
+            <TopSelling />
+          </div>
+
+          {/* Right Section - Promotional Banners */}
+          <div className="">
+            <PromotionalBanners sectionBanners={sectionBanners} />
+          </div>
+        </div>
 
         {/* Tabs with Sale Ends in Section */}
         <div className="flex h-full flex-col lg:flex-row pt-2">
