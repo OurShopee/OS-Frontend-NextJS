@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import "swiper/css";
-import { CarouselProducts } from "@/components/homepage";
+import { CarouselWithBanner } from "@/components/homepage";
 import { CarouselProducts as CarouselProductsplaceholder } from "@/components/placeholders";
 
 const Tabs = ({ breakPointsProps, tabs }) => {
@@ -237,13 +237,13 @@ const Tabs = ({ breakPointsProps, tabs }) => {
           breakPointsProps={breakPointsProps}
         />
       ) : (
-        <CarouselProducts
+        <CarouselWithBanner
           products={currentTabData.products}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           breakPointsProps={breakPointsProps}
-          imgUrl={currentTabData.imgUrl}
-          imgRedirectionUrl={currentTabData.imgRedirectionUrl}
+          bannerImage={currentTabData.imgUrl}
+          bannerImageRedirectUrl={currentTabData.imgRedirectionUrl}
           section_name={activeTab}
         />
       )}
