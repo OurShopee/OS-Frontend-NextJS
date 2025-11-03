@@ -51,15 +51,13 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
   return (
     <div className="container-fluid">
       <div
-        className={`row ${isHomePage ? "pr-3" : ""} ${
-          searchPage && "mb-3"
-        }`}
+        className={`row ${isHomePage ? "pr-3" : ""} ${searchPage && "mb-3"}`}
       >
         {/* Left: Carousel */}
         <div
-          className={`${carouselColClasses} relative ${
-            !searchPage && "h-full"
-          }`}
+          className={`${carouselColClasses} ${
+            isHomePage ? "" : "pl-0"
+          } relative ${!searchPage && "h-full"}`}
           ref={leftRef}
         >
           <Carousel
@@ -130,9 +128,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                   key={idx}
                   onClick={() => setActiveIndex(idx)}
                   className={`relative h-3 ${
-                    isActive
-                      ? "w-24 rounded-full"
-                      : "w-4 rounded-full"
+                    isActive ? "w-24 rounded-full" : "w-4 rounded-full"
                   } bg-black/20 overflow-hidden transition-all duration-300 cursor-pointer`}
                 >
                   {isActive && (

@@ -5,6 +5,7 @@ import Footer from "@/components/Common/Footer";
 import { ScrollTop } from "@/hooks";
 import DynamicHeader from "@/components/Common/DynamicHeader";
 import "react-intl-tel-input/dist/main.css";
+import Script from "next/script";
 
 export const metadata = {
   title: "OurShopee - Online Shopping",
@@ -64,6 +65,21 @@ export default function RootLayout({ children }) {
             </div>
           </ScrollTop>
         </ReduxProvider>
+        <Script id="tamara-config" strategy="afterInteractive">
+          {`
+            window.tamaraWidgetConfig = {
+              lang: "en",
+              country: "AE",
+              publicKey: "${process.env.NEXT_PUBLIC_TAMARA_PUBLIC_KEY}"
+            };
+          `}
+        </Script>
+
+        {/* 2) Tamara widget script */}
+        <Script
+          src="https://cdn-sandbox.tamara.co/widget-v2/tamara-widget.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

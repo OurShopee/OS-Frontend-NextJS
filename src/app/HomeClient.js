@@ -421,7 +421,7 @@ const HomeClient = ({
 
         {/* Top Brands Section  */}
         <div
-          className={`text-xl mt-4 lg:text-[28px] pl-4 text-[#43494B] font-outfit font-bold mb-4`}
+          className={`text-xl mt-4 lg:text-[28px] text-[#43494B] font-outfit font-bold mb-4`}
         >
           Shop By Top Brands
         </div>
@@ -672,7 +672,7 @@ const HomeClient = ({
           <>
             {home_category_items?.map((section) => {
               return (
-                <div className="component_1 mt-4" key={section.url}>
+                <div className="component_1 my-4" key={section.url}>
                   <ComponentHeader
                     title={section.subcategory_name}
                     url={`/products-category/${section.url}`}
