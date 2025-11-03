@@ -104,7 +104,7 @@ export const get_VelidateResetToken = async (input_data) => {
 };
 export const post_changePassword = async (input_data) => {
   const response = await axios.post(
-    `/api/reset-password/${input_data}`,
+    `/api/reset-password/${input_data.token}`,
     input_data
   );
   return response;
