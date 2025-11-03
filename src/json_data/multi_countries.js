@@ -629,7 +629,7 @@ const countriesData = [
     image: "saudi.svg",
     helpline_numbers: {
       hotline: "(966) 1311 0888",
-      whatsapp: "(966) 34616280",
+      whatsapp: "(973) 34616280",
       address:
         "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Riyadh | Saudi Arabia",
     },
