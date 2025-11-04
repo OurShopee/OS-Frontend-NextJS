@@ -13,6 +13,7 @@ import { HomeBannerPlaceholder } from "@/components/Common/Placeholders";
 // import SeoMeta from "../components/Common/SeoMeta";
 import {
   CarouselProducts,
+  CarouselWithBanner,
   HomeCarousel,
   HomeCategories,
   HomeMobileCarousel,
@@ -64,6 +65,7 @@ const HomeClient = ({
     initialCategoryItemsData || home_category_itemsFromRedux;
 
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
+  console.log(top_picks)
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
@@ -217,14 +219,14 @@ const HomeClient = ({
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
 
-        <div className="grid grid-cols-3 gap-[14px] max-h-[350px] overflow-hidden my-6">
+        <div className="grid grid-cols-3 gap-[14px] max-h-[360px] overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
             <MastZone />
           </div>
 
           {/* Middle Section - Top Selling */}
-          <div className="">
+          <div className="mt-0.5">
             <TopSelling />
           </div>
 
@@ -232,6 +234,23 @@ const HomeClient = ({
           <div className="">
             <PromotionalBanners sectionBanners={sectionBanners} />
           </div>
+        </div>
+
+        {/* Top Picks */}
+        <div className="component_1 mt-4">
+          <ComponentHeader
+            title={"Top Picks"}
+            view_all={"rgba(82, 50, 194, 1)"}
+            url={top_picks?.[0]?.url}
+          />
+
+          {!loading5 && (
+            <CarouselWithBanner
+              products={top_picks?.[0]?.productlist}
+              bannerImage={top_picks?.[0]?.image_slider}
+              bannerImageRedirectUrl={top_picks?.[0]?.url}
+            />
+          )}
         </div>
 
         {/* Tabs with Sale Ends in Section */}
