@@ -256,17 +256,6 @@ const HomeClient = ({
         <Tabs
           tabs={[
             {
-              title: "Bundle Deals",
-              endpoint: bundle_clearance_sale,
-              path: "bundle_deals",
-              imgUrl: !isMobile
-                ? sectionBanners?.tabBanner2?.image_web
-                : sectionBanners?.tabBanner2?.image_app,
-              imgRedirectionUrl: !isMobile
-                ? sectionBanners?.tabBanner2?.url_web
-                : sectionBanners?.tabBanner2?.url_app,
-            },
-            {
               title: "Deals of the Day",
               endpoint: getDealOfTheDayApi,
               path: "",
@@ -277,7 +266,17 @@ const HomeClient = ({
                 ? sectionBanners?.tabBanner1?.url_web
                 : sectionBanners?.tabBanner1?.url_app,
             },
-
+            {
+              title: "Bundle Deals",
+              endpoint: bundle_clearance_sale,
+              path: "bundle_deals",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner2?.image_web
+                : sectionBanners?.tabBanner2?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner2?.url_web
+                : sectionBanners?.tabBanner2?.url_app,
+            },
             {
               title: "Exciting Offers",
               endpoint: getdeal_offersApi,
