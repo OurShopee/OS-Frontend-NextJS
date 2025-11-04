@@ -65,7 +65,7 @@ const HomeClient = ({
     initialCategoryItemsData || home_category_itemsFromRedux;
 
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
-  console.log(top_picks)
+  console.log(top_picks);
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
@@ -252,6 +252,61 @@ const HomeClient = ({
             />
           )}
         </div>
+
+        <Tabs
+          tabs={[
+            {
+              title: "Bundle Deals",
+              endpoint: bundle_clearance_sale,
+              path: "bundle_deals",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner2?.image_web
+                : sectionBanners?.tabBanner2?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner2?.url_web
+                : sectionBanners?.tabBanner2?.url_app,
+            },
+            {
+              title: "Deals of the Day",
+              endpoint: getDealOfTheDayApi,
+              path: "",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner1?.image_web
+                : sectionBanners?.tabBanner1?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner1?.url_web
+                : sectionBanners?.tabBanner1?.url_app,
+            },
+
+            {
+              title: "Exciting Offers",
+              endpoint: getdeal_offersApi,
+              path: "exciting_offers",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner3?.image_web
+                : sectionBanners?.tabBanner3?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner3?.url_web
+                : sectionBanners?.tabBanner3?.url_app,
+            },
+            {
+              title: "Top Selling",
+              endpoint: getTopSellingApi,
+              path: "",
+            },
+            {
+              title: "Saver zone",
+              endpoint: () => getSaverZoneProducts(saverId),
+              path: "",
+            },
+            {
+              title: "Clearance Deals",
+              endpoint: clearance_saleApi,
+              path: "items",
+            },
+          ]}
+          countdownEndDate={new Date("2025-11-15T23:59:59")}
+        />
 
         {/* Tabs with Sale Ends in Section */}
         <div className="flex h-full flex-col lg:flex-row pt-2">
