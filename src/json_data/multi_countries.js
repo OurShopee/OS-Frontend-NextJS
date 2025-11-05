@@ -17,6 +17,8 @@ const countriesData = [
       whatsapp: "(971) 521881678",
       address:
         "Ourshopee Trading L.L.C  | Office - number 16 - 10 | Doha Rd - Al Qusais Industrial Area 1 | Dubai | UAE",
+      map_location:
+        "https://maps.google.com/maps?q=Al%20Quoz%20Industrial%20Area%203&t=&z=13&ie=UTF8&iwloc=&output=embed",
     },
     isTabbyRequired: true,
     emi_months: 4,
@@ -151,6 +153,8 @@ const countriesData = [
       whatsapp: "(968) 79361181",
       address:
         "Ourshopee | Nizwa building  | Near Aliz Islamic bank | Cbd area | Muscut",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.1637938139747!2d58.5484766!3d23.597210999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e91f9db441119eb%3A0x5d455c628f76f2a5!2sOurshopee.com%20Oman!5e1!3m2!1sen!2sin!4v1762340610684!5m2!1sen!2sin",
     },
     fb_link: "https://www.facebook.com/Ourshopee.om",
     insta_link:
@@ -278,6 +282,8 @@ const countriesData = [
       whatsapp: "(974) 66090052",
       address:
         "Ourshopee Office | New Salata Complex D Ring Road | Street No. 250  Zone No. 40 | Doha | Qatar",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.2705937045453!2d51.52189179999999!3d25.254795800000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e45cf5cc4d8e4c5%3A0x7527406e1f190c81!2sOurshopee%20Qatar!5e1!3m2!1sen!2sin!4v1762340541039!5m2!1sen!2sin",
     },
     fb_link: "https://www.facebook.com/OurshopeeOffers",
     insta_link:
@@ -395,6 +401,8 @@ const countriesData = [
       whatsapp: "(965) 6040 2993",
       address:
         "Ourshopee.com | Office no1 | Floor no:3 | Canary opposit | Najumma Building | Farwaniya block 1 | Kuwait",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3783.557578540479!2d47.96167507552491!3d29.28330557531569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjnCsDE2JzU5LjkiTiA0N8KwNTcnNTEuMyJF!5e1!3m2!1sen!2sin!4v1762340671803!5m2!1sen!2sin",
     },
     fb_link: "https://www.facebook.com/Ourshopeekuwaitonline/",
     insta_link:
@@ -511,6 +519,8 @@ const countriesData = [
       whatsapp: "(973) 34616280",
       address:
         "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Manama | Bahrain",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3891.7627455013862!2d50.57823067541546!3d26.213277777070996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDEyJzQ3LjgiTiA1MMKwMzQnNTAuOSJF!5e1!3m2!1sen!2sin!4v1762340719198!5m2!1sen!2sin",
     },
     isTabbyRequired: false,
     emi_months: 0,
