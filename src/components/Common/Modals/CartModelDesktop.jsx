@@ -441,11 +441,11 @@ const CartModalDesktop = ({ show, onHide }) => {
                           </span>
                           <div className="text-sm line-through text-[#9EA5A8]">
                             <span
-                              aria-label={`Original price: AED ${(
+                              aria-label={`Original price: ${currentcountry?.currency} ${(
                                 item.old_price * item.quantity
                               ).toFixed(2)}`}
                             >
-                              AED {(item.old_price * item.quantity).toFixed(2)}
+                              {currentcountry?.currency} {(item.old_price * item.quantity).toFixed(2)}
                             </span>
                           </div>
                         </div>
@@ -469,8 +469,8 @@ const CartModalDesktop = ({ show, onHide }) => {
               <p className="mb-0 capitalize">total cart value</p>
               <div className="flex items-center gap-1">
                 <p className="mb-0 text-sm line-through text-[#9EA5A8]">
-                  <span aria-label={`Original total: AED ${totalOld}`}>
-                    AED {totalOld}
+                  <span aria-label={`Original total: ${currentcountry?.currency} ${totalOld}`}>
+                    {currentcountry?.currency} {totalOld}
                   </span>
                 </p>
                 <p
