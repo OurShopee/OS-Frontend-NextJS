@@ -18,7 +18,7 @@ const countriesData = [
       address:
         "Ourshopee Trading L.L.C  | Office - number 16 - 10 | Doha Rd - Al Qusais Industrial Area 1 | Dubai | UAE",
       map_location:
-        "https://maps.google.com/maps?q=Al%20Quoz%20Industrial%20Area%203&t=&z=13&ie=UTF8&iwloc=&output=embed",
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.356812299205!2d55.379621!3d25.2830702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dcb73cb2a87%3A0xdce6b4489e9a721b!2sOurshopee%20UAE!5e1!3m2!1sen!2sin!4v1762343285059!5m2!1sen!2sin",
     },
     isTabbyRequired: true,
     emi_months: 4,
