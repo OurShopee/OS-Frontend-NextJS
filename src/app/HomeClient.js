@@ -40,6 +40,9 @@ import {
 import MastZone from "@/components/homepage/MastZone";
 import TopSelling from "@/components/homepage/TopSelling";
 import PromotionalBanners from "@/components/homepage/PromotionalBanners";
+import DealsYouMightLike from "@/components/homepage/DealsYouMightLike";
+import LimitedTimeDeals from "@/components/homepage/LimitedTimeDeals";
+import ProductBanners from "@/components/homepage/ProductBanners";
 
 const HomeClient = ({
   initialNavigationData,
@@ -191,6 +194,73 @@ const HomeClient = ({
     ? (categoryList || [])?.slice(0, 6)
     : (categoryList || [])?.slice(0, 9);
 
+  const dealsYouMightLikeData = [
+    {
+      id: 1,
+      title: "Watches",
+      discount: "70% OFF",
+      image: "/assets/banners/sellus.png",
+      bgColor: "bg-orange-100",
+    },
+    {
+      id: 2,
+      title: "Mobiles Phones",
+      discount: "40% OFF",
+      image: "/assets/banners/sellus.png",
+      bgColor: "bg-blue-200",
+    },
+    {
+      id: 3,
+      title: "Beauty Care",
+      discount: "55% OFF",
+      image: "/assets/banners/sellus.png",
+      bgColor: "bg-orange-100",
+    },
+    {
+      id: 4,
+      title: "Perfumes",
+      discount: "60% OFF",
+      image: "/assets/banners/sellus.png",
+      bgColor: "bg-pink-200",
+    },
+  ];
+
+  const limitedTimeDealsData = [
+    {
+      id: 1,
+      productImage: "/assets/banners/sellus.png",
+      discount: "19% OFF",
+    },
+    {
+      id: 2,
+      productImage: "/assets/banners/sellus.png",
+      discount: "19% OFF",
+    },
+    {
+      id: 3,
+      productImage: "/assets/banners/sellus.png",
+      discount: "19% OFF",
+    },
+    {
+      id: 4,
+      productImage: "/assets/banners/sellus.png",
+      discount: "19% OFF",
+    },
+  ];
+
+  const productBannersData = [
+    {
+      id: 1,
+      image: "/assets/banners/banner_1.png",
+      alt: "Perfume Banner",
+    },
+    {
+      id: 2,
+      image: "/assets/banners/banner_2.png",
+      alt: "Green Tea Skincare",
+    },
+  ];
+
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
       {/* <SeoMeta
@@ -218,7 +288,7 @@ const HomeClient = ({
 
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
-
+        {/* Mast Zone, Top Selling, Promotional Banners Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] md:max-h-[360px] md:overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
@@ -235,7 +305,6 @@ const HomeClient = ({
             <PromotionalBanners sectionBanners={sectionBanners} />
           </div>
         </div>
-
         {/* Top Picks */}
         <div className="component_1 mt-4">
           <ComponentHeader
@@ -252,7 +321,7 @@ const HomeClient = ({
             />
           )}
         </div>
-
+        {/* Tabs Section */}
         <Tabs
           tabs={[
             {
@@ -306,6 +375,187 @@ const HomeClient = ({
           ]}
           countdownEndDate={new Date("2025-11-15T23:59:59")}
         />
+        {/* Deals You Might Like Section/RoW */}
+        <div className="container mx-auto px-4 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Deals You Might Like */}
+            <div className="lg:col-span-1 deals-you-like">
+              <DealsYouMightLike deals={dealsYouMightLikeData} />
+            </div>
+
+            {/* Middle Column - Limited Time Deals */}
+            <div className="lg:col-span-1 deals-you-like relative">
+              {LimitedTimeDeals.backgroundImage ? (
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={backgroundImage}
+                    alt="Limited Time Deals Background"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  {/* Optional overlay for better text readability */}
+                  <div className="absolute inset-0 bg-black/20"></div>
+                </div>
+              ) : (
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-500 z-0`}
+                ></div>
+              )}
+              <LimitedTimeDeals
+                deals={limitedTimeDealsData}
+                countdownTimestamp={new Date("2025-11-07T23:59:59").getTime()}
+              />
+            </div>
+
+            {/* Right Column - Product Banners */}
+            <div className="lg:col-span-1">
+              <ProductBanners banners={productBannersData} />
+            </div>
+          </div>
+        </div>
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(0, 2)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        {/* Brand of the week */}
+        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
+        <DynamicBanners bannerKey="mainBanner1" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(2, 4)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner2" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(4, 6)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(6, 8)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner4" />
+        {/* All Remaining Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items
+              ?.slice(8, home_category_items?.length)
+              ?.map((section) => {
+                return (
+                  <div className="component_1 mt-4" key={section.url}>
+                    <ComponentHeader
+                      title={section.subcategory_name}
+                      url={`/products-category/${section.url}`}
+                      view_all={"rgba(82, 50, 194, 1)"}
+                    />
+                    <CarouselWithBanner
+                      products={section.items}
+                      bannerImage={top_picks?.[0]?.image_slider}
+                      bannerImageRedirectUrl={top_picks?.[0]?.url}
+                      type={1}
+                      inner_bg={"rgba(238, 235, 250, 1)"}
+                      section_name={section.subcategory_name}
+                    />
+                  </div>
+                );
+              })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner5" />
+
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
 
         {/* Tabs with Sale Ends in Section */}
         <div className="flex h-full flex-col lg:flex-row pt-2">
@@ -509,9 +759,7 @@ const HomeClient = ({
             </div>
           </div>
         </div>
-
         <DynamicBanners bannerKey="mainBanner1" enableAos={true} />
-
         {/* Top Brands Section  */}
         <div
           className={`text-xl mt-4 lg:text-[28px] pl-4 text-[#43494B] font-outfit font-bold mb-4`}
@@ -566,9 +814,7 @@ const HomeClient = ({
             </div>
           </Marquee>
         </div>
-
         <div className="mt-3"></div>
-
         {/* Second Tabs Section  */}
         <Tabs
           tabs={[
@@ -617,7 +863,6 @@ const HomeClient = ({
             1600: { slidesPerView: 5 },
           }}
         />
-
         {/* Category List */}
         <div
           className={`text-xl lg:text-[28px] pl-4 pt-7 text-[#43494B] font-outfit font-bold mb-4`}
@@ -662,9 +907,7 @@ const HomeClient = ({
             </div>
           ))}
         </div>
-
         <DynamicBanners bannerKey="mainBanner2" enableAos={true} />
-
         {/* Best Deals section */}
         <div className="component_1 mt-4">
           <ComponentHeader
@@ -692,7 +935,6 @@ const HomeClient = ({
             )}
           </div>
         </div>
-
         {/* MultiPle Banners */}
         <div className="flex flex-wrap -mx-2 multi_banners mt-4">
           {!loading && (
@@ -720,7 +962,6 @@ const HomeClient = ({
             </>
           )}
         </div>
-
         <div
           className={`flex flex-wrap -mx-2 multi_banners_four ${
             !isMobile && "mt-0"
@@ -751,16 +992,9 @@ const HomeClient = ({
             </>
           )}
         </div>
-
         <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
-
-        {/* Brand of the week */}
-        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
-
         <DynamicBanners bannerKey="mainBanner4" />
-
         <DynamicBanners bannerKey="mainBanner5" />
-
         {!loading6 && (
           <>
             {home_category_items?.map((section) => {

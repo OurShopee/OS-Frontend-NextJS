@@ -4,7 +4,6 @@ import Link from "next/link";
 import CarouselProducts from "./CarouselProducts";
 import { MediaQueries } from "../utils";
 
-
 export default function CarouselWithBanner({
   products,
   bannerImage,
@@ -15,6 +14,7 @@ export default function CarouselWithBanner({
   eid_sale,
   breakPointsProps,
   section_name,
+  backgroundImage,
   className = "",
   style = {},
   ...restProps
@@ -27,7 +27,7 @@ export default function CarouselWithBanner({
 
   // Update carousel height on mount and resize
   useEffect(() => {
-    if (!hasBanner) return;
+    if (!hasBanner || isMobile) return;
 
     const updateCarouselHeight = () => {
       if (carouselRef.current) {
@@ -42,7 +42,6 @@ export default function CarouselWithBanner({
       }
     };
 
-    // Initial updates with staggered delays for carousel render
     const timeout1 = setTimeout(updateCarouselHeight, 100);
     const timeout2 = setTimeout(updateCarouselHeight, 300);
     const timeout3 = setTimeout(updateCarouselHeight, 600);
@@ -55,7 +54,7 @@ export default function CarouselWithBanner({
       clearTimeout(timeout2);
       clearTimeout(timeout3);
     };
-  }, [hasBanner, products]);
+  }, [hasBanner, products, isMobile]);
 
   const bannerContent = (
     <img
@@ -80,18 +79,18 @@ export default function CarouselWithBanner({
             isMobile ? "flex-col" : "flex-row items-stretch"
           }`}
         >
-          {/* Left Banner - Maintains 301/305 aspect ratio */}
-          <div
-            className={`flex-shrink-0 rounded-2xl overflow-hidden aspect-[301/305]`}
-          >
-            {bannerImageRedirectUrl ? (
-              <Link href={bannerImageRedirectUrl}>{bannerContent}</Link>
-            ) : (
-              bannerContent
-            )}
-          </div>
+          {/* Banner - Responsive */}
+          {!isMobile && (
+            <div className="flex-shrink-0 rounded-2xl overflow-hidden aspect-[301/305]">
+              {bannerImageRedirectUrl ? (
+                <Link href={bannerImageRedirectUrl}>{bannerContent}</Link>
+              ) : (
+                bannerContent
+              )}
+            </div>
+          )}
 
-          {/* Right Carousel */}
+          {/* Carousel */}
           <div ref={carouselRef} className="flex-1 min-w-0">
             <CarouselProducts
               products={products}
@@ -101,8 +100,7 @@ export default function CarouselWithBanner({
               eid_sale={eid_sale}
               breakPointsProps={breakPointsProps}
               section_name={section_name}
-              imgUrl=""
-              imgPostUrl=""
+              backgroundImage={isMobile ? bannerImage : backgroundImage}
               {...restProps}
             />
           </div>
@@ -117,8 +115,7 @@ export default function CarouselWithBanner({
             eid_sale={eid_sale}
             breakPointsProps={breakPointsProps}
             section_name={section_name}
-            imgUrl=""
-            imgPostUrl=""
+            backgroundImage={backgroundImage}
             {...restProps}
           />
         </div>

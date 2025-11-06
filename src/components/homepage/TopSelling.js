@@ -187,7 +187,7 @@ export default function TopSelling({
               cssMode={!isMobile && true}
               mousewheel={true}
               keyboard={true}
-              pagination={paginationConfig}
+              // pagination={paginationConfig}
               navigation={false}
               modules={
                 isMobile

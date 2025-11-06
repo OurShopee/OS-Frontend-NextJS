@@ -31,6 +31,7 @@ export default function CarouselProducts({
   eid_sale,
   breakPointsProps,
   section_name,
+  backgroundImage,
 }) {
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
@@ -53,16 +54,10 @@ export default function CarouselProducts({
     setIsEnd(swiper?.isEnd);
   };
 
-  const paginationConfig = useMemo(() => {
-    if (!isMobile) return false;
-    return { clickable: true };
-  }, [isMobile]);
-
   const handleSwiperInit = (swiper) => {
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
 
-    // Check if swiper is scrollable
     if (swiper?.slides?.length > swiper?.params?.slidesPerView) {
       setIsEnd(swiper?.isEnd);
       setIsBeginning(swiper?.isBeginning);
@@ -79,7 +74,6 @@ export default function CarouselProducts({
       375: { slidesPerView: 2 },
       425: { slidesPerView: 2 },
       525: { slidesPerView: 2 },
-      425: { slidesPerView: 2 },
       600: { slidesPerView: 2 },
       700: { slidesPerView: 2 },
       800: { slidesPerView: 2.2 },
@@ -95,18 +89,42 @@ export default function CarouselProducts({
   }, [breakPointsProps, type]);
 
   const btnBase =
-    "hidden lg:grid place-items-center h-28 w-8 rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
+    "block lg:grid place-items-center h-28 w-8 rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
   const btnDisabled = "opacity-30 pointer-events-none";
+
+  const swiperModules = useMemo(() => {
+    return isMobile
+      ? [Grid, Pagination]
+      : [Grid, Pagination, Navigation, Mousewheel, Keyboard];
+  }, [isMobile]);
+
+  const gridConfig = useMemo(() => {
+    return type == 1 && isMobile ? { rows: 1, fill: "row" } : undefined;
+  }, [type, isMobile]);
 
   return (
     <div
       className={`carousel_products ${eid_sale && "bg-transparent"} ${
         (type == 2 || type == 3) && "p-0"
-      } ${isMobile ? "flex flex-col gap-1" : "flex items-stretch gap-1"}`}
-      style={{ background: !isMobile && inner_bg }}
+      }`}
+      style={{
+        background:
+          isMobile && backgroundImage
+            ? `url(${backgroundImage})`
+            : !isMobile && inner_bg
+            ? inner_bg
+            : "transparent",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
-      {/* LEFT ARROW */}
-      {!isMobile && (
+      {/* LEFT ARROW - Desktop Only */}
+      <div
+        className={`${
+          isMobile ? "flex gap-1 mt-[144px]" : "flex items-stretch gap-1"
+        }`}
+      >
         <button
           type="button"
           className={`${btnBase} self-center ${isBeginning ? btnDisabled : ""}`}
@@ -117,78 +135,71 @@ export default function CarouselProducts({
         >
           <IoChevronBack size={22} />
         </button>
-      )}
 
-      {/* SWIPER */}
-      <div className="flex-1 min-w-0">
-        <Swiper
-          cssMode={!isMobile && true}
-          mousewheel={true}
-          keyboard={true}
-          pagination={paginationConfig}
-          navigation={false}
-          modules={
-            isMobile
-              ? [Grid, Pagination]
-              : [Grid, Pagination, Navigation, Mousewheel, Keyboard]
-          }
-          grid={type == 1 && isMobile ? { rows: 2, fill: "row" } : undefined}
-          onSwiper={handleSwiperInit}
-          onSlideChange={handleSlideChange}
-          breakpoints={breakPoints}
-          spaceBetween={isMobile ? 8 : 15}
-          className="carouselSwiper h-full"
-          ref={swiperContainerRef}
-        >
-          {products?.length > 0 &&
-            products?.map((item, index) => {
-              const url = item.url.split("/");
-              return (
-                <SwiperSlide key={index}>
-                  {item.hasOwnProperty("sku") ? (
-                    url.length >= 2 ? (
+        {/* SWIPER */}
+        <div className={`flex-1 min-w-0`}>
+          <Swiper
+            cssMode={!isMobile}
+            mousewheel={!isMobile}
+            keyboard={!isMobile}
+            // pagination={paginationConfig}
+            navigation={false}
+            modules={swiperModules}
+            grid={gridConfig}
+            onSwiper={handleSwiperInit}
+            onSlideChange={handleSlideChange}
+            breakpoints={breakPoints}
+            spaceBetween={isMobile ? 8 : 15}
+            className="carouselSwiper h-full"
+            ref={swiperContainerRef}
+          >
+            {products?.length > 0 &&
+              products?.map((item, index) => {
+                const url = item.url.split("/");
+                return (
+                  <SwiperSlide key={index}>
+                    {item.hasOwnProperty("sku") ? (
+                      url.length >= 2 ? (
+                        <Link
+                          href={`/details/${item.url}`}
+                          className="no-underline h-full"
+                        >
+                          <ProductCard
+                            item={item}
+                            type={type}
+                            type2={type2}
+                            eid_sale={eid_sale}
+                            section_name={section_name}
+                          />
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/details/${item.url}/${item.sku}`}
+                          className="no-underline h-full"
+                        >
+                          <ProductCard
+                            item={item}
+                            type={type}
+                            type2={type2}
+                            eid_sale={eid_sale}
+                            section_name={section_name}
+                          />
+                        </Link>
+                      )
+                    ) : (
                       <Link
                         href={`/details/${item.url}`}
                         className="no-underline h-full"
                       >
-                        <ProductCard
-                          item={item}
-                          type={type}
-                          type2={type2}
-                          eid_sale={eid_sale}
-                          section_name={section_name}
-                        />
+                        <ProductCard item={item} eid_sale={eid_sale} />
                       </Link>
-                    ) : (
-                      <Link
-                        href={`/details/${item.url}/${item.sku}`}
-                        className="no-underline h-full"
-                      >
-                        <ProductCard
-                          item={item}
-                          type={type}
-                          type2={type2}
-                          eid_sale={eid_sale}
-                          section_name={section_name}
-                        />
-                      </Link>
-                    )
-                  ) : (
-                    <Link
-                      href={`/details/${item.url}`}
-                      className="no-underline h-full"
-                    >
-                      <ProductCard item={item} eid_sale={eid_sale} />
-                    </Link>
-                  )}
-                </SwiperSlide>
-              );
-            })}
-        </Swiper>
-      </div>
+                    )}
+                  </SwiperSlide>
+                );
+              })}
+          </Swiper>
+        </div>
 
-      {/* RIGHT ARROW */}
-      {!isMobile && (
         <button
           type="button"
           className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
@@ -198,7 +209,7 @@ export default function CarouselProducts({
         >
           <IoChevronForward size={22} />
         </button>
-      )}
+      </div>
     </div>
   );
 }
