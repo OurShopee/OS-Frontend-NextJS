@@ -289,14 +289,14 @@ const HomeClient = ({
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
 
-        <div className="grid grid-cols-3 gap-[14px] max-h-[360px] overflow-hidden my-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] md:max-h-[360px] md:overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
             <MastZone />
           </div>
 
           {/* Middle Section - Top Selling */}
-          <div className="mt-0.5">
+          <div className="md:mt-0.5">
             <TopSelling />
           </div>
 
