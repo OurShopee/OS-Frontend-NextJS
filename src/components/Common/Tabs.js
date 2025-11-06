@@ -12,6 +12,7 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
 
   const tabRefs = useRef([]);
   const loadingStatusRef = useRef({});
+  const errorStatusRef = useRef({}); // Track if we've already encountered an error
   const CACHE_KEY = "homepage_tabs_cache_v2";
   const CACHE_DURATION = 5 * 60 * 1000;
 
@@ -44,9 +45,13 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
             ...prev,
             ...cachedData,
           }));
-          // Mark loaded tabs so we don't reload them
+          // Mark loaded tabs so we don't reload them and clear any error status
           Object.keys(cachedData).forEach((tabTitle) => {
             loadingStatusRef.current[tabTitle] = false;
+            // Clear error status if we have cached data (means it was successful before)
+            if (cachedData[tabTitle]?.products?.length > 0) {
+              errorStatusRef.current[tabTitle] = false;
+            }
           });
         } else {
           sessionStorage.removeItem(CACHE_KEY);
@@ -60,10 +65,11 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
   // Fetch products for a specific tab
   const fetchTabData = useCallback(
     async (tabTitle) => {
-      // Skip if already loaded or loading
+      // Skip if already loaded, loading, or if we've already encountered an error
       if (
         tabsState[tabTitle]?.products?.length > 0 ||
-        loadingStatusRef.current[tabTitle]
+        loadingStatusRef.current[tabTitle] ||
+        errorStatusRef.current[tabTitle]
       ) {
         return;
       }
@@ -81,6 +87,7 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
             error: "Invalid configuration",
           },
         }));
+        errorStatusRef.current[tabTitle] = true; // Mark as error to prevent retries
         loadingStatusRef.current[tabTitle] = false;
         return;
       }
@@ -100,6 +107,9 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
             isLoading: false,
             error: null,
           };
+
+          // Clear error status on success
+          errorStatusRef.current[tabTitle] = false;
 
           // Update state
           setTabsState((prev) => ({
@@ -125,28 +135,38 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
         }
       } catch (error) {
         console.error(`Error fetching products for ${tabTitle}:`, error);
+        
+        // Check if it's a 500 error or server error
+        const isServerError = error?.response?.status >= 500 || 
+                             error?.response?.status === 500 ||
+                             error?.message?.includes('500') ||
+                             error?.code === 'ERR_NETWORK';
+        
+        // Mark as error to prevent infinite retries
+        errorStatusRef.current[tabTitle] = true;
+        
         setTabsState((prev) => ({
           ...prev,
           [tabTitle]: {
             ...prev[tabTitle],
             products: [],
             isLoading: false,
-            error: error.message,
+            error: error.message || "Failed to load products",
           },
         }));
       } finally {
         loadingStatusRef.current[tabTitle] = false;
       }
     },
-    [tabs, tabsState, CACHE_KEY]
+    [tabs, CACHE_KEY] // Removed tabsState from dependencies to prevent infinite loops
   );
 
   // Load data for active tab
   useEffect(() => {
-    if (activeTab && tabsState[activeTab]) {
+    if (activeTab && tabsState[activeTab] && !errorStatusRef.current[activeTab]) {
       fetchTabData(activeTab);
     }
-  }, [activeTab, fetchTabData]);
+  }, [activeTab, fetchTabData]); // tabsState removed to prevent re-triggering on state updates
 
   // Preload next tab
   useEffect(() => {
@@ -154,7 +174,7 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
     const nextIndex = (currentIndex + 1) % tabs.length;
     const nextTab = tabs[nextIndex];
 
-    if (nextTab && !loadingStatusRef.current[nextTab.title]) {
+    if (nextTab && !loadingStatusRef.current[nextTab.title] && !errorStatusRef.current[nextTab.title]) {
       const preloadTimer = setTimeout(() => {
         fetchTabData(nextTab.title);
       }, 600); // Delay to not interfere with current tab
