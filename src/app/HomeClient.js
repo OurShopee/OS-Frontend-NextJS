@@ -318,6 +318,8 @@ const HomeClient = ({
               products={top_picks?.[0]?.productlist}
               bannerImage={top_picks?.[0]?.image_slider}
               bannerImageRedirectUrl={top_picks?.[0]?.url}
+              type={1}
+              inner_bg={"rgba(238, 235, 250, 1)"}
             />
           )}
         </div>
@@ -376,7 +378,7 @@ const HomeClient = ({
           countdownEndDate={new Date("2025-11-15T23:59:59")}
         />
         {/* Deals You Might Like Section/RoW */}
-        <div className="container mx-auto px-4 py-6">
+        <div className="mt-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Deals You Might Like */}
             <div className="lg:col-span-1 deals-you-like">
@@ -515,7 +517,7 @@ const HomeClient = ({
             })}
           </>
         )}
-        <DynamicBanners bannerKey="mainBanner4" />
+        <DynamicBanners bannerKey="mainBanner4" enableAos={true} />
         {/* All Remaining Categories Sections */}
         {!loading6 && (
           <>

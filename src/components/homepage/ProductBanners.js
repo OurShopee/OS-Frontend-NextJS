@@ -12,7 +12,7 @@ export default function ProductBanners({ banners }) {
               src={banner.image}
               alt={banner.alt}
               fill
-              className="object-cover aspect-[449/170]"
+              className="aspect-[449/170]"
             />
           </div>
         </Link>

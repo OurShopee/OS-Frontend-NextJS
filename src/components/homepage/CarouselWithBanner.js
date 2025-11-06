@@ -81,7 +81,7 @@ export default function CarouselWithBanner({
         >
           {/* Banner - Responsive */}
           {!isMobile && (
-            <div className="flex-shrink-0 rounded-2xl overflow-hidden aspect-[301/305]">
+            <div className="flex-shrink-0 overflow-hidden aspect-[301/305] rounded-[20px]">
               {bannerImageRedirectUrl ? (
                 <Link href={bannerImageRedirectUrl}>{bannerContent}</Link>
               ) : (
