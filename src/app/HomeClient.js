@@ -288,7 +288,7 @@ const HomeClient = ({
 
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
-
+        {/* Mast Zone, Top Selling, Promotional Banners Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] md:max-h-[360px] md:overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
@@ -305,7 +305,6 @@ const HomeClient = ({
             <PromotionalBanners sectionBanners={sectionBanners} />
           </div>
         </div>
-
         {/* Top Picks */}
         <div className="component_1 mt-4">
           <ComponentHeader
@@ -322,7 +321,7 @@ const HomeClient = ({
             />
           )}
         </div>
-
+        {/* Tabs Section */}
         <Tabs
           tabs={[
             {
@@ -376,7 +375,7 @@ const HomeClient = ({
           ]}
           countdownEndDate={new Date("2025-11-15T23:59:59")}
         />
-
+        {/* Deals You Might Like Section/RoW */}
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Deals You Might Like */}
@@ -415,6 +414,148 @@ const HomeClient = ({
             </div>
           </div>
         </div>
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(0, 2)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        {/* Brand of the week */}
+        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
+        <DynamicBanners bannerKey="mainBanner1" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(2, 4)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner2" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(4, 6)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(6, 8)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={top_picks?.[0]?.image_slider}
+                    bannerImageRedirectUrl={top_picks?.[0]?.url}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner4" />
+        {/* All Remaining Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items
+              ?.slice(8, home_category_items?.length)
+              ?.map((section) => {
+                return (
+                  <div className="component_1 mt-4" key={section.url}>
+                    <ComponentHeader
+                      title={section.subcategory_name}
+                      url={`/products-category/${section.url}`}
+                      view_all={"rgba(82, 50, 194, 1)"}
+                    />
+                    <CarouselWithBanner
+                      products={section.items}
+                      bannerImage={top_picks?.[0]?.image_slider}
+                      bannerImageRedirectUrl={top_picks?.[0]?.url}
+                      type={1}
+                      inner_bg={"rgba(238, 235, 250, 1)"}
+                      section_name={section.subcategory_name}
+                    />
+                  </div>
+                );
+              })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner5" />
+
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
+        {/* * * * * * * * * * * * * * * * * * * * * * * * HomepageRevamp Ends Here * * * * * * * * * * * * * * * * * * * * * * * * /}
 
         {/* Tabs with Sale Ends in Section */}
         <div className="flex h-full flex-col lg:flex-row pt-2">
@@ -618,9 +759,7 @@ const HomeClient = ({
             </div>
           </div>
         </div>
-
         <DynamicBanners bannerKey="mainBanner1" enableAos={true} />
-
         {/* Top Brands Section  */}
         <div
           className={`text-xl mt-4 lg:text-[28px] pl-4 text-[#43494B] font-outfit font-bold mb-4`}
@@ -675,9 +814,7 @@ const HomeClient = ({
             </div>
           </Marquee>
         </div>
-
         <div className="mt-3"></div>
-
         {/* Second Tabs Section  */}
         <Tabs
           tabs={[
@@ -726,7 +863,6 @@ const HomeClient = ({
             1600: { slidesPerView: 5 },
           }}
         />
-
         {/* Category List */}
         <div
           className={`text-xl lg:text-[28px] pl-4 pt-7 text-[#43494B] font-outfit font-bold mb-4`}
@@ -771,9 +907,7 @@ const HomeClient = ({
             </div>
           ))}
         </div>
-
         <DynamicBanners bannerKey="mainBanner2" enableAos={true} />
-
         {/* Best Deals section */}
         <div className="component_1 mt-4">
           <ComponentHeader
@@ -801,7 +935,6 @@ const HomeClient = ({
             )}
           </div>
         </div>
-
         {/* MultiPle Banners */}
         <div className="flex flex-wrap -mx-2 multi_banners mt-4">
           {!loading && (
@@ -829,7 +962,6 @@ const HomeClient = ({
             </>
           )}
         </div>
-
         <div
           className={`flex flex-wrap -mx-2 multi_banners_four ${
             !isMobile && "mt-0"
@@ -860,16 +992,9 @@ const HomeClient = ({
             </>
           )}
         </div>
-
         <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
-
-        {/* Brand of the week */}
-        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
-
         <DynamicBanners bannerKey="mainBanner4" />
-
         <DynamicBanners bannerKey="mainBanner5" />
-
         {!loading6 && (
           <>
             {home_category_items?.map((section) => {
