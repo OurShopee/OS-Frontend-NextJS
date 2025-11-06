@@ -3,6 +3,7 @@
 import { MediaQueries } from "../utils";
 
 export default function PromotionalBanners({ sectionBanners }) {
+  console.log(sectionBanners, "sectionBanners");
   const { isMobile, isTablet, isLaptop } = MediaQueries();
   const banners = [
     {
@@ -43,7 +44,7 @@ export default function PromotionalBanners({ sectionBanners }) {
   return (
     <div className="grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
       {/* Left Promo Box */}
-      <div className="col-span-7 min-h-0">
+      <div className="col-span-12 lg:col-span-7 min-h-0">
         {sectionBanners?.sectionBanner1 && (
           <div
             data-aos="zoom-in"
@@ -56,7 +57,7 @@ export default function PromotionalBanners({ sectionBanners }) {
                 : sectionBanners?.sectionBanner1?.url_web;
 
               pushToDataLayer("clicked_card", currentcountry?.name, {
-                card_name: sectionBanners?.sectionBanner1?.image_web,
+                card_name: sectionBanners?.sectionBanner1?.image_app,
                 page: window.location.pathname,
               });
               router.push(url);
@@ -66,9 +67,9 @@ export default function PromotionalBanners({ sectionBanners }) {
               src={
                 !isMobile
                   ? sectionBanners?.sectionBanner1?.image_web
-                  : sectionBanners?.sectionBanner1?.image_web
+                  : sectionBanners?.sectionBanner1?.image_app
               }
-              className="w-full h-[350px] aspect-[268/350] rounded-2xl object-cover"
+              className={`w-full  ${isMobile? "h-[189px] aspect-[363/189]" : "h-[350px] aspect-[268/350]"} rounded-2xl object-cover`}
               alt="Banners"
             />
           </div>
@@ -76,7 +77,7 @@ export default function PromotionalBanners({ sectionBanners }) {
       </div>
 
       {/* Right Stacked Images */}
-      <div className="col-span-5 grid grid-rows-2 gap-2 h-full min-h-0">
+      <div className="col-span-12 lg:col-span-5 grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-2 h-full min-h-0">
         {sectionBanners?.sectionBanner2 && (
           <div
             data-aos="fade-left"
@@ -98,9 +99,9 @@ export default function PromotionalBanners({ sectionBanners }) {
               src={
                 !isMobile
                   ? sectionBanners?.sectionBanner2?.image_web
-                  : sectionBanners?.sectionBanner2?.image_web
+                  : sectionBanners?.sectionBanner2?.image_app
               }
-              className="w-full rounded-2xl h-[170px] aspect-[195/170] object-cover"
+              className={`w-full rounded-2xl  lg:h-[170px] ${isMobile? "h-[140px] aspect-[180/140]" : "aspect-[195/170]"} object-cover`}
               alt="Banners"
             />
           </div>
@@ -126,9 +127,9 @@ export default function PromotionalBanners({ sectionBanners }) {
               src={
                 !isMobile
                   ? sectionBanners?.sectionBanner3?.image_web
-                  : sectionBanners?.sectionBanner3?.image_web
+                  : sectionBanners?.sectionBanner3?.image_app
               }
-              className="w-full rounded-2xl h-[170px] aspect-[195/170] object-cover"
+              className={`w-full rounded-2xl lg:h-[170px] ${isMobile? "h-[140px] aspect-[180/140]" : "aspect-[195/170]"} object-cover`}
               alt="Banners"
             />
           </div>

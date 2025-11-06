@@ -1,19 +1,7 @@
 "use client";
-import React, {
-  useRef,
-  useCallback,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { useRef, useCallback, useState, useEffect, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Mousewheel,
-  Keyboard,
-  Grid,
-} from "swiper/modules";
+import { Navigation, Pagination, Mousewheel, Keyboard, Grid } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -23,7 +11,6 @@ import { MediaQueries } from "../utils";
 import { ProductCard } from "../Common";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { MdNavigateNext } from "react-icons/md";
 
 export default function TopSelling({
   type,
@@ -106,52 +93,46 @@ export default function TopSelling({
       1400: { slidesPerView: 2 },
       1600: { slidesPerView: 2 },
     };
-  }, [breakPointsProps, type]);
+  }, [breakPointsProps, type, isMobile]);
 
-  // Simple shared button styles (Tailwind)
-  const btnBase =
+  // Desktop arrows (unchanged)
+  const btnBaseDesktop =
     "hidden lg:grid place-items-center h-28 w-8 rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
-  const btnDisabled = "opacity-3 pointer-events-none"; // collapse when disabled
+  const btnDisabled = "opacity-30 pointer-events-none";
+
+  // Mobile overlay arrows (edge-hugging)
+  const btnMobileOverlay =
+    "lg:hidden absolute top-1/2 -translate-y-1/2 grid place-items-center h-[58px] w-8 rounded-2 border border-gray-200 bg-white shadow-md z-20";
 
   return (
     <div className="pt-3.5 px-2 shadow-bg-top-selling max-h-[348px] overflow-hidden">
       <div className="flex items-center justify-between mb-3 px-3.5">
         <div className="flex items-center gap-1.5">
-          <h2 className="text-[26px] font-[800] italic text-black">
-            Top Selling
-          </h2>
-          <img
-            src="/assets/homepage/flash-icon.png"
-            alt="Discount"
-            className="w-8 h-8"
-          />
+          <h2 className="text-[26px] font-[800] italic text-black">Top Selling</h2>
+          <img src="/assets/homepage/flash-icon.png" alt="Discount" className="w-8 h-8" />
         </div>
         <button className="text-[#43494B] font-semibold flex items-center">
-          View all
-          <IoChevronForward size={18} />
+          View all <IoChevronForward size={18} />
         </button>
       </div>
+
       <div
         className={`carousel_products bg-transparent pt-0 ${
           (type == 2 || type == 3) && "p-0"
         } ${isMobile ? "flex flex-col gap-1" : "flex items-stretch gap-1"}`}
         style={{ background: !isMobile && inner_bg }}
       >
-        {/* LEFT ARROW – sits BEFORE any media/slider */}
-        {!isMobile && (
-          <button
-            type="button"
-            className={`${btnBase} self-center ${
-              isBeginning ? btnDisabled : ""
-            }`}
-            onClick={handlePrev}
-            disabled={isBeginning}
-            aria-disabled={isBeginning}
-            aria-label="Previous"
-          >
-            <IoChevronBack size={22} />
-          </button>
-        )}
+        {/* LEFT ARROW – Desktop (unchanged) */}
+        <button
+          type="button"
+          className={`${btnBaseDesktop} self-center ${isBeginning ? btnDisabled : ""}`}
+          onClick={handlePrev}
+          disabled={isBeginning}
+          aria-disabled={isBeginning}
+          aria-label="Previous"
+        >
+          <IoChevronBack size={22} />
+        </button>
 
         {/* Optional left banner */}
         {imgUrl !== "" && (
@@ -175,72 +156,92 @@ export default function TopSelling({
           </Link>
         )}
 
-        {/* SWIPER as a flex item so arrows don't overlay */}
+        {/* SWIPER: mobile gets inner padding + edge arrows; desktop unchanged */}
         <div className="flex-1 min-w-0">
-          <Swiper
-            cssMode={!isMobile && true}
-            mousewheel={true}
-            keyboard={true}
-            pagination={paginationConfig}
-            navigation={false}
-            modules={
-              isMobile
-                ? [Grid, Pagination]
-                : [Grid, Pagination, Navigation, Mousewheel, Keyboard]
-            }
-            grid={type == 1 && isMobile ? { rows: 2, fill: "row" } : undefined}
-            onSwiper={handleSwiperInit}
-            onSlideChange={handleSlideChange}
-            breakpoints={breakPoints}
-            spaceBetween={isMobile ? 8 : 15}
-            className="carouselSwiper h-full"
-            ref={swiperContainerRef}
-          >
-            {products?.length > 0 &&
-              products?.map((item, index) => {
-                const url = item?.url?.split("/");
-                return (
-                  <SwiperSlide key={index}>
-                    {item.hasOwnProperty("sku") ? (
-                      url?.length >= 2 ? (
-                        <Link
-                          href={`/details/${item.url}`}
-                          className="no-underline h-full"
-                        >
-                          <ProductCard
-                            item={item}
-                            type={type}
-                            type2={type2}
-                            eid_sale={eid_sale}
-                            section_name={section_name}
-                          />
-                        </Link>
+          <div className="relative lg:static px-6 lg:px-0">
+            {/* LEFT ARROW – Mobile (edge) */}
+            <button
+              type="button"
+              className={`${btnMobileOverlay} -left-[.75rem] ${
+                isBeginning ? "opacity-30 pointer-events-none" : "pointer-events-auto"
+              }`}
+              onClick={handlePrev}
+              aria-label="Previous"
+            >
+              <IoChevronBack size={22} />
+            </button>
+
+            {/* RIGHT ARROW – Mobile (edge) */}
+            <button
+              type="button"
+              className={`${btnMobileOverlay} -right-[.75rem] ${
+                isEnd ? "opacity-30 pointer-events-none" : "pointer-events-auto"
+              }`}
+              onClick={handleNext}
+              aria-label="Next"
+            >
+              <IoChevronForward size={22} />
+            </button>
+
+            <Swiper
+              cssMode={!isMobile && true}
+              mousewheel={true}
+              keyboard={true}
+              pagination={paginationConfig}
+              navigation={false}
+              modules={
+                isMobile
+                  ? [Grid, Pagination]
+                  : [Grid, Pagination, Navigation, Mousewheel, Keyboard]
+              }
+              grid={type == 1 && isMobile ? { rows: 2, fill: "row" } : undefined}
+              onSwiper={handleSwiperInit}
+              onSlideChange={handleSlideChange}
+              breakpoints={breakPoints}
+              spaceBetween={isMobile ? 8 : 15}
+              className="carouselSwiper h-full"
+              ref={swiperContainerRef}
+            >
+              {products?.length > 0 &&
+                products?.map((item, index) => {
+                  const url = item?.url?.split("/");
+                  return (
+                    <SwiperSlide key={index}>
+                      {item.hasOwnProperty("sku") ? (
+                        url?.length >= 2 ? (
+                          <Link href={`/details/${item.url}`} className="no-underline h-full">
+                            <ProductCard
+                              item={item}
+                              type={type}
+                              type2={type2}
+                              eid_sale={eid_sale}
+                              section_name={section_name}
+                            />
+                          </Link>
+                        ) : (
+                          <Link
+                            href={`/details/${item.url}/${item.sku}`}
+                            className="no-underline h-full"
+                          >
+                            <ProductCard
+                              item={item}
+                              type={type}
+                              type2={type2}
+                              eid_sale={eid_sale}
+                              section_name={section_name}
+                            />
+                          </Link>
+                        )
                       ) : (
-                        <Link
-                          href={`/details/${item.url}/${item.sku}`}
-                          className="no-underline h-full"
-                        >
-                          <ProductCard
-                            item={item}
-                            type={type}
-                            type2={type2}
-                            eid_sale={eid_sale}
-                            section_name={section_name}
-                          />
+                        <Link href={`/details/${item.url}`} className="no-underline h-full">
+                          <ProductCard item={item} eid_sale={eid_sale} />
                         </Link>
-                      )
-                    ) : (
-                      <Link
-                        href={`/details/${item.url}`}
-                        className="no-underline h-full"
-                      >
-                        <ProductCard item={item} eid_sale={eid_sale} />
-                      </Link>
-                    )}
-                  </SwiperSlide>
-                );
-              })}
-          </Swiper>
+                      )}
+                    </SwiperSlide>
+                  );
+                })}
+            </Swiper>
+          </div>
         </div>
 
         {/* Optional right banner */}
@@ -265,18 +266,17 @@ export default function TopSelling({
           </Link>
         )}
 
-        {/* RIGHT ARROW – sits AFTER the last column (end) */}
-        {!isMobile && (
-          <button
-            type="button"
-            className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
-            onClick={handleNext}
-            aria-disabled={isEnd}
-            aria-label="Next"
-          >
-            <IoChevronForward size={22} />
-          </button>
-        )}
+        {/* RIGHT ARROW – Desktop (unchanged) */}
+        <button
+          type="button"
+          className={`${btnBaseDesktop} self-center ${isEnd ? btnDisabled : ""}`}
+          onClick={handleNext}
+          disabled={isEnd}
+          aria-disabled={isEnd}
+          aria-label="Next"
+        >
+          <IoChevronForward size={22} />
+        </button>
       </div>
     </div>
   );
