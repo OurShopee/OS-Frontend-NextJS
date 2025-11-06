@@ -150,8 +150,8 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
               bannerKey="heroBanner"
               enableAos={false}
               className={`w-full ${
-                !searchPage && "aspect-[402/250]"
-              } object-cover rounded-2xl block`}
+                !searchPage && "h-full"
+              } rounded-2xl block`}
             />
           </div>
         )}

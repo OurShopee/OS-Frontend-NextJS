@@ -13,6 +13,7 @@ import { HomeBannerPlaceholder } from "@/components/Common/Placeholders";
 // import SeoMeta from "../components/Common/SeoMeta";
 import {
   CarouselProducts,
+  CarouselWithBanner,
   HomeCarousel,
   HomeCategories,
   HomeMobileCarousel,
@@ -64,6 +65,7 @@ const HomeClient = ({
     initialCategoryItemsData || home_category_itemsFromRedux;
 
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
+  console.log(top_picks);
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
@@ -217,14 +219,14 @@ const HomeClient = ({
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
 
-        <div className="grid grid-cols-3 gap-[14px] max-h-[350px] overflow-hidden my-6">
+        <div className="grid grid-cols-3 gap-[14px] max-h-[360px] overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
             <MastZone />
           </div>
 
           {/* Middle Section - Top Selling */}
-          <div className="">
+          <div className="mt-0.5">
             <TopSelling />
           </div>
 
@@ -233,6 +235,77 @@ const HomeClient = ({
             <PromotionalBanners sectionBanners={sectionBanners} />
           </div>
         </div>
+
+        {/* Top Picks */}
+        <div className="component_1 mt-4">
+          <ComponentHeader
+            title={"Top Picks"}
+            view_all={"rgba(82, 50, 194, 1)"}
+            url={top_picks?.[0]?.url}
+          />
+
+          {!loading5 && (
+            <CarouselWithBanner
+              products={top_picks?.[0]?.productlist}
+              bannerImage={top_picks?.[0]?.image_slider}
+              bannerImageRedirectUrl={top_picks?.[0]?.url}
+            />
+          )}
+        </div>
+
+        <Tabs
+          tabs={[
+            {
+              title: "Deals of the Day",
+              endpoint: getDealOfTheDayApi,
+              path: "",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner1?.image_web
+                : sectionBanners?.tabBanner1?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner1?.url_web
+                : sectionBanners?.tabBanner1?.url_app,
+            },
+            {
+              title: "Bundle Deals",
+              endpoint: bundle_clearance_sale,
+              path: "bundle_deals",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner2?.image_web
+                : sectionBanners?.tabBanner2?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner2?.url_web
+                : sectionBanners?.tabBanner2?.url_app,
+            },
+            {
+              title: "Exciting Offers",
+              endpoint: getdeal_offersApi,
+              path: "exciting_offers",
+              imgUrl: !isMobile
+                ? sectionBanners?.tabBanner3?.image_web
+                : sectionBanners?.tabBanner3?.image_app,
+              imgRedirectionUrl: !isMobile
+                ? sectionBanners?.tabBanner3?.url_web
+                : sectionBanners?.tabBanner3?.url_app,
+            },
+            {
+              title: "Top Selling",
+              endpoint: getTopSellingApi,
+              path: "",
+            },
+            {
+              title: "Saver zone",
+              endpoint: () => getSaverZoneProducts(saverId),
+              path: "",
+            },
+            {
+              title: "Clearance Deals",
+              endpoint: clearance_saleApi,
+              path: "items",
+            },
+          ]}
+          countdownEndDate={new Date("2025-11-15T23:59:59")}
+        />
 
         {/* Tabs with Sale Ends in Section */}
         <div className="flex h-full flex-col lg:flex-row pt-2">

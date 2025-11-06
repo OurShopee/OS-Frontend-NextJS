@@ -96,14 +96,14 @@ export default function MastZone() {
 
       {/* Category Cards Grid */}
       <div className="relative z-10 grid grid-cols-2 gap-6 mb-4">
-        {categories.slice(0, 2).map((category) => (
+        {categories?.slice(0, 2)?.map((category) => (
           <CategoryCard key={category.id} {...category} />
         ))}
       </div>
 
       {/* Second Row - Next 2 Cards */}
       <div className="relative z-10 grid grid-cols-2 gap-6 mb-4">
-        {categories.slice(2, 4).map((category) => (
+        {categories?.slice(2, 4)?.map((category) => (
           <CategoryCard key={category.id} {...category} />
         ))}
       </div>
