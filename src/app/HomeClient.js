@@ -430,8 +430,10 @@ const HomeClient = ({
                   />
                   <CarouselWithBanner
                     products={section.items}
-                    bannerImage={isMobile ? section?.image_app : section?.image_web}
-                    bannerImageRedirectUrl={section?.url}
+                    bannerImage={
+                      isMobile ? section?.image_app : section?.image_web
+                    }
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
                     section_name={section.subcategory_name}
@@ -460,7 +462,7 @@ const HomeClient = ({
                     bannerImage={
                       isMobile ? section?.image_app : section?.image_web
                     }
-                    bannerImageRedirectUrl={section?.url}
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
                     section_name={section.subcategory_name}
@@ -487,7 +489,7 @@ const HomeClient = ({
                     bannerImage={
                       isMobile ? section?.image_app : section?.image_web
                     }
-                    bannerImageRedirectUrl={section?.url}
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
                     section_name={section.subcategory_name}
@@ -514,7 +516,7 @@ const HomeClient = ({
                     bannerImage={
                       isMobile ? section?.image_app : section?.image_web
                     }
-                    bannerImageRedirectUrl={section?.url}
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
                     section_name={section.subcategory_name}
@@ -543,7 +545,7 @@ const HomeClient = ({
                       bannerImage={
                         isMobile ? section?.image_app : section?.image_web
                       }
-                      bannerImageRedirectUrl={section?.url}
+                      bannerImageRedirectUrl={`/products-category/${section.url}`}
                       type={1}
                       inner_bg={"rgba(238, 235, 250, 1)"}
                       section_name={section.subcategory_name}
