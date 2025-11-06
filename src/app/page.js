@@ -1,13 +1,13 @@
-import React, { cache } from "react";
-import HomeClient from "./HomeClient";
-import { getServerSideHeaders } from "@/lib/serverUtils";
-import { ServerDataProvider } from "@/contexts/ServerDataContext";
 import {
   NavigationapiServer,
-  getbannerlistapiServer,
   getSectionPagesApiServer,
-  getcategory_itemsApiServer,
+  getbannerlistapiServer,
+  getcategory_itemsApiWithImageServer
 } from "@/api/products";
+import { ServerDataProvider } from "@/contexts/ServerDataContext";
+import { getServerSideHeaders } from "@/lib/serverUtils";
+import { cache } from "react";
+import HomeClient from "./HomeClient";
 
 // Cache the API calls to prevent duplicate requests
 const getCachedNavigationData = cache(async (req) => {
@@ -23,7 +23,7 @@ const getCachedSectionPagesData = cache(async (sectionId, req) => {
 });
 
 const getCachedCategoryItemsData = cache(async (req) => {
-  return await getcategory_itemsApiServer(req);
+  return await getcategory_itemsApiWithImageServer(req);
 });
 
 export const metadata = {
@@ -109,7 +109,7 @@ const Home = async () => {
         initialNavigationData={navigationData}
         initialBannerListData={bannerListData}
         initialSectionPagesData={sectionPagesData}
-        initialCategoryItemsData={categoryItemsData}
+        initialCategoryItemsData={categoryItemsData?.data}
       />
     </ServerDataProvider>
   );

@@ -66,7 +66,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
             onSelect={(i) => setActiveIndex(i)}
             controls={safeCarouselData?.length > 1}
             indicators={false}
-            className="home_carousel border rounded-lg"
+            className="home_carousel rounded-lg"
           >
             {safeCarouselData.length > 0 &&
               safeCarouselData?.map((item, index) => {
@@ -88,7 +88,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                     src={formatImageUrl(item.image_url)}
                     alt=""
                     className={`rounded-[13px] w-full ${
-                      !searchPage && "aspect-[1200/450]"
+                      !searchPage && "aspect-[998/250]"
                     } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
                     onLoad={index === 0 ? handleFirstImageLoad : undefined}
                     style={!shouldWrapWithNavLink ? { cursor: "default" } : {}}
@@ -150,8 +150,8 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
               bannerKey="heroBanner"
               enableAos={false}
               className={`w-full ${
-                !searchPage && "aspect-[410/450]"
-              } object-cover rounded-2xl block`}
+                !searchPage && "h-full"
+              } rounded-2xl block`}
             />
           </div>
         )}

@@ -73,7 +73,7 @@ export const createAxiosInstance = (req = null) => {
     (response) => response,
     async (error) => {
       // Log the error
-      await logError(error, error.config);
+      // await logError(error, error.config);
       return Promise.reject(error);
     }
   );
@@ -112,7 +112,7 @@ export const configureAxios = () => {
       (response) => response,
       async (error) => {
         // Log the error
-        await logError(error, error.config);
+        // await logError(error, error.config);
         return Promise.reject(error);
       }
     );

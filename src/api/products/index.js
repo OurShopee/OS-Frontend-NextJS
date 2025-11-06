@@ -192,6 +192,7 @@ export const getcategory_itemsApi = async (sku) => {
   return response;
 };
 
+
 export async function getcategory_itemsApiServer(req = null) {
   try {
     if (req) {
@@ -200,6 +201,21 @@ export async function getcategory_itemsApiServer(req = null) {
       return response.data.data;
     } else {
       const response = await axios.get("api/category_items");
+      return response.data.data;
+    }
+  } catch (error) {
+    console.error("Error fetching category items:", error);
+    return null;
+  }
+}
+export async function getcategory_itemsApiWithImageServer(req = null) {
+  try {
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get("api/category_items_with_image");
+      return response.data.data;
+    } else {
+      const response = await axios.get("api/category_items_with_image");
       return response.data.data;
     }
   } catch (error) {
