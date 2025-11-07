@@ -134,7 +134,7 @@ export default function CarouselProducts({
           aria-label="Previous"
         >
           <img
-            src="/assets/vector_icons/arrow_left.png"
+            src="/assets/vector_icons/arrow_left.svg"
             alt="Arrow"
             className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
             />
@@ -212,7 +212,7 @@ export default function CarouselProducts({
           aria-label="Next"
         >
          <img
-            src="/assets/vector_icons/arrow_right.png"
+            src="/assets/vector_icons/arrow_right.svg"
             alt="Arrow"
             className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
             />
