@@ -351,7 +351,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           >
             <button
               onClick={handleAddToCart}
-              className="w-full bg-[#FFC727] whitespace-nowrap hover:bg-[#FFD84D] text-black font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-200"
+              className="w-full bg-[#FACC15] whitespace-nowrap text-black font-semibold py-[7px] px-4 rounded-lg flex items-center justify-center gap-[5px] transition-all duration-200"
               style={{
                 boxShadow:
                   isHovered && !isMobile
@@ -360,7 +360,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               }}
             >
               <FaCartPlus size={18} />
-              <span className="text-sm font-bold">ADD TO CART</span>
+              <span className="text-sm font-semibold">ADD TO CART</span>
             </button>
           </div>
         </div>

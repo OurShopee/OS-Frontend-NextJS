@@ -178,7 +178,10 @@ export async function getproduct_detail(productSku, req = null) {
       const config = token
         ? { headers: { authorization: "Bearer " + token } }
         : undefined;
-      const response = await axios.get(`api/product_detail?sku=${productSku}`, config);
+      const response = await axios.get(
+        `api/product_detail?sku=${productSku}`,
+        config
+      );
       return response.data;
     }
   } catch (error) {
@@ -191,7 +194,6 @@ export const getcategory_itemsApi = async (sku) => {
   const response = await axios.get(`api/category_items`);
   return response;
 };
-
 
 export async function getcategory_itemsApiServer(req = null) {
   try {
@@ -315,3 +317,28 @@ export const get_relatedItems = async (input_data) => {
   const response = await axios.post(`api/get_relatedItems`, input_data);
   return response;
 };
+
+// Fetch sections by section IDs (comma-separated)
+export const getSectionsApi = async (sectionIds) => {
+  const response = await axios.get(`api/sections?section_ids=${sectionIds}`);
+  return response;
+};
+
+// Server-side function to fetch sections by section IDs
+export async function getSectionsApiServer(sectionIds, req = null) {
+  try {
+    const query = `api/sections?section_ids=${sectionIds}`;
+
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get(query);
+      return response.data.data;
+    } else {
+      const response = await axios.get(query);
+      return response.data.data;
+    }
+  } catch (error) {
+    console.error("Error fetching sections:", error);
+    return null;
+  }
+}

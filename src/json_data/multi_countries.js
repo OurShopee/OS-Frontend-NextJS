@@ -18,6 +18,13 @@ const countriesData = [
       address:
         "Ourshopee Trading L.L.C  | Office - number 16 - 10 | Doha Rd - Al Qusais Industrial Area 1 | Dubai | UAE",
     },
+    dealsByCountry: {
+      "Weekly Deals": 238,
+      "Mast Zone": 243,
+      "Limited Time Deals": 248,
+      "Deals You Might Like": 253,
+      "Namaste Deals": 259
+    },
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: true,
@@ -155,6 +162,13 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopee.om",
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 239,
+      "Mast Zone": 244,
+      "Limited Time Deals": 249,
+      "Deals You Might Like": 254,
+      "Namaste Deals": 260
+    },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -282,6 +296,13 @@ const countriesData = [
     fb_link: "https://www.facebook.com/OurshopeeOffers",
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 240,
+      "Mast Zone": 245,
+      "Limited Time Deals": 250,
+      "Deals You Might Like": 255,
+      "Namaste Deals": 261
+    },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -399,6 +420,13 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopeekuwaitonline/",
     insta_link:
       "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 241,
+      "Mast Zone": 246,
+      "Limited Time Deals": 251,
+      "Deals You Might Like": 256,
+      "Namaste Deals": 262
+    },
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: false,
@@ -511,6 +539,13 @@ const countriesData = [
       whatsapp: "(973) 34616280",
       address:
         "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Manama | Bahrain",
+    },
+    dealsByCountry: {
+      "Weekly Deals": 242,
+      "Mast Zone": 247,
+      "Limited Time Deals": 252,
+      "Deals You Might Like": 257,
+      "Namaste Deals": 263
     },
     isTabbyRequired: false,
     emi_months: 0,

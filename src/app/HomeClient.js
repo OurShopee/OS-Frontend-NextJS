@@ -49,7 +49,9 @@ const HomeClient = ({
   initialBannerListData,
   initialSectionPagesData,
   initialCategoryItemsData,
+  initialSectionsData,
 }) => {
+  console.log("initialSectionsData", initialSectionsData);
   const router = useRouter();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
