@@ -23,7 +23,9 @@ export default function TopSelling({
   imgRedirectionUrl = "",
   imgPostRedirectionUrl = "",
   section_name,
+  topSellingData,
 }) {
+  console.log(topSellingData,"topSellingData");
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
 
@@ -109,13 +111,14 @@ export default function TopSelling({
       <div className="flex items-center justify-between mb-3 px-3.5">
         <div className="flex items-center gap-1.5">
           <h2 className="text-[26px] font-[800] italic text-black">
-            Top Selling
+            {topSellingData?.heading}
           </h2>
+          {(topSellingData?.icon_image?.[0]?.mobileImage || topSellingData?.icon_image?.[0]?.desktopImage) && 
           <img
-            src="/assets/homepage/flash-icon.png"
-            alt="Discount"
+            src={isMobile ? topSellingData?.icon_image[0]?.mobileImage : topSellingData?.icon_image[0]?.desktopImage}
+            alt=""
             className="w-8 h-8"
-          />
+          />}
         </div>
         <button className="text-[#43494B] font-semibold flex items-center">
           View all <IoChevronForward size={18} />
@@ -226,8 +229,8 @@ export default function TopSelling({
               className="carouselSwiper h-full"
               ref={swiperContainerRef}
             >
-              {products?.length > 0 &&
-                products?.map((item, index) => {
+              {topSellingData?.items?.length > 0 &&
+                topSellingData?.items?.map((item, index) => {
                   const url = item?.url?.split("/");
                   return (
                     <SwiperSlide key={index}>

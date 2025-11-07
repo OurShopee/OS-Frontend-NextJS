@@ -104,20 +104,10 @@ export default function CarouselProducts({
 
   return (
     <div
-      className={`carousel_products ${eid_sale && "bg-transparent"} ${
+      className={`carousel_products bg-no-repeat bg-center bg-cover ${eid_sale && "bg-transparent"} ${
         (type == 2 || type == 3) && "p-0"
       }`}
-      style={{
-        background:
-          isMobile && backgroundImage
-            ? `url(${backgroundImage})`
-            : !isMobile && inner_bg
-            ? inner_bg
-            : "transparent",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       {/* LEFT ARROW - Desktop Only */}
       <div

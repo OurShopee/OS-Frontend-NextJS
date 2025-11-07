@@ -3,8 +3,8 @@
 
 import { useState, useEffect, useRef } from "react";
 
-export default function AutoToggleHeader({ onTabChange }) {
-  const [activeTab, setActiveTab] = useState("namaste"); // 'mast' or 'namaste'
+export default function AutoToggleHeader({ onTabChange, section238Data, section59Data }) {
+  const [activeTab, setActiveTab] = useState(section238Data?.heading); // 'mast' or 'namaste'
   const [resetTrigger, setResetTrigger] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const mastRef = useRef(null);
@@ -53,17 +53,17 @@ export default function AutoToggleHeader({ onTabChange }) {
 
     // After the corner stretch, switch to the other tab
     setTimeout(() => {
-      setActiveTab((prev) => (prev === "mast" ? "namaste" : "mast"));
+      setActiveTab((prev) => (prev === section238Data?.heading ? section59Data?.heading : section238Data?.heading));
       setIsTransitioning(false);
     }, 250); // Half of the transition duration
   };
 
   // Click handlers
   const handleMastClick = () => {
-    if (activeTab === "namaste") {
+    if (activeTab === section59Data?.heading) {
       setIsTransitioning(true);
       setTimeout(() => {
-        setActiveTab("mast");
+        setActiveTab(section238Data?.heading);
         setIsTransitioning(false);
       }, 250);
     }
@@ -71,10 +71,10 @@ export default function AutoToggleHeader({ onTabChange }) {
   };
 
   const handleNamasteClick = () => {
-    if (activeTab === "mast") {
+    if (activeTab === section238Data?.heading) {
       setIsTransitioning(true);
       setTimeout(() => {
-        setActiveTab("namaste");
+        setActiveTab(section59Data?.heading);
         setIsTransitioning(false);
       }, 250);
     }
@@ -85,7 +85,7 @@ export default function AutoToggleHeader({ onTabChange }) {
   const getSliderStyles = () => {
     if (isTransitioning) {
       // During transition, extend to container width
-      if (activeTab === "mast") {
+      if (activeTab === section238Data?.heading) {
         return {
           left: "0px",
           width: `${dimensions.containerWidth}px`,
@@ -98,7 +98,7 @@ export default function AutoToggleHeader({ onTabChange }) {
       }
     } else {
       // Normal state - match button width
-      if (activeTab === "mast") {
+      if (activeTab === section238Data?.heading) {
         return {
           left: "0px",
           width: `${dimensions.mastWidth}px`,
@@ -127,7 +127,7 @@ export default function AutoToggleHeader({ onTabChange }) {
           style={{
             ...getSliderStyles(),
             background:
-              activeTab === "mast"
+              activeTab === section238Data?.heading
                 ? "linear-gradient(90deg, #00D74F 0%, #02B644 28.37%, #00D74F 62.98%, #009135 100%)"
                 : "linear-gradient(90deg, #FF8710 0%, #FFAB57 37.98%, #FF8710 61.54%, #FFA750 95.19%)",
           }}
@@ -137,13 +137,13 @@ export default function AutoToggleHeader({ onTabChange }) {
         <button
           ref={mastRef}
           onClick={handleMastClick}
-          className={`relative z-10 py-[5px] pl-3 pr-7 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
-            activeTab === "mast" ? "text-white font-semibold" : "text-gray-300"
+          className={`relative z-10 py-1 pl-3 pr-7 flex items-center gap-1 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+            activeTab === section238Data?.heading ? "text-white" : "text-gray-300"
           }`}
         >
-          Mast Zone
-          {activeTab === "mast" && (
-            <div className="absolute right-1 top-0 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
+        {section238Data?.heading}
+          {activeTab === section238Data?.heading && (
+            <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
               <span className="text-[10px]">🔥</span>
             </div>
           )}
@@ -153,16 +153,16 @@ export default function AutoToggleHeader({ onTabChange }) {
         <button
           ref={namasteRef}
           onClick={handleNamasteClick}
-          className={`relative z-10 py-[5px] pl-3 pr-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
-            activeTab === "namaste" ? "text-white font-semibold" : "text-gray-400"
+          className={`relative z-10 py-1 pl-3 pr-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
+            activeTab === section59Data?.heading ? "text-white" : "text-gray-400"
           }`}
         >
-          {activeTab === "namaste" && (
+          {activeTab === section59Data?.heading && (
             <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
               <span className="text-[10px]">🔥</span>
             </div>
           )}
-          Namaste Deals
+          {section59Data?.heading}
         </button>
       </div>
     </div>

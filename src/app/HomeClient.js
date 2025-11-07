@@ -88,7 +88,7 @@ const HomeClient = ({
   const [sectionId, setSectionId] = useState([]);
   const [saverId, setSaverId] = useState();
   const [sectionBanners, setSectionBanners] = useState({});
-
+  
   const timeZoneMap = {
     AE: "Asia/Dubai",
     OM: "Asia/Muscat",
@@ -202,6 +202,15 @@ const HomeClient = ({
   const limitedTimeDealsData = initialSectionsData?.data?.other_section?.find(
     (section) => section.section_id === "248"
   );
+  const section238Data = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "243"
+  );
+  const section59Data = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "259"
+  );
+  const topSellingData = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "74"
+  );
 
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
@@ -234,12 +243,12 @@ const HomeClient = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] md:max-h-[360px] md:overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
-            <MastZone />
+            <MastZone section238Data={section238Data} section59Data={section59Data} />
           </div>
 
           {/* Middle Section - Top Selling */}
           <div className="md:mt-0.5">
-            <TopSelling />
+            <TopSelling topSellingData={topSellingData} />
           </div>
 
           {/* Right Section - Promotional Banners */}

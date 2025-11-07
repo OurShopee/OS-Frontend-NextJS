@@ -293,8 +293,8 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
           </span>
         </div>
         <span
-          className="font-[Anta] text-[12px] sm:text-[24px] md:text-[38px] lg:text-[60px] z-10 text-black font-bold sm:ml-[-15px] md:ml-[-20px]"
-          style={{ marginLeft: isMobile ? "-8px" : "-10px", letterSpacing: "1px" }}
+          className="font-[Anta] text-[12px] sm:text-[18px] md:text-[20px] lg:text-[40px] z-10 text-black font-bold sm:ml-[-15px] md:ml-[-20px]"
+          style={{ marginLeft: isMobile ? "-8px" : "-10px", letterSpacing: "1px" , marginTop: isMobile ? "4px" : "0px" }}
         >
           THE WEEK
         </span>
