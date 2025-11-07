@@ -1,11 +1,10 @@
 // components/deals/ProductBanners.js
-import Image from "next/image";
-import Link from "next/link";
+import DynamicBanners from "./DynamicBanners";
 
-export default function ProductBanners({ banners }) {
+export default function ProductBanners() {
   return (
     <div className="flex flex-col gap-2.5">
-      {banners.map((banner) => (
+      {/* {banners.map((banner) => (
         <Link key={banner.id} href={`/products/${banner.id}`}>
           <div className="relative w-full h-[170px] rounded-[10px] overflow-hidden cursor-pointer">
             <Image
@@ -16,7 +15,17 @@ export default function ProductBanners({ banners }) {
             />
           </div>
         </Link>
-      ))}
+      ))} */}
+      <DynamicBanners
+        bannerKey="mainBanner1"
+        enableAos={true}
+        className="mt-0 aspect-[449/170] object-cover h-[170px] rounded-[10px] overflow-hidden"
+      />
+      <DynamicBanners
+        bannerKey="mainBanner2"
+        enableAos={true}
+        className="mt-0 aspect-[449/170] object-cover h-[170px] rounded-[10px] overflow-hidden"
+      />
     </div>
   );
 }

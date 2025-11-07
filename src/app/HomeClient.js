@@ -195,60 +195,14 @@ const HomeClient = ({
   const categoriesToShow = isMobile
     ? (categoryList || [])?.slice(0, 6)
     : (categoryList || [])?.slice(0, 9);
+  
+  const dealsYouMightLikeData = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "253"
+  );
+  const limitedTimeDealsData = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "248"
+  );
 
-  const dealsYouMightLikeData = [
-    {
-      id: 1,
-      title: "Watches",
-      discount: "70% OFF",
-      image: "/assets/banners/sellus.png",
-      bgColor: "bg-orange-100",
-    },
-    {
-      id: 2,
-      title: "Mobiles Phones",
-      discount: "40% OFF",
-      image: "/assets/banners/sellus.png",
-      bgColor: "bg-blue-200",
-    },
-    {
-      id: 3,
-      title: "Beauty Care",
-      discount: "55% OFF",
-      image: "/assets/banners/sellus.png",
-      bgColor: "bg-orange-100",
-    },
-    {
-      id: 4,
-      title: "Perfumes",
-      discount: "60% OFF",
-      image: "/assets/banners/sellus.png",
-      bgColor: "bg-pink-200",
-    },
-  ];
-
-  const limitedTimeDealsData = [
-    {
-      id: 1,
-      productImage: "/assets/banners/sellus.png",
-      discount: "19% OFF",
-    },
-    {
-      id: 2,
-      productImage: "/assets/banners/sellus.png",
-      discount: "19% OFF",
-    },
-    {
-      id: 3,
-      productImage: "/assets/banners/sellus.png",
-      discount: "19% OFF",
-    },
-    {
-      id: 4,
-      productImage: "/assets/banners/sellus.png",
-      discount: "19% OFF",
-    },
-  ];
 
   const productBannersData = [
     {
@@ -389,13 +343,15 @@ const HomeClient = ({
 
             {/* Middle Column - Limited Time Deals */}
             <div className="lg:col-span-1 deals-you-like relative">
-              {LimitedTimeDeals.backgroundImage ? (
+              {limitedTimeDealsData?.background_image?.length > 0 ? (
                 <div className="absolute inset-0 z-0">
-                  <Image
-                    src={backgroundImage}
+                  <img
+                    src={
+                      limitedTimeDealsData?.background_image[0]?.desktopImage
+                    }
                     alt="Limited Time Deals Background"
                     fill
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                     priority
                   />
                   {/* Optional overlay for better text readability */}
@@ -406,15 +362,12 @@ const HomeClient = ({
                   className={`absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-500 z-0`}
                 ></div>
               )}
-              <LimitedTimeDeals
-                deals={limitedTimeDealsData}
-                countdownTimestamp={new Date("2025-11-07T23:59:59").getTime()}
-              />
+              <LimitedTimeDeals deals={limitedTimeDealsData} />
             </div>
 
             {/* Right Column - Product Banners */}
             <div className="lg:col-span-1">
-              <ProductBanners banners={productBannersData} />
+              <ProductBanners />
             </div>
           </div>
         </div>
