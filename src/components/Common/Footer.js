@@ -43,7 +43,7 @@ const Footer = () => {
   );
 
   return (
-    <div className="">
+    <div className="mt-4">
       <div className="footermain primarybackground px-4">
         <div className="container">
           <div className="grid grid-cols-12 gap-4">
