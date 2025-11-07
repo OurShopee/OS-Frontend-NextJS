@@ -23,7 +23,8 @@ const countriesData = [
       "Mast Zone": 243,
       "Limited Time Deals": 248,
       "Deals You Might Like": 253,
-      "Namaste Deals": 259
+      "Namaste Deals": 259,
+      "Top Selling": 74,
     },
     isTabbyRequired: true,
     emi_months: 4,
@@ -167,7 +168,8 @@ const countriesData = [
       "Mast Zone": 244,
       "Limited Time Deals": 249,
       "Deals You Might Like": 254,
-      "Namaste Deals": 260
+      "Namaste Deals": 260,
+      "Top Selling": 75
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -301,7 +303,8 @@ const countriesData = [
       "Mast Zone": 245,
       "Limited Time Deals": 250,
       "Deals You Might Like": 255,
-      "Namaste Deals": 261
+      "Namaste Deals": 261,
+      "Top Selling": 76
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -425,7 +428,8 @@ const countriesData = [
       "Mast Zone": 246,
       "Limited Time Deals": 251,
       "Deals You Might Like": 256,
-      "Namaste Deals": 262
+      "Namaste Deals": 262,
+      "Top Selling": 78
     },
     isTabbyRequired: true,
     emi_months: 4,
@@ -545,7 +549,8 @@ const countriesData = [
       "Mast Zone": 247,
       "Limited Time Deals": 252,
       "Deals You Might Like": 257,
-      "Namaste Deals": 263
+      "Namaste Deals": 263,
+      "Top Selling": 77
     },
     isTabbyRequired: false,
     emi_months: 0,

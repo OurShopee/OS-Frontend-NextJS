@@ -203,20 +203,6 @@ const HomeClient = ({
     (section) => section.section_id === "248"
   );
 
-
-  const productBannersData = [
-    {
-      id: 1,
-      image: "/assets/banners/banner_1.png",
-      alt: "Perfume Banner",
-    },
-    {
-      id: 2,
-      image: "/assets/banners/banner_2.png",
-      alt: "Green Tea Skincare",
-    },
-  ];
-
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
       {/* <SeoMeta
