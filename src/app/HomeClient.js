@@ -202,6 +202,15 @@ const HomeClient = ({
   const limitedTimeDealsData = initialSectionsData?.data?.other_section?.find(
     (section) => section.section_id === "248"
   );
+  const section238Data = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "243"
+  );
+  const section59Data = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "259"
+  );
+  const topSellingData = initialSectionsData?.data?.other_section?.find(
+    (section) => section.section_id === "74"
+  );
 
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
@@ -239,7 +248,7 @@ const HomeClient = ({
 
           {/* Middle Section - Top Selling */}
           <div className="md:mt-0.5">
-            <TopSelling />
+            <TopSelling topSellingData={topSellingData} />
           </div>
 
           {/* Right Section - Promotional Banners */}
