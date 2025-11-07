@@ -141,9 +141,9 @@ const Footer = () => {
               <NavLink href="/contactus" className="footerlinks no-underline">
                 Contact Us
               </NavLink>
-              <NavLink href="/blogs" className="footerlinks no-underline">
+              {/* <NavLink href="/blogs" className="footerlinks no-underline">
                 Our Blog
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 href="/terms-and-conditions"
                 className="footerlinks no-underline"
@@ -173,7 +173,7 @@ const Footer = () => {
                 Site Map
               </NavLink>
               <NavLink
-                href="/sell-with-us"
+                href="/seller"
                 className="footerlinks no-underline"
               >
                 Sell With Us
