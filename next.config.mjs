@@ -6,6 +6,20 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn-dev.ourshopee.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.ourshopee.com",
+        pathname: "/**",
+      },
+    ],
+  },
   reactStrictMode: true,
   // Ensure proper SSR
   serverExternalPackages: [],
