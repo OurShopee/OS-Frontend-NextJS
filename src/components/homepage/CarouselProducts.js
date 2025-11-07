@@ -89,7 +89,7 @@ export default function CarouselProducts({
   }, [breakPointsProps, type]);
 
   const btnBase =
-    "block lg:grid place-items-center h-28 w-8 rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
+    "block lg:grid place-items-center  h-[74px] w-[25px] rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
   const btnDisabled = "opacity-30 pointer-events-none";
 
   const swiperModules = useMemo(() => {
@@ -133,7 +133,11 @@ export default function CarouselProducts({
           aria-disabled={isBeginning}
           aria-label="Previous"
         >
-          <IoChevronBack size={22} />
+          <img
+            src="/assets/vector_icons/arrow_left.png"
+            alt="Arrow"
+            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+            />
         </button>
 
         {/* SWIPER */}
@@ -207,7 +211,11 @@ export default function CarouselProducts({
           aria-disabled={isEnd}
           aria-label="Next"
         >
-          <IoChevronForward size={22} />
+         <img
+            src="/assets/vector_icons/arrow_right.png"
+            alt="Arrow"
+            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+            />
         </button>
       </div>
     </div>

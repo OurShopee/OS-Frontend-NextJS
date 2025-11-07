@@ -4,6 +4,10 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getWishLists, postWishList } from "@/redux/cartslice";
 import { MediaQueries } from "../utils";
+import {
+  setformmodal,
+  setformstatus,
+} from "@/redux/formslice";
 import { pushToDataLayer } from "../utils/dataUserpush";
 import VerticalTextCarousel from "../homepage/VerticalTextCarousel";
 import { FaCartPlus } from "react-icons/fa6";
@@ -15,6 +19,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const [hasError, setHasError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const wishListData = useSelector((state) => state.cartslice.wishListData);
+  const formmodal = useSelector((state) => state.globalslice.formmodal);
   const currentcountry = useSelector((state) => state.globalslice.currentcountry);
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const logindata = useSelector((state) => state.formslice.logindata);
@@ -32,6 +37,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
 
   const handleWishList = async (e, item) => {
     e.preventDefault();
+    if(!authstatus){
+      dispatch(setformmodal(!formmodal));
+      dispatch(setformstatus(1));
+      return;
+    }
     var input_data = {
       product_id: item?.id,
       sku: item?.hasOwnProperty("sku") ? item?.sku : item?.url.split("/")[1],
@@ -240,7 +250,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         )}
 
         {/* Wishlist Heart Icon */}
-        {authstatus && (
+        
           <button
             className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:shadow-lg transition-shadow z-10"
             onClick={(e) => handleWishList(e, item)}
@@ -256,7 +266,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               <AiOutlineHeart size={16} color="#000" />
             )}
           </button>
-        )}
+        
 
         {/* ---- MOBILE Add-to-Cart (inside image area, keeps gap to description) ---- */}
         {isMobile && (
