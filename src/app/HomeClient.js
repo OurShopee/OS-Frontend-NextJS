@@ -447,7 +447,6 @@ const HomeClient = ({
         )}
         {/* Brand of the week */}
         <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
-        <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
@@ -474,7 +473,7 @@ const HomeClient = ({
             })}
           </>
         )}
-        <DynamicBanners bannerKey="mainBanner4" enableAos={true} />
+        <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
@@ -501,7 +500,7 @@ const HomeClient = ({
             })}
           </>
         )}
-        <DynamicBanners bannerKey="mainBanner5" enableAos={true} />
+        <DynamicBanners bannerKey="mainBanner4" enableAos={true} />
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>

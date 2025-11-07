@@ -359,8 +359,8 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                     : "none",
               }}
             >
-              <FaCartPlus size={18} />
-              {/* <img src={"/assets/vector_icons/cart_icon.svg"} alt={"cart"} className="w-4 h-4" /> */}
+              {/* <FaCartPlus size={18} /> */}
+              <img src={"/assets/vector_icons/cart.png"} alt={"cart"} className="w-4 h-4" />
               <span className="text-sm font-semibold">ADD TO CART</span>
             </button>
           </div>
