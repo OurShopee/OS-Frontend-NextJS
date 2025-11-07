@@ -1,16 +1,25 @@
 // components/CategoryCard.jsx
 
+import { MediaQueries } from "../utils";
+
 export default function CategoryCard({
-  image,
+  url,
+  desktopImage,
+  mobileImage,
   bgColor,
 }) {
+
+const {isMobile }= MediaQueries()
   return (
     <div
       className={`${bgColor} rounded-xl overflow-hidden cursor-pointer h-[132px]`}
     >
       <img
-        src={image}
+        src={isMobile ? mobileImage : desktopImage}
         alt="Card"
+        onClick={() => {
+          router.push(url);
+        }}
         fill
         className="object-cover group-hover:scale-110 transition-transform duration-300 aspect-[168/132]"
       />
