@@ -193,3 +193,55 @@ a {
     max-width: 1470px !important;
   }
 }
+
+/* CSS Approach */
+.savings-badge {
+  position: relative;
+  background: linear-gradient(135deg, #d4f7c5 0%, #e8f9d8 50%, #d4f7c5 100%);
+  border-radius: 20px;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  overflow: hidden;
+}
+
+/* Left side cutout */
+.savings-badge::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Right side cutout */
+.savings-badge::after {
+  content: '';
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Wavy pattern overlay */
+.savings-badge-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+}
+

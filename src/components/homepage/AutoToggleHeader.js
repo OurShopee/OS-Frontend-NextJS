@@ -137,8 +137,8 @@ export default function AutoToggleHeader({ onTabChange }) {
         <button
           ref={mastRef}
           onClick={handleMastClick}
-          className={`relative z-10 py-1 pl-3 pr-7 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
-            activeTab === "mast" ? "text-white" : "text-gray-300"
+          className={`relative z-10 py-[5px] pl-3 pr-7 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+            activeTab === "mast" ? "text-white font-semibold" : "text-gray-300"
           }`}
         >
           Mast Zone
@@ -153,8 +153,8 @@ export default function AutoToggleHeader({ onTabChange }) {
         <button
           ref={namasteRef}
           onClick={handleNamasteClick}
-          className={`relative z-10 py-1 pl-3 pr-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
-            activeTab === "namaste" ? "text-white" : "text-gray-400"
+          className={`relative z-10 py-[5px] pl-3 pr-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
+            activeTab === "namaste" ? "text-white font-semibold" : "text-gray-400"
           }`}
         >
           {activeTab === "namaste" && (

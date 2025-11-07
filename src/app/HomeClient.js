@@ -381,7 +381,7 @@ const HomeClient = ({
         />
         {/* Deals You Might Like Section/RoW */}
         <div className="mt-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Left Column - Deals You Might Like */}
             <div className="lg:col-span-1 deals-you-like">
               <DealsYouMightLike deals={dealsYouMightLikeData} />
@@ -421,7 +421,7 @@ const HomeClient = ({
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
-            {home_category_items?.slice(0, 2)?.map((section) => {
+            {home_category_items?.slice(0, 3)?.map((section) => {
               console.log("section", section);
               return (
                 <div className="component_1 mt-4" key={section.url}>
@@ -447,65 +447,11 @@ const HomeClient = ({
         )}
         {/* Brand of the week */}
         <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
-        <DynamicBanners bannerKey="mainBanner1" enableAos={true} />
-        {/* Next 2 Categories Sections */}
-        {!loading6 && (
-          <>
-            {home_category_items?.slice(2, 4)?.map((section) => {
-              return (
-                <div className="component_1 mt-4" key={section.url}>
-                  <ComponentHeader
-                    title={section.subcategory_name}
-                    url={`/products-category/${section.url}`}
-                    view_all={"rgba(82, 50, 194, 1)"}
-                  />
-                  <CarouselWithBanner
-                    products={section.items}
-                    bannerImage={
-                      isMobile ? section?.image_app : section?.image_web
-                    }
-                    bannerImageRedirectUrl={`/products-category/${section.url}`}
-                    type={1}
-                    inner_bg={"rgba(238, 235, 250, 1)"}
-                    section_name={section.subcategory_name}
-                  />
-                </div>
-              );
-            })}
-          </>
-        )}
-        <DynamicBanners bannerKey="mainBanner2" enableAos={true} />
-        {/* Next 2 Categories Sections */}
-        {!loading6 && (
-          <>
-            {home_category_items?.slice(4, 6)?.map((section) => {
-              return (
-                <div className="component_1 mt-4" key={section.url}>
-                  <ComponentHeader
-                    title={section.subcategory_name}
-                    url={`/products-category/${section.url}`}
-                    view_all={"rgba(82, 50, 194, 1)"}
-                  />
-                  <CarouselWithBanner
-                    products={section.items}
-                    bannerImage={
-                      isMobile ? section?.image_app : section?.image_web
-                    }
-                    bannerImageRedirectUrl={`/products-category/${section.url}`}
-                    type={1}
-                    inner_bg={"rgba(238, 235, 250, 1)"}
-                    section_name={section.subcategory_name}
-                  />
-                </div>
-              );
-            })}
-          </>
-        )}
         <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
-            {home_category_items?.slice(6, 8)?.map((section) => {
+            {home_category_items?.slice(3, 6)?.map((section) => {
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader
@@ -529,11 +475,38 @@ const HomeClient = ({
           </>
         )}
         <DynamicBanners bannerKey="mainBanner4" enableAos={true} />
-        {/* All Remaining Categories Sections */}
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(6, 9)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={
+                      isMobile ? section?.image_app : section?.image_web
+                    }
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner5" enableAos={true} />
+        {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
             {home_category_items
-              ?.slice(8, home_category_items?.length)
+              ?.slice(9, home_category_items.length)
               ?.map((section) => {
                 return (
                   <div className="component_1 mt-4" key={section.url}>
@@ -557,7 +530,6 @@ const HomeClient = ({
               })}
           </>
         )}
-        <DynamicBanners bannerKey="mainBanner5" />
       </div>
     </div>
   );
