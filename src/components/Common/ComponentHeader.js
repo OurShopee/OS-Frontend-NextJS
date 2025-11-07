@@ -20,7 +20,7 @@ const ComponentHeader = ({
           href={url}
           className="no-underline view_all border-none shadow-none bg-transparent flex items-center gap-1"
         >
-          <div className="link whitespace-nowrap mr-0 font-semibold text-[#191B1C]">
+          <div className="link whitespace-nowrap mr-0 font-semibold text-xl text-[#191B1C]">
             View all
           </div>
           <div className="link_icon mt-0.5">

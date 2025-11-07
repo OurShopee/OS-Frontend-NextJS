@@ -2,10 +2,12 @@ import {
   NavigationapiServer,
   getSectionPagesApiServer,
   getbannerlistapiServer,
-  getcategory_itemsApiWithImageServer
+  getcategory_itemsApiWithImageServer,
+  getSectionsApiServer,
 } from "@/api/products";
 import { ServerDataProvider } from "@/contexts/ServerDataContext";
 import { getServerSideHeaders } from "@/lib/serverUtils";
+import { getCountryDataFromRequest } from "@/api/config";
 import { cache } from "react";
 import HomeClient from "./HomeClient";
 
@@ -24,6 +26,10 @@ const getCachedSectionPagesData = cache(async (sectionId, req) => {
 
 const getCachedCategoryItemsData = cache(async (req) => {
   return await getcategory_itemsApiWithImageServer(req);
+});
+
+const getCachedSectionsData = cache(async (sectionIds, req) => {
+  return await getSectionsApiServer(sectionIds, req);
 });
 
 export const metadata = {
@@ -76,6 +82,9 @@ const Home = async () => {
   // Get server-side headers for country detection
   const req = await getServerSideHeaders();
 
+  // Get country data from request to extract section IDs
+  const countryData = getCountryDataFromRequest(req);
+
   // Make server-side API calls with caching
   const [navigationData, bannerListData, categoryItemsData] = await Promise.all(
     [
@@ -96,11 +105,25 @@ const Home = async () => {
     sectionPagesData = await getCachedSectionPagesData(sectionId, req);
   }
 
+  // Get country-specific section IDs from dealsByCountry
+  let sectionsData = null;
+  if (countryData?.dealsByCountry) {
+    // Extract all section IDs from dealsByCountry object
+    const sectionIds = Object.values(countryData.dealsByCountry);
+    // Join section IDs with comma for API call
+    const sectionIdsString = sectionIds.join(",");
+
+    if (sectionIdsString) {
+      sectionsData = await getCachedSectionsData(sectionIdsString, req);
+    }
+  }
+
   const serverData = {
     navigationData,
     bannerListData,
     sectionPagesData,
     categoryItemsData,
+    sectionsData,
   };
 
   return (
@@ -110,6 +133,7 @@ const Home = async () => {
         initialBannerListData={bannerListData}
         initialSectionPagesData={sectionPagesData}
         initialCategoryItemsData={categoryItemsData?.data}
+        initialSectionsData={sectionsData}
       />
     </ServerDataProvider>
   );

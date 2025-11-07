@@ -88,7 +88,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                     src={formatImageUrl(item.image_url)}
                     alt=""
                     className={`rounded-[13px] w-full ${
-                      !searchPage && "aspect-[998/250]"
+                      !searchPage && "aspect-[988/250]"
                     } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
                     onLoad={index === 0 ? handleFirstImageLoad : undefined}
                     style={!shouldWrapWithNavLink ? { cursor: "default" } : {}}

@@ -1,170 +1,3 @@
-// "use client";
-// import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
-// import { usePathname } from "next/navigation";
-// import Link from "next/link";
-// import { MediaQueries } from "../utils";
-// import { getImagesByKey } from "../utils/getImagesByKey";
-// import { pushToDataLayer } from "../utils/dataUserpush";
-// import { ProductCard } from "../Common";
-
-// export default function BrandOfTheWeekUpdated({ products = [] }) {
-//   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
-//   const bannerList = useSelector((s) => s.homeslice.bannerList);
-//   const { isMobile } = MediaQueries();
-//   const pathname = usePathname();
-//   const [brandData, setBrandData] = useState({});
-//   const [currentProductIndex, setCurrentProductIndex] = useState(0);
-//   const pageName = typeof window !== "undefined" ? window.location.pathname : pathname;
-
-//   useEffect(() => {
-//     const b = {};
-//     ["brandWeekBg", "brandWeekImg"].forEach((k) => {
-//       const v = getImagesByKey(bannerList, k);
-//       if (v) b[k] = v;
-//     });
-//     setBrandData(b);
-//   }, [bannerList]);
-// console.log(brandData, "brandData");
-//   useEffect(() => {
-//     if (!products?.length || products.length <= 4) return;
-//     const id = setInterval(() => setCurrentProductIndex((p) => (p + 1) % products.length), 5000);
-//     return () => clearInterval(id);
-//   }, [products]);
-
-//   const pick = (pos) => (products?.length ? products[(currentProductIndex + pos) % products.length] : null);
-//   const p1 = pick(0);
-//   const p2 = pick(1);
-//   const p3 = pick(2);
-//   const p4 = pick(3);
-
-//   const renderProduct = (product) => {
-//     if (!product) return null;
-//     const parts = product.url?.split("/");
-//     const hasSku = Object.prototype.hasOwnProperty.call(product, "sku");
-//     const href =
-//       hasSku && parts?.length >= 2
-//         ? `/details/${product.url}`
-//         : hasSku
-//         ? `/details/${product.url}/${product.sku}`
-//         : `/details/${product.url}`;
-//     return (
-//       <div className="inline-block align-top">
-//         <Link href={href} className="no-underline block" prefetch={false}>
-//           <ProductCard item={product} type={1} section_name="Brand Of The Week" />
-//         </Link>
-//       </div>
-//     );
-//   };
-
-//   const bannerHref =
-//     brandData?.brandWeekImg?.url_web && brandData?.brandWeekImg?.url_web !== "0"
-//       ? brandData?.brandWeekImg?.url_web
-//       : "#";
-
-//   return (
-//     <section
-//       className="rounded-3xl px-4 py-6 mt-4 md:p-6 relative overflow-hidden"
-//       style={{
-//         backgroundImage: `url(${brandData?.brandWeekBg?.image_web || ""})`,
-//         backgroundSize: "cover",
-//         backgroundPosition: "center",
-//       }}
-//       aria-label="Brand of the Week"
-//     >
-//       {/* Header */}
-//       <div className="flex items-center justify-center mb-4 pt-6 pb-2">
-//         <div
-//           className="px-4 z-0"
-//           style={{
-//             backgroundColor: "#FACC15",
-//             clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%)",
-//           }}
-//         >
-//           <span className="font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]">BRAND&nbsp;</span>
-//           <span className="font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]" style={{ color: "black" }}>
-//             OF&nbsp;
-//           </span>
-//         </div>
-//         <span
-//           className="font-[Anta] text-[20px] md:text-[38px] lg:text-[60px] z-10 text-black font-bold"
-//           style={{ marginLeft: "-20px", letterSpacing: "2px" }}
-//         >
-//           THE WEEK
-//         </span>
-//       </div>
-
-//       {/* Desktop semicircle layout */}
-//       {!isMobile ? (
-//         <div
-//           className="
-//             mx-auto w-full max-w-[1360px]
-//             grid gap-4 md:gap-6
-//             [grid-template-columns:1fr_1fr_minmax(340px,420px)_1fr_1fr]
-//             items-start justify-center
-//           "
-//         >
-//           {/* OUTER LEFT — more margin-top (lower) */}
-//           <div className="justify-self-end mt-16 md:mt-20 lg:mt-24">{renderProduct(p1)}</div>
-
-//           {/* INNER LEFT — less margin-top (higher) */}
-//           <div className="justify-self-end ">{renderProduct(p2)}</div>
-
-//           {/* CENTER banner — lowest (deepest point) */}
-//           <div className="justify-self-center mt-0">
-//             <a
-//               href={bannerHref}
-//               onClick={() =>
-//                 pushToDataLayer("clicked_card_in_section", currentcountry?.name, {
-//                   card_name: "Brand of the Week Banner",
-//                   section_name: "Brand of the Week",
-//                   page: pageName,
-//                 })
-//               }
-//               className="block rounded-2xl overflow-hidden"
-//             >
-//               <div className="w-full h-[300px] md:h-[340px] rounded-2xl">
-//                 <img
-//                   src={brandData?.brandWeekImg?.image_web || brandData?.brandWeekImg?.image_app}
-//                   alt="Brand of the Week"
-//                   className="w-full h-full object-cover rounded-2xl"
-//                   loading="lazy"
-//                 />
-//               </div>
-//             </a>
-//           </div>
-
-//           {/* INNER RIGHT — less margin-top (higher) */}
-//           <div className="justify-self-start">{renderProduct(p3)}</div>
-
-//           {/* OUTER RIGHT — more margin-top (lower) */}
-//           <div className="justify-self-start mt-16 md:mt-20 lg:mt-24">{renderProduct(p4)}</div>
-//         </div>
-//       ) : (
-//         // Mobile fallback
-//         <div className="flex flex-col gap-3">
-//           {(brandData?.brandWeekImg?.image_app || brandData?.brandWeekImg?.image_web) && (
-//             <a href={bannerHref} className="block w-full rounded-2xl overflow-hidden">
-//               <div className="w-full h-[220px] rounded-2xl">
-//                 <img
-//                   src={brandData?.brandWeekImg?.image_app || brandData?.brandWeekImg?.image_web}
-//                   alt="Brand of the Week"
-//                   className="w-full h-full object-cover rounded-2xl"
-//                   loading="lazy"
-//                 />
-//               </div>
-//             </a>
-//           )}
-//           <div className="grid grid-cols-2 gap-2">
-//             {[p1, p2, p3, p4].map((p, i) => (
-//               <div key={i}>{renderProduct(p)}</div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//     </section>
-//   );
-// }
 "use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -283,18 +116,18 @@ function BrandWeekMobileCard({ item }) {
 
   return (
     <div
-      className="relative min-w-[126px] bg-white rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5"
+      className="relative w-full max-w-[126px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5"
       onClick={() => productcard(item?.name)}
     >
       {/* Discount Badge */}
       {pct > 0 && (
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10">
           <div
-            className="px-3.5 py-1.5 rounded-full flex items-center justify-center"
+            className="px-2 py-1 sm:px-3.5 sm:py-1.5 rounded-full flex items-center justify-center"
             style={{ backgroundColor: "#C8F4C8" }}
           >
             <span
-              className="text-xs font-bold leading-none"
+              className="text-[10px] sm:text-xs font-bold leading-none"
               style={{ color: "#15803D" }}
             >
               {pct}% OFF
@@ -304,46 +137,46 @@ function BrandWeekMobileCard({ item }) {
       )}
   
       {/* Product Image */}
-      <div className="relative p-4 pb-2 flex items-center justify-center h-[131px]">
+      <div className="relative p-3 pb-2 sm:p-4 sm:pb-2 flex items-center justify-center h-[110px] sm:h-[131px]">
         {hasError ? (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-gray-400 text-sm">No Image</span>
+            <span className="text-gray-400 text-xs sm:text-sm">No Image</span>
           </div>
         ) : (
           <img
             src={item?.image}
             alt={item?.name || "Product"}
             onError={() => setHasError(true)}
-            className="w-[56px] h-[56px] object-contain aspect-[56/56]"
+            className="w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] object-contain aspect-square"
             loading="lazy"
           />
         )}
       </div>
   
       {/* Price Row */}
-      <div className="px-4 pb-4 pt-2">
-        <div className="flex items-baseline gap-2">
+      <div className="px-3 pb-3 pt-1 sm:px-4 sm:pb-4 sm:pt-2">
+        <div className="flex items-baseline gap-1 sm:gap-2 flex-wrap">
           {/* Current Price */}
-          <div className="flex items-baseline ">
+          <div className="flex items-baseline">
             {currentcountry?.currency === "AED" ? (
               <img
                 src="/assets/feed/aed-icon.png"
                 alt="AED"
-                className="w-4 h-4 inline-block mix-blend-multiply"
+                className="w-3 h-3 sm:w-4 sm:h-4 inline-block mix-blend-multiply"
               />
             ) : (
-              <span className="text-black text-xl font-bold leading-none">
+              <span className="text-black text-lg sm:text-xl font-bold leading-none">
                 {currentcountry?.currency}
               </span>
             )}
-            <span className="text-black text-xl font-bold leading-none">
+            <span className="text-black text-lg sm:text-xl font-bold leading-none">
               {fmt(currentPrice)}
             </span>
           </div>
   
           {/* Old Price */}
           {item?.old_price ? (
-            <span className="text-gray-400 text-sm line-through font-medium">
+            <span className="text-gray-400 text-[10px] sm:text-sm line-through font-medium">
               {fmt(item?.old_price)}
             </span>
           ) : null}
@@ -437,7 +270,7 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
 
   return (
     <section
-      className="rounded-3xl px-4 py-6 mt-4 md:p-6 relative overflow-hidden"
+      className="rounded-2xl sm:rounded-3xl px-3 py-4 sm:px-4 sm:py-6 mt-4 md:p-6 relative overflow-hidden"
       style={{
         backgroundImage: `url(${brandData?.brandWeekBg?.image_web || ""})`,
         backgroundSize: "cover",
@@ -446,7 +279,7 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
       aria-label="Brand of the Week"
     >
       {/* Header */}
-      <div className="flex items-center justify-center mb-2 sm:mb-4 pt-3 sm:pt-6 pb-1 sm:pb-2">
+      <div className="flex items-center justify-center mb-3 sm:mb-4 pt-2 sm:pt-6 pb-1 sm:pb-2">
         <div
           className="px-2 sm:px-3 md:px-4 z-0"
           style={{
@@ -454,71 +287,117 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
             clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%)",
           }}
         >
-          <span className="font-[Anta] text-[14px] sm:text-[18px] md:text-[20px] lg:text-[40px]">BRAND&nbsp;</span>
-          <span className="font-[Anta] text-[14px] sm:text-[18px] md:text-[20px] lg:text-[40px]" style={{ color: "black" }}>
+          <span className="font-[Anta] text-[12px] sm:text-[18px] md:text-[20px] lg:text-[40px]">BRAND&nbsp;</span>
+          <span className="font-[Anta] text-[12px] sm:text-[18px] md:text-[20px] lg:text-[40px]" style={{ color: "black" }}>
             OF&nbsp;
           </span>
         </div>
         <span
-          className="font-[Anta] text-[14px] sm:text-[24px] md:text-[38px] lg:text-[60px] z-10 text-black font-bold sm:ml-[-15px] md:ml-[-20px]"
-          style={{ marginLeft: "-10px", letterSpacing: "1px" }}
+          className="font-[Anta] text-[12px] sm:text-[24px] md:text-[38px] lg:text-[60px] z-10 text-black font-bold sm:ml-[-15px] md:ml-[-20px]"
+          style={{ marginLeft: isMobile ? "-8px" : "-10px", letterSpacing: "1px" }}
         >
           THE WEEK
         </span>
       </div>
 
-      {/* Semicircle layout - same design for all screens, scaled down */}
-      <div
-        className="
-          mx-auto w-full max-w-[1360px]
-          grid gap-3 sm:gap-3 md:gap-4 lg:gap-3
-          [grid-template-columns:1fr_1fr_minmax(200px,280px)_1fr_1fr]
-          sm:[grid-template-columns:1fr_1fr_minmax(240px,320px)_1fr_1fr]
-          md:[grid-template-columns:1fr_1fr_minmax(280px,360px)_1fr_1fr]
-          lg:[grid-template-columns:1fr_1fr_minmax(340px,420px)_1fr_1fr]
-          items-start justify-center
-        "
-      >
-        <div className="justify-self-end mt-8 sm:mt-12 md:mt-16 lg:mt-28">{!isMobile   ? <ProductSlot product={p1} /> : null}</div>
-        <div className="justify-self-end mt-2"><ProductSlot product={p2} /></div>
+      {/* Layout - responsive grid */}
+      {isMobile ? (
+        /* Mobile layout: simplified 3-column grid */
+        <div className="mx-auto w-full max-w-[1360px] grid grid-cols-3 gap-2 items-start justify-center">
+          <div className="justify-self-end mt-4">
+            <ProductSlot product={p2} />
+          </div>
 
-        {/* Center banner */}
-        <div className="justify-self-center mt-0">
-          <a
-            href={bannerHref}
-            onClick={() =>
-              pushToDataLayer("clicked_card_in_section", currentcountry?.name, {
-                card_name: "Brand of the Week Banner",
-                section_name: "Brand of the Week",
-                page: pageName,
-              })
-            }
-            className="block rounded-xl sm:rounded-2xl overflow-hidden"
-          >
-            <div className="w-full h-[180px] sm:h-[220px] md:h-[280px] lg:h-[340px] rounded-xl sm:rounded-2xl">
-              <img
-                src={brandData?.brandWeekImg?.image_web || brandData?.brandWeekImg?.image_app}
-                alt="Brand of the Week"
-                className="w-full h-full object-cover rounded-xl sm:rounded-2xl"
-                loading="lazy"
-              />
-            </div>
-          </a>
+          {/* Center banner */}
+          <div className="justify-self-center mt-0">
+            <a
+              href={bannerHref}
+              onClick={() =>
+                pushToDataLayer("clicked_card_in_section", currentcountry?.name, {
+                  card_name: "Brand of the Week Banner",
+                  section_name: "Brand of the Week",
+                  page: pageName,
+                })
+              }
+              className="block rounded-xl overflow-hidden"
+            >
+              <div className="w-full h-[140px] rounded-xl">
+                <img
+                  src={brandData?.brandWeekImg?.image_web || brandData?.brandWeekImg?.image_app}
+                  alt="Brand of the Week"
+                  className="w-full h-full object-cover rounded-xl"
+                  loading="lazy"
+                />
+              </div>
+            </a>
+          </div>
+
+          <div className="justify-self-start mt-4">
+            <ProductSlot product={p3} />
+          </div>
         </div>
+      ) : (
+        /* Desktop layout: 5-column semicircle grid */
+        <div
+          className="
+            mx-auto w-full max-w-[1360px]
+            grid gap-3 sm:gap-3 md:gap-4 lg:gap-3
+            [grid-template-columns:1fr_1fr_minmax(200px,280px)_1fr_1fr]
+            sm:[grid-template-columns:1fr_1fr_minmax(240px,320px)_1fr_1fr]
+            md:[grid-template-columns:1fr_1fr_minmax(280px,360px)_1fr_1fr]
+            lg:[grid-template-columns:1fr_1fr_minmax(340px,420px)_1fr_1fr]
+            items-start justify-center
+          "
+        >
+          <div className="justify-self-end mt-8 sm:mt-12 md:mt-16 lg:mt-28">
+            <ProductSlot product={p1} />
+          </div>
+          <div className="justify-self-end mt-2">
+            <ProductSlot product={p2} />
+          </div>
 
-        <div className="justify-self-start mt-2"><ProductSlot product={p3} /></div>
-        <div className="justify-self-start mt-8 sm:mt-12 md:mt-16 lg:mt-28">{!isMobile ? <ProductSlot product={p4} /> : null}</div>
-      </div>
-        <div className="flex justify-center items-center mt-4">
+          {/* Center banner */}
+          <div className="justify-self-center mt-0">
+            <a
+              href={bannerHref}
+              onClick={() =>
+                pushToDataLayer("clicked_card_in_section", currentcountry?.name, {
+                  card_name: "Brand of the Week Banner",
+                  section_name: "Brand of the Week",
+                  page: pageName,
+                })
+              }
+              className="block rounded-xl sm:rounded-2xl overflow-hidden"
+            >
+              <div className="w-full h-[220px] sm:h-[220px] md:h-[280px] lg:h-[340px] rounded-xl sm:rounded-2xl">
+                <img
+                  src={brandData?.brandWeekImg?.image_web || brandData?.brandWeekImg?.image_app}
+                  alt="Brand of the Week"
+                  className="w-full h-full object-cover rounded-xl sm:rounded-2xl aspect-[275/307]"
+                  loading="lazy"
+                />
+              </div>
+            </a>
+          </div>
+
+          <div className="justify-self-start mt-2">
+            <ProductSlot product={p3} />
+          </div>
+          <div className="justify-self-start mt-8 sm:mt-12 md:mt-16 lg:mt-28">
+            <ProductSlot product={p4} />
+          </div>
+        </div>
+      )}
+        <div className="flex justify-center items-center mt-3 sm:mt-4">
             <button 
-              className="text-black px-6 py-3 rounded-full font-bold text-sm sm:text-base flex items-center gap-3 border-2 border-white"
+              className="text-black px-4 py-2 sm:px-6 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 border-2 border-white"
               style={{
                 background: 'linear-gradient(to right, #FFD700, #FF8C00)'
               }}
             >
-              <span className="text-black text-sm ">More From </span>
-              <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
-                <span className="bg-gradient-to-r from-[#FFD700] to-[#FF8C00] bg-clip-text text-transparent text-sm font-bold">→</span>
+              <span className="text-black text-xs sm:text-sm">More From </span>
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black flex items-center justify-center">
+                <span className="bg-gradient-to-r from-[#FFD700] to-[#FF8C00] bg-clip-text text-transparent text-xs sm:text-sm font-bold">→</span>
               </div>
             </button>
         </div>

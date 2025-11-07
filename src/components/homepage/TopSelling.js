@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useCallback, useState, useEffect, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Mousewheel, Keyboard, Grid } from "swiper/modules";
+import { Navigation, Pagination, Mousewheel, Keyboard, Grid, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -108,8 +108,14 @@ export default function TopSelling({
     <div className="pt-3.5 px-2 shadow-bg-top-selling max-h-[348px] overflow-hidden">
       <div className="flex items-center justify-between mb-3 px-3.5">
         <div className="flex items-center gap-1.5">
-          <h2 className="text-[26px] font-[800] italic text-black">Top Selling</h2>
-          <img src="/assets/homepage/flash-icon.png" alt="Discount" className="w-8 h-8" />
+          <h2 className="text-[26px] font-[800] italic text-black">
+            Top Selling
+          </h2>
+          <img
+            src="/assets/homepage/flash-icon.png"
+            alt="Discount"
+            className="w-8 h-8"
+          />
         </div>
         <button className="text-[#43494B] font-semibold flex items-center">
           View all <IoChevronForward size={18} />
@@ -125,7 +131,9 @@ export default function TopSelling({
         {/* LEFT ARROW – Desktop (unchanged) */}
         <button
           type="button"
-          className={`${btnBaseDesktop} self-center ${isBeginning ? btnDisabled : ""}`}
+          className={`${btnBaseDesktop} self-center ${
+            isBeginning ? btnDisabled : ""
+          }`}
           onClick={handlePrev}
           disabled={isBeginning}
           aria-disabled={isBeginning}
@@ -163,7 +171,9 @@ export default function TopSelling({
             <button
               type="button"
               className={`${btnMobileOverlay} -left-[.75rem] ${
-                isBeginning ? "opacity-30 pointer-events-none" : "pointer-events-auto"
+                isBeginning
+                  ? "opacity-30 pointer-events-none"
+                  : "pointer-events-auto"
               }`}
               onClick={handlePrev}
               aria-label="Previous"
@@ -187,14 +197,28 @@ export default function TopSelling({
               cssMode={!isMobile && true}
               mousewheel={true}
               keyboard={true}
+              autoplay={{
+                delay: 2000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               // pagination={paginationConfig}
               navigation={false}
               modules={
                 isMobile
-                  ? [Grid, Pagination]
-                  : [Grid, Pagination, Navigation, Mousewheel, Keyboard]
+                  ? [Grid, Pagination, Autoplay]
+                  : [
+                      Grid,
+                      Pagination,
+                      Navigation,
+                      Mousewheel,
+                      Keyboard,
+                      Autoplay,
+                    ]
               }
-              grid={type == 1 && isMobile ? { rows: 2, fill: "row" } : undefined}
+              grid={
+                type == 1 && isMobile ? { rows: 2, fill: "row" } : undefined
+              }
               onSwiper={handleSwiperInit}
               onSlideChange={handleSlideChange}
               breakpoints={breakPoints}
@@ -209,7 +233,10 @@ export default function TopSelling({
                     <SwiperSlide key={index}>
                       {item.hasOwnProperty("sku") ? (
                         url?.length >= 2 ? (
-                          <Link href={`/details/${item.url}`} className="no-underline h-full">
+                          <Link
+                            href={`/details/${item.url}`}
+                            className="no-underline h-full"
+                          >
                             <ProductCard
                               item={item}
                               type={type}
@@ -233,7 +260,10 @@ export default function TopSelling({
                           </Link>
                         )
                       ) : (
-                        <Link href={`/details/${item.url}`} className="no-underline h-full">
+                        <Link
+                          href={`/details/${item.url}`}
+                          className="no-underline h-full"
+                        >
                           <ProductCard item={item} eid_sale={eid_sale} />
                         </Link>
                       )}
@@ -269,7 +299,9 @@ export default function TopSelling({
         {/* RIGHT ARROW – Desktop (unchanged) */}
         <button
           type="button"
-          className={`${btnBaseDesktop} self-center ${isEnd ? btnDisabled : ""}`}
+          className={`${btnBaseDesktop} self-center ${
+            isEnd ? btnDisabled : ""
+          }`}
           onClick={handleNext}
           disabled={isEnd}
           aria-disabled={isEnd}

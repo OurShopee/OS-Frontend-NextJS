@@ -12,9 +12,9 @@ export default function CountdownClock({
   showHours = true,
   showMinutes = true,
   showSeconds = true,
-  digitWidth = 10,
-  digitHeight = 16,
-  digitFontSize = 8,
+  digitWidth = 12,
+  digitHeight = 18,
+  digitFontSize = 12,
   labelFontSize = 12,
   separatorSize = "3px",
   separatorColor = "#a80000",
@@ -29,9 +29,9 @@ export default function CountdownClock({
           <Image
             src={clockIcon}
             alt="Clock icon"
-            width={40}
-            height={40}
-            className="w-10 h-auto"
+            width={48}
+            height={48}
+            className="w-12 h-auto"
           />
         )}
         <FlipClockCountdown
@@ -57,7 +57,7 @@ export default function CountdownClock({
             fontSize: labelFontSize,
             color: labelColor,
             fontWeight: 600,
-            marginTop: 1,
+            marginTop: 0,
           }}
           duration={0.5}
           showSeparators={true}
