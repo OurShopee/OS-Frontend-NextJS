@@ -625,22 +625,22 @@ const countriesData = [
     name: "Saudi",
     currency: "SAR",
     backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
-    gtm_tag: "GTM-T2H2947",
+    gtm_tag: "GTM-5N8D2TP",
     image: "saudi.svg",
     helpline_numbers: {
-      hotline: "(966) 1311 0888",
-      whatsapp: "(973) 34616280",
+      hotline: "",
+      whatsapp: "",
       address:
-        "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Riyadh | Saudi Arabia",
+        "",
     },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
     isDonationRequired: false,
     country_code: "+966",
-    fb_link: "https://www.facebook.com/bahrainourshopee",
+    fb_link: "https://www.facebook.com/profile.php?id=61582502091896#",
     insta_link:
-      "https://www.instagram.com/ourshopeebahrain?igsh=MWczYzRweWpuZDV0cw%3D%3D&utm_source=qr",
+      "https://www.instagram.com/ourshopee_ksa?igsh=MWlucnh6d3RxcGd5&utm_source=qr",
     nav_items: [
       {
         id: 11,
