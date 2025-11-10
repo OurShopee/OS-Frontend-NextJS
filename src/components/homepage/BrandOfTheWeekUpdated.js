@@ -282,26 +282,43 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
       aria-label="Brand of the Week"
     >
       {/* Header */}
-      <div className="flex items-center justify-center mb-3 sm:mb-4 pt-2 sm:pt-6 pb-1 sm:pb-2">
+      <div className="flex items-center justify-center mb-4  pb-2">
+        {/* Yellow box with right-side cut */}
         <div
-          className="px-2 sm:px-3 md:px-4 z-0"
+          className=" px-4 z-0"
           style={{
             backgroundColor: "#FACC15",
+
+            /* cut 20px off the right edge */
             clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%)",
           }}
         >
-          <span className="font-[Anta] text-[12px] sm:text-[18px] md:text-[20px] lg:text-[40px]">BRAND&nbsp;</span>
-          <span className="font-[Anta] text-[12px] sm:text-[18px] md:text-[20px] lg:text-[40px]" style={{ color: "black" }}>
-            OF&nbsp;
+          <span className="inner-shadow-text">
+            <span className="brand-inner-shadow font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]">
+              BRAND&nbsp;
+            </span>
+            <span
+              className="inner-shadow-text font-[Anta] text-[20px] md:text-[38px] lg:text-[60px]"
+              style={{ color: "black" }}
+            >
+              OF&nbsp;
+            </span>
           </span>
         </div>
+
+        {/* pull “THE” back under the diagonal overlap */}
         <span
-          className="font-[Anta] text-[12px] sm:text-[18px] md:text-[20px] lg:text-[40px] z-10 text-black font-bold sm:ml-[-15px] md:ml-[-20px]"
-          style={{ marginLeft: isMobile ? "-8px" : "-10px", letterSpacing: "1px" , marginTop: isMobile ? "4px" : "0px" }}
+          className="rest-inner-shadow font-[Anta] text-[20px] md:text-[38px] lg:text-[60px] z-10 text-black font-bold"
+          style={{
+            marginLeft: "-20px",
+            letterSpacing: "2px",
+            textShadow: " 0px 4px 1.5px 0px #8C8C8C40 inset",
+          }}
         >
           THE WEEK
         </span>
       </div>
+
 
       {/* Layout - responsive grid */}
       {isMobile ? (
