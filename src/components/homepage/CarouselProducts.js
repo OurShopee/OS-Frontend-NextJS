@@ -104,7 +104,7 @@ export default function CarouselProducts({
 
   return (
     <div
-      className={`carousel_products bg-no-repeat bg-center bg-cover ${eid_sale && "bg-transparent"} ${
+      className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${eid_sale && "bg-transparent"} ${
         (type == 2 || type == 3) && "p-0"
       }`}
       style={{ backgroundImage: `url(${backgroundImage})` }}
