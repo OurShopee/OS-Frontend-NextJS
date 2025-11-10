@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "www.ourshopee.com",
+      "sha256_cert_fingerprints": [
+        "D1:45:B8:B8:E1:39:93:3C:16:65:8C:59:AF:81:EF:45:20:87:57:94:C6:5F:A0:07:61:9B:B1:6E:D3:A7:E1:C7"
+      ]
+    }
+  }
+]
