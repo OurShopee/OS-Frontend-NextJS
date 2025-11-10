@@ -141,7 +141,11 @@ export default function TopSelling({
           aria-disabled={isBeginning}
           aria-label="Previous"
         >
-          <IoChevronBack size={22} />
+          <img
+            src="/assets/vector_icons/arrow_left.svg"
+            alt="Arrow"
+            className={`w-6 h-6 grayscale`}
+            />
         </button>
 
         {/* Optional left banner */}
@@ -180,7 +184,11 @@ export default function TopSelling({
               onClick={handlePrev}
               aria-label="Previous"
             >
-              <IoChevronBack size={22} />
+            <img
+            src="/assets/vector_icons/arrow_left.svg"
+            alt="Arrow"
+            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+            />
             </button>
 
             {/* RIGHT ARROW – Mobile (edge) */}
@@ -192,7 +200,11 @@ export default function TopSelling({
               onClick={handleNext}
               aria-label="Next"
             >
-              <IoChevronForward size={22} />
+               <img
+            src="/assets/vector_icons/arrow_right.svg"
+            alt="Arrow"
+            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+            />
             </button>
 
             <Swiper
@@ -309,7 +321,11 @@ export default function TopSelling({
           aria-disabled={isEnd}
           aria-label="Next"
         >
-          <IoChevronForward size={22} />
+          <img
+            src="/assets/vector_icons/arrow_right.svg"
+            alt="Arrow"
+            className={`w-6 h-6 grayscale`}
+            />
         </button>
       </div>
       <style jsx>{`
