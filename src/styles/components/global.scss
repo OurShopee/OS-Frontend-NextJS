@@ -1469,6 +1469,12 @@ html {
   gap: 4px;
 }
 
+@media only screen and (max-width: 640px) {
+  ._qWTcH {
+    gap: 1px !important;
+  }
+}
+
 .border-webfeed {
   border: 1px solid #5232c2;
   box-shadow: 0px 2px 5.6px 0px #79797940;
