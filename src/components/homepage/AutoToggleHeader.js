@@ -3,8 +3,12 @@
 
 import { useState, useEffect, useRef } from "react";
 
-export default function AutoToggleHeader({ onTabChange, section238Data, section59Data }) {
-  const [activeTab, setActiveTab] = useState(section238Data?.heading); // 'mast' or 'namaste'
+export default function AutoToggleHeader({
+  onTabChange,
+  section238Data,
+  section59Data,
+}) {
+  const [activeTab, setActiveTab] = useState(section238Data?.heading); 
   const [resetTrigger, setResetTrigger] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const mastRef = useRef(null);
@@ -53,7 +57,11 @@ export default function AutoToggleHeader({ onTabChange, section238Data, section5
 
     // After the corner stretch, switch to the other tab
     setTimeout(() => {
-      setActiveTab((prev) => (prev === section238Data?.heading ? section59Data?.heading : section238Data?.heading));
+      setActiveTab((prev) =>
+        prev === section238Data?.heading
+          ? section59Data?.heading
+          : section238Data?.heading
+      );
       setIsTransitioning(false);
     }, 250); // Half of the transition duration
   };
@@ -137,14 +145,18 @@ export default function AutoToggleHeader({ onTabChange, section238Data, section5
         <button
           ref={mastRef}
           onClick={handleMastClick}
-          className={`relative z-10 py-1 pl-3 pr-7 flex items-center gap-1 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
-            activeTab === section238Data?.heading ? "text-white" : "text-gray-300"
+          className={`relative z-10 py-[5px] pl-3 pr-7 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+            activeTab === section238Data?.heading
+              ? "text-white font-semibold"
+              : "text-gray-300"
           }`}
         >
-        {section238Data?.heading}
+          {section238Data?.heading}
           {activeTab === section238Data?.heading && (
-            <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
-              <span className="text-[10px]">🔥</span>
+            <div className="absolute right-1 top-0 w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="text-[10px]">
+                <img src={section238Data?.icon_image[0]?.desktopImage} />
+              </span>
             </div>
           )}
         </button>
@@ -154,12 +166,16 @@ export default function AutoToggleHeader({ onTabChange, section238Data, section5
           ref={namasteRef}
           onClick={handleNamasteClick}
           className={`relative z-10 py-1 pl-3 pr-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
-            activeTab === section59Data?.heading ? "text-white" : "text-gray-400"
+            activeTab === section59Data?.heading
+              ? "text-white"
+              : "text-gray-400"
           }`}
         >
           {activeTab === section59Data?.heading && (
             <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
-              <span className="text-[10px]">🔥</span>
+              <span className="text-[10px] overflow-hidden">
+                <img src={section59Data?.icon_image[0]?.desktopImage} className="rounded-full" />
+              </span>
             </div>
           )}
           {section59Data?.heading}

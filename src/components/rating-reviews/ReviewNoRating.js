@@ -170,7 +170,6 @@ const ReviewNoRating = ({
   // Create FormData and handle final submission
   const createFormData = () => {
     const formData = new FormData();
-    console.log(productDetail[0]?.id);
 
     formData.append("productid", productDetail[0]?.id);
     formData.append("rating", rating);

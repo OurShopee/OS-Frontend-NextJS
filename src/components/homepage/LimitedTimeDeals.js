@@ -7,7 +7,6 @@ export default function LimitedTimeDeals({
   deals,
 }) {
   const countdownTimestamp = deals?.timer;
-  console.log(deals)
   return (
     <div className="">
       {/* Content */}

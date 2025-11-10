@@ -5,7 +5,6 @@ import { MediaQueries } from "../../components/utils";
 import DeskOrdertrack from "./DeskOrdertrack";
 import Mobiletrack from "./Mobiletrack";
 const Orders = ({ orderlistdata }) => {
-  console.log("order",orderlistdata)
   const { isMobile } = MediaQueries();
   // const orderlistdata = useSelector((state) => state.formslice.orderlistdata);
   const [openOrderId, setOpenOrderId] = useState(null);
