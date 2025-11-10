@@ -51,7 +51,6 @@ jobs:
                     "rm -rf $APP_DIR",
                     "mkdir -p $APP_DIR",
                     "aws s3 sync $S3_DEV $APP_DIR --delete > /dev/null 2>&1",
-                    "aws s3 sync s3://ourshopee-build-backup/storefront/production/.well-known/ $APP_DIR.well-known/ > /dev/null", 
 
                     "aws secretsmanager get-secret-value --secret-id \"$SECRET_NAME\" --region \"$REGION\" --query SecretString --output text | jq -r '\''to_entries[] | \"\\(.key)=\\(.value)\"'\'' > $APP_DIR/.env",
 
