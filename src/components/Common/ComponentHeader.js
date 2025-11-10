@@ -20,10 +20,10 @@ const ComponentHeader = ({
           href={url}
           className="no-underline view_all border-none shadow-none bg-transparent flex items-center gap-1"
         >
-          <div className="link whitespace-nowrap mr-0 font-semibold text-xl text-[#191B1C]">
+          <div className="link whitespace-nowrap mr-0 font-semibold text-base sm:text-xl text-[#191B1C]">
             View all
           </div>
-          <div className="link_icon mt-0.5">
+          <div className="link_icon sm:mt-0.5 items-center flex">
             <IoChevronForward color="#43494B" size={16} />
           </div>
         </Link>

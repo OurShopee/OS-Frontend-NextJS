@@ -103,110 +103,114 @@ export default function CarouselProducts({
   }, [type, isMobile]);
 
   return (
-    <div
-      className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${eid_sale && "bg-transparent"} ${
-        (type == 2 || type == 3) && "p-0"
-      }`}
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
-      {/* LEFT ARROW - Desktop Only */}
+    <div className="relative overflow-hidden">
+      <img src={backgroundImage} className="sm:hidden absolute w-full h-full z-0 border-none" />
       <div
-        className={`${
-          isMobile ? "flex gap-1 mt-[144px]" : "flex items-stretch gap-1"
-        }`}
+        className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${
+          eid_sale && "bg-transparent"
+        } ${(type == 2 || type == 3) && "p-0"}`}
       >
-        <button
-          type="button"
-          className={`${btnBase} self-center ${isBeginning ? btnDisabled : ""}`}
-          onClick={handlePrev}
-          disabled={isBeginning}
-          aria-disabled={isBeginning}
-          aria-label="Previous"
+        {/* LEFT ARROW - Desktop Only */}
+        <div
+          className={`${
+            isMobile ? "flex gap-1 mt-[144px]" : "flex items-stretch gap-1"
+          }`}
         >
-          <img
-            src="/assets/vector_icons/arrow_left.svg"
-            alt="Arrow"
-            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
-            />
-        </button>
-
-        {/* SWIPER */}
-        <div className={`flex-1 min-w-0`}>
-          <Swiper
-            cssMode={!isMobile}
-            mousewheel={!isMobile}
-            keyboard={!isMobile}
-            // pagination={paginationConfig}
-            navigation={false}
-            modules={swiperModules}
-            grid={gridConfig}
-            onSwiper={handleSwiperInit}
-            onSlideChange={handleSlideChange}
-            breakpoints={breakPoints}
-            spaceBetween={isMobile ? 8 : 15}
-            className="carouselSwiper h-full"
-            ref={swiperContainerRef}
+          <button
+            type="button"
+            className={`${btnBase} self-center ${
+              isBeginning ? btnDisabled : ""
+            }`}
+            onClick={handlePrev}
+            disabled={isBeginning}
+            aria-disabled={isBeginning}
+            aria-label="Previous"
           >
-            {products?.length > 0 &&
-              products?.map((item, index) => {
-                const url = item.url.split("/");
-                return (
-                  <SwiperSlide key={index}>
-                    {item.hasOwnProperty("sku") ? (
-                      url.length >= 2 ? (
+            <img
+              src="/assets/vector_icons/arrow_left.svg"
+              alt="Arrow"
+              className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+            />
+          </button>
+
+          {/* SWIPER */}
+          <div className={`flex-1 min-w-0`}>
+            <Swiper
+              cssMode={!isMobile}
+              mousewheel={!isMobile}
+              keyboard={!isMobile}
+              // pagination={paginationConfig}
+              navigation={false}
+              modules={swiperModules}
+              grid={gridConfig}
+              onSwiper={handleSwiperInit}
+              onSlideChange={handleSlideChange}
+              breakpoints={breakPoints}
+              spaceBetween={isMobile ? 8 : 15}
+              className="carouselSwiper h-full"
+              ref={swiperContainerRef}
+            >
+              {products?.length > 0 &&
+                products?.map((item, index) => {
+                  const url = item.url.split("/");
+                  return (
+                    <SwiperSlide key={index}>
+                      {item.hasOwnProperty("sku") ? (
+                        url.length >= 2 ? (
+                          <Link
+                            href={`/details/${item.url}`}
+                            className="no-underline h-full"
+                          >
+                            <ProductCard
+                              item={item}
+                              type={type}
+                              type2={type2}
+                              eid_sale={eid_sale}
+                              section_name={section_name}
+                            />
+                          </Link>
+                        ) : (
+                          <Link
+                            href={`/details/${item.url}/${item.sku}`}
+                            className="no-underline h-full"
+                          >
+                            <ProductCard
+                              item={item}
+                              type={type}
+                              type2={type2}
+                              eid_sale={eid_sale}
+                              section_name={section_name}
+                            />
+                          </Link>
+                        )
+                      ) : (
                         <Link
                           href={`/details/${item.url}`}
                           className="no-underline h-full"
                         >
-                          <ProductCard
-                            item={item}
-                            type={type}
-                            type2={type2}
-                            eid_sale={eid_sale}
-                            section_name={section_name}
-                          />
+                          <ProductCard item={item} eid_sale={eid_sale} />
                         </Link>
-                      ) : (
-                        <Link
-                          href={`/details/${item.url}/${item.sku}`}
-                          className="no-underline h-full"
-                        >
-                          <ProductCard
-                            item={item}
-                            type={type}
-                            type2={type2}
-                            eid_sale={eid_sale}
-                            section_name={section_name}
-                          />
-                        </Link>
-                      )
-                    ) : (
-                      <Link
-                        href={`/details/${item.url}`}
-                        className="no-underline h-full"
-                      >
-                        <ProductCard item={item} eid_sale={eid_sale} />
-                      </Link>
-                    )}
-                  </SwiperSlide>
-                );
-              })}
-          </Swiper>
-        </div>
+                      )}
+                    </SwiperSlide>
+                  );
+                })}
+            </Swiper>
+          </div>
 
-        <button
-          type="button"
-          className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
-          onClick={handleNext}
-          aria-disabled={isEnd}
-          aria-label="Next"
-        >
-         <img
-            src="/assets/vector_icons/arrow_right.svg"
-            alt="Arrow"
-            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+          <button
+            type="button"
+            className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
+            onClick={handleNext}
+            aria-disabled={isEnd}
+            aria-label="Next"
+          >
+            <img
+              src="/assets/vector_icons/arrow_right.svg"
+              alt="Arrow"
+              className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
             />
-        </button>
+          </button>
+        </div>
       </div>
     </div>
   );

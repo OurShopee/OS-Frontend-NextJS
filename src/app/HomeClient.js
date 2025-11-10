@@ -428,6 +428,7 @@ const HomeClient = ({
         {!loading6 && (
           <>
             {home_category_items?.slice(6, 9)?.map((section) => {
+              
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader
