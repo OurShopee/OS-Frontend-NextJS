@@ -95,9 +95,7 @@ export async function fetchProductsForCountry(countryId, backendApi) {
           }
         }
 
-        console.log(
-          `Fetched ${seenSkus.size} unique products so far from category ${category.url}`
-        );
+       
       } catch (error) {
         // Log but continue with other categories
         console.error(

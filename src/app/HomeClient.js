@@ -44,7 +44,6 @@ const HomeClient = ({
   initialCategoryItemsData,
   initialSectionsData,
 }) => {
-  console.log("initialSectionsData", initialSectionsData);
   const router = useRouter();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
@@ -63,7 +62,6 @@ const HomeClient = ({
     initialCategoryItemsData || home_category_itemsFromRedux;
 
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
-  console.log(top_picks);
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
@@ -205,7 +203,6 @@ const HomeClient = ({
     (section) => section.section_id === "74"
   );
 
-  console.log(section238Data);
 
   let mastZoneBgImage = section238Data?.background_image[0].desktopImage;
   let namasteZoneBgImage = section59Data?.background_image[0].desktopImage;
@@ -373,7 +370,6 @@ const HomeClient = ({
         {!loading6 && (
           <>
             {home_category_items?.slice(0, 3)?.map((section) => {
-              console.log("section", section);
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader

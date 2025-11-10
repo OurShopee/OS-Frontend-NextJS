@@ -6,7 +6,6 @@ import { utc } from 'moment';
 
 // Function to get user_id (from cookies)
 export const getUserId = () => {
-  // console.log("inside")
   const cookies = new Cookies();
   const token = cookies.get("jwt_token");
   if(token){
@@ -144,7 +143,5 @@ let eventPayload = {
 };
 
 export const handleSummerCard = (region, data) => {
-// console.log("region", region);
-// console.log("data", data);
   pushToDataLayer("clicked_card_in_section",region ,data);
 };

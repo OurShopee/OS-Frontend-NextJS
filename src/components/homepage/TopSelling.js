@@ -25,7 +25,6 @@ export default function TopSelling({
   section_name,
   topSellingData,
 }) {
-  console.log(topSellingData,"topSellingData");
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
 

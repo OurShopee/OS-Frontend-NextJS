@@ -106,7 +106,6 @@ export default function ContactCard() {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
 

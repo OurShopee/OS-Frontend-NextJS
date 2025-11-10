@@ -502,7 +502,7 @@ const Header = () => {
             />
 
             {/* Marquee content */}
-            {/* <CategorySlider categoryList={categoryList} /> */}
+            <CategorySlider categoryList={categoryList} />
           </div>
           {/* Right blur overlay */}
           <div

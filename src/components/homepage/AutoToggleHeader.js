@@ -8,7 +8,7 @@ export default function AutoToggleHeader({
   section238Data,
   section59Data,
 }) {
-  const [activeTab, setActiveTab] = useState(section238Data?.heading); // 'mast' or 'namaste'
+  const [activeTab, setActiveTab] = useState(section238Data?.heading); 
   const [resetTrigger, setResetTrigger] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const mastRef = useRef(null);
