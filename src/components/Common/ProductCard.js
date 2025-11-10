@@ -278,7 +278,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             onClick={handleAddToCart}
             className="absolute right-3 -bottom-[1rem] z-10 bg-white rounded-2xl p-3  border border-gray-100 active:scale-95 transition"
           >
-            <FaCartPlus className="w-5 h-5" />
+            <img src={"/assets/vector_icons/shopping_cart.svg"} alt={"cart"} className="w-5 h-5" />
           </button>
         )}
         {/* ----------------------------------------------------------------------- */}
