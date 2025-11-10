@@ -99,6 +99,9 @@ function CrossfadeOverlay({ item, render, duration = 500 }) {
 function BrandWeekMobileCard({ item }) {
   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
   const [hasError, setHasError] = useState(false);
+  useEffect(() => {
+    setHasError(false);
+  }, [item?.image]);
   const pct = Math.floor(item?.percentage || 0);
   const fmt = (n) =>
     n === null || n === undefined
@@ -116,7 +119,7 @@ function BrandWeekMobileCard({ item }) {
 
   return (
     <div
-      className="relative w-full max-w-[126px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5"
+      className="relative w-full min-w-[126px] min-h-[130px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5"
       onClick={() => productcard(item?.name)}
     >
       {/* Discount Badge */}
@@ -388,7 +391,7 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
           </div>
         </div>
       )}
-        <div className="flex justify-center items-center mt-3 sm:mt-4">
+        {/* <div className="flex justify-center items-center mt-3 sm:mt-4">
             <button 
               className="text-black px-4 py-2 sm:px-6 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 border-2 border-white"
               style={{
@@ -400,7 +403,7 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
                 <span className="bg-gradient-to-r from-[#FFD700] to-[#FF8C00] bg-clip-text text-transparent text-xs sm:text-sm font-bold">→</span>
               </div>
             </button>
-        </div>
+        </div> */}
     </section>
   );
 }

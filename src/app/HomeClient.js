@@ -410,7 +410,7 @@ const HomeClient = ({
                   <CarouselWithBanner
                     products={section.items}
                     bannerImage={
-                      isMobile ? section?.image_app : section?.image_web
+                      isMobile ? section?.image_app : section?.image_web || section?.image
                     }
                     bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
