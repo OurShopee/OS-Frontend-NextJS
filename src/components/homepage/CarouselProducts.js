@@ -84,7 +84,7 @@ export default function CarouselProducts({
       1300: { slidesPerView: 4 },
       1400: { slidesPerView: 5 },
       1500: { slidesPerView: 5 },
-      1600: { slidesPerView: 6 },
+      1600: { slidesPerView: 5 },
     };
   }, [breakPointsProps, type]);
 

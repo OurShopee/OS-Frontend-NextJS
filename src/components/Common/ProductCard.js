@@ -255,7 +255,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         {/* Wishlist Heart Icon */}
         
           <button
-            className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:shadow-lg transition-shadow z-10"
+            className="absolute top-2 right-2 bg-white rounded-full p-1 transition-shadow z-10"
             onClick={(e) => handleWishList(e, item)}
           >
             {wishListData &&
@@ -264,9 +264,9 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               .map(({ id }) => id)
               .flat()
               .includes(item?.id) ? (
-              <AiFillHeart color="#ff4a4a" size={16} />
+              <AiFillHeart color="#ff4a4a" size={18} />
             ) : (
-              <AiOutlineHeart size={16} color="#000" />
+              <AiOutlineHeart size={18} color="#9c9c9c" />
             )}
           </button>
         
