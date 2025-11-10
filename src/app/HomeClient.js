@@ -45,6 +45,7 @@ const HomeClient = ({
   initialSectionsData,
   initialBrandOfTheWeekData
 }) => {
+
   const router = useRouter();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
@@ -328,7 +329,7 @@ const HomeClient = ({
               path: "items",
             },
           ]}
-          countdownEndDate={new Date("2025-11-15T23:59:59")}
+          countdownEndDate={section238Data?.timer}
         />
         {/* Deals You Might Like Section/RoW */}
         <div className="mt-4">
@@ -410,7 +411,7 @@ const HomeClient = ({
                   <CarouselWithBanner
                     products={section.items}
                     bannerImage={
-                      isMobile ? section?.image_app : section?.image_web
+                      isMobile ? section?.image_app : section?.image_web || section?.image
                     }
                     bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
