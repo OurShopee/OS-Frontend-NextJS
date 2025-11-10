@@ -109,7 +109,7 @@ export default function TopSelling({
     <div className="pt-3.5 px-2 shadow-bg-top-selling max-h-[348px] overflow-hidden">
       <div className="flex items-center justify-between mb-3 px-3.5">
         <div className="flex items-center gap-1.5">
-          <h2 className="text-[26px] font-[800] italic text-black">
+          <h2 className="top-selling-shimmer relative text-[26px] font-[800] italic">
             {topSellingData?.heading}
           </h2>
           {(topSellingData?.icon_image?.[0]?.mobileImage || topSellingData?.icon_image?.[0]?.desktopImage) && 
@@ -312,6 +312,23 @@ export default function TopSelling({
           <IoChevronForward size={22} />
         </button>
       </div>
+      <style jsx>{`
+        .top-selling-shimmer {
+          position: relative;
+          color: transparent;
+          -webkit-text-fill-color: transparent;
+          background: linear-gradient(100deg, #0f0f0f 0%, #838383 40%, #c3c0c0 50%, #838383 60%, #0f0f0f 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: shineText 2.5s linear infinite;
+        }
+
+        @keyframes shineText {
+          0% { background-position: 200% center; }
+          100% { background-position: 0% center; }
+        }
+      `}</style>
     </div>
   );
 }
