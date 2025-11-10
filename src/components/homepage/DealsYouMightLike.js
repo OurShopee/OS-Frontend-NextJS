@@ -11,7 +11,7 @@ export default function DealsYouMightLike({ deals }) {
           <img src={deals?.icon_image} className="w-[24px] h-[34px]" />
         )}
       </h2>
-      <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-1 sm:gap-x-10 sm:gap-y-5">
         {deals?.multiple_image?.map((deal) => (
           <DealCard key={deal.id} deal={deal} />
         ))}
