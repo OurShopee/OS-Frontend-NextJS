@@ -1,0 +1,16 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appID": "CLAGU8CG96.com.ileaftech.OurShopee",
+             "paths": ["/", "/", ""]
+           }
+       ]
+   },
+   "webcredentials": {
+      "apps": [ "CLAGU8CG96.com.ileaftech.OurShopee" ]
+   },
+    "appclips": {
+        "apps": ["CLAGU8CG96.com.ileaftech.OurShopee"]
+    }
+}

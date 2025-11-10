@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getWishLists, postWishList } from "@/redux/cartslice";
@@ -17,6 +17,9 @@ import useCart from "@/hooks/useCart";
 const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const dispatch = useDispatch();
   const [hasError, setHasError] = useState(false);
+  useEffect(() => {
+    setHasError(false);
+  }, [item?.image]);
   const [isHovered, setIsHovered] = useState(false);
   const wishListData = useSelector((state) => state.cartslice.wishListData);
   const formmodal = useSelector((state) => state.globalslice.formmodal);
