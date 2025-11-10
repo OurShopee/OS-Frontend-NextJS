@@ -50,13 +50,15 @@ const HomeClient = ({
   initialSectionPagesData,
   initialCategoryItemsData,
   initialSectionsData,
+  initialBrandOfTheWeekData
 }) => {
-  console.log("initialSectionsData", initialSectionsData);
+  console.log("initialBrandOfTheWeekData", initialBrandOfTheWeekData);
   const router = useRouter();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
   );
   const bannerList = initialBannerListData?.data || bannerListFromRedux;
+  const brandOfTheWeekData = initialBrandOfTheWeekData?.data
   const loadingFromRedux = useSelector((state) => state?.homeslice?.loading);
   const loading = initialBannerListData ? false : loadingFromRedux;
   const loading6FromRedux = useSelector((state) => state?.homeslice?.loading6);
@@ -394,7 +396,7 @@ const HomeClient = ({
           </>
         )}
         {/* Brand of the week */}
-        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
+        <BrandOfTheWeekUpdated products={brandOfTheWeekData} />
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
