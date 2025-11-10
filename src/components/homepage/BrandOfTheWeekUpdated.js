@@ -119,7 +119,7 @@ function BrandWeekMobileCard({ item }) {
 
   return (
     <div
-      className="relative w-full min-w-[126px] min-h-[130px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5"
+      className="relative w-[105px] min-h-[130px] bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5"
       onClick={() => productcard(item?.name)}
     >
       {/* Discount Badge */}
@@ -155,10 +155,10 @@ function BrandWeekMobileCard({ item }) {
           />
         )}
       </div>
-  
+        
       {/* Price Row */}
-      <div className="px-3 pb-3 pt-1 sm:px-4 sm:pb-4 sm:pt-2">
-        <div className="flex items-baseline gap-1 sm:gap-2 flex-wrap">
+      <div className="px-3 pb-3 pt-1 sm:px-4 sm:pb-4 sm:pt-2 whitespace-nowrap">
+        <div className="flex items-baseline gap-1 sm:gap-2 flex-wrap text-nowrap">
           {/* Current Price */}
           <div className="flex items-baseline">
             {currentcountry?.currency === "AED" ? (
