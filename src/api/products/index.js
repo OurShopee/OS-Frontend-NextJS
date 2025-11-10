@@ -342,3 +342,20 @@ export async function getSectionsApiServer(sectionIds, req = null) {
     return null;
   }
 }
+export async function getBrandOfTheWeekApiServer(req = null) {
+  try {
+    const query = `api/get-elk-data`;
+
+    if (req) {
+      const axiosInstance = createAxiosInstance(req);
+      const response = await axiosInstance.get(query);
+      return response?.data;
+    } else {
+      const response = await axios.get(query);
+      return response?.data;
+    }
+  } catch (error) {
+    console.error("Error fetching brand of the week:", error);
+    return null;
+  }
+}

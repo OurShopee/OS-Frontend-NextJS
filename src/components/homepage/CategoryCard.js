@@ -12,7 +12,7 @@ export default function CategoryCard({
 const {isMobile }= MediaQueries()
   return (
     <div
-      className={`${bgColor} rounded-xl overflow-hidden cursor-pointer h-[132px]`}
+      className={`flex justify-center items-center rounded-xl overflow-hidden cursor-pointer h-[132px]`}
     >
       <img
         src={isMobile ? mobileImage : desktopImage}
