@@ -196,7 +196,6 @@ export default function HomeCategories({ category_list, no_bg, type }) {
           setIsEnd(true);
         }}
         onFromEdge={() => {
-          console.log("From edge");
           if (sliderRef1.current) {
             const swiper = sliderRef1.current.swiper;
             setIsBeginning(swiper.isBeginning);

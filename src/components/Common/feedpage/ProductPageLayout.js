@@ -204,14 +204,7 @@ const ProductPageLayout = ({
   // --- ProductForm Effects ---
   // OTP verification success handler
   useEffect(() => {
-    console.log(
-      "Redux effect triggered - registerapicall:",
-      registerapicall,
-      "pendingFormData:",
-      pendingFormData,
-      "optmodalopen:",
-      optmodalopen
-    );
+
     if (registerapicall && pendingFormData && !optmodalopen) {
       const submitForm = async () => {
         try {
@@ -521,7 +514,6 @@ const ProductPageLayout = ({
       productid: product?.id,
     };
 
-    console.log("Setting pendingFormData:", apiData);
     setPendingFormData(apiData);
 
     try {
@@ -555,17 +547,13 @@ const ProductPageLayout = ({
 
   // Function to submit form after OTP verification
   const submitFormAfterOTP = async () => {
-    console.log("submitFormAfterOTP called with data:", pendingFormData);
     if (!pendingFormData) {
-      console.log("No pending form data, returning early");
       return;
     }
 
     setIsSubmitting(true);
     try {
-      console.log("Calling addFeed API...");
       const result = await addFeed(pendingFormData);
-      console.log("addFeed API response:", result);
 
       if (result.data.status === "success") {
         setSubmissionStatus({

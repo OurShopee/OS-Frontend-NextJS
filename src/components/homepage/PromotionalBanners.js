@@ -3,7 +3,6 @@
 import { MediaQueries } from "../utils";
 
 export default function PromotionalBanners({ sectionBanners }) {
-  console.log(sectionBanners, "sectionBanners");
   const { isMobile, isTablet, isLaptop } = MediaQueries();
   const banners = [
     {

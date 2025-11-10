@@ -1,33 +1,13 @@
 "use client";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import React, { useEffect, useRef, useState } from "react";
-import Countdown, { zeroPad } from "react-countdown";
-import { toZonedTime } from "date-fns-tz";
-import { MdTimer } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ComponentHeader } from "@/components/Common";
 import { HomeBannerPlaceholder } from "@/components/Common/Placeholders";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { toZonedTime } from "date-fns-tz";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import SeoMeta from "../components/Common/SeoMeta";
-import {
-  CarouselProducts,
-  CarouselWithBanner,
-  HomeCarousel,
-  HomeCategories,
-  HomeMobileCarousel,
-} from "@/components/homepage";
-import BestDeals from "@/components/homepage/BestDeals";
-import BrandOfTheWeekUpdated from "@/components/homepage/BrandOfTheWeekUpdated";
-import DynamicBanners from "@/components/homepage/DynamicBanners";
-import { MediaQueries } from "@/components/utils";
-import { pushToDataLayer } from "@/components/utils/dataUserpush";
-import { getcategory_items } from "@/redux/homeslice";
-import Tabs from "@/components/Common/Tabs";
-import { duration } from "moment";
-import Marquee from "react-fast-marquee";
-import { getImagesByKey } from "@/components/utils/getImagesByKey";
 import {
   bundle_clearance_sale,
   clearance_saleApi,
@@ -37,12 +17,25 @@ import {
   getSectionPagesApi,
   getTopSellingApi,
 } from "@/api/products";
-import MastZone from "@/components/homepage/MastZone";
-import TopSelling from "@/components/homepage/TopSelling";
-import PromotionalBanners from "@/components/homepage/PromotionalBanners";
+import Tabs from "@/components/Common/Tabs";
+import {
+  CarouselWithBanner,
+  HomeCarousel,
+  HomeCategories,
+  HomeMobileCarousel
+} from "@/components/homepage";
+import BrandOfTheWeekUpdated from "@/components/homepage/BrandOfTheWeekUpdated";
 import DealsYouMightLike from "@/components/homepage/DealsYouMightLike";
+import DynamicBanners from "@/components/homepage/DynamicBanners";
 import LimitedTimeDeals from "@/components/homepage/LimitedTimeDeals";
+import MastZone from "@/components/homepage/MastZone";
 import ProductBanners from "@/components/homepage/ProductBanners";
+import PromotionalBanners from "@/components/homepage/PromotionalBanners";
+import TopSelling from "@/components/homepage/TopSelling";
+import { MediaQueries } from "@/components/utils";
+import { pushToDataLayer } from "@/components/utils/dataUserpush";
+import { getImagesByKey } from "@/components/utils/getImagesByKey";
+import { getcategory_items } from "@/redux/homeslice";
 
 const HomeClient = ({
   initialNavigationData,
@@ -51,7 +44,6 @@ const HomeClient = ({
   initialCategoryItemsData,
   initialSectionsData,
 }) => {
-  console.log("initialSectionsData", initialSectionsData);
   const router = useRouter();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
@@ -70,7 +62,6 @@ const HomeClient = ({
     initialCategoryItemsData || home_category_itemsFromRedux;
 
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
-  console.log(top_picks);
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
@@ -212,6 +203,10 @@ const HomeClient = ({
     (section) => section.section_id === "74"
   );
 
+
+  let mastZoneBgImage = section238Data?.background_image[0].desktopImage;
+  let namasteZoneBgImage = section59Data?.background_image[0].desktopImage;
+
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
       {/* <SeoMeta
@@ -243,7 +238,12 @@ const HomeClient = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] md:max-h-[360px] md:overflow-hidden my-6">
           {/* Left Section - Mast Zone */}
           <div className="">
-            <MastZone section238Data={section238Data} section59Data={section59Data} />
+            <MastZone
+              section238Data={section238Data}
+              section59Data={section59Data}
+              mastZoneBgImage={mastZoneBgImage}
+              namasteZoneBgImage={namasteZoneBgImage}
+            />
           </div>
 
           {/* Middle Section - Top Selling */}
@@ -370,7 +370,6 @@ const HomeClient = ({
         {!loading6 && (
           <>
             {home_category_items?.slice(0, 3)?.map((section) => {
-              console.log("section", section);
               return (
                 <div className="component_1 my-4" key={section.url}>
                   <ComponentHeader
