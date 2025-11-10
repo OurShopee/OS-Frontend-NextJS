@@ -85,9 +85,9 @@ export default function TopSelling({
   const breakPoints = useMemo(() => {
     if (breakPointsProps) return breakPointsProps;
     return {
-      200: { slidesPerView: 2 },
-      375: { slidesPerView: isMobile ? 2 : 1 },
-      425: { slidesPerView: isMobile ? 2 : 1 },
+      200: { slidesPerView: 1.5 },
+      375: { slidesPerView: isMobile ? 1.5 : 1 },
+      435: { slidesPerView: isMobile ? 2 : 1 },
       760: { slidesPerView: isMobile ? 2 : 1 },
       1000: { slidesPerView: 1 },
       1200: { slidesPerView: 2 },

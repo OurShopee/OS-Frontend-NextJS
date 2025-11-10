@@ -71,8 +71,8 @@ export default function CarouselProducts({
     if (breakPointsProps) return breakPointsProps;
     return {
       200: { slidesPerView: 1.3 },
-      375: { slidesPerView: 2 },
-      425: { slidesPerView: 2 },
+      375: { slidesPerView: 1.5 },
+      435: { slidesPerView: 2 },
       525: { slidesPerView: 2 },
       600: { slidesPerView: 2 },
       700: { slidesPerView: 2 },

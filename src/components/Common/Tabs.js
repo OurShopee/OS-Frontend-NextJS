@@ -3,9 +3,11 @@ import "swiper/css";
 import { CarouselWithBanner } from "@/components/homepage";
 import { CarouselProducts as CarouselProductsplaceholder } from "@/components/placeholders";
 import CountdownTimer from "../homepage/CountdownTimer";
+import { MediaQueries } from "../utils";
 
 const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
   // Single source of truth for all tab data
+  const { isMobile } = MediaQueries();
   const [tabsState, setTabsState] = useState({});
   const [activeTab, setActiveTab] = useState(tabs[0]?.title || "");
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
@@ -248,7 +250,7 @@ const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
         </div>
 
         {/* CountdownTimer - sticky on the right */}
-        {countdownEndDate && (
+        {!isMobile && countdownEndDate && (
           <div className="flex-shrink-0">
             <CountdownTimer
               endZoned={countdownEndDate}
