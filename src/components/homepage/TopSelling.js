@@ -318,7 +318,7 @@ export default function TopSelling({
           position: relative;
           color: transparent;
           -webkit-text-fill-color: transparent;
-          background: linear-gradient(100deg, #0f0f0f 0%, #8c70ff 40%, #ffffff 50%, #8c70ff 60%, #0f0f0f 100%);
+          background: linear-gradient(100deg, #0f0f0f 0%, #838383 40%, #c3c0c0 50%, #838383 60%, #0f0f0f 100%);
           background-size: 200% auto;
           -webkit-background-clip: text;
           background-clip: text;
