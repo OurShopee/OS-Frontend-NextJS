@@ -145,7 +145,7 @@ export default function AutoToggleHeader({
         <button
           ref={mastRef}
           onClick={handleMastClick}
-          className={`relative z-10 py-[5px] pl-3 pr-7 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+          className={`relative z-10 py-[5px] pl-3 pr-7 rounded-full font-medium transition-all duration-300 cursor-pointer ${
             activeTab === section238Data?.heading
               ? "text-white font-semibold"
               : "text-gray-300"
@@ -153,8 +153,8 @@ export default function AutoToggleHeader({
         >
           {section238Data?.heading}
           {activeTab === section238Data?.heading && (
-            <div className="absolute right-1 top-0 w-4 h-4 rounded-full flex items-center justify-center">
-              <span className="text-[10px]">
+            <div className="absolute right-1 top-0 w-6 h-6 rounded-full flex items-center justify-center">
+              <span className="text-[12px]">
                 <img src={section238Data?.icon_image[0]?.desktopImage} />
               </span>
             </div>
@@ -165,15 +165,15 @@ export default function AutoToggleHeader({
         <button
           ref={namasteRef}
           onClick={handleNamasteClick}
-          className={`relative z-10 py-1 pl-3 pr-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
+          className={`relative z-10 py-1 pl-3 pr-3 rounded-full font-medium transition-all duration-300 flex items-center gap-1 cursor-pointer ${
             activeTab === section59Data?.heading
-              ? "text-white"
+              ? "text-white font-semibold"
               : "text-gray-400"
           }`}
         >
           {activeTab === section59Data?.heading && (
-            <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
-              <span className="text-[10px] overflow-hidden">
+            <div className="w-6 h-6 rounded-full flex items-center justify-center">
+              <span className="text-[12px] overflow-hidden">
                 <img src={section59Data?.icon_image[0]?.desktopImage} className="rounded-full" />
               </span>
             </div>
