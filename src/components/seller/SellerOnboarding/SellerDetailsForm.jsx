@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRef, useEffect } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import IntlTelInput from "react-intl-tel-input";
 import "react-intl-tel-input/dist/main.css";
 import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
@@ -12,9 +14,17 @@ const docFields = [
   { label: "Bank Account Documents / IBAN Letter", name: "bank_details" },
 ];
 
+
+const countryList = ["UAE", "Saudi", "Qatar", "Bahrain", "Kuwait"];
+
 const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [expanded, setExpanded] = useState({});
+  const dropdownRef = useRef(null);
+
 
   const handleFileChange = (name, newFiles) => {
     const maxFiles = 5;
@@ -186,6 +196,27 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
     }
   };
 
+  const handleSelectCountry = (country) => {
+  setSelectedCountries((prev) =>
+    prev.includes(country)
+      ? prev.filter((c) => c !== country)
+      : [...prev, country]
+  );
+};
+
+
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
+
+
   return (
     <form className="space-y-3" onSubmit={handleSubmit}>
       <h2 className="font-bold text-3xl">Sign up</h2>
@@ -246,7 +277,7 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
       {/* Email Field */}
       <div>
         <label className="font-bold">
-          Email <span className="text-red-500">*</span>
+          Email Address <span className="text-red-500">*</span>
         </label>
         <input
           className="block border rounded-[4px] px-4 py-2 w-full mt-2 input-focus"
@@ -264,7 +295,154 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
         {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
 
-      <div className="">
+    <div className="mt-6" ref={dropdownRef}>
+      <label className="font-bold">
+        Select Country <span className="text-red-500">*</span>
+      </label>
+
+      <div className="relative mt-2">
+        <button
+          type="button"
+          onClick={() => setDropdownOpen((o) => !o)}
+          className="w-full flex justify-between items-center border border-gray-300 rounded-[4px] px-4 py-2 bg-white input-focus"
+        >
+          <span className="text-gray-700">
+            {selectedCountries.length
+              ? selectedCountries.join(", ")
+              : "Select country"}
+          </span>
+          {dropdownOpen ? (
+            <ChevronUp className="w-5 h-5 text-gray-600" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          )}
+        </button>
+
+        {dropdownOpen && (
+          <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-md max-h-56 overflow-auto">
+            {countryList.map((country) => (
+              <div
+                key={country}
+                className={`px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center gap-2 ${
+                  selectedCountries.includes(country) ? "bg-[#F7F5FF]" : ""
+                }`}
+                onClick={() => handleSelectCountry(country)}
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedCountries.includes(country)}
+                  readOnly
+                />
+                <span>{country}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 space-y-4">
+        {selectedCountries.map((country) => (
+          <div
+            key={country}
+            className="border border-[#E9E6FF] rounded-lg overflow-hidden"
+          >
+            <button
+              type="button"
+              onClick={() =>
+                setExpanded((prev) => ({
+                  ...prev,
+                  [country]: !prev[country],
+                }))
+              }
+              className="w-full flex justify-between items-center bg-[#F7F5FF] text-[#4C2EB8] font-semibold px-4 py-3"
+            >
+              <span>{country}</span>
+              {expanded[country] ? (
+                <ChevronUp className="w-5 h-5" />
+              ) : (
+                <ChevronDown className="w-5 h-5" />
+              )}
+            </button>
+
+            {expanded[country] && (
+              <div className="bg-white p-5 space-y-5 border-t border-[#E9E6FF]">
+                {docFields.map((doc) => {
+                  const inputName = `${country}_${doc.name}`;
+                  const fileList = formData[inputName];
+                  const filesArray = fileList ? Array.from(fileList) : [];
+                  const fileNames = filesArray.map((f) => f.name).join(", ");
+
+                  return (
+                    <div key={inputName}>
+                      <label className="block font-semibold mb-1 text-gray-800">
+                        {doc.label}{" "}
+                        <span className="font-medium text-gray-400">(Optional)</span>
+                      </label>
+
+                      <div className="flex items-center h-12 w-full rounded-[4px] overflow-hidden border border-[#E5E5E5]">
+                        <input
+                          id={`file-upload-${inputName}`}
+                          type="file"
+                          multiple
+                          className="hidden"
+                          accept="application/pdf,image/jpeg,image/png"
+                          onChange={(e) =>
+                            handleFileChange(inputName, e.target.files)
+                          }
+                        />
+
+                        <div
+                          className="flex-1 text-gray-600 px-4 h-full flex items-center text-base cursor-pointer bg-white whitespace-nowrap overflow-hidden text-ellipsis"
+                          title={
+                            fileNames.length
+                              ? fileNames
+                              : "Browse file to upload"
+                          }
+                          onClick={() =>
+                            document
+                              .getElementById(`file-upload-${inputName}`)
+                              .click()
+                          }
+                        >
+                          {fileNames.length
+                            ? fileNames
+                            : "Browse file to upload"}
+                        </div>
+
+                        <label
+                          htmlFor={`file-upload-${inputName}`}
+                          className="bg-gradient-to-b from-[#8E6FFD] to-[#4C2EB8] text-white font-medium text-base h-full px-5 flex items-center cursor-pointer transition-colors"
+                          style={{
+                            borderTopRightRadius: "0.5rem",
+                            borderBottomRightRadius: "0.5rem",
+                          }}
+                        >
+                          <img
+                            src="/assets/seller/attach_file.png"
+                            alt=""
+                            className="w-2.5 h-3.5 mr-2"
+                          />
+                          Choose file
+                        </label>
+                      </div>
+
+                      {errors[inputName] && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors[inputName]}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+
+      {/* <div className="">
         <h3 className="font-bold text-lg sm:text-[22px] mt-6 mb-0">
           Upload Documents
         </h3>
@@ -272,9 +450,9 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
           Accepted formats: PDF, JPG, PNG | Max size: 10MB
         </p>
         <hr className="mt-1 text-mygray" />
-      </div>
+      </div> */}
 
-      <div className="space-y-4">
+      {/* <div className="space-y-4">
         {docFields.map((doc) => {
           const fileList = formData[doc.name];
           const filesArray = fileList ? Array.from(fileList) : [];
@@ -331,7 +509,7 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
       <DoubleGradientButton
         title={isLoading ? "Sending OTP..." : "Next"}
