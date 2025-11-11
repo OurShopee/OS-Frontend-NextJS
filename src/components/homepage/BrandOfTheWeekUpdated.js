@@ -168,11 +168,11 @@ function BrandWeekMobileCard({ item }) {
                 className="w-3 h-3 sm:w-4 sm:h-4 inline-block mix-blend-multiply"
               />
             ) : (
-              <span className="text-black text-lg sm:text-xl font-bold leading-none">
+              <span className="text-black text-sm sm:text-xl font-bold leading-none mr-1">
                 {currentcountry?.currency}
               </span>
             )}
-            <span className="text-black text-lg sm:text-xl font-bold leading-none">
+            <span className="text-black text-sm sm:text-xl font-bold leading-none">
               {fmt(currentPrice)}
             </span>
           </div>
