@@ -319,10 +319,7 @@ export const get_relatedItems = async (input_data) => {
 };
 
 // Fetch sections by section IDs (comma-separated)
-export const getSectionsApi = async (sectionIds) => {
-  const response = await axios.get(`api/sections?section_ids=${sectionIds}`);
-  return response;
-};
+
 
 // Server-side function to fetch sections by section IDs
 export async function getSectionsApiServer(sectionIds, req = null) {
@@ -359,3 +356,54 @@ export async function getBrandOfTheWeekApiServer(req = null) {
     return null;
   }
 }
+
+// Fetch sections by section IDs (comma-separated)
+export const getSectionsApi = async (sectionIds) => {
+  const response = await axios.get(`api/sections?section_ids=${sectionIds}`);
+  return response;
+};
+
+// Server-side function to fetch sections by section IDs
+// export async function getSectionsApiServer(sectionIds, req = null) {
+//   try {
+//     const query = `api/sections?section_ids=${sectionIds}`;
+
+//     if (req) {
+//       const axiosInstance = createAxiosInstance(req);
+//       const response = await axiosInstance.get(query);
+//       return response?.data?.data;
+//     } else {
+//       const response = await axios.get(query);
+//       return response?.data?.data;
+//     }
+//   } catch (error) {
+//     console.error("Error fetching sections:", error);
+//     return null;
+//   }
+// }
+// export async function getBrandOfTheWeekApiServer(req = null) {
+//   try {
+//     const query = `api/get-elk-data`;
+
+//     if (req) {
+//       const axiosInstance = createAxiosInstance(req);
+//       const response = await axiosInstance.get(query);
+//       return response?.data;
+//     } else {
+//       const response = await axios.get(query);
+//       return response?.data;
+//     }
+//   } catch (error) {
+//     console.error("Error fetching brand of the week:", error);
+//     return null;
+//   }
+// }
+
+export const getAllAreasByEmirateId = async (input_data) => {
+  const response = await axios.get(`/api/get-areas?emirateid=${input_data}`);
+  return response;
+};
+export const getAllCategoryList = async () => {
+  const response = await axios.get(`/api/categories`);
+  return response;
+};
