@@ -333,7 +333,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               </span>
             )}
             <span className="text-[#191B1C] text-xl font-semibold">
-              {item?.display_price || item?.special_price || item?.price}
+              {Math.floor(item?.display_price || item?.special_price || item?.price)}
             </span>
           </div>
           {/* Old Price and Discount Percentage */}

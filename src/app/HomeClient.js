@@ -22,7 +22,7 @@ import {
   CarouselWithBanner,
   HomeCarousel,
   HomeCategories,
-  HomeMobileCarousel
+  HomeMobileCarousel,
 } from "@/components/homepage";
 import BrandOfTheWeekUpdated from "@/components/homepage/BrandOfTheWeekUpdated";
 import DealsYouMightLike from "@/components/homepage/DealsYouMightLike";
@@ -43,15 +43,14 @@ const HomeClient = ({
   initialSectionPagesData,
   initialCategoryItemsData,
   initialSectionsData,
-  initialBrandOfTheWeekData
+  initialBrandOfTheWeekData,
 }) => {
-
   const router = useRouter();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
   );
   const bannerList = initialBannerListData?.data || bannerListFromRedux;
-  const brandOfTheWeekData = initialBrandOfTheWeekData?.data
+  const brandOfTheWeekData = initialBrandOfTheWeekData?.data;
   const loadingFromRedux = useSelector((state) => state?.homeslice?.loading);
   const loading = initialBannerListData ? false : loadingFromRedux;
   const loading6FromRedux = useSelector((state) => state?.homeslice?.loading6);
@@ -82,7 +81,7 @@ const HomeClient = ({
   const [sectionId, setSectionId] = useState([]);
   const [saverId, setSaverId] = useState();
   const [sectionBanners, setSectionBanners] = useState({});
-  
+
   const timeZoneMap = {
     AE: "Asia/Dubai",
     OM: "Asia/Muscat",
@@ -189,23 +188,30 @@ const HomeClient = ({
   const categoriesToShow = isMobile
     ? (categoryList || [])?.slice(0, 6)
     : (categoryList || [])?.slice(0, 9);
-  
-  const dealsYouMightLikeData = initialSectionsData?.data?.other_section?.find(
-    (section) => section.section_id === "253"
-  );
-  const limitedTimeDealsData = initialSectionsData?.data?.other_section?.find(
-    (section) => section.section_id === "248"
-  );
-  const section238Data = initialSectionsData?.data?.other_section?.find(
-    (section) => section.section_id === "243"
-  );
-  const section59Data = initialSectionsData?.data?.other_section?.find(
-    (section) => section.section_id === "259"
-  );
-  const topSellingData = initialSectionsData?.data?.other_section?.find(
-    (section) => section.section_id === "74"
-  );
 
+  const dealsByCountry = currentcountry?.dealsByCountry;
+
+  const getSectionData = (label) => {
+    const sectionId = dealsByCountry?.[label];
+
+    return initialSectionsData?.data?.other_section?.find((section) => {
+      if (sectionId) {
+        return String(section.section_id) === String(sectionId);
+      }
+
+      return (
+        section?.heading === label ||
+        section?.title === label ||
+        section?.name === label
+      );
+    });
+  };
+
+  const dealsYouMightLikeData = getSectionData("Deals You Might Like");
+  const limitedTimeDealsData = getSectionData("Limited Time Deals");
+  const section238Data = getSectionData("Mast Zone");
+  const section59Data = getSectionData("Namaste Deals");
+  const topSellingData = getSectionData("Top Selling");
 
   let mastZoneBgImage = section238Data?.background_image[0].desktopImage;
   let namasteZoneBgImage = section59Data?.background_image[0].desktopImage;
@@ -411,7 +417,9 @@ const HomeClient = ({
                   <CarouselWithBanner
                     products={section.items}
                     bannerImage={
-                      isMobile ? section?.image_app : section?.image_web || section?.image
+                      isMobile
+                        ? section?.image_app
+                        : section?.image_web || section?.image
                     }
                     bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
@@ -428,7 +436,6 @@ const HomeClient = ({
         {!loading6 && (
           <>
             {home_category_items?.slice(6, 9)?.map((section) => {
-              
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader
