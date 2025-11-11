@@ -699,6 +699,14 @@ const countriesData = [
     fb_link: "https://www.facebook.com/profile.php?id=61582502091896#",
     insta_link:
       "https://www.instagram.com/ourshopee_ksa?igsh=MWlucnh6d3RxcGd5&utm_source=qr",
+    dealsByCountry: {
+        "Weekly Deals": 271,
+        "Mast Zone": 269,
+        "Limited Time Deals": 267,
+        "Deals You Might Like": 258,
+        "Namaste Deals": 270,
+        "Top Selling": 96
+      },
     nav_items: [
       {
         id: 11,
