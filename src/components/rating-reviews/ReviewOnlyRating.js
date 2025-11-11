@@ -71,7 +71,6 @@ const ReviewOnlyRating = () => {
     setReviewImages(updatedData.reviewImages);
 
     // Here you can also call your API to update the review
-    console.log("Updating review:", updatedData);
 
     // Optionally show a success message
     alert("Review updated successfully!");
@@ -212,7 +211,6 @@ const ReviewOnlyRating = () => {
   };
 
   const logFormData = (formData) => {
-    console.log("=== FORM SUBMISSION DATA ===");
 
     for (let [key, value] of formData.entries()) {
       if (value instanceof File) {

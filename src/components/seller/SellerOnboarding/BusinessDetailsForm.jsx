@@ -2,7 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { MultiSelect } from "react-multi-select-component";
 import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
-import { getAllAreasByEmirateId, getAllCategoryList, getLocationsApi } from "@/api/products";
+import { getLocationsApi } from "@/api/others";
+import { getAllAreasByEmirateId, getAllCategoryList } from "@/api/products";
 
 const BusinessDetailsForm = ({ formData, setFormData, onBack, onNext }) => {
   const [selectedLocations, setSelectedLocations] = useState([]);
@@ -151,25 +152,6 @@ const BusinessDetailsForm = ({ formData, setFormData, onBack, onNext }) => {
 
   const selectedAreaValues = selectedAreas.map((item) => item.value);
 
-  // const makeDummyApiCall = async (selectedLocationIds) => {
-  //   try {
-  //     const locationIdsString = selectedLocationIds.join(",");
-  //     const response = await new Promise((resolve) => {
-  //       setTimeout(() => {
-  //         resolve({
-  //           status: "success",
-  //           data: {
-  //             message: "Locations processed successfully",
-  //             locationIds: locationIdsString,
-  //           },
-  //         });
-  //       }, 1000);
-  //     });
-  //     console.log("Dummy API response:", response);
-  //   } catch (error) {
-  //     console.error("Dummy API call failed:", error);
-  //   }
-  // };
 
   const getAreas = async (selectedLocationIds) => {
     try {

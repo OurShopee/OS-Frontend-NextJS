@@ -131,7 +131,6 @@ const Search = () => {
   }, [searchQuery]);
 
   const handlenavigate = (item) => {
-    console.log("clicked_item", item);
     if (item?.url) {
       if (item.type === "detail") {
         router.push(`/details/${item.url}`);

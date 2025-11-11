@@ -308,7 +308,7 @@ function MobileAddressModal() {
                         setIsFocused(false);
                       }}
                     >
-                      <img src="/assets/vector_icons/arrow_left.png" />
+                      <img src="/assets/vector_icons/arrow_left.svg" />
                     </div>
 
                     <div className="flex w-full items-center">

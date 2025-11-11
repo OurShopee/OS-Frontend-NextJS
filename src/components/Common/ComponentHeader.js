@@ -1,8 +1,7 @@
-import React from "react";
-import { BsArrowRight } from "react-icons/bs";
 import Link from "next/link";
 import { useContent } from "@/hooks";
 import { useCurrentLanguage } from "@/hooks";
+import { IoChevronForward } from "react-icons/io5";
 
 const ComponentHeader = ({
   url,
@@ -21,10 +20,15 @@ const ComponentHeader = ({
         <h4>{title}</h4>
       </div>
       {url != undefined && (
-        <Link href={url} className="no-underline view_all">
-          <div className="link whitespace-nowrap">{viewAllText}</div>
-          <div className={`link_icon ${currentLanguage === "ar" ? "rotate-180" : ""}`}>
-            <BsArrowRight color="#43494B" size={20} />
+        <Link
+          href={url}
+          className="no-underline view_all border-none shadow-none bg-transparent flex items-center gap-1"
+        >
+          <div className="link whitespace-nowrap mr-0 font-semibold text-base sm:text-xl text-[#191B1C]">
+            {viewAllText}
+          </div>
+          <div className="link_icon sm:mt-0.5 items-center flex">
+            <IoChevronForward color="#43494B" size={16} />
           </div>
         </Link>
       )}

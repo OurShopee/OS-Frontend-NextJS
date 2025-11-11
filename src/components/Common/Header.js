@@ -128,7 +128,7 @@ const Header = () => {
   };
 
   return (
-    <>
+    <div>
       {!isBigScreen && isToolTip && (
         <div className="mainheader">
           <ToolTip
@@ -395,7 +395,7 @@ const Header = () => {
         {isBigScreen ? <Modal /> : <Mobileforms />}
       </div>
       {isBigScreen && pathname === "/" && (
-        <div className="container flex items-center mx-auto overflow-x-hidden relative">
+        <div className="flex container items-center mx-auto overflow-x-hidden relative">
           {filteredItems?.length > 0 && (
             <NavLink to={filteredItems?.[0]?.url}>
               <div
@@ -527,7 +527,7 @@ const Header = () => {
           {/* Right blur overlay */}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

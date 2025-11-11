@@ -1,32 +1,13 @@
 "use client";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import React, { useEffect, useRef, useState } from "react";
-import Countdown, { zeroPad } from "react-countdown";
-import { toZonedTime } from "date-fns-tz";
-import { MdTimer } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ComponentHeader } from "@/components/Common";
 import { HomeBannerPlaceholder } from "@/components/Common/Placeholders";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { toZonedTime } from "date-fns-tz";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import SeoMeta from "../components/Common/SeoMeta";
-import {
-  CarouselProducts,
-  HomeCarousel,
-  HomeCategories,
-  HomeMobileCarousel,
-} from "@/components/homepage";
-import BestDeals from "@/components/homepage/BestDeals";
-import BrandOfTheWeekUpdated from "@/components/homepage/BrandOfTheWeekUpdated";
-import DynamicBanners from "@/components/homepage/DynamicBanners";
-import { MediaQueries } from "@/components/utils";
-import { pushToDataLayer } from "@/components/utils/dataUserpush";
-import { getcategory_items } from "@/redux/homeslice";
-import Tabs from "@/components/Common/Tabs";
-import { duration } from "moment";
-import Marquee from "react-fast-marquee";
-import { getImagesByKey } from "@/components/utils/getImagesByKey";
 import {
   bundle_clearance_sale,
   clearance_saleApi,
@@ -37,12 +18,33 @@ import {
   getTopSellingApi,
 } from "@/api/products";
 import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
+import Tabs from "@/components/Common/Tabs";
+import {
+  CarouselWithBanner,
+  HomeCarousel,
+  HomeCategories,
+  HomeMobileCarousel,
+} from "@/components/homepage";
+import BrandOfTheWeekUpdated from "@/components/homepage/BrandOfTheWeekUpdated";
+import DealsYouMightLike from "@/components/homepage/DealsYouMightLike";
+import DynamicBanners from "@/components/homepage/DynamicBanners";
+import LimitedTimeDeals from "@/components/homepage/LimitedTimeDeals";
+import MastZone from "@/components/homepage/MastZone";
+import ProductBanners from "@/components/homepage/ProductBanners";
+import PromotionalBanners from "@/components/homepage/PromotionalBanners";
+import TopSelling from "@/components/homepage/TopSelling";
+import { MediaQueries } from "@/components/utils";
+import { pushToDataLayer } from "@/components/utils/dataUserpush";
+import { getImagesByKey } from "@/components/utils/getImagesByKey";
+import { getcategory_items } from "@/redux/homeslice";
 
 const HomeClient = ({
   initialNavigationData,
   initialBannerListData,
   initialSectionPagesData,
   initialCategoryItemsData,
+  initialSectionsData,
+  initialBrandOfTheWeekData,
 }) => {
   const router = useRouter();
   const currentLanguage = useCurrentLanguage();
@@ -50,6 +52,7 @@ const HomeClient = ({
     (state) => state?.homeslice?.bannerList
   );
   const bannerList = initialBannerListData?.data || bannerListFromRedux;
+  const brandOfTheWeekData = initialBrandOfTheWeekData?.data;
   const loadingFromRedux = useSelector((state) => state?.homeslice?.loading);
   const loading = initialBannerListData ? false : loadingFromRedux;
   const loading6FromRedux = useSelector((state) => state?.homeslice?.loading6);
@@ -201,6 +204,33 @@ const HomeClient = ({
     ? (categoryList || [])?.slice(0, 6)
     : (categoryList || [])?.slice(0, 9);
 
+  const dealsByCountry = currentcountry?.dealsByCountry;
+
+  const getSectionData = (label) => {
+    const sectionId = dealsByCountry?.[label];
+
+    return initialSectionsData?.data?.other_section?.find((section) => {
+      if (sectionId) {
+        return String(section.section_id) === String(sectionId);
+      }
+
+      return (
+        section?.heading === label ||
+        section?.title === label ||
+        section?.name === label
+      );
+    });
+  };
+
+  const dealsYouMightLikeData = getSectionData("Deals You Might Like");
+  const limitedTimeDealsData = getSectionData("Limited Time Deals");
+  const section238Data = getSectionData("Mast Zone");
+  const section59Data = getSectionData("Namaste Deals");
+  const topSellingData = getSectionData("Top Selling");
+
+  let mastZoneBgImage = section238Data?.background_image[0].desktopImage;
+  let namasteZoneBgImage = section59Data?.background_image[0].desktopImage;
+
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
       {/* <SeoMeta
@@ -228,270 +258,47 @@ const HomeClient = ({
 
       <div className="w-full px-4">
         {isMobile && <HomeCategories category_list={categoryList} type={1} />}
-
-        {/* Tabs with Sale Ends in Section */}
-        <div className="flex h-full flex-col lg:flex-row pt-2">
-          {/* Tabs Component - 3/5 Width */}
-          <div className="w-full h-full lg:w-3/5 pr-3" ref={leftColRef}>
-            <Tabs
-              tabs={[
-                {
-                  title: topSelling,
-                  endpoint: getTopSellingApi,
-                  path: "",
-                },
-                {
-                  title: saverZone,
-                  endpoint: () => getSaverZoneProducts(saverId),
-                  path: "",
-                },
-                {
-                  title: clearanceDeals,
-                  endpoint: clearance_saleApi,
-                  path: "items",
-                },
-              ]}
-              breakPointsProps={{
-                200: { slidesPerView: 1.3 },
-                375: { slidesPerView: 2 },
-                425: { slidesPerView: 2 },
-                700: { slidesPerView: 3 },
-                1000: { slidesPerView: 3 },
-                1200: { slidesPerView: 4 },
-                1400: { slidesPerView: 4 },
-                1600: { slidesPerView: 5 },
-              }}
+        {/* Mast Zone, Top Selling, Promotional Banners Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] md:max-h-[360px] md:overflow-hidden my-6">
+          {/* Left Section - Mast Zone */}
+          <div className="">
+            <MastZone
+              section238Data={section238Data}
+              section59Data={section59Data}
+              mastZoneBgImage={mastZoneBgImage}
+              namasteZoneBgImage={namasteZoneBgImage}
             />
           </div>
 
-          {/* Sale Ends In Section - 2/5 Width */}
-          <div
-            className="w-full lg:w-2/5"
-            style={!isMobile && !isTablet ? { height: leftHeight } : {}}
-          >
-            <div
-              className={`bg-white rounded-3xl pt-4 h-full flex flex-col overflow-hidden ${
-                isInWindow ? "gap-5" : ""
-              }`}
-            >
-              {/* Header */}
-              <div
-                className={`flex justify-between items-center flex-shrink-0 ${
-                  isInWindow ? "lg:min-h-[45px]" : "lg:min-h-[65px]"
-                }`}
-              >
-                {isInWindow ? (
-                  <>
-                    <h2 className="text-xl md:text-2xl font-semibold text-[#2D2D2D] mb-0">
-                      {bannerList?.dynamicTopSection?.title}
-                    </h2>
-                    <div
-                      data-aos="fade-left"
-                      data-aos-easing="ease-in-out"
-                      className="bg-[#ffce0973] text-[#5132c2] text-[16px] md:text-[22px] p-3 rounded-xl flex items-center gap-3 font-semibold leading-[1em] tracking-[0em]"
-                    >
-                      <MdTimer className="text-lg" />
-                      <Countdown
-                        date={endZoned}
-                        renderer={({
-                          days,
-                          hours,
-                          minutes,
-                          seconds,
-                          completed,
-                        }) => {
-                          if (completed) {
-                            return <span>00d 00h 00m 00s</span>;
-                          } else {
-                            return (
-                              <span>
-                                {zeroPad(days)}
-                                <span className="text-[#5132c2] text-opacity-45">
-                                  D
-                                </span>{" "}
-                                : {zeroPad(hours)}
-                                <span className="text-[#5132c2] text-opacity-45">
-                                  h
-                                </span>{" "}
-                                : {zeroPad(minutes)}
-                                <span className="text-[#5132c2] text-opacity-45">
-                                  m
-                                </span>{" "}
-                                : {zeroPad(seconds)}
-                                <span className="text-[#5132c2] text-opacity-45">
-                                  s
-                                </span>
-                              </span>
-                            );
-                          }
-                        }}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <div className="lg:h-[65px]" />
-                )}
-              </div>
+          {/* Middle Section - Top Selling */}
+          <div className="md:mt-0.5">
+            <TopSelling topSellingData={topSellingData} />
+          </div>
 
-              {/* Content Grid */}
-              <div className="grid grid-cols-12 gap-[15px] flex-1 min-h-0 overflow-hidden">
-                {/* Left Promo Box */}
-                <div className="col-span-7 h-full min-h-0">
-                  {sectionBanners?.sectionBanner1 && (
-                    <div
-                      data-aos="zoom-in"
-                      data-aos-duration="700"
-                      data-aos-easing="ease-in-out"
-                      className="bg-cover bg-center rounded-2xl h-full relative overflow-hidden cursor-pointer"
-                      onClick={() => {
-                        const url = !isMobile
-                          ? sectionBanners?.sectionBanner1?.url_web
-                          : sectionBanners?.sectionBanner1?.url_web;
-
-                        pushToDataLayer("clicked_card", currentcountry?.name, {
-                          card_name: sectionBanners?.sectionBanner1?.image_web,
-                          page: window.location.pathname,
-                        });
-                        router.push(url);
-                      }}
-                    >
-                      <img
-                        src={
-                          !isMobile
-                            ? sectionBanners?.sectionBanner1?.image_web
-                            : sectionBanners?.sectionBanner1?.image_web
-                        }
-                        className="w-full h-full  rounded-2xl"
-                        alt="Banners"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* Right Stacked Images */}
-                <div className="col-span-5 grid grid-rows-2 gap-[15px] h-full min-h-0">
-                  {sectionBanners?.sectionBanner2 && (
-                    <div
-                      data-aos="fade-left"
-                      data-aos-easing="ease-in-out"
-                      className="bg-cover bg-center rounded-2xl h-full relative overflow-hidden cursor-pointer min-h-0"
-                      onClick={() => {
-                        const url = !isMobile
-                          ? sectionBanners?.sectionBanner2?.url_web
-                          : sectionBanners?.sectionBanner2?.url_web;
-
-                        pushToDataLayer("clicked_card", currentcountry?.name, {
-                          card_name: sectionBanners?.sectionBanner2?.image_web,
-                          page: window.location.pathname,
-                        });
-                        router.push(url);
-                      }}
-                    >
-                      <img
-                        src={
-                          !isMobile
-                            ? sectionBanners?.sectionBanner2?.image_web
-                            : sectionBanners?.sectionBanner2?.image_web
-                        }
-                        className="w-full h-full rounded-2xl"
-                        alt="Banners"
-                      />
-                    </div>
-                  )}
-                  {sectionBanners?.sectionBanner3 && (
-                    <div
-                      data-aos="fade-left"
-                      data-aos-easing="ease-in-out"
-                      className="bg-cover bg-center rounded-2xl h-full relative overflow-hidden cursor-pointer min-h-0"
-                      onClick={() => {
-                        const url = !isMobile
-                          ? sectionBanners?.sectionBanner3?.url_web
-                          : sectionBanners?.sectionBanner3?.url_web;
-
-                        pushToDataLayer("clicked_card", currentcountry?.name, {
-                          card_name: sectionBanners?.sectionBanner3?.image_web,
-                          page: window.location.pathname,
-                        });
-                        router.push(url);
-                      }}
-                    >
-                      <img
-                        src={
-                          !isMobile
-                            ? sectionBanners?.sectionBanner3?.image_web
-                            : sectionBanners?.sectionBanner3?.image_web
-                        }
-                        className="w-full h-full rounded-2xl"
-                        alt="Banners"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+          {/* Right Section - Promotional Banners */}
+          <div className="">
+            <PromotionalBanners sectionBanners={sectionBanners} />
           </div>
         </div>
+        {/* Top Picks */}
+        <div className="component_1 mt-4">
+          <ComponentHeader
+            title={"Top Picks"}
+            view_all={"rgba(82, 50, 194, 1)"}
+            url={top_picks?.[0]?.url}
+          />
 
-        <DynamicBanners bannerKey="mainBanner1" enableAos={true} />
-
-        {/* Top Brands Section  */}
-        <div
-          className={`text-xl mt-4 lg:text-[28px] pl-4 text-[#43494B] font-outfit font-bold mb-4`}
-        >
-          {shopByTopBrands}
+          {!loading5 && (
+            <CarouselWithBanner
+              products={top_picks?.[0]?.productlist}
+              bannerImage={top_picks?.[0]?.image_slider}
+              bannerImageRedirectUrl={top_picks?.[0]?.url}
+              type={1}
+              inner_bg={"rgba(238, 235, 250, 1)"}
+            />
+          )}
         </div>
-        <div
-          data-aos="fade"
-          data-aos-easing="ease-in-out"
-          className="mb-4 overflow-hidden max-w-full"
-        >
-          <Marquee
-            autoFill={true}
-            speed={20}
-            play={true}
-            pauseOnHover
-            pauseOnClick
-            gradient={false}
-            className="overflow"
-          >
-            <div className="flex gap-4">
-              {topBrands.map((b, index) => {
-                return (
-                  <Link
-                    key={index}
-                    href={b?.url}
-                    className="bg-[#000000]/[4%] p-6 lg:p-10 rounded-xl flex-shrink-0 w-32 sm:w-40 lg:w-48 last:mr-4"
-                    data-aos="fade"
-                    data-aos-easing="linear"
-                    onClick={() => {
-                      const brandName = b.name;
-                      pushToDataLayer(
-                        "clicked_card_in_section",
-                        currentcountry?.name,
-                        {
-                          card_name: brandName,
-                          section_name: shopByTopBrands,
-                          page: window.location.pathname,
-                        }
-                      );
-                    }}
-                  >
-                    <img
-                      loading="lazy"
-                      className="mix-blend-multiply w-full h-auto object-contain"
-                      src={b.desktopImage}
-                      alt={`${b.name || "Brand"} logo`}
-                    />
-                  </Link>
-                );
-              })}
-            </div>
-          </Marquee>
-        </div>
-
-        <div className="mt-3"></div>
-
-        {/* Second Tabs Section  */}
+        {/* Tabs Section */}
         <Tabs
           tabs={[
             {
@@ -527,171 +334,79 @@ const HomeClient = ({
                 ? sectionBanners?.tabBanner3?.url_web
                 : sectionBanners?.tabBanner3?.url_app,
             },
+            {
+              title: "Top Selling",
+              endpoint: getTopSellingApi,
+              path: "",
+            },
+            {
+              title: "Saver zone",
+              endpoint: () => getSaverZoneProducts(saverId),
+              path: "",
+            },
+            {
+              title: "Clearance Deals",
+              endpoint: clearance_saleApi,
+              path: "items",
+            },
           ]}
-          breakPointsProps={{
-            200: { slidesPerView: 1.3 },
-            375: { slidesPerView: 2 },
-            425: { slidesPerView: 2 },
-            700: { slidesPerView: 2 },
-            900: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 },
-            1400: { slidesPerView: 4 },
-            1600: { slidesPerView: 5 },
-          }}
+          countdownEndDate={section238Data?.timer}
         />
-
-        {/* Category List */}
-        <div
-          className={`text-xl lg:text-[28px] pl-4 pt-7 text-[#43494B] font-outfit font-bold mb-4`}
-        >
-          {browsePopularCategories}
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-9 gap-2 overflow-hidden max-w-full">
-          {categoriesToShow?.map((cat, idx) => (
-            <div
-              data-aos="fade"
-              data-aos-easing="ease-in-out"
-              key={idx}
-              className="flex h-full items-center justify-center py-3 cursor-pointer"
-              onClick={() => {
-                pushToDataLayer(
-                  "clicked_card_in_section",
-                  currentcountry?.name,
-                  {
-                    card_name: cat.category_name,
-                    section_name: browsePopularCategories,
-                    page: window.location.pathname,
-                  }
-                );
-                router.push("/categories/" + cat.url);
-              }}
-            >
-              <div className="relative transition-transform duration-[300ms] group-hover:duration-[800ms] group-hover:scale-110 z-10 flex flex-col items-center justify-start">
-                <div className="w-36 h-36 md:w-16 md:h-16 xl:w-24 xl:h-24 rounded-full flex items-center justify-center">
-                  <img
-                    src={cat?.vector_icon || null}
-                    alt={cat?.category_name}
-                    className="w-full h-full object-contain"
-                    style={{
-                      filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
-                    }}
-                  />
-                </div>
-                <h5 className="mt-1 text-base md:text-xs lg:text-base text-center font-medium text-gray-700 break-words whitespace-normal leading-tight min-h-10">
-                  {cat?.category_name}
-                </h5>
-              </div>
+        {/* Deals You Might Like Section/RoW */}
+        <div className="mt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* Left Column - Deals You Might Like */}
+            <div className="lg:col-span-1 deals-you-like">
+              <DealsYouMightLike deals={dealsYouMightLikeData} />
             </div>
-          ))}
-        </div>
 
-        <DynamicBanners bannerKey="mainBanner2" enableAos={true} />
+            {/* Middle Column - Limited Time Deals */}
+            <div className="lg:col-span-1 deals-you-like relative">
+              {limitedTimeDealsData?.background_image?.length > 0 ? (
+                <div className="absolute inset-0 z-0">
+                  <img
+                    src={
+                      limitedTimeDealsData?.background_image[0]?.desktopImage
+                    }
+                    alt="Limited Time Deals Background"
+                    fill
+                    className="object-cover w-full h-full"
+                    priority
+                  />
+                  {/* Optional overlay for better text readability */}
+                  <div className="absolute inset-0 bg-black/20"></div>
+                </div>
+              ) : (
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-500 z-0`}
+                ></div>
+              )}
+              <LimitedTimeDeals deals={limitedTimeDealsData} />
+            </div>
 
-        {/* Best Deals section */}
-        <div className="component_1 mt-4">
-          <ComponentHeader title={topPicks} view_all={"rgba(82, 50, 194, 1)"} />
-          <div
-            className="carousel_products"
-            style={{ background: !isMobile && "rgba(238, 235, 250, 1)" }}
-          >
-            {!loading5 && (
-              <BestDeals
-                carousel_data={top_picks}
-                breakPointsProps={{
-                  200: { slidesPerView: 1.3 },
-                  375: { slidesPerView: 2 },
-                  425: { slidesPerView: 2 },
-                  760: { slidesPerView: 2 },
-                  1000: { slidesPerView: 3 },
-                  1200: { slidesPerView: 4 },
-                  1400: { slidesPerView: 4 },
-                  1600: { slidesPerView: 5 },
-                }}
-              />
-            )}
+            {/* Right Column - Product Banners */}
+            <div className="lg:col-span-1">
+              <ProductBanners />
+            </div>
           </div>
         </div>
-
-        {/* MultiPle Banners */}
-        <div className="flex flex-wrap -mx-2 multi_banners mt-4">
-          {!loading && (
-            <>
-              {bannerList?.multibanners?.map((banner, index) => {
-                return (
-                  <div
-                    key={banner.banner_id}
-                    className="w-full lg:w-1/2 px-2 padding_custom"
-                  >
-                    <Link
-                      href={banner.url}
-                      onClick={() => {
-                        pushToDataLayer("clicked_card", currentcountry?.name, {
-                          card_name: banner.banner_image,
-                          page: window.location.pathname,
-                        });
-                      }}
-                    >
-                      <img src={banner.banner_image} />
-                    </Link>
-                  </div>
-                );
-              })}
-            </>
-          )}
-        </div>
-
-        <div
-          className={`flex flex-wrap -mx-2 multi_banners_four ${
-            !isMobile && "mt-0"
-          }`}
-        >
-          {!loading && (
-            <>
-              {bannerList?.banner?.map((banner) => {
-                return (
-                  <div
-                    key={banner.banner_id}
-                    className="w-full lg:w-1/4 md:w-1/4 sm:w-1/2 px-2 pr-unset"
-                  >
-                    <Link
-                      href={banner.url}
-                      onClick={() => {
-                        pushToDataLayer("clicked_card", currentcountry?.name, {
-                          card_name: banner.banner_image,
-                          page: window.location.pathname,
-                        });
-                      }}
-                    >
-                      <img src={banner.banner_image} />
-                    </Link>
-                  </div>
-                );
-              })}
-            </>
-          )}
-        </div>
-
-        <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
-
-        {/* Brand of the week */}
-        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} />
-
-        <DynamicBanners bannerKey="mainBanner4" />
-
-        <DynamicBanners bannerKey="mainBanner5" />
-
+        {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>
-            {home_category_items?.map((section) => {
+            {home_category_items?.slice(0, 3)?.map((section) => {
               return (
-                <div className="component_1 mt-4" key={section.url}>
+                <div className="component_1 my-4" key={section.url}>
                   <ComponentHeader
                     title={getDynamicContent(section, "subcategory_name", currentLanguage)}
                     url={`/products-category/${section.url}`}
                     view_all={"rgba(82, 50, 194, 1)"}
                   />
-                  <CarouselProducts
+                  <CarouselWithBanner
                     products={section.items}
+                    bannerImage={
+                      isMobile ? section?.image_app : section?.image_web
+                    }
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
                     section_name={getDynamicContent(section, "subcategory_name", currentLanguage)}
@@ -699,6 +414,92 @@ const HomeClient = ({
                 </div>
               );
             })}
+          </>
+        )}
+        {/* Brand of the week */}
+        <BrandOfTheWeekUpdated products={brandOfTheWeekData} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(3, 6)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={
+                      isMobile
+                        ? section?.image_app
+                        : section?.image_web || section?.image
+                    }
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner3" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items?.slice(6, 9)?.map((section) => {
+              return (
+                <div className="component_1 mt-4" key={section.url}>
+                  <ComponentHeader
+                    title={section.subcategory_name}
+                    url={`/products-category/${section.url}`}
+                    view_all={"rgba(82, 50, 194, 1)"}
+                  />
+                  <CarouselWithBanner
+                    products={section.items}
+                    bannerImage={
+                      isMobile ? section?.image_app : section?.image_web
+                    }
+                    bannerImageRedirectUrl={`/products-category/${section.url}`}
+                    type={1}
+                    inner_bg={"rgba(238, 235, 250, 1)"}
+                    section_name={section.subcategory_name}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+        <DynamicBanners bannerKey="mainBanner4" enableAos={true} />
+        {/* Next 2 Categories Sections */}
+        {!loading6 && (
+          <>
+            {home_category_items
+              ?.slice(9, home_category_items.length)
+              ?.map((section) => {
+                return (
+                  <div className="component_1 mt-4" key={section.url}>
+                    <ComponentHeader
+                      title={section.subcategory_name}
+                      url={`/products-category/${section.url}`}
+                      view_all={"rgba(82, 50, 194, 1)"}
+                    />
+                    <CarouselWithBanner
+                      products={section.items}
+                      bannerImage={
+                        isMobile ? section?.image_app : section?.image_web
+                      }
+                      bannerImageRedirectUrl={`/products-category/${section.url}`}
+                      type={1}
+                      inner_bg={"rgba(238, 235, 250, 1)"}
+                      section_name={section.subcategory_name}
+                    />
+                  </div>
+                );
+              })}
           </>
         )}
       </div>

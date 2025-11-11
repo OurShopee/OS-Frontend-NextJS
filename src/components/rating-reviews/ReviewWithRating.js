@@ -245,7 +245,6 @@ const ReviewWithRating = ({
 
       // Check if response exists and has the expected structure
       if (response && response.data && response.data.status === "success") {
-        console.log(response.data);
 
         const params = {
           page: currentPage,
@@ -278,7 +277,6 @@ const ReviewWithRating = ({
 
       // Check if response exists and has the expected structure
       if (response && response.data && response.data.status === "success") {
-        console.log(response.data);
 
         const params = {
           page: currentPage,

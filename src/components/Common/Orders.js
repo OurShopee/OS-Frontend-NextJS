@@ -7,7 +7,6 @@ import Mobiletrack from "./Mobiletrack";
 import { useContent, useCurrentLanguage } from "@/hooks";
 
 const Orders = ({ orderlistdata }) => {
-  console.log("order",orderlistdata)
   const { isMobile } = MediaQueries();
   const currentLanguage = useCurrentLanguage();
   // const orderlistdata = useSelector((state) => state.formslice.orderlistdata);
@@ -241,12 +240,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-cost">
                           {currentcountry.currency}{" "}
                           {(
-                            parseFloat(ele?.orderDetail?.total_amount || 0) -
-                            parseFloat(ele?.orderDetail?.vat || 0) -
-                            parseFloat(ele?.orderDetail?.shipping_charge || 0) -
-                            parseFloat(ele?.orderDetail?.processing_fee || 0) -
-                            parseFloat(ele?.orderDetail?.discount || 0) -
-                            parseFloat(ele?.orderDetail?.donation || 0)
+                            parseFloat(ele?.sub_total || 0)
                           ).toFixed(2)}
                         </div>
                       </div>
@@ -278,9 +272,9 @@ const Orders = ({ orderlistdata }) => {
                         </div>
                       </div>
                       <div className="payment-type">
-                        <div className="order-paymenttype-title">{discount}</div>
-                        <div className="order-paymenttype-cost">
-                          {currentcountry.currency} {ele.orderDetail.discount}
+                        <div className="order-paymenttype-title text-green-500">{discount}</div>
+                        <div className="order-paymenttype-cost text-green-500">
+                         - {currentcountry.currency} {ele.orderDetail.discount}
                         </div>
                       </div>
                       <div className="form-border-bottom"></div>
@@ -418,12 +412,7 @@ const Orders = ({ orderlistdata }) => {
                     <div className="order-paymenttype-cost">
                       {currentcountry.currency}{" "}
                       {(
-                        parseFloat(ele?.orderDetail?.total_amount || 0) -
-                        parseFloat(ele?.orderDetail?.vat || 0) -
-                        parseFloat(ele?.orderDetail?.shipping_charge || 0) -
-                        parseFloat(ele?.orderDetail?.processing_fee || 0) -
-                        parseFloat(ele?.orderDetail?.discount || 0) -
-                        parseFloat(ele?.orderDetail?.donation || 0)
+                        parseFloat(ele?.sub_total || 0)
                       ).toFixed(2)}
 
                     </div>
@@ -455,9 +444,9 @@ const Orders = ({ orderlistdata }) => {
                     </div>
                   </div>
                   <div className="payment-type">
-                    <div className="order-paymenttype-title">{discount}</div>
-                    <div className="order-paymenttype-cost">
-                      {currentcountry.currency} {ele.orderDetail.discount}
+                    <div className="order-paymenttype-title text-green-500">{discount}</div>
+                    <div className="order-paymenttype-cost text-green-500">
+                     - {currentcountry.currency} {ele.orderDetail.discount}
                     </div>
                   </div>
                   <div className="form-border-bottom"></div>

@@ -423,9 +423,7 @@ const ProductCategory = () => {
   const getNextPageData = async (forcedPage) => {
     const nextPage = forcedPage ?? page;
     const input_data = await getInputData();
-    console.log("input_data",input_data)
     const res = await getSubCatScreenList({ ...input_data, page: nextPage });
-    console.log(res)
     setTotalCount(res?.display_items?.total_count);
     setCurrentPage((prev) => (forcedPage != null ? nextPage + 1 : prev + 1));
   };

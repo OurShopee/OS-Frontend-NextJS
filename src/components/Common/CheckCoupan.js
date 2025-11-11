@@ -10,13 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { HiMiniCheckBadge } from "react-icons/hi2";
 import { useContent, useCurrentLanguage } from "@/hooks";
 
-const CheckCoupan = ({ prodId, qty, sku, paymentMethods }) => {
+const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
   const dispatch = useDispatch();
   const [singleCheckout, setSingleCheckout] = useState(false);
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
   const coupanmsg = useSelector((state) => state.paymentslice.coupanmsg);
   const coupon = useSelector((state) => state.paymentslice.coupon);
-  const [coupancode, setCoupancode] = useState(coupon?.coupon);
+  const [coupancode, setCoupancode] = useState("");
   const skulist = cartlistdata?.data?.result?.map((ele) => ele.sku);
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
@@ -33,7 +33,16 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods }) => {
   };
 
   const checkcoupan = async () => {
+    const computedCartIds = prodId && qty
+      ? `${prodId}|${qty}|${price}`
+      : cartlistdata?.data?.result
+          .map(
+            (each) => `${each.product_id}|${each.quantity}|${each.single_price}`
+          )
+          .join(",");
+
     const input_data = {
+      cartIds: computedCartIds,
       coupon: coupancode,
       skulist: singleCheckout ? [sku] : skulist,
       offer: 0,
@@ -48,7 +57,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods }) => {
     if (prodId && qty) {
       setSingleCheckout(true);
     }
-    if (coupon?.coupon) {
+    if (coupancode) {
       checkcoupan();
     }
   }, [prodId, qty, sku]);

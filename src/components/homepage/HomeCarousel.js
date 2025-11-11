@@ -1,18 +1,18 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
-import Carousel from "../Common/Carousel";
+import React, { useEffect, useRef, useState } from "react";
+import Carousel from "react-bootstrap/Carousel";
 import { trackBannerClick } from "../utils/dataUserpush";
+import { useSelector } from "react-redux";
 import DynamicBanners from "./DynamicBanners";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 function HomeCarousel({ carousel_data, searchPage = true }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const leftRef = useRef(null);
   const [leftHeight, setLeftHeight] = useState(null);
   const pathname = usePathname();
-  const isHomePage = location.pathname === "/";
+  const isHomePage = pathname === "/";
   const safeCarouselData = Array.isArray(carousel_data) ? carousel_data : [];
 
   const [hasSetHeight, setHasSetHeight] = useState(false);
@@ -20,7 +20,7 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-  const pageName = window.location.pathname;
+  const pageName = pathname;
 
   const handleFirstImageLoad = () => {
     if (!hasSetHeight && leftRef.current && window.innerWidth >= 768) {
@@ -38,27 +38,26 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
     return () => clearInterval(interval);
   }, [safeCarouselData, activeIndex]);
 
+  const carouselColClasses = isHomePage
+    ? "col-lg-9 col-md-8 col-sm-12"
+    : "col-12";
+
   // Check current page pathname instead of banner URL
   const staticPagePrefixes = ["/categories", "/products-category"];
   const shouldWrapWithNavLink = !staticPagePrefixes.some((prefix) =>
     location.pathname.startsWith(prefix)
   );
-  const carouselColClasses = isHomePage
-    ? "w-full lg:w-3/4 md:w-2/3 sm:w-full"
-    : "w-full"; // full width when not on homepage
 
   return (
-    <div className="w-full px-4">
+    <div className="container-fluid">
       <div
-        className={`flex flex-wrap -mx-2 ${isHomePage ? "pr-3" : ""} ${
-          searchPage && "mb-3"
-        }`}
+        className={`row ${isHomePage ? "pr-3" : ""} ${searchPage && "mb-3"}`}
       >
         {/* Left: Carousel */}
         <div
-          className={`${carouselColClasses} px-2 relative ${
-            !searchPage && "h-full"
-          }`}
+          className={`${carouselColClasses} ${
+            isHomePage ? "" : "pl-0"
+          } relative ${!searchPage && "h-full"}`}
           ref={leftRef}
         >
           <Carousel
@@ -67,7 +66,6 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
             onSelect={(i) => setActiveIndex(i)}
             controls={safeCarouselData?.length > 1}
             indicators={false}
-            setActiveIndex={setActiveIndex}
             className="home_carousel rounded-lg"
           >
             {safeCarouselData.length > 0 &&
@@ -85,29 +83,37 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                   }
                 };
 
+                const imageElement = (
+                  <img
+                    src={formatImageUrl(item.image_url)}
+                    alt=""
+                    className={`rounded-[13px] w-full ${
+                      !searchPage && "aspect-[988/250]"
+                    } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
+                    onLoad={index === 0 ? handleFirstImageLoad : undefined}
+                    style={!shouldWrapWithNavLink ? { cursor: "default" } : {}}
+                  />
+                );
+
                 return (
                   <Carousel.Item key={item.carousel_id}>
-                    <Link
-                      href={item.url}
-                      onClick={() =>
-                        trackBannerClick(
-                          formattedTitle,
-                          "",
-                          pageName,
-                          currentcountry.name
-                        )
-                      }
-                    >
-                      <img
-                        src={formatImageUrl(item.image_url)}
-                        alt=""
-                        className={`rounded-[13px] w-full ${
-                          !searchPage && "aspect-[1200/450]"
-                        } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
-                        // 🟥 This will set height only once on initial image load
-                        onLoad={index === 0 ? handleFirstImageLoad : undefined}
-                      />
-                    </Link>
+                    {shouldWrapWithNavLink ? (
+                      <Link
+                        href={item.url}
+                        onClick={() =>
+                          trackBannerClick(
+                            formattedTitle,
+                            "",
+                            pageName,
+                            currentcountry.name
+                          )
+                        }
+                      >
+                        {imageElement}
+                      </Link>
+                    ) : (
+                      imageElement
+                    )}
                   </Carousel.Item>
                 );
               })}
@@ -137,15 +143,15 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
         {/* Right: Text/Content */}
         {isHomePage && (
           <div
-            className="hidden md:block w-full lg:w-1/4 md:w-1/3 px-0 sm:w-full relative overflow-hidden rounded-2xl"
+            className="hidden md:block col-lg-3 col-md-4 !px-0 col-sm-12 relative overflow-hidden rounded-2xl"
             style={leftHeight ? { height: leftHeight } : {}}
           >
             <DynamicBanners
               bannerKey="heroBanner"
               enableAos={false}
               className={`w-full ${
-                !searchPage && "aspect-[410/450]"
-              } object-cover rounded-2xl block`}
+                !searchPage && "h-full"
+              } rounded-2xl block`}
             />
           </div>
         )}

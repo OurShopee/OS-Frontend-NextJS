@@ -1,77 +1,100 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import "swiper/css";
-import { CarouselProducts } from "@/components/homepage";
+import { CarouselWithBanner } from "@/components/homepage";
 import { CarouselProducts as CarouselProductsplaceholder } from "@/components/placeholders";
+import CountdownTimer from "../homepage/CountdownTimer";
+import { MediaQueries } from "../utils";
 
-const Tabs = ({ breakPointsProps, tabs }) => {
+const Tabs = ({ breakPointsProps, tabs, countdownEndDate }) => {
+  // Single source of truth for all tab data
+  const { isMobile } = MediaQueries();
+  const [tabsState, setTabsState] = useState({});
   const [activeTab, setActiveTab] = useState(tabs[0]?.title || "");
-  const [tabData, setTabData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [initialLoad, setInitialLoad] = useState(true);
-  const tabRefs = useRef([]);
-  const tabDataRef = useRef({});
-  const loadingRef = useRef({});
-  const CACHE_KEY = 'homepage_tabs_cache';
-  const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
-  // Load cached data from sessionStorage
-  const loadCachedData = useCallback(() => {
+  const tabRefs = useRef([]);
+  const loadingStatusRef = useRef({});
+  const errorStatusRef = useRef({}); // Track if we've already encountered an error
+  const CACHE_KEY = "homepage_tabs_cache_v2";
+  const CACHE_DURATION = 5 * 60 * 1000;
+
+  // Initialize tab state structure
+  useEffect(() => {
+    const initialState = tabs.reduce((acc, tab) => {
+      acc[tab.title] = {
+        products: [],
+        imgUrl: "",
+        imgRedirectionUrl: "",
+        isLoading: true,
+        error: null,
+      };
+      return acc;
+    }, {});
+
+    setTabsState(initialState);
+  }, [tabs.length]); // Only re-run if tabs array length changes
+
+  // Load cached data once
+  useEffect(() => {
     try {
       const cached = sessionStorage.getItem(CACHE_KEY);
       if (cached) {
         const { data: cachedData, timestamp } = JSON.parse(cached);
         const now = Date.now();
-        
-        // Check if cache is still valid
+
         if (now - timestamp < CACHE_DURATION) {
-          return cachedData;
+          setTabsState((prev) => ({
+            ...prev,
+            ...cachedData,
+          }));
+          // Mark loaded tabs so we don't reload them and clear any error status
+          Object.keys(cachedData).forEach((tabTitle) => {
+            loadingStatusRef.current[tabTitle] = false;
+            // Clear error status if we have cached data (means it was successful before)
+            if (cachedData[tabTitle]?.products?.length > 0) {
+              errorStatusRef.current[tabTitle] = false;
+            }
+          });
         } else {
-          // Cache expired, remove it
           sessionStorage.removeItem(CACHE_KEY);
         }
       }
     } catch (error) {
       console.error("Error loading cached data:", error);
     }
-    return null;
-  }, [CACHE_KEY, CACHE_DURATION]);
+  }, []); // Run only once on mount
 
-  // Save data to sessionStorage
-  const saveCachedData = useCallback((data) => {
-    try {
-      const cacheObject = {
-        data,
-        timestamp: Date.now()
-      };
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(cacheObject));
-    } catch (error) {
-      console.error("Error saving cached data:", error);
-    }
-  }, [CACHE_KEY]);
-
-  const loadProducts = useCallback(
+  // Fetch products for a specific tab
+  const fetchTabData = useCallback(
     async (tabTitle) => {
-      // Check if we already have data for this tab or if it's currently loading
-      if (tabDataRef.current[tabTitle] || loadingRef.current[tabTitle]) {
-        setLoading(false);
+      // Skip if already loaded, loading, or if we've already encountered an error
+      if (
+        tabsState[tabTitle]?.products?.length > 0 ||
+        loadingStatusRef.current[tabTitle] ||
+        errorStatusRef.current[tabTitle]
+      ) {
         return;
       }
 
-      // Mark this tab as loading
-      loadingRef.current[tabTitle] = true;
-      setLoading(true);
-      
+      loadingStatusRef.current[tabTitle] = true;
+
       const tabConfig = tabs.find((tab) => tab.title === tabTitle);
       if (!tabConfig || typeof tabConfig.endpoint !== "function") {
-        console.error("Invalid tab or endpoint");
-        setLoading(false);
-        loadingRef.current[tabTitle] = false;
+        console.error(`Invalid tab config for: ${tabTitle}`);
+        setTabsState((prev) => ({
+          ...prev,
+          [tabTitle]: {
+            ...prev[tabTitle],
+            isLoading: false,
+            error: "Invalid configuration",
+          },
+        }));
+        errorStatusRef.current[tabTitle] = true; // Mark as error to prevent retries
+        loadingStatusRef.current[tabTitle] = false;
         return;
       }
 
       try {
-        const imgUrl = tabConfig.imgUrl || "";
-        const imgRedirectionUrl = tabConfig.imgRedirectionUrl || "";
         const { data } = await tabConfig.endpoint();
 
         if (data.status === "success") {
@@ -79,107 +102,101 @@ const Tabs = ({ breakPointsProps, tabs }) => {
             ? data?.data?.[tabConfig.path]
             : data.data || [];
 
-          const tabInfo = {
+          const newTabData = {
             products,
-            imgUrl,
-            imgRedirectionUrl,
+            imgUrl: tabConfig.imgUrl || "",
+            imgRedirectionUrl: tabConfig.imgRedirectionUrl || "",
+            isLoading: false,
+            error: null,
           };
 
-          // Store the data for this tab in both ref and state
-          tabDataRef.current[tabTitle] = tabInfo;
-          setTabData((prev) => {
-            const newData = {
-              ...prev,
-              [tabTitle]: tabInfo,
+          // Clear error status on success
+          errorStatusRef.current[tabTitle] = false;
+
+          // Update state
+          setTabsState((prev) => ({
+            ...prev,
+            [tabTitle]: newTabData,
+          }));
+
+          // Update cache
+          setTabsState((currentState) => {
+            const cacheObject = {
+              data: currentState,
+              timestamp: Date.now(),
             };
-            // Save to cache
-            saveCachedData(newData);
-            return newData;
+            try {
+              sessionStorage.setItem(CACHE_KEY, JSON.stringify(cacheObject));
+            } catch (cacheError) {
+              console.error("Error saving cache:", cacheError);
+            }
+            return currentState;
           });
         } else {
-          const emptyTabInfo = {
-            products: [],
-            imgUrl: "",
-          };
-          
-          tabDataRef.current[tabTitle] = emptyTabInfo;
-          setTabData((prev) => ({
-            ...prev,
-            [tabTitle]: emptyTabInfo,
-          }));
-          console.error("API returned failure:", data);
+          throw new Error(data.message || "API returned failure");
         }
       } catch (error) {
-        console.error("Error fetching products:", error);
-        const emptyTabInfo = {
-          products: [],
-          imgUrl: "",
-        };
+        console.error(`Error fetching products for ${tabTitle}:`, error);
         
-        tabDataRef.current[tabTitle] = emptyTabInfo;
-        setTabData((prev) => ({
+        // Check if it's a 500 error or server error
+        const isServerError = error?.response?.status >= 500 || 
+                             error?.response?.status === 500 ||
+                             error?.message?.includes('500') ||
+                             error?.code === 'ERR_NETWORK';
+        
+        // Mark as error to prevent infinite retries
+        errorStatusRef.current[tabTitle] = true;
+        
+        setTabsState((prev) => ({
           ...prev,
-          [tabTitle]: emptyTabInfo,
+          [tabTitle]: {
+            ...prev[tabTitle],
+            products: [],
+            isLoading: false,
+            error: error.message || "Failed to load products",
+          },
         }));
-      }
-
-      setLoading(false);
-      loadingRef.current[tabTitle] = false;
-      if (initialLoad) {
-        setInitialLoad(false);
+      } finally {
+        loadingStatusRef.current[tabTitle] = false;
       }
     },
-    [tabs, initialLoad, saveCachedData]
+    [tabs, CACHE_KEY] // Removed tabsState from dependencies to prevent infinite loops
   );
 
-  // Initialize cache on mount
+  // Load data for active tab
   useEffect(() => {
-    const cachedData = loadCachedData();
-    if (cachedData) {
-      // Restore cached data to both ref and state
-      tabDataRef.current = cachedData;
-      setTabData(cachedData);
-      setLoading(false);
-      setInitialLoad(false);
+    if (activeTab && tabsState[activeTab] && !errorStatusRef.current[activeTab]) {
+      fetchTabData(activeTab);
     }
-  }, [loadCachedData]);
+  }, [activeTab, fetchTabData]); // tabsState removed to prevent re-triggering on state updates
 
-  // Load initial tab data on mount
+  // Preload next tab
   useEffect(() => {
-    if (activeTab && !tabDataRef.current[activeTab]) {
-      loadProducts(activeTab);
+    const currentIndex = tabs.findIndex((tab) => tab.title === activeTab);
+    const nextIndex = (currentIndex + 1) % tabs.length;
+    const nextTab = tabs[nextIndex];
+
+    if (nextTab && !loadingStatusRef.current[nextTab.title] && !errorStatusRef.current[nextTab.title]) {
+      const preloadTimer = setTimeout(() => {
+        fetchTabData(nextTab.title);
+      }, 600); // Delay to not interfere with current tab
+
+      return () => clearTimeout(preloadTimer);
     }
-  }, [activeTab, loadProducts]);
+  }, [activeTab, tabs, fetchTabData]);
 
-  // Preload next tab's data in background
-  useEffect(() => {
-    if (!initialLoad && activeTab) {
-      const currentIndex = tabs.findIndex((tab) => tab.title === activeTab);
-      const nextIndex = (currentIndex + 1) % tabs.length;
-      const nextTab = tabs[nextIndex];
-
-      if (nextTab && !tabDataRef.current[nextTab.title] && !loadingRef.current[nextTab.title]) {
-        // Preload next tab data with a slight delay
-        const timeoutId = setTimeout(() => {
-          loadProducts(nextTab.title);
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-      }
-    }
-  }, [activeTab, initialLoad, tabs, loadProducts]);
-
-  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
-
+  // Update underline position
   useEffect(() => {
     const activeIndex = tabs.findIndex((tab) => tab.title === activeTab);
     const activeTabEl = tabRefs.current[activeIndex];
+
     if (activeTabEl) {
       const { offsetLeft, clientWidth } = activeTabEl;
       setUnderlineStyle({ left: offsetLeft, width: clientWidth });
     }
   }, [activeTab, tabs]);
 
+  // Handle tab click
   const handleTabClick = (tabTitle, index) => {
     setActiveTab(tabTitle);
     tabRefs.current[index]?.scrollIntoView({
@@ -187,46 +204,60 @@ const Tabs = ({ breakPointsProps, tabs }) => {
       inline: "center",
       block: "nearest",
     });
-
-    // Load products for the clicked tab if not already loaded
-    if (!tabDataRef.current[tabTitle] && !loadingRef.current[tabTitle]) {
-      loadProducts(tabTitle);
-    }
   };
 
   // Get current tab data
-  const currentTabData = tabData[activeTab] || { products: [], imgUrl: "" };
-  const isCurrentTabLoading = loading || !tabData[activeTab];
+  const currentTabData = tabsState[activeTab] || {
+    products: [],
+    imgUrl: "",
+    imgRedirectionUrl: "",
+    isLoading: true,
+    error: null,
+  };
+
+  const isCurrentTabLoading = currentTabData.isLoading;
 
   return (
     <div className="w-full h-full mt-4 rounded-2xl">
-      {/* Tabs */}
-      <div className="relative flex gap-6 pl-2 mb-4 overflow-x-auto whitespace-nowrap flex-nowrap hide-scrollbar">
-        {tabs?.map((tab, index) => (
-          <div
-            key={tab.title}
-            ref={(el) => (tabRefs.current[index] = el)}
-            onClick={() => handleTabClick(tab.title, index)}
-            className={`relative pb-2 font-[Outfit] text-xl lg:text-[24px] tracking-[-0.01em] leading-[140%] capitalize cursor-pointer transition-all duration-300
-              ${
-                activeTab === tab.title
-                  ? "text-[#43494B] font-semibold"
-                  : "text-[#43494B] text-opacity-65 font-medium"
-              }`}
-          >
-            {tab.title}
-          </div>
-        ))}
+      {/* Tabs with CountdownTimer */}
+      <div className="relative flex items-center gap-4 mb-4">
+        {/* Scrollable tabs container */}
+        <div className="relative flex gap-6 pl-2 overflow-x-auto whitespace-nowrap flex-nowrap hide-scrollbar flex-1">
+          {tabs?.map((tab, index) => (
+            <div
+              key={tab.title}
+              ref={(el) => (tabRefs.current[index] = el)}
+              onClick={() => handleTabClick(tab.title, index)}
+              className={`relative pb-2 font-[Outfit] text-xl lg:text-[24px] tracking-[-0.01em] leading-[140%] capitalize cursor-pointer transition-all duration-300
+                ${
+                  activeTab === tab.title
+                    ? "text-[#43494B] font-semibold"
+                    : "text-[#43494B] text-opacity-65 font-medium"
+                }`}
+            >
+              {tab.title}
+            </div>
+          ))}
 
-        {/* Animated underline */}
-        <div
-          className="absolute bottom-0 h-[2px] md:h-[2.5px] bg-[#5B2EFF] rounded-t transition-all duration-300"
-          style={{
-            left: underlineStyle.left,
-            width: underlineStyle.width,
-            position: "absolute",
-          }}
-        />
+          {/* Animated underline */}
+          <div
+            className="absolute bottom-0 h-[2px] md:h-[2.5px] bg-[#5B2EFF] rounded-t transition-all duration-300"
+            style={{
+              left: underlineStyle.left,
+              width: underlineStyle.width,
+            }}
+          />
+        </div>
+
+        {/* CountdownTimer - sticky on the right */}
+        {!isMobile && countdownEndDate && (
+          <div className="flex-shrink-0">
+            <CountdownTimer
+              endZoned={countdownEndDate}
+              className="text-sm md:text-base"
+            />
+          </div>
+        )}
       </div>
 
       {/* Products */}
@@ -237,13 +268,13 @@ const Tabs = ({ breakPointsProps, tabs }) => {
           breakPointsProps={breakPointsProps}
         />
       ) : (
-        <CarouselProducts
+        <CarouselWithBanner
           products={currentTabData.products}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           breakPointsProps={breakPointsProps}
-          imgUrl={currentTabData.imgUrl}
-          imgRedirectionUrl={currentTabData.imgRedirectionUrl}
+          bannerImage={currentTabData.imgUrl}
+          bannerImageRedirectUrl={currentTabData.imgRedirectionUrl}
           section_name={activeTab}
         />
       )}
@@ -252,3 +283,4 @@ const Tabs = ({ breakPointsProps, tabs }) => {
 };
 
 export default Tabs;
+

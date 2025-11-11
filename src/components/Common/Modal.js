@@ -91,11 +91,9 @@ function Example() {
                 </div>
                 <OTPVerification 
                     onVerificationSuccess={() => {
-                        // This will be handled by Redux state in ProductForm
                         console.log("OTP verification successful");
                     }}
                     onClose={() => {
-                        // This will be handled by Redux state in ProductForm
                         console.log("OTP modal closed");
                     }}
                 />

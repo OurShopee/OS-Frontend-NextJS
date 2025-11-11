@@ -17,6 +17,16 @@ const countriesData = [
       whatsapp: "(971) 521881678",
       address:
         "Ourshopee Trading L.L.C  | Office - number 16 - 10 | Doha Rd - Al Qusais Industrial Area 1 | Dubai | UAE",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.356812299205!2d55.379621!3d25.2830702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dcb73cb2a87%3A0xdce6b4489e9a721b!2sOurshopee%20UAE!5e1!3m2!1sen!2sin!4v1762343285059!5m2!1sen!2sin",
+    },
+    dealsByCountry: {
+      "Weekly Deals": 238,
+      "Mast Zone": 243,
+      "Limited Time Deals": 248,
+      "Deals You Might Like": 253,
+      "Namaste Deals": 259,
+      "Top Selling": 74,
     },
     isTabbyRequired: true,
     emi_months: 4,
@@ -151,10 +161,20 @@ const countriesData = [
       whatsapp: "(968) 79361181",
       address:
         "Ourshopee | Nizwa building  | Near Aliz Islamic bank | Cbd area | Muscut",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.1637938139747!2d58.5484766!3d23.597210999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e91f9db441119eb%3A0x5d455c628f76f2a5!2sOurshopee.com%20Oman!5e1!3m2!1sen!2sin!4v1762340610684!5m2!1sen!2sin",
     },
     fb_link: "https://www.facebook.com/Ourshopee.om",
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 239,
+      "Mast Zone": 244,
+      "Limited Time Deals": 249,
+      "Deals You Might Like": 254,
+      "Namaste Deals": 260,
+      "Top Selling": 75
+    },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -278,10 +298,20 @@ const countriesData = [
       whatsapp: "(974) 66090052",
       address:
         "Ourshopee Office | New Salata Complex D Ring Road | Street No. 250  Zone No. 40 | Doha | Qatar",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.2705937045453!2d51.52189179999999!3d25.254795800000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e45cf5cc4d8e4c5%3A0x7527406e1f190c81!2sOurshopee%20Qatar!5e1!3m2!1sen!2sin!4v1762340541039!5m2!1sen!2sin",
     },
     fb_link: "https://www.facebook.com/OurshopeeOffers",
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 240,
+      "Mast Zone": 245,
+      "Limited Time Deals": 250,
+      "Deals You Might Like": 255,
+      "Namaste Deals": 261,
+      "Top Selling": 76
+    },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -384,7 +414,7 @@ const countriesData = [
   {
     id: 5,
     url: process.env.NEXT_PUBLIC_KUWAIT_URL,
-    dev_url: "http://localhost:5700",
+    dev_url: "http://localhost:3002",
     name: "Kuwait",
     currency: "KWD",
     backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
@@ -395,15 +425,33 @@ const countriesData = [
       whatsapp: "(965) 6040 2993",
       address:
         "Ourshopee.com | Office no1 | Floor no:3 | Canary opposit | Najumma Building | Farwaniya block 1 | Kuwait",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3783.557578540479!2d47.96167507552491!3d29.28330557531569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjnCsDE2JzU5LjkiTiA0N8KwNTcnNTEuMyJF!5e1!3m2!1sen!2sin!4v1762340671803!5m2!1sen!2sin",
     },
     fb_link: "https://www.facebook.com/Ourshopeekuwaitonline/",
     insta_link:
       "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 241,
+      "Mast Zone": 246,
+      "Limited Time Deals": 251,
+      "Deals You Might Like": 256,
+      "Namaste Deals": 262,
+      "Top Selling": 78
+    },
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: false,
     isDonationRequired: false,
     country_code: "+965",
+    dealsByCountry: {
+      "Weekly Deals": 271,
+      "Mast Zone": 269,
+      "Limited Time Deals": 267,
+      "Deals You Might Like": 258,
+      "Namaste Deals": 270,
+      "Top Selling": 96
+    },
     nav_items: [
       {
         id: 11,
@@ -511,6 +559,16 @@ const countriesData = [
       whatsapp: "(973) 34616280",
       address:
         "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Manama | Bahrain",
+      map_location:
+        "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3891.7627455013862!2d50.57823067541546!3d26.213277777070996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDEyJzQ3LjgiTiA1MMKwMzQnNTAuOSJF!5e1!3m2!1sen!2sin!4v1762340719198!5m2!1sen!2sin",
+    },
+    dealsByCountry: {
+      "Weekly Deals": 242,
+      "Mast Zone": 247,
+      "Limited Time Deals": 252,
+      "Deals You Might Like": 257,
+      "Namaste Deals": 263,
+      "Top Selling": 77
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -520,6 +578,135 @@ const countriesData = [
     fb_link: "https://www.facebook.com/bahrainourshopee",
     insta_link:
       "https://www.instagram.com/ourshopeebahrain?igsh=MWczYzRweWpuZDV0cw%3D%3D&utm_source=qr",
+    nav_items: [
+      {
+        id: 11,
+        title: "Back To School",
+        url: "/back-to-school",
+        section_id: 138,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        infinite_api: "sdsddsdsfdsfdfsdfsfds",
+        status: 0,
+      },
+      {
+        id: 1,
+        title: "Perfume Fiesta",
+        url: "/perfumes",
+        section_id: 186,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/Perfume.png",
+        status: 1,
+      },
+      {
+        id: 2,
+        title: "Time Fest",
+        url: "/time-fest",
+        section_id: 144,
+        infinite_required: false,
+        image: "/assets/vector_icons/Top_left_banner/Time_fest.png",
+        status: 1,
+      },
+      {
+        id: 3,
+        title: "TV Super Sale",
+        url: "/TV-Super-Sale",
+        section_id: 216,
+        infinite_required: false,
+        image: "/assets/vector_icons/Top_left_banner/Super_tv_sale.png",
+        status: 0,
+      },
+      {
+        id: 4,
+        title: "Mobile Fest",
+        url: "/mobile-fest",
+        section_id: 211,
+        infinite_required: false,
+        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        status: 0,
+      },
+      {
+        id: 5,
+        title: "BHD-0-to-2",
+        url: "/BHD-0-to-2",
+        section_id: 206,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/Sale_Beat_the_heat.png",
+        status: 0,
+      },
+      {
+        id: 13,
+        title: "Pre-Owned Products",
+        url: "/categories/pre-owned",
+        section_id: 0,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/Pre-owned_products.png",
+        infinite_api: "sdsddsdsfdsfdfsdfsfds",
+        status: 1,
+      },
+      {
+        id: 17,
+        title: "Deal of The Day",
+        url: "/deals-of-the-day",
+        section_id: 0,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/deal_of_the_day.png",
+        infinite_api: "sdsddsdsfdsfdfsdfsfds",
+        status: 1,
+      },
+      {
+        id: 6,
+        title: "Saver Zone",
+        url: "/saver-zone",
+        section_id: 73,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/Saver_zone.png",
+        status: 1,
+      },
+      {
+        id: 10,
+        title: "bundle deals",
+        url: "/bundle-deals",
+        section_id: 64,
+        infinite_required: true,
+        image: "/assets/vector_icons/Top_left_banner/Sale_Beat_the_heat.png",
+        infinite_api: "sdsddsdsfdsfdfsdfsfds",
+        status: 0,
+      },
+    ],
+    number_count: 8,
+  },
+  {
+    id: 7,
+    url: process.env.NEXT_PUBLIC_SAUDI_URL,
+    dev_url: "http://localhost:3002",
+    name: "Saudi",
+    currency: "SAR",
+    backedn_api: process.env.NEXT_PUBLIC_BACKEND_API,
+    gtm_tag: "GTM-5N8D2TP",
+    image: "saudi.svg",
+    helpline_numbers: {
+      hotline: "",
+      whatsapp: "",
+      address:
+        "",
+    },
+    isTabbyRequired: false,
+    emi_months: 0,
+    isAreaCodeRequired: true,
+    isDonationRequired: false,
+    country_code: "+966",
+    fb_link: "https://www.facebook.com/profile.php?id=61582502091896#",
+    insta_link:
+      "https://www.instagram.com/ourshopee_ksa?igsh=MWlucnh6d3RxcGd5&utm_source=qr",
+    dealsByCountry: {
+        "Weekly Deals": 271,
+        "Mast Zone": 269,
+        "Limited Time Deals": 267,
+        "Deals You Might Like": 258,
+        "Namaste Deals": 270,
+        "Top Selling": 96
+      },
     nav_items: [
       {
         id: 11,
