@@ -444,6 +444,14 @@ const countriesData = [
     isAreaCodeRequired: false,
     isDonationRequired: false,
     country_code: "+965",
+    dealsByCountry: {
+      "Weekly Deals": 271,
+      "Mast Zone": 269,
+      "Limited Time Deals": 267,
+      "Deals You Might Like": 258,
+      "Namaste Deals": 270,
+      "Top Selling": 96
+    },
     nav_items: [
       {
         id: 11,
@@ -685,7 +693,7 @@ const countriesData = [
     },
     isTabbyRequired: false,
     emi_months: 0,
-    isAreaCodeRequired: false,
+    isAreaCodeRequired: true,
     isDonationRequired: false,
     country_code: "+966",
     fb_link: "https://www.facebook.com/profile.php?id=61582502091896#",
