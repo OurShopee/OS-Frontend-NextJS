@@ -12,6 +12,10 @@ const PhoneInput = ({
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+  const areaCodes =
+    currentcountry && currentcountry.id === 7
+      ? ["50", "51", "53", "54", "55", "56", "57", "58", "59"]
+      : ["50", "52", "54", "55", "56", "58"];
 
   return (
     <div className="inputbox-margin">
@@ -36,7 +40,7 @@ const PhoneInput = ({
                 className="phoneareacode pl-1 border-0 w-full"
                 aria-label="Area code"
               >
-                {["50", "52", "54", "55", "56", "58"].map((code) => (
+                {areaCodes.map((code) => (
                   <option key={code} value={code}>
                     {code}
                   </option>
