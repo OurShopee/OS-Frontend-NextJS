@@ -129,7 +129,7 @@ export default function CarouselProducts({
             <img
               src="/assets/vector_icons/arrow_left.svg"
               alt="Arrow"
-              className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+              className={`w-4 h-4 cursor-pointer grayscale  transition-transform`}
             />
           </button>
 
@@ -207,7 +207,7 @@ export default function CarouselProducts({
             <img
               src="/assets/vector_icons/arrow_right.svg"
               alt="Arrow"
-              className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+              className={`w-4 h-4 cursor-pointer grayscale  transition-transform`}
             />
           </button>
         </div>

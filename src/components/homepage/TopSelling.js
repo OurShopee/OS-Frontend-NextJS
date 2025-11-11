@@ -98,7 +98,7 @@ export default function TopSelling({
 
   // Desktop arrows (unchanged)
   const btnBaseDesktop =
-    "hidden lg:grid place-items-center h-28 w-8 rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
+    "hidden lg:grid place-items-center h-[74px] w-[25px] rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
   const btnDisabled = "opacity-30 pointer-events-none";
 
   // Mobile overlay arrows (edge-hugging)
@@ -112,12 +112,18 @@ export default function TopSelling({
           <h2 className="top-selling-shimmer relative text-[26px] font-[800] italic">
             {topSellingData?.heading}
           </h2>
-          {(topSellingData?.icon_image?.[0]?.mobileImage || topSellingData?.icon_image?.[0]?.desktopImage) && 
-          <img
-            src={isMobile ? topSellingData?.icon_image[0]?.mobileImage : topSellingData?.icon_image[0]?.desktopImage}
-            alt=""
-            className="w-8 h-8"
-          />}
+          {(topSellingData?.icon_image?.[0]?.mobileImage ||
+            topSellingData?.icon_image?.[0]?.desktopImage) && (
+            <img
+              src={
+                isMobile
+                  ? topSellingData?.icon_image[0]?.mobileImage
+                  : topSellingData?.icon_image[0]?.desktopImage
+              }
+              alt=""
+              className="w-8 h-8"
+            />
+          )}
         </div>
         <button className="text-[#43494B] font-semibold flex items-center">
           View all <IoChevronForward size={18} />
@@ -127,7 +133,9 @@ export default function TopSelling({
       <div
         className={`carousel_products bg-transparent pt-0 ${
           (type == 2 || type == 3) && "p-0"
-        } ${isMobile ? "flex flex-col gap-1" : "flex items-stretch gap-1"}`}
+        } ${
+          isMobile ? "flex flex-col gap-1" : "flex items-stretch gap-1 px-1"
+        }`}
         style={{ background: !isMobile && inner_bg }}
       >
         {/* LEFT ARROW – Desktop (unchanged) */}
@@ -144,8 +152,8 @@ export default function TopSelling({
           <img
             src="/assets/vector_icons/arrow_left.svg"
             alt="Arrow"
-            className={`w-6 h-6 grayscale`}
-            />
+            className={`w-4 h-4 grayscale`}
+          />
         </button>
 
         {/* Optional left banner */}
@@ -184,11 +192,11 @@ export default function TopSelling({
               onClick={handlePrev}
               aria-label="Previous"
             >
-            <img
-            src="/assets/vector_icons/arrow_left.svg"
-            alt="Arrow"
-            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
-            />
+              <img
+                src="/assets/vector_icons/arrow_left.svg"
+                alt="Arrow"
+                className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+              />
             </button>
 
             {/* RIGHT ARROW – Mobile (edge) */}
@@ -200,11 +208,11 @@ export default function TopSelling({
               onClick={handleNext}
               aria-label="Next"
             >
-               <img
-            src="/assets/vector_icons/arrow_right.svg"
-            alt="Arrow"
-            className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
-            />
+              <img
+                src="/assets/vector_icons/arrow_right.svg"
+                alt="Arrow"
+                className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+              />
             </button>
 
             <Swiper
@@ -324,8 +332,8 @@ export default function TopSelling({
           <img
             src="/assets/vector_icons/arrow_right.svg"
             alt="Arrow"
-            className={`w-6 h-6 grayscale`}
-            />
+            className={`w-4 h-4 grayscale`}
+          />
         </button>
       </div>
       <style jsx>{`
@@ -333,7 +341,14 @@ export default function TopSelling({
           position: relative;
           color: transparent;
           -webkit-text-fill-color: transparent;
-          background: linear-gradient(100deg, #0f0f0f 0%, #838383 40%, #c3c0c0 50%, #838383 60%, #0f0f0f 100%);
+          background: linear-gradient(
+            100deg,
+            #0f0f0f 0%,
+            #838383 40%,
+            #c3c0c0 50%,
+            #838383 60%,
+            #0f0f0f 100%
+          );
           background-size: 200% auto;
           -webkit-background-clip: text;
           background-clip: text;
@@ -341,8 +356,12 @@ export default function TopSelling({
         }
 
         @keyframes shineText {
-          0% { background-position: 200% center; }
-          100% { background-position: 0% center; }
+          0% {
+            background-position: 200% center;
+          }
+          100% {
+            background-position: 0% center;
+          }
         }
       `}</style>
     </div>
