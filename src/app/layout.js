@@ -4,6 +4,7 @@ import BootstrapClient from "../components/BootstrapClient";
 import Footer from "@/components/Common/Footer";
 import { ScrollTop } from "@/hooks";
 import DynamicHeader from "@/components/Common/DynamicHeader";
+import RTLDirection from "@/components/Common/RTLDirection";
 import "react-intl-tel-input/dist/main.css";
 
 export const metadata = {
@@ -53,6 +54,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ReduxProvider>
+          <RTLDirection />
           <ScrollTop>
             <DynamicHeader />
             <div className="overflow-x-hidden">

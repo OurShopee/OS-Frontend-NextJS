@@ -13,7 +13,8 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useContent } from "@/hooks";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 
 const NavLink = ({ to, children, className, onClick, ...props }) => {
   const pathname = usePathname();
@@ -34,6 +35,7 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
 // Note: dropdownItems will be populated inside component to use useContent hook
 
 export default function Pagedropdown({ logindata }) {
+  const currentLanguage = useCurrentLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const closeTimeoutRef = useRef(null);
@@ -126,11 +128,11 @@ export default function Pagedropdown({ logindata }) {
         onClick={toggleDropdown}
       >
         <FaUser size={16} />
-        <span className="pl-2 header-middle-right-title username">
+        {/* <span className={`header-middle-right-title username ${currentLanguage === "ar" ? "pr-2" : "pl-2"}`}>
           {logindata.first_name.trim().length > 20
             ? logindata.first_name.trim().substring(0, 20) + "..."
             : logindata.first_name.trim()}
-        </span>
+        </span> */}
       </div>
 
       {/* Dropdown Menu */}

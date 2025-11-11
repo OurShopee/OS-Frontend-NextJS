@@ -1,4 +1,4 @@
-import { content } from "@/content";
+import { content } from "@/json_data/content";
 import store from "@/redux/store";
 
 /**

@@ -36,7 +36,7 @@ import {
   getSectionPagesApi,
   getTopSellingApi,
 } from "@/api/products";
-import { useContent } from "@/hooks";
+import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 const HomeClient = ({
   initialNavigationData,
@@ -45,6 +45,7 @@ const HomeClient = ({
   initialCategoryItemsData,
 }) => {
   const router = useRouter();
+  const currentLanguage = useCurrentLanguage();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
   );
@@ -568,8 +569,8 @@ const HomeClient = ({
               <div className="relative transition-transform duration-[300ms] group-hover:duration-[800ms] group-hover:scale-110 z-10 flex flex-col items-center justify-start">
                 <div className="w-36 h-36 md:w-16 md:h-16 xl:w-24 xl:h-24 rounded-full flex items-center justify-center">
                   <img
-                    src={cat.vector_icon}
-                    alt={cat.category_name}
+                    src={cat?.vector_icon || null}
+                    alt={cat?.category_name}
                     className="w-full h-full object-contain"
                     style={{
                       filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
@@ -577,7 +578,7 @@ const HomeClient = ({
                   />
                 </div>
                 <h5 className="mt-1 text-base md:text-xs lg:text-base text-center font-medium text-gray-700 break-words whitespace-normal leading-tight min-h-10">
-                  {cat.category_name}
+                  {cat?.category_name}
                 </h5>
               </div>
             </div>
@@ -685,7 +686,7 @@ const HomeClient = ({
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader
-                    title={section.subcategory_name}
+                    title={getDynamicContent(section, "subcategory_name", currentLanguage)}
                     url={`/products-category/${section.url}`}
                     view_all={"rgba(82, 50, 194, 1)"}
                   />
@@ -693,7 +694,7 @@ const HomeClient = ({
                     products={section.items}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
-                    section_name={section.subcategory_name}
+                    section_name={getDynamicContent(section, "subcategory_name", currentLanguage)}
                   />
                 </div>
               );

@@ -5,10 +5,11 @@ import { useSelector } from "react-redux";
 import rightimg from "@/images/Arrow - Right 2.png";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import Link from "next/link";
-import { useContent } from "@/hooks";
+import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 const Sitemap = () => {
   const categorydata = useSelector((state) => state.globalslice.data);
   const sitemapText = useContent("pages.sitemap");
+  const currentLanguage = useCurrentLanguage();
   return (
     <div>
       <Container fluid className="homepagecontainer">
@@ -25,17 +26,17 @@ const Sitemap = () => {
                     href={`/categories/${ele.url}`}
                     className="sitemapcategory textdecoration-none"
                   >
-                    {ele.category_name}
+                    {getDynamicContent(ele, "category_name", currentLanguage)}
                   </Link>
                   <div className="p-1"></div>
-                  {ele.subcategory?.slice(0, 6).map((ele) => {
+                  {ele.subcategory?.slice(0, 6).map((sub) => {
                     // const isActive =
-                    // slug == ele.url;
+                    // slug == sub.url;
 
                     return (
                       <Link
-                        key={ele.id}
-                        href={`/products-category/${ele.url}`}
+                        key={sub.id}
+                        href={`/products-category/${sub.url}`}
                         className="sitemapcat textdecoration-none"
                       >
                         {
@@ -48,7 +49,7 @@ const Sitemap = () => {
                           />
                         }
 
-                        {ele.sub_category_name}
+                        {getDynamicContent(sub, "sub_category_name", currentLanguage)}
                       </Link>
                     );
                   })}

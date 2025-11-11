@@ -26,12 +26,30 @@
     z-index: 1050;
 }
 
+// RTL support - position on left for Arabic
+html[dir="rtl"] .modal-custom-wrapper-desktop,
+html.rtl .modal-custom-wrapper-desktop,
+body[dir="rtl"] .modal-custom-wrapper-desktop,
+body.rtl .modal-custom-wrapper-desktop,
+.modal-custom-wrapper-desktop[dir="rtl"] {
+    right: auto !important;
+    left: 0 !important;
+}
+
 .modal-slide-in {
     animation: slideLeft 0.3s ease-out forwards;
 }
 
 .modal-slide-out {
     animation: slideRight 0.3s ease-out forwards;
+}
+
+.modal-slide-in-rtl {
+    animation: slideRightRTL 0.3s ease-out forwards;
+}
+
+.modal-slide-out-rtl {
+    animation: slideLeftRTL 0.3s ease-out forwards;
 }
 
 @keyframes slideLeft {
@@ -51,6 +69,30 @@
 
     to {
         transform: translateX(100%);
+    }
+}
+
+@keyframes slideRightRTL {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeftRTL {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
     }
 }
 
@@ -162,11 +204,11 @@
 
 }
 
-.item-price {
-    // margin-top: 1px;
-    // color: #666;
-    // font-size: 0.95rem;
-}
+// .item-price {
+//     margin-top: 1px;
+//     color: #666;
+//     font-size: 0.95rem;
+// }
 
 .item-qty {
     background: #ECECEC;

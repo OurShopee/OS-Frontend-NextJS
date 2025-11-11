@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWishLists, postWishList } from "@/redux/cartslice";
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
+import { useContent, useDynamicContent } from "@/hooks";
 
 const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,10 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   );
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const { isMobile } = MediaQueries();
+
+  // Get dynamic content based on current language
+  const itemName = useDynamicContent(item, "name");
+  const off = useContent("product.off");
 
   const handleWishList = async (e, item) => {
     e.preventDefault();
@@ -70,7 +75,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       className={`product_container ${eid_sale ? "eid_sale" : ""} ${
         !isMobile && "hover:scale-[96%]"
       } transition-transform duration-300 ease-in-out product-card`}
-      onClick={() => productcard(item.name)}
+      onClick={() => productcard(itemName)}
     >
       {hasError ? (
         <div className="no_image_placeholder"></div>
@@ -86,7 +91,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             className={`w-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
-            alt={item.name}
+            alt={itemName}
             width={300}
             height={300}
           />
@@ -99,7 +104,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             className={`w-full object-cover ease-in-out transition-transform duration-500 ${
               !isMobile && "product-image"
             }`}
-            alt={item.name}
+            alt={itemName}
           />
         </div>
       )}
@@ -123,7 +128,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       )}
 
       <div className="product_content w-full">
-        <h3>{item.name}</h3>
+        <h3>{itemName}</h3>
 
         <div className="product_price_container">
           <div className="price_block">
@@ -145,7 +150,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                   {currentcountry?.currency} {item.old_price}
                 </span>
                 {item.old_price && item.percentage > 0 && (
-                  <div className="discount_percent">{item.percentage}%OFF</div>
+                  <div className="discount_percent">{item.percentage}% {off}</div>
                 )}
               </div>
             )}

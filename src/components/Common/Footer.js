@@ -11,7 +11,7 @@ import { SiMinutemailer } from "react-icons/si";
 import { TiSocialInstagram } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { useContent } from "@/hooks";
+import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 import ConsumerRights from "@/images/ConsumerRights.png";
 import footerlogo from "@/images/Logo.svg";
@@ -42,6 +42,9 @@ const Footer = () => {
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+  const currentLanguage = useCurrentLanguage();
+
+  console.log("footerdata", footerdata);
 
   // Language content
   const aboutCompany = useContent("footer.aboutCompany");
@@ -57,6 +60,18 @@ const Footer = () => {
   const privacyPolicy = useContent("footer.privacyPolicy");
   const termsAndConditions = useContent("footer.termsAndConditions");
   const returnPolicy = useContent("footer.returnPolicy");
+  const onlineShopping = useContent("footer.onlineShopping");
+  const customerPolicies = useContent("footer.customerPolicies");
+  const usefulLinks = useContent("footer.usefulLinks");
+  const customerSupport = useContent("footer.customerSupport");
+  const customerSupportDescription = useContent("footer.customerSupportDescription");
+  const alwaysHereToHelpYou = useContent("footer.alwaysHereToHelpYou");
+  const reachOutToUsThroughTheseSupportChannels = useContent("footer.reachOutToUsThroughTheseSupportChannels");
+  const hotline = useContent("footer.hotline");
+  const whatsapp = useContent("footer.whatsapp");
+  const email = useContent("footer.email");
+  const getApp = useContent("footer.getApp");
+  const copyright = useContent("footer.copyright");
   const returnAndReplacementPolicy = useContent(
     "footer.returnAndReplacementPolicy"
   );
@@ -138,7 +153,7 @@ const Footer = () => {
             </div>
 
             <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2">
-              <div className="footerlink-titles">Online Shopping</div>
+              <div className="footerlink-titles">{onlineShopping}</div>
               <div className="footer-pages-main">
                 {footerdata &&
                   footerdata.length > 0 &&
@@ -148,23 +163,23 @@ const Footer = () => {
                       className="footerlinks no-underline"
                       key={ele.category_id}
                     >
-                      {ele.category_name}
+                      {getDynamicContent(ele, "category_name", currentLanguage)}
                     </NavLink>
                   ))}
               </div>
             </div>
 
             <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">
-              <div className="footerlink-titles">Customer Policies</div>
+              <div className="footerlink-titles">{customerPolicies}</div>
               <NavLink href="/aboutus" className="footerlinks no-underline">
                 {aboutUs}
               </NavLink>
               <NavLink href="/contactus" className="footerlinks no-underline">
                 {contactUs}
               </NavLink>
-              <NavLink href="/blogs" className="footerlinks no-underline">
+              {/* <NavLink href="/blogs" className="footerlinks no-underline">
                 Our Blog
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 href="/terms-and-conditions"
                 className="footerlinks no-underline"
@@ -189,7 +204,7 @@ const Footer = () => {
             </div>
 
             <div className="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 footer-pages-main">
-              <div className="footerlink-titles">Useful Links</div>
+              <div className="footerlink-titles">{usefulLinks}</div>
               <NavLink href="/sitemap" className="footerlinks no-underline">
                 {sitemap}
               </NavLink>
@@ -225,38 +240,36 @@ const Footer = () => {
 
             <div className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
               <div>
-                <div className="footerlink-titles">24/7 Customer Support</div>
+                <div className="footerlink-titles">{customerSupport}</div>
                 <div className="footer-discription">
-                  Ourshopee support team is hard working 24/7 for our customers.
-                  We give high priority to troubleshoot and sort out all the
-                  complaints and issues of our customers.
+                  {customerSupportDescription}
                 </div>
                 <div className="footerlink-titles">
-                  We're always here to help you
+                  {alwaysHereToHelpYou}
                 </div>
                 <div className="footer-discription">
-                  Reach out to us through any of these support channels
+                  {reachOutToUsThroughTheseSupportChannels}
                 </div>
                 <div className="footercontact-titles">
-                  Hotline:{" "}
+                  {hotline}:{" "}
                   <span className="footercontact">
                     {currentcountry?.helpline_numbers?.hotline}
                   </span>
                 </div>
                 <div className="footercontact-titles">
-                  WhatsApp:{" "}
+                  {whatsapp}:{" "}
                   <span className="footercontact">
                     {currentcountry?.helpline_numbers?.whatsapp}
                   </span>
                 </div>
                 <div className="footercontact-titles">
-                  E-mail:{" "}
+                  {email}:{" "}
                   <span className="footercontact">support@ourshopee.com</span>
                 </div>
               </div>
               <div className="footer-applinks-main">
                 <div className="footerlink-titles mobilegrtapptitle mobileapplinks">
-                  Get App
+                  {getApp}
                 </div>
                 <div className="mobileapplinks">
                   <Link
@@ -319,8 +332,7 @@ const Footer = () => {
             )}
             <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
               <div className="copyright-contant">
-                © Copyright 2025 www.{window.location.hostname}. All rights
-                reserved.
+                {copyright}
               </div>
             </div>
             {isBigScreen && (

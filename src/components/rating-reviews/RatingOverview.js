@@ -1,7 +1,10 @@
 import CustomStarRating from "./CustomStarRating";
+import { useContent } from "@/hooks";
 
 const RatingOverview = ({ productReviews }) => {
   const stats = productReviews?.stats;
+  const ratings = useContent("product.ratings");
+  const reviews = useContent("product.reviews");
 
   return (
     <div className="flex items-center md:items-start pt-1 gap-2 md:gap-8 w-full">
@@ -32,12 +35,12 @@ const RatingOverview = ({ productReviews }) => {
             </div>
           </div>
           <div className="hidden md:block text-base text-[#868686] font-normal">
-            {stats?.totalRatingCount} Ratings{" "}
+            {stats?.totalRatingCount} {ratings}{" "}
             {stats?.reviewCount > 0 && (
               <>
                 {" "}
                 & <br />
-                {stats?.reviewCount} Reviews
+                {stats?.reviewCount} {reviews}
               </>
             )}
           </div>

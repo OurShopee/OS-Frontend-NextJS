@@ -6,9 +6,12 @@ import Changepassword from "@/components/Common/Changepassword";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import withAuth from "@/components/Common/withAuth";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const PasswordChange = () => {
-
+    const currentLanguage = useCurrentLanguage();
+    const changePassword = useContent("buttons.changePassword");
+    const enterCurrentPasswordAndNewPassword = useContent("forms.enterCurrentPasswordAndNewPassword");
     const { isMobile } = MediaQueries()
 
     return (
@@ -25,8 +28,8 @@ const PasswordChange = () => {
                         isMobile ?
                             <Col lg={12}>
                                 <div>
-                                    <BreadComp title={"Change Password"} />
-                                    <div className="page-titile">CHANGE PASSWORD
+                                    <BreadComp title={changePassword} />
+                                    <div className="page-titile">{changePassword.toUpperCase()}
                                     </div>
                                     <Changepassword />
                                 </div>
@@ -35,8 +38,8 @@ const PasswordChange = () => {
 
                             <Col lg={9}>
                                 <div className="Myaccount-rightsidecard">
-                                    <div className="title">Change Password</div>
-                                    <div className="discription">Enter your current password and new password to change the password</div>
+                                    <div className="title">{changePassword}</div>
+                                    <div className="discription">{enterCurrentPasswordAndNewPassword}</div>
                                     <Changepassword />
                                 </div>
                             </Col>

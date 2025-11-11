@@ -16,11 +16,11 @@ import { setformmodal, setformstatus } from "@/redux/formslice";
 import { GetPlaceOrderapi, setpaymentmethodsdata } from "@/redux/paymentslice";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { useContent } from "@/hooks";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -35,6 +35,7 @@ const Cart = () => {
     (state) => state.globalslice.currentcountry
   );
   const logindata = useSelector((state) => state.formslice.logindata);
+  const currentLanguage = useCurrentLanguage();
 
   const [cartQuantities, setCartQuantities] = useState({});
   const debounceTimers = useRef({});
@@ -51,15 +52,24 @@ const Cart = () => {
     pushToDataLayer("viewed_cart_page", currentcountry.name);
   }, [currentcountry.name]);
 
+  const localizedCartItems = useMemo(() => {
+    const items = cartlistdata?.data?.result;
+    if (!Array.isArray(items)) return [];
+    return items.map((item) => ({
+      ...item,
+      localizedName: getDynamicContent(item, "name", currentLanguage),
+    }));
+  }, [cartlistdata, currentLanguage]);
+
   useEffect(() => {
-    if (cartlistdata?.data?.result?.length) {
+    if (localizedCartItems.length) {
       const initialQuantities = {};
-      cartlistdata.data.result.forEach((item) => {
+      localizedCartItems.forEach((item) => {
         initialQuantities[item.cart_id] = item.quantity;
       });
       setCartQuantities(initialQuantities);
     }
-  }, [cartlistdata]);
+  }, [localizedCartItems]);
 
   const handleQuantityChange = (cart_id, newQty) => {
     if (newQty < 1) return;
@@ -147,7 +157,7 @@ const Cart = () => {
             <div className="Cart-titile">{myCart}</div>
             <Row>
               <Col lg={8}>
-                {cartlistdata.data.result.map((ele) => (
+                {localizedCartItems.map((ele) => (
                   <div className="Cartitem-maindiv" key={ele.cart_id}>
                     <div className="d-flex">
                       <Link
@@ -166,7 +176,7 @@ const Cart = () => {
                           className={"text-decoration-none"}
                         >
                           <div>
-                            <div className="cartproduct-title">{ele.name}</div>
+                            <div className="cartproduct-title">{ele.localizedName || ele.name}</div>
                             <div className="cartproduct-price">
                               <span className="currencycode">
                                 {currentcountry.currency}

@@ -7,14 +7,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-toastify";
 import Inputbox from "./Inputbox";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const ForgotPssword = () => {
   const dispatch = useDispatch();
   const isBigScreen = useMediaQuery({ query: "(min-width: 991px)" });
+  const currentLanguage = useCurrentLanguage();
 
   const incorrectemailstatus = useSelector(
     (state) => state.formslice.incorrectemailstatus
   );
+
+  // Content translations
+  const forgotPassword = useContent("buttons.forgotPassword");
+  const pleaseFillForm = useContent("buttons.pleaseFillForm");
+  const enterEmail = useContent("buttons.emailPlaceholder");
+  const sending = useContent("buttons.sending");
+  const sendResetLink = useContent("buttons.sendResetLink");
+  const ifYouHaveAnAccountPleaseLogin = useContent("buttons.ifYouHaveAnAccountPleaseLogin");
+  const login = useContent("buttons.login");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -83,10 +94,10 @@ const ForgotPssword = () => {
             className="FormHeading"
             style={{ WebkitTextFillColor: "transparent" }}
           >
-            Forgot Password
+            {forgotPassword}
           </div>
           <div className="formsubheading">
-            Please fill the form to get your password
+            {pleaseFillForm}
           </div>
           <div className="form-border-bottom"></div>
         </div>
@@ -98,7 +109,7 @@ const ForgotPssword = () => {
             <Inputbox
               id="email"
               type="email"
-              placeholder="Enter Email"
+              placeholder={enterEmail}
               value={formData.email}
               handleChange={handleChange}
               error={
@@ -116,17 +127,19 @@ const ForgotPssword = () => {
             disabled={!isFormValid}
             aria-label="Send password reset link"
           >
-            {isLoading ? "Sending..." : "Send Reset Link"}
+            {isLoading ? sending : sendResetLink}
           </button>
           <div className="formbotton">
-            If you have an account,
+            {ifYouHaveAnAccountPleaseLogin}{" "}
             <button
               type="button"
-              className="primarycolor termstitle bg-transparent border-0 p-0 ml-1 underline cursor-pointer hover:opacity-80"
+              className={`primarycolor termstitle bg-transparent border-0 p-0 underline cursor-pointer hover:opacity-80 ${
+                currentLanguage === "ar" ? "mr-1" : "ml-1"
+              }`}
               onClick={openregister}
               aria-label="Go to login form"
             >
-              Login
+              {login}
             </button>
           </div>
         </form>

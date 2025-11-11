@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { useContent } from "@/hooks";
+import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({
@@ -45,6 +45,7 @@ const Categorylist = () => {
   const [sub_subcategorydata, setsub_subcategorydata] = useState([]);
   const [brands, setbrands] = useState([]);
   const dropdownRef = useRef(null);
+  const currentLanguage = useCurrentLanguage();
 
   // Language content
   const categoryText = useContent("header.category");
@@ -137,10 +138,10 @@ const Categorylist = () => {
                   setHoveredCategory(ele.subcategory?.length > 0 ? ele : null)
                 }
                 onClick={() =>
-                  handlecategoryclick(ele.category_name, currentcountry.name)
+                  handlecategoryclick(getDynamicContent(ele, "category_name", currentLanguage), currentcountry.name)
                 }
               >
-                {ele.category_name}
+                {getDynamicContent(ele, "category_name", currentLanguage)}
                 <BiSolidRightArrow
                   className="categorylistrightarrow"
                   size={10}
@@ -167,12 +168,12 @@ const Categorylist = () => {
                       }
                       onClick={() =>
                         handlesubcategoryclick(
-                          hoveredCategory.category_name,
-                          sub.sub_category_name
+                          getDynamicContent(hoveredCategory, "category_name", currentLanguage),
+                          getDynamicContent(sub, "sub_category_name", currentLanguage)
                         )
                       }
                     >
-                      {sub.sub_category_name}
+                      {getDynamicContent(sub, "sub_category_name", currentLanguage)}
                       <BiSolidRightArrow
                         className="categorylistrightarrow"
                         size={10}
@@ -197,12 +198,12 @@ const Categorylist = () => {
                         }`}
                         onClick={() =>
                           handlesubcategory2click(
-                            hoveredCategory.category_name,
-                            subsub.sub_subcategory_name
+                            getDynamicContent(hoveredCategory, "category_name", currentLanguage),
+                            getDynamicContent(subsub, "sub_subcategory_name", currentLanguage)
                           )
                         }
                       >
-                        {subsub.sub_subcategory_name}
+                        {getDynamicContent(subsub, "sub_subcategory_name", currentLanguage)}
                       </NavLink>
                     ))}
                 </div>

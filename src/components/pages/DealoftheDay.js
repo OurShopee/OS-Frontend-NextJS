@@ -27,6 +27,7 @@ import { FaChevronUp } from "react-icons/fa";
 
 const DealoftheDay = ({ type }) => {
   const dispatch = useDispatch();
+  const hotDeals = useContent("specialPages.hotDeals");
 
   const deal_of_the_day_items = useSelector(
     (state) => state.homeslice.deal_of_the_day_items
@@ -82,7 +83,7 @@ const DealoftheDay = ({ type }) => {
                 />
               ) : (
                 <HalfCarouselProducts
-                  title={"Hot Deals"}
+                  title={hotDeals}
                   first_title={"Hot"}
                   second_title={"Deals"}
                   products={deal_of_the_day_items.hot_deals}

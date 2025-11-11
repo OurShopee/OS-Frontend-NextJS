@@ -3,9 +3,11 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import rightimg from "../../../public/images/Arrow - Right 2.png";
 import activerightimg from "../../../public/images/Arrow - Right  active.png";
+import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 const Blogcategory = ({ data }) => {
   const { slug } = useParams();
+  const currentLanguage = useCurrentLanguage();
 
   return (
     <div className="rounded-[16px] p-[30px] shadow-[0px_4px_12px_0px_#0000000F] sm:p-[15px]">
@@ -30,7 +32,7 @@ const Blogcategory = ({ data }) => {
               src={isActive ? activerightimg.src : rightimg.src}
               alt="arrow"
             />
-            {ele.name}
+            {getDynamicContent(ele, "name", currentLanguage)}
           </Link>
         );
       })}

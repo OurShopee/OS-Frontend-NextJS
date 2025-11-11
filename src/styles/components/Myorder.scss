@@ -87,6 +87,15 @@
   flex-direction: column;
   justify-content: end;
   align-items: end;
+
+  // RTL support for Arabic
+  html[dir="rtl"] &,
+  html.rtl &,
+  body[dir="rtl"] &,
+  body.rtl & {
+    justify-content: start;
+    align-items: start;
+  }
 }
 
 .order-date {
@@ -196,6 +205,15 @@
   left: -50%;
   width: 100%;
   z-index: 0;
+
+  // RTL support for Arabic
+  html[dir="rtl"] &,
+  html.rtl &,
+  body[dir="rtl"] &,
+  body.rtl & {
+    left: auto;
+    right: -50%;
+  }
 }
 
 .step-line {
@@ -362,6 +380,15 @@
 .timeline-content {
   flex: 1;
   padding-left: 8px;
+
+  // RTL support for Arabic
+  html[dir="rtl"] &,
+  html.rtl &,
+  body[dir="rtl"] &,
+  body.rtl & {
+    padding-left: 0;
+    padding-right: 8px;
+  }
 }
 
 .step-title {
@@ -382,6 +409,15 @@
   display: flex;
   align-items: center;
   padding-left: 8px;
+
+  // RTL support for Arabic
+  html[dir="rtl"] &,
+  html.rtl &,
+  body[dir="rtl"] &,
+  body.rtl & {
+    padding-left: 0;
+    padding-right: 8px;
+  }
 }
 
 .right-check {

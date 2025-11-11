@@ -18,13 +18,24 @@ import { HomeCarousel, HomeCategories, HomeMobileCarousel } from "../homepage";
 import { ProductCardPlaceHolder, SubcategoryPlaceHolder } from "../placeholders/ProductCategory";
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
+import { useContent } from "@/hooks/useContent";
 
 const ProductCategory = () => {
+  const filterTitle = useContent("buttons.filter");
+  const products = useContent("product.products");
+  const filtersTitle = useContent("buttons.filters");
+  const categoryTitle = useContent("product.category");
+  const shopBySubCategories = useContent("pages.shopBySubCategories");
+  const sortBy = useContent("buttons.sortBy");
+  const newArrivals = useContent("buttons.newArrivals");
+  const lowToHighPrice = useContent("buttons.lowToHighPrice");
+  const highToLowPrice = useContent("buttons.highToLowPrice");
+  const position = useContent("buttons.position");
   const sort_byArray = [
-    { id: 1, title: "New Arrivals", slug: "new arrival" },
-    { id: 2, title: "Low to High Price", slug: "Low to High" },
-    { id: 3, title: "High to Low Price", slug: "High to Low" },
-    { id: 4, title: "Position", slug: "Position" },
+    { id: 1, title: newArrivals, slug: "new arrival" },
+    { id: 2, title: lowToHighPrice, slug: "Low to High" },
+    { id: 3, title: highToLowPrice, slug: "High to Low" },
+    { id: 4, title: position, slug: "Position" },
   ];
 
   // Debouncing utility function
@@ -558,7 +569,7 @@ const ProductCategory = () => {
           <div className="hidden lg:block col-span-12 lg:col-span-3">
             {!isMobile && (
               <>
-                <h5 className="text-lg font-semibold mb-2">Filters</h5>
+                <h5 className="text-lg font-semibold mb-2">{filtersTitle}</h5>
                 <hr />
 
                 {/* Category */}
@@ -566,7 +577,7 @@ const ProductCategory = () => {
                   onClick={handleCategoryToggle}
                   className="cursor-pointer flex items-center justify-between mb-3 mt-1.5"
                 >
-                  <h5 className="mb-0 text-base font-semibold">Category</h5>
+                  <h5 className="mb-0 text-base font-semibold">{categoryTitle}</h5>
                 </div>
 
                 <div className="border-b pb-3 mb-3">
@@ -743,7 +754,7 @@ const ProductCategory = () => {
                     return subCategories.length > 0 ? (
                       <div className="col-span-12">
                         <div className="component_1 cat_carousel">
-                          <ComponentHeader title={"Shop by Sub-Categories"} view_all={"rgba(82, 50, 194, 1)"} />
+                          <ComponentHeader title={shopBySubCategories} view_all={"rgba(82, 50, 194, 1)"} />
                           <HomeCategories
                             category_list={subCategories}
                             type={slug1 == undefined ? 5 : 3}
@@ -830,7 +841,7 @@ const ProductCategory = () => {
                 {!isMobile && (
                   <div ref={sortDropdownRef} className="relative">
                     <div className="flex items-center gap-2">
-                      <h5 className="text-sm text-gray-700">Sort by</h5>
+                      <h5 className="text-sm text-gray-700">{sortBy}</h5>
                       <button
                         className="dropdown_title inline-flex items-center gap-2 rounded border px-3 py-2 text-sm"
                         onClick={() => setsort_show_desktop(!sort_show_desktop)}
@@ -874,7 +885,7 @@ const ProductCategory = () => {
               {!catloading && filters?.display_items?.total_count !== undefined && (
                 <div className="col-span-12">
                   <h6 className="mb-0 text-xl font-semibold">
-                    Products ({filters.display_items.total_count})
+                    {products} ({filters.display_items.total_count})
                   </h6>
                 </div>
               )}
@@ -1075,7 +1086,7 @@ const ProductCategory = () => {
           <Overlay onClose={() => setsort_show(false)} center>
             <div className="bg-white w-[92vw] max-w-md rounded-2xl overflow-hidden">
               <div className="flex items-center justify-between border-b p-4">
-                <h4 className="text-lg font-semibold">Sort By</h4>
+                <h4 className="text-lg font-semibold">{sortBy}</h4>
                 <img
                   src="/assets/vector_icons/close.png"
                   width={16}
@@ -1129,11 +1140,11 @@ const ProductCategory = () => {
             onClick={() => setsort_show(true)}
           >
             <img src="/assets/vector_icons/swap.png" />
-            <span className="text-sm">Sort By</span>
+            <span className="text-sm">{sortBy}</span>
           </button>
           <button className="flex-1 flex items-center justify-center gap-2 py-3" onClick={() => setShow(true)}>
             <img src="/assets/vector_icons/filter.png" />
-            <span className="text-sm">Filter</span>
+            <span className="text-sm">{filterTitle}</span>
           </button>
         </div>
       )}

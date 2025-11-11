@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setsnplmodal } from "@/redux/formslice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCurrentLanguage } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, ...props }) => {
@@ -23,6 +24,7 @@ const NavLink = ({ to, children, className, ...props }) => {
 
 const Snplmodal = ({ productcost }) => {
   const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
   const snplmodal = useSelector((state) => state.formslice.snplmodal);
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
@@ -78,9 +80,12 @@ const Snplmodal = ({ productcost }) => {
         <div
           className="relative bg-white rounded-lg shadow-xl max-w-[500px] w-full my-8 animate-fadeIn"
           onClick={(e) => e.stopPropagation()}
+          dir={currentLanguage === "ar" ? "rtl" : "ltr"}
         >
           <div className="snplmodal">
-            <div className="modalclose flex paymentoptionsnpl pr-2 pt-2 ">
+            <div className={`modalclose flex paymentoptionsnpl pt-2 ${
+              currentLanguage === "ar" ? "pl-2 flex-row-reverse" : "pr-2"
+            }`}>
               <div className="paymentoption-title">
                 <div className="paytitle" id="payment-options-title">
                   Payment options

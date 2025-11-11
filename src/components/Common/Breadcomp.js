@@ -3,10 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useContent } from "@/hooks";
 
 const Breadcomp = ({ prodId, qty, sku }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const cart = useContent("checkout.cart");
+  const address = useContent("checkout.address");
+  const payment = useContent("checkout.payment");
 
   const singleCheckout = prodId && qty;
   const iscartpage = pathname === "/cart";
@@ -22,7 +26,7 @@ const Breadcomp = ({ prodId, qty, sku }) => {
           iscartpage && "activebreadcomp-titles"
         }`}
       >
-        Cart
+        {cart}
       </Link>
       <div>/</div>
       <Link
@@ -35,7 +39,7 @@ const Breadcomp = ({ prodId, qty, sku }) => {
           isaddresspage && "activebreadcomp-titles"
         }`}
       >
-        Address
+        {address}
       </Link>
       <div>/</div>
       {ispaymentfail ? (
@@ -44,7 +48,7 @@ const Breadcomp = ({ prodId, qty, sku }) => {
             ispaymentfail && "activebreadcomp-titles"
           }`}
         >
-          Payment
+          {payment}
         </div>
       ) : (
         <Link
@@ -57,7 +61,7 @@ const Breadcomp = ({ prodId, qty, sku }) => {
             isPaymentPage && "activebreadcomp-titles"
           }`}
         >
-          Payment
+          {payment}
         </Link>
       )}
     </div>

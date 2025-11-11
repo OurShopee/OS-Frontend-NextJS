@@ -17,8 +17,18 @@ import { removeCoupon } from "@/redux/paymentslice";
 import { pushToDataLayer } from "../utils/dataUserpush";
 import Modal from "./Modal";
 import { checkoutSingleProd } from "@/api/payments";
+import { useContent } from "@/hooks/useContent";
 
 const Paymentdetails = ({ prodId, qty, sku, address }) => {
+  const placeOrder = useContent("checkout.placeOrder");
+  const subtotal = useContent("cart.subtotal");
+  const processingFee = useContent("forms.processingFee");
+  const donationFeeTitle = useContent("checkout.donationFee");
+  const priceDetails = useContent("forms.priceDetails");
+  const shipping = useContent("cart.shipping");
+  const inclusiveOfVat = useContent("forms.inclusiveOfVat");
+  const total = useContent("checkout.total");
+  const continueText = useContent("buttons.continue");
   const [paymentData, setPaymentData] = useState();
   const [singleCheckout, setSingleCheckout] = useState(false);
   const [cartIds, setCartIds] = useState("");
@@ -164,10 +174,10 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
   return (
     <div>
       <div>
-        <div className="payment-details-title">Price Details</div>
+        <div className="payment-details-title">{priceDetails}</div>
         {
           <div className="payment-type">
-            <div className="payment-type-title">Subtotal </div>
+            <div className="payment-type-title">{subtotal} </div>
             <div className="payment-type-cost">{paymentData?.sub_total}</div>
           </div>
         }
@@ -181,7 +191,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         )}
         {
           <div className="payment-type">
-            <div className="payment-type-title">Processing fee </div>
+            <div className="payment-type-title">{processingFee} </div>
             {selecteddeafultoption && selecteddeafultoption.length > 0 ? (
               <div className="payment-type-cost">
                 {selecteddeafultoption?.[0]?.processing_fee}
@@ -195,7 +205,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         }
         {currentcountry.isDonationRequired && showdonation && (
           <div className="payment-type">
-            <div className="payment-type-title">Donation fee </div>
+            <div className="payment-type-title">{donationFeeTitle} </div>
             <div className="payment-type-cost">{donationfee}</div>
           </div>
         )}
@@ -227,7 +237,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         )}
         {
           <div className="payment-type-shipping">
-            <div className="payment-type-shippingtitle">Shipping </div>
+            <div className="payment-type-shippingtitle">{shipping} </div>
             <div className="payment-type-shippingtitle">
               {paymentData?.shipping_charge}
             </div>
@@ -240,7 +250,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
             {
               <div className="payment-type pb-2">
                 <div className="payment-type-total">
-                  Total<span className="totalvat">(Inclusive of VAT)</span>
+                  {total}<span className="totalvat">{inclusiveOfVat}</span>
                 </div>
 
                 <div className="payment-type-totalcost">
@@ -276,7 +286,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                   }}
                   onClick={() => addrespageclick()}
                 >
-                  Continue
+                  {continueText}
                 </div>
               </Link>
             )}
@@ -294,7 +304,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 role="button"
                 tabIndex={0}
               >
-                Continue
+                {continueText}
               </div>
             )}
             {isPaymentPage && (
@@ -311,7 +321,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 onClick={() => !paymentData?.showError && placeorderclick()}
                 tabIndex={0}
               >
-                Place Order
+                {placeOrder}
                 {isLoading && (
                   <ClipLoader className="ms-1" size={16} color={"#fff"} />
                 )}
@@ -360,7 +370,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                   }}
                   onClick={() => addrespageclick()}
                 >
-                  Continue
+                  {continueText}
                 </div>
               </Link>
             )}
@@ -378,7 +388,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 role="button"
                 tabIndex={0}
               >
-                Continue
+                {continueText}
               </div>
             )}
             {isPaymentPage && (
@@ -395,7 +405,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 onClick={() => !paymentData?.showError && placeorderclick()}
                 tabIndex={0}
               >
-                Place Order
+                {placeOrder}
                 {isLoading && (
                   <ClipLoader className="ms-1" size={16} color={"#fff"} />
                 )}

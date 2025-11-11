@@ -38,6 +38,7 @@ import CustomStarRating from "./CustomStarRating";
 import HasReview from "./HasReview";
 import PostReviewMainPage from "./PostReviewMainPage";
 import RatingOverview from "./RatingOverview";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const ReviewWithRating = ({
   setProductReviews,
@@ -45,6 +46,30 @@ const ReviewWithRating = ({
   allProductReviews,
   setAllProductReviews,
 }) => {
+  const currentLanguage = useCurrentLanguage();
+  const ratingsAndReview = useContent("product.ratingsAndReview");
+  const yourReviewMakesADifference = useContent("product.yourReviewMakesADifference");
+  const writeReview = useContent("product.writeReview");
+  const searchCustomerReview = useContent("product.searchCustomerReview");
+  const highestRating = useContent("product.highestRating");
+  const lowestRating = useContent("product.lowestRating");
+  const trustedReviewer = useContent("product.trustedReviewer");
+  const noReviewsFound = useContent("product.noReviewsFound");
+  const clickToViewAllImages = useContent("product.clickToViewAllImages");
+  const newestFirst = useContent("product.newestFirst");
+  const oldestFirst = useContent("product.oldestFirst");
+  const search = useContent("product.search");
+  const shareItNow = useContent("product.shareItNow");
+  const tryAdjustingSearchOrFilter = useContent("product.tryAdjustingSearchOrFilter");
+  const wantToAddProductImages = useContent("product.wantToAddProductImages");
+  const clickToUpload = useContent("product.clickToUpload");
+  const orDragAndDrop = useContent("product.orDragAndDrop");
+  const pngJpgJpegMax5MB = useContent("product.pngJpgJpegMax5MB");
+  const maximumFilesAllowed = useContent("product.maximumFilesAllowed");
+  const filesAllowed = useContent("product.filesAllowed");
+  const selectedFilesText = useContent("product.selectedFiles");
+  const skipForNow = useContent("product.skipForNow");
+  
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const logindata = useSelector((state) => state.formslice.logindata);
   const productDetail = useSelector(
@@ -155,15 +180,15 @@ const ReviewWithRating = ({
   const getSortDisplayText = (sortValue) => {
     switch (sortValue) {
       case "newest":
-        return "Newest First";
+        return newestFirst;
       case "oldest":
-        return "Oldest First";
+        return oldestFirst;
       case "highest":
-        return "Highest Rating";
+        return highestRating;
       case "lowest":
-        return "Lowest Rating";
+        return lowestRating;
       default:
-        return "Newest First";
+        return newestFirst;
     }
   };
 
@@ -524,7 +549,7 @@ const ReviewWithRating = ({
         <div className="component_1 product_Detail_carousel_prod relative">
           {/* {productDetail_products.hasOwnProperty("related_products") && ( */}
           <ComponentHeader
-            title={"Ratings & Review"}
+            title={ratingsAndReview}
             // first_title={"Related"}
             // second_title={"PRODUCTS"}
             // first_string_color={"#000"}
@@ -591,8 +616,8 @@ const ReviewWithRating = ({
                       data-aos-duration="700"
                       className="md:text-[22px] font-semibold md:font-bold text-[#43494b] text-center leading-relaxed"
                     >
-                      Your review makes a difference <br />
-                      share it now!
+                      {yourReviewMakesADifference} <br />
+                      {shareItNow}
                     </p>
 
                     <button
@@ -602,7 +627,7 @@ const ReviewWithRating = ({
                       onClick={openLoginModal}
                       className="bg-[#FFCF0A] hover:bg-[#FFCF0A] transition-colors duration-200 px-5 md:px-8 py-2 md:py-4 rounded-lg font-semibold text-[14px] md:text-base text-black border-none"
                     >
-                      Write a review
+                      {writeReview}
                     </button>
                   </div>
                 ) : (
@@ -642,12 +667,13 @@ const ReviewWithRating = ({
                   <div className="flex items-center bg-white border border-gray-300 flex-[1_0_0]">
                     <input
                       type="text"
-                      placeholder="Search our customer's review"
+                      placeholder={searchCustomerReview}
                       value={searchTerm}
                       onChange={(e) => {
                         setSearchTerm(e.target.value);
                       }}
                       className="flex-1 px-4 py-2 md:py-1 border-none border-rating-input-filter placeholder-[#9EA5A8] text-gray-700 text-[15px] bg-[#FCFCFC] rounded-l-full md:rounded-l-[4px] outline-none ring-0 focus:outline-none focus:ring-0 focus:border-none"
+                      dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                     />
                     <button
                       type="button"
@@ -656,7 +682,7 @@ const ReviewWithRating = ({
                         console.log("Search clicked:", debouncedSearchTerm);
                       }}
                     >
-                      Search
+                      {search}
                     </button>
                   </div>
 
@@ -682,10 +708,10 @@ const ReviewWithRating = ({
                     {isSortDropdownOpen && (
                       <div className="absolute overflow-hidden top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-2xl shadow-lg z-[9]">
                         {[
-                          { value: "newest", label: "Newest First" },
-                          { value: "oldest", label: "Oldest First" },
-                          { value: "highest", label: "Highest Rating" },
-                          { value: "lowest", label: "Lowest Rating" },
+                          { value: "newest", label: newestFirst },
+                          { value: "oldest", label: oldestFirst },
+                          { value: "highest", label: highestRating },
+                          { value: "lowest", label: lowestRating },
                         ].map((option) => (
                           <div
                             key={option.value}
@@ -929,7 +955,7 @@ const ReviewWithRating = ({
                               return (
                                 <div key={index} className="relative">
                                   <img
-                                    title="Click to view all images"
+                                    title={clickToViewAllImages}
                                     src={getImageUrl(image)}
                                     alt={`Review ${index + 1}`}
                                     className="w-full h-14 md:h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
@@ -950,7 +976,7 @@ const ReviewWithRating = ({
                               className="h-4 w-4 md:w-5 md:h-5"
                             />
                             <span className="text-xs md:text-base text-blue-600 font-normal">
-                              Trusted Reviewer
+                              {trustedReviewer}
                             </span>
                           </div>
                         )}
@@ -997,12 +1023,12 @@ const ReviewWithRating = ({
                 {productReviews?.data?.result?.length === 0 && (
                   <div className="text-center py-12">
                     <div className="text-gray-400 text-lg mb-2">
-                      No reviews found
+                      {noReviewsFound}
                     </div>
                     <div className="text-gray-500 text-sm">
                       {totalReviews === 0
                         ? ""
-                        : "Try adjusting your search or filter criteria"}
+                        : tryAdjustingSearchOrFilter}
                     </div>
                   </div>
                 )}
@@ -1037,15 +1063,15 @@ const ReviewWithRating = ({
               {!authstatus ? (
                 <div className="text-center">
                   <p className="xl:text-[22px] font-semibold xl:font-bold text-[#43494b] text-center leading-relaxed">
-                    Your review makes a difference <br />
-                    share it now!
+                    {yourReviewMakesADifference} <br />
+                    {shareItNow}
                   </p>
 
                   <button
                     onClick={openLoginModal}
                     className="bg-[#FFCF0A] hover:bg-[#FFCF0A] transition-colors duration-200 px-5 xl:px-8 py-2 xl:py-4 rounded-lg font-semibold text-[14px] xl:text-base text-black border-none"
                   >
-                    Write a review
+                    {writeReview}
                   </button>
                 </div>
               ) : (
@@ -1100,7 +1126,7 @@ const ReviewWithRating = ({
             {/* Header */}
             <div className="flex justify-between items-center border-b">
               <h2 className="text-[22px] md:text-xl font-semibold text-gray-800 mb-0">
-                Want to add product images ?
+                {wantToAddProductImages}
               </h2>
               <button
                 onClick={handleImageModalClose}
@@ -1144,17 +1170,17 @@ const ReviewWithRating = ({
 
                   <p className="text-lg mb-2">
                     <span className="text-[#5F1BE7] font-medium">
-                      Click to upload
+                      {clickToUpload}
                     </span>
-                    <span className="text-gray-600"> or drag and drop</span>
+                    <span className="text-gray-600"> {orDragAndDrop}</span>
                   </p>
 
                   <p className="text-sm text-gray-500">
-                    PNG, JPG or JPEG (max. 5MB)
+                    {pngJpgJpegMax5MB}
                   </p>
 
                   <p className="text-xs text-gray-400 mt-2">
-                    Maximum {MAX_FILES} files allowed
+                    {maximumFilesAllowed} {MAX_FILES} {filesAllowed}
                   </p>
 
                   <input
@@ -1186,7 +1212,7 @@ const ReviewWithRating = ({
               {selectedFiles.length > 0 && (
                 <div className="flex flex-col gap-2">
                   <h3 className="text-base font-semibold text-gray-700 mb-2 text-end md:text-start">
-                    {isMobile ? "" : "Selected Files:"} {selectedFiles.length}/
+                    {isMobile ? "" : selectedFilesText} {selectedFiles.length}/
                     {MAX_FILES}
                   </h3>
                   <div className="grid grid-cols-5 gap-3">
@@ -1226,13 +1252,13 @@ const ReviewWithRating = ({
                 onClick={handleImageSubmit}
                 className="flex-1 bg-[#E7E8E9] btn-cancel-editmodal text-[#43494B] font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Skip for now
+                {skipForNow}
               </button>
               <button
                 onClick={handleImageSubmit}
                 className="flex-1 bg-[#5F1BE7] hover:bg-[#5215cc] border-none text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
               >
-                Submit
+                {submit}
               </button>
             </div>
           </div>

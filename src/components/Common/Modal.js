@@ -12,6 +12,7 @@ import Login from "./Login";
 import SuccessModal from "./Modals/SuccessModal";
 import OTPVerification from "./OtpVerifiaction";
 import Register from "./Register";
+import { useCurrentLanguage } from "@/hooks";
 
 function Example() {
   const formmodal = useSelector((state) => state.formslice.formmodal);
@@ -21,6 +22,7 @@ function Example() {
     (state) => state.formslice.profilenotupdate
   );
   const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
 
   const otpmodalhandle = () => {
     dispatch(setotpmodal(!optmodalopen));
@@ -41,8 +43,11 @@ function Example() {
         size={formstatus == 3 && "lg"}
         centered
         className={optmodalopen && "z-3"}
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
-        <div className="modalclose d-flex cursor-pointer justify-content-end pe-2 pt-2 ">
+        <div className={`modalclose d-flex cursor-pointer pt-2 ${
+          currentLanguage === "ar" ? "justify-content-start ps-2" : "justify-content-end pe-2"
+        }`}>
           <IoClose
             size={20}
             onClick={() => {
@@ -77,8 +82,11 @@ function Example() {
                 onHide={handleClose}
                 keyboard={false}
                 centered
+                dir={currentLanguage === "ar" ? "rtl" : "ltr"}
             >
-                <div className='modalclose cursor-pointer d-flex justify-content-end pe-2 pt-2 '>
+                <div className={`modalclose cursor-pointer d-flex pt-2 ${
+                  currentLanguage === "ar" ? "justify-content-start ps-2" : "justify-content-end pe-2"
+                }`}>
                     <IoClose size={20} onClick={ otpmodalhandle} />
                 </div>
                 <OTPVerification 

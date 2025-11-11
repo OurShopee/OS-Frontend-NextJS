@@ -18,11 +18,13 @@ import { getCatScreenList, setscrolled_products } from "@/redux/categoryslice";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import { MediaQueries } from "@/components/utils";
 import { ProductCard } from "@/components/Common";
+import { useContent } from "@/hooks";
 
 export default function CategoryClient({ initialCategoryData, categorySlug }) {
   const dispatch = useDispatch();
   const { slug } = useParams();
-
+  const shopBySubCategory = useContent("header.shopBySubCategory");
+  const hotDeals = useContent("specialPages.hotDeals");
   const categoryScreen = initialCategoryData;
   const loading = useSelector((state) => state.categoryslice.loading);
   const categoryList = useSelector((state) => state.globalslice.data);
@@ -98,7 +100,7 @@ export default function CategoryClient({ initialCategoryData, categorySlug }) {
         {!categoryloading && (
           <div className="component_1 cat_carousel">
             <ComponentHeader
-              title={"Shop by Sub-Categories"}
+              title={shopBySubCategory}
               view_all={"rgba(82, 50, 194, 1)"}
             />
             <HomeCategories
@@ -118,11 +120,11 @@ export default function CategoryClient({ initialCategoryData, categorySlug }) {
               <div className="space-y-4">{/* placeholder items */}</div>
             ) : (
               <HalfCarouselProducts
-                first_title={"Hot"}
-                second_title={"Deals"}
+                first_title={hotDeals.split(" ")[0]}
+                second_title={hotDeals.split(" ").slice(1).join(" ")}
                 products={categoryScreen?.hot_deals}
                 type={1}
-                title={"Hot Deals"}
+                title={hotDeals}
                 inner_bg={"rgba(255, 250, 229, 1)"}
                 bg_color={"rgba(255, 207, 10, 1)"}
                 first_string_color={"#000"}

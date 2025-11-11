@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { MdClose, MdDelete } from "react-icons/md";
 import CustomStarRating from "./CustomStarRating";
 import { getImageUrl } from "../utils/helpers";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 // ✅ ADD: Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -45,6 +46,15 @@ const EditModalMobile = ({
   const reviewTextareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const modalRef = useRef(null);
+  const currentLanguage = useCurrentLanguage();
+  const wantToAddProductImages = useContent("product.wantToAddProductImages");
+  const onlyPngJpgJpegAllowed = useContent("product.onlyPngJpgJpegAllowed");
+  const fileSizeMustBeLessThan5MB = useContent("product.fileSizeMustBeLessThan5MB");
+  const youCanOnlyUploadUpTo = useContent("product.youCanOnlyUploadUpTo");
+  const images = useContent("product.images");
+  const skipForNow = useContent("product.skipForNow");
+  const submit = useContent("buttons.submit");
+  const cancel = useContent("buttons.cancel");
 
   // Constants for file validation
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
@@ -78,11 +88,11 @@ const EditModalMobile = ({
     const errors = [];
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      errors.push(`${file.name}: Only PNG, JPG, and JPEG files are allowed`);
+      errors.push(`${file.name}: ${onlyPngJpgJpegAllowed}`);
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      errors.push(`${file.name}: File size must be less than 5MB`);
+      errors.push(`${file.name}: ${fileSizeMustBeLessThan5MB}`);
     }
 
     return errors;
@@ -95,7 +105,7 @@ const EditModalMobile = ({
     const validFiles = [];
 
     if (editReviewImages?.length + fileArray?.length > MAX_FILES) {
-      newErrors.push(`You can only upload up to ${MAX_FILES} files`);
+      newErrors.push(`${youCanOnlyUploadUpTo} ${MAX_FILES} ${images}`);
       setErrors(newErrors);
       return;
     }
@@ -338,7 +348,7 @@ const EditModalMobile = ({
               <div className="text-left">
                 <div className="flex items-center justify-between">
                   <h4 className="text-lg font-semibold text-[#354259]">
-                    Want to add product images?
+                    {wantToAddProductImages}
                   </h4>
                 </div>
 
@@ -439,13 +449,13 @@ const EditModalMobile = ({
                   onClick={onClose}
                   className="flex-1 text-base bg-[#FCFCFC] text-[#43494B] btn-cancel-editmodal font-semibold py-3 px-4 rounded-lg transition-all duration-200 hover:shadow-lg border-none"
                 >
-                  Cancel
+                  {cancel}
                 </button>
                 <button
                   onClick={handleImageSubmit}
                   className="flex-1 text-base bg-[#5232C2] border-[#E7E8E9] text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 hover:shadow-lg border-none"
                 >
-                  Submit
+                  {submit}
                 </button>
               </div>
             </div>

@@ -1,14 +1,22 @@
 "use client";
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Inputbox from '@/components/Common/Inputbox';
 import PhoneInput from '@/components/Common/PhoneInput';
 import Formvalidation from '@/components/Validation/Formvalidation';
 import { trackdatabyorderidapi } from '@/redux/formslice';
 import BreadComp from '@/components/Myaccount/BreadComp';
 import { MediaQueries } from '@/components/utils';
-import { useSelector } from 'react-redux';
+import { useContent, useCurrentLanguage } from '@/hooks';
+
 const Trackorderbyid = () => {
+  const currentLanguage = useCurrentLanguage();
+  const trackYourOrder = useContent("helpCenter.trackYourOrder");
+  const trackByOrderId = useContent("forms.trackByOrderId");
+  const enterOrderId = useContent("forms.enterOrderId");
+  const orderId = useContent("forms.orderId");
+  const phoneNumberTitle = useContent("forms.phoneNumber");
+  const submit = useContent("buttons.submit");
         const { isMobile } = MediaQueries()
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
 
@@ -49,23 +57,23 @@ const Trackorderbyid = () => {
     );
 
     return (
-        <div className='ms-2 me-2 mb-2'>
+        <div className='ms-2 me-2 mb-2' dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
         {
             isMobile &&
-            <>   <BreadComp title={"Track your order"} />
-            <div className="page-titile">Track your order
+            <>   <BreadComp title={trackYourOrder} />
+            <div className="page-titile">{trackYourOrder}
             </div></>
         }
          
             <div className="mytractrightside">
-                <div className='ordrtract-title'>Track by Order ID</div>
+                <div className='ordrtract-title'>{trackByOrderId}</div>
                 <Inputbox
                     id="orderid"
                     type="text"
                     value={formData.orderid}
                     handleChange={handleChange}
-                    placeholder="Enter Order ID"
-                    title="Order ID"
+                    placeholder={enterOrderId}
+                    title={orderId}
                     error={errors.orderid}
                 />
                 <PhoneInput
@@ -73,16 +81,16 @@ const Trackorderbyid = () => {
                     setAreaCode={setAreaCode}
                     phoneNumber={phoneNumber}
                     handlePhoneInput={handlePhoneInput}
-                    title="Phone Number"
+                    title={phoneNumberTitle}
                 />
 
             </div>
-            <div className="d-flex justify-content-end">
+            <div className={`d-flex ${currentLanguage === "ar" ? "justify-content-start" : "justify-content-end"}`}>
                 <div
                     className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn" : "formsubmitbutton profileviewsubmitbtn"}
                     onClick={isFormValid() ? handleSubmit : null}
                 >
-                    Submit
+                    {submit}
                 </div>
             </div>
         </div>

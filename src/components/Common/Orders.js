@@ -4,14 +4,37 @@ import { useSelector } from "react-redux";
 import { MediaQueries } from "../../components/utils";
 import DeskOrdertrack from "./DeskOrdertrack";
 import Mobiletrack from "./Mobiletrack";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const Orders = ({ orderlistdata }) => {
   console.log("order",orderlistdata)
   const { isMobile } = MediaQueries();
+  const currentLanguage = useCurrentLanguage();
   // const orderlistdata = useSelector((state) => state.formslice.orderlistdata);
   const [openOrderId, setOpenOrderId] = useState(null);
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+  
+  // Content translations - using existing keys where possible
+  const orderId = useContent("forms.orderId");
+  const referenceNo = useContent("forms.referenceNo");
+  const orderTotal = useContent("forms.orderTotal");
+  const deliveryBy = useContent("forms.deliveryBy");
+  const placedOn = useContent("forms.placedOn");
+  const orderDetails = useContent("buttons.orderDetails");
+  const paymentDetails = useContent("forms.paymentDetails");
+  const paymentMethod = useContent("checkout.paymentMethod");
+  const deliveryAddressDetails = useContent("forms.deliveryAddressDetails");
+  const deliveryAddress = useContent("pages.deliveryAddress");
+  const priceDetails = useContent("forms.priceDetails");
+  const subtotal = useContent("checkout.subtotal");
+  const vat = useContent("forms.vat");
+  const shippingCharge = useContent("forms.shippingCharge");
+  const processingFee = useContent("forms.processingFee");
+  const discount = useContent("checkout.discount");
+  const total = useContent("checkout.total");
+  const inclusiveOfVat = useContent("forms.inclusiveOfVat");
   const toggleOrderDetails = (orderId) => {
     setOpenOrderId((prev) => (prev === orderId ? null : orderId));
   };
@@ -86,22 +109,24 @@ const Orders = ({ orderlistdata }) => {
       {orderlistdata?.data?.map((ele) => {
         // console.log(ele)
         return (
-          <div key={ele.orderId} className="mt-4 mb-4">
+          <div key={ele.orderId} className="mt-4 mb-4" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
             <div className="myorder-main">
               {/* Top Order Summary */}
-              <div className="myorder-top d-flex justify-content-between flex-wrap">
-                <div className="d-flex flex-wrap gap-4">
+              <div className={`myorder-top d-flex flex-wrap ${
+                currentLanguage === "ar" ? "flex-row-reverse justify-content-between" : "justify-content-between"
+              }`}>
+                <div className={`d-flex flex-wrap gap-4 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                   <div>
-                    <div className="order-title">Order ID:</div>
+                    <div className="order-title">{orderId}:</div>
                     <div className="order-content">{ele.orderId}</div>
                   </div>
                   <div>
-                    <div className="order-title">Reference No.:</div>
+                    <div className="order-title">{referenceNo}</div>
                     <div className="order-content">{ele.referenceNo}</div>
                   </div>
                 </div>
                 <div className="ordertitleend">
-                  <div className="order-title">Order Total:</div>
+                  <div className="order-title">{orderTotal}</div>
                   <div className="order-content">
                     {currentcountry.currency} {ele.totalAmount}
                   </div>
@@ -110,21 +135,23 @@ const Orders = ({ orderlistdata }) => {
 
               {/* Status & Product List */}
               <div className="myorder-productdetails ">
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className={`d-flex align-items-center mb-3 ${
+                  currentLanguage === "ar" ? "flex-row-reverse justify-content-between" : "justify-content-between"
+                }`}>
                   <div>
                     {/* <div className="myorder-orderstatus d-flex align-items-center gap-2">
                                         <img className="ordersbox-img" src={Deliveybox} alt="box" />
                                         Ordered
                                     </div> */}
-                    <div className="d-flex gap-2">
-                      <div className="order-deliverytitle">Delivery by</div>
+                    <div className={`d-flex gap-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                      <div className="order-deliverytitle">{deliveryBy}</div>
                       <div className="order-date">
                         {ele.orderDetail.deliveryDate}
                       </div>
                     </div>
                   </div>
                   <div className="ordertitleend">
-                    <div className="order-title">Placed on:</div>
+                    <div className="order-title">{placedOn}</div>
                     <div className="order-content">{ele.placedOn}</div>
                   </div>
                 </div>
@@ -134,7 +161,7 @@ const Orders = ({ orderlistdata }) => {
                   <Row key={index} className="mb-3">
                     <div className="form-border-bottom"></div>
                     <Col lg={12}>
-                      <div className="d-flex gap-3 mt-3">
+                      <div className={`d-flex gap-3 mt-3 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         <img
                           src={item.image}
                           className="order-image"
@@ -179,11 +206,11 @@ const Orders = ({ orderlistdata }) => {
 
                     <div className="orderdetails-content">
                       <div className="order-paymentdetail-title">
-                        Payment Details
+                        {paymentDetails}
                       </div>
                       <div className="payment-type">
                         <div className="order-paymenttype-title">
-                          Payment Method
+                          {paymentMethod}
                         </div>
                         <div className="order-paymenttype-cost">
                           {ele.orderDetail.paymode}
@@ -193,11 +220,11 @@ const Orders = ({ orderlistdata }) => {
 
                     <div className="orderdetails-content">
                       <div className="order-paymentdetail-title">
-                        Delivery Address Details
+                        {deliveryAddressDetails}
                       </div>
                       <div className="payment-type d-block">
                         <div className="order-paymenttype-title">
-                          Delivery Address
+                          {deliveryAddress}
                         </div>
                         <div className=" order-paymenttype-cost address-style">
                           {ele.orderDetail.shipping_address}
@@ -207,10 +234,10 @@ const Orders = ({ orderlistdata }) => {
 
                     <div className="orderdetails-content">
                       <div className="order-paymentdetail-title">
-                        Price Details
+                        {priceDetails}
                       </div>
                       <div className="payment-type">
-                        <div className="order-paymenttype-title">Subtotal</div>
+                        <div className="order-paymenttype-title">{subtotal}</div>
                         <div className="order-paymenttype-cost">
                           {currentcountry.currency}{" "}
                           {(
@@ -226,7 +253,7 @@ const Orders = ({ orderlistdata }) => {
                       {(currentcountry?.currency !== "KWD" &&
                         currentcountry?.currency !== "QAR") && (
                           <div className="payment-type">
-                            <div className="order-paymenttype-title">VAT</div>
+                            <div className="order-paymenttype-title">{vat}</div>
                             <div className="order-paymenttype-cost">
                               {currentcountry.currency} {ele.orderDetail.vat}
                             </div>
@@ -234,7 +261,7 @@ const Orders = ({ orderlistdata }) => {
                         )}
                       <div className="payment-type">
                         <div className="order-paymenttype-title">
-                          Shipping Charge
+                          {shippingCharge}
                         </div>
                         <div className="order-paymenttype-cost">
                           {currentcountry.currency}{" "}
@@ -243,7 +270,7 @@ const Orders = ({ orderlistdata }) => {
                       </div>
                       <div className="payment-type">
                         <div className="order-paymenttype-title">
-                          Processing Fee
+                          {processingFee}
                         </div>
                         <div className="order-paymenttype-cost">
                           {currentcountry.currency}{" "}
@@ -251,7 +278,7 @@ const Orders = ({ orderlistdata }) => {
                         </div>
                       </div>
                       <div className="payment-type">
-                        <div className="order-paymenttype-title">Discount</div>
+                        <div className="order-paymenttype-title">{discount}</div>
                         <div className="order-paymenttype-cost">
                           {currentcountry.currency} {ele.orderDetail.discount}
                         </div>
@@ -259,11 +286,11 @@ const Orders = ({ orderlistdata }) => {
                       <div className="form-border-bottom"></div>
                       <div className="payment-type pt-3 pb-2">
                         <div className="payment-type-total">
-                          Total 
+                          {total}{" "}
                           {(currentcountry?.currency !== "KWD" &&
                             currentcountry?.currency !== "QAR") && (
                               <span className="totalvat">
-                                (Inclusive of VAT){" "}
+                                {inclusiveOfVat}{" "}
                               </span>
                             )}
                         </div>
@@ -278,37 +305,57 @@ const Orders = ({ orderlistdata }) => {
                 {!isMobile ? (
                   // openOrderId == ele.orderId &&
                   <div
-                    className="order-detailbutton mt-3"
+                    className={`order-detailbutton mt-3 d-flex align-items-center ${
+                      currentLanguage === "ar" ? "flex-row-reverse" : ""
+                    }`}
                     onClick={() => toggleOrderDetails(ele.referenceNo)}
                   >
-                    Order Details
+                    {orderDetails}
                     {openOrderId === ele.referenceNo ? (
                       <img
-                        className="ms-2"
+                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
                         src="/assets/vector_icons/arrow_up.png"
+                        alt="arrow up"
+                        style={{
+                          transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                        }}
                       ></img>
                     ) : (
                       <img
-                        className="ms-2"
+                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
                         src="/assets/vector_icons/arrow_down.png"
+                        alt="arrow down"
+                        style={{
+                          transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                        }}
                       ></img>
                     )}
                   </div>
                 ) : (
                   <div
-                    className="order-detailbutton mt-3"
+                    className={`order-detailbutton mt-3 d-flex align-items-center ${
+                      currentLanguage === "ar" ? "flex-row-reverse" : ""
+                    }`}
                     onClick={() => toggleOrderDetails(ele.referenceNo)}
                   >
-                    Order Details
+                    {orderDetails}
                     {openOrderId === ele.referenceNo ? (
                       <img
-                        className="ms-2"
+                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
                         src="/assets/vector_icons/arrow_up.png"
+                        alt="arrow up"
+                        style={{
+                          transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                        }}
                       ></img>
                     ) : (
                       <img
-                        className="ms-2"
+                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
                         src="/assets/vector_icons/arrow_down.png"
+                        alt="arrow down"
+                        style={{
+                          transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                        }}
                       ></img>
                     )}
                   </div>
@@ -319,7 +366,7 @@ const Orders = ({ orderlistdata }) => {
             {/* Expanded Order Details */}
             {!isMobile && openOrderId === ele.referenceNo && (
               <div className="order-details">
-                <div className="orderdetail-title">Order Details</div>
+                <div className="orderdetail-title">{orderDetails}</div>
 
                 <div className="orderdetails-content">
                   {isMobile ? (
@@ -338,11 +385,11 @@ const Orders = ({ orderlistdata }) => {
 
                 <div className="orderdetails-content">
                   <div className="order-paymentdetail-title">
-                    Payment Details
+                    {paymentDetails}
                   </div>
                   <div className="payment-type">
                     <div className="order-paymenttype-title">
-                      Payment Method
+                      {paymentMethod}
                     </div>
                     <div className="order-paymenttype-cost">
                       {ele.orderDetail.paymode}
@@ -352,11 +399,11 @@ const Orders = ({ orderlistdata }) => {
 
                 <div className="orderdetails-content">
                   <div className="order-paymentdetail-title">
-                    Delivery Address Details
+                    {deliveryAddressDetails}
                   </div>
                   <div className="payment-type">
                     <div className="order-paymenttype-title">
-                      Delivery Address
+                      {deliveryAddress}
                     </div>
                     <div className="order-paymenttype-cost">
                       {ele.orderDetail.shipping_address}
@@ -365,9 +412,9 @@ const Orders = ({ orderlistdata }) => {
                 </div>
 
                 <div className="orderdetails-content">
-                  <div className="order-paymentdetail-title">Price Details</div>
+                  <div className="order-paymentdetail-title">{priceDetails}</div>
                   <div className="payment-type">
-                    <div className="order-paymenttype-title">Subtotal</div>
+                    <div className="order-paymenttype-title">{subtotal}</div>
                     <div className="order-paymenttype-cost">
                       {currentcountry.currency}{" "}
                       {(
@@ -384,7 +431,7 @@ const Orders = ({ orderlistdata }) => {
                   {(currentcountry?.currency !== "KWD" &&
                     currentcountry?.currency !== "QAR") && (
                       <div className="payment-type">
-                        <div className="order-paymenttype-title">VAT</div>
+                        <div className="order-paymenttype-title">{vat}</div>
                         <div className="order-paymenttype-cost">
                           {currentcountry.currency} {ele.orderDetail.vat}
                         </div>
@@ -392,7 +439,7 @@ const Orders = ({ orderlistdata }) => {
                     )}
                   <div className="payment-type">
                     <div className="order-paymenttype-title">
-                      Shipping Charge
+                      {shippingCharge}
                     </div>
                     <div className="order-paymenttype-cost">
                       {currentcountry.currency}{" "}
@@ -401,14 +448,14 @@ const Orders = ({ orderlistdata }) => {
                   </div>
                   <div className="payment-type">
                     <div className="order-paymenttype-title">
-                      Processing Fee
+                      {processingFee}
                     </div>
                     <div className="order-paymenttype-cost">
                       {currentcountry.currency} {ele.orderDetail.processing_fee}
                     </div>
                   </div>
                   <div className="payment-type">
-                    <div className="order-paymenttype-title">Discount</div>
+                    <div className="order-paymenttype-title">{discount}</div>
                     <div className="order-paymenttype-cost">
                       {currentcountry.currency} {ele.orderDetail.discount}
                     </div>
@@ -416,10 +463,10 @@ const Orders = ({ orderlistdata }) => {
                   <div className="form-border-bottom"></div>
                   <div className="payment-type pt-3 pb-2">
                     <div className="payment-type-total">
-                      Total
+                      {total}
                       {(currentcountry?.currency !== "KWD" &&
                         currentcountry?.currency !== "QAR") && (
-                          <span className="totalvat">(Inclusive of VAT) </span>
+                          <span className="totalvat"> {inclusiveOfVat} </span>
                         )}
                     </div>
                     <div className="payment-type-totalcost">
@@ -429,19 +476,29 @@ const Orders = ({ orderlistdata }) => {
                 </div>
 
                 <div
-                  className="order-detailbutton mt-3"
+                  className={`order-detailbutton mt-3 d-flex align-items-center ${
+                    currentLanguage === "ar" ? "flex-row-reverse" : ""
+                  }`}
                   onClick={() => toggleOrderDetails(ele.referenceNo)}
                 >
-                  Order Details
+                  {orderDetails}
                   {openOrderId === ele.referenceNo ? (
                     <img
-                      className="ms-2"
+                      className={currentLanguage === "ar" ? "me-2" : "ms-2"}
                       src="/assets/vector_icons/arrow_up.png"
+                      alt="arrow up"
+                      style={{
+                        transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                      }}
                     ></img>
                   ) : (
                     <img
-                      className="ms-2"
+                      className={currentLanguage === "ar" ? "me-2" : "ms-2"}
                       src="/assets/vector_icons/arrow_down.png"
+                      alt="arrow down"
+                      style={{
+                        transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                      }}
                     ></img>
                   )}
                 </div>

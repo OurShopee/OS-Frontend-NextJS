@@ -6,7 +6,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { Navigationapi } from "@/api/products";
-import { useContent } from "@/hooks";
+import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 import { pushToDataLayer } from "../../utils/dataUserpush";
 
 const Categorylist = () => {
@@ -20,6 +20,7 @@ const Categorylist = () => {
   const [subSubcategories, setSubSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const dropdownRef = useRef(null);
+  const currentLanguage = useCurrentLanguage();
 
   // Language content
   const categoryText = useContent("header.category");
@@ -136,14 +137,14 @@ const Categorylist = () => {
                     } font-[Outfit] font-medium`}
                     href={"/categories/" + cat?.url}
                   >
-                    {cat.category_name}
+                    {getDynamicContent(cat, "category_name", currentLanguage)}
                     <BiSolidRightArrow
                       size={12}
-                      className={
+                      className={`${currentLanguage === "ar" ? "rotate-180" : ""} ${
                         hoveredCategory === cat
                           ? "text-[#5232C2]"
                           : "text-gray-400"
-                      }
+                      }`}
                     />
                   </Link>
                 ))}
@@ -167,7 +168,7 @@ const Categorylist = () => {
                         <div className="w-[70px] h-[70px] rounded-full flex items-center justify-center mb-2">
                           <img
                             src={sub.sub_category_image}
-                            alt={sub.sub_category_name}
+                            alt={getDynamicContent(sub, "sub_category_name", currentLanguage)}
                             className="w-16 h-16 object-contain"
                           />
                         </div>
@@ -178,7 +179,7 @@ const Categorylist = () => {
                               : "text-[#595959]"
                           }`}
                         >
-                          {sub.sub_category_name}
+                          {getDynamicContent(sub, "sub_category_name", currentLanguage)}
                         </span>
                       </Link>
                     ))}
@@ -205,9 +206,9 @@ const Categorylist = () => {
                                   currentcountry.name,
                                   {
                                     category_name:
-                                      hoveredCategory.category_name,
+                                      getDynamicContent(hoveredCategory, "category_name", currentLanguage),
                                     sub_category2_name:
-                                      subsub.sub_subcategory_name,
+                                      getDynamicContent(subsub, "sub_subcategory_name", currentLanguage),
                                     page_name: landingUrl,
                                   }
                                 );
@@ -215,7 +216,7 @@ const Categorylist = () => {
                               className="group py-1 px-1 rounded font-[Outfit] text-left no-underline hover:bg-[#F1EDFE]"
                             >
                               <span className="text-[16px] font-medium font-[Outfit] text-[#595959] group-hover:text-[#5232C2]">
-                                {subsub.sub_subcategory_name}
+                                {getDynamicContent(subsub, "sub_subcategory_name", currentLanguage)}
                               </span>
                             </Link>
                           );
@@ -253,7 +254,7 @@ const Categorylist = () => {
                                   currentcountry.name,
                                   {
                                     category_name:
-                                      hoveredCategory.category_name,
+                                      getDynamicContent(hoveredCategory, "category_name", currentLanguage),
                                     brand_name: brand.name,
                                     page_name: landingUrl,
                                   }

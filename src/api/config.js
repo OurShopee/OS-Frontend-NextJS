@@ -97,7 +97,6 @@ export const configureAxios = () => {
         const countryDataForRequest = getCountryData();
         if (countryDataForRequest && countryDataForRequest.id) {
           config.headers["Country-Id"] = countryDataForRequest.id;
-          console.log("config.headers", config.headers)
         }
         return config;
       },
