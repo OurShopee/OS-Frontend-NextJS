@@ -2387,7 +2387,7 @@ export const content = {
       ar: "علامة الأسبوع",
     },
     brandOfTheWeekShort: {
-      en: "BRAND OF THE WEEK",
+      en: "BRAND OF",
       ar: "علامة",
     },
     theWeek: {
