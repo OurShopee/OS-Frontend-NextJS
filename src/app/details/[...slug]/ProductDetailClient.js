@@ -15,7 +15,7 @@ import { useCart } from "@/hooks";
 import { decode } from "html-entities";
 import Cookiess from "js-cookie";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronUp } from "react-icons/fa6";
 import { FiMinus, FiPlus } from "react-icons/fi";
@@ -48,8 +48,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const [showCartModalDesktop, setShowCartModalDesktop] = useState(false);
   const [product, setProduct] = useState(initialProductData);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+  // In Pages Router, search params come from router.query
+  const searchParams = router.query || {};
+  // In Pages Router, pathname comes from router.pathname or router.asPath
+  const pathname = router.asPath?.split("?")[0] || router.pathname || "";
   const [productReviews, setProductReviews] = useState();
   const [allProductReviews, setAllProductReviews] = useState();
 
@@ -353,9 +355,13 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         false
       );
       if (addresslistdata?.data?.length > 0) {
-        router.push(`/Payment?prodId=${id}&qty=${qty}&sku=${sku}&price=${productDetail[0]?.display_price}`);
+        router.push(
+          `/Payment?prodId=${id}&qty=${qty}&sku=${sku}&price=${productDetail[0]?.display_price}`
+        );
       } else {
-        router.push(`/deliveryaddress?prodId=${id}&qty=${qty}&sku=${sku}&price=${productDetail[0]?.display_price}`);
+        router.push(
+          `/deliveryaddress?prodId=${id}&qty=${qty}&sku=${sku}&price=${productDetail[0]?.display_price}`
+        );
       }
     }
   };
@@ -415,13 +421,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         <div className="pb-3 px-3">
           {!loading ? (
             <div
-              className={`2xl:container top-[20px] flex ${isMobile && "flex-col"
-                } gap-5 !m-auto relative`}
+              className={`2xl:container top-[20px] flex ${
+                isMobile && "flex-col"
+              } gap-5 !m-auto relative`}
             >
               <div
-                className={`${!isMobile &&
+                className={`${
+                  !isMobile &&
                   "flex-[0_0_47%] w-[47%] sticky top-[0px] self-start"
-                  }`}
+                }`}
               >
                 {isMobile && (
                   <>
@@ -450,8 +458,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               )
                                 ? `${allProductReviews?.data?.stats?.averageRating}.0`
                                 : allProductReviews?.data?.stats?.averageRating?.toFixed(
-                                  1
-                                )}
+                                    1
+                                  )}
                             </span>
                             <span className="text-[#9EA5A8] font-medium">
                               | ({allProductReviews?.data?.stats?.reviewCount}{" "}
@@ -499,12 +507,14 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 </div>
               </div>
               <div
-                className={`${!isMobile && "flex-grow basis-0 overflow-hidden"
-                  }`}
+                className={`${
+                  !isMobile && "flex-grow basis-0 overflow-hidden"
+                }`}
               >
                 <div
-                  className={`product_Detail_right_side ${isMobile ? "mt-0" : "mt-10"
-                    }`}
+                  className={`product_Detail_right_side ${
+                    isMobile ? "mt-0" : "mt-10"
+                  }`}
                 >
                   {!isMobile && (
                     <div className="mb-7">
@@ -531,8 +541,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             )
                               ? `${allProductReviews?.data?.stats?.averageRating}.0`
                               : allProductReviews?.data?.stats?.averageRating?.toFixed(
-                                1
-                              )}
+                                  1
+                                )}
                           </span>
                           {allProductReviews?.data?.stats?.reviewCount > 0 && (
                             <span className="text-base text-[#9EA5A8] font-medium">
@@ -587,7 +597,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
                     {productDetail[0]?.hasOwnProperty("old_price") &&
                       Number(productDetail[0]?.display_price) <
-                      Number(productDetail[0]?.old_price) && (
+                        Number(productDetail[0]?.old_price) && (
                         <div className="old_price">
                           <span>
                             {currentcountry.currency +
@@ -605,12 +615,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         </div>
                       )}
                   </div>
-                  {
-                    currentcountry.id == 1 &&
-                    <tamara-widget type="tamara-summary" amount={productDetail[0]?.display_price} inline-type='2' inline-variant='text' config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'>
-
-                    </tamara-widget>
-                  }
+                  {currentcountry.id == 1 && (
+                    <tamara-widget
+                      type="tamara-summary"
+                      amount={productDetail[0]?.display_price}
+                      inline-type="2"
+                      inline-variant="text"
+                      config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'
+                    ></tamara-widget>
+                  )}
                   <div className="my-6">
                     {productDetail[0]?.stock === "In stock" && (
                       <>
@@ -645,8 +658,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           </div>
                         </div>
                         <div
-                          className={`flex items-center ${isMobile ? "" : "gap-2"
-                            } flex-nowrap min-w-0`}
+                          className={`flex items-center ${
+                            isMobile ? "" : "gap-2"
+                          } flex-nowrap min-w-0`}
                         >
                           {productDetail?.[0]?.fastTrack === 1 && (
                             <img
@@ -658,8 +672,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           )}
                           <span
                             /* ms-1 -> ml-1 */
-                            className={`whitespace-nowrap ${productDetail?.[0]?.fastTrack === 0 ? "ml-1" : ""
-                              }`}
+                            className={`whitespace-nowrap ${
+                              productDetail?.[0]?.fastTrack === 0 ? "ml-1" : ""
+                            }`}
                             style={{ fontFamily: "Outfit", fontSize: "14px" }}
                           >
                             {(() => {
@@ -750,10 +765,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                                       className="no-underline flex items-center cursor-pointer"
                                     >
                                       <h6
-                                        className={`text-[14px] text-center rounded-full whitespace-nowrap px-10 py-3 border ${isActive
+                                        className={`text-[14px] text-center rounded-full whitespace-nowrap px-10 py-3 border ${
+                                          isActive
                                             ? "custom_border_select font-bold text-[16px]"
                                             : "image-border text-[#43494B] font-medium"
-                                          }`}
+                                        }`}
                                       >
                                         {attribute_item?.name}
                                       </h6>
@@ -765,18 +781,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                                       className="no-underline flex flex-col items-center cursor-pointer w-max max-w-16"
                                     >
                                       <div
-                                        className={`flex items-center justify-center w-10 h-10 rounded-full ${isActive
+                                        className={`flex items-center justify-center w-10 h-10 rounded-full ${
+                                          isActive
                                             ? "custom_border_select"
                                             : "image-border"
-                                          }`}
+                                        }`}
                                       >
                                         <div style={colorCircleStyle} />
                                       </div>
                                       <h6
-                                        className={`mt-3 text-[14px] text-center ${isActive
+                                        className={`mt-3 text-[14px] text-center ${
+                                          isActive
                                             ? "text-[#43494B] font-bold text-[15px]"
                                             : "text-[#43494B] font-medium"
-                                          }`}
+                                        }`}
                                       >
                                         {attribute_item.name}
                                       </h6>
@@ -792,8 +810,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   )}
                   {/* Add to Cart Section */}
                   {!isTablet &&
-                    product?.stock === "In stock" &&
-                    product?.display_price > 0 ? (
+                  product?.stock === "In stock" &&
+                  product?.display_price > 0 ? (
                     <div className="grid lg:flex gap-3 mt-4 items-center select-none mb-3">
                       <div className="flex w-full gap-3 items-center">
                         <div className="flex flex-col gap-4">
@@ -804,9 +822,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             >
                               <FiMinus
                                 height={22}
-                                className={`cursor-pointer ${qty == 1 &&
+                                className={`cursor-pointer ${
+                                  qty == 1 &&
                                   "text-[#ddd9d9] text-opacity-50 !cursor-default"
-                                  }`}
+                                }`}
                                 onClick={() => handleChangeQty("dec")}
                               />
                             </button>
@@ -1071,8 +1090,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
           {/* Product Specifications */}
           <div className={`${!isMobile ? "mt-8" : "mt-4"}`}>
             <div
-              className={`${expanded ? "accordian_border1" : "accordian_border"
-                } relative mb-4 ${expanded && "pb-12"} overflow-hidden`}
+              className={`${
+                expanded ? "accordian_border1" : "accordian_border"
+              } relative mb-4 ${expanded && "pb-12"} overflow-hidden`}
             >
               <div
                 ref={headerRef}
@@ -1089,8 +1109,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   onClick={handleToggle}
                   src="/assets/downArrow.png"
                   alt="Arrow"
-                  className={`w-4 h-4 cursor-pointer grayscale ${expanded ? "rotate-180" : ""
-                    } transition-transform`}
+                  className={`w-4 h-4 cursor-pointer grayscale ${
+                    expanded ? "rotate-180" : ""
+                  } transition-transform`}
                 />
               </div>
 
@@ -1109,52 +1130,54 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   <div className="specification-main relative">
                     {expanded
                       ? productDetail[0]?.small_desc_data.map((ele, index) => (
-                        /* Row -> flex flex-wrap */
-                        <div
-                          key={index}
-                          className={`flex flex-wrap specificationdetails ${index % 2 === 0
-                              ? "evenbacground"
-                              : "nooddbackground"
-                            }`}
-                        >
-                          {/* Col lg={4} md={4} sm={6} xs={6} -> w-full lg:w-1/3 md:w-1/3 sm:w-1/2 */}
-                          <div className="w-full lg:w-1/3 md:w-1/3 sm:w-1/2 specificationtitle">
-                            {ele.title}
-                          </div>
-                          {/* Col lg={8} md={8} sm={6} xs={6} -> w-full lg:w-2/3 md:w-2/3 sm:w-1/2 */}
-                          <div className="w-full lg:w-2/3 md:w-2/3 sm:w-1/2 specificationvalue">
-                            {ele.value}
-                          </div>
-                        </div>
-                      ))
-                      : getCombinedPartial().map((item, index) =>
-                        item.type === "react" ? (
                           /* Row -> flex flex-wrap */
                           <div
                             key={index}
-                            className={`flex flex-wrap specificationdetails ${index % 2 === 0
+                            className={`flex flex-wrap specificationdetails ${
+                              index % 2 === 0
                                 ? "evenbacground"
                                 : "nooddbackground"
-                              }`}
+                            }`}
                           >
-                            {/* Col mappings same as above */}
+                            {/* Col lg={4} md={4} sm={6} xs={6} -> w-full lg:w-1/3 md:w-1/3 sm:w-1/2 */}
                             <div className="w-full lg:w-1/3 md:w-1/3 sm:w-1/2 specificationtitle">
-                              {item.data.title}
+                              {ele.title}
                             </div>
+                            {/* Col lg={8} md={8} sm={6} xs={6} -> w-full lg:w-2/3 md:w-2/3 sm:w-1/2 */}
                             <div className="w-full lg:w-2/3 md:w-2/3 sm:w-1/2 specificationvalue">
-                              {item.data.value}
+                              {ele.value}
                             </div>
                           </div>
-                        ) : (
-                          <div
-                            key={`html-${index}`}
-                            dangerouslySetInnerHTML={{
-                              /* table table-striped -> table table-auto, m-0 -> m-0 */
-                              __html: `<table class="table table-auto m-0"><tbody>${item.data}</tbody></table>`,
-                            }}
-                          />
-                        )
-                      )}
+                        ))
+                      : getCombinedPartial().map((item, index) =>
+                          item.type === "react" ? (
+                            /* Row -> flex flex-wrap */
+                            <div
+                              key={index}
+                              className={`flex flex-wrap specificationdetails ${
+                                index % 2 === 0
+                                  ? "evenbacground"
+                                  : "nooddbackground"
+                              }`}
+                            >
+                              {/* Col mappings same as above */}
+                              <div className="w-full lg:w-1/3 md:w-1/3 sm:w-1/2 specificationtitle">
+                                {item.data.title}
+                              </div>
+                              <div className="w-full lg:w-2/3 md:w-2/3 sm:w-1/2 specificationvalue">
+                                {item.data.value}
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              key={`html-${index}`}
+                              dangerouslySetInnerHTML={{
+                                /* table table-striped -> table table-auto, m-0 -> m-0 */
+                                __html: `<table class="table table-auto m-0"><tbody>${item.data}</tbody></table>`,
+                              }}
+                            />
+                          )
+                        )}
                   </div>
 
                   <div className="product-spec-table mt-2">
@@ -1333,10 +1356,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
       {/* Sticky Bottom Bar */}
       {!isTablet && (
         <div
-          className={`fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${showCard
+          className={`fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${
+            showCard
               ? "translate-y-0 opacity-100"
               : "translate-y-full opacity-0"
-            }`}
+          }`}
         >
           <div className="flex justify-end pr-4 pb-1">
             <button
@@ -1491,9 +1515,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           className="flex-1 border-none bg-transparent flex items-center justify-center px-0"
                         >
                           <FiMinus
-                            className={`cursor-pointer ${qty == 1 &&
+                            className={`cursor-pointer ${
+                              qty == 1 &&
                               "text-[#ddd9d9] text-opacity-50 !cursor-default"
-                              }`}
+                            }`}
                             onClick={() => handleChangeQty("dec")}
                           />
                         </button>

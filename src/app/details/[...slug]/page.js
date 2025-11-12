@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
-import ProductDetailClient from "./ProductDetailClient";
 import { getproduct_detail } from "@/api/products";
-import { headers } from "next/headers";
 import { getServerSideHeaders } from "@/lib/serverUtils";
+import { notFound } from "next/navigation";
+import { generateProductHTML } from "./generateProductHTML";
+import ProductDetailClient from "./ProductDetailClient";
 
 function extractProductInfo(slug) {
   if (!slug || slug.length < 2) {
@@ -40,22 +40,28 @@ export async function generateMetadata({ params }) {
 
   return {
     title: product?.seoTitle || product?.name || "Product Details",
-    description:
-      product?.seoDescription || product?.details || "Product description",
+    description: product?.seoDescription || "Product description",
     keywords: product?.keywords || product?.category_name || "",
     openGraph: {
       title: product?.seoTitle || product?.name,
-      description: product?.seoDescription || product?.details,
+      description: product?.seoDescription,
       images: product?.images ? [{ url: product.images[0] }] : [],
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/details/${productInfo.productSlug}/${productInfo.productSku}`,
     },
     twitter: {
       card: "summary_large_image",
       title: product?.seoTitle || product?.name,
-      description: product?.seoDescription || product?.details,
+      description: product?.seoDescription,
     },
   };
 }
+
+// Force server-side rendering to ensure HTML is in page source
+export const dynamic = "force-dynamic";
+// Disable streaming to ensure HTML is rendered in body, not in script tags
+export const runtime = "nodejs";
+// Ensure revalidation is disabled to prevent serialization
+export const revalidate = 0;
 
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
@@ -66,23 +72,42 @@ export default async function ProductDetailsPage({ params }) {
 
   // Get headers for server-side country detection
   const req = await getServerSideHeaders();
-  let productData ;
-try{
-  productData = await getproduct_detail(productInfo.productSku, req);
-}
-catch(error){
-  console.log("error", error)
-  console.log("error.message", error.message)
-}
+  let productData;
+  try {
+    productData = await getproduct_detail(productInfo.productSku, req);
+  } catch (error) {
+    console.log("error", error);
+    console.log("error.message", error.message);
+  }
 
   if (!productData) {
     notFound();
   }
 
+  // Ensure data is available before rendering
+  const product = productData?.data?.product?.[0];
+  if (!product) {
+    notFound();
+  }
+
+  const cleanedDetails = product?.details || "";
+
+  // Generate pure HTML string
+  const htmlContent = generateProductHTML(product, productInfo, cleanedDetails);
+
   return (
-    <ProductDetailClient
-      initialProductData={productData?.data?.product}
-      productInfo={productInfo}
-    />
+    <div id="product-detail-page">
+      {/* Render pure HTML directly without React Server Component wrapper */}
+      <div
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: htmlContent,
+        }}
+      />
+      <ProductDetailClient
+        initialProductData={productData?.data?.product}
+        productInfo={productInfo}
+      />
+    </div>
   );
 }
