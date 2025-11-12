@@ -103,7 +103,6 @@ const SellerOnboarding = () => {
             value instanceof File ? `File: ${value.name}` : value
           );
         }
-        console.log(finalFormData);
 
         const { data } = await addVendorApi(finalFormData);
         if (data.status === "success") {

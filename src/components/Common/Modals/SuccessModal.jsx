@@ -4,11 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { setformstatus } from "../../../redux/formslice";
 import Lottie from "lottie-react";
 import success from "@/components/rating-reviews/success.json";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const SuccessModal = () => {
   const dispatch = useDispatch();
   const formstatus = useSelector((state) => state.formslice.formstatus);
   const [animationState, setAnimationState] = useState(0);
+  const currentLanguage = useCurrentLanguage();
+  
+  // Content translations
+  const thankYouForYourFeedback = useContent("buttons.thankYouForYourFeedback");
+  const weTrulyAppreciateYourTime = useContent("buttons.weTrulyAppreciateYourTime");
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -70,19 +76,24 @@ const SuccessModal = () => {
           animation:
             formstatus === 5 && isMobile && "slideUp 0.3s ease-out forwards",
         }}
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
         {/* Mobile Close Button - Outside modal on top */}
         <button
           onClick={() => dispatch(setformstatus(0))}
-          className="absolute md:hidden -top-4 right-8 z-10 bg-[#FCFCFC] rounded-full w-10 h-10 shadow-[0px_4px_12px_0px_#0000000F] flex items-center justify-center border-none cursor-pointer hover:bg-gray-200 transition-colors"
+          className={`absolute md:hidden -top-4 z-10 bg-[#FCFCFC] rounded-full w-10 h-10 shadow-[0px_4px_12px_0px_#0000000F] flex items-center justify-center border-none cursor-pointer hover:bg-gray-200 transition-colors ${
+            currentLanguage === "ar" ? "left-8" : "right-8"
+          }`}
         >
           <MdClose className="w-6 h-6 text-[#191B1C] font-semibold" />
         </button>
 
-        {/* Desktop Close Button - Inside modal on top right */}
+        {/* Desktop Close Button - Inside modal on top */}
         <button
           onClick={() => dispatch(setformstatus(0))}
-          className="absolute hidden md:flex top-2 right-2 w-6 h-6 rounded-full bg-gray-300 border-none items-center justify-center text-gray-900 hover:bg-gray-200 transition-colors"
+          className={`absolute hidden md:flex top-2 w-6 h-6 rounded-full bg-gray-300 border-none items-center justify-center text-gray-900 hover:bg-gray-200 transition-colors ${
+            currentLanguage === "ar" ? "left-2" : "right-2"
+          }`}
         >
           <MdClose size={16} />
         </button>
@@ -106,11 +117,10 @@ const SuccessModal = () => {
           {/* Title */}
           <div className="flex flex-col gap-1 max-w-[325px]">
             <h3 className="text-2xl md:text-xl font-semibold text-center text-[#191B1C] mb-0">
-              Thank You for {isMobile && <br />} Your Feedback!
+              {thankYouForYourFeedback}
             </h3>
             <p className="text-center text-sm text-[#9EA5A8] mb-0">
-              We truly appreciate your time! Your review is submitted and will
-              be reviewed shortly. We’ll let you know once it’s live.
+              {weTrulyAppreciateYourTime}
             </p>
           </div>
         </div>

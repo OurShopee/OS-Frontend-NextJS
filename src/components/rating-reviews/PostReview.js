@@ -1,4 +1,5 @@
 import React from "react";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const PostReview = ({
   rating,
@@ -13,6 +14,14 @@ const PostReview = ({
   onCancel,
   isEditing = false,
 }) => {
+  const currentLanguage = useCurrentLanguage();
+  const rateThisProductAndTellOthers = useContent("product.rateThisProductAndTellOthers");
+  const canYouTellUsMore = useContent("product.canYouTellUsMore");
+  const leaveAReviewHere = useContent("product.leaveAReviewHere");
+  const cancel = useContent("buttons.cancel");
+  const update = useContent("buttons.update");
+  const submit = useContent("buttons.submit");
+  
   const handleStarClick = (star) => {
     setRating(star);
   };
@@ -42,7 +51,7 @@ const PostReview = ({
       <div className="relative">
         {/* Rating Title */}
         <h3 className="text-[22px] font-semibold text-black text-center">
-          Rate this product and tell others what you think
+          {rateThisProductAndTellOthers}
         </h3>
 
         {/* Interactive Star Rating */}
@@ -126,14 +135,15 @@ const PostReview = ({
       {/* Review Text Section */}
       <div className="text-left">
         <h4 className="text-lg font-semibold text-[#354259] mb-1">
-          Can you tell us more?
+          {canYouTellUsMore}
         </h4>
 
         <div className="relative">
           <textarea
             value={reviewText}
             onChange={handleReviewChange}
-            placeholder="Leave a review here...."
+            placeholder={leaveAReviewHere}
+            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
             className="w-full h-32 p-4 bg-white border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             maxLength={200}
           />
@@ -150,7 +160,7 @@ const PostReview = ({
             onClick={onCancel}
             className="flex-1 text-base bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none"
           >
-            Cancel
+            {cancel}
           </button>
         )}
         <button
@@ -159,7 +169,7 @@ const PostReview = ({
             onCancel ? "flex-1" : "w-full"
           } text-base bg-[#5F1BE7] hover:bg-[#5215cc] text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none`}
         >
-          {isEditing ? "Update" : "Submit"}
+          {isEditing ? update : submit}
         </button>
       </div>
     </div>

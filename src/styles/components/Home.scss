@@ -61,6 +61,19 @@
       font-weight: 500;
       font-size: 16px;
       color: #43494b;
+
+      // RTL support for Arabic
+      html[dir="rtl"] &,
+      html.rtl &,
+      body[dir="rtl"] &,
+      body.rtl & {
+        margin-right: 0;
+        margin-left: 10px;
+
+        @media screen and (max-width: 576px) {
+          margin-left: 8px;
+        }
+      }
     }
 
     .link_icon {

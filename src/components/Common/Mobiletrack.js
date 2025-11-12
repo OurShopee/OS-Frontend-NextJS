@@ -1,16 +1,25 @@
 import React from "react";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const OrderTimeline = ({ currentStep, data,ele }) => {
+  const currentLanguage = useCurrentLanguage();
+  const orderedText = useContent("orders.ordered");
+  const processingText = useContent("orders.processing");
+  const packedText = useContent("orders.packed");
+  const outForDeliveryText = useContent("orders.outForDelivery");
+  const deliveredText = useContent("orders.delivered");
+  const cancelledText = useContent("orders.cancelled");
+
   const stepMapping = [
-    { title: "Ordered", key: "orderedDate" },
-    { title: "Processing", key: "processedDate" },
-    { title: "Packed", key: "packedDate" },
-    { title: "Out for Delivery", key: "dispatchedDate" },
-    { title: "Delivered", key: "deliveryDate" },
+    { title: orderedText, key: "orderedDate" },
+    { title: processingText, key: "processedDate" },
+    { title: packedText, key: "packedDate" },
+    { title: outForDeliveryText, key: "dispatchedDate" },
+    { title: deliveredText, key: "deliveryDate" },
   ];
 
   return (
-    <div className="order-timeline">
+    <div className="order-timeline" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       {stepMapping.map((step, index) => {
         const isCurrent = index === currentStep;
         const isCompletedOrCurrent = index <= currentStep;
@@ -36,7 +45,7 @@ const OrderTimeline = ({ currentStep, data,ele }) => {
 
             {/* Middle: Text */}
             <div className="timeline-content">
-              <div className="step-title">{(currentStep == index && ele.cancelled) ? 'cancelled' : step.title}</div>
+              <div className="step-title">{(currentStep == index && ele.cancelled) ? cancelledText : step.title}</div>
               <div className="step-date">
                 {(currentStep == index && ele.cancelled) ? ele.cancelledDate : data[step.key] ? data[step.key] : "—"}
               </div>

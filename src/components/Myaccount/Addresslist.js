@@ -10,13 +10,21 @@ import { setformstatus } from "../../redux/formslice";
 import { setaddress_header } from "../../redux/addresslice";
 import { FaPlus } from "react-icons/fa6";
 import { MediaQueries } from "../utils";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const Address = () => {
     const dispatch = useDispatch();
     const { isMobile } = MediaQueries();
+    const currentLanguage = useCurrentLanguage();
     const addresslistdata = useSelector(state => state.addresslice.addresslistdata);
 
     const [selectedAddressId, setSelectedAddressId] = useState(null);
+    
+    // Content translations
+    const edit = useContent("buttons.edit");
+    const remove = useContent("buttons.remove");
+    const defaultText = useContent("buttons.default");
+    const addANewAddress = useContent("buttons.addANewAddress");
 
     useEffect(() => {
         if (addresslistdata?.data?.length > 0) {
@@ -56,12 +64,12 @@ const Address = () => {
     }
 
     return (
-        <Row>
+        <Row dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
             <Col xxl={3} lg={4} md={6} sm={12} className="mb-4" >
                 <div className="Cartitem-maindiv addaddressbtn"  onClick={handleAddNewAddress}>
                     <FaPlus size={30} className="mb-3" />
                     <div className="add-addressbtn">
-                        Add a new address
+                        {addANewAddress}
                     </div>
                 </div>
             </Col>
@@ -70,7 +78,7 @@ const Address = () => {
 
                     <Col xxl={3} lg={4} md={6} sm={12} key={ele.idaddress} className="mb-4">
                         <div className=" addresscard cursor-pointer">
-                            <label className="d-flex">
+                            <label className={`d-flex ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
 
                                 <div className="cursor-pointer">
                                     <div className="mb-2">
@@ -83,10 +91,10 @@ const Address = () => {
                                             className="myaccount-addresslist-radiobtn"
                                         />
                                     </div>
-                                    <div className="address-top">
+                                    <div className={`address-top ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                         <div className="addres-name">{ele.first_name}</div>
                                         {ele.default_address === 1 && (
-                                            <div className="address-default-button">Default</div>
+                                            <div className="address-default-button">{defaultText}</div>
                                         )}
                                     </div>
                                     <div className="address-fulladdress">
@@ -95,17 +103,17 @@ const Address = () => {
                                     <div className="address-phone">{ele.mobile}</div>
                                 </div>
                             </label>
-                            <div className="d-flex mt-4">
+                            <div className={`d-flex mt-4 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                 <div className="address-page-edit-remove-btn hoverbox-shadow" onClick={() => handleEditAddress(ele.idaddress)}>
                                     <img src={editimg.src} alt="Edit" />
-                                    <span className="btn-title">Edit</span>
+                                    <span className="btn-title">{edit}</span>
                                 </div>
                                 <div
                                     className="address-page-edit-remove-btn hoverbox-shadow"
                                     onClick={() => deleteAddress(ele.idaddress)}
                                 >
                                     <img src={deleteimg.src} alt="Delete" />
-                                    <span className="btn-title">Remove</span>
+                                    <span className="btn-title">{remove}</span>
                                 </div>
                             </div>
                         </div>

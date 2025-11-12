@@ -23,7 +23,9 @@ import Mobileforms from "../Common/Mobileforms";
 import { trackCartClick } from "../utils/dataUserpush";
 import Categorylist from "./Categorylist";
 import CountryDropdown from "./CountryDropdown";
+import LanguageDropdown from "./LanguageDropdown";
 import Modal from "./Modal";
+import { useContent, useCurrentLanguage } from "@/hooks";
 import AppDownloadModal from "./Modals/AppDownloadModal";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
@@ -51,11 +53,17 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
   const isBigScreen = useMediaQuery({ query: "(min-width: 991px)" });
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isToolTip, setIsToolTip] = useState(true);
   const dropdownRef = useRef(null);
   const categoryList = useSelector((state) => state.globalslice.data);
+  // Language content
+  const deliverToText = useContent("nav.deliverTo");
+  const downloadAppText = useContent("nav.downloadApp");
+  const loginText = useContent("nav.login");
+  const cartText = useContent("nav.cart");
   const formmodal = useSelector((state) => state.globalslice.formmodal);
   const countryDropdown = useSelector(
     (state) => state.globalslice.countryDropdown
@@ -134,112 +142,118 @@ const Header = () => {
         <div className="header-middle-main primarybackground">
           <div className="container header-middle homepagecontainer">
             {/* Sidebar and Logo */}
-            <div className="companylogomain flex justify-between">
-              {!isBigScreen && (
-                <div onClick={() => setSidebarOpen(true)}>
-                  <AiOutlineMenu
-                    size={20}
-                    className="mr-1"
-                    style={{ marginTop: 2 }}
-                  />
-                </div>
-              )}
-              <Sidebar
-                isOpen={isSidebarOpen}
-                onClose={() => setSidebarOpen(false)}
-              />
-              <div className="flex items-center gap-6 justify-between">
-                <NavLink to="/" className="flex items-center">
-                  <Image
-                    className="companylogo flex items-center"
-                    src={logo}
-                    alt="OurShopee Logo"
-                    width={120}
-                    height={40}
-                  />
-                </NavLink>
-
-                {isBigScreen && <Category />}
-                <div className="flex flex-grow flex-1">
-                  {isBigScreen && <Search />}
-                </div>
-              </div>
-            </div>
+            {/* <div className="companylogomain flex justify-between">
+            </div> */}
 
             {/* Search */}
 
-            <div className="header-middle-right gap-5">
-              {isBigScreen && (
-                <NavLink
-                  to={authstatus ? "/address" : "/address"}
-                  className="headertop-leftcorner delivertext cursor-pointer !no-underline"
-                >
-                  <img
-                    src={"/assets/vector_icons/location.png"}
-                    className="headertop-icons"
-                    alt="location"
-                  />
-                  <span className="pl-1 headertoptitle">Deliver to</span>
-                  {!authstatus ? (
-                    <CurrentLocation />
-                  ) : (
-                    <span className="pl-1 currentlocation-address">
-                      {addressdata?.[0]?.address}
-                    </span>
-                  )}
-                </NavLink>
-              )}
-              {isBigScreen && (
-                <div
-                  className="flex gap-1 px-2 items-center cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  <span>
-                    <MdOutlineQrCodeScanner size={21} />
-                  </span>
-                  <span className="font-[Outfit] font-semibold text-white text-[14px]">
-                    Download App
-                  </span>
-                </div>
-              )}
+            {/* <div className="header-middle-right gap-5 justify-between"> */}
+            {!isBigScreen && (
+              <div onClick={() => setSidebarOpen(true)}>
+                <AiOutlineMenu
+                  size={20}
+                  className="mr-1"
+                  style={{ marginTop: 2 }}
+                />
+              </div>
+            )}
+            <Sidebar
+              isOpen={isSidebarOpen}
+              onClose={() => setSidebarOpen(false)}
+            />
+            <div className="flex items-center gap-6 justify-between no-rtl-reverse">
+              <NavLink to="/" className="flex items-center no-rtl-reverse">
+                <Image
+                  className="companylogo flex items-center no-rtl-reverse"
+                  src={logo}
+                  alt="OurShopee Logo"
+                  width={120}
+                  height={40}
+                />
+              </NavLink>
 
-              {/* Modal */}
-              <AppDownloadModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              />
-              {isBigScreen && (
-                <CountryDropdown countryDropdown={countryDropdown} />
-              )}
-
-              {/* User */}
-              {!authstatus ? (
-                <div
-                  className="header-middle-rightsub pr-4 cursor-pointer"
-                  onClick={loginclick}
-                >
-                  <div className="cursor-pointer flex usermain items-center">
-                    <FaUser size={16} />
-                    <span className="pl-2 header-middle-right-title username">
-                      Login
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <Pagedropdown logindata={logindata} />
-              )}
-              {/* Cart */}
+              {isBigScreen && <Category />}
+              <div className="flex flex-grow flex-1">
+                {isBigScreen && <Search />}
+              </div>
+            </div>
+            {isBigScreen && (
               <NavLink
-                to="/cart"
-                className={`header-middle-rightsub flex cart-hover no-underline ${
-                  cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
-                }`}
-                onClick={() => trackCartClick(currentcountry.name, pageName)}
+                to={authstatus ? "/address" : "/address"}
+                className="headertop-leftcorner delivertext cursor-pointer !no-underline gap-1"
               >
-                <div className="headercart-icon">
-                  {/* Show when cart is empty */}
-                  {(!cartlistdata?.data?.result?.length ||
-                    cartlistdata.data.result.length === 0) && (
+                <img
+                  src={"/assets/vector_icons/location.png"}
+                  className="headertop-icons"
+                  alt="location"
+                />
+                <span className="headertoptitle">{deliverToText}</span>
+                {!authstatus ? (
+                  <CurrentLocation />
+                ) : (
+                  <span className="currentlocation-address">
+                    {addressdata?.[0]?.address}
+                  </span>
+                )}
+              </NavLink>
+            )}
+            {isBigScreen && (
+              <div
+                className="flex gap-1 whitespace-nowrap items-center cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <span>
+                  <MdOutlineQrCodeScanner size={21} />
+                </span>
+                <span className="font-[Outfit] font-semibold text-white text-[14px]">
+                  {downloadAppText}
+                </span>
+              </div>
+            )}
+
+            {/* Modal */}
+            <AppDownloadModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            />
+            {isBigScreen && process.env.NEXT_PUBLIC_MULTILANG_REQUIRED === "true" && <LanguageDropdown />}
+            {isBigScreen && (
+              <span
+                aria-hidden="true"
+                className="h-6 border-l border-white/40 inline-block"
+              />
+            )}
+            {isBigScreen && (
+              <CountryDropdown countryDropdown={countryDropdown} />
+            )}
+
+            {/* User */}
+            {!authstatus ? (
+              <div
+                className="header-middle-rightsub cursor-pointer"
+                onClick={loginclick}
+              >
+                <div className="cursor-pointer flex usermain items-center">
+                  <FaUser size={16} />
+                  <span className={`${currentLanguage === "ar" ? "pr-2" : "pl-2"} header-middle-right-title username`}>
+                    {loginText}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <Pagedropdown logindata={logindata} />
+            )}
+            {/* Cart */}
+            <NavLink
+              to="/cart"
+              className={`header-middle-rightsub flex cart-hover no-underline ${cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
+                }`}
+              onClick={() => trackCartClick(currentcountry.name, pageName)}
+            >
+              <div className="headercart-icon">
+                {/* Show when cart is empty */}
+                {(!cartlistdata?.data?.result?.length ||
+                  cartlistdata.data.result.length === 0) && (
                     <>
                       <Image
                         src={buyimg}
@@ -254,42 +268,41 @@ const Header = () => {
                     </>
                   )}
 
-                  {/* Show when cart has items */}
-                  {cartlistdata?.data?.result?.length > 0 && (
-                    <>
-                      <img
-                        src={buy1img.src}
-                        alt="filled cart"
-                        className="cart-image-default yellow-filter mb-1"
-                      />
-                      <img
-                        src={buy1img.src}
-                        alt="hover cart"
-                        className="cart-image-hover yellow-filter mb-1"
-                      />
-                    </>
-                  )}
-
-                  {cartlistdata?.data?.result?.length > 0 && (
-                    <div className="cartcount">
-                      {cartlistdata.data.result.length}
-                    </div>
-                  )}
-                </div>
-
-                {isBigScreen && (
-                  <span
-                    className={`pl-1 ${
-                      cartlistdata?.data?.result?.length > 0
-                        ? "cartcolor"
-                        : "header-middle-right-title"
-                    }`}
-                  >
-                    Cart
-                  </span>
+                {/* Show when cart has items */}
+                {cartlistdata?.data?.result?.length > 0 && (
+                  <>
+                    <img
+                      src={buy1img.src}
+                      alt="filled cart"
+                      className="cart-image-default yellow-filter mb-1"
+                    />
+                    <img
+                      src={buy1img.src}
+                      alt="hover cart"
+                      className="cart-image-hover yellow-filter mb-1"
+                    />
+                  </>
                 )}
-              </NavLink>
-            </div>
+
+                {cartlistdata?.data?.result?.length > 0 && (
+                  <div className="cartcount">
+                    {cartlistdata.data.result.length}
+                  </div>
+                )}
+              </div>
+
+              {isBigScreen && (
+                <span
+                  className={`pl-1 ${cartlistdata?.data?.result?.length > 0
+                    ? "cartcolor"
+                    : "header-middle-right-title"
+                    }`}
+                >
+                  {/* {cartText} */}
+                </span>
+              )}
+            </NavLink>
+            {/* </div> */}
           </div>
 
           {/* Search in Mobile */}
@@ -321,7 +334,7 @@ const Header = () => {
                     alt=""
                     width={15}
                   />
-                  <span className="pl-1 headertoptitle">Deliver to</span>
+                  <span className="pl-1 headertoptitle">{deliverToText}</span>
                   <span className="pl-1 currentlocation-address">
                     {addressdata?.[0]?.address}
                   </span>
@@ -334,11 +347,12 @@ const Header = () => {
                     alt=""
                     width={15}
                   />
-                  <span className="pl-1 headertoptitle">Deliver to</span>
+                  <span className="pl-1 headertoptitle">{deliverToText}</span>
                   <CurrentLocation />
                 </NavLink>
               ))}
 
+            {!isBigScreen && process.env.NEXT_PUBLIC_MULTILANG_REQUIRED === "true" && <LanguageDropdown />}
             {!isBigScreen && (
               <CountryDropdown countryDropdown={countryDropdown} />
             )}
@@ -365,9 +379,8 @@ const Header = () => {
                         <NavLink
                           key={index}
                           to={nav_item.url}
-                          className={`header-bottom-titles no-underline ${
-                            pathname == nav_item.url ? "active-link" : ""
-                          }`}
+                          className={`header-bottom-titles no-underline ${pathname == nav_item.url ? "active-link" : ""
+                            }`}
                         >
                           {nav_item.title}
                         </NavLink>
@@ -494,7 +507,7 @@ const Header = () => {
           <div className="relative flex-grow w-full overflow-x-hidden">
             {/* Left blur overlay */}
             <div
-              className="absolute left-0 top-0 h-full w-11 z-10 pointer-events-none"
+              className="absolute !left-0 top-0 h-full w-11 z-10 pointer-events-none"
               style={{
                 background:
                   "linear-gradient(to right, rgba(255,255,255,1),rgba(255,255,255,1), rgba(255,255,255,0.8), transparent)",
@@ -502,16 +515,16 @@ const Header = () => {
             />
 
             {/* Marquee content */}
-            <CategorySlider categoryList={categoryList} />
+            <CategorySlider categoryList={categoryList || []} />
+            <div
+              className="absolute !right-0 top-0 h-full w-16 z-10 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to left, rgba(255,255,255,1),rgba(255,255,255,1), rgba(255,255,255,0.8), transparent)",
+              }}
+            />
           </div>
           {/* Right blur overlay */}
-          <div
-            className="absolute right-0 top-0 h-full w-16 z-10 pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(to left, rgba(255,255,255,1),rgba(255,255,255,1), rgba(255,255,255,0.8), transparent)",
-            }}
-          />
         </div>
       )}
     </div>

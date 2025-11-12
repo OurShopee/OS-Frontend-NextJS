@@ -1,4 +1,5 @@
 import React from "react";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 /**
  * Small responsive success modal.
@@ -9,14 +10,22 @@ import React from "react";
  * - isOpen: boolean – controls visibility
  * - onClose: function – invoked when close button or overlay is clicked
  * - title: string – optional heading (default Thank you!)
- * - message: string – optional message (default We’ll get back to you soon.)
+ * - message: string – optional message (default We'll get back to you soon.)
  */
 const SuccessModal = ({
   isOpen,
   onClose,
-  title = "Thank you!",
-  message = "We\u2019ll get back to you soon.",
+  title,
+  message,
 }) => {
+  const currentLanguage = useCurrentLanguage();
+  const defaultTitle = useContent("buttons.thankYou");
+  const defaultMessage = useContent("buttons.weWillGetBackToYou");
+  const closeText = useContent("buttons.close");
+  
+  const modalTitle = title || defaultTitle;
+  const modalMessage = message || defaultMessage;
+  
   if (!isOpen) return null;
 
   const handleOverlayClick = (e) => {
@@ -32,11 +41,16 @@ const SuccessModal = ({
       aria-labelledby="success-modal-title"
       aria-describedby="success-modal-desc"
     >
-      <div className="w-[90%] max-w-sm rounded-lg bg-white p-5 shadow-xl relative text-center mx-4">
+      <div 
+        className="w-[90%] max-w-sm rounded-lg bg-white p-5 shadow-xl relative text-center mx-4"
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+      >
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-3 top-3 rounded-full p-1 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`absolute top-3 rounded-full p-1 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            currentLanguage === "ar" ? "left-3" : "right-3"
+          }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -73,10 +87,10 @@ const SuccessModal = ({
           id="success-modal-title"
           className="text-lg font-semibold text-gray-900"
         >
-          {title}
+          {modalTitle}
         </h3>
         <p id="success-modal-desc" className="mt-1 text-sm text-gray-600">
-          {message}
+          {modalMessage}
         </p>
 
         <div className="mt-4">
@@ -84,7 +98,7 @@ const SuccessModal = ({
             onClick={onClose}
             className="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition duration-150"
           >
-            Close
+            {closeText}
           </button>
         </div>
       </div>

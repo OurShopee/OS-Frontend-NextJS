@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { IoPerson } from "react-icons/io5";
 import { CiLocationOn, CiEdit, CiCircleQuestion } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
@@ -13,44 +13,62 @@ import { MediaQueries } from "../../components/utils";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setauthstatus } from "../../redux/formslice";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const MyAccountDashboard = () => {
     const pathname = usePathname()
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
+    const currentLanguage = useCurrentLanguage();
     const logindata = useSelector(state => state.formslice.logindata)
     const authstatus = useSelector(state => state.formslice.authstatus)
     const { isMobile } = MediaQueries()
+    
+    // Content translations
+    const welcome = useContent("labels.welcome");
+    const accountSetting = useContent("buttons.accountSetting");
+    const profile = useContent("account.profile");
+    const address = useContent("pages.address");
+    const changePassword = useContent("buttons.changePassword");
+    const wishlist = useContent("account.wishlist");
+    const orderDetails = useContent("buttons.orderDetails");
+    const myOrders = useContent("account.myOrders");
+    const trackYourOrder = useContent("account.trackYourOrder");
+    const helpCenter = useContent("buttons.helpCenter");
+    const complaints = useContent("pages.complaints");
+    const signOut = useContent("buttons.signOut");
+    
     const logoutclick = () => {
         Cookies.remove("jwt_token");
         Cookies.remove("cart_ip_address")
         dispatch(setauthstatus(false))
     }
 
-    const my_profile_data = [
+    const my_profile_data = useMemo(() => [
         {
             id: 1,
-            card_title: 'Account Setting',
+            card_title: accountSetting,
             card_items: [
                 {
                     id: 1,
-                    name: 'Profile',
+                    name: profile,
                     url: `${isMobile ? 'myaccount/profile' : 'myaccount'}`,
                     icon: <IoPerson size={20} color={pathname?.split('/')[1] == 'myaccount' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 2,
-                    name: 'Address',
+                    name: address,
                     url: 'address',
                     icon: <CiLocationOn size={20} color={pathname?.split('/')[1] == 'address' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 3,
-                    name: 'Change Password',
+                    name: changePassword,
                     url: 'change-password',
                     icon: <CiEdit size={20} color={pathname?.split('/')[1] == 'change-password' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 4,
-                    name: 'Wishlist',
+                    name: wishlist,
                     url: 'my-wishlist',
                     icon: <CiHeart size={20} color={pathname?.split('/')[1] == 'my-wishlist' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
@@ -58,17 +76,17 @@ const MyAccountDashboard = () => {
         },
         {
             id: 2,
-            card_title: 'Order Details',
+            card_title: orderDetails,
             card_items: [
                 {
                     id: 1,
-                    name: 'My orders',
+                    name: myOrders,
                     url: 'my-orders',
                     icon: <FiBox size={20} color={pathname?.split('/')[1] == 'my-orders' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 },
                 {
                     id: 2,
-                    name: 'Track Your Order',
+                    name: trackYourOrder,
                     url: 'track-your-order',
                     icon: <LiaShippingFastSolid size={20} color={pathname?.split('/')[1] == 'track-your-order' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 }
@@ -76,26 +94,26 @@ const MyAccountDashboard = () => {
         },
         {
             id: 3,
-            card_title: 'Help Center',
+            card_title: helpCenter,
             card_items: [
                 {
                     id: 1,
-                    name: 'Complaints',
+                    name: complaints,
                     url: 'complaints',
                     icon: <CiCircleQuestion size={20} color={pathname?.split('/')[1] == 'complaints' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
                 }
             ]
         }
-    ];
+    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname]);
 
     return (
       <>
-        <div className="myprofile_left_side">
+        <div className="myprofile_left_side" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
           {!isMobile && (
             <div className="profile_card">
               <div className="card_body mt-1">
                 <div
-                  className="card_item"
+                  className={`card_item`}
                   style={{ background: "#fff", cursor: "pointer" }}
                 >
                   <div className="person_Account">
@@ -108,9 +126,9 @@ const MyAccountDashboard = () => {
                         fontWeight: 400,
                         fontSize: 14,
                       }}
-                      className="mb-2"
+                      className={`mb-2 ${currentLanguage === "ar" ? "!mr-3" : ""}`}
                     >
-                      Welcome
+                      {welcome}
                     </h5>
                     <h5
                       style={{
@@ -121,6 +139,7 @@ const MyAccountDashboard = () => {
                         wordBreak: "break-all",
                         overflowWrap: "break-word",
                       }}
+                      className={currentLanguage === "ar" ? "!mr-3" : ""}
                     >
                       {logindata?.first_name?.trim().length > 25
                         ? logindata.first_name.trim().substring(0, 25) + "..."
@@ -143,10 +162,10 @@ const MyAccountDashboard = () => {
                         {isMobile ? (
                           <Link
                             href={`/${card_item.url}`}
-                            className="card_item justify-content-between text-decoration-none"
+                            className={`card_item justify-content-between text-decoration-none`}
                             style={{ background: "#fff" }}
                           >
-                            <div className="d-flex">
+                            <div className={`d-flex`}>
                               {card_item.icon}
                               <h5
                                 style={{
@@ -161,16 +180,23 @@ const MyAccountDashboard = () => {
                                       ? 600
                                       : 500,
                                 }}
+                                className={currentLanguage === "ar" ? "!mr-3" : ""}
                               >
                                 {card_item.name}
                               </h5>
                             </div>
-                            <img src="/assets/vector_icons/arrow_right.png" />
+                            <img 
+                              src="/assets/vector_icons/arrow_right.png" 
+                              style={{
+                                transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
+                              }}
+                              alt="arrow"
+                            />
                           </Link>
                         ) : (
                           <Link
                             href={`/${card_item.url}`}
-                            className="card_item text-decoration-none"
+                            className={`card_item text-decoration-none`}
                             style={{
                               background:
                                 card_item.url !=
@@ -192,6 +218,7 @@ const MyAccountDashboard = () => {
                                     ? 600
                                     : 500,
                               }}
+                              className={currentLanguage === "ar" ? "!mr-2" : ""}
                             >
                               {card_item.name}
                             </h5>
@@ -209,15 +236,16 @@ const MyAccountDashboard = () => {
             <div className="profile_card">
               <div className="card_body mt-1">
                 <div
-                  className="card_item"
+                  className={`card_item`}
                   style={{ background: "#fff", cursor: "pointer" }}
                 >
                   <PiSignOut size={20} color={"rgba(67, 73, 75, 1)"} />
                   <h5
                     style={{ color: "rgba(67, 73, 75, 1)", fontWeight: 500 }}
                     onClick={logoutclick}
+                    className={currentLanguage === "ar" ? "!mr-2" : ""}
                   >
-                    Sign Out
+                    {signOut}
                   </h5>
                 </div>
               </div>

@@ -16,10 +16,11 @@ import { setformmodal, setformstatus } from "@/redux/formslice";
 import { GetPlaceOrderapi, setpaymentmethodsdata } from "@/redux/paymentslice";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -34,24 +35,41 @@ const Cart = () => {
     (state) => state.globalslice.currentcountry
   );
   const logindata = useSelector((state) => state.formslice.logindata);
+  const currentLanguage = useCurrentLanguage();
 
   const [cartQuantities, setCartQuantities] = useState({});
   const debounceTimers = useRef({});
   const { isTablet, isMobile } = MediaQueries();
+  
+  // Language content
+  const myCart = useContent("cart.myCart");
+  const qtyText = useContent("cart.qty");
+  const removeText = useContent("cart.remove");
+  const subtotalText = useContent("cart.subtotal");
+  const loginRegisterText = useContent("cart.loginRegister");
 
   useEffect(() => {
     pushToDataLayer("viewed_cart_page", currentcountry.name);
   }, [currentcountry.name]);
 
+  const localizedCartItems = useMemo(() => {
+    const items = cartlistdata?.data?.result;
+    if (!Array.isArray(items)) return [];
+    return items.map((item) => ({
+      ...item,
+      localizedName: getDynamicContent(item, "name", currentLanguage),
+    }));
+  }, [cartlistdata, currentLanguage]);
+
   useEffect(() => {
-    if (cartlistdata?.data?.result?.length) {
+    if (localizedCartItems.length) {
       const initialQuantities = {};
-      cartlistdata.data.result.forEach((item) => {
+      localizedCartItems.forEach((item) => {
         initialQuantities[item.cart_id] = item.quantity;
       });
       setCartQuantities(initialQuantities);
     }
-  }, [cartlistdata]);
+  }, [localizedCartItems]);
 
   const handleQuantityChange = (cart_id, newQty) => {
     if (newQty < 1) return;
@@ -136,10 +154,10 @@ const Cart = () => {
               <Breadcomp />
             </div> */}
 
-            <div className="Cart-titile">My cart</div>
+            <div className="Cart-titile">{myCart}</div>
             <Row>
               <Col lg={8}>
-                {cartlistdata.data.result.map((ele) => (
+                {localizedCartItems.map((ele) => (
                   <div className="Cartitem-maindiv" key={ele.cart_id}>
                     <div className="d-flex">
                       <Link
@@ -158,11 +176,20 @@ const Cart = () => {
                           className={"text-decoration-none"}
                         >
                           <div>
-                            <div className="cartproduct-title">{ele.name}</div>
-                            <div className="cartproduct-price">
-                              <span className="currencycode">
-                                {currentcountry.currency}
-                              </span>{" "}
+                            <div className="cartproduct-title">{ele.localizedName || ele.name}</div>
+                            <div className={`cartproduct-price flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className={`currencycode ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
+                                  {currentcountry.currency}
+                                </span>
+                              )}{" "}
                               {(
                                 ele.single_price * cartQuantities[ele.cart_id]
                               ).toFixed(2)}
@@ -171,7 +198,7 @@ const Cart = () => {
                         </Link>
                         {!isTablet && (
                           <div>
-                            <div className="quantity-title">Qty</div>
+                            <div className="quantity-title">{qtyText}</div>
                             <div className="d-flex justify-content-between">
                               <div className="cart-product-quantitybtn">
                                 <FiMinus
@@ -201,7 +228,7 @@ const Cart = () => {
                                 onClick={() => removeproduct(ele.cart_id)}
                               >
                                 <img src={deleteimg.src} alt="delete" />
-                                <span className="cartremone">Remove</span>
+                                <span className="cartremone">{removeText}</span>
                               </div>
                             </div>
                           </div>
@@ -239,7 +266,7 @@ const Cart = () => {
                           onClick={() => removeproduct(ele.cart_id)}
                         >
                           <img src={deleteimg.src} alt="delete" />
-                          <span className="cartremone">Remove</span>
+                          <span className="cartremone">{removeText}</span>
                         </div>
                       </div>
                     )}
@@ -257,9 +284,18 @@ const Cart = () => {
                       {!isMobile && (
                         <>
                           <div className="payment-type">
-                            <div className="payment-type-title">Subtotal</div>
-                            <div className="payment-type-cost">
-                              {currentcountry.currency}{" "}
+                            <div className="payment-type-title">{subtotalText}</div>
+                            <div className="payment-type-cost flex items-center">
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className={currentLanguage === "ar" ? "ml-1" : "mr-1"}>{currentcountry.currency}{" "}</span>
+                              )}
                               {CalculatePaymentDetails(
                                 cartlistdata,
                                 cartQuantities
@@ -267,15 +303,15 @@ const Cart = () => {
                             </div>
                           </div>
                           <div className="payment-cost" onClick={loginclick}>
-                            Login/Register
+                            {loginRegisterText}
                           </div>
                         </>
                       )}
                       {isMobile && (
                         <div className=" mobile_version_cart_bottom">
-                          <div className="mobile-payment-total">
+                            <div className="mobile-payment-total">
                             <div className="payment-type">
-                              <div className="payment-type-title">Subtotal</div>
+                              <div className="payment-type-title">{subtotalText}</div>
                               <div className="payment-type-cost">
                                 {currentcountry.currency}{" "}
                                 {CalculatePaymentDetails(
@@ -285,7 +321,7 @@ const Cart = () => {
                               </div>
                             </div>
                             <div className="payment-cost" onClick={loginclick}>
-                              Login/Register
+                              {loginRegisterText}
                             </div>
                           </div>
                         </div>

@@ -6,7 +6,15 @@ import {trackdatabyreferencidapi} from "@/redux/formslice";
 import { MediaQueries } from "@/components/utils";
 import BreadComp from '@/components/Myaccount/BreadComp';
 import Orders from '../Common/Orders';
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const TrackbyReferenceid = () => {
+  const currentLanguage = useCurrentLanguage();
+  const trackYourOrderText = useContent("helpCenter.trackYourOrder");
+  const trackByReferenceIdText = useContent("account.trackByReferenceId");
+  const referenceIdText = useContent("forms.referenceId");
+  const enterReferenceIdText = useContent("forms.enterReferenceId");
+  const submitText = useContent("buttons.submit");
     const { isMobile } = MediaQueries()
     const dispatch = useDispatch();
     const trackorderlistdata = useSelector((state) => state.formslice.trackorderlistdata);
@@ -38,32 +46,32 @@ const TrackbyReferenceid = () => {
     );
 
     return (
-        <div className='ms-2 me-2 mb-2'>
+        <div className='ms-2 me-2 mb-2' dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
         {
             isMobile &&
-            <>   <BreadComp title={"Track your order"} />
-            <div className="page-titile">Track your order
+            <>   <BreadComp title={trackYourOrderText} />
+            <div className="page-titile">{trackYourOrderText}
             </div></>
         }
         <div className="mytractrightside order-trackcard">
-            <div className='ordrtract-title'>Track by Reference ID</div>
+            <div className='ordrtract-title'>{trackByReferenceIdText}</div>
             <Inputbox
                 id="referenceid"
                 type="text"
                 value={formData.referenceid}
                 handleChange={handleChange}
-                placeholder="Enter Reference ID"
-                title="Reference ID"
+                placeholder={enterReferenceIdText}
+                title={referenceIdText}
                 error={errors.referenceid}
             />
            
         </div>
-        <div className="d-flex justify-content-end">
+        <div className={`d-flex ${currentLanguage === "ar" ? "justify-content-start" : "justify-content-end"}`}>
                 <div
                     className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn cursor-pointer" : "formsubmitbutton profileviewsubmitbtn cursor-pointer"}
                     onClick={isFormValid() ? handleSubmit : null}
                 >
-                    Submit
+                    {submitText}
                 </div>
             </div>
             <Orders orderlistdata={trackorderlistdata ? trackorderlistdata : []}/>

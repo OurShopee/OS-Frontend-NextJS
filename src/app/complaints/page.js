@@ -10,10 +10,15 @@ import inviteimg from "@/images/invite.png"
 import editeemaiimg from "@/images/email edit.png"
 import trackcomplateimg from "@/images/Group.png"
 import withAuth from "@/components/Common/withAuth";
+import { useContent } from "@/hooks";
 // import righticon from "../../../public/assets/vector_icons/arrow_right.png"
 const Complaints = () => {
-
-    const { isMobile } = MediaQueries()
+    const { isMobile } = MediaQueries();
+    
+    // Language content
+    const manageComplaints = useContent("account.manageComplaints");
+    const manageComplaintsDescription = useContent("account.manageComplaintsDescription");
+    const placeComplaint = useContent("account.placeComplaint");
 
     return (
         < >
@@ -32,13 +37,13 @@ const Complaints = () => {
                                 {
                                      isMobile ?
                                      <div>
-                                     <BreadComp title={"Manage Complaints"} />
-                                     <div className="page-titile">Manage Complaints
+                                     <BreadComp title={manageComplaints} />
+                                     <div className="page-titile">{manageComplaints}
                                      </div>
                                      </div>:
                                        <div className="Myaccount-rightsidecard">
-                                       <div className="title">Manage Complaints</div>
-                                       <div className="discription">Place your complaints & Track the status of your complaints.</div>
+                                       <div className="title">{manageComplaints}</div>
+                                       <div className="discription">{manageComplaintsDescription}</div>
                                    </div>
                                 }
                               
@@ -48,14 +53,14 @@ const Complaints = () => {
                                         <Link href="/place-a-complaints" className="complaintcard textdecoration-none">
 
                                             <img className="compliantimg" src={editeemaiimg.src} />
-                                            <div className="complianttitle">Place a complaints</div>
+                                            <div className="complianttitle">{placeComplaint}</div>
                                         </Link>
                                     </Col>
                                     <Col lg={6} md={6} sm={12} >
                                         <Link href="/manage-complaint" className="complaintcard textdecoration-none">
 
                                             <img className="compliantimg" src={trackcomplateimg.src} />
-                                            <div className="complianttitle">Manage Complaints</div>
+                                            <div className="complianttitle">{manageComplaints}</div>
                                         </Link>
                                     </Col>
                                 </Row>

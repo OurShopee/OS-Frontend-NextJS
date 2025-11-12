@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useContent } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, ...props }) => {
@@ -26,10 +27,11 @@ const BreadComps = ({
   link2,
   activetitle,
 }) => {
+  const homeText = useContent("breadcrumbs.home");
   return (
     <div className="myaccountBreadcomp">
       <NavLink to="/" className="Myaccounthome-title no-underline">
-        Home
+        {homeText}
       </NavLink>
 
       {title0 && (

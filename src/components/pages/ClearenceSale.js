@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ClearenceSale = ({ type }) => {
   const dispatch = useDispatch();
+  const hotDeals = useContent("specialPages.hotDeals");
 
   const clearence_sale_items = useSelector(
     (state) => state.homeslice.clearence_sale_items
@@ -78,7 +79,7 @@ const ClearenceSale = ({ type }) => {
                 />
               ) : (
                 <HalfCarouselProducts
-                  title={"Hot Deals"}
+                  title={hotDeals}
                   products={clearence_sale_items.top_items}
                   type={1}
                   inner_bg={"rgba(255, 250, 229, 1)"}

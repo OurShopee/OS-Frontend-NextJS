@@ -22,8 +22,25 @@ import {
   setregistermobile,
 } from "@/redux/formslice";
 import LocateMe from "@/components/LocateMe";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const AddressForm = () => {
   const inputs = ["name", "emirate", "number", "address", "area"];
+  const currentLanguage = useCurrentLanguage();
+  
+  // Content translations
+  const addAddress = useContent("buttons.addAddress");
+  const updateAddress = useContent("buttons.updateAddress");
+  const enterYourDeliveryAddressBelow = useContent("buttons.enterYourDeliveryAddressBelow");
+  const searchYourLandmarkLocation = useContent("buttons.searchYourLandmarkLocation");
+  const loading = useContent("buttons.loading");
+  const name = useContent("forms.firstName");
+  const enterMobileNumber = useContent("buttons.enterMobileNumber");
+  const selectLocation = useContent("buttons.selectLocation");
+  const selectArea = useContent("buttons.selectArea");
+  const flatNoHouseNoBuildingLandmark = useContent("buttons.flatNoHouseNoBuildingLandmark");
+  const makeThisIsMyDefaultAddress = useContent("buttons.makeThisIsMyDefaultAddress");
+  const locateMe = useContent("buttons.locateMe");
 
   const { handleChange, formValues, setFormValues, errors, isClickable } =
     useFormValidation({ inputs });
@@ -217,7 +234,7 @@ const AddressForm = () => {
   };
 
   return (
-    <div className="address_form">
+    <div className="address_form" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       <LoadScript
         googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         libraries={["drawing", "places"]}
@@ -252,11 +269,11 @@ const AddressForm = () => {
                 </GoogleMap>
 
                 <div
-                  className="position-absolute locate_me_btn"
+                  className={`position-absolute locate_me_btn ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}
                   onClick={getLocation}
                 >
-                  Locate me{" "}
-                  <span className="ps-2">
+                  {locateMe}{" "}
+                  <span className={currentLanguage === "ar" ? "me-2" : "ps-2"}>
                     <PiGps size={18} color="rgba(25, 27, 28, 1)" />
                   </span>
                 </div>
@@ -274,9 +291,9 @@ const AddressForm = () => {
             <Row>
               <div className="address_form_header mb-4">
                 <h5>
-                  {address_header == 0 ? "Add Address" : "Update Address"}
+                  {address_header == 0 ? addAddress : updateAddress}
                 </h5>
-                <h6>Enter your delivery address below</h6>
+                <h6>{enterYourDeliveryAddressBelow}</h6>
 
                 <PlacesAutocomplete
                   value={address}
@@ -287,22 +304,23 @@ const AddressForm = () => {
                     getInputProps,
                     suggestions,
                     getSuggestionItemProps,
-                    loading,
+                    loading: loadingSuggestions,
                   }) => (
                     <div className="position-relative">
-                      <div className="address_search_input_box d-flex align-items-center ">
+                      <div className={`address_search_input_box d-flex align-items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         <CiSearch color="rgba(206, 210, 212, 1)" size={20} />
                         <input
                           {...getInputProps({
-                            placeholder: "Search your landmark/Location",
-                            className: "ms-1",
+                            placeholder: searchYourLandmarkLocation,
+                            className: currentLanguage === "ar" ? "me-1" : "ms-1",
+                            dir: currentLanguage === "ar" ? "rtl" : "ltr",
                           })}
                         />
                       </div>
 
                       {suggestions.length > 0 && (
-                        <div className="search_location_dropdown">
-                          {loading && <div>Loading...</div>}
+                        <div className="search_location_dropdown" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
+                          {loadingSuggestions && <div>{loading}</div>}
                           {suggestions.map((suggestion) => {
                             const className = suggestion.active
                               ? "suggestion-item--active suggestion-item"
@@ -328,7 +346,7 @@ const AddressForm = () => {
               <Col lg={12}>
                 <InputBox1
                   name="name"
-                  placeholder="Name"
+                  placeholder={name}
                   handleChange={handleChange}
                   value={formValues.name}
                 />
@@ -355,6 +373,7 @@ const AddressForm = () => {
                     name="pre"
                     onChange={handleLocationChange}
                     value={formValues.pre}
+                    dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                   >
                     <option value={50}>{50}</option>
                     {[52, 54, 55, 56, 58].map((number) => {
@@ -369,7 +388,7 @@ const AddressForm = () => {
                   type="number"
                   name="number"
                   handleChange={handleChange}
-                  placeholder="Enter Mobile Number"
+                  placeholder={enterMobileNumber}
                   value={formValues.number}
                 />
               </Col>
@@ -380,8 +399,9 @@ const AddressForm = () => {
                   name="emirate"
                   onChange={handleLocationChange}
                   value={formValues.emirate}
+                  dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                 >
-                  <option value={null}>Select location</option>
+                  <option value={null}>{selectLocation}</option>
                   {locationsdata.map((data) => {
                     return <option value={data.id}>{data.name}</option>;
                   })}
@@ -393,8 +413,9 @@ const AddressForm = () => {
                   name="area"
                   onChange={handleLocationChange}
                   value={formValues.area}
+                  dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                 >
-                  <option value={null}>Select Area</option>
+                  <option value={null}>{selectArea}</option>
                   {areadata.map((data) => {
                     return <option value={data.id}>{data.name}</option>;
                   })}
@@ -403,14 +424,14 @@ const AddressForm = () => {
               <Col lg={12}>
                 <InputBox1
                   name="address"
-                  placeholder="Flat no., House no., Building, landmark"
+                  placeholder={flatNoHouseNoBuildingLandmark}
                   handleChange={handleChange}
                   value={formValues.address}
                 />
               </Col>
 
               <Col lg={12} className="mb-3">
-                <div>
+                <div className={currentLanguage === "ar" ? "flex-row-reverse d-flex" : "d-flex"}>
                   <input
                     type="checkbox"
                     id="id_Checked"
@@ -422,8 +443,8 @@ const AddressForm = () => {
                       });
                     }}
                   />
-                  <label className="ms-2 cursor-pointer" htmlFor="id_Checked">
-                    Make this is my default address
+                  <label className={`cursor-pointer ${currentLanguage === "ar" ? "me-2" : "ms-2"}`} htmlFor="id_Checked">
+                    {makeThisIsMyDefaultAddress}
                   </label>
                 </div>
               </Col>
@@ -437,9 +458,9 @@ const AddressForm = () => {
                   cursor: !isClickable && "not-allowed",
                 }}
               >
-                Add Address
+                {address_header == 0 ? addAddress : updateAddress}
                 {addressButtonLoader && (
-                  <ClipLoader className="ms-3" size={16} color={"#fff"} />
+                  <ClipLoader className={currentLanguage === "ar" ? "mr-3" : "ms-3"} size={16} color={"#fff"} />
                 )}
               </button>
             </Row>

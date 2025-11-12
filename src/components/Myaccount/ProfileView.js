@@ -16,9 +16,22 @@ import GenderDropdown from "../Common/GenderDropdown";
 import NationalityDropdown from "../Common/NationalityDropdown";
 import PhoneInput from "../Common/PhoneInput";
 import Formvalidation from "../Validation/Formvalidation";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const ProfileView = () => {
     const dispatch = useDispatch();
+    const currentLanguage = useCurrentLanguage();
+    
+    // Content translations - using existing keys
+    const firstName = useContent("forms.firstName");
+    const lastName = useContent("forms.lastName");
+    const email = useContent("forms.email");
+    const emailPlaceholder = useContent("buttons.emailPlaceholder");
+    const phoneNumberTitle = useContent("forms.phoneNumber");
+    const genderTitle = useContent("forms.gender");
+    const nationalityTitle = useContent("forms.nationality");
+    const updateProfile = useContent("buttons.updateProfile");
+    
     const [errors, setErrors] = useState({});
     const [areaCode, setAreaCode] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -129,12 +142,12 @@ const ProfileView = () => {
     );
 
     return (
-        <Row className="">
+        <Row className="" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
             <Col lg={6} md={12}>
                 <Inputbox
                     id="first_name"
                     type="text"
-                    title="First Name"
+                    title={firstName}
                     value={formData.first_name}
                     handleChange={handleChange}
                     error={errors.first_name}
@@ -144,7 +157,7 @@ const ProfileView = () => {
                 <Inputbox
                     id="last_name"
                     type="text"
-                    title="Last Name"
+                    title={lastName}
                     value={formData.last_name}
                     handleChange={handleChange}
                     error={errors.last_name}
@@ -153,7 +166,7 @@ const ProfileView = () => {
 
             <Col lg={6} md={12}>
                 <GenderDropdown
-                    title="Gender"
+                    title={genderTitle}
                     selectedGender={formData.gender}
                     onSelect={(gender) => setFormData((prev) => ({ ...prev, gender }))}
                     error={errors.gender}
@@ -163,7 +176,7 @@ const ProfileView = () => {
             <Col lg={6} md={12}>
                 <NationalityDropdown
                     nationalitydata={nationalitydata}
-                    title="Nationality"
+                    title={nationalityTitle}
                     selectedNationality={formData.nationality}
                     onSelect={(value) => setFormData((prev) => ({ ...prev, nationality: value }))}
                     error={errors.nationality}
@@ -172,7 +185,7 @@ const ProfileView = () => {
             <Col lg={12} md={12}>
                 <PhoneInput
                     areaCode={areaCode}
-                    title="Phone number"
+                    title={phoneNumberTitle}
                     setAreaCode={setAreaCode}
                     phoneNumber={phoneNumber}
                     handlePhoneInput={handlePhoneInput}
@@ -183,10 +196,10 @@ const ProfileView = () => {
                 <Inputbox
                     id="email"
                     type="email"
-                    title="Email"
+                    title={email}
                     value={formData.email}
                     handleChange={handleChange}
-                    placeholder="Enter Email"
+                    placeholder={emailPlaceholder}
                     error={errors.email}
                 />
             </Col>
@@ -194,13 +207,13 @@ const ProfileView = () => {
                 <div className="submitmsg">{updateMyProfileapidata}</div>
             }
 
-            <div className="d-flex justify-content-end" >
+            <div className={`d-flex ${currentLanguage === "ar" ? "justify-content-start" : "justify-content-end"}`} >
                 <div
                     className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn" : "formsubmitbutton profileviewsubmitbtn"}
                     onClick={isFormValid() ? handleSubmit : null}
                     style={{cursor: "pointer" }}
                 >
-                    Update Profile
+                    {updateProfile}
                 </div>
             </div>
 

@@ -6,8 +6,28 @@ import HasReview from "./HasReview"; // Import the HasReview component
 import RatingOverview from "./RatingOverview";
 import { useLoginModal } from "../utils/helpers";
 import { ComponentHeader } from "../Common";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const ReviewOnlyRating = () => {
+  const currentLanguage = useCurrentLanguage();
+  const ratingsAndReview = useContent("product.ratingsAndReview");
+  const yourReviewMakesADifference = useContent("product.yourReviewMakesADifference");
+  const shareItNow = useContent("product.shareItNow");
+  const writeReview = useContent("product.writeReview");
+  const wantToAddProductImages = useContent("product.wantToAddProductImages");
+  const clickToUpload = useContent("product.clickToUpload");
+  const orDragAndDrop = useContent("product.orDragAndDrop");
+  const pngJpgJpegMax5MB = useContent("product.pngJpgJpegMax5MB");
+  const maximumFilesAllowed = useContent("product.maximumFilesAllowed");
+  const filesAllowed = useContent("product.filesAllowed");
+  const selectedFilesText = useContent("product.selectedFiles");
+  const skipForNow = useContent("product.skipForNow");
+  const submit = useContent("buttons.submit");
+  const onlyPngJpgJpegAllowed = useContent("product.onlyPngJpgJpegAllowed");
+  const fileSizeMustBeLessThan5MB = useContent("product.fileSizeMustBeLessThan5MB");
+  const youCanOnlyUploadUpTo = useContent("product.youCanOnlyUploadUpTo");
+  const images = useContent("product.images");
+  
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const [rating, setRating] = useState(3);
   const [reviewText, setReviewText] = useState();
@@ -51,7 +71,6 @@ const ReviewOnlyRating = () => {
     setReviewImages(updatedData.reviewImages);
 
     // Here you can also call your API to update the review
-    console.log("Updating review:", updatedData);
 
     // Optionally show a success message
     alert("Review updated successfully!");
@@ -66,11 +85,11 @@ const ReviewOnlyRating = () => {
     const errors = [];
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      errors.push(`${file.name}: Only PNG, JPG, and JPEG files are allowed`);
+      errors.push(`${file.name}: ${onlyPngJpgJpegAllowed}`);
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      errors.push(`${file.name}: File size must be less than 5MB`);
+      errors.push(`${file.name}: ${fileSizeMustBeLessThan5MB}`);
     }
 
     return errors;
@@ -94,7 +113,7 @@ const ReviewOnlyRating = () => {
     const validFiles = [];
 
     if (selectedFiles.length + fileArray.length > MAX_FILES) {
-      newErrors.push(`You can only upload up to ${MAX_FILES} files`);
+      newErrors.push(`${youCanOnlyUploadUpTo} ${MAX_FILES} ${images}`);
       setErrors(newErrors);
       return;
     }
@@ -192,7 +211,6 @@ const ReviewOnlyRating = () => {
   };
 
   const logFormData = (formData) => {
-    console.log("=== FORM SUBMISSION DATA ===");
 
     for (let [key, value] of formData.entries()) {
       if (value instanceof File) {
@@ -254,7 +272,7 @@ const ReviewOnlyRating = () => {
         <div className="component_1 product_Detail_carousel_prod mb-6">
           {/* {productDetail_products.hasOwnProperty("related_products") && ( */}
           <ComponentHeader
-            title={"Ratings & Review"}
+            title={ratingsAndReview}
             // first_title={"Related"}
             // second_title={"PRODUCTS"}
             // first_string_color={"#000"}
@@ -299,14 +317,14 @@ const ReviewOnlyRating = () => {
               {!authstatus ? (
                 <div className="text-center">
                   <p className="xl:text-[22px] font-semibold xl:font-bold text-[#43494b] text-center leading-relaxed">
-                    Your review makes a difference <br />
-                    share it now!
+                    {yourReviewMakesADifference} <br />
+                    {shareItNow}
                   </p>
                   <button
                     onClick={openLoginModal}
                     className="bg-[#FFCF0A] hover:bg-[#FFCF0A] transition-colors duration-200 px-5 xl:px-8 py-2 xl:py-4 rounded-lg font-semibold text-[14px] xl:text-base text-black border-none"
                   >
-                    Write a review
+                    {writeReview}
                   </button>
                 </div>
               ) : (
@@ -347,7 +365,7 @@ const ReviewOnlyRating = () => {
             {/* Header */}
             <div className="flex justify-between items-center border-b">
               <h2 className="text-xl font-semibold text-gray-800">
-                Want to add product images ?
+                {wantToAddProductImages}
               </h2>
               <button
                 onClick={handleImageModalClose}
@@ -390,17 +408,17 @@ const ReviewOnlyRating = () => {
 
                 <p className="text-lg mb-2">
                   <span className="text-[#5F1BE7] font-medium">
-                    Click to upload
+                    {clickToUpload}
                   </span>
-                  <span className="text-gray-600"> or drag and drop</span>
+                  <span className="text-gray-600"> {orDragAndDrop}</span>
                 </p>
 
                 <p className="text-sm text-gray-500">
-                  PNG, JPG or JPEG (max. 5MB)
+                  {pngJpgJpegMax5MB}
                 </p>
 
                 <p className="text-xs text-gray-400 mt-2">
-                  Maximum {MAX_FILES} files allowed
+                  {maximumFilesAllowed} {MAX_FILES} {filesAllowed}
                 </p>
 
                 <input
@@ -431,7 +449,7 @@ const ReviewOnlyRating = () => {
               {selectedFiles.length > 0 && (
                 <div className="mt-6">
                   <h3 className="text-sm font-medium text-gray-700 mb-3">
-                    Selected Files ({selectedFiles.length}/{MAX_FILES})
+                    {selectedFilesText} ({selectedFiles.length}/{MAX_FILES})
                   </h3>
                   <div className="grid grid-cols-5 gap-3">
                     {selectedFiles.map((file) => (
@@ -474,13 +492,13 @@ const ReviewOnlyRating = () => {
                 onClick={handleSkipImages}
                 className="flex-1 bg-white border border-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Skip for now
+                {skipForNow}
               </button>
               <button
                 onClick={handleImageSubmit}
                 className="flex-1 bg-[#5F1BE7] hover:bg-[#5215cc] border-none text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
               >
-                Submit
+                {submit}
               </button>
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
 } from "@/redux/paymentslice";
 import { useDispatch, useSelector } from "react-redux";
 import { HiMiniCheckBadge } from "react-icons/hi2";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
   const dispatch = useDispatch();
@@ -17,6 +18,12 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
   const coupon = useSelector((state) => state.paymentslice.coupon);
   const [coupancode, setCoupancode] = useState("");
   const skulist = cartlistdata?.data?.result?.map((ele) => ele.sku);
+  const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
+  const couponCodeLabel = useContent("checkout.couponCode");
+  const enterCouponPlaceholder = useContent("checkout.enterCouponCode");
+  const applyButtonText = useContent("buttons.apply");
+  const couponAppliedText = useContent("checkout.couponApplied");
 
   const onchange = (e) => {
     setCoupancode(e.target.value);
@@ -56,16 +63,22 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
   }, [prodId, qty, sku]);
 
   return (
-    <div>
-      <div className="coupan-title">Coupon code</div>
-      <div className="d-flex footercontactus align-items-stretch w-100">
+    <div dir={isRTL ? "rtl" : "ltr"}>
+      <div className="coupan-title">{couponCodeLabel}</div>
+      <div
+        className={`d-flex footercontactus align-items-stretch w-100 ${
+          isRTL ? "flex-row" : ""
+        }`}
+      >
         <div className="position-relative flex-grow-1 min-w-0">
           <input
             type="text"
-            placeholder="Enter coupon Code"
+            placeholder={enterCouponPlaceholder}
             value={coupancode}
             onChange={onchange}
-            className="header-inputbox coupan-input pe-4 w-100"
+            className={`header-inputbox coupan-input w-100 ${
+              isRTL ? "ps-4 text-start rounded-l-none rounded-r-lg" : "pe-4 rounded-r-none rounded-l-lg"
+            }`}
             style={{
               minWidth: 0, // Prevents flex item from overflowing
               boxSizing: "border-box",
@@ -79,7 +92,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
               }}
               style={{
                 position: "absolute",
-                right: "10px",
+                [isRTL ? "left" : "right"]: "10px",
                 top: "50%",
                 transform: "translateY(-50%)",
                 cursor: "pointer",
@@ -93,19 +106,21 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
           )}
         </div>
         <button
-          className="min-w-[90px] max-w-[90px] text-[#191B1C] flex justify-center items-center rounded-tr-[8px] rounded-br-[8px] bg-secondary border-none flex-shrink-0"
+          className={`min-w-[90px] max-w-[90px] text-[#191B1C] flex justify-center items-center bg-secondary border-none flex-shrink-0 ${
+            isRTL ? "rounded-tl-[8px] rounded-bl-[8px]" : "rounded-tr-[8px] rounded-br-[8px]"
+          }`}
           onClick={checkcoupan}
           style={{
             whiteSpace: "nowrap", // Prevents text wrapping
           }}
         >
-          Apply
+          {applyButtonText}
         </button>
       </div>
 
       {coupanmsg && (
         <div
-          className="text-danger mt-1"
+          className={`mt-1 ${isRTL ? "text-start" : "text-end"}`}
           style={{
             fontFamily: "Outfit",
             fontSize: "14px",
@@ -116,9 +131,9 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price }) => {
         </div>
       )}
       {coupon?.discount && (
-        <div className="viewavailable-title cursor-pointer">
+        <div className={`viewavailable-title cursor-pointer ${isRTL ? "flex-row-reverse text-end" : ""}`}>
           <HiMiniCheckBadge className="text-2xl" />
-          Coupon applied
+          {couponAppliedText}
         </div>
       )}
     </div>

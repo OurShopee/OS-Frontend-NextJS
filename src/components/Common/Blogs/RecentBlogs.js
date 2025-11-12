@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
+import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 const RecentBlogs = ({ data }) => {
+  const currentLanguage = useCurrentLanguage();
   return (
     <div>
       {data?.map((ele) => (
@@ -15,7 +17,7 @@ const RecentBlogs = ({ data }) => {
             <div className="w-1/2 pr-2">
               <img
                 src={ele.image}
-                alt={ele.title}
+                alt={getDynamicContent(ele, "title", currentLanguage)}
                 className="w-full rounded-md object-cover"
               />
             </div>
@@ -32,7 +34,7 @@ const RecentBlogs = ({ data }) => {
                 })()}
               </div>
               <div className="font-semibold text-xs text-[#191B1C] line-clamp-3">
-                {ele.title}
+                {getDynamicContent(ele, "title", currentLanguage)}
               </div>
             </div>
           </div>

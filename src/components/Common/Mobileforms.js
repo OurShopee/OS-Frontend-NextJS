@@ -9,6 +9,7 @@ import ForgotPssword from "./ForgotPssword";
 import Login from "./Login";
 import OTPVerification from "./OtpVerifiaction";
 import Register from "./Register";
+import { useContent } from "@/hooks";
 
 const Mobileforms = () => {
   const formmodal = useSelector((state) => state.formslice.formmodal);
@@ -19,6 +20,14 @@ const Mobileforms = () => {
   );
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // Content translations
+  const login = useContent("buttons.login");
+  const createAnAccount = useContent("buttons.createAnAccount");
+  const forgotPassword = useContent("buttons.forgotPassword");
+  const ifYouHaveAnAccount = useContent("buttons.ifYouHaveAnAccount");
+  const looksLikeYoureNewHere = useContent("buttons.looksLikeYoureNewHere");
+  const pleaseFillForm = useContent("buttons.pleaseFillForm");
 
   const otpmodalhandle = () => {
     dispatch(setotpmodal(!optmodalopen));
@@ -54,15 +63,14 @@ const Mobileforms = () => {
           </div>
           <div className="mobile-form-titles">
             <div className="FormHeading">
-              {formstatus == 1 && "Login"}
-              {formstatus == 2 && "Create an account"}
-              {formstatus == 4 && "Forgot Password"}
+              {formstatus == 1 && login}
+              {formstatus == 2 && createAnAccount}
+              {formstatus == 4 && forgotPassword}
             </div>
             <div className="formsubheading">
-              {formstatus == 1 &&
-                "If you have an account with us, please login."}
-              {formstatus == 2 && "Looks like you're new here!"}
-              {formstatus == 4 && "Please fill the form to get your password"}
+              {formstatus == 1 && ifYouHaveAnAccount}
+              {formstatus == 2 && looksLikeYoureNewHere}
+              {formstatus == 4 && pleaseFillForm}
             </div>
           </div>
         </div>
