@@ -280,7 +280,7 @@ const DesktopView = ({
             "linear-gradient(180deg, #070707 0%, #070707 34.62%, #000000 92.31%, #646464 100%)",
         }}
       >
-        <div className="min-h-[90vh]">
+        <div className="pt-40">
           <FlashSale />
         </div>
       </div>

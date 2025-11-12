@@ -1,7 +1,7 @@
 "use client"
 import { useSelector } from "react-redux";
-import { CarouselWithBanner } from "../homepage";
 import CountdownClock from "../homepage/CountdownClock";
+import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 
 const FlashSale = () => {
       const top_picks = useSelector((state) => state?.homeslice?.top_picks);
@@ -10,13 +10,16 @@ const FlashSale = () => {
       <div className="component_1 mt-4 p-4">
         <div className="component_header">
           <div>
-            <img src="/assets/black-friday/flash-sale.gif" className="" />
+            <img src="/assets/black-friday/flash-sale.gif" className="w-[250px] h-full" />
           </div>
 
-          <CountdownClock endDate={new Date("2025-11-22")} labelColor={"#fff"} />
+          <CountdownClock
+            endDate={new Date("2025-11-22")}
+            labelColor={"#fff"}
+          />
         </div>
 
-        <CarouselWithBanner
+        <CarouselWithoutIndicators
           products={top_picks?.[0]?.productlist}
           bannerImage={top_picks?.[0]?.image_slider}
           bannerImageRedirectUrl={top_picks?.[0]?.url}
