@@ -146,10 +146,22 @@ const Snplmodal = ({ productcost }) => {
                               .format("dddd, Do MMMM YYYY")}
                       </div>
                       <div
-                        className={`price ${index === 0 ? "activetitle" : ""}`}
+                        className={`price ${index === 0 ? "activetitle" : ""} flex items-center`}
                         aria-label={`Payment amount: ${currentcountry.currency} ${productcost}`}
                       >
-                        {currentcountry.currency} {productcost}
+                        {currentcountry?.currency == "AED" ? (
+                          <>
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              style={{ color: "black" }}
+                            />
+                            {productcost}
+                          </>
+                        ) : (
+                          <>{currentcountry.currency} {productcost}</>
+                        )}
                       </div>
                     </div>
                   )

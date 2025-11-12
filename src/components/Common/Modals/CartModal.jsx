@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/navigation";
-import { useContent, useCurrentLanguage } from "@/hooks";
+import { useContent, useCurrentLanguage, useDynamicContent } from "@/hooks";
 
 const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
@@ -20,6 +20,9 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const qty = useContent("buttons.qty");
   const continueShopping = useContent("buttons.continueShopping");
   const checkoutNow = useContent("buttons.checkoutNow");
+  
+  // Get localized product name
+  const productName = useDynamicContent(productData, "name");
 
   useEffect(() => {
     const offData = productData?.old_price * (productData?.percentage / 100);
@@ -82,7 +85,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
               <div className="relative inline-block">
                 <img
                   src={productData.image}
-                  alt={`${productData.name} product image`}
+                  alt={`${productName} product image`}
                   className="cart-item-image"
                   style={{
                     width: "100px",
@@ -110,10 +113,10 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                   className="item-name flex-1 font-medium block"
                   style={{ fontWeight: 500 }}
                 >
-                  {productData.name.split(" ").length > 12
-                    ? productData?.name.split(" ").slice(0, 12).join(" ") +
+                  {productName.split(" ").length > 12
+                    ? productName.split(" ").slice(0, 12).join(" ") +
                       "..."
-                    : productData.name}
+                    : productName}
                 </span>
 
                 <div
@@ -121,26 +124,49 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                   style={{ fontFamily: "Outfit", fontSize: "16px" }}
                 >
                   <div className="flex items-center">
-                    <span>{currentcountry?.currency}&nbsp;</span>
+                    {currentcountry?.currency == "AED" ? (
+                      <img
+                        src="/assets/feed/aed-icon.png"
+                        alt="AED"
+                        className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                        style={{ color: "black" }}
+                      />
+                    ) : (
+                      <span>{currentcountry?.currency}&nbsp;</span>
+                    )}
                     <span className="" style={{ fontWeight: 600 }}>
                       {productData.display_price * quantity}&nbsp;
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span
-                      className="text-muted line-through"
-                      style={{
-                        fontWeight: 400,
-                        color: "#9EA5A8",
-                        fontSize: "13px",
-                      }}
-                    >
-                      <span className="text-[16px]">
-                        {currentcountry?.currency}
-                      </span>{" "}
-                      {Math.ceil(productData?.old_price * quantity)}
-                    </span>
+                      <span
+                        className="text-muted line-through flex items-center"
+                        style={{
+                          fontWeight: 400,
+                          color: "#9EA5A8",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {currentcountry?.currency == "AED" ? (
+                          <>
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              style={{ color: "#9EA5A8" }}
+                            />
+                            {Math.ceil(productData?.old_price * quantity)}
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-[16px]">
+                              {currentcountry?.currency}
+                            </span>{" "}
+                            {Math.ceil(productData?.old_price * quantity)}
+                          </>
+                        )}
+                      </span>
 
                     {savedPrice > 0 && (
                       <div className="save-cartModal flex items-center justify-center px-2 gap-0">
@@ -169,7 +195,16 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                                 fontWeight: "600",
                               }}
                             >
-                              {currentcountry.currency}{" "}
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <>{currentcountry.currency}{" "}</>
+                              )}
                               {Math.ceil(savedPrice * quantity)}
                             </span>
                           </span>

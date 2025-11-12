@@ -177,10 +177,19 @@ const Cart = () => {
                         >
                           <div>
                             <div className="cartproduct-title">{ele.localizedName || ele.name}</div>
-                            <div className="cartproduct-price">
-                              <span className="currencycode">
-                                {currentcountry.currency}
-                              </span>{" "}
+                            <div className={`cartproduct-price flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className={`currencycode ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
+                                  {currentcountry.currency}
+                                </span>
+                              )}{" "}
                               {(
                                 ele.single_price * cartQuantities[ele.cart_id]
                               ).toFixed(2)}
@@ -276,8 +285,17 @@ const Cart = () => {
                         <>
                           <div className="payment-type">
                             <div className="payment-type-title">{subtotalText}</div>
-                            <div className="payment-type-cost">
-                              {currentcountry.currency}{" "}
+                            <div className="payment-type-cost flex items-center">
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className={currentLanguage === "ar" ? "ml-1" : "mr-1"}>{currentcountry.currency}{" "}</span>
+                              )}
                               {CalculatePaymentDetails(
                                 cartlistdata,
                                 cartQuantities

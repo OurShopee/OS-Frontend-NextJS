@@ -28,7 +28,7 @@ import {
 import { pushToDataLayer } from "../../utils/dataUserpush";
 import { MediaQueries } from "../../utils";
 import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
-import { useDynamicContent } from "@/hooks";
+import { useDynamicContent, useCurrentLanguage } from "@/hooks";
 import { useContent } from "@/hooks/useContent";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
@@ -106,6 +106,7 @@ const ProductPageLayout = ({
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+  const currentLanguage = useCurrentLanguage();
   const placeOrderTitle = useContent("checkout.placeOrder");
   const youSaved = useContent("product.youSaved");
   const incOfVat = useContent("forms.incOfVat");
@@ -733,15 +734,14 @@ const ProductPageLayout = ({
                       <div className="my-2 sm:my-0 flex">
                         <div className="flex items-center">
                           {currentcountry.currency == "AED" ? (
-                            <div className="w-6 flex">
-                              <img
-                                src="/assets/feed/aed-icon.png"
-                                alt="AED"
-                                className="w-full h-full"
-                              />
-                            </div>
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`w-6 h-6 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              style={{ color: "black" }}
+                            />
                           ) : (
-                            <span className="currency-symbol mr-1 text-[24px] md:text-[26px] font-bold">
+                            <span className={`currency-symbol text-[24px] md:text-[26px] font-bold ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
                               {currentcountry.currency}
                             </span>
                           )}
@@ -760,18 +760,18 @@ const ProductPageLayout = ({
                             </span>
                             <span className="flex gap-1 items-center text-sm">
                               {youSaved}{" "}
-                              <span className="currency-symbol text-sm">
-                                {currentcountry.currency == "AED" ? (
-                                  <img
-                                    src="/assets/feed/aed-icon.png"
-                                    alt="AED"
-                                    className="w-4 h-full mix-blend-multiply "
-                                    style={{ color: "black" }}
-                                  />
-                                ) : (
-                                  currentcountry.currency
-                                )}
-                              </span>
+                              {currentcountry.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className="w-4 h-4 inline-block mix-blend-multiply"
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className="currency-symbol text-sm">
+                                  {currentcountry.currency}
+                                </span>
+                              )}
                               {Math.ceil(savedPrice)}
                             </span>
                           </div>
@@ -783,20 +783,18 @@ const ProductPageLayout = ({
                         Number(product?.old_price) && (
                           <div className="old_price">
                             {currentcountry.currency == "AED" ? (
-                              <div className="flex justify-center items-center text-[#9ea5a8] line-through gap-1">
+                              <div className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                 <img
                                   src="/assets/feed/aed-icon.png"
                                   alt="AED"
-                                  className="w-4 h-full grayscale mix-blend-multiply opacity-30"
+                                  className="w-4 h-4 grayscale mix-blend-multiply opacity-30"
                                   style={{ color: "#9ea5a8" }}
-                                />{" "}
+                                />
                                 {product?.old_price}
                               </div>
                             ) : (
-                              <span>
-                                {currentcountry.currency +
-                                  " " +
-                                  product?.old_price}
+                              <span className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                                {currentcountry.currency + " " + product?.old_price}
                               </span>
                             )}
                             <div className="product_Detail_price_container">

@@ -18,9 +18,10 @@ import { HomeCarousel, HomeCategories, HomeMobileCarousel } from "../homepage";
 import { ProductCardPlaceHolder, SubcategoryPlaceHolder } from "../placeholders/ProductCategory";
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { useContent } from "@/hooks/useContent";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 const ProductCategory = () => {
+  const currentLanguage = useCurrentLanguage();
   const filterTitle = useContent("buttons.filter");
   const products = useContent("product.products");
   const filtersTitle = useContent("buttons.filters");
@@ -588,7 +589,7 @@ const ProductCategory = () => {
                         key={cat.sub_category_id}
                       >
                         <div className="flex items-center justify-between mb-3 cursor-pointer">
-                          <h5 className="mb-0 text-[15px] font-medium">{cat.label}</h5>
+                          <h5 className="mb-0 text-[15px] font-medium">{getDynamicContent(cat, "label", currentLanguage)}</h5>
                           {selected.includes(cat.sub_category_id || cat.category_id) ? (
                             <img src="/assets/vector_icons/arrow_up.png" />
                           ) : (
@@ -609,7 +610,7 @@ const ProductCategory = () => {
                                 checked={selected_items.includes(child.value.split("@")[0])}
                                 readOnly
                               />
-                              <span className="text-sm">{child.label}</span>
+                              <span className="text-sm">{ getDynamicContent(child, "label", currentLanguage)}</span>
                             </div>
                           ))}
                       </div>
@@ -648,7 +649,7 @@ const ProductCategory = () => {
                         className="flex items-center justify-between mb-3 cursor-pointer"
                         onClick={() => handleSelectFilter(cat.title)}
                       >
-                        <h5 className="mb-0 text-base font-semibold">{cat.title}</h5>
+                        <h5 className="mb-0 text-base font-semibold">{getDynamicContent(cat, "title", currentLanguage)}</h5>
                         <img
                           src={isSelected ? "/assets/vector_icons/arrow_up.png" : "/assets/vector_icons/arrow_down.png"}
                           alt="arrow"
@@ -693,7 +694,7 @@ const ProductCategory = () => {
                               checked={selected_items.includes(child.name)}
                               readOnly
                             />
-                            <span className="text-sm">{child.name}</span>
+                            <span className="text-sm">{getDynamicContent(child, "name", currentLanguage)}</span>
                           </div>
                         ))}
 

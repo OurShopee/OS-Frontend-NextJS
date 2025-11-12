@@ -117,21 +117,8 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         type: "discount",
         render: () => (
           <div
-            className={`save-banner px-3 py-2 flex items-center !font-medium ${
-              isRTL ? "flex-row-reverse" : ""
-            }`}
+            className={`save-banner px-3 py-2 flex items-center !font-medium`}
           >
-            <span
-              className={`badge-icon inline-flex items-center justify-center ${
-                isRTL ? "ml-1" : "mr-1"
-              }`}
-            >
-              {/* <img
-                src="/assets/vector_icons/Vector.png"
-                alt="%"
-                className="discount-icon"
-              /> */}
-            </span>
             <span
               className={`text-[12px] text-nowrap flex items-center gap-0.5 ${
                 isRTL ? "flex-row-reverse" : ""
@@ -142,11 +129,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 <img
                   src="/assets/feed/aed-icon.png"
                   alt="AED"
-                  className="w-2.5 h-2.5 inline-block mix-blend-multiply"
+                  className={`w-2.5 h-2.5 inline-block mix-blend-multiply ${isRTL ? "ml-0.5" : "mr-0.5"}`}
                   style={{ color: "black" }}
                 />
               ) : (
-                <span className="currency-symbol text-[12px]">
+                <span className={`currency-symbol text-[12px] ${isRTL ? "ml-0.5" : "mr-0.5"}`}>
                   {currentcountry?.currency}
                 </span>
               )}{" "}
@@ -375,21 +362,17 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             isRTL ? "flex-row-reverse justify-end text-right" : ""
           }`}
         >
-          {/* Current Price */}
-          <div
-            className={`flex items-center gap-0.5 ${
-              isRTL ? "flex-row-reverse" : ""
-            }`}
-          >
+          {/* Current Price - Currency always comes first */}
+          <div className={`flex items-center gap-0.5 ${isRTL ? "flex-row-reverse" : ""}`}>
             {currentcountry?.currency == "AED" ? (
               <img
                 src="/assets/feed/aed-icon.png"
                 alt="AED"
-                className="w-[18px] h-[18px] inline-block mix-blend-multiply"
+                className={`w-[18px] h-[18px] inline-block mix-blend-multiply ${isRTL ? "ml-0.5" : "mr-0.5"}`}
                 style={{ color: "black" }}
               />
             ) : (
-              <span className="text-[#191B1C] text-xl font-semibold">
+              <span className={`text-[#191B1C] text-xl font-semibold ${isRTL ? "ml-0.5" : "mr-0.5"}`}>
                 {currentcountry?.currency}
               </span>
             )}
@@ -441,7 +424,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
 
           {/* Add to Cart Button - Slides up from bottom on desktop hover */}
           <div
-            className="transition-all duration-500 ease-in-out absolute bottom-0 left-0 right-0"
+            className="transition-all duration-500 ease-in-out absolute w-full bottom-0 left-0 right-0"
             style={{
               transform:
                 isHovered && !isMobile

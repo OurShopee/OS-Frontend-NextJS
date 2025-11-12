@@ -60,6 +60,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const youSaved = useContent("product.youSaved");
   const incOfVat = useContent("forms.incOfVat");
   const off = useContent("product.off");
+  const reviews = useContent("product.reviews");
+  const viewLess = useContent("labels.viewLess");
+  const viewMore = useContent("labels.viewMore");
   const cookies = new Cookies();
   const { isMobile, isLaptop, isTablet } = MediaQueries();
   const { add2cart, isLoading } = useCart();
@@ -94,6 +97,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const reviewRef = useRef(null);
   const [showCard, setShowCard] = useState(false);
   const headerRef = useRef(null);
+  const tamaraWidgetRef = useRef(null);
+  const [tamaraKey, setTamaraKey] = useState(0);
   const [qty, setQty] = useState(1);
   const loading = useSelector((state) => state.productslice.loading);
   const loading1 = useSelector((state) => state.productslice.loading1);
@@ -309,6 +314,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
     );
   }, [productDetail]);
 
+  // Force Tamara widget to re-initialize when language changes
+  useEffect(() => {
+    // Update the global Tamara config
+    if (typeof window !== "undefined" && window.tamaraWidgetConfig) {
+      const lang = currentLanguage === "ar" ? "ar" : "en";
+      window.tamaraWidgetConfig.lang = lang;
+    }
+
+    // Force widget re-initialization by updating the key
+    // This will cause React to unmount and remount the widget,
+    // which will make it read the updated config
+    setTamaraKey((prev) => prev + 1);
+  }, [currentLanguage]);
+
   const handleClick = async () => {
     var input_data = {
       product_id: productDetail[0]?.id,
@@ -455,7 +474,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     <div className="product_Detail_right_side">
                       <div className="grid gap-1 mt-3">
                         <h6 className="text-sm text-[#6F787C] mb-0">
-                          {productDetail[0]?.brand}
+                          {getDynamicContent(productDetail[0], "brand", currentLanguage)}
                         </h6>
                         <h3 className="text-lg text-[#191B1C] font-semibold">
                           {getDynamicContent(productDetail[0], "name", currentLanguage)}
@@ -536,7 +555,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {!isMobile && (
                     <div className="mb-7">
                       <h6 className="text-[#6F787C] font-medium mb-2 leading-[1.2rem]">
-                        {productDetail[0]?.brand}
+                        {getDynamicContent(productDetail[0], "brand", currentLanguage)}
                       </h6>
                       <h3 className="!text-[22px] !font-semibold mb-3">
                         {getDynamicContent(productDetail[0], "name", currentLanguage)}
@@ -564,7 +583,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           {allProductReviews?.data?.stats?.reviewCount > 0 && (
                             <span className="text-base text-[#9EA5A8] font-medium">
                               | ({allProductReviews?.data?.stats?.reviewCount}{" "}
-                              Reviews)
+                              {reviews})
                             </span>
                           )}
                         </div>
@@ -574,15 +593,24 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {!isMobile && <hr className="text-[#b3aaaa] mb-0" />}
                   <div className={`${!isMobile && "my-7"}`}>
                     {/* d-flex -> flex */}
-                    <div className="product_Detail_price_container flex">
+                    <div className="product_Detail_price_container !flex-row flex">
                       {/* d-flex align-items-center -> flex items-center */}
                       <div className="display_price flex items-center">
                         {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
-                        <span className="font-bold text-xl flex items-center">
+                        <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                           {/* me-1 -> mr-1 */}
-                          <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
-                            {currentcountry.currency}
-                          </span>
+                          {currentcountry?.currency == "AED" ? (
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
+                              style={{ color: "black" }}
+                            />
+                          ) : (
+                            <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
+                              {currentcountry.currency}
+                            </span>
+                          )}
                           <span className="text-[24px] md:text-[26px]">
                             {" "}
                             {productDetail[0]?.display_price}
@@ -600,12 +628,23 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                                 className="discount-icon"
                               />
                             </span>
-                            <span className="text-sm">
+                            <span className="text-sm flex items-center">
                             {youSaved}{" "}
-                              <span className="currency-symbol !text-sm">
-                                {currentcountry.currency}{" "}
-                              </span>
+                            <div className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className="w-3 h-3 inline-block mix-blend-multiply"
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className="currency-symbol !text-sm">
+                                  {currentcountry.currency}{" "}
+                                </span>
+                              )}
                               {Math.ceil(savedPrice)}
+                              </div>
                             </span>
                           </div>
                         )}
@@ -616,10 +655,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       Number(productDetail[0]?.display_price) <
                       Number(productDetail[0]?.old_price) && (
                         <div className="old_price">
-                          <span>
-                            {currentcountry.currency +
-                              " " +
-                              productDetail[0]?.old_price}
+                          <span className="flex items-center">
+                            {currentcountry?.currency == "AED" ? (
+                              <>
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                                {productDetail[0]?.old_price}
+                              </>
+                            ) : (
+                              currentcountry.currency + " " + productDetail[0]?.old_price
+                            )}
                           </span>
                           <div className="product_Detail_price_container">
                             <div className="display_percentage">
@@ -634,9 +683,16 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   </div>
                   {
                     currentcountry.id == 1 &&
-                    <tamara-widget type="tamara-summary" amount={productDetail[0]?.display_price} inline-type='2' inline-variant='text' config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'>
-
-                    </tamara-widget>
+                    <div ref={tamaraWidgetRef}>
+                      <tamara-widget 
+                        key={`tamara-${currentLanguage}-${productDetail[0]?.display_price}-${tamaraKey}`}
+                        type="tamara-summary" 
+                        amount={productDetail[0]?.display_price} 
+                        inline-type='2' 
+                        inline-variant='text' 
+                        config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'>
+                      </tamara-widget>
+                    </div>
                   }
                   <div className="my-6">
                     {productDetail[0]?.stock === "In stock" && (
@@ -1218,7 +1274,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 >
                   {expanded ? (
                     <div className="flex items-center justify-center">
-                      <span className="mr-1">View Less</span>
+                      <span className="mr-1">{viewLess}</span>
                       <img
                         src="/assets/downArrow.png"
                         alt="Up Arrow"
@@ -1227,7 +1283,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center">
-                      <span className="mr-1">View More</span>
+                      <span className="mr-1">{viewMore}</span>
                       <img
                         src="/assets/downArrow.png"
                         alt="Down Arrow"
@@ -1395,11 +1451,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     {/* d-flex align-items-center -> flex items-center */}
                     <div className="display_price flex items-center">
                       {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
-                      <span className="font-bold text-xl flex items-center">
+                        <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         {/* me-1 -> mr-1 */}
-                        <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol !text-[22px]`}>
-                          {currentcountry?.currency}
-                        </span>
+                        {currentcountry?.currency == "AED" ? (
+                          <img
+                            src="/assets/feed/aed-icon.png"
+                            alt="AED"
+                            className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-5 h-5 inline-block mix-blend-multiply`}
+                            style={{ color: "black" }}
+                          />
+                        ) : (
+                          <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol !text-[22px]`}>
+                            {currentcountry?.currency}
+                          </span>
+                        )}
                         <span className="!text-[22px]">
                           {" "}
                           {product?.display_price}
@@ -1417,11 +1482,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               className="discount-icon"
                             />
                           </span>
-                          <span className="text-sm text-nowrap">
+                          <span className={`text-sm text-nowrap flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                             {youSaved}{" "}
-                            <span className="currency-symbol !text-sm !xl:text-sm">
-                              {currentcountry?.currency}{" "}
-                            </span>
+                            {currentcountry?.currency == "AED" ? (
+                              <img
+                                src="/assets/feed/aed-icon.png"
+                                alt="AED"
+                                className="w-3 h-3 inline-block mix-blend-multiply"
+                                style={{ color: "black" }}
+                              />
+                            ) : (
+                              <span className="currency-symbol !text-sm !xl:text-sm">
+                                {currentcountry?.currency}{" "}
+                              </span>
+                            )}
                             <span className="font-bold">
                               {Math.ceil(savedPrice)}
                             </span>
@@ -1432,8 +1506,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   </div>
                   {product?.hasOwnProperty("old_price") && (
                     <div className="old_price">
-                      <span className="text-base xl:text-lg">
-                        {currentcountry.currency + " " + product?.old_price}
+                      <span className={`text-base xl:text-lg flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                        {currentcountry?.currency == "AED" ? (
+                          <span className={`flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              style={{ color: "black" }}
+                            />
+                            {product?.old_price}
+                          </span>
+                        ) : (
+                          currentcountry.currency + " " + product?.old_price
+                        )}
                       </span>
                       <div className="product_Detail_price_container">
                         <div className="display_percentage text-base xl:text-lg">
@@ -1454,11 +1540,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 {/* d-flex align-items-center -> flex items-center */}
                 <div className="display_price flex items-center">
                   {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
-                  <span className="font-bold text-xl flex items-center">
+                  <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                     {/* me-1 -> mr-1 */}
-                    <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
-                    {currentcountry?.currency}
-                    </span>
+                    {currentcountry?.currency == "AED" ? (
+                      <img
+                        src="/assets/feed/aed-icon.png"
+                        alt="AED"
+                        className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
+                        style={{ color: "black" }}
+                      />
+                    ) : (
+                      <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
+                        {currentcountry?.currency}
+                      </span>
+                    )}
                     <span className="text-base xl:text-[22px]">
                       {" "}
                       {product?.display_price}
@@ -1476,11 +1571,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           className="discount-icon"
                         />
                       </span>
-                      <span className="text-sm text-nowrap">
+                      <span className={`text-sm text-nowrap flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         {youSaved}{" "}
-                        <span className="currency-symbol !text-sm !xl:text-sm">
-                          {currentcountry?.currency}{" "}
-                        </span>
+                        {currentcountry?.currency == "AED" ? (
+                          <img
+                            src="/assets/feed/aed-icon.png"
+                            alt="AED"
+                            className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}
+                            style={{ color: "black" }}
+                          />
+                        ) : (
+                          <span className={`currency-symbol !text-sm !xl:text-sm ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}>
+                            {currentcountry?.currency}{" "}
+                          </span>
+                        )}
                         <span className="font-bold">
                           {Math.ceil(savedPrice)}
                         </span>
@@ -1492,8 +1596,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
               {product?.hasOwnProperty("old_price") && (
                 <div className="old_price">
-                  <span className="text-base xl:text-lg">
-                    {currentcountry.currency + " " + product?.old_price}
+                  <span className={`text-base xl:text-lg flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                    {currentcountry?.currency == "AED" ? (
+                      <>
+                        <img
+                          src="/assets/feed/aed-icon.png"
+                          alt="AED"
+                          className="w-4 h-4 inline-block mix-blend-multiply mr-1"
+                          style={{ color: "black" }}
+                        />
+                        {product?.old_price}
+                      </>
+                    ) : (
+                      currentcountry.currency + " " + product?.old_price
+                    )}
                   </span>
                   <div className="product_Detail_price_container">
                     <div className="display_percentage text-base xl:text-lg">
