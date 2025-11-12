@@ -59,7 +59,7 @@ export default function CategorySlider({ categoryList }) {
   // Resume autoplay when leaving
   const handleMouseLeave = useCallback(() => {
     if (autoplayPlugin) {
-      autoplayPlugin.play();
+      autoplayPlugin?.play();
       setIsAutoplayActive(true);
     }
   }, [autoplayPlugin]);
@@ -100,7 +100,7 @@ export default function CategorySlider({ categoryList }) {
     if (!emblaApi || !autoplayPlugin) return;
     
     // Restart autoplay after direction change
-    autoplayPlugin.play();
+    autoplayPlugin?.play();
   }, [emblaApi, autoplayPlugin, direction]);
 
   return (
