@@ -44,7 +44,6 @@ const Footer = () => {
   );
   const currentLanguage = useCurrentLanguage();
 
-  console.log("footerdata", footerdata);
 
   // Language content
   const aboutCompany = useContent("footer.aboutCompany");
