@@ -210,32 +210,12 @@ const ReviewOnlyRating = () => {
     return formData;
   };
 
-  const logFormData = (formData) => {
-
-    for (let [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        console.log(`${key}:`, {
-          name: value.name,
-          size: value.size,
-          type: value.type,
-          lastModified: new Date(value.lastModified).toISOString(),
-        });
-      } else {
-        console.log(`${key}:`, value);
-      }
-    }
-
-    console.log("=== END FORM DATA ===");
-  };
-
   const handleImageSubmit = () => {
     if (selectedFiles.length === 0) {
       setErrors(["Please select at least one file"]);
       return;
     }
 
-    const formData = createFormData();
-    logFormData(formData);
 
     // Convert selectedFiles to reviewImages format
     const newReviewImages = selectedFiles.map((file) => ({
@@ -256,7 +236,6 @@ const ReviewOnlyRating = () => {
 
   const handleSkipImages = () => {
     const formData = createFormData();
-    logFormData(formData);
 
     setHasExistingReview(true);
     setIsEditing(false);

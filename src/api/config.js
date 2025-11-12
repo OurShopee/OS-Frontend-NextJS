@@ -14,15 +14,27 @@ const getCurrentLanguageLazy = () => {
       // Cache the store reference to avoid repeated lookups
       if (!cachedStore) {
         try {
-          // Try the redux store first (used by getContent.js)
-          cachedStore = require("@/redux/store").default;
+          // Try the actual store being used by Provider (named export)
+          const storeModule = require("@/store/store");
+          cachedStore = storeModule.store;
         } catch (e) {
-          // If that fails, try the other store location
+          // If that fails, try the redux store (default export)
           try {
-            const storeModule = require("@/store/store");
-            cachedStore = storeModule.store || storeModule.default;
+            cachedStore = require("@/redux/store").default;
           } catch (e2) {
-            // Store not available yet, return default
+            // Store not available yet, try localStorage as fallback (redux-persist)
+            try {
+              const persistedState = localStorage.getItem("persist:root");
+              if (persistedState) {
+                const parsed = JSON.parse(persistedState);
+                const globalslice = parsed.globalslice ? JSON.parse(parsed.globalslice) : null;
+                if (globalslice?.currentLanguage) {
+                  return globalslice.currentLanguage;
+                }
+              }
+            } catch (e3) {
+              // Ignore localStorage errors
+            }
             return "en";
           }
         }
@@ -30,7 +42,23 @@ const getCurrentLanguageLazy = () => {
       
       if (cachedStore && typeof cachedStore.getState === "function") {
         const state = cachedStore.getState();
-        return state.globalslice?.currentLanguage || "en";
+        const language = state.globalslice?.currentLanguage;
+        // If language is not in state yet (store not hydrated), try localStorage
+        if (!language) {
+          try {
+            const persistedState = localStorage.getItem("persist:root");
+            if (persistedState) {
+              const parsed = JSON.parse(persistedState);
+              const globalslice = parsed.globalslice ? JSON.parse(parsed.globalslice) : null;
+              if (globalslice?.currentLanguage) {
+                return globalslice.currentLanguage;
+              }
+            }
+          } catch (e) {
+            // Ignore localStorage errors
+          }
+        }
+        return language || "en";
       }
     }
     return "en";

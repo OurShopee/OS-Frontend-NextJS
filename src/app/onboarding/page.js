@@ -97,13 +97,6 @@ const SellerOnboarding = () => {
         if (formData.bank_address)
           finalFormData.set("bank_address", formData.bank_address);
 
-        for (let [key, value] of finalFormData.entries()) {
-          console.log(
-            key,
-            value instanceof File ? `File: ${value.name}` : value
-          );
-        }
-
         const { data } = await addVendorApi(finalFormData);
         if (data.status === "success") {
           setFormData({
