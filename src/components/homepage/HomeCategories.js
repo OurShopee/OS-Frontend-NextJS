@@ -11,11 +11,13 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Grid, Mousewheel } from "swiper/modules";
 import { MediaQueries } from "../utils";
+import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 // import required modules
 
 export default function HomeCategories({ category_list, no_bg, type }) {
   const { isMobile } = MediaQueries();
+  const currentLanguage = useCurrentLanguage();
 
   const sliderRef1 = useRef(null);
   const [scrollProgress, setScroll] = useState(0.4);
@@ -231,9 +233,9 @@ export default function HomeCategories({ category_list, no_bg, type }) {
                   />
                 </div>
                 <p>
-                  {cat_item.category_name ||
-                    cat_item.sub_category_name ||
-                    cat_item.sub_subcategory_name}
+                  {getDynamicContent(cat_item, "category_name", currentLanguage) ||
+                    getDynamicContent(cat_item, "sub_category_name", currentLanguage) ||
+                    getDynamicContent(cat_item, "sub_subcategory_name", currentLanguage)}
                 </p>
               </Link>
             </SwiperSlide>

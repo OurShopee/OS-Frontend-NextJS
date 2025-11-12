@@ -18,9 +18,10 @@ import { getCatScreenList, setscrolled_products } from "@/redux/categoryslice";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import { MediaQueries } from "@/components/utils";
 import { ProductCard } from "@/components/Common";
-import { useContent } from "@/hooks";
+import { useContent, useCurrentLanguage, getDynamicContent } from "@/hooks";
 
 export default function CategoryClient({ initialCategoryData, categorySlug }) {
+  const currentLanguage = useCurrentLanguage();
   const dispatch = useDispatch();
   const { slug } = useParams();
   const shopBySubCategory = useContent("header.shopBySubCategory");
@@ -145,7 +146,7 @@ export default function CategoryClient({ initialCategoryData, categorySlug }) {
           categoryScreen?.categories?.map((cat) => (
             <div key={cat.subcategory_name} className="component_1 mt-4">
               <ComponentHeader
-                title={cat.subcategory_name}
+                title={getDynamicContent(cat, "subcategory_name", currentLanguage)}
                 url={`/products-category/${cat.url}`}
                 first_title={cat.subcategory_name.split(" ")[0]}
                 second_title={cat.subcategory_name.split(" ")[1]}

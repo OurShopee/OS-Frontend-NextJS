@@ -137,7 +137,7 @@ export default function Pagedropdown({ logindata }) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="custom-dropdown-menu absolute top-full right-0 mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3">
+        <div className={`custom-dropdown-menu absolute top-full ${currentLanguage === "ar" ? "!left-0" : "right-0"} mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3`}>
           {dropdownItems.length > 0 &&
             dropdownItems.map((item, index) => (
               <div key={item.to} className="dropdown-item">
@@ -149,7 +149,7 @@ export default function Pagedropdown({ logindata }) {
                 >
                   <div className="flex items-center">
                     <img src={item.img} alt={item.label} />
-                    <div className="dropdownpages">{item.label}</div>
+                    <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
                   </div>
                 </NavLink>
               </div>
@@ -157,11 +157,11 @@ export default function Pagedropdown({ logindata }) {
           <div className="dropdown-item" onClick={logoutclick}>
             <div className="userdropdown no-underline cursor-pointer">
               <img src={logout.src} alt="logout" />
-              <div className="dropdownpages">{logoutText}</div>
+              <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{logoutText}</div>
             </div>
           </div>
         </div>
-      )}
+       )} 
     </div>
   );
 }

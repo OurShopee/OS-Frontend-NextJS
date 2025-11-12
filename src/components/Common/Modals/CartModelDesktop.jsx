@@ -454,28 +454,61 @@ const CartModalDesktop = ({ show, onHide }) => {
                           </div>
                         </div>
 
-                        <div className="text-lg font-semibold">
-                          <span
-                            aria-label={`Current price: ${
-                              currentcountry?.currency
-                            } ${(item.single_price * item.quantity).toFixed(
-                              2
-                            )}`}
-                          >
-                            {currentcountry?.currency}{" "}
-                            {(item.single_price * item.quantity).toFixed(2)}
-                          </span>
+                        <div className={`text-lg font-semibold flex flex-col gap-1`}>
+                          <div className={`flex items-center gap-1`}>
+                            <span
+                              aria-label={`Current price: ${
+                                currentcountry?.currency
+                              } ${(item.single_price * item.quantity).toFixed(
+                                2
+                              )}`}
+                              className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}
+                            >
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <>{currentcountry?.currency}{" "}</>
+                              )}
+                              {(item.single_price * item.quantity).toFixed(2)}
+                            </span>
 
-                          <span className="text-sm font-semibold mx-1 text-[#33B056]">
-                            {item.percentage}% {off}
-                          </span>
-                          <div className="text-sm line-through text-[#9EA5A8]">
+                            <span className="text-sm font-semibold text-[#33B056]">
+                              {currentLanguage === "ar" ? (
+                                <>
+                                   {item.percentage}% {off}
+                                </>
+                              ) : (
+                                <>
+                                  {item.percentage}% {off}
+                                </>
+                              )}
+                            </span>
+                          </div>
+                          <div className={`text-sm line-through text-[#9EA5A8] ${currentLanguage === "ar" ? "text-right" : "text-left"}`}>
                             <span
                               aria-label={`Original price: ${currentcountry?.currency} ${(
                                 item.old_price * item.quantity
                               ).toFixed(2)}`}
+                              className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}
                             >
-                              {currentcountry?.currency} {(item.old_price * item.quantity).toFixed(2)}
+                              {currentcountry?.currency == "AED" ? (
+                                <>
+                                  <img
+                                    src="/assets/feed/aed-icon.png"
+                                    alt="AED"
+                                    className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                    style={{ color: "black" }}
+                                  />
+                                  {(item.old_price * item.quantity).toFixed(2)}
+                                </>
+                              ) : (
+                                <>{currentcountry?.currency} {(item.old_price * item.quantity).toFixed(2)}</>
+                              )}
                             </span>
                           </div>
                         </div>
@@ -500,8 +533,20 @@ const CartModalDesktop = ({ show, onHide }) => {
               <p className="mb-0 capitalize">{totalCartValue}</p>
               <div className="flex items-center gap-1">
                 <p className="mb-0 text-sm line-through text-[#9EA5A8]">
-                  <span aria-label={`Original total: ${currentcountry?.currency} ${totalOld}`}>
-                    {currentcountry?.currency} {totalOld}
+                  <span aria-label={`Original total: ${currentcountry?.currency} ${totalOld}`} className="flex items-center">
+                    {currentcountry?.currency == "AED" ? (
+                      <span className={`flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                        <img
+                          src="/assets/feed/aed-icon.png"
+                          alt="AED"
+                          className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                          style={{ color: "black" }}
+                        />
+                        {totalOld}
+                      </span>
+                    ) : (
+                      <>{currentcountry?.currency} {totalOld}</>
+                    )}
                   </span>
                 </p>
                 <p
@@ -530,13 +575,24 @@ const CartModalDesktop = ({ show, onHide }) => {
                   {yourTotalSavings}
                 </p>
               </div>
-              <div className="font-semibold text-lg flex items-center gap-1 h-6">
-                <span className="text-[1.125rem] text-lg">
-                  {currentcountry?.currency}
-                </span>
+              <div className={`font-semibold text-lg flex items-center gap-1 h-6 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                {currentcountry?.currency == "AED" ? (
+                  <img
+                    src="/assets/feed/aed-icon.png"
+                    alt="AED"
+                    className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                    style={{ color: "black" }}
+                  />
+                ) : (
+                  <span className="text-[1.125rem] text-lg">
+                    {currentcountry?.currency}
+                  </span>
+                )}
                 <span
                   aria-live="polite"
                   aria-label={`Total savings: ${currentcountry?.currency} ${totalSavings}`}
+                  dir="ltr"
+                  style={{ display: "inline-block" }}
                 >
                   <OdometerCounter
                     value={totalSavings}

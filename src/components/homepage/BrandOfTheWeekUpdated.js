@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { getImagesByKey } from "../utils/getImagesByKey";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { useContent } from "@/hooks";
+import { useContent, useCurrentLanguage } from "@/hooks";
 import { ProductCard } from "../Common";
 import { MediaQueries } from "../utils";
 
@@ -101,6 +101,7 @@ function CrossfadeOverlay({ item, render, duration = 500 }) {
 /* --------------------------- Custom Mobile Product Card --------------------------- */
 function BrandWeekMobileCard({ item }) {
   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
+  const currentLanguage = useCurrentLanguage();
   const [hasError, setHasError] = useState(false);
   useEffect(() => {
     setHasError(false);
@@ -168,10 +169,11 @@ function BrandWeekMobileCard({ item }) {
               <img
                 src="/assets/feed/aed-icon.png"
                 alt="AED"
-                className="w-3 h-3 sm:w-4 sm:h-4 inline-block mix-blend-multiply"
+                className={`w-3 h-3 sm:w-4 sm:h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                style={{ color: "black" }}
               />
             ) : (
-              <span className="text-black text-sm sm:text-xl font-bold leading-none mr-1">
+              <span className={`text-black text-sm sm:text-xl font-bold leading-none ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
                 {currentcountry?.currency}
               </span>
             )}

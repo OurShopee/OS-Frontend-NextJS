@@ -20,6 +20,7 @@ import { checkoutSingleProd } from "@/api/payments";
 import { useContent } from "@/hooks/useContent";
 
 const Paymentdetails = ({ prodId, qty, sku, address }) => {
+  const currentLanguage = useSelector((state) => state.globalslice.currentLanguage);
   const placeOrder = useContent("checkout.placeOrder");
   const subtotal = useContent("cart.subtotal");
   const processingFee = useContent("forms.processingFee");
@@ -253,8 +254,17 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                   {total}<span className="totalvat">{inclusiveOfVat}</span>
                 </div>
 
-                <div className="payment-type-totalcost">
-                  <span className="pe-2">{currentcountry.currency} </span>
+                <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
+                  {currentcountry?.currency == "AED" ? (
+                    <img
+                      src="/assets/feed/aed-icon.png"
+                      alt="AED"
+                      className="w-4 h-4 inline-block mix-blend-multiply mr-1"
+                      style={{ color: "black" }}
+                    />
+                  ) : (
+                    <span className="pe-2">{currentcountry.currency} </span>
+                  )}
                   {(
                     Number(
                       paymentData?.final_total?.replace(/[^\d.]/g, "") || 0
@@ -338,9 +348,18 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 <div className="payment-type-total">
                   Total<span className="totalvat">(Inclusive of VAT)</span>
                 </div>
-                <div className="payment-type-totalcost">
+                <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                   {" "}
-                  <span className="pe-2">{currentcountry.currency} </span>
+                  {currentcountry?.currency == "AED" ? (
+                    <img
+                      src="/assets/feed/aed-icon.png"
+                      alt="AED"
+                      className="w-4 h-4 inline-block mix-blend-multiply mr-1"
+                      style={{ color: "black" }}
+                    />
+                  ) : (
+                    <span className="pe-2">{currentcountry.currency} </span>
+                  )}
                   {(
                     Number(
                       paymentData?.final_total?.replace(/[^\d.]/g, "") || 0
