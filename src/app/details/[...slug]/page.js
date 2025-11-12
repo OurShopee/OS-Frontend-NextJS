@@ -99,7 +99,7 @@ export default async function ProductDetailsPage({ params }) {
 
   // Generate pure HTML string
   const htmlContent = generateProductHTML(product, productInfo, cleanedDetails);
-  console.log("htmlContent", htmlContent);
+
   return (
     <div id="product-detail-page">
       {/* Render pure HTML directly without React Server Component wrapper */}

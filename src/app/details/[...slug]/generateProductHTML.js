@@ -27,7 +27,7 @@ export function generateProductHTML(product, productInfo, cleanedDetails) {
 
   const a_plus_images = product?.a_plus_images || [];
 
-  let html = '<div class="product-detail-server-wrapper">';
+  let html = `<div class="product-detail-server-wrapper hidden">`;
   html += '<div class="">';
   html += '<div class="pb-3 px-3">';
   html += '<div class="2xl:container top-[20px] flex gap-5 !m-auto relative">';
