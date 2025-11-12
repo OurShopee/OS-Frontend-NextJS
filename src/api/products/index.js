@@ -299,3 +299,12 @@ export const get_relatedItems = async (input_data) => {
   const response = await axios.post(`api/get_relatedItems`, input_data);
   return response;
 };
+
+export const getAllAreasByEmirateId = async (input_data) => {
+  const response = await axios.get(`/api/get-areas?emirateid=${input_data}`);
+  return response;
+};
+export const getAllCategoryList = async () => {
+  const response = await axios.get(`/api/categories`);
+  return response;
+};
