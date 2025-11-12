@@ -1,12 +1,17 @@
 import notcartimg from "@/images/shopping cart.png";
 import Link from "next/link";
+import { useContent } from "@/hooks";
 const Nocart = () => {
+    const emptyDescription = useContent("cart.emptyDescription");
+    const emptySubDescription = useContent("cart.emptySubDescription");
+    const keepExploring = useContent("cart.keepExploring");
+    
     return (
         <div className="notlogin">
             <img src={notcartimg.src}></img>
-            <div className="notlogintitle">Your Cart is empty</div>
-            <div className="notloginsubtitle">There nothing in the cart. Let’s add some items.</div>
-            <Link href="/" className="notloginbtn textdecoration-none" >Keep exploring</Link>
+            <div className="notlogintitle">{emptyDescription}</div>
+            <div className="notloginsubtitle">{emptySubDescription}</div>
+            <Link href="/" className="notloginbtn textdecoration-none" >{keepExploring}</Link>
 
         </div>
     )

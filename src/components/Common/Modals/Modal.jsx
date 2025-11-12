@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
+import { useCurrentLanguage } from "@/hooks";
 
 const sizeMap = {
   sm: "w-[90%] max-w-[400px]",
@@ -23,6 +24,7 @@ export default function Modal({
   children,
 }) {
   const panelRef = useRef(null);
+  const currentLanguage = useCurrentLanguage();
 
   // Lock body scroll when open
   useEffect(() => {
@@ -68,6 +70,7 @@ export default function Modal({
           ref={panelRef}
           className={`relative bg-white rounded-2xl shadow-2xl ${panelSize} max-w-lg max-h-[90vh] overflow-y-auto ${panelClassName}`}
           onClick={(e) => e.stopPropagation()}
+          dir={currentLanguage === "ar" ? "rtl" : "ltr"}
         >
           {children}
         </div>

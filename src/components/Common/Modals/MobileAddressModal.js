@@ -26,9 +26,27 @@ import {
 } from "../../../redux/formslice";
 import { getAreas, getLocations } from "../../../redux/globalslice";
 import { InputBox1 } from "../formInputs";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 function MobileAddressModal() {
   const dispatch = useDispatch();
   const inputs = ["name", "emirate", "number", "address", "area"];
+  const currentLanguage = useCurrentLanguage();
+  
+  // Content translations
+  const whatAreYouLookingFor = useContent("buttons.whatAreYouLookingFor");
+  const loading = useContent("buttons.loading");
+  const addAddress = useContent("buttons.addAddress");
+  const updateAddress = useContent("buttons.updateAddress");
+  const name = useContent("forms.firstName");
+  const enterMobileNumber = useContent("buttons.enterMobileNumber");
+  const selectLocation = useContent("buttons.selectLocation");
+  const selectArea = useContent("buttons.selectArea");
+  const flatNoHouseNoBuildingLandmark = useContent("buttons.flatNoHouseNoBuildingLandmark");
+  const deliveringYourOrderTo = useContent("buttons.deliveringYourOrderTo");
+  const useMyCurrentLocation = useContent("buttons.useMyCurrentLocation");
+  const confirmMyLocation = useContent("buttons.confirmMyLocation");
+  const locateMe = useContent("buttons.locateMe");
 
   const mobile_address_modal = useSelector(
     (state) => state.addresslice.mobile_address_modal
@@ -254,6 +272,7 @@ function MobileAddressModal() {
         centered
         fullscreen
         className={`address_dropdown ${optmodalopen && "z-3"}`}
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
         <LoadScript
           googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
@@ -289,17 +308,18 @@ function MobileAddressModal() {
                         setIsFocused(false);
                       }}
                     >
-                      <img src="/assets/vector_icons/arrow_left.png" />
+                      <img src="/assets/vector_icons/arrow_left.svg" />
                     </div>
 
                     <div className="flex w-full items-center">
                       <div className="flex footercontactus mobile_address w-full mx-3">
                         <input
                           {...getInputProps({
-                            placeholder: "What are you looking for?",
+                            placeholder: whatAreYouLookingFor,
                             className: "header-inputbox",
                             onFocus: handleFocus,
                             ref: inputRef,
+                            dir: currentLanguage === "ar" ? "rtl" : "ltr",
                           })}
                         />
                         <div
@@ -319,8 +339,8 @@ function MobileAddressModal() {
                   </div>
 
                   {suggestions.length > 0 && (
-                    <div className="mobile_search_location_dropdown">
-                      {loading && <div>Loading...</div>}
+                    <div className="mobile_search_location_dropdown" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
+                      {loading && <div>{loading}</div>}
                       {suggestions.map((suggestion) => {
                         const className = suggestion.active
                           ? "suggestion-item--active suggestion-item"
@@ -343,16 +363,16 @@ function MobileAddressModal() {
                   )}
 
                   {current_Step == 1 && (
-                    <div className="mobile_address_form address_form">
+                    <div className="mobile_address_form address_form" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
                       <h5>
-                        {address_header == 0 ? "Add Address" : "Update Address"}
+                        {address_header == 0 ? addAddress : updateAddress}
                       </h5>
                       <div className="address_form_header mt-3 grid grid-cols-1 sm:grid-cols-12 gap-4">
                         {/* Name */}
                         <div className="lg:col-span-12">
                           <InputBox1
                             name="name"
-                            placeholder="Name"
+                            placeholder={name}
                             handleChange={handleChange}
                             value={formValues.name}
                           />
@@ -399,7 +419,7 @@ function MobileAddressModal() {
                             type="number"
                             name="number"
                             handleChange={handleChange}
-                            placeholder="Enter Mobile Number"
+                            placeholder={enterMobileNumber}
                             value={formValues.number}
                           />
                         </div>
@@ -411,8 +431,9 @@ function MobileAddressModal() {
                             name="emirate"
                             onChange={handleLocationChange}
                             value={formValues.emirate}
+                            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                           >
-                            <option value={null}>Select location</option>
+                            <option value={null}>{selectLocation}</option>
                             {locationsdata.map((data) => (
                               <option key={data.id} value={data.id}>
                                 {data.name}
@@ -428,8 +449,9 @@ function MobileAddressModal() {
                             name="area"
                             onChange={handleLocationChange}
                             value={formValues.area}
+                            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                           >
-                            <option value={null}>Select Area</option>
+                            <option value={null}>{selectArea}</option>
                             {areadata.map((data) => (
                               <option key={data.id} value={data.id}>
                                 {data.name}
@@ -442,7 +464,7 @@ function MobileAddressModal() {
                         <div className="lg:col-span-12">
                           <InputBox1
                             name="address"
-                            placeholder="Flat no., House no., Building, landmark"
+                            placeholder={flatNoHouseNoBuildingLandmark}
                             handleChange={handleChange}
                             value={formValues.address}
                           />
@@ -480,11 +502,13 @@ function MobileAddressModal() {
                       </GoogleMap>
 
                       <div
-                        className="absolute locate_me_btn"
+                        className={`absolute locate_me_btn ${
+                          currentLanguage === "ar" ? "flex-row-reverse" : ""
+                        }`}
                         onClick={handleLocateme}
                       >
-                        Locate me{" "}
-                        <span className="ps-2">
+                        {locateMe}{" "}
+                        <span className={currentLanguage === "ar" ? "mr-2" : "ps-2"}>
                           <PiGps size={18} color="rgba(25, 27, 28, 1)" />
                         </span>
                       </div>
@@ -494,9 +518,9 @@ function MobileAddressModal() {
             </div>
 
             {!isFocused && (
-              <div className="modal_address_footer">
+              <div className="modal_address_footer" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
                 <div className="comp_1">
-                  <h6>Delivering your order to </h6>
+                  <h6>{deliveringYourOrderTo} </h6>
                   <h5>
                     {formValues.address != ""
                       ? formValues.address
@@ -513,7 +537,7 @@ function MobileAddressModal() {
                       setIsFocused(true);
                     }}
                   >
-                    Use my Current location
+                    {useMyCurrentLocation}
                   </div>
                 ) : (
                   <div
@@ -524,13 +548,13 @@ function MobileAddressModal() {
                       setIsFocused(true);
                     }}
                   >
-                    confirm my location
+                    {confirmMyLocation}
                   </div>
                 )}
               </div>
             )}
             {current_Step == 1 && (
-              <div className="modal_address_footer" style={{ height: "auto" }}>
+              <div className="modal_address_footer" style={{ height: "auto" }} dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
                 <div
                   className="address_btn"
                   onClick={handleSubmit}
@@ -539,9 +563,9 @@ function MobileAddressModal() {
                     color: isClickable && "#fff",
                   }}
                 >
-                  {address_header == 0 ? "Add Address" : "Update Address"}
+                  {address_header == 0 ? addAddress : updateAddress}
                   {addressButtonLoader && (
-                    <ClipLoader className="ms-3" size={16} color={"#fff"} />
+                    <ClipLoader className={currentLanguage === "ar" ? "mr-3" : "ms-3"} size={16} color={"#fff"} />
                   )}
                 </div>
               </div>

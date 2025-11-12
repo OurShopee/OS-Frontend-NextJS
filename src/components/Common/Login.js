@@ -8,8 +8,18 @@ import Cookies from "js-cookie";
 import Inputbox from "./Inputbox";
 import Formvalidation from "@/components/Validation/Formvalidation";
 import { toast } from "react-toastify";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const Login = () => {
+  const currentLanguage = useCurrentLanguage();
+  const rememberMe = useContent("buttons.rememberMe");
+  const forgotPassword = useContent("buttons.forgotPassword");
+  const signup = useContent("buttons.signup");
+  const login = useContent("buttons.login");
+  const emailPlaceholder = useContent("buttons.emailPlaceholder");
+  const passwordPlaceholder = useContent("buttons.passwordPlaceholder");
+  const ifYouDontHaveAnAccount = useContent("buttons.ifYouDontHaveAnAccount");
+  const ifYouHaveAnAccount = useContent("buttons.ifYouHaveAnAccount");
   const dispatch = useDispatch();
   const isBigScreen = useMediaQuery({ query: "(min-width: 991px)" });
 
@@ -55,10 +65,10 @@ const Login = () => {
             className="FormHeading"
             style={{ WebkitTextFillColor: "transparent" }}
           >
-            Login
+            {login}
           </div>
           <div className="formsubheading">
-            If you have an account with us, please login.
+            {ifYouHaveAnAccount}
           </div>
           <div className="form-border-bottom"></div>
         </div>
@@ -69,7 +79,7 @@ const Login = () => {
           <Inputbox
             id="email"
             type="text"
-            placeholder="Enter Email"
+            placeholder={emailPlaceholder}
             value={formData.email}
             handleChange={handleChange}
           />
@@ -79,7 +89,7 @@ const Login = () => {
           <Inputbox
             id="password"
             type="password"
-            placeholder="Enter password"
+            placeholder={passwordPlaceholder}
             value={formData.password}
             handleChange={handleChange}
             error={errors ? errors : ""}
@@ -95,14 +105,14 @@ const Login = () => {
                 checked={formData.agreeTerms}
                 onChange={handleChange}
               />
-              <span className="ml-2">Remember me</span>
+              <span className={`${currentLanguage === "ar" ? "mr-2" : "ml-2"}`}>{rememberMe}</span>
             </div>
           </label>
           <div
             className="forgotpasswordtext cursor-pointer text-blue-500 hover:underline"
             onClick={openforgotpassword}
           >
-            Forgot Password?
+            {forgotPassword}
           </div>
         </div>
         <button
@@ -114,17 +124,17 @@ const Login = () => {
           disabled={!isFormValid}
           onClick={isFormValid && handleSubmit}
         >
-          Login
+          {login}
         </button>
 
         <div className="formbotton mt-4">
-          If you don't have an account,
+          {ifYouDontHaveAnAccount}
           <span
             className="primarycolor termstitle ml-1 cursor-pointer no-underline text-blue-600"
             onClick={openregister}
           >
             {" "}
-            Sign up{" "}
+            {signup}
           </span>
         </div>
       </form>

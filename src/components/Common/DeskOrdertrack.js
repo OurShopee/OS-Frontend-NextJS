@@ -1,19 +1,28 @@
 import React from "react";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const OrderTracker = ({currentStep, data ,ele}) => {
+  const currentLanguage = useCurrentLanguage();
+  const orderedText = useContent("orders.ordered");
+  const processingText = useContent("orders.processing");
+  const packedText = useContent("orders.packed");
+  const outForDeliveryText = useContent("orders.outForDelivery");
+  const deliveredText = useContent("orders.delivered");
+  const cancelledText = useContent("orders.cancelled");
+
   const stepMapping = [
-    { title: "Ordered", key: "orderedDate" },
-    { title: "Processing", key: "processedDate" },
-    { title: "Packed", key: "packedDate" },
-    { title: "Out for Delivery", key: "dispatchedDate" },
-    { title: "Delivered", key: "deliveryDate" },
+    { title: orderedText, key: "orderedDate" },
+    { title: processingText, key: "processedDate" },
+    { title: packedText, key: "packedDate" },
+    { title: outForDeliveryText, key: "dispatchedDate" },
+    { title: deliveredText, key: "deliveryDate" },
   ];
 
   // Determine current step based on which step has data
 
 
   return (
-    <div className="tracker">
+    <div className="tracker" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       {stepMapping.map((step, index) => (
         <div className="tracker-step-container" key={index}>
           <div className="step-line-container">
@@ -34,7 +43,7 @@ const OrderTracker = ({currentStep, data ,ele}) => {
               {(currentStep == index && ele.cancelled) ? 'x' : (index <= currentStep ? "✓" : "")}
             </div>
             <div className="step-text">
-              <div className="step-title">{(currentStep == index && ele.cancelled) ? 'cancelled' : step.title}</div>
+              <div className="step-title">{(currentStep == index && ele.cancelled) ? cancelledText : step.title}</div>
               <div className="step-date">{(currentStep == index && ele.cancelled) ? ele.cancelledDate : data[step.key] || "—"}</div>
             </div>
           </div>

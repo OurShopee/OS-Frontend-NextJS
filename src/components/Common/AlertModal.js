@@ -2,12 +2,18 @@
 import { useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 function AlertModal({ show, setShow, title, message, action, product }) {
   const dispatch = useDispatch();
   const modalRef = useRef(null);
   const removeButtonRef = useRef(null);
   const previouslyFocusedElement = useRef(null);
+  const currentLanguage = useCurrentLanguage();
+  
+  // Content translations
+  const remove = useContent("buttons.remove");
+  const cancel = useContent("buttons.cancel");
 
   // Focus management for accessibility
   useEffect(() => {
@@ -93,18 +99,25 @@ function AlertModal({ show, setShow, title, message, action, product }) {
         className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 transform transition-all duration-300 scale-100 animate-fadeIn"
         ref={modalRef}
         role="document"
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
         <div className="p-6 w-full font-[Outfit]">
-          <div className="flex items-center justify-between border-b pb-3">
+          <div className={`flex items-center justify-between border-b pb-3 ${
+            currentLanguage === "ar" ? "flex-row-reverse" : ""
+          }`}>
             {title && (
               <h2
                 id="alert-modal-title"
-                className="mb-0 text-xl font-semibold text-center uppercase text-black"
+                className={`mb-0 text-xl font-semibold uppercase text-black ${
+                  currentLanguage === "ar" ? "text-right" : "text-center"
+                }`}
               >
                 {title}
               </h2>
             )}
-            <div className="modalclose flex cursor-pointer justify-end">
+            <div className={`modalclose flex cursor-pointer ${
+              currentLanguage === "ar" ? "justify-start" : "justify-end"
+            }`}>
               <button
                 onClick={handleCancel}
                 className="bg-transparent border-0 p-1 hover:bg-gray-100 rounded transition-colors"
@@ -125,7 +138,9 @@ function AlertModal({ show, setShow, title, message, action, product }) {
             </p>
           )}
 
-          <div className="flex gap-4 mt-5 font-[Outfit]">
+          <div className={`flex gap-4 mt-5 font-[Outfit] ${
+            currentLanguage === "ar" ? "flex-row-reverse" : ""
+          }`}>
             <button
               ref={removeButtonRef}
               type="button"
@@ -133,14 +148,14 @@ function AlertModal({ show, setShow, title, message, action, product }) {
               className="flex-1 text-sm font-semibold text-[#F34845] px-4 py-3 bg-white uppercase danderborder rounded-lg hover:bg-red-50 focus:outline-none  transition-colors"
               aria-describedby="alert-modal-description"
             >
-              Remove
+              {remove}
             </button>
             <button
               type="button"
               onClick={handleCancel}
               className="flex-1 text-sm font-semibold px-4 py-3 bg-[#5232C2] text-white uppercase rounded-lg hover:bg-[#5132c2f1] border-0 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors"
             >
-              Cancel
+              {cancel}
             </button>
           </div>
         </div>

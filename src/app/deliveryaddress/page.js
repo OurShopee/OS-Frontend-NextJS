@@ -11,15 +11,21 @@ import { pushToDataLayer } from "@/components/utils/dataUserpush"
 import { useSearchParams } from "next/navigation";
 import { GetPlaceOrderapi } from "@/redux/paymentslice";
 import withAuth from "@/components/Common/withAuth";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const Address = () => {
     const dispatch = useDispatch();
     const { isMobile } = MediaQueries();
+    const currentLanguage = useCurrentLanguage();
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
     const logindata = useSelector((state) => state.formslice.logindata);
     const searchParams = useSearchParams();
     const prodId = searchParams.get('prodId');
     const qty = searchParams.get('qty');
     const sku = searchParams.get('sku');
+    
+    // Content translations
+    const selectDeliveryAddress = useContent("buttons.selectDeliveryAddress");
     useEffect(() => {
         if (Cookies.get("jwt_token") !== undefined) {
             dispatch(GetPlaceOrderapi(logindata.user_id));
@@ -27,13 +33,13 @@ const Address = () => {
         pushToDataLayer("viewed_address_page", currentcountry.name);
     }, []);
     return (
-        <div className="mobile-marginbottom" >
+        <div className="mobile-marginbottom" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
             <Container fluid className="homepagecontainer">
                 <div className={`${isMobile ? 'pt-1 pb-1' : 'pt-3 pb-3'}`}>
                     <Breadcomp prodId={prodId} qty={qty} sku={sku} />
                 </div>
 
-                <div className="Cart-titile">Select Delivery address</div>
+                <div className="Cart-titile">{selectDeliveryAddress}</div>
                 <Row>
                     <Col lg={8}>
                         <Addresslist />

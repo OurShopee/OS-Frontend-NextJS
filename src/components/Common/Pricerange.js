@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import { useParams } from 'next/navigation';
+import { useContent } from '@/hooks/useContent';
 
 export default function PriceRangeSlider({ urlParams, setUrlParams, min_value, max_value, currency }) {
   const params = useParams();
+  const priceRangeTitle = useContent("product.priceRange");
+  const min = useContent("labels.min");
+  const max = useContent("labels.max");
+  const clearAll = useContent("buttons.clearAll");
+  const apply = useContent("buttons.apply");
   const slug = params?.slug;
   const [minimum_value, setminimum_value] = useState(0);
   const [maximum_value, setmaximum_value] = useState(0);
@@ -67,7 +73,7 @@ export default function PriceRangeSlider({ urlParams, setUrlParams, min_value, m
 
   return (
     <div className='mb-4'>
-      <div className='pricerange-title'>Price Range </div>
+      <div className='pricerange-title'>{priceRangeTitle}</div>
       <RangeSlider
         min={min_value}
         max={max_value}
@@ -77,19 +83,19 @@ export default function PriceRangeSlider({ urlParams, setUrlParams, min_value, m
       />
       <div className='flex items-center mt-3'>
         <div className='font-semibold text-sm'>
-          <div>Min</div>
+          <div>{min}</div>
           <input type='text' className='mt-1 slider_range_input_box' name={'min'} value={minimum_value} onChange={handleInputChange} />
         </div>
         <div className='font-semibold text-sm mt-4 mx-4'>to</div>
         <div className='font-semibold text-sm'>
-          <div>Max</div>
+          <div>{max}</div>
           <input type='text' className='mt-1 slider_range_input_box' name={'max'} value={maximum_value} onChange={handleInputChange} />
         </div>
       </div>
 
       <div className='flex items-center justify-end mt-4'>
-        <div className='clear_all cursor-pointer' onClick={handleClear}>Clear All</div>
-        <div className='ms-3 apply_btn cursor-pointer bg-indigo-600 text-white' onClick={handleApply}>Apply</div>
+        <div className='clear_all cursor-pointer' onClick={handleClear}>{clearAll}</div>
+        <div className='ms-3 apply_btn cursor-pointer bg-indigo-600 text-white' onClick={handleApply}>{apply}</div>
       </div>
 
       {/* <div className='pricerange-price'>{currency} {priceRange.length > 0 ? priceRange[0] : 10} - {currency} {priceRange.length > 0 ? priceRange[1] : max_value}</div> */}

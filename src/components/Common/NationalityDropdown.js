@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import uparrow from "@/images/Vectoruparrow.png";
 import downarrow from "@/images/Vectordownarrow.png";
-import Image from "next/image";
+import { useContent, useCurrentLanguage, getDynamicContent } from "@/hooks";
 
 const NationalityDropdown = ({
   title,
@@ -16,21 +16,37 @@ const NationalityDropdown = ({
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
+  const currentLanguage = useCurrentLanguage();
+
+  // Content translations
+  const searchNationality = useContent("buttons.searchNationality");
+  const noResultsFound = useContent("buttons.noResultsFound");
+
+  const localizedNationalityData = useMemo(
+    () =>
+      nationalitydata?.map((nation) => ({
+        ...nation,
+        localizedLabel: getDynamicContent(nation, "label", currentLanguage) || nation.label || "",
+      })) || [],
+    [nationalitydata, currentLanguage]
+  );
 
   // Sync input field with selectedNationality label when it changes
   useEffect(() => {
-    const match = nationalitydata.find(
-      (nation) => nation.value == selectedNationality
+    const match = localizedNationalityData.find(
+      (nation) => nation.value === selectedNationality
     );
-    setSearch(match ? match.label : "");
-  }, [selectedNationality, nationalitydata]);
+    const label = match ? match.localizedLabel : "";
+    setSearch(label);
+    setselected_value(label);
+  }, [selectedNationality, localizedNationalityData]);
 
   // Filtered dropdown options based on search
   const filteredList = useMemo(() => {
-    return nationalitydata?.filter((nation) =>
-      nation.label.toLowerCase().includes(search.toLowerCase())
+    return localizedNationalityData?.filter((nation) =>
+      nation.localizedLabel.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search, nationalitydata]);
+  }, [search, localizedNationalityData]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -94,8 +110,8 @@ const NationalityDropdown = ({
     setselected_value("");
     setFocusedIndex(-1);
 
-    const exactMatch = nationalitydata.find(
-      (nation) => nation.label.toLowerCase() === value.toLowerCase()
+    const exactMatch = localizedNationalityData.find(
+      (nation) => nation.localizedLabel.toLowerCase() === value.toLowerCase()
     );
 
     if (exactMatch) {
@@ -109,10 +125,11 @@ const NationalityDropdown = ({
 
   // Handle item selection from dropdown
   const handleSelect = (value) => {
-    const match = nationalitydata.find((nation) => nation.value === value);
-    setselected_value(match.label);
+    const match = localizedNationalityData.find((nation) => nation.value === value);
+    const label = match ? match.localizedLabel : "";
+    setselected_value(label);
     if (match) {
-      setSearch(match.label);
+      setSearch(label);
       onSelect(value);
       setShowDropdown(false);
       setFocusedIndex(-1);
@@ -131,7 +148,7 @@ const NationalityDropdown = ({
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search Nationality"
+          placeholder={searchNationality}
           value={selected_value != "" ? selected_value : search}
           onChange={handleChange}
           onFocus={() => {
@@ -148,13 +165,25 @@ const NationalityDropdown = ({
             focusedIndex >= 0 ? `nationality-option-${focusedIndex}` : undefined
           }
           aria-label="Search and select nationality"
+          dir={currentLanguage === "ar" ? "rtl" : "ltr"}
         />
-        <div className="up-downarrow absolute right-2 top-1/2 -translate-y-1/2">
+        <div 
+          className="up-downarrow"
+          style={{
+            position: "absolute",
+            top: "50%",
+            transform: "translateY(-50%)",
+            cursor: "pointer",
+            ...(currentLanguage === "ar" 
+              ? { left: "8px", right: "auto" } 
+              : { right: "8px", left: "auto" }
+            )
+          }}
+        >
           {showDropdown ? (
             <img
               src={uparrow.src}
               alt="Collapse options"
-       
               onClick={() => setShowDropdown(false)}
               className="cursor-pointer"
             />
@@ -162,7 +191,6 @@ const NationalityDropdown = ({
             <img
               src={downarrow.src}
               alt="Expand options"
-       
               onClick={() => {
                 setSearch("");
                 setShowDropdown(true);
@@ -177,6 +205,7 @@ const NationalityDropdown = ({
             className="absolute bg-white shadow-xl rounded-xl p-2 z-50 max-h-60 overflow-y-auto w-full mt-1 border"
             role="listbox"
             aria-label="Nationality options"
+            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
           >
             {filteredList.length > 0 ? (
               filteredList.map((nation, index) => (
@@ -184,25 +213,27 @@ const NationalityDropdown = ({
                   key={nation.value}
                   id={`nationality-option-${index}`}
                   className={`cursor-pointer py-2 px-3 hover:bg-gray-100 rounded subcategory-item ${
-                    nation.label === selected_value
+                    nation.localizedLabel === selected_value
                       ? "bg-purple-200 text-purple-700"
                       : ""
                   } ${
                     index === focusedIndex ? "bg-blue-100 text-blue-700" : ""
-                  }`}
+                  } ${currentLanguage === "ar" ? "text-right" : "text-left"}`}
                   onClick={() => handleOptionClick(nation.value)}
                   role="option"
-                  aria-selected={nation.label === selected_value}
+                  aria-selected={nation.localizedLabel === selected_value}
                 >
-                  {nation.label}
+                  {nation.localizedLabel}
                 </div>
               ))
             ) : (
               <div
-                className="cursor-default py-2 px-3 text-gray-500"
+                className={`cursor-default py-2 px-3 text-gray-500 ${
+                  currentLanguage === "ar" ? "text-right" : "text-left"
+                }`}
                 role="option"
               >
-                No results found
+                {noResultsFound}
               </div>
             )}
           </div>

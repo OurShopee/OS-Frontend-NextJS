@@ -11,9 +11,13 @@ import Link from "next/link";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useContent } from "@/hooks/useContent";
 
 const Ordersuccess = () => {
   const searchParams = useSearchParams();
+  const yourOrderNumberIs = useContent("orders.yourOrderNumberIs");
+  const viewYourOrders = useContent("orders.viewYourOrders");
+  const keepExploring = useContent("orders.keepExploring");
   const callUpdate = searchParams.get("callUpdate");
   const params = useParams();
   const orderId = params?.slug;
@@ -235,17 +239,17 @@ const Ordersuccess = () => {
             Your order was placed successfully.
           </div>
           <div className="notloginsubtitle">
-            Your order number is <strong>{orderId}</strong>
+              {yourOrderNumberIs} <strong>{orderId}</strong>
           </div>
           <div className="d-flex">
             <Link
               href="/my-orders"
               className="success-vieworderbtn notloginbtn textdecoration-none me-3"
             >
-              View your orders
+              {viewYourOrders}
             </Link>
             <Link href="/" className="notloginbtn textdecoration-none">
-              Keep exploring
+              {keepExploring}
             </Link>
           </div>
         </>

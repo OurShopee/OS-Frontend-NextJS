@@ -6,8 +6,12 @@ import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import PlacecomplaintForm from "@/components/Myaccount/PlacecomplaintForm"
 import withAuth from "@/components/Common/withAuth";
-const Placecomplaints = () => {
+import { useContent, useCurrentLanguage } from "@/hooks";
 
+const Placecomplaints = () => {
+    const currentLanguage = useCurrentLanguage();
+    const placeComplaint = useContent("helpCenter.placeComplaint");
+    const manageComplaints = useContent("helpCenter.manageComplaints");
     const { isMobile } = MediaQueries()
 
     return (
@@ -27,12 +31,12 @@ const Placecomplaints = () => {
                                 {
                                      isMobile ?
                                      <div>
-                                     <BreadComp title={"Place a complaints"} title0={"Manage Complaints"} link={"/complaints"} />
-                                     <div className="page-titile">Place a complaints
+                                     <BreadComp title={placeComplaint} title0={manageComplaints} link={"/complaints"} />
+                                     <div className="page-titile">{placeComplaint}
                                      </div>
                                      </div>:
                                        <div className="Myaccount-rightsidecard">
-                                       <div className="title">Place a complaints</div>
+                                       <div className="title">{placeComplaint}</div>
                                        <div className="discription">Register Your Complaints here..Our Customer Care Executive will get back to you soon.</div>
                                    </div>
                                 }

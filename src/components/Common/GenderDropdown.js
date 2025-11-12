@@ -3,10 +3,31 @@ import React, { useState, useEffect, useRef } from "react";
 import uparrow from "@/images/Vectoruparrow.png";
 import downarrow from "@/images/Vectordownarrow.png";
 import Image from "next/image";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const GenderDropdown = ({ selectedGender, onSelect, title }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const currentLanguage = useCurrentLanguage();
+  
+  // Content translations
+  const selectGender = useContent("buttons.selectGender");
+  const male = useContent("buttons.male");
+  const female = useContent("buttons.female");
+  const preferNotToSay = useContent("buttons.preferNotToSay");
+  
+  // Gender options with translations
+  const genderOptions = [
+    { value: "Male", label: male },
+    { value: "Female", label: female },
+    { value: "other", label: preferNotToSay },
+  ];
+  
+  // Get display label for selected gender
+  const getDisplayLabel = (gender) => {
+    const option = genderOptions.find(opt => opt.value === gender);
+    return option ? option.label : "";
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -37,8 +58,8 @@ const GenderDropdown = ({ selectedGender, onSelect, title }) => {
       {title && <div className="inputbox-title">{title}</div>}
       <div ref={dropdownRef} className="genderdropdown-container relative">
         <input
-          placeholder="Select Gender"
-          value={selectedGender}
+          placeholder={selectGender}
+          value={getDisplayLabel(selectedGender)}
           onFocus={() => setShowDropdown(!showDropdown)}
           onKeyDown={handleKeyDown}
           readOnly
@@ -47,8 +68,20 @@ const GenderDropdown = ({ selectedGender, onSelect, title }) => {
           aria-expanded={showDropdown}
           aria-haspopup="listbox"
           aria-label="Gender selection"
+          dir={currentLanguage === "ar" ? "rtl" : "ltr"}
         />
-        <div className="up-downarrow">
+        <div 
+          className="up-downarrow"
+          style={{
+            position: "absolute",
+            top: "50%",
+            transform: "translateY(-50%)",
+            ...(currentLanguage === "ar" 
+              ? { left: "8px", right: "auto" } 
+              : { right: "8px", left: "auto" }
+            )
+          }}
+        >
           {showDropdown ? (
             <img
               src={uparrow.src}
@@ -68,25 +101,26 @@ const GenderDropdown = ({ selectedGender, onSelect, title }) => {
             className="genderdropdown-options"
             role="listbox"
             aria-label="Gender options"
+            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
           >
-            {["Male", "Female", "other"].map((gender) => (
+            {genderOptions.map((option) => (
               <label
-                key={gender}
-                className="flex justify-between items-center subcategory-item cursor-pointer p-2 hover:bg-gray-100"
+                key={option.value}
+                className={`flex justify-between items-center subcategory-item cursor-pointer p-2 hover:bg-gray-100 ${
+                  currentLanguage === "ar" ? "flex-row-reverse" : ""
+                }`}
                 role="option"
-                aria-selected={selectedGender === gender}
+                aria-selected={selectedGender === option.value}
               >
-                {gender === "other"
-                  ? "Prefer not to say"
-                  : gender.charAt(0).toUpperCase() + gender.slice(1)}
+                <span>{option.label}</span>
                 <input
                   type="radio"
                   name="gender"
-                  value={gender}
-                  checked={selectedGender === gender}
-                  onChange={() => handleOptionSelect(gender)}
-                  className="ml-2"
-                  aria-label={gender === "other" ? "Prefer not to say" : gender}
+                  value={option.value}
+                  checked={selectedGender === option.value}
+                  onChange={() => handleOptionSelect(option.value)}
+                  className={currentLanguage === "ar" ? "mr-2" : "ml-2"}
+                  aria-label={option.label}
                 />
               </label>
             ))}

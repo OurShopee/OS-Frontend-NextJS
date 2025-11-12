@@ -9,10 +9,15 @@ import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import TrackbyReferenceid from "@/components/Myaccount/TrackbyReferenceid";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import withAuth from "@/components/Common/withAuth";
+import { useContent } from "@/hooks";
 // import righticon from "../../../public/assets/vector_icons/arrow_right.png"
 const Ordertrack = () => {
-
-    const { isMobile } = MediaQueries()
+    const { isMobile } = MediaQueries();
+    
+    // Language content
+    const trackYourOrder = useContent("account.trackYourOrder");
+    const trackYourOrderDescription = useContent("account.trackYourOrderDescription");
+    const trackByReferenceId = useContent("account.trackByReferenceId");
 
     return (
         < >
@@ -28,8 +33,8 @@ const Ordertrack = () => {
                         isMobile ?
                             <Col lg={12}>
                                 <div>
-                                    <BreadComp title={"Track your order"} />
-                                    <div className="page-titile">Track your order
+                                    <BreadComp title={trackYourOrder} />
+                                    <div className="page-titile">{trackYourOrder}
                                     </div>
                                   
                                     {/* <Link href="/track-your-orderbyid" className="cardmobilecard textdecoration-none">
@@ -37,7 +42,7 @@ const Ordertrack = () => {
                                         <img src='/assets/vector_icons/arrow_right.png' />
                                     </Link> */}
                                     <Link href="/track-your-orderbyrefrrenceid" className="cardmobilecard textdecoration-none">
-                                        <div className="tractordermobiletitle">Track by Reference ID</div>
+                                        <div className="tractordermobiletitle">{trackByReferenceId}</div>
                                         <img src='/assets/vector_icons/arrow_right.png' />
                                     </Link>
                                 </div>
@@ -46,8 +51,8 @@ const Ordertrack = () => {
 
                             <Col lg={9}>
                                 <div className="Myaccount-rightsidecard">
-                                    <div className="title">Track your order</div>
-                                    <div className="discription">Monitor your order and stay updated on its status.</div>
+                                    <div className="title">{trackYourOrder}</div>
+                                    <div className="discription">{trackYourOrderDescription}</div>
                                     {/* <Trackorderbyid /> */}
                                     <TrackbyReferenceid />
                                 </div>

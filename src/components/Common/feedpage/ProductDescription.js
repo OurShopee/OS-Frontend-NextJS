@@ -4,6 +4,7 @@ import {
   MdKeyboardDoubleArrowDown,
   MdKeyboardDoubleArrowUp,
 } from "react-icons/md";
+import { useDynamicContent } from "@/hooks";
 
 const parseSpecifications = (details) => {
   if (!details) return [];
@@ -39,6 +40,9 @@ const ProductDescription = ({ product }) => {
   const [showAllRows, setShowAllRows] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Get dynamic content based on current language
+  const productDetails = useDynamicContent(product, "details");
+
   // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
@@ -52,8 +56,8 @@ const ProductDescription = ({ product }) => {
   }, []);
 
   const decodedDetails = useMemo(
-    () => (product?.details ? he.decode(product.details) : ""),
-    [product?.details]
+    () => (productDetails ? he.decode(productDetails) : ""),
+    [productDetails]
   );
 
   const specRows = useMemo(

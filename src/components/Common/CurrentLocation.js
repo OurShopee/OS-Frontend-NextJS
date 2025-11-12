@@ -1,9 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useContent } from "@/hooks";
 
 const LocationFetcher = () => {
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState("");
+
+  // Language content
+  const addressNotFound = useContent("header.addressNotFound");
+  const errorFetchingAddress = useContent("header.errorFetchingAddress");
+  const locationAccessDenied = useContent("header.locationAccessDenied");
+  const geolocationNotSupported = useContent("header.geolocationNotSupported");
+  const fetchingAddress = useContent("header.fetchingAddress");
+  const fetchingLocation = useContent("header.fetchingLocation");
 
   useEffect(() => {
     if (typeof window !== "undefined" && "geolocation" in navigator) {
@@ -25,21 +34,21 @@ const LocationFetcher = () => {
             if (data.results.length > 0) {
               setAddress(data.results[0].formatted_address);
             } else {
-              setAddress("Address not found");
+              setAddress(addressNotFound);
             }
           } catch (error) {
             console.error("Error fetching address:", error);
-            setAddress("Error fetching address");
+            setAddress(errorFetchingAddress);
           }
         },
         (error) => {
           console.error("Geolocation error:", error);
-          setAddress("Location access denied");
+          setAddress(locationAccessDenied);
         }
       );
     } else {
       if (typeof window !== "undefined") {
-        setAddress("Geolocation not supported");
+        setAddress(geolocationNotSupported);
       }
     }
   }, []);
@@ -48,10 +57,10 @@ const LocationFetcher = () => {
     <div>
       {location ? (
         <div className="currentlocation-address no-underline">
-          {address || "Fetching address..."}
+          {address || fetchingAddress}
         </div>
       ) : (
-        <div className="currentlocation-address">Fetching location...</div>
+        <div className="currentlocation-address">{fetchingLocation}</div>
       )}
     </div>
   );

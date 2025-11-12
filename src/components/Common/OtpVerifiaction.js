@@ -10,15 +10,29 @@ import {
 import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 export default function OtpVerifiaction() {
   const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
   const registermobile = useSelector((state) => state.formslice.registermobile);
   const checkotperror = useSelector((state) => state.formslice.checkotperror);
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+
+  // Content translations
+  const verifyPhoneNumber = useContent("buttons.verifyPhoneNumber");
+  const toProceedToCheckout = useContent("buttons.toProceedToCheckout");
+  const otpSentTo = useContent("buttons.otpSentTo");
+  const changeNumber = useContent("buttons.changeNumber");
+  const clickHere = useContent("buttons.clickHere");
+  const resendOtpIn = useContent("buttons.resendOtpIn");
+  const sec = useContent("buttons.sec");
+  const resendOtpViaSms = useContent("buttons.resendOtpViaSms");
+  const resendOtpViaWhatsapp = useContent("buttons.resendOtpViaWhatsapp");
+  const submitAndVerify = useContent("buttons.submitAndVerify");
 
   const verifyotp = async () => {
     const input_data = {
@@ -77,28 +91,28 @@ export default function OtpVerifiaction() {
   };
 
   return (
-    <div className="otpverification-main">
+    <div className="otpverification-main" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       <div
         style={{ "-webkit-text-fill-color": "transparent" }}
         className="FormHeading"
       >
-        Verify Phone Number
+        {verifyPhoneNumber}
       </div>
       <div className="formsubheading mt-2">
-        To proceed to checkout, use the OTP & verify your mobile number.
+        {toProceedToCheckout}
       </div>
       <div className="formsubheading">
-        We`ve sent the OTP to {currentcountry.country_code}-{registermobile}
+        {otpSentTo} {currentcountry.country_code}-{registermobile}
       </div>
       <div className="formsubheading">
-        Change Number?{" "}
+        {changeNumber}{" "}
         <button
           type="button"
           className="link_custome bg-transparent border-0 p-0 underline cursor-pointer hover:opacity-80"
           onClick={handleClose}
           aria-label="Change phone number"
         >
-          Click Here
+          {clickHere}
         </button>
       </div>
 
@@ -126,7 +140,7 @@ export default function OtpVerifiaction() {
 
       {timer > 0 && (
         <p className="mt-3" aria-live="polite">
-          Resend OTP in {timer} sec
+          {resendOtpIn} {timer} {sec}
         </p>
       )}
 
@@ -148,10 +162,12 @@ export default function OtpVerifiaction() {
         disabled={otp.length !== 4}
         aria-label="Submit and verify OTP"
       >
-        Submit & verify
+        {submitAndVerify}
       </button>
 
-      <div className="w-full flex justify-between my-2 px-2">
+      <div className={`w-full flex my-2 px-2 ${
+        currentLanguage === "ar" ? "flex-row-reverse justify-between" : "justify-between"
+      }`}>
         <button
           type="button"
           className={`link_custome bg-transparent border-0 p-0 underline cursor-pointer hover:opacity-80 ${
@@ -162,7 +178,7 @@ export default function OtpVerifiaction() {
           aria-label="Resend OTP via SMS"
           aria-disabled={timer > 0}
         >
-          Resend Otp Via Sms
+          {resendOtpViaSms}
         </button>
         {currentcountry?.id === 1 && (
           <button
@@ -175,7 +191,7 @@ export default function OtpVerifiaction() {
             aria-label="Resend OTP via WhatsApp"
             aria-disabled={timer > 0}
           >
-            Resend Otp Via Whatsapp
+            {resendOtpViaWhatsapp}
           </button>
         )}
       </div>

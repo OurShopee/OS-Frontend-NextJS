@@ -4,9 +4,11 @@ import Modal from "react-bootstrap/Modal";
 import { IoClose } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import { setbankoffermodal } from "@/redux/formslice";
+import { useCurrentLanguage } from "@/hooks";
 
 const Bankoffermodal = ({ plans }) => {
   const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
   const bankoffermodal = useSelector((state) => state.formslice.bankoffermodal);
 
   const close = () => {
@@ -38,10 +40,13 @@ const Bankoffermodal = ({ plans }) => {
         onHide={close}
         aria-labelledby="bank-offer-modal-title"
         aria-describedby="bank-offer-modal-description"
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
         <div className="p-3">
           <div className="snplmodal">
-            <div className="modalclose flex paymentoptionsnpl pr-2 pt-2">
+            <div className={`modalclose flex paymentoptionsnpl pt-2 ${
+              currentLanguage === "ar" ? "pl-2 flex-row-reverse" : "pr-2"
+            }`}>
               <div className="paymentoption-title">
                 <div className="paytitle" id="bank-offer-modal-title">
                   ENBD Payment Options

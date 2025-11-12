@@ -4,6 +4,8 @@ import BootstrapClient from "../components/BootstrapClient";
 import Footer from "@/components/Common/Footer";
 import { ScrollTop } from "@/hooks";
 import DynamicHeader from "@/components/Common/DynamicHeader";
+import RTLDirection from "@/components/Common/RTLDirection";
+import TamaraConfig from "@/components/Common/TamaraConfig";
 import "react-intl-tel-input/dist/main.css";
 import Script from "next/script";
 
@@ -54,6 +56,8 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ReduxProvider>
+          <RTLDirection />
+          <TamaraConfig />
           <ScrollTop>
             <DynamicHeader />
             <div className="overflow-x-hidden">
@@ -65,16 +69,6 @@ export default function RootLayout({ children }) {
             </div>
           </ScrollTop>
         </ReduxProvider>
-        <Script id="tamara-config" strategy="afterInteractive">
-          {`
-            window.tamaraWidgetConfig = {
-              lang: "en",
-              country: "AE",
-              publicKey: "${process.env.NEXT_PUBLIC_TAMARA_PUBLIC_KEY}"
-            };
-          `}
-        </Script>
-
         {/* 2) Tamara widget script */}
         <Script
           src="https://cdn-sandbox.tamara.co/widget-v2/tamara-widget.js"

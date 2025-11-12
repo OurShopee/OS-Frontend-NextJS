@@ -11,12 +11,12 @@ import ImageCarousel from "@/components/product-detail/ImageCarousel";
 import Snplmodal from "@/components/product-detail/Snplmodal";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
-import { useCart } from "@/hooks";
+import { useCart, getDynamicContent, useCurrentLanguage, useContent } from "@/hooks";
 import { decode } from "html-entities";
 import Cookiess from "js-cookie";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FaChevronUp } from "react-icons/fa6";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,6 +42,27 @@ import CustomStarRating from "@/components/rating-reviews/CustomStarRating";
 import { getAllReviews } from "@/api/review";
 
 const ProductDetailClient = ({ initialProductData, productInfo }) => {
+  const currentLanguage = useCurrentLanguage();
+  const productSpecifications = useContent("product.productSpecifications");
+  const inStock = useContent("product.inStock");
+  const sellingOutFast = useContent("product.sellingOutFast");
+  const expectedBy = useContent("product.expectedBy");
+  const relatedProducts = useContent("product.relatedProducts");
+  const recentlyViewed = useContent("product.recentlyViewed");
+  const getNotifiedWhenBackInStock = useContent("product.getNotifiedWhenBackInStock");
+  const notifyMe = useContent("product.notifyMe");
+  const addToCart = useContent("product.addToCart");
+  const buyNow = useContent("product.buyNow");
+  const topRatedByCustomers = useContent("product.topRatedByCustomers");
+  const secureTransaction = useContent("product.secureTransaction");
+  const exchangeAvailable = useContent("product.exchangeAvailable");
+  const cashPayOnDelivery = useContent("product.cashPayOnDelivery");
+  const youSaved = useContent("product.youSaved");
+  const incOfVat = useContent("forms.incOfVat");
+  const off = useContent("product.off");
+  const reviews = useContent("product.reviews");
+  const viewLess = useContent("labels.viewLess");
+  const viewMore = useContent("labels.viewMore");
   const cookies = new Cookies();
   const { isMobile, isLaptop, isTablet } = MediaQueries();
   const { add2cart, isLoading } = useCart();
@@ -76,6 +97,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const reviewRef = useRef(null);
   const [showCard, setShowCard] = useState(false);
   const headerRef = useRef(null);
+  const tamaraWidgetRef = useRef(null);
+  const [tamaraKey, setTamaraKey] = useState(0);
   const [qty, setQty] = useState(1);
   const loading = useSelector((state) => state.productslice.loading);
   const loading1 = useSelector((state) => state.productslice.loading1);
@@ -87,6 +110,13 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const [show, setShow] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
+
+  const productName = useMemo(() => {
+    const source =
+      (product && Object.keys(product || {}).length > 0 && product) ||
+      productDetail?.[0];
+    return getDynamicContent(source, "name", currentLanguage);
+  }, [product, productDetail, currentLanguage]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -204,19 +234,19 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   const trustBadges = [
     {
       img: "/assets/vector_icons/top_rated_customer.png",
-      text: "Top Rated By Customers",
+      text: topRatedByCustomers,
     },
     {
       img: "/assets/vector_icons/Secure_Transaction.png",
-      text: "Secure Transaction",
+      text: secureTransaction,
     },
     {
       img: "/assets/vector_icons/Exchange_Available.png",
-      text: "Exchange Available",
+      text: exchangeAvailable,
     },
     {
       img: "/assets/vector_icons/Pay_Delivery.png",
-      text: "Cash/Pay On Delivery",
+      text: cashPayOnDelivery,
     },
   ];
 
@@ -253,11 +283,13 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
   }, [productDetail]);
 
   useEffect(() => {
+    const productName = getDynamicContent(productDetail[0], "name", currentLanguage);
+    const subcategoryName = getDynamicContent(productDetail[0], "subcategory_name", currentLanguage);
     pushToDataLayer(
       "view_pdp",
       currentcountry.name,
       {
-        product_name: productDetail[0]?.name,
+        product_name: productName,
         source: "pdp",
       },
       false
@@ -271,8 +303,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         items: [
           {
             item_id: productDetail[0]?.sku,
-            item_name: productDetail[0]?.name,
-            item_category: productDetail[0]?.subcategory_name,
+            item_name: productName,
+            item_category: subcategoryName,
             price: productDetail[0]?.display_price,
             quantity: 1,
           },
@@ -281,6 +313,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
       false
     );
   }, [productDetail]);
+
+  // Force Tamara widget to re-initialize when language changes
+  useEffect(() => {
+    // Update the global Tamara config
+    if (typeof window !== "undefined" && window.tamaraWidgetConfig) {
+      const lang = currentLanguage === "ar" ? "ar" : "en";
+      window.tamaraWidgetConfig.lang = lang;
+    }
+
+    // Force widget re-initialization by updating the key
+    // This will cause React to unmount and remount the widget,
+    // which will make it read the updated config
+    setTamaraKey((prev) => prev + 1);
+  }, [currentLanguage]);
 
   const handleClick = async () => {
     var input_data = {
@@ -300,7 +346,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
       "clicked_add_to_cart",
       currentcountry.name,
       {
-        product_name: productDetail[0]?.name,
+        product_name: getDynamicContent(productDetail[0], "name", currentLanguage),
       },
       true
     );
@@ -312,8 +358,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
         items: [
           {
             item_id: productDetail[0]?.sku,
-            item_name: productDetail[0]?.name,
-            item_category: productDetail[0]?.subcategory_name,
+            item_name: getDynamicContent(productDetail[0], "name", currentLanguage),
+            item_category: getDynamicContent(productDetail[0], "subcategory_name", currentLanguage),
             price: productDetail[0]?.display_price,
             quantity: qty,
           },
@@ -343,8 +389,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
           items: [
             {
               item_id: productDetail[0]?.sku,
-              item_name: productDetail[0]?.name,
-              item_category: productDetail[0]?.subcategory_name,
+              item_name: getDynamicContent(productDetail[0], "name", currentLanguage),
+              item_category: getDynamicContent(productDetail[0], "subcategory_name", currentLanguage),
               price: productDetail[0]?.display_price,
               quantity: qty,
             },
@@ -428,10 +474,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     <div className="product_Detail_right_side">
                       <div className="grid gap-1 mt-3">
                         <h6 className="text-sm text-[#6F787C] mb-0">
-                          {productDetail[0]?.brand}
+                          {getDynamicContent(productDetail[0], "brand", currentLanguage)}
                         </h6>
                         <h3 className="text-lg text-[#191B1C] font-semibold">
-                          {productDetail[0]?.name}
+                          {getDynamicContent(productDetail[0], "name", currentLanguage)}
                         </h3>
                         {allProductReviews?.data?.stats?.averageRating > 0 && (
                           <div className="flex gap-1 justify-start items-center">
@@ -467,13 +513,13 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {!loading && !isLaptop && (
                     <div className="!mb-3 2xl:container !m-auto">
                       <BreadComps
-                        title0={productDetail[0]?.category_name}
+                        title0={getDynamicContent(productDetail[0], "category_name", currentLanguage)}
                         link0={productDetail[0]?.category_url}
-                        title1={productDetail[0]?.subcategory_name}
+                        title1={getDynamicContent(productDetail[0], "subcategory_name", currentLanguage)}
                         link1={productDetail[0]?.subcategory_url}
-                        title2={productDetail[0]?.sub_sub_category_name}
+                        title2={getDynamicContent(productDetail[0], "sub_sub_category_name", currentLanguage)}
                         link2={productDetail[0]?.sub_sub_category_url}
-                        activetitle={productDetail[0]?.name}
+                        activetitle={getDynamicContent(productDetail[0], "name", currentLanguage)}
                       />
                     </div>
                   )}
@@ -509,10 +555,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {!isMobile && (
                     <div className="mb-7">
                       <h6 className="text-[#6F787C] font-medium mb-2 leading-[1.2rem]">
-                        {productDetail[0]?.brand}
+                        {getDynamicContent(productDetail[0], "brand", currentLanguage)}
                       </h6>
                       <h3 className="!text-[22px] !font-semibold mb-3">
-                        {productDetail[0]?.name}
+                        {getDynamicContent(productDetail[0], "name", currentLanguage)}
                       </h3>
                       {allProductReviews?.data?.stats?.averageRating > 0 && (
                         <div className="flex gap-1 justify-start items-center">
@@ -537,7 +583,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           {allProductReviews?.data?.stats?.reviewCount > 0 && (
                             <span className="text-base text-[#9EA5A8] font-medium">
                               | ({allProductReviews?.data?.stats?.reviewCount}{" "}
-                              Reviews)
+                              {reviews})
                             </span>
                           )}
                         </div>
@@ -547,15 +593,24 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {!isMobile && <hr className="text-[#b3aaaa] mb-0" />}
                   <div className={`${!isMobile && "my-7"}`}>
                     {/* d-flex -> flex */}
-                    <div className="product_Detail_price_container flex">
+                    <div className="product_Detail_price_container !flex-row flex">
                       {/* d-flex align-items-center -> flex items-center */}
                       <div className="display_price flex items-center">
                         {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
-                        <span className="font-bold text-xl flex items-center">
+                        <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                           {/* me-1 -> mr-1 */}
-                          <span className="currency-symbol mr-1 text-[24px] md:text-[26px]">
-                            {currentcountry.currency}
-                          </span>
+                          {currentcountry?.currency == "AED" ? (
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
+                              style={{ color: "black" }}
+                            />
+                          ) : (
+                            <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
+                              {currentcountry.currency}
+                            </span>
+                          )}
                           <span className="text-[24px] md:text-[26px]">
                             {" "}
                             {productDetail[0]?.display_price}
@@ -566,19 +621,30 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           /* ms-2 px-3 py-2 d-flex align-items-center -> ml-2 px-3 py-2 flex items-center */
                           <div className="save-banner ml-2 px-3 py-2 flex items-center !font-medium">
                             {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
-                            <span className="badge-icon mr-2 inline-flex items-center justify-center">
-                              <img
+                            <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon inline-flex items-center justify-center`}>
+                            <img
                                 src="/assets/vector_icons/Vector.png"
                                 alt="%"
                                 className="discount-icon"
                               />
                             </span>
-                            <span className="text-sm">
-                              You saved{" "}
-                              <span className="currency-symbol !text-sm">
-                                {currentcountry.currency}{" "}
-                              </span>
+                            <span className="text-sm flex items-center">
+                            {youSaved}{" "}
+                            <div className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className="w-3 h-3 inline-block mix-blend-multiply"
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className="currency-symbol !text-sm">
+                                  {currentcountry.currency}{" "}
+                                </span>
+                              )}
                               {Math.ceil(savedPrice)}
+                              </div>
                             </span>
                           </div>
                         )}
@@ -589,27 +655,44 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       Number(productDetail[0]?.display_price) <
                       Number(productDetail[0]?.old_price) && (
                         <div className="old_price">
-                          <span>
-                            {currentcountry.currency +
-                              " " +
-                              productDetail[0]?.old_price}
+                          <span className="flex items-center">
+                            {currentcountry?.currency == "AED" ? (
+                              <>
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                                {productDetail[0]?.old_price}
+                              </>
+                            ) : (
+                              currentcountry.currency + " " + productDetail[0]?.old_price
+                            )}
                           </span>
                           <div className="product_Detail_price_container">
                             <div className="display_percentage">
-                              {productDetail[0]?.percentage + "% OFF"}
+                              {productDetail[0]?.percentage + "%" + off}
                             </div>
                           </div>
                           <p className="text-[#9EA5A8] mb-0 text-base">
-                            (Inc. of VAT)
+                            {incOfVat}
                           </p>
                         </div>
                       )}
                   </div>
                   {
                     currentcountry.id == 1 &&
-                    <tamara-widget type="tamara-summary" amount={productDetail[0]?.display_price} inline-type='2' inline-variant='text' config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'>
-
-                    </tamara-widget>
+                    <div ref={tamaraWidgetRef}>
+                      <tamara-widget 
+                        key={`tamara-${currentLanguage}-${productDetail[0]?.display_price}-${tamaraKey}`}
+                        type="tamara-summary" 
+                        amount={productDetail[0]?.display_price} 
+                        inline-type='2' 
+                        inline-variant='text' 
+                        config='{"theme":"light","badgePosition":"","showExtraContent":"true","hidePayInX":false}'>
+                      </tamara-widget>
+                    </div>
                   }
                   <div className="my-6">
                     {productDetail[0]?.stock === "In stock" && (
@@ -621,8 +704,8 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             className="ml-1 font-semibold"
                             style={{ fontFamily: "Outfit", fontSize: "16px" }}
                           >
-                            IN STOCK
-                          </span>
+                            {inStock}
+                            </span>
                           {/* d-flex align-items-center justify-content-center -> flex items-center justify-center */}
                           <div className="flex items-center justify-center">
                             <img
@@ -633,14 +716,14 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             />
                             <span
                               /* ms-1 fw-bold -> ml-1 font-bold */
-                              className="ml-1 font-bold"
+                              className={`font-bold ${currentLanguage === "ar" ? "mr-1" : "ml-1"}`}
                               style={{
                                 color: "#E78B00",
                                 fontFamily: "Outfit",
                                 fontSize: "14px",
                               }}
                             >
-                              Selling out fast!
+                              {sellingOutFast}
                             </span>
                           </div>
                         </div>
@@ -676,7 +759,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
                                   {afterExpected && (
                                     <>
-                                      {" Expected  "}
+                                      {" " + expectedBy + " "}
                                       <strong className="font-bold text-base">
                                         {afterExpected.trim()}
                                       </strong>
@@ -829,7 +912,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             src={"/assets/vector_icons/cart_icon.svg"}
                             alt={"cart"}
                           />
-                          Add to cart
+                          {addToCart}
                           {isLoading && (
                             /* ms-3 -> ml-3 */
                             <ClipLoader
@@ -855,7 +938,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               objectFit: "contain",
                             }}
                           />
-                          <span>BUY NOW</span>
+                          <span>{buyNow.toUpperCase()}</span>
                         </button>
                       </div>
                       <button
@@ -874,7 +957,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             objectFit: "contain",
                           }}
                         />
-                        <span>BUY NOW</span>
+                        <span>{buyNow.toUpperCase()}</span>
                       </button>
                     </div>
                   ) : (
@@ -892,7 +975,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           )}
                         </div>
                         <div className="productdetail-notifystatus">
-                          Get notified when this item comes back in stock.
+                          {getNotifiedWhenBackInStock}
                         </div>
                       </>
                     )
@@ -1083,7 +1166,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   className="font-semibold"
                   style={{ fontFamily: "Outfit", fontSize: "18px" }}
                 >
-                  Product Specifications
+                  {productSpecifications}
                 </span>
                 <img
                   onClick={handleToggle}
@@ -1191,7 +1274,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 >
                   {expanded ? (
                     <div className="flex items-center justify-center">
-                      <span className="mr-1">View Less</span>
+                      <span className="mr-1">{viewLess}</span>
                       <img
                         src="/assets/downArrow.png"
                         alt="Up Arrow"
@@ -1200,7 +1283,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center">
-                      <span className="mr-1">View More</span>
+                      <span className="mr-1">{viewMore}</span>
                       <img
                         src="/assets/downArrow.png"
                         alt="Down Arrow"
@@ -1248,9 +1331,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
             <div className="component_1 product_Detail_carousel_prod mt-5">
               {productDetail_products?.hasOwnProperty("related_products") && (
                 <ComponentHeader
-                  title={"Related Products"}
-                  first_title={"Related"}
-                  second_title={"PRODUCTS"}
+                  title={relatedProducts}
+                  first_title={relatedProducts.split(" ")[0]}
+                  second_title={relatedProducts.split(" ").slice(1).join(" ").toUpperCase()}
                   first_string_color={"#000"}
                   second_string_color={null}
                   view_all={"rgba(82, 50, 194, 1)"}
@@ -1287,9 +1370,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
             <div className="component_1 product_Detail_carousel_prod mt-4">
               {productDetail_products?.hasOwnProperty("recently_viewed") && (
                 <ComponentHeader
-                  title={"Recently viewed Products"}
-                  first_title={"Recently"}
-                  second_title={"viewed PRODUCTS"}
+                  title={recentlyViewed}
+                  first_title={recentlyViewed.split(" ")[0]}
+                  second_title={recentlyViewed.split(" ").slice(1).join(" ").toUpperCase()}
                   first_string_color={"#000"}
                   second_string_color={null}
                   view_all={"rgba(82, 50, 194, 1)"}
@@ -1355,24 +1438,33 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   className="w-auto h-28 object-contain"
                 />
                 <p className="font-semibold text-base xl:text-lg hidden xl:block">
-                  {product?.name}
+                  {productName || product?.name}
                 </p>
               </div>
 
               <div className="flex flex-col justify-center">
                 <p className="font-semibold text-base block xl:hidden">
-                  {product?.name}
+                  {productName || product?.name}
                 </p>
                 <div className="block xl:hidden">
                   <div className="product_Detail_price_container flex">
                     {/* d-flex align-items-center -> flex items-center */}
                     <div className="display_price flex items-center">
                       {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
-                      <span className="font-bold text-xl flex items-center">
+                        <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         {/* me-1 -> mr-1 */}
-                        <span className="currency-symbol mr-1 !text-[22px]">
-                          {currentcountry?.currency}
-                        </span>
+                        {currentcountry?.currency == "AED" ? (
+                          <img
+                            src="/assets/feed/aed-icon.png"
+                            alt="AED"
+                            className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-5 h-5 inline-block mix-blend-multiply`}
+                            style={{ color: "black" }}
+                          />
+                        ) : (
+                          <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol !text-[22px]`}>
+                            {currentcountry?.currency}
+                          </span>
+                        )}
                         <span className="!text-[22px]">
                           {" "}
                           {product?.display_price}
@@ -1383,18 +1475,27 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         /* ms-2 px-3 py-2 d-flex align-items-center -> ml-2 px-3 py-2 flex items-center */
                         <div className="save-banner ml-2 px-3 py-2 flex items-center !font-medium">
                           {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
-                          <span className="badge-icon mr-2 inline-flex items-center justify-center">
+                          <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon inline-flex items-center justify-center`}>
                             <img
                               src="/assets/vector_icons/Vector.png"
                               alt="%"
                               className="discount-icon"
                             />
                           </span>
-                          <span className="text-sm text-nowrap">
-                            You saved{" "}
-                            <span className="currency-symbol !text-sm !xl:text-sm">
-                              {currentcountry?.currency}{" "}
-                            </span>
+                          <span className={`text-sm text-nowrap flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                            {youSaved}{" "}
+                            {currentcountry?.currency == "AED" ? (
+                              <img
+                                src="/assets/feed/aed-icon.png"
+                                alt="AED"
+                                className="w-3 h-3 inline-block mix-blend-multiply"
+                                style={{ color: "black" }}
+                              />
+                            ) : (
+                              <span className="currency-symbol !text-sm !xl:text-sm">
+                                {currentcountry?.currency}{" "}
+                              </span>
+                            )}
                             <span className="font-bold">
                               {Math.ceil(savedPrice)}
                             </span>
@@ -1405,16 +1506,28 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   </div>
                   {product?.hasOwnProperty("old_price") && (
                     <div className="old_price">
-                      <span className="text-base xl:text-lg">
-                        {currentcountry.currency + " " + product?.old_price}
+                      <span className={`text-base xl:text-lg flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                        {currentcountry?.currency == "AED" ? (
+                          <span className={`flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                            <img
+                              src="/assets/feed/aed-icon.png"
+                              alt="AED"
+                              className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              style={{ color: "black" }}
+                            />
+                            {product?.old_price}
+                          </span>
+                        ) : (
+                          currentcountry.currency + " " + product?.old_price
+                        )}
                       </span>
                       <div className="product_Detail_price_container">
                         <div className="display_percentage text-base xl:text-lg">
-                          {product?.percentage + "% OFF"}
+                          {product?.percentage + "%" + off}
                         </div>
                       </div>
                       <p className="text-[#9EA5A8] mb-0 text-base xl:text-lg">
-                        (Inc. of VAT)
+                    {incOfVat}
                       </p>
                     </div>
                   )}
@@ -1427,11 +1540,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 {/* d-flex align-items-center -> flex items-center */}
                 <div className="display_price flex items-center">
                   {/* fw-bold fs-5 d-flex align-items-center -> font-bold text-xl flex items-center */}
-                  <span className="font-bold text-xl flex items-center">
+                  <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                     {/* me-1 -> mr-1 */}
-                    <span className="currency-symbol mr-1 text-base xl:!text-[22px]">
-                      {currentcountry?.currency}
-                    </span>
+                    {currentcountry?.currency == "AED" ? (
+                      <img
+                        src="/assets/feed/aed-icon.png"
+                        alt="AED"
+                        className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
+                        style={{ color: "black" }}
+                      />
+                    ) : (
+                      <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
+                        {currentcountry?.currency}
+                      </span>
+                    )}
                     <span className="text-base xl:text-[22px]">
                       {" "}
                       {product?.display_price}
@@ -1440,20 +1562,29 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
                   {savedPrice > 0 && (
                     /* ms-2 px-3 py-2 d-flex align-items-center -> ml-2 px-3 py-2 flex items-center */
-                    <div className="save-banner ml-2 px-3 py-2 flex items-center !font-medium">
+                    <div className={`save-banner px-3 py-2 flex items-center !font-medium ${currentLanguage === "ar" ? "mr-2 !bg-right" : "ml-2"}`}>
                       {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
-                      <span className="badge-icon mr-2 inline-flex items-center justify-center">
+                      <span className={`badge-icon ${currentLanguage === "ar" ? "ml-2" : "mr-2"} inline-flex items-center justify-center`}>
                         <img
                           src="/assets/vector_icons/Vector.png"
                           alt="%"
                           className="discount-icon"
                         />
                       </span>
-                      <span className="text-sm text-nowrap">
-                        You saved{" "}
-                        <span className="currency-symbol !text-sm !xl:text-sm">
-                          {currentcountry?.currency}{" "}
-                        </span>
+                      <span className={`text-sm text-nowrap flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                        {youSaved}{" "}
+                        {currentcountry?.currency == "AED" ? (
+                          <img
+                            src="/assets/feed/aed-icon.png"
+                            alt="AED"
+                            className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}
+                            style={{ color: "black" }}
+                          />
+                        ) : (
+                          <span className={`currency-symbol !text-sm !xl:text-sm ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}>
+                            {currentcountry?.currency}{" "}
+                          </span>
+                        )}
                         <span className="font-bold">
                           {Math.ceil(savedPrice)}
                         </span>
@@ -1465,16 +1596,28 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
               {product?.hasOwnProperty("old_price") && (
                 <div className="old_price">
-                  <span className="text-base xl:text-lg">
-                    {currentcountry.currency + " " + product?.old_price}
+                  <span className={`text-base xl:text-lg flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                    {currentcountry?.currency == "AED" ? (
+                      <>
+                        <img
+                          src="/assets/feed/aed-icon.png"
+                          alt="AED"
+                          className="w-4 h-4 inline-block mix-blend-multiply mr-1"
+                          style={{ color: "black" }}
+                        />
+                        {product?.old_price}
+                      </>
+                    ) : (
+                      currentcountry.currency + " " + product?.old_price
+                    )}
                   </span>
                   <div className="product_Detail_price_container">
                     <div className="display_percentage text-base xl:text-lg">
-                      {product?.percentage + "% OFF"}
+                      {product?.percentage + "%" + off}
                     </div>
                   </div>
                   <p className="text-[#9EA5A8] mb-0 text-base xl:text-lg">
-                    (Inc. of VAT)
+                    {incOfVat}
                   </p>
                 </div>
               )}
@@ -1515,7 +1658,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       src={"/assets/vector_icons/cart_icon.svg"}
                       alt={"cart"}
                     />
-                    Add to cart
+                    {addToCart}
                     {isLoading && (
                       /* ms-3 -> ml-3 */
                       <ClipLoader className="ml-3" size={16} color={"#fff"} />
@@ -1535,21 +1678,21 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         objectFit: "contain",
                       }}
                     />
-                    <span>BUY NOW</span>
+                    <span className="uppercase">{buyNow}</span>
                   </button>
                 </div>
               </>
             ) : (
               <div className="grid justify-center items-center">
                 <div className="producrdetailnotifybtn mt-3 uppercase !text-base">
-                  Notify me
+                  {notifyMe}
                   {isLoading && (
                     /* ms-3 -> ml-3 */
                     <ClipLoader className="ml-3" size={16} color={"#fff"} />
                   )}
                 </div>
                 <div className="productdetail-notifystatus">
-                  Get notified when this item comes back in stock.
+                  {getNotifiedWhenBackInStock}
                 </div>
               </div>
             )}

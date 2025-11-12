@@ -23,6 +23,7 @@ import {
 import { setformmodal, setformstatus } from "@/redux/formslice";
 import AlertModal from "../AlertModal";
 import OdometerCounter from "@/components/OdometerCounter";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, onClick, ...props }) => {
@@ -42,6 +43,15 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
 };
 
 const CartModalDesktop = ({ show, onHide }) => {
+  const currentLanguage = useCurrentLanguage();
+  const removeItem = useContent("buttons.removeItem");
+  const removeItemDescription = useContent("buttons.removeItemDescription");
+  const inCart = useContent("product.inCart");
+  const yourCartIsEmpty = useContent("product.yourCartIsEmpty");
+  const totalCartValue = useContent("product.totalCartValue");
+  const yourTotalSavings = useContent("product.yourTotalSavings");
+  const checkoutNow = useContent("buttons.checkoutNow");
+  const off = useContent("product.off");
   const dispatch = useDispatch();
   const router = useRouter();
   const debounceTimers = useRef({});
@@ -69,8 +79,13 @@ const CartModalDesktop = ({ show, onHide }) => {
 
   const cartItems = useMemo(() => {
     const result = cartlistdata?.data?.result;
-    return Array.isArray(result) ? result : [];
-  }, [cartlistdata]);
+    if (!Array.isArray(result)) return [];
+
+    return result.map((item) => ({
+      ...item,
+      localizedName: getDynamicContent(item, "name", currentLanguage),
+    }));
+  }, [cartlistdata, currentLanguage]);
 
   const totalSavings = useMemo(() => {
     const rawSavings = cartItems?.reduce((sum, item) => {
@@ -291,14 +306,22 @@ const CartModalDesktop = ({ show, onHide }) => {
     <>
       {show && (
         <div
-          className="modal-backdrop-custom fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="modal-backdrop-custom fixed inset-0 bg-black bg-opacity-50 z-[999]"
           onClick={onHide}
           aria-hidden="true"
         />
       )}
       <div
-        className={`modal-custom-wrapper-desktop fixed top-0 right-0 h-screen w-[25vw] z-[99] ${
-          show ? "modal-slide-in" : "modal-slide-out"
+        className={`modal-custom-wrapper-desktop fixed top-0 ${
+          currentLanguage === "ar" ? "" : "right-0"
+        } h-screen w-[25vw] z-[1000] ${
+          show
+            ? currentLanguage === "ar"
+              ? "modal-slide-in-rtl"
+              : "modal-slide-in"
+            : currentLanguage === "ar"
+            ? "modal-slide-out-rtl"
+            : "modal-slide-out"
         }`}
         role="dialog"
         aria-modal="true"
@@ -306,15 +329,20 @@ const CartModalDesktop = ({ show, onHide }) => {
         aria-describedby="cart-modal-description"
         ref={modalRef}
         tabIndex={-1}
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
-        <div className="flex flex-col h-full bg-white rounded-l-xl">
+        <div
+          className={`flex flex-col h-full bg-white ${
+            currentLanguage === "ar" ? "rounded-r-xl" : "rounded-l-xl"
+          }`}
+        >
           <div className="flex-1 overflow-y-auto py-4 pt-0 px-4">
             <div className="sticky py-4 top-0 z-20 bg-white border-b flex justify-between items-center select-none">
               <h2
                 id="cart-modal-title"
                 className="flex items-center gap-1 text-[#43494B] mb-0"
               >
-                <span className="font-[700] text-[24px]">In Cart</span>
+                <span className="font-[700] text-[24px]">{inCart}</span>
                 <span className="text-[19px] font-[600]">
                   ({cartItems.length})
                 </span>
@@ -335,18 +363,20 @@ const CartModalDesktop = ({ show, onHide }) => {
               aria-label="Shopping cart items"
             >
               {cartItems.length > 0 ? (
-                cartItems.map((item, i) => (
-                  <React.Fragment key={i}>
+                cartItems.map((item, i) => {
+                  const displayName = item.localizedName || item.name || "";
+                  return (
+                    <React.Fragment key={i}>
                     <article className="flex items-center gap-3 py-2">
                       <button
                         onClick={() => navigateToProduct(item.url, item.sku)}
                         className="cursor-pointer object-contain w-[25%] h-max bg-transparent border-0 p-0"
-                        aria-label={`View ${item.name} details`}
+                          aria-label={`View ${displayName} details`}
                         type="button"
                       >
                         <img
                           src={item.image}
-                          alt={`${item.name} product image`}
+                            alt={`${displayName} product image`}
                           className="w-full h-full object-contain"
                         />
                       </button>
@@ -357,23 +387,23 @@ const CartModalDesktop = ({ show, onHide }) => {
                           className="cursor-pointer item-name font-semibold flex-1 text-left bg-transparent border-0 p-0"
                           type="button"
                         >
-                          {item.name.split(" ").length > 15
-                            ? item.name.split(" ").slice(0, 15).join(" ") +
+                          {displayName.split(" ").length > 15
+                            ? displayName.split(" ").slice(0, 15).join(" ") +
                               "..."
-                            : item.name}
+                            : displayName}
                         </button>
 
                         <div className="flex justify-between my-2 select-none">
                           <div
                             className="flex items-center justify-center border rounded-lg gap-3 p-1"
                             role="group"
-                            aria-label={`Quantity controls for ${item.name}`}
+                            aria-label={`Quantity controls for ${displayName}`}
                           >
                             {cartQuantities[item.cart_id] === 1 ? (
                               <button
                                 onClick={() => openAlertModel(item)}
                                 className="cursor-pointer bg-transparent border-0 p-1 hover:bg-red-100 rounded transition-colors"
-                                aria-label={`Remove ${item.name} from cart`}
+                                aria-label={`Remove ${displayName} from cart`}
                                 type="button"
                               >
                                 <img
@@ -391,7 +421,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                                   )
                                 }
                                 className="cursor-pointer bg-transparent border-0 p-1 hover:bg-gray-100 rounded transition-colors"
-                                aria-label={`Decrease quantity of ${item.name}`}
+                                aria-label={`Decrease quantity of ${displayName}`}
                                 type="button"
                               >
                                 <FiMinus />
@@ -416,7 +446,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                                 )
                               }
                               className="cursor-pointer bg-transparent border-0 p-1 hover:bg-gray-100 rounded transition-colors"
-                              aria-label={`Increase quantity of ${item.name}`}
+                              aria-label={`Increase quantity of ${displayName}`}
                               type="button"
                             >
                               <FiPlus />
@@ -424,28 +454,61 @@ const CartModalDesktop = ({ show, onHide }) => {
                           </div>
                         </div>
 
-                        <div className="text-lg font-semibold">
-                          <span
-                            aria-label={`Current price: ${
-                              currentcountry?.currency
-                            } ${(item.single_price * item.quantity).toFixed(
-                              2
-                            )}`}
-                          >
-                            {currentcountry?.currency}{" "}
-                            {(item.single_price * item.quantity).toFixed(2)}
-                          </span>
+                        <div className={`text-lg font-semibold flex flex-col gap-1`}>
+                          <div className={`flex items-center gap-1`}>
+                            <span
+                              aria-label={`Current price: ${
+                                currentcountry?.currency
+                              } ${(item.single_price * item.quantity).toFixed(
+                                2
+                              )}`}
+                              className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}
+                            >
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.png"
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <>{currentcountry?.currency}{" "}</>
+                              )}
+                              {(item.single_price * item.quantity).toFixed(2)}
+                            </span>
 
-                          <span className="text-sm font-semibold mx-1 text-[#33B056]">
-                            {item.percentage}% OFF
-                          </span>
-                          <div className="text-sm line-through text-[#9EA5A8]">
+                            <span className="text-sm font-semibold text-[#33B056]">
+                              {currentLanguage === "ar" ? (
+                                <>
+                                   {item.percentage}% {off}
+                                </>
+                              ) : (
+                                <>
+                                  {item.percentage}% {off}
+                                </>
+                              )}
+                            </span>
+                          </div>
+                          <div className={`text-sm line-through text-[#9EA5A8] ${currentLanguage === "ar" ? "text-right" : "text-left"}`}>
                             <span
                               aria-label={`Original price: ${currentcountry?.currency} ${(
                                 item.old_price * item.quantity
                               ).toFixed(2)}`}
+                              className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}
                             >
-                              {currentcountry?.currency} {(item.old_price * item.quantity).toFixed(2)}
+                              {currentcountry?.currency == "AED" ? (
+                                <>
+                                  <img
+                                    src="/assets/feed/aed-icon.png"
+                                    alt="AED"
+                                    className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                    style={{ color: "black" }}
+                                  />
+                                  {(item.old_price * item.quantity).toFixed(2)}
+                                </>
+                              ) : (
+                                <>{currentcountry?.currency} {(item.old_price * item.quantity).toFixed(2)}</>
+                              )}
                             </span>
                           </div>
                         </div>
@@ -454,11 +517,12 @@ const CartModalDesktop = ({ show, onHide }) => {
                     {i !== cartItems.length - 1 && (
                       <hr className="border-gray my-6" />
                     )}
-                  </React.Fragment>
-                ))
+                    </React.Fragment>
+                  );
+                })
               ) : (
                 <div className="text-center py-4" role="status">
-                  Your cart is empty.
+                  {yourCartIsEmpty}
                 </div>
               )}
             </div>
@@ -466,11 +530,23 @@ const CartModalDesktop = ({ show, onHide }) => {
 
           <div className="pb-4 shadow-[0_-4px_20px_-1px_rgba(0,0,0,0.1)] relative">
             <div className="flex justify-between items-center p-4 bg-white font-semibold">
-              <p className="mb-0 capitalize">total cart value</p>
+              <p className="mb-0 capitalize">{totalCartValue}</p>
               <div className="flex items-center gap-1">
                 <p className="mb-0 text-sm line-through text-[#9EA5A8]">
-                  <span aria-label={`Original total: ${currentcountry?.currency} ${totalOld}`}>
-                    {currentcountry?.currency} {totalOld}
+                  <span aria-label={`Original total: ${currentcountry?.currency} ${totalOld}`} className="flex items-center">
+                    {currentcountry?.currency == "AED" ? (
+                      <span className={`flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                        <img
+                          src="/assets/feed/aed-icon.png"
+                          alt="AED"
+                          className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                          style={{ color: "black" }}
+                        />
+                        {totalOld}
+                      </span>
+                    ) : (
+                      <>{currentcountry?.currency} {totalOld}</>
+                    )}
                   </span>
                 </p>
                 <p
@@ -496,16 +572,27 @@ const CartModalDesktop = ({ show, onHide }) => {
                   aria-hidden="true"
                 />
                 <p className="mb-0 font-semibold capitalize">
-                  Your total savings
+                  {yourTotalSavings}
                 </p>
               </div>
-              <div className="font-semibold text-lg flex items-center gap-1 h-6">
-                <span className="text-[1.125rem] text-lg">
-                  {currentcountry?.currency}
-                </span>
+              <div className={`font-semibold text-lg flex items-center gap-1 h-6 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                {currentcountry?.currency == "AED" ? (
+                  <img
+                    src="/assets/feed/aed-icon.png"
+                    alt="AED"
+                    className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                    style={{ color: "black" }}
+                  />
+                ) : (
+                  <span className="text-[1.125rem] text-lg">
+                    {currentcountry?.currency}
+                  </span>
+                )}
                 <span
                   aria-live="polite"
                   aria-label={`Total savings: ${currentcountry?.currency} ${totalSavings}`}
+                  dir="ltr"
+                  style={{ display: "inline-block" }}
                 >
                   <OdometerCounter
                     value={totalSavings}
@@ -524,7 +611,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                 type="button"
               >
                 <span className="z-10 uppercase font-semibold">
-                  Checkout now
+                  {checkoutNow}
                 </span>
                 <div className="absolute inset-0 pointer-events-none flex gap-2 justify-center items-center shimmer-overlay">
                   <div className="h-20 w-10 bg-gradient-to-tr from-transparent to-[#8c70ff] opacity-60 skew-y-12"></div>
@@ -547,8 +634,8 @@ const CartModalDesktop = ({ show, onHide }) => {
       <AlertModal
         show={showAlert}
         setShow={setShowAlert}
-        title="Remove Item"
-        message="Are you sure you want to remove this item from the cart?"
+        title={removeItem}
+        message={removeItemDescription}
         action={removeproduct}
         product={deletingProduct}
       />

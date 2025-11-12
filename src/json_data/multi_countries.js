@@ -20,6 +20,14 @@ const countriesData = [
       map_location:
         "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.356812299205!2d55.379621!3d25.2830702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dcb73cb2a87%3A0xdce6b4489e9a721b!2sOurshopee%20UAE!5e1!3m2!1sen!2sin!4v1762343285059!5m2!1sen!2sin",
     },
+    dealsByCountry: {
+      "Weekly Deals": 238,
+      "Mast Zone": 243,
+      "Limited Time Deals": 248,
+      "Deals You Might Like": 253,
+      "Namaste Deals": 259,
+      "Top Selling": 74,
+    },
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: true,
@@ -159,6 +167,14 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopee.om",
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 239,
+      "Mast Zone": 244,
+      "Limited Time Deals": 249,
+      "Deals You Might Like": 254,
+      "Namaste Deals": 260,
+      "Top Selling": 75
+    },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -288,6 +304,14 @@ const countriesData = [
     fb_link: "https://www.facebook.com/OurshopeeOffers",
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 240,
+      "Mast Zone": 245,
+      "Limited Time Deals": 250,
+      "Deals You Might Like": 255,
+      "Namaste Deals": 261,
+      "Top Selling": 76
+    },
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -407,11 +431,27 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopeekuwaitonline/",
     insta_link:
       "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
+    dealsByCountry: {
+      "Weekly Deals": 241,
+      "Mast Zone": 246,
+      "Limited Time Deals": 251,
+      "Deals You Might Like": 256,
+      "Namaste Deals": 262,
+      "Top Selling": 78
+    },
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: false,
     isDonationRequired: false,
     country_code: "+965",
+    dealsByCountry: {
+      "Weekly Deals": 271,
+      "Mast Zone": 269,
+      "Limited Time Deals": 267,
+      "Deals You Might Like": 258,
+      "Namaste Deals": 270,
+      "Top Selling": 96
+    },
     nav_items: [
       {
         id: 11,
@@ -521,6 +561,14 @@ const countriesData = [
         "Ourshopee Trading CO WLL | Road No. 3207 | Building 398 | Flat No.1 | Mahooz Manama | Bahrain",
       map_location:
         "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3891.7627455013862!2d50.57823067541546!3d26.213277777070996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDEyJzQ3LjgiTiA1MMKwMzQnNTAuOSJF!5e1!3m2!1sen!2sin!4v1762340719198!5m2!1sen!2sin",
+    },
+    dealsByCountry: {
+      "Weekly Deals": 242,
+      "Mast Zone": 247,
+      "Limited Time Deals": 252,
+      "Deals You Might Like": 257,
+      "Namaste Deals": 263,
+      "Top Selling": 77
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -645,12 +693,20 @@ const countriesData = [
     },
     isTabbyRequired: false,
     emi_months: 0,
-    isAreaCodeRequired: false,
+    isAreaCodeRequired: true,
     isDonationRequired: false,
     country_code: "+966",
     fb_link: "https://www.facebook.com/profile.php?id=61582502091896#",
     insta_link:
       "https://www.instagram.com/ourshopee_ksa?igsh=MWlucnh6d3RxcGd5&utm_source=qr",
+    dealsByCountry: {
+        "Weekly Deals": 271,
+        "Mast Zone": 269,
+        "Limited Time Deals": 267,
+        "Deals You Might Like": 258,
+        "Namaste Deals": 270,
+        "Top Selling": 96
+      },
     nav_items: [
       {
         id: 11,

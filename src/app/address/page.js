@@ -7,15 +7,21 @@ import MobileAddress from "@/components/Myaccount/MobileAddress";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import withAuth from "@/components/Common/withAuth";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 
 const Address = () => {
-
-    const { isMobile } = MediaQueries()
+    const { isMobile } = MediaQueries();
+    const currentLanguage = useCurrentLanguage();
+    
+    // Content translations
+    const address = useContent("pages.address");
+    const myAddress = useContent("buttons.myAddress");
+    const editAndSaveYourPersonalAddress = useContent("buttons.editAndSaveYourPersonalAddress");
 
     return (
         < >
-            <Container fluid className="homepagecontainer">
+            <Container fluid className="homepagecontainer" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
                 <Row className={!isMobile ? "mt-4" : ""}>
                     {
                         !isMobile &&
@@ -27,8 +33,8 @@ const Address = () => {
                         isMobile ?
                             <Col lg={12}>
                                 <div>
-                                    <BreadComp title={"Address"} />
-                                    <div className="page-titile">My Address</div>
+                                    <BreadComp title={address} />
+                                    <div className="page-titile">{myAddress}</div>
                                     <MobileAddress />
                                 </div>
                             </Col>
@@ -36,8 +42,8 @@ const Address = () => {
 
                             <Col lg={9}>
                                 <div className="Myaccount-rightsidecard">
-                                    <div className="title">Address</div>
-                                    <div className="discription">Edit and save your personal address</div>
+                                    <div className="title">{address}</div>
+                                    <div className="discription">{editAndSaveYourPersonalAddress}</div>
                                     <Addresslist />
                                 </div>
                             </Col>

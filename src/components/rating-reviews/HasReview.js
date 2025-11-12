@@ -5,6 +5,7 @@ import { deleteReview, getAllReviews, updateUserReview } from "@/api/review";
 import { getImageUrl } from "../utils/helpers";
 import CustomStarRating from "./CustomStarRating";
 import garbage from "./Garbage.json";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 // ✅ ADD: Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -32,6 +33,27 @@ const HasReview = ({
   setProductReviews,
   setAllProductReviews,
 }) => {
+  const currentLanguage = useCurrentLanguage();
+  const myRatingsAndReview = useContent("product.myRatingsAndReview");
+  const edit = useContent("buttons.edit");
+  const deleteText = useContent("buttons.delete");
+  const cancel = useContent("buttons.cancel");
+  const update = useContent("buttons.update");
+  const addImagesOptional = useContent("product.addImagesOptional");
+  const yourReview = useContent("product.yourReview");
+  const leaveAReviewHere = useContent("product.leaveAReviewHere");
+  const deleteReviewTitle = useContent("product.deleteReview");
+  const areYouSureDeleteReview = useContent("product.areYouSureDeleteReview");
+  const reviewSuccessfullyDeleted = useContent("product.reviewSuccessfullyDeleted");
+  const reviewHasBeenRemoved = useContent("product.reviewHasBeenRemoved");
+  const backToHome = useContent("product.backToHome");
+  const underReview = useContent("product.underReview");
+  const clickToViewAllImages = useContent("product.clickToViewAllImages");
+  const onlyPngJpgJpegAllowed = useContent("product.onlyPngJpgJpegAllowed");
+  const fileSizeMustBeLessThan5MB = useContent("product.fileSizeMustBeLessThan5MB");
+  const youCanOnlyUploadUpTo = useContent("product.youCanOnlyUploadUpTo");
+  const images = useContent("product.images");
+  
   const [isEditing, setIsEditing] = useState(false);
   const { isMobile } = MediaQueries();
   const [editRating, setEditRating] = useState(reviewData?.rating);
@@ -189,11 +211,11 @@ const HasReview = ({
     const errors = [];
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      errors.push(`${file.name}: Only PNG, JPG, and JPEG files are allowed`);
+      errors.push(`${file.name}: ${onlyPngJpgJpegAllowed}`);
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      errors.push(`${file.name}: File size must be less than 5MB`);
+      errors.push(`${file.name}: ${fileSizeMustBeLessThan5MB}`);
     }
 
     return errors;
@@ -207,7 +229,7 @@ const HasReview = ({
 
       // Check if adding these files would exceed the limit
       if (editReviewImages.length + files.length > MAX_FILES) {
-        newErrors.push(`You can only upload up to ${MAX_FILES} images`);
+        newErrors.push(`${youCanOnlyUploadUpTo} ${MAX_FILES} ${images}`);
         setErrors(newErrors);
         return;
       }
@@ -279,14 +301,14 @@ const HasReview = ({
           <div className="text-center relative">
             <div className="flex justify-between items-center mb-2 md:mb-4">
               <h3 className="text-lg md:text-[22px] font-semibold text-black mb-0">
-                My Ratings & Review
+                {myRatingsAndReview}
               </h3>
               {reviewData?.rstatus === 0 ? (
                 <div className="bg-transparent absolute top-0 right-0 text-[19px] h-[60px] w-[85px] md:h-[80px] tmd:w-w-[110px] leading-none flex items-center border-none text-[#5232C2] rounded-lg select-none">
                   <img
                     src="/assets/review/under-review.png"
                     className="h-full w-full swing-pendulum"
-                    alt="Under Review"
+                    alt={underReview}
                   />
                 </div>
               ) : (
@@ -342,7 +364,7 @@ const HasReview = ({
                                     fill="#43494B"
                                   />
                                 </svg>
-                                Edit
+                                {edit}
                               </button>
                             )}
                           <button
@@ -384,7 +406,7 @@ const HasReview = ({
                                 fill="#43494B"
                               />
                             </svg>
-                            Delete
+                            {deleteText}
                           </button>
                         </div>
                       </div>
@@ -425,7 +447,7 @@ const HasReview = ({
             <div className="text-left block md:hidden">
               {isEditing && (
                 <h4 className="text-lg font-semibold text-[#354259] mb-3">
-                  Add Images (Optional) - {editReviewImages?.length}/{MAX_FILES}
+                  {addImagesOptional} - {editReviewImages?.length}/{MAX_FILES}
                 </h4>
               )}
 
@@ -485,7 +507,7 @@ const HasReview = ({
                   {reviewData?.image.map((image, index) => (
                     <div key={image.id || index} className="relative">
                       <img
-                        title="Click to view all images"
+                        title={clickToViewAllImages}
                         src={getImageUrl(image)}
                         alt={`Review ${index + 1}`}
                         className="w-16 h-16 p-2 object-cover has-review-shadow !shadow-none rounded-lg border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
@@ -505,7 +527,7 @@ const HasReview = ({
             <div className="text-left">
               {isEditing && (
                 <h4 className="text-lg font-semibold text-[#354259] mb-3">
-                  Your Review
+                  {yourReview}
                 </h4>
               )}
 
@@ -521,7 +543,7 @@ const HasReview = ({
                     autoResizeReviewTextarea();
                   }}
                   onInput={autoResizeReviewTextarea}
-                  placeholder="Leave a review here...."
+                  placeholder={leaveAReviewHere}
                   className={`${
                     !isEditing && "cursor-not-allowed"
                   } w-full max-h-[300px] p-3 md:p-4 bg-white border border-none sm:border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 resize-none focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 overflow-hidden`}
@@ -553,7 +575,7 @@ const HasReview = ({
             <div className="text-left hidden md:block">
               {isEditing && (
                 <h4 className="text-lg font-semibold text-[#354259] mb-3">
-                  Add Images (Optional) - {editReviewImages?.length}/{MAX_FILES}
+                  {addImagesOptional} - {editReviewImages?.length}/{MAX_FILES}
                 </h4>
               )}
 
@@ -613,7 +635,7 @@ const HasReview = ({
                   {reviewData?.image.map((image, index) => (
                     <div key={image.id || index} className="relative">
                       <img
-                        title="Click to view all images"
+                        title={clickToViewAllImages}
                         src={getImageUrl(image)}
                         alt={`Review ${index + 1}`}
                         className="w-full h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
@@ -636,13 +658,13 @@ const HasReview = ({
                   onClick={handleCancelEdit}
                   className="flex-1 text-base bg-[#b9b9b9] hover:bg-gray-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none"
                 >
-                  Cancel
+                  {cancel}
                 </button>
                 <button
                   onClick={handleImageSubmit}
                   className="flex-1 text-base bg-[#5F1BE7] hover:bg-[#5215cc] text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none"
                 >
-                  Update
+                  {update}
                 </button>
               </div>
             )
@@ -691,13 +713,12 @@ const HasReview = ({
                   <div className="flex flex-col gap-1">
                     {/* Title */}
                     <h3 className="text-xl text-left font-medium text-[#181D27] mb-0">
-                      Delete Review
+                      {deleteReviewTitle}
                     </h3>
 
                     {/* Description */}
                     <p className="text-[#535862] text-left text-[15px] tracking-normal leading-5 font-normal mb-2">
-                      Are you sure you want to delete this review? This action
-                      cannot be undone.
+                      {areYouSureDeleteReview}
                     </p>
                   </div>
                 </>
@@ -714,11 +735,10 @@ const HasReview = ({
                     />
                   </div>
                   <h2 className="font-semibold text-2xl text-[#191B1C] mb-0">
-                    Review <br />
-                    Successfully Deleted
+                    {reviewSuccessfullyDeleted}
                   </h2>
                   <p className="text-[#9EA5A8] text-sm font-normal mb-0">
-                    Review has been removed.
+                    {reviewHasBeenRemoved}
                   </p>
                 </>
               )}
@@ -731,7 +751,7 @@ const HasReview = ({
                       onClick={() => setDeleteModalState(null)}
                       className="flex-1 bg-[#5232C2] text-white text-lg font-medium py-2 px-[18px] rounded-lg hover:bg-[#5215cc] transition-all duration-200 border-none"
                     >
-                      Cancel
+                      {cancel}
                     </button>
                     <button
                       onClick={() =>
@@ -742,7 +762,7 @@ const HasReview = ({
                       }
                       className="flex-1 bg-white text-gray-700 text-lg font-medium py-2 px-[18px] rounded-lg border border-gray-300 hover:bg-gray-50 transition-all duration-200"
                     >
-                      Delete
+                      {deleteText}
                     </button>
                   </>
                 )}
@@ -751,7 +771,7 @@ const HasReview = ({
                     onClick={() => setDeleteModalState(null)}
                     className="bg-[#5232C2] text-white font-semibold py-2.5 px-[18px] rounded-lg text-lg border-none grow-width"
                   >
-                    Back to Home
+                    {backToHome}
                   </button>
                 )}
               </div>
