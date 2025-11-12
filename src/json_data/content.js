@@ -1565,7 +1565,15 @@ export const content = {
     off:{
       en: "OFF",
       ar: "عن",
-    }
+    },
+    grabItNow: {
+      en: "Grab it now!",
+      ar: "اغتنمها الآن!",
+    },
+    expressDelivery: {
+      en: "Express Delivery",
+      ar: "توصيل سريع",
+    },
   },
   cart: {
     title: {

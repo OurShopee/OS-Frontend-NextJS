@@ -72,7 +72,7 @@ export default function LanguageDropdown() {
       </button>
 
       {isOpen && (
-        <div className={`absolute top-[calc(100%+8px)] w-72 rounded-2xl border border-gray-200 bg-white p-4 shadow-lg z-[110] ${isRTL ? "!right-0" : "!left-0"}`}>
+        <div className={`absolute top-[calc(100%+8px)] w-72 md:w-72 rounded-2xl border border-gray-200 bg-white p-4 shadow-lg z-[110] ${isRTL ? "!left-0 md:!right-0" : "!right-0 md:!left-0"}`}>
           <p className={`mb-2 text-base font-semibold text-[#525252] ${isRTL ? "text-right" : "text-left"}`}>
             {choosePreferredLanguage}
           </p>

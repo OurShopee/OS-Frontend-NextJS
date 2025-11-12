@@ -24,11 +24,11 @@ const ComponentHeader = ({
           href={url}
           className="no-underline view_all border-none shadow-none bg-transparent flex items-center gap-1"
         >
-          <div className="link whitespace-nowrap mr-0 font-semibold text-base sm:text-xl text-[#191B1C]">
+          <div className={`link ${currentLanguage === "ar" ? "ml-0 pl-0" : ""} whitespace-nowrap mr-0 font-semibold text-base sm:text-xl text-[#191B1C]`}>
             {viewAllText}
           </div>
-          <div className="link_icon sm:mt-0.5 items-center flex">
-            <IoChevronForward color="#43494B" size={16} />
+          <div className="link_icon mb-0 sm:mt-0.5 items-center flex">
+            <IoChevronForward color="#43494B" className={`${currentLanguage === "ar" ? "rotate-180" : ""}`} size={16} />
           </div>
         </Link>
       )}

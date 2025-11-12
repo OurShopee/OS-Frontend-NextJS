@@ -216,7 +216,7 @@ const Header = () => {
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
             />
-            {isBigScreen && <LanguageDropdown />}
+            {isBigScreen && process.env.NEXT_PUBLIC_MULTILANG_REQUIRED === "true" && <LanguageDropdown />}
             {isBigScreen && (
               <span
                 aria-hidden="true"
@@ -352,7 +352,7 @@ const Header = () => {
                 </NavLink>
               ))}
 
-            {!isBigScreen && <LanguageDropdown />}
+            {!isBigScreen && process.env.NEXT_PUBLIC_MULTILANG_REQUIRED === "true" && <LanguageDropdown />}
             {!isBigScreen && (
               <CountryDropdown countryDropdown={countryDropdown} />
             )}

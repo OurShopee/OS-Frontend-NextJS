@@ -1467,7 +1467,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
                   {savedPrice > 0 && (
                     /* ms-2 px-3 py-2 d-flex align-items-center -> ml-2 px-3 py-2 flex items-center */
-                    <div className={`save-banner px-3 py-2 flex items-center !font-medium ${currentLanguage === "ar" ? "mr-2" : "ml-2"}`}>
+                    <div className={`save-banner px-3 py-2 flex items-center !font-medium ${currentLanguage === "ar" ? "mr-2 !bg-right" : "ml-2"}`}>
                       {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
                       <span className={`badge-icon ${currentLanguage === "ar" ? "ml-2" : "mr-2"} inline-flex items-center justify-center`}>
                         <img
