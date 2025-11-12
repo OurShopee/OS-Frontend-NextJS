@@ -295,9 +295,6 @@
   background: #eeebfa;
 }
 
-.nooddbackground {
-}
-
 .specificationtitle {
   font-weight: 500;
   font-size: 14px;
@@ -460,6 +457,11 @@
   align-items: center;
   font-weight: 600;
   font-size: 1rem;
+}
+
+html[dir="rtl"] .save-banner,
+body[dir="rtl"] .save-banner {
+  background-position: right;
 }
 
 .currency-symbol {

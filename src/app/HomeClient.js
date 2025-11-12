@@ -283,7 +283,7 @@ const HomeClient = ({
         {/* Top Picks */}
         <div className="component_1 mt-4">
           <ComponentHeader
-            title={"Top Picks"}
+            title={topPicks}
             view_all={"rgba(82, 50, 194, 1)"}
             url={top_picks?.[0]?.url}
           />
@@ -335,17 +335,17 @@ const HomeClient = ({
                 : sectionBanners?.tabBanner3?.url_app,
             },
             {
-              title: "Top Selling",
+              title: topSelling,
               endpoint: getTopSellingApi,
               path: "",
             },
             {
-              title: "Saver zone",
+              title: saverZone,
               endpoint: () => getSaverZoneProducts(saverId),
               path: "",
             },
             {
-              title: "Clearance Deals",
+              title: clearanceDeals,
               endpoint: clearance_saleApi,
               path: "items",
             },
@@ -425,7 +425,7 @@ const HomeClient = ({
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader
-                    title={section.subcategory_name}
+                    title={getDynamicContent(section, "subcategory_name", currentLanguage)}
                     url={`/products-category/${section.url}`}
                     view_all={"rgba(82, 50, 194, 1)"}
                   />
@@ -439,7 +439,7 @@ const HomeClient = ({
                     bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
-                    section_name={section.subcategory_name}
+                    section_name={getDynamicContent(section, "subcategory_name", currentLanguage)}
                   />
                 </div>
               );
@@ -454,7 +454,7 @@ const HomeClient = ({
               return (
                 <div className="component_1 mt-4" key={section.url}>
                   <ComponentHeader
-                    title={section.subcategory_name}
+                    title={getDynamicContent(section, "subcategory_name", currentLanguage)}
                     url={`/products-category/${section.url}`}
                     view_all={"rgba(82, 50, 194, 1)"}
                   />
@@ -466,7 +466,7 @@ const HomeClient = ({
                     bannerImageRedirectUrl={`/products-category/${section.url}`}
                     type={1}
                     inner_bg={"rgba(238, 235, 250, 1)"}
-                    section_name={section.subcategory_name}
+                    section_name={getDynamicContent(section, "subcategory_name", currentLanguage)}
                   />
                 </div>
               );
@@ -483,7 +483,7 @@ const HomeClient = ({
                 return (
                   <div className="component_1 mt-4" key={section.url}>
                     <ComponentHeader
-                      title={section.subcategory_name}
+                      title={getDynamicContent(section, "subcategory_name", currentLanguage)}
                       url={`/products-category/${section.url}`}
                       view_all={"rgba(82, 50, 194, 1)"}
                     />
@@ -495,7 +495,7 @@ const HomeClient = ({
                       bannerImageRedirectUrl={`/products-category/${section.url}`}
                       type={1}
                       inner_bg={"rgba(238, 235, 250, 1)"}
-                      section_name={section.subcategory_name}
+                      section_name={getDynamicContent(section, "subcategory_name", currentLanguage)}
                     />
                   </div>
                 );

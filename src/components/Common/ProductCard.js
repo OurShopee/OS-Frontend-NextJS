@@ -9,13 +9,17 @@ import {
   setformstatus,
 } from "@/redux/formslice";
 import { pushToDataLayer } from "../utils/dataUserpush";
-import { useContent, useDynamicContent } from "@/hooks";
+import { useContent, useDynamicContent, useCurrentLanguage } from "@/hooks";
 import VerticalTextCarousel from "../homepage/VerticalTextCarousel";
-import { FaCartPlus } from "react-icons/fa6";
 import Cookies from "js-cookie";
 import useCart from "@/hooks/useCart";
 
 const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
+  const youSaved = useContent("product.youSaved");
+  const addToCartText = useContent("product.addToCart");
+  const grabItNow = useContent("product.grabItNow");
+  const sellingOutFastText = useContent("product.sellingOutFast");
+  const expressDeliveryText = useContent("product.expressDelivery");
   const dispatch = useDispatch();
   const [hasError, setHasError] = useState(false);
   useEffect(() => {
@@ -29,6 +33,8 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const logindata = useSelector((state) => state.formslice.logindata);
   const { isMobile } = MediaQueries();
   const { add2cart } = useCart();
+  const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
 
   // Calculate saved price similar to product details page
   const savedPrice = useMemo(() => {
@@ -78,7 +84,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       "clicked_add_to_cart",
       currentcountry.name,
       {
-        product_name: item.name,
+        product_name: itemName,
       },
       true
     );
@@ -90,7 +96,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         items: [
           {
             item_id: item.sku,
-            item_name: item.name,
+            item_name: itemName,
             item_category: item.subcategory_name,
             price: item.display_price,
             quantity: 1,
@@ -110,16 +116,28 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       items.push({
         type: "discount",
         render: () => (
-          <div className="save-banner px-3 py-2 flex items-center !font-medium">
-            <span className="badge-icon mr-1 inline-flex items-center justify-center">
-              <img
+          <div
+            className={`save-banner px-3 py-2 flex items-center !font-medium ${
+              isRTL ? "flex-row-reverse" : ""
+            }`}
+          >
+            <span
+              className={`badge-icon inline-flex items-center justify-center ${
+                isRTL ? "ml-1" : "mr-1"
+              }`}
+            >
+              {/* <img
                 src="/assets/vector_icons/Vector.png"
                 alt="%"
                 className="discount-icon"
-              />
+              /> */}
             </span>
-            <span className="text-[12px] text-nowrap flex items-center gap-0.5">
-              You saved{" "}
+            <span
+              className={`text-[12px] text-nowrap flex items-center gap-0.5 ${
+                isRTL ? "flex-row-reverse" : ""
+              }`}
+            >
+              {youSaved}{" "}
               {currentcountry?.currency == "AED" ? (
                 <img
                   src="/assets/feed/aed-icon.png"
@@ -157,8 +175,12 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
         type: "grabIt",
         render: () => (
           <div className="relative bg-gradient-to-r from-orange-400 to-pink-500 rounded-lg py-2 px-4">
-            <div className="text-white text-left font-bold text-sm uppercase">
-              GRAB IT NOW!
+            <div
+              className={`text-white font-bold text-sm uppercase ${
+                isRTL ? "text-right" : "text-left"
+              }`}
+            >
+              {(grabItNow || "").toUpperCase()}
             </div>
           </div>
         ),
@@ -170,16 +192,22 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       items.push({
         type: "sellingOut",
         render: () => (
-          <div className="flex items-center gap-1.5">
+          <div
+            className={`flex items-center gap-1.5 ${
+              isRTL ? "flex-row-reverse text-right" : ""
+            }`}
+          >
             <svg
-              className="w-4 h-4 text-orange-500"
+              className={`w-4 h-4 text-orange-500 ${
+                isRTL ? "rotate-180" : ""
+              }`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >
               <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" />
             </svg>
             <span className="text-orange-500 text-xs font-semibold">
-              Selling out fast
+              {sellingOutFastText}
             </span>
           </div>
         ),
@@ -189,7 +217,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       items.push({
         type: "review",
         render: () => (
-          <div className="flex items-center gap-1.5 ml-1">
+          <div
+            className={`flex items-center gap-1.5 ${
+              isRTL ? "mr-1 flex-row-reverse text-right" : "ml-1"
+            }`}
+          >
             <span className="font-semibold text-[#43494B]">
               {item?.avg_rating}
             </span>
@@ -216,10 +248,14 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       items.push({
         type: "expressDelivery",
         render: () => (
-          <div className="flex items-center justify-start">
+          <div
+            className={`flex items-center ${
+              isRTL ? "justify-end" : "justify-start"
+            }`}
+          >
             <img
               src="/assets/vector_icons/Express_delivery.gif"
-              alt="Express Delivery"
+              alt={expressDeliveryText || "Express Delivery"}
               width={isMobile ? 150 : 180}
               height={25}
               className="object-contain"
@@ -238,6 +274,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
     savedPrice,
     currentcountry?.currency,
     isMobile,
+    youSaved,
+    grabItNow,
+    sellingOutFastText,
+    expressDeliveryText,
+    isRTL,
   ]);
 
   const productcard = (cardname) => {
@@ -259,8 +300,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
 
   return (
     <div
-      className={`relative overflow-hidden product-card min-h-[267px] flex flex-col justify-between`}
-      onClick={() => productcard(item?.name)}
+      className={`relative overflow-hidden product-card min-h-[267px] flex flex-col justify-between ${
+        isRTL ? "text-right" : "text-left"
+      }`}
+      dir={isRTL ? "rtl" : "ltr"}
+      onClick={() => productcard(itemName)}
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => !isMobile && setIsHovered(false)}
       style={{ perspective: "1000px" }}
@@ -277,36 +321,36 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               src={item?.image}
               onError={() => setHasError(true)}
               className={`w-full h-full max-w-[100px] max-h-[100px] object-contain`}
-              alt={item?.name}
+              alt={itemName}
             />
           </div>
         )}
 
         {/* Wishlist Heart Icon */}
-        
-          <button
-            className="absolute top-2 right-2 bg-white rounded-full p-1 transition-shadow z-10"
-            onClick={(e) => handleWishList(e, item)}
-          >
-            {wishListData &&
-            wishListData.length > 0 &&
-            wishListData
-              .map(({ id }) => id)
-              .flat()
-              .includes(item?.id) ? (
-              <AiFillHeart color="#ff4a4a" size={18} />
-            ) : (
-              <AiOutlineHeart size={18} color="#9c9c9c" />
-            )}
-          </button>
-        
+        <button
+          className={`absolute top-2 ${isRTL ? "left-2" : "right-2"} bg-white rounded-full p-1 transition-shadow z-10`}
+          onClick={(e) => handleWishList(e, item)}
+        >
+          {wishListData &&
+          wishListData.length > 0 &&
+          wishListData
+            .map(({ id }) => id)
+            .flat()
+            .includes(item?.id) ? (
+            <AiFillHeart color="#ff4a4a" size={18} />
+          ) : (
+            <AiOutlineHeart size={18} color="#9c9c9c" />
+          )}
+        </button>
 
         {/* ---- MOBILE Add-to-Cart (inside image area, keeps gap to description) ---- */}
         {isMobile && (
           <button
-            aria-label="Add to cart"
+            aria-label={addToCartText}
             onClick={handleAddToCart}
-            className="absolute right-3 -bottom-[1rem] z-10 bg-white rounded-2xl p-3  border border-gray-100 active:scale-95 transition"
+            className={`absolute ${
+              isRTL ? "left-3" : "right-3"
+            } -bottom-[1rem] z-10 bg-white rounded-2xl p-3 border border-gray-100 active:scale-95 transition`}
           >
             <img src={"/assets/vector_icons/shopping_cart.svg"} alt={"cart"} className="w-5 h-5" />
           </button>
@@ -317,14 +361,26 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
       {/* Content Container */}
       <div className="px-2 py-3 flex flex-col gap-1.5 mt-auto">
         {/* Product Title */}
-        <h3 className="text-[#525252] font-semibold text-sm line-clamp-2">
+        <h3
+          className={`text-[#525252] font-semibold text-sm line-clamp-2 ${
+            isRTL ? "text-right" : "text-left"
+          }`}
+        >
           {itemName}
         </h3>
 
         {/* Price Container */}
-        <div className="flex gap-1.5">
+        <div
+          className={`flex gap-1.5 ${
+            isRTL ? "flex-row-reverse justify-end text-right" : ""
+          }`}
+        >
           {/* Current Price */}
-          <div className="flex items-center gap-0.5">
+          <div
+            className={`flex items-center gap-0.5 ${
+              isRTL ? "flex-row-reverse" : ""
+            }`}
+          >
             {currentcountry?.currency == "AED" ? (
               <img
                 src="/assets/feed/aed-icon.png"
@@ -343,7 +399,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           </div>
           {/* Old Price and Discount Percentage */}
           {item?.old_price && item?.percentage > 0 && (
-            <div className="flex items-center gap-1.5">
+            <div
+              className={`flex items-center gap-1.5 ${
+                isRTL ? "flex-row-reverse" : ""
+              }`}
+            >
               <span className="text-[#9EA5A8] font-medium line-through text-sm">
                 {Math.floor(item?.old_price)}
               </span>
@@ -394,6 +454,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           >
             <button
               onClick={handleAddToCart}
+              aria-label={addToCartText}
               className="w-full bg-[#FACC15] whitespace-nowrap text-black font-semibold py-[7px] px-4 rounded-lg flex items-center justify-center gap-[5px] transition-all duration-200"
               style={{
                 boxShadow:
@@ -404,7 +465,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             >
               {/* <FaCartPlus size={18} /> */}
               <img src={"/assets/vector_icons/cart.png"} alt={"cart"} className="w-4 h-4" />
-              <span className="text-sm font-semibold">ADD TO CART</span>
+              <span className="text-sm font-semibold">{addToCartText}</span>
             </button>
           </div>
         </div>

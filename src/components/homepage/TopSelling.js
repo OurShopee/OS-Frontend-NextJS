@@ -11,6 +11,7 @@ import { MediaQueries } from "../utils";
 import { ProductCard } from "../Common";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 export default function TopSelling({
   type,
@@ -25,8 +26,11 @@ export default function TopSelling({
   section_name,
   topSellingData,
 }) {
+  const currentLanguage = useCurrentLanguage();
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
+  const viewAllText = useContent("buttons.viewAll");
+  const isRTL = currentLanguage === "ar";
 
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -125,8 +129,8 @@ export default function TopSelling({
             />
           )}
         </div>
-        <button className="text-[#43494B] font-semibold flex items-center">
-          View all <IoChevronForward size={18} />
+        <button className="text-[#43494B] font-semibold gap-1 flex items-center">
+          {viewAllText} <IoChevronForward className={`${currentLanguage === "ar" ? "rotate-180" : ""}`} size={18} />
         </button>
       </div>
 
@@ -152,7 +156,7 @@ export default function TopSelling({
           <img
             src="/assets/vector_icons/arrow_left.svg"
             alt="Arrow"
-            className={`w-4 h-4 grayscale`}
+            className={`w-4 h-4 grayscale transition-transform ${isRTL ? "rotate-180" : ""}`}
           />
         </button>
 
@@ -195,7 +199,7 @@ export default function TopSelling({
               <img
                 src="/assets/vector_icons/arrow_left.svg"
                 alt="Arrow"
-                className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+                className={`w-6 h-6 cursor-pointer grayscale transition-transform`}
               />
             </button>
 
@@ -211,11 +215,12 @@ export default function TopSelling({
               <img
                 src="/assets/vector_icons/arrow_right.svg"
                 alt="Arrow"
-                className={`w-6 h-6 cursor-pointer grayscale  transition-transform`}
+                className={`w-6 h-6 cursor-pointer grayscale transition-transform`}
               />
             </button>
 
             <Swiper
+              key={`top-selling-${currentLanguage}`}
               cssMode={!isMobile && true}
               mousewheel={true}
               keyboard={true}
@@ -332,7 +337,7 @@ export default function TopSelling({
           <img
             src="/assets/vector_icons/arrow_right.svg"
             alt="Arrow"
-            className={`w-4 h-4 grayscale`}
+            className={`w-4 h-4 grayscale transition-transform ${isRTL ? "rotate-180" : ""}`}
           />
         </button>
       </div>

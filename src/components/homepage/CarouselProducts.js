@@ -22,6 +22,7 @@ import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { MediaQueries } from "../utils";
 import { ProductCard } from "../Common";
 import Link from "next/link";
+import { useCurrentLanguage } from "@/hooks";
 
 export default function CarouselProducts({
   products,
@@ -35,9 +36,11 @@ export default function CarouselProducts({
 }) {
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
-
+  const currentLanguage = useCurrentLanguage();
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+
+  const isRTL = currentLanguage === "ar";
 
   const handlePrev = useCallback(() => {
     if (!swiperContainerRef.current) return;
@@ -129,13 +132,15 @@ export default function CarouselProducts({
             <img
               src="/assets/vector_icons/arrow_left.svg"
               alt="Arrow"
-              className={`w-4 h-4 cursor-pointer grayscale  transition-transform`}
+              className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${isRTL ? "rotate-180" : ""}`}
             />
           </button>
 
           {/* SWIPER */}
           <div className={`flex-1 min-w-0`}>
             <Swiper
+              key={`carousel-${currentLanguage}`}
+              dir={isRTL ? "rtl" : "ltr"}
               cssMode={!isMobile}
               mousewheel={!isMobile}
               keyboard={!isMobile}
@@ -207,7 +212,7 @@ export default function CarouselProducts({
             <img
               src="/assets/vector_icons/arrow_right.svg"
               alt="Arrow"
-              className={`w-4 h-4 cursor-pointer grayscale  transition-transform`}
+              className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${isRTL ? "rotate-180" : ""}`}
             />
           </button>
         </div>

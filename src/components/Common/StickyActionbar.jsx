@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import CartModal from "./Modals/CartModal";
+import { useCurrentLanguage } from "@/hooks";
 
 const StickyActionBar = ({
   quantity,
@@ -19,7 +20,7 @@ const StickyActionBar = ({
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
   const router = useRouter();
-
+  const currentLanguage = useCurrentLanguage();
   useEffect(() => {
     const handleScroll = () => {
       // Show button after scrolling down 1 full screen height
@@ -331,7 +332,7 @@ const StickyActionBar = ({
                 }}
               />
               {(stage === "idle" || stage === "reset") && (
-                <span className="ml-2 whitespace-nowrap">BUY NOW</span>
+                <span className={`${currentLanguage === "ar" ? "mr-2" : "ml-2"} whitespace-nowrap`}>BUY NOW</span>
               )}
             </button>
           </>
