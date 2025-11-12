@@ -81,9 +81,14 @@ export const metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+export const revalidate = 0;
 const Home = async () => {
   // Get server-side headers for country detection
   const req = await getServerSideHeaders();
+
+  
 
   // Get country data from request to extract section IDs
   const countryData = getCountryDataFromRequest(req);

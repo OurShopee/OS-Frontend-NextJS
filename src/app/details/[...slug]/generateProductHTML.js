@@ -1,4 +1,4 @@
-// Helper function to escape HTML
+// Helper function to escape text only (safe for plain strings)
 function escapeHtml(text) {
   if (!text) return "";
   const map = {
@@ -11,7 +11,7 @@ function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, (m) => map[m]);
 }
 
-// Helper to build style attribute
+// Helper to build style attribute (unchanged)
 function buildStyle(styleObj) {
   if (!styleObj) return "";
   return Object.entries(styleObj)
@@ -41,7 +41,7 @@ export function generateProductHTML(product, productInfo, cleanedDetails) {
   html += '<div class="flex-grow basis-0 overflow-hidden">';
   html += '<div class="product_Detail_right_side mt-10">';
 
-  // Product Title and Brand - Desktop
+  // Product Title and Brand - Desktop (escaped)
   html += '<div class="mb-7 hidden md:block">';
   html += `<h6 class="text-[#6F787C] font-medium mb-2 leading-[1.2rem]">${escapeHtml(
     product?.brand || ""
@@ -53,7 +53,7 @@ export function generateProductHTML(product, productInfo, cleanedDetails) {
 
   html += '<hr class="text-[#b3aaaa] mb-0 hidden md:block" />';
 
-  // Price Section
+  // Price Section (escaped)
   html += '<div class="my-7">';
   html += '<div class="product_Detail_price_container flex">';
   html += '<div class="display_price flex items-center">';
@@ -243,12 +243,13 @@ export function generateProductHTML(product, productInfo, cleanedDetails) {
   html += '<div style="max-height:150px;overflow:hidden">';
   html += '<div class="overflow-x-auto">';
   html += '<table class="table table-auto m-0">';
-  html += `<tbody>${cleanedDetails || ""}</tbody>`;
+  html += `<tbody>${cleanedDetails || ""}</tbody>`; // raw HTML inserted without escaping here
   html += "</table>";
   html += "</div>";
   html += "</div>";
   html += "</div>";
 
+  html += "</div>";
   html += "</div>";
   html += "</div>";
   html += "</div>";

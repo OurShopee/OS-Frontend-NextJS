@@ -3,6 +3,7 @@ import { getServerSideHeaders } from "@/lib/serverUtils";
 import { notFound } from "next/navigation";
 import { generateProductHTML } from "./generateProductHTML";
 import ProductDetailClient from "./ProductDetailClient";
+import ProductHTMLRenderer from "./ProductHTMLRenderer";
 
 function extractProductInfo(slug) {
   if (!slug || slug.length < 2) {
@@ -63,6 +64,10 @@ export const runtime = "nodejs";
 // Ensure revalidation is disabled to prevent serialization
 export const revalidate = 0;
 
+export const fetchCache = "force-no-store";
+
+export const preferStreaming = false;
+
 export default async function ProductDetailsPage({ params }) {
   const { slug } = await params;
   const productInfo = extractProductInfo(slug);
@@ -94,16 +99,11 @@ export default async function ProductDetailsPage({ params }) {
 
   // Generate pure HTML string
   const htmlContent = generateProductHTML(product, productInfo, cleanedDetails);
-
+  console.log("htmlContent", htmlContent);
   return (
     <div id="product-detail-page">
       {/* Render pure HTML directly without React Server Component wrapper */}
-      <div
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: htmlContent,
-        }}
-      />
+      <ProductHTMLRenderer htmlContent={htmlContent} />
       <ProductDetailClient
         initialProductData={productData?.data?.product}
         productInfo={productInfo}
