@@ -4,6 +4,41 @@ import { normalizeUrl } from "@/components/utils/helpers.js";
 import { logError } from "@/lib/errorLogger.js";
 
 let isInterceptorSetup = false;
+let cachedStore = null;
+
+// Helper function to get current language lazily (avoids circular dependency)
+const getCurrentLanguageLazy = () => {
+  try {
+    // Lazy access to store to avoid circular dependency
+    if (typeof window !== "undefined") {
+      // Cache the store reference to avoid repeated lookups
+      if (!cachedStore) {
+        try {
+          // Try the redux store first (used by getContent.js)
+          cachedStore = require("@/redux/store").default;
+        } catch (e) {
+          // If that fails, try the other store location
+          try {
+            const storeModule = require("@/store/store");
+            cachedStore = storeModule.store || storeModule.default;
+          } catch (e2) {
+            // Store not available yet, return default
+            return "en";
+          }
+        }
+      }
+      
+      if (cachedStore && typeof cachedStore.getState === "function") {
+        const state = cachedStore.getState();
+        return state.globalslice?.currentLanguage || "en";
+      }
+    }
+    return "en";
+  } catch (error) {
+    // Fallback if store is not available
+    return "en";
+  }
+};
 
 // Server-side country detection using request headers
 export const getCountryDataFromRequest = (req) => {
@@ -67,6 +102,22 @@ export const createAxiosInstance = (req = null) => {
     axiosInstance.defaults.headers.common["Country-Id"] = countryData.id;
     axiosInstance.defaults.headers.common["Content-Type"] = "application/json";
   }
+  
+  // Add x-language header
+  const currentLanguage = getCurrentLanguageLazy();
+  axiosInstance.defaults.headers.common["x-language"] = currentLanguage;
+
+  // Add request interceptor to dynamically set x-language header
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      const currentLanguage = getCurrentLanguageLazy();
+      config.headers["x-language"] = currentLanguage;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   // Add error interceptor for server-side instances
   axiosInstance.interceptors.response.use(
@@ -98,6 +149,8 @@ export const configureAxios = () => {
         if (countryDataForRequest && countryDataForRequest.id) {
           config.headers["Country-Id"] = countryDataForRequest.id;
         }
+        const currentLanguage = getCurrentLanguageLazy();
+        config.headers["x-language"] = currentLanguage;
         return config;
       },
       (error) => {
