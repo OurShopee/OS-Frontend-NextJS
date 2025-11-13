@@ -19,6 +19,7 @@ import peachbg from "./images/peachbg.png";
 import purplebg from "./images/purplebg.png";
 import MarqueeSale from "./MarqueeSale";
 import FlashSale from "./FlashSale";
+import NowOrNeverSection from "./NowOrNeverSection";
 
 const DesktopView = ({
   sectionData,
@@ -33,7 +34,7 @@ const DesktopView = ({
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-console.log(categoryItems);
+  console.log(categoryItems);
   // State to store bottom sections with headings, items, and colors
   const [bottomSections, setBottomSections] = useState([]);
 
@@ -242,7 +243,7 @@ console.log(categoryItems);
   ];
 
   return (
-    <div>
+    <div className="container overflow-hidden">
       {/* BANNER */}
       <div className="relative">
         <div className="flex items-center justify-center w-full m-auto overflow-hidden">
@@ -251,9 +252,31 @@ console.log(categoryItems);
         <MarqueeSale />
       </div>
       <div className="w-full bg-black mt-4">
-       <img src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`} alt="" className="w-full bg-black"/>
+        <div className="pt-20">
+          <img
+            src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`}
+            alt=""
+            className="w-full bg-black"
+          />
+        </div>
       </div>
-        <div className="grid grid-cols-5 gap-4  bg-black">
+      <div className="bg-black px-4">
+        <div className="flex justify-center text-white text-[60px] font-bold mb-6 text-center">
+          <span>Most &nbsp;</span>
+          <span
+            className=""
+            style={{
+              color: "#fff",
+              paddingRight: "10px",
+              background: "linear-gradient(90deg, #070707 0%, #707070 100%)",
+              clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+              // adjusts 94% to control the angle, lower means deeper diagonal
+            }}
+          >
+            Popular Categories
+          </span>
+        </div>
+        <div className="grid grid-cols-5 gap-4">
           {categoryItems?.map((item, index) => (
             <Link key={index} href={item.url} className="no-underline">
               <motion.div
@@ -275,19 +298,24 @@ console.log(categoryItems);
             </Link>
           ))}
         </div>
+      </div>
 
       <div
+        className="relative"
         style={{
           background:
             "linear-gradient(180deg, #070707 0%, #070707 34.62%, #000000 92.31%, #646464 100%)",
         }}
       >
-        <div className="pt-40">
+        <div className="pb-8">
           <FlashSale />
         </div>
+        {/* <div className="absolute top-[95%] w-100 h-[80px] sale-overlay"></div> */}
       </div>
-      
 
+      <NowOrNeverSection />
+
+      {/* Popular Categories */}
       <SectionNew title="School Essentials" titleClass="mb-4">
         <div className="grid grid-cols-5 gap-4 mt-1 mb-3">
           {categoryItems?.map((item, index) => (
