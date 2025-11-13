@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import CountdownClock from "../homepage/CountdownClock";
 import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 
 function getNextResetTime() {
   const now = new Date();
@@ -14,7 +14,6 @@ function getNextResetTime() {
   const resetMinutes = 59;
   const resetSeconds = 59;
 
-  // Find next reset time today or tomorrow
   for (let h of resetHours) {
     if (
       hours < h ||
@@ -28,7 +27,6 @@ function getNextResetTime() {
     }
   }
 
-  // If no reset left today, set to first reset next day
   const nextReset = new Date(now);
   nextReset.setDate(now.getDate() + 1);
   nextReset.setHours(resetHours[0], resetMinutes, resetSeconds, 0);
@@ -38,8 +36,7 @@ function getNextResetTime() {
 function getCurrentProductGroupIndex() {
   const now = new Date();
   const hours = now.getHours();
-  // Mapping hours to groups:
-  // Group 0: 00:00 to 5:59
+  // Group 0: 0:00 to 5:59
   // Group 1: 6:00 to 11:59
   // Group 2: 12:00 to 17:59
   // Group 3: 18:00 to 23:59
@@ -52,15 +49,12 @@ function getCurrentProductGroupIndex() {
 const NowOrNeverSection = () => {
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
 
-  // Safeguard - if no products
-  const products =
-    [
-      ...top_picks?.[0]?.productlist,
-      ...top_picks?.[0]?.productlist,
-      ...top_picks?.[0]?.productlist,
-    ] || [];
+  const products = [
+    ...(top_picks?.[0]?.productlist || []),
+    ...(top_picks?.[0]?.productlist || []),
+    ...(top_picks?.[0]?.productlist || []),
+  ];
 
-  // Group products in 4 groups of 6 products each (24 total expected)
   const groupedProducts = [
     products.slice(0, 6), // 00:00–05:59
     products.slice(6, 12), // 06:00–11:59
@@ -68,12 +62,52 @@ const NowOrNeverSection = () => {
     products.slice(18, 24), // 18:00–23:59
   ];
 
-  // Memo for performance so it won't calculate on every render unnecessarily
-  const currentGroupIndex = useMemo(() => getCurrentProductGroupIndex(), []);
+  const [timeUpdate, setTimeUpdate] = useState(Date.now());
+
+  useEffect(() => {
+    function getNextResetTimeMs() {
+      const now = new Date();
+      const hours = now.getHours();
+      const resetHours = [0, 6, 12, 18];
+
+      for (let h of resetHours) {
+        if (
+          hours < h ||
+          (hours === h && now.getMinutes() === 0 && now.getSeconds() === 0)
+        ) {
+          const nextReset = new Date(now);
+          nextReset.setHours(h, 0, 0, 0);
+          if (nextReset.getTime() > now.getTime()) {
+            return nextReset.getTime();
+          }
+        }
+      }
+
+      const nextReset = new Date(now);
+      nextReset.setDate(now.getDate() + 1);
+      nextReset.setHours(resetHours[0], 0, 0, 0);
+      return nextReset.getTime();
+    }
+
+    const now = Date.now();
+    const nextResetMs = getNextResetTimeMs();
+    const msUntilNextReset = nextResetMs - now;
+
+    const timer = setTimeout(() => {
+      setTimeUpdate(Date.now());
+    }, msUntilNextReset);
+
+    return () => clearTimeout(timer);
+  }, [timeUpdate]);
+
+  const currentGroupIndex = useMemo(
+    () => getCurrentProductGroupIndex(),
+    [timeUpdate]
+  );
 
   return (
     <div className="">
-      <div className="component_1 px-5 py-4">
+      <div className="component_1 px-5">
         <div
           className="px-11 py-3 rounded-[16px] overflow-hidden pb-8"
           style={{
@@ -98,7 +132,6 @@ const NowOrNeverSection = () => {
                 NEVER DEALS
               </span>
             </div>
-
             <div className="flex justify-center items-center gap-5">
               <span className="text-[22px] font-medium text-white">
                 GRAB NOW!
@@ -112,7 +145,6 @@ const NowOrNeverSection = () => {
             </div>
           </div>
 
-          {/* Pass only products for current time group */}
           <CarouselWithoutIndicators
             products={groupedProducts[currentGroupIndex]}
             type={1}
