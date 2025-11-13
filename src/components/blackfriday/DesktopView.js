@@ -19,6 +19,7 @@ import peachbg from "./images/peachbg.png";
 import purplebg from "./images/purplebg.png";
 import MarqueeSale from "./MarqueeSale";
 import FlashSale from "./FlashSale";
+import NowOrNeverSection from "./NowOrNeverSection";
 
 const DesktopView = ({
   sectionData,
@@ -275,15 +276,20 @@ const DesktopView = ({
       </div>
 
       <div
+        className="relative mt-4"
         style={{
           background:
             "linear-gradient(180deg, #070707 0%, #070707 34.62%, #000000 92.31%, #646464 100%)",
         }}
       >
-        <div className="pt-40">
+        <div className="pb-8">
           <FlashSale />
         </div>
+        {/* <div className="absolute top-[95%] w-100 h-[80px] sale-overlay"></div> */}
       </div>
+
+      <NowOrNeverSection />
+
 
       {/* Popular Categories */}
       <SectionNew title="School Essentials" titleClass="mb-4">

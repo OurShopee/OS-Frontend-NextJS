@@ -7,10 +7,10 @@ const FlashSale = () => {
       const top_picks = useSelector((state) => state?.homeslice?.top_picks);
   return (
     <div>
-      <div className="component_1 mt-4 p-4">
+      <div className="component_1 p-4">
         <div className="component_header">
           <div>
-            <img src="/assets/black-friday/flash-sale.gif" className="w-[250px] h-full" />
+            <img src="/assets/black-friday/flash-sale.gif" className="w-[210px] h-full" />
           </div>
 
           <CountdownClock
