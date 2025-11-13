@@ -33,7 +33,7 @@ const MarqueeSale = () => {
             animationIterationCount: "infinite",
           }}
         >
-          {[...Array(50)].map((_, i) => (
+          {[...Array(100)].map((_, i) => (
             <span
               key={i}
               style={{ ...textStyle, padding: "5px 30px" }}
@@ -56,7 +56,7 @@ const MarqueeSale = () => {
             animationIterationCount: "infinite",
           }}
         >
-          {[...Array(50)].map((_, i) => (
+          {[...Array(100)].map((_, i) => (
             <span
               key={i}
               style={{ ...textStyle, padding: "5px 30px" }}
