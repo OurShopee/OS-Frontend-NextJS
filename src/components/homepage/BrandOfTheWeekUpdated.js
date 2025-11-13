@@ -238,7 +238,8 @@ function ProductSlot({ product }) {
 }
 
 /* -------------------------------- Main component -------------------------------- */
-export default function BrandOfTheWeekUpdated({ products = [] }) {
+export default function BrandOfTheWeekUpdated({ products = [], name = "", url = "" }) {
+  // console.log(products, name);
   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
   const bannerList = useSelector((s) => s.homeslice.bannerList);
   const pathname = usePathname();
@@ -410,19 +411,20 @@ export default function BrandOfTheWeekUpdated({ products = [] }) {
           </div>
         </div>
       )}
-        {/* <div className="flex justify-center items-center mt-3 sm:mt-4">
+        <div className="flex justify-center items-center mt-3 sm:mt-4">
             <button 
               className="text-black px-4 py-2 sm:px-6 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 border-2 border-white"
               style={{
                 background: 'linear-gradient(to right, #FFD700, #FF8C00)'
               }}
+              onClick={() => router.push(url)}
             >
-              <span className="text-black text-xs sm:text-sm">More From </span>
+              <span className="text-black text-xs sm:text-sm">More From {name}</span>
               <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black flex items-center justify-center">
                 <span className="bg-gradient-to-r from-[#FFD700] to-[#FF8C00] bg-clip-text text-transparent text-xs sm:text-sm font-bold">→</span>
               </div>
             </button>
-        </div> */}
+        </div>
     </section>
   );
 }
