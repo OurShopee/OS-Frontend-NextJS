@@ -42,13 +42,13 @@ const DesktopView = ({ categoryItems }) => {
       {
         title: "Acessories",
         percent: "60",
-        name: "Acessories.png",
+        name: "acessories.png",
         url: "/products-category/Gaming-PC-Accessories",
       },
       {
         title: "Electronics Gadgets",
         percent: "60",
-        name: "Electronicgadgets.png",
+        name: "gadgets.png",
         url: "/categories/Electronics",
       },
     ],
@@ -173,7 +173,7 @@ const DesktopView = ({ categoryItems }) => {
 
                   <div className="absolute -bottom-[1.4rem] right-0 group-hover:bottom-1 transition-all duration-1000 w-[16rem] h-[11rem] ease-in-out">
                     <img
-                      src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgets/${item.name}`}
+                      src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/cantResist/${item.name}`}
                       alt={item.title}
                       className="object-contain w-full h-full"
                     />
@@ -206,7 +206,7 @@ const DesktopView = ({ categoryItems }) => {
 
                   <div className="absolute -bottom-[2.5rem] right-0 group-hover:bottom-0 transition-all duration-1000 w-[12rem] h-[12rem] ease-in-out">
                     <img
-                      src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgets/${item.name}`}
+                      src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/cantResist/${item.name}`}
                       alt={item.title}
                       className="object-contain w-full h-full"
                     />
