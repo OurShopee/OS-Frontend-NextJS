@@ -16,7 +16,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const currentLanguage = useCurrentLanguage();
   
   // Content translations
-  const youSaved = useContent("buttons.youSaved");
+  const youSaved = useContent("product.youSaved");
   const qty = useContent("buttons.qty");
   const continueShopping = useContent("buttons.continueShopping");
   const checkoutNow = useContent("buttons.checkoutNow");
