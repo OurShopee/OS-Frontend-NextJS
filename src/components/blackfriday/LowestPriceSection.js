@@ -5,8 +5,9 @@ import { CarouselProducts } from "../homepage";
 const LowestPriceSection = () => {
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
   const currentcountry = useSelector(
-    (state) => state?.homeslice?.currentcountry
+    (state) => state.globalslice.currentcountry
   );
+  console.log(currentcountry);
   return (
     <div className="px-5">
       <div className="component_1 rounded-[16px] overflow-hidden">
@@ -60,7 +61,7 @@ const LowestPriceSection = () => {
               className="text-base font-semibold text-white"
               style={{ fontFamily: "'Atma', sans-serif" }}
             >
-              *For Cart Value {currentcountry?.currency} 200 & Above
+              *For Cart Value {currentcountry?.currency} {currentcountry?.min_value} & Above
             </span>
           </div>
         </div>
