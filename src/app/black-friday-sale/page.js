@@ -80,53 +80,53 @@ const ElevenSale = () => {
   const categoryItems = [
     {
       id: 1,
-      percent: "60%",
+      percent: "60",
       color: "#EED6B2",
       textColor: "#FFFFFFCC",
-      url: "/products-category/Pre-Owned-Laptops/",
+      url: "preowned",
       sub_category_image: "/assets/11-sale/categories/phone.png",
-      sub_category_name: `Pre-owned Laptops & Phones`,
-      mobileImg: "Preowned.png",
+      sub_category_name: `Pre-Owned Laptops & Mobiles`,
+      mobileImg: "preowned.png",
     },
     {
       id: 2,
-      percent: "70%",
+      percent: "70",
       color: "#4F4537",
       textColor: "#F3E3CA",
       url: "/products-category/Sunglasses/",
       sub_category_image: "/assets/11-sale/categories/sunglass.png",
-      sub_category_name: "Sunglasses",
-      mobileImg: "sunglass.png",
+      sub_category_name: "Perfumes",
+      mobileImg: "perfumes.png",
     },
     {
       id: 3,
-      percent: "40%",
+      percent: "40",
       color: "#B5AA99B2",
       textColor: " #4D4D4D",
       url: "/products-category/Perfumes/",
       sub_category_image: "/assets/11-sale/categories/Perfume.png",
-      sub_category_name: "Perfumes",
-      mobileImg: "Perfumes.png",
+      sub_category_name: "Watches",
+      mobileImg: "watches.png",
     },
     {
       id: 4,
-      percent: "60%",
+      percent: "60",
       color: "#A9E5DBB2",
       textColor: " #4D4D4D",
       url: "/products-category/Smart-Watches/",
       sub_category_image: "/assets/11-sale/categories/Watch.png",
-      sub_category_name: "Watches",
-      mobileImg: "Watches.png",
+      sub_category_name: "Home Appliances",
+      mobileImg: "homeAppliances.png",
     },
     {
       id: 5,
-      percent: "50%",
+      percent: "50",
       color: "#D2B993",
       textColor: "#F2EEE8",
       url: "/products-category/Television-Accessories/",
       sub_category_image: "/assets/11-sale/categories/Tv.png",
-      sub_category_name: "Electronics",
-      mobileImg: "Electronics.png",
+      sub_category_name: "Health & Beauty",
+      mobileImg: "health.png",
     },
   ];
 
@@ -139,7 +139,7 @@ const ElevenSale = () => {
   ];
 
   return (
-    <div>
+    <div className="container mx-auto">
       {!isMobile ? (
         <DesktopView
           sectionData={sectionData}
