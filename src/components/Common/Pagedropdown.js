@@ -1,7 +1,7 @@
 "use client";
-import complaints from "@/images/Info Square.png";
+import complaintsImg from "@/images/Info Square.png";
 import trackorder from "@/images/Location.png";
-import logout from "@/images/Logout.png";
+import logoutImg from "@/images/Logout.png";
 import profileimg from "@/images/Profile.png";
 import whistlistimage from "@/images/Stroke 1.png";
 import orderimg from "@/images/order.png";
@@ -58,7 +58,7 @@ export default function Pagedropdown({ logindata }) {
     { to: "/my-wishlist", img: whistlistimage.src, label: wishlist },
     { to: "/track-your-order", img: trackorder.src, label: trackOrder },
     { to: "/address", img: trackorder.src, label: address },
-    { to: "/complaints", img: complaints.src, label: complaints },
+    { to: "/complaints", img: complaintsImg.src, label: complaints },
   ];
 
   const closeDropdown = () => setIsOpen(false);
@@ -156,7 +156,7 @@ export default function Pagedropdown({ logindata }) {
             ))}
           <div className="dropdown-item" onClick={logoutclick}>
             <div className="userdropdown no-underline cursor-pointer">
-              <img src={logout.src} alt="logout" />
+              <img src={logoutImg.src} alt="logout" />
               <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{logoutText}</div>
             </div>
           </div>
