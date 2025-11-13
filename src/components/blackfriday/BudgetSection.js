@@ -21,7 +21,7 @@ const BudgetSection = () => {
   ];
 
   return (
-    <div className="px-5 mb-5">
+    <div className="px-5">
       <div
         className="rounded-[18px] overflow-hidden pt-5 pb-8"
         style={{
