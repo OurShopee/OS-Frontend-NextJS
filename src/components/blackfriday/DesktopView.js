@@ -21,6 +21,7 @@ import MarqueeSale from "./MarqueeSale";
 import FlashSale from "./FlashSale";
 import NowOrNeverSection from "./NowOrNeverSection";
 import LowestPriceSection from "./LowestPriceSection";
+import BudgetSection from "./BudgetSection";
 
 const DesktopView = ({
   sectionData,
@@ -290,7 +291,7 @@ const DesktopView = ({
                 }}
               >
                 <DiscountCard
-                  imageSrc={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/popular_categories/${item.mobileImg}`}
+                  imageSrc={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/popular_categories/${item.mobileImg}`}
                   discount={item.percent}
                   title={item.sub_category_name}
                   className="w-full h-full"
@@ -304,19 +305,18 @@ const DesktopView = ({
       <div
         className="relative"
         style={{
-          background:
-            "linear-gradient(180deg, #070707 0%, #070707 34.62%, #000000 92.31%, #646464 100%)",
+          background: "linear-gradient(180deg, #070707 91.75%, #FAFAFA 100%)",
         }}
       >
-        <div className="pb-8">
+        <div className="pb-12">
           <FlashSale />
         </div>
-        {/* <div className="absolute top-[95%] w-100 h-[80px] sale-overlay"></div> */}
+        {/* <div className="absolute top-[95%] w-100 h-[80px] -z-10 sale-overlay"></div> */}
       </div>
 
       <NowOrNeverSection />
 
-      
+      <BudgetSection />
 
       {/* Lowest Price Section */}
       <LowestPriceSection />

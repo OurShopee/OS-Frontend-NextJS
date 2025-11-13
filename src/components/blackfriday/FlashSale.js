@@ -32,7 +32,7 @@ const FlashSale = () => {
   }
 
   return (
-    <div>
+    <div className="">
       <div className="component_1 p-4">
         <div className="component_header">
           <div>
@@ -45,6 +45,7 @@ const FlashSale = () => {
           <CountdownClock
             endDate={getNextWednesdayOrSunday()}
             labelColor={"#fff"}
+            separatorColor={"#fff"}
           />
         </div>
 

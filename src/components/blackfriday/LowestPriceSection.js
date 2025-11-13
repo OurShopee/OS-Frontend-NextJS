@@ -6,10 +6,10 @@ const LowestPriceSection = () => {
     const top_picks = useSelector((state) => state?.homeslice?.top_picks);
     const currentcountry = useSelector((state) => state?.homeslice?.currentcountry);
   return (
-    <div className="w-full">
-      <div className="component_1 p-4 w-full rounded-lg">
+    <div className="px-5">
+      <div className="component_1 rounded-[16px] overflow-hidden">
         <div
-          className="px-6 py-3 w-full"
+          className="py-3 w-full"
           style={{
             background: "url(https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/lowerPrice.png)",
             backgroundPosition: "center",

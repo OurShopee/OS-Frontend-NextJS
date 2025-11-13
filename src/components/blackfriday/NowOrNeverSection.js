@@ -73,9 +73,9 @@ const NowOrNeverSection = () => {
 
   return (
     <div className="">
-      <div className="component_1 px-5 py-8">
+      <div className="component_1 px-5 py-4">
         <div
-          className="px-11 py-3 rounded-[16px] overflow-hidden"
+          className="px-11 py-3 rounded-[16px] overflow-hidden pb-8"
           style={{
             background: "url(/assets/black-friday/now-never-bg.png)",
             backgroundPosition: "center",
@@ -100,11 +100,14 @@ const NowOrNeverSection = () => {
             </div>
 
             <div className="flex justify-center items-center gap-5">
-              <span className="text-[22px] font-medium text-white">GRAB NOW!</span>
+              <span className="text-[22px] font-medium text-white">
+                GRAB NOW!
+              </span>
               <CountdownClock
                 endDate={getNextResetTime()}
                 labelColor={"#fff"}
                 showDays={false}
+                separatorColor={"#fff"}
               />
             </div>
           </div>
@@ -112,10 +115,25 @@ const NowOrNeverSection = () => {
           {/* Pass only products for current time group */}
           <CarouselWithoutIndicators
             products={groupedProducts[currentGroupIndex]}
-            bannerImage={top_picks?.[0]?.image_slider}
-            bannerImageRedirectUrl={top_picks?.[0]?.url}
             type={1}
             inner_bg={"rgba(238, 235, 250, 1)"}
+            breakPointsProps={{
+              200: { slidesPerView: 1.3 },
+              375: { slidesPerView: 1.5 },
+              435: { slidesPerView: 2 },
+              525: { slidesPerView: 2 },
+              600: { slidesPerView: 2 },
+              700: { slidesPerView: 2 },
+              800: { slidesPerView: 2.2 },
+              900: { slidesPerView: 2.6 },
+              1000: { slidesPerView: 3 },
+              1100: { slidesPerView: 3 },
+              1200: { slidesPerView: 4 },
+              1300: { slidesPerView: 4 },
+              1400: { slidesPerView: 6 },
+              1500: { slidesPerView: 6 },
+              1600: { slidesPerView: 6 },
+            }}
           />
         </div>
       </div>
