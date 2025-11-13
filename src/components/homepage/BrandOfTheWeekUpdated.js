@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { getImagesByKey } from "../utils/getImagesByKey";
 import { pushToDataLayer } from "../utils/dataUserpush";
@@ -239,9 +239,10 @@ function ProductSlot({ product }) {
 
 /* -------------------------------- Main component -------------------------------- */
 export default function BrandOfTheWeekUpdated({ products = [], name = "", url = "" }) {
-  // console.log(products, name);
+  console.log(products, name, url);
   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
   const bannerList = useSelector((s) => s.homeslice.bannerList);
+  const router = useRouter();
   const pathname = usePathname();
   const [brandData, setBrandData] = useState({});
     // Language content
