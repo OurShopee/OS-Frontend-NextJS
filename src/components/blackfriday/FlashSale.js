@@ -37,7 +37,7 @@ const FlashSale = () => {
         <div className="component_header">
           <div>
             <img
-              src="/assets/black-friday/flash-sale.gif"
+              src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/flash-sale.gif`}
               className="w-[210px] h-full"
             />
           </div>
