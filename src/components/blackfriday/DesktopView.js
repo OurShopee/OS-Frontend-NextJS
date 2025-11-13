@@ -34,7 +34,7 @@ const DesktopView = ({
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-
+console.log(categoryItems);
   // State to store bottom sections with headings, items, and colors
   const [bottomSections, setBottomSections] = useState([]);
 
@@ -244,29 +244,6 @@ const DesktopView = ({
 
   return (
     <div>
-      {/* <div className="flex bg-gradient-to-b overflow-hidden relative bg-[#F0FF4E] h-10">
-        <Marquee
-          autoFill={true}
-          speed={20}
-          play={true}
-          pauseOnHover
-          pauseOnClick
-          gradient={false}
-          className="overflow"
-        >
-          <div className="flex items-center gap-3 text-xl font-bold text-black font-[Readex Pro]">
-            <div style={{ fontFamily: "'Readex Pro', sans-serif" }}>
-              SALE IS LIVE
-            </div>
-            <span className="inline-block w-2 h-2 bg-[#F34845] rounded-full"></span>
-            <div style={{ fontFamily: "'Readex Pro', sans-serif" }}>
-              BACK TO SCHOOL
-            </div>
-            <span className="inline-block mr-3 w-2 h-2 bg-[#F34845] rounded-full"></span>
-          </div>
-        </Marquee>
-      </div> */}
-
       {/* BANNER */}
       <div className="relative">
         <div className="flex items-center justify-center w-full m-auto overflow-hidden">
@@ -274,6 +251,31 @@ const DesktopView = ({
         </div>
         <MarqueeSale />
       </div>
+      <div className="w-full bg-black mt-4">
+       <img src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`} alt="" className="w-full bg-black"/>
+      </div>
+        <div className="grid grid-cols-5 gap-4  bg-black">
+          {categoryItems?.map((item, index) => (
+            <Link key={index} href={item.url} className="no-underline">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.2,
+                  duration: 0.4,
+                  ease: "easeOut",
+                }}
+              >
+                <DiscountCard
+                  imageSrc={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/popular_categories/${item.mobileImg}`}
+                  discount={item.percent}
+                  title={item.sub_category_name}
+                  className="w-full h-full"
+                />
+              </motion.div>
+            </Link>
+          ))}
+        </div>
 
       <div
         className="relative mt-4"
@@ -287,6 +289,7 @@ const DesktopView = ({
         </div>
         {/* <div className="absolute top-[95%] w-100 h-[80px] sale-overlay"></div> */}
       </div>
+      
 
       <NowOrNeverSection />
 
@@ -306,7 +309,7 @@ const DesktopView = ({
                 }}
               >
                 <DiscountCard
-                  imageSrc={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/mweb/${item.name}`}
+                  imageSrc={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/popular_categories/${item.name}`}
                   discount={item.percent}
                   title={item.sub_category_name}
                   className="w-full h-full"
@@ -317,7 +320,6 @@ const DesktopView = ({
         </div>
       </SectionNew>
 
-      {/* SECTION-2 (Beat the heat) */}
       <BeatTheHeat rows={rows} />
 
       {/* pages section */}
