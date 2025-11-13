@@ -20,6 +20,7 @@ import purplebg from "./images/purplebg.png";
 import MarqueeSale from "./MarqueeSale";
 import FlashSale from "./FlashSale";
 import NowOrNeverSection from "./NowOrNeverSection";
+import LowestPriceSection from "./LowestPriceSection";
 
 const DesktopView = ({
   sectionData,
@@ -261,7 +262,7 @@ const DesktopView = ({
         </div>
       </div>
       <div className="bg-black px-4">
-        <div className="flex justify-center text-white text-[60px] font-bold mb-6 text-center">
+        <div className="flex justify-center text-white text-[34px] font-bold mb-6 text-center">
           <span>Most &nbsp;</span>
           <span
             className=""
@@ -315,79 +316,12 @@ const DesktopView = ({
 
       <NowOrNeverSection />
 
-      {/* Popular Categories */}
-      <SectionNew title="School Essentials" titleClass="mb-4">
-        <div className="grid grid-cols-5 gap-4 mt-1 mb-3">
-          {categoryItems?.map((item, index) => (
-            <Link key={index} href={item.url} className="no-underline">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: index * 0.2,
-                  duration: 0.4,
-                  ease: "easeOut",
-                }}
-              >
-                <DiscountCard
-                  imageSrc={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/popular_categories/${item.name}`}
-                  discount={item.percent}
-                  title={item.sub_category_name}
-                  className="w-full h-full"
-                />
-              </motion.div>
-            </Link>
-          ))}
-        </div>
-      </SectionNew>
+      
 
-      <BeatTheHeat rows={rows} />
+      {/* Lowest Price Section */}
+      <LowestPriceSection />
 
       {/* pages section */}
-      {/* <section className="px-2 relative rounded-xl overflow-hidden">
-        <img
-          src="https://cdn.ourshopee.com/ourshopee-img/summer_sale/school_suppliesWeb.png"
-          alt="Save Big on School Supplies"
-          className="block w-full h-auto"
-        />
-
-        <div className="absolute inset-0 mt-36 flex items-center justify-center gap-6 px-6">
-          {pagesSection.map((item, idx) => (
-            <NavLink
-              data-aos="fade-up"
-              data-aos-delay={idx * 200}
-              data-aos-duration="800"
-              data-aos-easing="ease-out-cubic"
-              key={idx}
-              to={item.url}
-              className="relative w-[200px] flex-shrink-0"
-            >
-              <img
-                src={item.image}
-                alt={`Under ${item.amount}`}
-                className="block w-full h-auto object-contain"
-              />
-
-              <div className="text-[#266B4A] mt-1 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
-                <div
-                  className="flex flex-col text-center gap-0"
-                  style={{ fontFamily: "'Fredoka', cursive" }}
-                >
-                  <span className="text-[32px] uppercase leading-none font-semibold">
-                    UNDER
-                  </span>
-                  <span className="text-[80px] font-extrabold leading-none">
-                    {item.amount}
-                  </span>
-                </div>
-                <span className="text-[32px] uppercase font-[Fredoka] leading-none font-extrabold">
-                  {currentcountry.currency}
-                </span>
-              </div>
-            </NavLink>
-          ))}
-        </div>
-      </section> */}
 
       <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
         {/* HOME & LIVING */}
