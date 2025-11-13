@@ -33,6 +33,8 @@ export default function CarouselProducts({
   breakPointsProps,
   section_name,
   backgroundImage,
+  indicators = true,
+  color = false,
 }) {
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
@@ -107,11 +109,14 @@ export default function CarouselProducts({
 
   return (
     <div className="relative overflow-hidden">
-      <img src={backgroundImage} className="sm:hidden absolute w-full h-full z-0 border-none" />
+      <img
+        src={backgroundImage}
+        className="sm:hidden absolute w-full h-full z-0 border-none"
+      />
       <div
         className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${
-          eid_sale && "bg-transparent"
-        } ${(type == 2 || type == 3) && "p-0"}`}
+          color && "bg-transparent"
+        } ${(type == 2 || type == 3) && "p-0"} ${!indicators && "px-5"}`}
       >
         {/* LEFT ARROW - Desktop Only */}
         <div
@@ -119,22 +124,26 @@ export default function CarouselProducts({
             isMobile ? "flex gap-1 mt-[144px]" : "flex items-stretch gap-1"
           }`}
         >
-          <button
-            type="button"
-            className={`${btnBase} self-center ${
-              isBeginning ? btnDisabled : ""
-            }`}
-            onClick={handlePrev}
-            disabled={isBeginning}
-            aria-disabled={isBeginning}
-            aria-label="Previous"
-          >
-            <img
-              src="/assets/vector_icons/arrow_left.svg"
-              alt="Arrow"
-              className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${isRTL ? "rotate-180" : ""}`}
-            />
-          </button>
+          {indicators && (
+            <button
+              type="button"
+              className={`${btnBase} self-center ${
+                isBeginning ? btnDisabled : ""
+              }`}
+              onClick={handlePrev}
+              disabled={isBeginning}
+              aria-disabled={isBeginning}
+              aria-label="Previous"
+            >
+              <img
+                src="/assets/vector_icons/arrow_left.svg"
+                alt="Arrow"
+                className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${
+                  isRTL ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+          )}
 
           {/* SWIPER */}
           <div className={`flex-1 min-w-0`}>
@@ -202,19 +211,23 @@ export default function CarouselProducts({
             </Swiper>
           </div>
 
-          <button
-            type="button"
-            className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
-            onClick={handleNext}
-            aria-disabled={isEnd}
-            aria-label="Next"
-          >
-            <img
-              src="/assets/vector_icons/arrow_right.svg"
-              alt="Arrow"
-              className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${isRTL ? "rotate-180" : ""}`}
-            />
-          </button>
+          {indicators && (
+            <button
+              type="button"
+              className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
+              onClick={handleNext}
+              aria-disabled={isEnd}
+              aria-label="Next"
+            >
+              <img
+                src="/assets/vector_icons/arrow_right.svg"
+                alt="Arrow"
+                className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${
+                  isRTL ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+          )}
         </div>
       </div>
     </div>

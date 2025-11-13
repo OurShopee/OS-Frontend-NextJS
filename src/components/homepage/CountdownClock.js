@@ -22,7 +22,7 @@ export default function CountdownClock({
   digitColor = "#fff",
   labelColor = "#000",
 }) {
-  const {isMobile} = MediaQueries()
+  const { isMobile } = MediaQueries()
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center">

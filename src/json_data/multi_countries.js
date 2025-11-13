@@ -20,6 +20,7 @@ const countriesData = [
       map_location:
         "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.356812299205!2d55.379621!3d25.2830702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dcb73cb2a87%3A0xdce6b4489e9a721b!2sOurshopee%20UAE!5e1!3m2!1sen!2sin!4v1762343285059!5m2!1sen!2sin",
     },
+    min_value:200,
     dealsByCountry: {
       "Weekly Deals": 238,
       "Mast Zone": 243,
@@ -167,6 +168,7 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopee.om",
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
+    min_value:20,
     dealsByCountry: {
       "Weekly Deals": 239,
       "Mast Zone": 244,
@@ -304,6 +306,7 @@ const countriesData = [
     fb_link: "https://www.facebook.com/OurshopeeOffers",
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
+    min_value:200,
     dealsByCountry: {
       "Weekly Deals": 240,
       "Mast Zone": 245,
@@ -431,6 +434,7 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopeekuwaitonline/",
     insta_link:
       "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
+    min_value:20,
     dealsByCountry: {
       "Weekly Deals": 241,
       "Mast Zone": 246,
@@ -562,6 +566,7 @@ const countriesData = [
       map_location:
         "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3891.7627455013862!2d50.57823067541546!3d26.213277777070996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDEyJzQ3LjgiTiA1MMKwMzQnNTAuOSJF!5e1!3m2!1sen!2sin!4v1762340719198!5m2!1sen!2sin",
     },
+    min_value:20,
     dealsByCountry: {
       "Weekly Deals": 242,
       "Mast Zone": 247,
