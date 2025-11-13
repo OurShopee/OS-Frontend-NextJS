@@ -1,20 +1,49 @@
-"use client"
+"use client";
 import { useSelector } from "react-redux";
 import CountdownClock from "../homepage/CountdownClock";
 import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 
 const FlashSale = () => {
-      const top_picks = useSelector((state) => state?.homeslice?.top_picks);
+  const top_picks = useSelector((state) => state?.homeslice?.top_picks);
+  function getNextWednesdayOrSunday() {
+    const now = new Date();
+    const day = now.getDay();
+
+    const nextDayDate = (targetDay) => {
+      let diff = (targetDay + 7 - day) % 7;
+      if (diff === 0) {
+        const targetTime = new Date(now);
+        targetTime.setHours(23, 59, 59, 0);
+        if (now < targetTime) {
+          return targetTime;
+        }
+        diff = 7;
+      }
+      const nextDate = new Date(now);
+      nextDate.setDate(now.getDate() + diff);
+      nextDate.setHours(23, 59, 59, 0);
+      return nextDate;
+    };
+
+    const nextWednesday = nextDayDate(3);
+    const nextSunday = nextDayDate(0);
+
+    return nextWednesday < nextSunday ? nextWednesday : nextSunday;
+  }
+
   return (
     <div>
       <div className="component_1 p-4">
         <div className="component_header">
           <div>
-            <img src="/assets/black-friday/flash-sale.gif" className="w-[210px] h-full" />
+            <img
+              src="/assets/black-friday/flash-sale.gif"
+              className="w-[210px] h-full"
+            />
           </div>
 
           <CountdownClock
-            endDate={new Date("2025-11-22")}
+            endDate={getNextWednesdayOrSunday()}
             labelColor={"#fff"}
           />
         </div>
