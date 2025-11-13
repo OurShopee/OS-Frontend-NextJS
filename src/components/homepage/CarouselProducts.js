@@ -34,6 +34,7 @@ export default function CarouselProducts({
   section_name,
   backgroundImage,
   indicators = true,
+  color = false,
 }) {
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
@@ -114,7 +115,7 @@ export default function CarouselProducts({
       />
       <div
         className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${
-          eid_sale && "bg-transparent"
+          color && "bg-transparent"
         } ${(type == 2 || type == 3) && "p-0"} ${!indicators && "px-5"}`}
       >
         {/* LEFT ARROW - Desktop Only */}

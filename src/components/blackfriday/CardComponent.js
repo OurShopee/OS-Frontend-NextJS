@@ -38,21 +38,21 @@ const DiscountCard = ({
           {title}
         </span>
         <div className="flex flex-col">
-          <span className="text-[28px] font-extrabold text-[#3E4130] group-hover:text-red-500 leading-none transition-colors duration-300">
+          <span className="text-[28px] font-extrabold text-[#3E4130] group-hover:mt-1 group-hover:text-red-500 leading-none transition-all duration-300 ease-in-out">
             upto
           </span>
-          <span className="text-[28px] font-extrabold text-[#3E4130] group-hover:text-red-500 leading-none transition-colors duration-300">
+          <span className="text-[28px] font-extrabold text-[#3E4130] group-hover:text-[#FF1D1E]  leading-none transition-colors duration-300">
             {discount}% OFF
           </span>
         </div>
       </div>
 
       {/* Product image */}
-      <div className="absolute -bottom-10 group-hover:-bottom-5 transition-all duration-1000 ease-in-out right-0 w-36 h-40 flex-shrink-0 z-0">
+      <div className="absolute -bottom-10 group-hover:-bottom-5 transition-all duration-1000 ease-in-out -right-[25px] w-36 h-40 flex-shrink-0 z-0">
         <img
           src={imageSrc}
           alt={title}
-          className="object-contain w-full h-full aspect-[128/145] group-hover:scale-120 group-hover:-translate-x-6 group-hover:-translate-y-4 transition-all duration-1000 ease-in-out"
+          className="object-contain w-full h-[135px] aspect-[135/145] group-hover:scale-110 group-hover:-translate-x-3 group-hover:-translate-y-1 transition-all duration-1000 ease-in-out"
         />
       </div>
     </div>
