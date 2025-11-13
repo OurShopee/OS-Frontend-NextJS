@@ -135,7 +135,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                       <span>{currentcountry?.currency}&nbsp;</span>
                     )}
                     <span className="" style={{ fontWeight: 600 }}>
-                      {productData.display_price * quantity}&nbsp;
+                      {(productData.display_price * quantity).toFixed(2)}&nbsp;
                     </span>
                   </div>
 
