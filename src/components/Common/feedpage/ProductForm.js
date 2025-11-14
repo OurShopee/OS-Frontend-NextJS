@@ -194,6 +194,27 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
 
     setPendingFormData(apiData);
 
+    // Check if OTP verification is enabled via environment variable
+    const checkOtpEnabled = process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "false";
+
+    // If OTP check is disabled, directly submit the form
+    if (!checkOtpEnabled) {
+      try {
+        await submitFormAfterOTP();
+      } catch (error) {
+        console.error("Order submission error:", error);
+        toast.error("Failed to submit order. Please try again.");
+        setSubmissionStatus({
+          message: "Failed to submit order. Please try again.",
+          type: "error",
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
+
+    // OTP check is enabled, proceed with OTP verification
     try {
       const mobileNumber = formData.contact_no.trim();
       dispatch(setregistermobile(mobileNumber));
