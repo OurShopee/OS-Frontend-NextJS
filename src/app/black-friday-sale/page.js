@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { clearance_saleApi, getSectionPagesApi } from "@/api/products";
 import DesktopView from "@/components/blackfriday/DesktopView";
 import MobileViewCard from "@/components/blackfriday/mobileViewCard";
@@ -66,38 +66,51 @@ const ElevenSale = () => {
   const NowOrNeverDeals =
     sectionData?.find((d) => d.heading === "NOW OR NEVER DEALS")?.items?.[0]
       ?.items || [];
-  
+
   const FlashSale =
-    sectionData?.find((d) => d.heading === "Flash Sale")?.items?.[0]
-      ?.items || [];
-  
+    sectionData?.find((d) => d.heading === "Flash Sale")?.items?.[0]?.items ||
+    [];
+
   const LowestPriceEver =
     sectionData?.find((d) => d.heading === "Lowest Price Ever")?.items?.[0]
       ?.items || [];
-  
+
   const OurshoppeFridayBanner =
     sectionData?.find((d) => d.heading === "Ourshopee Friday")?.images || [];
-  
+
   const FlashSaleBanner =
     sectionData?.find((d) => d.heading === "Flash Sale Banner")?.images || [];
-  
+
   const BeautyBanner =
-    sectionData?.find((d) => d.heading === "Beauty Single Banner")?.images || [];
-  
-  
-  const electronics =
-    sectionData?.find((d) => d.heading === "Electronics")?.items?.[0]?.items ||
+    sectionData?.find((d) => d.heading === "Beauty Single Banner")?.images ||
     [];
-  const sunglasses =
-    sectionData?.find((d) => d.heading === "Sunglass")?.items?.[0]?.items || [];
-  const perfumes =
-    sectionData?.find((d) => d.heading === "Perfumes")?.items?.[0]?.items || [];
-  const watches =
-    sectionData?.find((d) => d.heading === "Smart Watches")?.items?.[0]
-      ?.items || [];
-  const preOwned =
+
+  const PreOwnedLaptops =
     sectionData?.find((d) => d.heading === "Pre Owned Laptop")?.items?.[0]
       ?.items || [];
+  const Watches =
+    sectionData?.find((d) => d.heading === "Watches")?.items?.[0]?.items || [];
+  const Perfumes =
+    sectionData?.find((d) => d.heading === "Perfumes")?.items?.[0]?.items || [];
+  const HealthBeauty =
+    sectionData?.find((d) => d.heading === "Health & Beauty")?.items?.[0]
+      ?.items || [];
+  const Accessories =
+    sectionData?.find((d) => d.heading === "Accessories")?.items?.[0]?.items ||
+    [];
+  const HomeAppliances =
+    sectionData?.find((d) => d.heading === "Home Appliances")?.items?.[0]
+      ?.items || [];
+  const MotherBaby =
+    sectionData?.find((d) => d.heading === "Mother & Baby")?.items?.[0]
+      ?.items || [];
+  const ToysGames =
+    sectionData?.find((d) => d.heading === "Toys & Games")?.items?.[0]?.items ||
+    [];
+  const PreOwnedMobiles =
+    sectionData?.find((d) => d.heading === "Pre-Owned Mobiles")?.items?.[0]
+      ?.items || [];
+
   const categories = sectionData?.find((d) => d.type === 1) || [];
   const categoryItems = [
     {
@@ -153,12 +166,18 @@ const ElevenSale = () => {
   ];
 
   const rows = [
-    [...preOwned],
-    [...sunglasses],
-    [...perfumes],
-    [...watches],
-    [...electronics],
+    [...PreOwnedLaptops],
+    [...Watches],
+    [...Perfumes],
+    [...HealthBeauty],
+    [...Accessories],
+    [...HomeAppliances],
+    [...MotherBaby],
+    [...ToysGames],
+    [...PreOwnedMobiles],
   ];
+
+  console.log(rows)
 
   return (
     <div className="container mx-auto">
@@ -170,18 +189,19 @@ const ElevenSale = () => {
           OurshoppeFridayBanner={OurshoppeFridayBanner}
           FlashSaleBanner={FlashSaleBanner}
           BeautyBanner={BeautyBanner}
+          rows={rows}
           categoryItems={categoryItems}
-          
         />
       ) : (
         <MobileViewCard
-          sectionData={sectionData}
-          categories={categories}
-          categoryItems={categoryItems}
-          productsAtOne={productsAtOne}
-          topBrands={topBrands}
-          clearanceItems={clearanceItems}
+          NowOrNeverDeals={NowOrNeverDeals}
+          FlashSaleItems={FlashSale}
+          LowestPriceEver={LowestPriceEver}
+          OurshoppeFridayBanner={OurshoppeFridayBanner}
+          FlashSaleBanner={FlashSaleBanner}
+          BeautyBanner={BeautyBanner}
           rows={rows}
+          categoryItems={categoryItems}
         />
       )}
     </div>
