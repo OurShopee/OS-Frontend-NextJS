@@ -215,6 +215,18 @@ const ProductPageLayout = ({
     [product]
   );
 
+  // Check if all required form fields are filled
+  const isFormValid = useMemo(() => {
+    return (
+      formData.form_name?.trim() !== "" &&
+      formData.contact_no?.trim() !== "" &&
+      formData.location?.trim() !== "" &&
+      formData.area?.trim() !== "" &&
+      formData.delivery_address?.trim() !== "" &&
+      qty > 0
+    );
+  }, [formData.form_name, formData.contact_no, formData.location, formData.area, formData.delivery_address, qty]);
+
   // --- ProductForm Effects ---
   // OTP verification success handler
   useEffect(() => {
@@ -1331,7 +1343,7 @@ const ProductPageLayout = ({
                     <div className="animated-bg-button-container col-span-4 sm:col-span-7">
                       <div className="animated-bg-button-shadow" />
                       <button
-                        disabled={isOutOfStock || isSubmitting }
+                        disabled={isOutOfStock || isSubmitting || !isFormValid}
                         type="submit"
                         className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
@@ -1427,7 +1439,7 @@ const ProductPageLayout = ({
 
                 {/* Place Order Button */}
                 <button
-                  disabled={isOutOfStock || areAllWebfeedsEmpty}
+                  disabled={isOutOfStock || areAllWebfeedsEmpty || !isFormValid}
                   className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => {
                     const element = document.getElementById("order-form");
