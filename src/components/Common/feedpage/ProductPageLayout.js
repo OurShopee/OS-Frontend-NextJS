@@ -183,10 +183,10 @@ const ProductPageLayout = ({
   const { galleryImages, isOutOfStock, productInfoDetails, areAllWebfeedsEmpty } = useMemo(
     () => {
       // Check if all web-feeds (alternateAttributes) are empty
-      const alternateAttributes = product?.alternateAttributes || [];
-      const hasEmptyWebfeeds = 
-        !alternateAttributes.length || 
-        alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
+      // const alternateAttributes = product?.alternateAttributes || [];
+      // const hasEmptyWebfeeds = 
+      //   !alternateAttributes.length || 
+      //   alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
 
       return {
         displayPrice: product?.display_price || "Price not available",
@@ -209,7 +209,7 @@ const ProductPageLayout = ({
             })),
         ],
         decodedDetails: product?.details ? he.decode(product.details) : "",
-        areAllWebfeedsEmpty: hasEmptyWebfeeds,
+        // areAllWebfeedsEmpty: hasEmptyWebfeeds,
       };
     },
     [product]
@@ -1331,7 +1331,7 @@ const ProductPageLayout = ({
                     <div className="animated-bg-button-container col-span-4 sm:col-span-7">
                       <div className="animated-bg-button-shadow" />
                       <button
-                        disabled={isOutOfStock || isSubmitting || areAllWebfeedsEmpty}
+                        disabled={isOutOfStock || isSubmitting }
                         type="submit"
                         className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
