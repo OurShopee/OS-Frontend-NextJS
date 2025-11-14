@@ -230,8 +230,8 @@ const HomeClient = ({
 
   console.log(topSellingData, "topSellingData");
 
-  let mastZoneBgImage = section238Data?.background_image[0].desktopImage;
-  let namasteZoneBgImage = section59Data?.background_image[0].desktopImage;
+  let mastZoneBgImage = section238Data?.background_image[0]?.desktopImage;
+  let namasteZoneBgImage = section59Data?.background_image[0]?.desktopImage;
 
   return (
     <div className="overflow-hidden" style={{ maxWidth: "max-content" }}>
