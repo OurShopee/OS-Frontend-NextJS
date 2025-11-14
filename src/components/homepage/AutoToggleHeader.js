@@ -124,6 +124,7 @@ export default function AutoToggleHeader({
     <div className="relative z-10 my-3">
       <div
         ref={containerRef}
+        dir="ltr"
         className="inline-flex items-center gap-0 rounded-full p-0 transition-all duration-500 relative"
         style={{
           background: "#fff",

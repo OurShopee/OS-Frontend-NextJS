@@ -613,7 +613,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           )}
                           <span className="text-[24px] md:text-[26px]">
                             {" "}
-                            {productDetail[0]?.display_price.toFixed(2)}
+                            {productDetail[0]?.display_price?.toFixed(2)}
                           </span>
                         </span>
 
@@ -664,10 +664,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                                   className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}
                                 />
-                                {productDetail[0]?.old_price.toFixed(2)}
+                                {productDetail[0]?.old_price?.toFixed(2)}
                               </>
                             ) : (
-                              currentcountry.currency + " " + productDetail[0]?.old_price.toFixed(2)
+                              currentcountry.currency + " " + productDetail[0]?.old_price?.toFixed(2)
                             )}
                           </span>
                           <div className="product_Detail_price_container">
@@ -1515,10 +1515,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                               className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "black" }}
                             />
-                            {product?.old_price.toFixed(2)}
+                            {product?.old_price?.toFixed(2)}
                           </span>
                         ) : (
-                          currentcountry.currency + " " + product?.old_price.toFixed(2)
+                          currentcountry.currency + " " + product?.old_price?.toFixed(2)
                         )}
                       </span>
                       <div className="product_Detail_price_container">
@@ -1605,10 +1605,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                           style={{ color: "black" }}
                         />
-                        {product?.old_price.toFixed(2)}
+                        {product?.old_price?.toFixed(2)}
                       </>
                     ) : (
-                      currentcountry.currency + " " + product?.old_price.toFixed(2)
+                      currentcountry.currency + " " + product?.old_price?.toFixed(2)
                     )}
                   </span>
                   <div className="product_Detail_price_container">
