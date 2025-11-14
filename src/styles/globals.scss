@@ -99,6 +99,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Ensure content doesn't hide behind fixed header */
+.container.mainbody {
+  padding-top: 0 !important;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

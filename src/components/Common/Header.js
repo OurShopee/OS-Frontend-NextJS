@@ -31,6 +31,7 @@ import Search from "./Search";
 import Sidebar from "./Sidebar";
 import ToolTip from "./ToolTip";
 import Category from "./desktopViewComponents/Category";
+import HeaderSpacer from "./HeaderSpacer";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, onClick, ...props }) => {
@@ -137,7 +138,7 @@ const Header = () => {
           />
         </div>
       )}
-      <div className="mainheader select-none">
+      <div className="mainheader select-none" style={{ position: 'fixed', top: 0, zIndex: 999, backgroundColor: '#fff', width: '100%' }}>
         {/* Middle Header */}
         <div className="header-middle-main primarybackground">
           <div className="container header-middle homepagecontainer">
@@ -394,6 +395,7 @@ const Header = () => {
         {/* Auth Modals */}
         {isBigScreen ? <Modal /> : <Mobileforms />}
       </div>
+      <HeaderSpacer />
       {isBigScreen && pathname === "/" && (
         <div className="flex container items-center mx-auto overflow-x-hidden relative">
           {filteredItems?.length > 0 && (
