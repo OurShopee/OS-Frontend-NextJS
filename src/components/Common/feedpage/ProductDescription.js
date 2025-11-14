@@ -67,7 +67,6 @@ const ProductDescription = ({ product }) => {
 
   // Get dynamic content based on current language
   const productDetails = useDynamicContent(product, "details");
-console.log("productDetails", productDetails);
   // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
@@ -84,12 +83,10 @@ console.log("productDetails", productDetails);
     () => (productDetails ? he.decode(productDetails) : ""),
     [productDetails]
   );
-console.log("decodedDetails", decodedDetails);
   const specRows = useMemo(
     () => (decodedDetails ? parseSpecifications(decodedDetails) : []),
     [decodedDetails]
   );
-console.log("specRows", specRows);
   // Find and separate description row
   const descriptionRow = specRows.find(
     (row) => row.key.toLowerCase() === "description"
