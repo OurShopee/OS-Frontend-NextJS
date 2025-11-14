@@ -8,19 +8,44 @@ import { useDynamicContent } from "@/hooks";
 
 const parseSpecifications = (details) => {
   if (!details) return [];
+  
+  // Check if it's a table structure
   if (/<tr/i.test(details)) {
     const rows = [];
-    const rowRegex = /<tr[^>]*>(.*?)<\/tr>/gi;
+    // Match table rows, including those with tbody
+    const rowRegex = /<tr[^>]*>(.*?)<\/tr>/gis;
     let match;
+    
     while ((match = rowRegex.exec(details))) {
-      const cells = match[1]
-        .split(/<\/td>/i)
-        .map((cell) => he.decode(cell.replace(/<[^>]+>/g, "").trim()))
-        .filter(Boolean);
-      if (cells.length >= 2) rows.push({ key: cells[0], value: cells[1] });
+      const rowContent = match[1];
+      // Match all td elements in the row
+      const cellRegex = /<td[^>]*>(.*?)<\/td>/gis;
+      const cells = [];
+      let cellMatch;
+      
+      while ((cellMatch = cellRegex.exec(rowContent))) {
+        // Remove all HTML tags but keep the text content
+        const cellText = cellMatch[1]
+          .replace(/<[^>]+>/g, "") // Remove all HTML tags
+          .trim();
+        if (cellText) {
+          cells.push(he.decode(cellText));
+        }
+      }
+      
+      // If we have at least 2 cells (key and value), add the row
+      if (cells.length >= 2) {
+        rows.push({ 
+          key: cells[0], 
+          value: cells.slice(1).join(" ") // Join multiple cells if there are more than 2
+        });
+      }
     }
+    
     if (rows.length) return rows;
   }
+  
+  // Fallback: parse as plain text with line breaks
   return details
     .split(/<br\s*\/?>|\n/)
     .map((line) => {
@@ -42,7 +67,6 @@ const ProductDescription = ({ product }) => {
 
   // Get dynamic content based on current language
   const productDetails = useDynamicContent(product, "details");
-
   // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
@@ -59,12 +83,10 @@ const ProductDescription = ({ product }) => {
     () => (productDetails ? he.decode(productDetails) : ""),
     [productDetails]
   );
-
   const specRows = useMemo(
     () => (decodedDetails ? parseSpecifications(decodedDetails) : []),
     [decodedDetails]
   );
-
   // Find and separate description row
   const descriptionRow = specRows.find(
     (row) => row.key.toLowerCase() === "description"
