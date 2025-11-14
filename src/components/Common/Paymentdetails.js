@@ -257,7 +257,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                   {currentcountry?.currency == "AED" ? (
                     <img
-                      src="/assets/feed/aed-icon.png"
+                      src="/assets/feed/aed-icon.svg"
                       alt="AED"
                       className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                       style={{ color: "black" }}
@@ -352,7 +352,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                   {" "}
                   {currentcountry?.currency == "AED" ? (
                     <img
-                      src="/assets/feed/aed-icon.png"
+                      src="/assets/feed/aed-icon.svg"
                       alt="AED"
                       className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                       style={{ color: "black" }}

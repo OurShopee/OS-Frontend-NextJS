@@ -180,7 +180,7 @@ const Cart = () => {
                             <div className={`cartproduct-price flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                               {currentcountry?.currency == "AED" ? (
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}
@@ -288,7 +288,7 @@ const Cart = () => {
                             <div className="payment-type-cost flex items-center">
                               {currentcountry?.currency == "AED" ? (
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}

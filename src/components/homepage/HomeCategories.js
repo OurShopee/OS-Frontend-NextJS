@@ -23,15 +23,41 @@ export default function HomeCategories({ category_list, no_bg, type }) {
   const [scrollProgress, setScroll] = useState(0.4);
   const [slidesPerView, setslidesperView] = useState(null);
 
+  const isRTL = currentLanguage === "ar";
+
   const handlePrev = useCallback(() => {
     if (!sliderRef1.current) return;
-    sliderRef1.current.swiper.slidePrev();
-  }, []);
+    const swiper = sliderRef1.current.swiper;
+    const currentIndex = swiper.activeIndex;
+    const slidesPerView = swiper.params.slidesPerView || 1;
+    
+    if (isRTL) {
+      // In RTL, prev means going forward (to the left visually)
+      const nextIndex = Math.min(currentIndex + slidesPerView, swiper.slides.length - 1);
+      swiper.slideTo(nextIndex);
+    } else {
+      // In LTR, prev means going backward (to the left)
+      const prevIndex = Math.max(currentIndex - slidesPerView, 0);
+      swiper.slideTo(prevIndex);
+    }
+  }, [isRTL]);
 
   const handleNext = useCallback(() => {
     if (!sliderRef1.current) return;
-    sliderRef1.current.swiper.slideNext();
-  }, []);
+    const swiper = sliderRef1.current.swiper;
+    const currentIndex = swiper.activeIndex;
+    const slidesPerView = swiper.params.slidesPerView || 1;
+    
+    if (isRTL) {
+      // In RTL, next means going backward (to the right visually)
+      const prevIndex = Math.max(currentIndex - slidesPerView, 0);
+      swiper.slideTo(prevIndex);
+    } else {
+      // In LTR, next means going forward (to the right)
+      const nextIndex = Math.min(currentIndex + slidesPerView, swiper.slides.length - 1);
+      swiper.slideTo(nextIndex);
+    }
+  }, [isRTL]);
 
   const category_selected = (category_name) => {
     // handleCategoryClick()
@@ -60,14 +86,20 @@ export default function HomeCategories({ category_list, no_bg, type }) {
   useEffect(() => {
     if (sliderRef1.current) {
       const swiper = sliderRef1.current.swiper;
-      const beginning = swiper.isBeginning;
-      const end = swiper.isEnd;
+      // Update direction when language changes - Swiper handles dir prop automatically
+      // Reset to beginning and update state
+      // Use setTimeout to ensure Swiper has updated its internal state
+      setTimeout(() => {
+        swiper.update();
+        swiper.slideTo(0);
+        const beginning = swiper.isBeginning;
+        const end = swiper.isEnd;
 
-      setIsBeginning(beginning);
-      setIsEnd(end);
-      swiper.slideTo(0); // optional: reset to start if needed
+        setIsBeginning(beginning);
+        setIsEnd(end);
+      }, 100);
     }
-  }, [params, category_list]);
+  }, [params, category_list, isRTL]);
 
   // Additional effect to handle initial state after swiper is fully loaded
   useEffect(() => {
@@ -96,38 +128,81 @@ export default function HomeCategories({ category_list, no_bg, type }) {
     }
   };
 
+  // Determine overlay classes based on RTL/LTR and swiper state
+  const getOverlayClasses = () => {
+    const classes = ["home_categories", "relative"];
+    if (isRTL) {
+      // In RTL: right side is beginning, left side is end
+      if (isEnd) classes.push("hide-left-overlay");
+      if (isBeginning) classes.push("hide-right-overlay");
+    } else {
+      // In LTR: left side is beginning, right side is end
+      if (isBeginning) classes.push("hide-left-overlay");
+      if (isEnd) classes.push("hide-right-overlay");
+    }
+    return classes.join(" ");
+  };
+
   return (
     <div
-      className={`home_categories relative ${
-        isBeginning ? "hide-left-overlay" : ""
-      } ${isEnd ? "hide-right-overlay" : ""}`}
+      className={getOverlayClasses()}
+      dir={isRTL ? "rtl" : "ltr"}
     >
       {/* Navigation arrows with original styling but higher z-index */}
       {!isMobile && (
         <div className="arrows inset-0 pointer-events-none items-center">
-          {!isBeginning ? (
-            <div
-              className="left_indicator previous pointer-events-auto"
-              onClick={handlePrev}
-            >
-              <IoChevronBack size={25} />
-            </div>
+          {isRTL ? (
+            <>
+              {/* In RTL: right arrow is prev, left arrow is next */}
+              {!isEnd ? (
+                <div
+                  className="right_indicator next pointer-events-auto"
+                  onClick={handlePrev}
+                >
+                  <IoChevronForward size={25} />
+                </div>
+              ) : (
+                <div className="right_indicator next disabled no_bg no_drop_shadow pointer-events-auto" />
+              )}
+              {!isBeginning && (
+                <div
+                  className="left_indicator previous pointer-events-auto"
+                  onClick={handleNext}
+                >
+                  <IoChevronBack size={25} />
+                </div>
+              )}
+            </>
           ) : (
-            <div className="left_indicator previous disabled no_bg no_drop_shadow pointer-events-auto" />
-          )}
-          {!isEnd && (
-            <div
-              className="right_indicator next pointer-events-auto"
-              onClick={handleNext}
-            >
-              <IoChevronForward size={25} />
-            </div>
+            <>
+              {/* In LTR: left arrow is prev, right arrow is next */}
+              {!isBeginning ? (
+                <div
+                  className="left_indicator previous pointer-events-auto"
+                  onClick={handlePrev}
+                >
+                  <IoChevronBack size={25} />
+                </div>
+              ) : (
+                <div className="left_indicator previous disabled no_bg no_drop_shadow pointer-events-auto" />
+              )}
+              {!isEnd && (
+                <div
+                  className="right_indicator next pointer-events-auto"
+                  onClick={handleNext}
+                >
+                  <IoChevronForward size={25} />
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
 
       <Swiper
+        key={`home-categories-${currentLanguage}`}
         ref={sliderRef1}
+        dir={isRTL ? "rtl" : "ltr"}
         cssMode={!isMobile && true}
         mousewheel={true}
         keyboard={true}
@@ -175,20 +250,40 @@ export default function HomeCategories({ category_list, no_bg, type }) {
         onSlideChange={(swiper) => {
           handleSlideChange(swiper);
           if (isMobile) {
-            if (
-              category_list.length - (swiper.activeIndex + slidesPerView) <
-              8
-            ) {
-              setScroll(1);
+            if (isRTL) {
+              // In RTL, calculate progress from the end
+              const totalSlides = category_list.length;
+              const remainingSlides = totalSlides - (swiper.activeIndex + slidesPerView);
+              if (remainingSlides < 8) {
+                setScroll(1);
+              } else {
+                const progress = (swiper.activeIndex + slidesPerView) / totalSlides;
+                setScroll(progress);
+              }
             } else {
-              setScroll(
-                (swiper.activeIndex + slidesPerView) / category_list.length
-              );
+              // LTR calculation
+              if (
+                category_list.length - (swiper.activeIndex + slidesPerView) <
+                8
+              ) {
+                setScroll(1);
+              } else {
+                setScroll(
+                  (swiper.activeIndex + slidesPerView) / category_list.length
+                );
+              }
             }
           } else {
-            setScroll(
-              (slidesPerView + swiper.activeIndex) / category_list.length
-            );
+            if (isRTL) {
+              // In RTL, calculate progress from the end
+              const progress = (slidesPerView + swiper.activeIndex) / category_list.length;
+              setScroll(progress);
+            } else {
+              // LTR calculation
+              setScroll(
+                (slidesPerView + swiper.activeIndex) / category_list.length
+              );
+            }
           }
         }}
         onReachBeginning={() => {
@@ -248,7 +343,10 @@ export default function HomeCategories({ category_list, no_bg, type }) {
           <div className="progress_trackbar">
             <motion.div
               className="custom_progress_bar"
-              style={{ scaleX: scrollProgress }}
+              style={{ 
+                scaleX: scrollProgress,
+                transformOrigin: isRTL ? "right center" : "left center"
+              }}
               initial={{ borderRadius: 100 }}
               transition={{ type: "spring" }}
             />

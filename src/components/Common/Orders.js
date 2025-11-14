@@ -129,7 +129,7 @@ const Orders = ({ orderlistdata }) => {
                   <div className="order-content flex items-center">
                     {currentcountry?.currency == "AED" ? (
                       <img
-                        src="/assets/feed/aed-icon.png"
+                        src="/assets/feed/aed-icon.svg"
                         alt="AED"
                         className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                         style={{ color: "black" }}
@@ -181,7 +181,7 @@ const Orders = ({ orderlistdata }) => {
                           <div className={`cartproduct-price flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                             {currentcountry?.currency == "AED" ? (
                               <img
-                                src="/assets/feed/aed-icon.png"
+                                src="/assets/feed/aed-icon.svg"
                                 alt="AED"
                                 className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                                 style={{ color: "black" }}
@@ -259,7 +259,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-cost flex items-center">
                           {currentcountry?.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
@@ -279,7 +279,7 @@ const Orders = ({ orderlistdata }) => {
                             <div className="order-paymenttype-cost flex items-center">
                               {currentcountry?.currency == "AED" ? (
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                                   style={{ color: "black" }}
@@ -298,7 +298,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-cost flex items-center">
                           {currentcountry?.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
@@ -316,7 +316,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-cost flex items-center">
                           {currentcountry?.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
@@ -332,7 +332,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-cost text-green-500 flex items-center">
                          - {currentcountry?.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
@@ -357,7 +357,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className={`payment-type-totalcost flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                           {currentcountry?.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
@@ -487,7 +487,7 @@ const Orders = ({ orderlistdata }) => {
                     <div className="order-paymenttype-cost flex items-center">
                       {currentcountry?.currency == "AED" ? (
                         <img
-                          src="/assets/feed/aed-icon.png"
+                          src="/assets/feed/aed-icon.svg"
                           alt="AED"
                           className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                           style={{ color: "black" }}
@@ -509,7 +509,7 @@ const Orders = ({ orderlistdata }) => {
                           {currentcountry?.currency == "AED" ? (
                             <>
                               <img
-                                src="/assets/feed/aed-icon.png"
+                                src="/assets/feed/aed-icon.svg"
                                 alt="AED"
                                 className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                 style={{ color: "black" }}
@@ -530,7 +530,7 @@ const Orders = ({ orderlistdata }) => {
                       {currentcountry?.currency == "AED" ? (
                         <>
                           <img
-                            src="/assets/feed/aed-icon.png"
+                            src="/assets/feed/aed-icon.svg"
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
@@ -550,7 +550,7 @@ const Orders = ({ orderlistdata }) => {
                       {currentcountry?.currency == "AED" ? (
                         <>
                           <img
-                            src="/assets/feed/aed-icon.png"
+                            src="/assets/feed/aed-icon.svg"
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
@@ -568,7 +568,7 @@ const Orders = ({ orderlistdata }) => {
                      - {currentcountry?.currency == "AED" ? (
                         <>
                           <img
-                            src="/assets/feed/aed-icon.png"
+                            src="/assets/feed/aed-icon.svg"
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
@@ -593,7 +593,7 @@ const Orders = ({ orderlistdata }) => {
                       {currentcountry?.currency == "AED" ? (
                         <>
                           <img
-                            src="/assets/feed/aed-icon.png"
+                            src="/assets/feed/aed-icon.svg"
                             alt="AED"
                             className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
