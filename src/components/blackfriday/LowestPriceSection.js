@@ -2,12 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { CarouselProducts } from "../homepage";
 
-const LowestPriceSection = () => {
-  const top_picks = useSelector((state) => state?.homeslice?.top_picks);
+const LowestPriceSection = ({ LowestPriceEver }) => {
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-  console.log(currentcountry);
   return (
     <div className="px-5">
       <div className="component_1 rounded-[16px] overflow-hidden">
@@ -37,8 +35,7 @@ const LowestPriceSection = () => {
           </div>
 
           <CarouselProducts
-            indicators={true}
-            products={top_picks?.[0]?.productlist}
+            products={LowestPriceEver}
             type={1}
             className="p-0"
             inner_bg={"transparent"}
@@ -61,7 +58,8 @@ const LowestPriceSection = () => {
               className="text-base font-semibold text-white"
               style={{ fontFamily: "'Atma', sans-serif" }}
             >
-              *For Cart Value {currentcountry?.currency} {currentcountry?.min_value} & Above
+              *For Cart Value {currentcountry?.currency}{" "}
+              {currentcountry?.min_value} & Above
             </span>
           </div>
         </div>

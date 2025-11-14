@@ -46,14 +46,9 @@ function getCurrentProductGroupIndex() {
   else return 3;
 }
 
-const NowOrNeverSection = () => {
-  const top_picks = useSelector((state) => state?.homeslice?.top_picks);
+const NowOrNeverSection = ({ NowOrNeverDeals }) => {
 
-  const products = [
-    ...(top_picks?.[0]?.productlist || []),
-    ...(top_picks?.[0]?.productlist || []),
-    ...(top_picks?.[0]?.productlist || []),
-  ];
+  const products = NowOrNeverDeals;
 
   const groupedProducts = [
     products.slice(0, 6), // 00:00–05:59

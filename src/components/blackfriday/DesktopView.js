@@ -3,17 +3,26 @@ import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-import banner from "@/images/blackfridaybanner.png";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 import BudgetSection from "./BudgetSection";
 import DiscountCard from "./CardComponent";
-import FlashSale from "./FlashSale";
 import LowestPriceSection from "./LowestPriceSection";
 import MarqueeSale from "./MarqueeSale";
 import NowOrNeverSection from "./NowOrNeverSection";
-import { useSelector } from "react-redux";
+import FlashSale from "./FlashSale";
+import { MediaQueries } from "../utils";
 
-const DesktopView = ({ categoryItems }) => {
+const DesktopView = ({
+  categoryItems,
+  NowOrNeverDeals,
+  FlashSaleItems,
+  LowestPriceEver,
+  OurshoppeFridayBanner,
+  FlashSaleBanner,
+  BeautyBanner,
+}) => {
+  const { isMobile } = MediaQueries();
   const currentcountry = useSelector(
     (state) => state?.globalslice?.currentcountry
   );
@@ -59,7 +68,10 @@ const DesktopView = ({ categoryItems }) => {
       {/* BANNER */}
       <div className="relative">
         <div className="flex items-center justify-center w-full m-auto overflow-hidden">
-          <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanner.png`} alt="" />
+          <img
+            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanner.png`}
+            alt=""
+          />
         </div>
         <MarqueeSale />
       </div>
@@ -119,12 +131,15 @@ const DesktopView = ({ categoryItems }) => {
         }}
       >
         <div className="pb-12">
-          <FlashSale />
+          <FlashSale
+            FlashSaleItems={FlashSaleItems}
+            FlashSaleBanner={FlashSaleBanner}
+          />
         </div>
       </div>
 
       <div className="mb-4">
-        <NowOrNeverSection />
+        <NowOrNeverSection NowOrNeverDeals={NowOrNeverDeals} />
       </div>
 
       <div className="mb-4">
@@ -132,12 +147,16 @@ const DesktopView = ({ categoryItems }) => {
       </div>
 
       <div className="mb-4">
-        <LowestPriceSection />
+        <LowestPriceSection LowestPriceEver={LowestPriceEver} />
       </div>
 
       <div className="px-5 mb-4">
         <img
-          src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/${currentcountry.currency}/main_banner.png`}
+          src={
+            isMobile
+              ? OurshoppeFridayBanner?.mobileImage
+              : OurshoppeFridayBanner?.desktopImage
+          }
           alt="Banner"
           className="w-full h-full"
         />
@@ -216,6 +235,16 @@ const DesktopView = ({ categoryItems }) => {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="px-5 mb-4">
+        <img
+          src={
+            isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
+          }
+          alt="Banner"
+          className="w-full h-full"
+        />
       </div>
     </div>
   );
