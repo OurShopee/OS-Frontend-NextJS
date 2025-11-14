@@ -158,7 +158,12 @@ const ProductPageLayout = ({
       delay: 200,
       duration: 500,
     });
-
+    pushToDataLayer('viewed_feed_page', country, {
+      sku_id: product?.sku,
+      product_name: product?.name,
+      product_price: `${product?.currency || ''} ${product?.display_price}`,
+      source_: 'WebFeed',
+    });
     // Fix overflow-x-hidden breaking sticky positioning
     const overflowHiddenDiv = document.querySelector(".overflow-x-hidden");
     if (overflowHiddenDiv && window.innerWidth >= 1024) {
@@ -175,29 +180,38 @@ const ProductPageLayout = ({
     };
   }, []);
 
-  const { galleryImages, isOutOfStock, productInfoDetails } = useMemo(
-    () => ({
-      displayPrice: product?.display_price || "Price not available",
-      oldPrice: product?.old_price,
-      galleryImages: product?.images?.length
-        ? product.images
-        : product?.image
-        ? [product.image]
-        : [],
-      isOutOfStock:
-        product?.stock?.toLowerCase() !== "in stock" ||
-        !product?.display_price ||
-        typeof product?.display_price !== "number",
-      productInfoDetails: [
-        ...(product?.small_desc_data || [])
-          .filter((item) => item.title && (item.value || item.value === 0))
-          .map((item) => ({
-            label: item.title,
-            value: item.value,
-          })),
-      ],
-      decodedDetails: product?.details ? he.decode(product.details) : "",
-    }),
+  const { galleryImages, isOutOfStock, productInfoDetails, areAllWebfeedsEmpty } = useMemo(
+    () => {
+      // Check if all web-feeds (alternateAttributes) are empty
+      const alternateAttributes = product?.alternateAttributes || [];
+      const hasEmptyWebfeeds = 
+        !alternateAttributes.length || 
+        alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
+
+      return {
+        displayPrice: product?.display_price || "Price not available",
+        oldPrice: product?.old_price,
+        galleryImages: product?.images?.length
+          ? product.images
+          : product?.image
+          ? [product.image]
+          : [],
+        isOutOfStock:
+          product?.stock?.toLowerCase() !== "in stock" ||
+          !product?.display_price ||
+          typeof product?.display_price !== "number",
+        productInfoDetails: [
+          ...(product?.small_desc_data || [])
+            .filter((item) => item.title && (item.value || item.value === 0))
+            .map((item) => ({
+              label: item.title,
+              value: item.value,
+            })),
+        ],
+        decodedDetails: product?.details ? he.decode(product.details) : "",
+        areAllWebfeedsEmpty: hasEmptyWebfeeds,
+      };
+    },
     [product]
   );
 
@@ -1317,9 +1331,9 @@ const ProductPageLayout = ({
                     <div className="animated-bg-button-container col-span-4 sm:col-span-7">
                       <div className="animated-bg-button-shadow" />
                       <button
-                        disabled={isOutOfStock || isSubmitting}
+                        disabled={isOutOfStock || isSubmitting || areAllWebfeedsEmpty}
                         type="submit"
-                        className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden"
+                        className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
                         <img
                           src="/assets/vector_icons/buy_now_flash_.gif"
@@ -1413,7 +1427,8 @@ const ProductPageLayout = ({
 
                 {/* Place Order Button */}
                 <button
-                  className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden"
+                  disabled={isOutOfStock || areAllWebfeedsEmpty}
+                  className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => {
                     const element = document.getElementById("order-form");
                     if (element) {
