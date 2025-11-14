@@ -20,7 +20,7 @@ const countriesData = [
       map_location:
         "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.356812299205!2d55.379621!3d25.2830702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dcb73cb2a87%3A0xdce6b4489e9a721b!2sOurshopee%20UAE!5e1!3m2!1sen!2sin!4v1762343285059!5m2!1sen!2sin",
     },
-    min_value:200,
+    min_value: 200,
     dealsByCountry: {
       "Weekly Deals": 238,
       "Mast Zone": 243,
@@ -34,6 +34,10 @@ const countriesData = [
     isAreaCodeRequired: true,
     isDonationRequired: true,
     country_code: "+971",
+    min_max1: "/categories/health-beauty?min=0&max=49",
+    min_max2: "/products-category/perfumes?min=0&max=99",
+    min_max3: "/categories/home-appliances?min=0&max=199",
+    min_max4: "/categories/electronics?min=0&max=399",
     nav_items: [
       {
         id: 11,
@@ -168,14 +172,18 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopee.om",
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
-    min_value:20,
+    min_value: 20,
+    min_max1: "/categories/health-beauty?min=0&max=4.9",
+    min_max2: "/products-category/perfumes?min=0&max=9.9",
+    min_max3: "/categories/home-appliances?min=0&max=19.9",
+    min_max4: "/categories/electronics?min=0&max=39.9",
     dealsByCountry: {
       "Weekly Deals": 239,
       "Mast Zone": 244,
       "Limited Time Deals": 249,
       "Deals You Might Like": 254,
       "Namaste Deals": 260,
-      "Top Selling": 75
+      "Top Selling": 75,
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -306,14 +314,18 @@ const countriesData = [
     fb_link: "https://www.facebook.com/OurshopeeOffers",
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
-    min_value:200,
+    min_value: 200,
+    min_max1: "/categories/health-beauty?min=0&max=49",
+    min_max2: "/products-category/perfumes?min=0&max=99",
+    min_max3: "/categories/home-appliances?min=0&max=199",
+    min_max4: "/categories/electronics?min=0&max=399",
     dealsByCountry: {
       "Weekly Deals": 240,
       "Mast Zone": 245,
       "Limited Time Deals": 250,
       "Deals You Might Like": 255,
       "Namaste Deals": 261,
-      "Top Selling": 76
+      "Top Selling": 76,
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -434,15 +446,19 @@ const countriesData = [
     fb_link: "https://www.facebook.com/Ourshopeekuwaitonline/",
     insta_link:
       "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
-    min_value:20,
+    min_value: 20,
     dealsByCountry: {
       "Weekly Deals": 241,
       "Mast Zone": 246,
       "Limited Time Deals": 251,
       "Deals You Might Like": 256,
       "Namaste Deals": 262,
-      "Top Selling": 78
+      "Top Selling": 78,
     },
+    min_max1: "/categories/health-beauty?min=0&max=4.9",
+    min_max2: "/products-category/perfumes?min=0&max=9.9",
+    min_max3: "/categories/home-appliances?min=0&max=19.9",
+    min_max4: "/categories/electronics?min=0&max=39.9",
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: false,
@@ -454,7 +470,7 @@ const countriesData = [
       "Limited Time Deals": 267,
       "Deals You Might Like": 258,
       "Namaste Deals": 270,
-      "Top Selling": 96
+      "Top Selling": 96,
     },
     nav_items: [
       {
@@ -566,15 +582,19 @@ const countriesData = [
       map_location:
         "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3891.7627455013862!2d50.57823067541546!3d26.213277777070996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDEyJzQ3LjgiTiA1MMKwMzQnNTAuOSJF!5e1!3m2!1sen!2sin!4v1762340719198!5m2!1sen!2sin",
     },
-    min_value:20,
+    min_value: 20,
     dealsByCountry: {
       "Weekly Deals": 242,
       "Mast Zone": 247,
       "Limited Time Deals": 252,
       "Deals You Might Like": 257,
       "Namaste Deals": 263,
-      "Top Selling": 77
+      "Top Selling": 77,
     },
+    min_max1: "/categories/health-beauty?min=0&max=4.9",
+    min_max2: "/products-category/perfumes?min=0&max=9.9",
+    min_max3: "/categories/home-appliances?min=0&max=19.9",
+    min_max4: "/categories/electronics?min=0&max=39.9",
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -693,8 +713,7 @@ const countriesData = [
     helpline_numbers: {
       hotline: "",
       whatsapp: "",
-      address:
-        "",
+      address: "",
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -705,13 +724,13 @@ const countriesData = [
     insta_link:
       "https://www.instagram.com/ourshopee_ksa?igsh=MWlucnh6d3RxcGd5&utm_source=qr",
     dealsByCountry: {
-        "Weekly Deals": 271,
-        "Mast Zone": 269,
-        "Limited Time Deals": 267,
-        "Deals You Might Like": 258,
-        "Namaste Deals": 270,
-        "Top Selling": 96
-      },
+      "Weekly Deals": 271,
+      "Mast Zone": 269,
+      "Limited Time Deals": 267,
+      "Deals You Might Like": 258,
+      "Namaste Deals": 270,
+      "Top Selling": 96,
+    },
     nav_items: [
       {
         id: 11,

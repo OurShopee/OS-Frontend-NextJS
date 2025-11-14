@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -5,18 +6,23 @@ const BudgetSection = () => {
   const currentcountry = useSelector(
     (state) => state?.globalslice?.currentcountry
   );
+
   const budgetImages = [
     {
       image: "under_1.png",
+      url: currentcountry.min_max1,
     },
     {
       image: "under_2.png",
+      url: currentcountry.min_max2,
     },
     {
       image: "under_3.png",
+      url: currentcountry.min_max3,
     },
     {
       image: "under_4.png",
+      url: currentcountry.min_max4,
     },
   ];
 
@@ -39,12 +45,13 @@ const BudgetSection = () => {
         </div>
         <div className="flex justify-center flex-wrap gap-14">
           {budgetImages.map((i, idx) => (
-            <img
-              key={idx}
-              src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/${currentcountry.currency}/${i.image}`}
-              alt="No image found"
-              className="w-[199px] h-[197px] object-contain"
-            />
+            <Link key={idx} href={i.url}>
+              <img
+                src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/${currentcountry.currency}/${i.image}`}
+                alt="No image found"
+                className="w-[199px] h-[197px] object-contain"
+              />
+            </Link>
           ))}
         </div>
       </div>

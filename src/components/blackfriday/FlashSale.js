@@ -2,8 +2,10 @@
 import { useSelector } from "react-redux";
 import CountdownClock from "../homepage/CountdownClock";
 import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
+import { MediaQueries } from "../utils";
 
-const FlashSale = () => {
+const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
+  const { isMobile } = MediaQueries();
   const top_picks = useSelector((state) => state?.homeslice?.top_picks);
   function getNextWednesdayOrSunday() {
     const now = new Date();
@@ -50,9 +52,9 @@ const FlashSale = () => {
         </div>
 
         <CarouselWithoutIndicators
-          products={top_picks?.[0]?.productlist}
-          bannerImage={top_picks?.[0]?.image_slider}
-          bannerImageRedirectUrl={top_picks?.[0]?.url}
+          products={FlashSaleItems.slice(0, 5)}
+          bannerImage={FlashSaleBanner.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner?.url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
         />

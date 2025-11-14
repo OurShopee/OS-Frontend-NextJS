@@ -63,6 +63,28 @@ const ElevenSale = () => {
 
   const sectionData = saleData?.other_section;
 
+  const NowOrNeverDeals =
+    sectionData?.find((d) => d.heading === "NOW OR NEVER DEALS")?.items?.[0]
+      ?.items || [];
+  
+  const FlashSale =
+    sectionData?.find((d) => d.heading === "Flash Sale")?.items?.[0]
+      ?.items || [];
+  
+  const LowestPriceEver =
+    sectionData?.find((d) => d.heading === "Lowest Price Ever")?.items?.[0]
+      ?.items || [];
+  
+  const OurshoppeFridayBanner =
+    sectionData?.find((d) => d.heading === "Ourshopee Friday")?.images || [];
+  
+  const FlashSaleBanner =
+    sectionData?.find((d) => d.heading === "Flash Sale Banner")?.images || [];
+  
+  const BeautyBanner =
+    sectionData?.find((d) => d.heading === "Beauty Single Banner")?.images || [];
+  
+  
   const electronics =
     sectionData?.find((d) => d.heading === "Electronics")?.items?.[0]?.items ||
     [];
@@ -142,13 +164,14 @@ const ElevenSale = () => {
     <div className="container mx-auto">
       {!isMobile ? (
         <DesktopView
-          sectionData={sectionData}
-          categories={categories}
+          NowOrNeverDeals={NowOrNeverDeals}
+          FlashSaleItems={FlashSale}
+          LowestPriceEver={LowestPriceEver}
+          OurshoppeFridayBanner={OurshoppeFridayBanner}
+          FlashSaleBanner={FlashSaleBanner}
+          BeautyBanner={BeautyBanner}
           categoryItems={categoryItems}
-          rows={rows}
-          productsAtOne={productsAtOne}
-          topBrands={topBrands}
-          clearanceItems={clearanceItems}
+          
         />
       ) : (
         <MobileViewCard
