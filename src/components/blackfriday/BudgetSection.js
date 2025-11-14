@@ -10,19 +10,19 @@ const BudgetSection = () => {
   const budgetImages = [
     {
       image: "under_1.png",
-      url: currentcountry.min_max1,
+      url: currentcountry.min_max1 || "",
     },
     {
       image: "under_2.png",
-      url: currentcountry.min_max2,
+      url: currentcountry.min_max2 || "",
     },
     {
       image: "under_3.png",
-      url: currentcountry.min_max3,
+      url: currentcountry.min_max3 || "",
     },
     {
       image: "under_4.png",
-      url: currentcountry.min_max4,
+      url: currentcountry.min_max4 || "",
     },
   ];
 
@@ -45,7 +45,7 @@ const BudgetSection = () => {
         </div>
         <div className="flex justify-center flex-wrap gap-14">
           {budgetImages.map((i, idx) => (
-            <Link key={idx} href={i.url}>
+            <Link key={idx} href={i?.url}>
               <img
                 src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/${currentcountry.currency}/${i.image}`}
                 alt="No image found"

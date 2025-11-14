@@ -12,6 +12,8 @@ import MarqueeSale from "./MarqueeSale";
 import NowOrNeverSection from "./NowOrNeverSection";
 import FlashSale from "./FlashSale";
 import { MediaQueries } from "../utils";
+import { ComponentHeader } from "../Common";
+import { CarouselWithBanner } from "../homepage";
 
 const DesktopView = ({
   categoryItems,
@@ -21,11 +23,9 @@ const DesktopView = ({
   OurshoppeFridayBanner,
   FlashSaleBanner,
   BeautyBanner,
+  rows,
 }) => {
   const { isMobile } = MediaQueries();
-  const currentcountry = useSelector(
-    (state) => state?.globalslice?.currentcountry
-  );
   const techGadgets = {
     three: [
       {
@@ -142,12 +142,91 @@ const DesktopView = ({
         <NowOrNeverSection NowOrNeverDeals={NowOrNeverDeals} />
       </div>
 
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Pre Owned Mobiles"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[8]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Pre Owned Mobiles"}
+        />
+      </div>
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Pre Owned Laptops"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[0]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Pre Owned Laptops"}
+        />
+      </div>
+
       <div className="mb-4">
         <BudgetSection />
       </div>
 
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Watches"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[1]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Watches"}
+        />
+      </div>
+
       <div className="mb-4">
         <LowestPriceSection LowestPriceEver={LowestPriceEver} />
+      </div>
+
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Perfumes"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[2]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Perfumes"}
+        />
+      </div>
+
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Health & Beauty"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[3]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Health & Beauty"}
+        />
       </div>
 
       <div className="px-5 mb-4">
@@ -159,6 +238,64 @@ const DesktopView = ({
           }
           alt="Banner"
           className="w-full h-full"
+        />
+      </div>
+
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Accessories"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[4]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Accessories"}
+        />
+      </div>
+
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Home Appliances"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[5]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Home Appliances"}
+        />
+      </div>
+
+      <div className="px-5 mb-4">
+        <img
+          src={
+            isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
+          }
+          alt="Banner"
+          className="w-full h-full"
+        />
+      </div>
+
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Mother & Baby"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[6]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Mother & Baby"}
         />
       </div>
 
@@ -237,13 +374,19 @@ const DesktopView = ({
         </div>
       </div>
 
-      <div className="px-5 mb-4">
-        <img
-          src={
-            isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
-          }
-          alt="Banner"
-          className="w-full h-full"
+      <div className="component_1 mb-4 px-5">
+        <ComponentHeader
+          title={"Toys & Games"}
+          url={FlashSaleBanner.url}
+          view_all={"rgba(82, 50, 194, 1)"}
+        />
+        <CarouselWithBanner
+          products={rows?.[7]}
+          bannerImage={FlashSaleBanner?.desktopImage}
+          bannerImageRedirectUrl={FlashSaleBanner.url}
+          type={1}
+          inner_bg={"rgba(238, 235, 250, 1)"}
+          section_name={"Toys & Games"}
         />
       </div>
     </div>
