@@ -126,7 +126,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                   <div className="flex items-center">
                     {currentcountry?.currency == "AED" ? (
                       <img
-                        src="/assets/feed/aed-icon.png"
+                        src="/assets/feed/aed-icon.svg"
                         alt="AED"
                         className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                         style={{ color: "black" }}
@@ -151,7 +151,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                         {currentcountry?.currency == "AED" ? (
                           <>
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "#9EA5A8" }}
@@ -197,7 +197,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                             >
                               {currentcountry?.currency == "AED" ? (
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}

@@ -152,7 +152,7 @@ const Snplmodal = ({ productcost }) => {
                         {currentcountry?.currency == "AED" ? (
                           <>
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "black" }}

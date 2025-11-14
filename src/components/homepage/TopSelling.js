@@ -38,15 +38,30 @@ export default function TopSelling({
   const products_brand = useSelector((state) => state?.homeslice?.brand_week);
   const products = products_brand?.[0]?.items;
 
+  // Fixed navigation button behavior for RTL + mobile
+  const leftArrowDisabled = isRTL && isMobile ? isEnd : isBeginning;
+  const rightArrowDisabled = isRTL && isMobile ? isBeginning : isEnd;
+
+  // Navigation logic: reverse on RTL+mobile for correct visual flow
   const handlePrev = useCallback(() => {
     if (!swiperContainerRef.current) return;
-    swiperContainerRef.current.swiper.slidePrev();
-  }, []);
+    const swiper = swiperContainerRef.current.swiper;
+    if (isRTL && isMobile) {
+      swiper.slideNext();
+    } else {
+      swiper.slidePrev();
+    }
+  }, [isRTL, isMobile]);
 
   const handleNext = useCallback(() => {
     if (!swiperContainerRef.current) return;
-    swiperContainerRef.current.swiper.slideNext();
-  }, []);
+    const swiper = swiperContainerRef.current.swiper;
+    if (isRTL && isMobile) {
+      swiper.slidePrev();
+    } else {
+      swiper.slideNext();
+    }
+  }, [isRTL, isMobile]);
 
   const handleSlideChange = (swiper) => {
     setIsBeginning(swiper.isBeginning);
@@ -129,9 +144,9 @@ export default function TopSelling({
             />
           )}
         </div>
-        <button className="text-[#43494B] font-semibold gap-1 flex items-center">
+        <Link href={topSellingData?.icon_image?.[0]?.url} className="text-[#43494B] font-semibold gap-1 flex items-center">
           {viewAllText} <IoChevronForward className={`${currentLanguage === "ar" ? "rotate-180" : ""}`} size={18} />
-        </button>
+        </Link>
       </div>
 
       <div
@@ -145,12 +160,10 @@ export default function TopSelling({
         {/* LEFT ARROW – Desktop (unchanged) */}
         <button
           type="button"
-          className={`${btnBaseDesktop} self-center ${
-            isBeginning ? btnDisabled : ""
-          }`}
+          className={`${btnBaseDesktop} self-center ${leftArrowDisabled ? btnDisabled : ""}`}
           onClick={handlePrev}
-          disabled={isBeginning}
-          aria-disabled={isBeginning}
+          disabled={leftArrowDisabled}
+          aria-disabled={leftArrowDisabled}
           aria-label="Previous"
         >
           <img
@@ -188,13 +201,11 @@ export default function TopSelling({
             {/* LEFT ARROW – Mobile (edge) */}
             <button
               type="button"
-              className={`${btnMobileOverlay} -left-[.75rem] ${
-                isBeginning
-                  ? "opacity-30 pointer-events-none"
-                  : "pointer-events-auto"
-              }`}
+              className={`${btnMobileOverlay} -left-[.75rem] ${leftArrowDisabled ? "opacity-30 pointer-events-none" : "pointer-events-auto"}`}
               onClick={handlePrev}
               aria-label="Previous"
+              disabled={leftArrowDisabled}
+              aria-disabled={leftArrowDisabled}
             >
               <img
                 src="/assets/vector_icons/arrow_left.svg"
@@ -206,11 +217,11 @@ export default function TopSelling({
             {/* RIGHT ARROW – Mobile (edge) */}
             <button
               type="button"
-              className={`${btnMobileOverlay} -right-[.75rem] ${
-                isEnd ? "opacity-30 pointer-events-none" : "pointer-events-auto"
-              }`}
+              className={`${btnMobileOverlay} -right-[.75rem] ${rightArrowDisabled ? "opacity-30 pointer-events-none" : "pointer-events-auto"}`}
               onClick={handleNext}
               aria-label="Next"
+              disabled={rightArrowDisabled}
+              aria-disabled={rightArrowDisabled}
             >
               <img
                 src="/assets/vector_icons/arrow_right.svg"
@@ -221,6 +232,7 @@ export default function TopSelling({
 
             <Swiper
               key={`top-selling-${currentLanguage}`}
+              dir={isRTL ? "rtl" : "ltr"}
               cssMode={!isMobile && true}
               mousewheel={true}
               keyboard={true}
@@ -326,12 +338,10 @@ export default function TopSelling({
         {/* RIGHT ARROW – Desktop (unchanged) */}
         <button
           type="button"
-          className={`${btnBaseDesktop} self-center ${
-            isEnd ? btnDisabled : ""
-          }`}
+          className={`${btnBaseDesktop} self-center ${rightArrowDisabled ? btnDisabled : ""}`}
           onClick={handleNext}
-          disabled={isEnd}
-          aria-disabled={isEnd}
+          disabled={rightArrowDisabled}
+          aria-disabled={rightArrowDisabled}
           aria-label="Next"
         >
           <img

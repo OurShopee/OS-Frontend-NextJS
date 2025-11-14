@@ -2362,6 +2362,10 @@ export const content = {
       en: "Top Selling",
       ar: "الأكثر مبيعاً",
     },
+    topSellingProducts: {
+      en: "Top Selling Products",
+      ar: "المنتجات الأكثر مبيعاً",
+    },
     saverZone: {
       en: "Saver zone",
       ar: "منطقة التوفير",

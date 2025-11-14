@@ -127,7 +127,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               {youSaved}{" "}
               {currentcountry?.currency == "AED" ? (
                 <img
-                  src="/assets/feed/aed-icon.png"
+                  src="/assets/feed/aed-icon.svg"
                   alt="AED"
                   className={`w-2.5 h-2.5 inline-block mix-blend-multiply ${isRTL ? "ml-0.5" : "mr-0.5"}`}
                   style={{ color: "black" }}
@@ -366,7 +366,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           <div className={`flex items-center gap-0.5 ${isRTL ? "flex-row-reverse" : ""}`}>
             {currentcountry?.currency == "AED" ? (
               <img
-                src="/assets/feed/aed-icon.png"
+                src="/assets/feed/aed-icon.svg"
                 alt="AED"
                 className={`w-[18px] h-[18px] inline-block mix-blend-multiply ${isRTL ? "ml-0.5" : "mr-0.5"}`}
                 style={{ color: "black" }}
