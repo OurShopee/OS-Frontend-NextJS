@@ -547,16 +547,18 @@ const ProductPageLayout = ({
       productid: product?.id,
     };
 
-    console.log("Setting pendingFormData:", apiData);
-    setPendingFormData(apiData);
-
     // Check if OTP verification is enabled via environment variable
-    const checkOtpEnabled = process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "false";
-
+    // Properly parse the environment variable (handle string "false" and "true")
+    const checkOtpEnabled = 
+      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" || 
+      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === true;
+    
     // If OTP check is disabled, directly submit the form
     if (!checkOtpEnabled) {
+      setPendingFormData(apiData);
       try {
-        await submitFormAfterOTP();
+        // Pass apiData directly to avoid state timing issues
+        await submitFormAfterOTP(apiData);
       } catch (error) {
         console.error("Order submission error:", error);
         toast.error("Failed to submit order. Please try again.");
@@ -570,7 +572,9 @@ const ProductPageLayout = ({
       return;
     }
 
-    // OTP check is enabled, proceed with OTP verification
+    // OTP check is enabled, set pending data and proceed with OTP verification
+    setPendingFormData(apiData);
+
     try {
       const mobileNumber = updatedFormData.contact_no.trim();
       dispatch(setregistermobile(mobileNumber));
@@ -601,9 +605,11 @@ const ProductPageLayout = ({
   };
 
   // Function to submit form after OTP verification
-  const submitFormAfterOTP = async () => {
-    console.log("submitFormAfterOTP called with data:", pendingFormData);
-    if (!pendingFormData) {
+  const submitFormAfterOTP = async (formDataToSubmit = null) => {
+    // Use passed data if available, otherwise fall back to state
+    const dataToSubmit = formDataToSubmit || pendingFormData;
+    console.log("submitFormAfterOTP called with data:", dataToSubmit);
+    if (!dataToSubmit) {
       console.log("No pending form data, returning early");
       return;
     }
@@ -611,7 +617,7 @@ const ProductPageLayout = ({
     setIsSubmitting(true);
     try {
       console.log("Calling addFeed API...");
-      const result = await addFeed(pendingFormData);
+      const result = await addFeed(dataToSubmit);
       console.log("addFeed API response:", result);
 
       if (result.data.status === "success") {
@@ -622,18 +628,18 @@ const ProductPageLayout = ({
         toast.success("Order submitted successfully!");
 
         const selectedLocationName =
-          locations.find((loc) => loc.id === parseInt(pendingFormData.emirate))
+          locations.find((loc) => loc.id === parseInt(dataToSubmit.emirate))
             ?.name || "N/A";
         pushToDataLayer("submitted_feed_order", currentcountry.name, {
-          form_name: pendingFormData.form_name,
-          contact_no: pendingFormData.contact_no,
-          product: pendingFormData.product,
-          emirate: pendingFormData.emirate,
-          area: pendingFormData.area,
-          delivery_address: pendingFormData.delivery_address,
-          source: pendingFormData.orderfrom,
-          price: pendingFormData.price,
-          quantity: pendingFormData.quantity,
+          form_name: dataToSubmit.form_name,
+          contact_no: dataToSubmit.contact_no,
+          product: dataToSubmit.product,
+          emirate: dataToSubmit.emirate,
+          area: dataToSubmit.area,
+          delivery_address: dataToSubmit.delivery_address,
+          source: dataToSubmit.orderfrom,
+          price: dataToSubmit.price,
+          quantity: dataToSubmit.quantity,
           sku_id: product?.sku,
           product_name: product?.name,
           product_price: `${currentcountry.currency} ${

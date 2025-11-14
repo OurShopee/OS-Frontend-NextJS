@@ -195,10 +195,9 @@ const ProductForm = ({ product, queryParams, Webfeed }) => {
     setPendingFormData(apiData);
 
     // Check if OTP verification is enabled via environment variable
-    const checkOtpEnabled = process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "false";
-
+    const checkOtpEnabled = process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED || false;
     // If OTP check is disabled, directly submit the form
-    if (!checkOtpEnabled) {
+    if (checkOtpEnabled) {
       try {
         await submitFormAfterOTP();
       } catch (error) {
