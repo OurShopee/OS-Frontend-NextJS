@@ -1555,7 +1555,7 @@ export const content = {
       ar: "نطاق السعر",
     },
     youSaved: {
-      en: "You saved",
+      en: "You saved ",
       ar: "لقد وفرت",
     },
     productSpecifications: {

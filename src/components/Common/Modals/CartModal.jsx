@@ -16,7 +16,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const currentLanguage = useCurrentLanguage();
   
   // Content translations
-  const youSaved = useContent("buttons.youSaved");
+  const youSaved = useContent("product.youSaved");
   const qty = useContent("buttons.qty");
   const continueShopping = useContent("buttons.continueShopping");
   const checkoutNow = useContent("buttons.checkoutNow");
@@ -135,7 +135,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                       <span>{currentcountry?.currency}&nbsp;</span>
                     )}
                     <span className="" style={{ fontWeight: 600 }}>
-                      {productData.display_price * quantity}&nbsp;
+                      {(productData.display_price * quantity).toFixed(2)}&nbsp;
                     </span>
                   </div>
 
