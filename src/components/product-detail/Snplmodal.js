@@ -2,11 +2,12 @@
 import React, { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import moment from "moment";
+import "moment/locale/ar";
 import { useSelector, useDispatch } from "react-redux";
 import { setsnplmodal } from "@/redux/formslice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCurrentLanguage } from "@/hooks";
+import { useCurrentLanguage, useContent } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, ...props }) => {
@@ -25,10 +26,17 @@ const NavLink = ({ to, children, className, ...props }) => {
 const Snplmodal = ({ productcost }) => {
   const dispatch = useDispatch();
   const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
   const snplmodal = useSelector((state) => state.formslice.snplmodal);
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+
+  // Get translated content
+  const paymentOptions = useContent("payment.paymentOptions") || "Payment options";
+  const monthly = useContent("payment.monthly") || "Monthly";
+  const today = useContent("payment.today") || "Today";
+  const learnMore = useContent("buttons.learnMore") || "Learn more";
 
   const close = () => {
     dispatch(setsnplmodal(false));
@@ -80,15 +88,15 @@ const Snplmodal = ({ productcost }) => {
         <div
           className="relative bg-white rounded-lg shadow-xl max-w-[500px] w-full my-8 animate-fadeIn"
           onClick={(e) => e.stopPropagation()}
-          dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+          dir={isRTL ? "rtl" : "ltr"}
         >
           <div className="snplmodal">
             <div className={`modalclose flex paymentoptionsnpl pt-2 ${
-              currentLanguage === "ar" ? "pl-2 flex-row-reverse" : "pr-2"
+              isRTL ? "pl-2 flex-row-reverse" : "pr-2"
             }`}>
               <div className="paymentoption-title">
                 <div className="paytitle" id="payment-options-title">
-                  Payment options
+                  {paymentOptions}
                 </div>
               </div>
               <div>
@@ -104,7 +112,7 @@ const Snplmodal = ({ productcost }) => {
             </div>
 
             <div className="monthlytitle" id="payment-options-description">
-              Monthly
+              {monthly}
             </div>
 
             <div className="snpltrack">
@@ -112,61 +120,77 @@ const Snplmodal = ({ productcost }) => {
                 className="subscription-card"
                 role="list"
                 aria-label="Monthly payment schedule"
+                dir={isRTL ? "rtl" : "ltr"}
               >
                 {Array.from({ length: currentcountry?.emi_months || 0 }).map(
-                  (_, index) => (
-                    <div
-                      className={`item ${index === 0 ? "activeback today" : ""}`}
-                      key={index}
-                      role="listitem"
-                      aria-label={`Payment ${index + 1} of ${
-                        currentcountry?.emi_months || 0
-                      }`}
-                    >
+                  (_, index) => {
+                    // Format date based on language
+                    const formattedDate = index === 0
+                      ? today
+                      : isRTL
+                      ? moment()
+                          .add(index, "months")
+                          .locale("ar")
+                          .format("dddd، D MMMM YYYY")
+                      : moment()
+                          .add(index, "months")
+                          .format("dddd, Do MMMM YYYY");
+
+                    return (
                       <div
-                        className={`indicator ${
-                          index === 0 ? "activeindicator" : ""
-                        }`}
-                        aria-hidden="true"
-                      ></div>
-                      <div
-                        className={`label ${index === 0 ? "activetitle" : ""}`}
-                        aria-label={`Payment date: ${
-                          index === 0
-                            ? "Today"
-                            : moment()
-                                .add(index, "months")
-                                .format("dddd, Do MMMM YYYY")
+                        className={`item ${index === 0 ? "activeback today" : ""}`}
+                        key={index}
+                        role="listitem"
+                        aria-label={`Payment ${index + 1} of ${
+                          currentcountry?.emi_months || 0
                         }`}
                       >
-                        {index === 0
-                          ? "Today"
-                          : moment()
-                              .add(index, "months")
-                              .format("dddd, Do MMMM YYYY")}
+                        <div
+                          className={`indicator ${
+                            index === 0 ? "activeindicator" : ""
+                          }`}
+                          aria-hidden="true"
+                          style={isRTL ? { marginRight: 0, marginLeft: "12px" } : {}}
+                        ></div>
+                        <div
+                          className={`label ${index === 0 ? "activetitle" : ""}`}
+                          aria-label={`Payment date: ${formattedDate}`}
+                        >
+                          {formattedDate}
+                        </div>
+                        <div
+                          className={`price ${index === 0 ? "activetitle" : ""} flex items-center flex-row ${isRTL ? "flex-row-reverse" : ""}`}
+                          aria-label={`Payment amount: ${currentcountry.currency} ${productcost}`}
+                        >
+                          {currentcountry?.currency == "AED" ? (
+                            <>
+                              <img
+                                src="/assets/feed/aed-icon.svg"
+                                alt="AED"
+                                className="w-4 h-4 inline-block mix-blend-multiply"
+                                style={{ 
+                                  color: "black",
+                                  marginRight: isRTL ? "4px" : "0",
+                                  marginLeft: isRTL ? "0" : "4px"
+                                }}
+                              />
+                              {productcost}
+                            </>
+                          ) : (
+                            <>
+                              {currentcountry.currency} {productcost}
+                            </>
+                          )}
+                        </div>
                       </div>
-                      <div
-                        className={`price ${index === 0 ? "activetitle" : ""} flex items-center`}
-                        aria-label={`Payment amount: ${currentcountry.currency} ${productcost}`}
-                      >
-                        {currentcountry?.currency == "AED" ? (
-                          <>
-                            <img
-                              src="/assets/feed/aed-icon.svg"
-                              alt="AED"
-                              className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
-                              style={{ color: "black" }}
-                            />
-                            {productcost}
-                          </>
-                        ) : (
-                          <>{currentcountry.currency} {productcost}</>
-                        )}
-                      </div>
-                    </div>
-                  )
+                    );
+                  }
                 )}
-                <div className="track-line" aria-hidden="true"></div>
+                <div 
+                  className="track-line" 
+                  aria-hidden="true"
+                  style={isRTL ? { left: "auto", right: "23px", borderLeft: "none", borderRight: "1px dashed #CED2D4" } : {}}
+                ></div>
               </div>
 
               <NavLink
@@ -174,7 +198,7 @@ const Snplmodal = ({ productcost }) => {
                 className="activeformsubmitbutton no-underline"
                 aria-label="Learn more about payment plans"
               >
-                Learn more
+                {learnMore}
               </NavLink>
             </div>
           </div>
