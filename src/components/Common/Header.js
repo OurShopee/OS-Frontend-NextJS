@@ -335,7 +335,7 @@ const Header = () => {
                     alt=""
                     width={15}
                   />
-                  <span className="pl-1 headertoptitle">{deliverToText}</span>
+                  {/* <span className="pl-1 headertoptitle">{deliverToText}</span> */}
                   <span className="pl-1 currentlocation-address">
                     {addressdata?.[0]?.address}
                   </span>
@@ -348,7 +348,7 @@ const Header = () => {
                     alt=""
                     width={15}
                   />
-                  <span className="pl-1 headertoptitle">{deliverToText}</span>
+                  {/* <span className="pl-1 headertoptitle">{deliverToText}</span> */}
                   <CurrentLocation />
                 </NavLink>
               ))}
