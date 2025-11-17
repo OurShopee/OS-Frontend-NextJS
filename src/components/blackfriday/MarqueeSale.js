@@ -1,8 +1,9 @@
 import React from "react";
+import { MediaQueries } from "../utils";
 
 const MarqueeSale = () => {
+  const { isMobile } = MediaQueries();
   const textStyle = {
-    fontSize: "60px",
     background: "#100f0f",
     border: "3px solid #211e1c",
     fontWeight: "medium",
@@ -21,7 +22,7 @@ const MarqueeSale = () => {
   };
 
   return (
-    <div className="absolute top-[95%] w-full h-[30vh] overflow-visible">
+    <div className="absolute top-[70%] md:top-[95%] w-full h-[30vh] overflow-visible">
       {/* Top layer scrolling left */}
       <div style={{ rotate: "5deg" }}>
         <div
@@ -36,8 +37,8 @@ const MarqueeSale = () => {
           {[...Array(100)].map((_, i) => (
             <span
               key={i}
-              style={{ ...textStyle, padding: "5px 30px" }}
-              className="border-l-0 border-r-0"
+              style={{ ...textStyle }}
+              className="border-l-0 border-r-0 px-2.5 text-2xl py-[5px] md:px-[30px] md:text-6xl"
             >
               SALE
             </span>
@@ -59,8 +60,8 @@ const MarqueeSale = () => {
           {[...Array(100)].map((_, i) => (
             <span
               key={i}
-              style={{ ...textStyle, padding: "5px 30px" }}
-              className="border-l-0 border-r-0"
+              style={{ ...textStyle }}
+              className="border-l-0 border-r-0 px-2.5 text-2xl py-[5px] md:px-[30px] md:text-6xl"
             >
               50% OFF
             </span>

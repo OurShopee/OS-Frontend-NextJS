@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import CountdownClock from "../homepage/CountdownClock";
 import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 import { useMemo, useEffect, useState } from "react";
+import { MediaQueries } from "../utils";
 
 function getNextResetTime() {
   const now = new Date();
@@ -47,6 +48,7 @@ function getCurrentProductGroupIndex() {
 }
 
 const NowOrNeverSection = ({ NowOrNeverDeals }) => {
+  const { isMobile } = MediaQueries();
 
   const products = NowOrNeverDeals;
 
@@ -104,30 +106,30 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
     <div className="">
       <div className="component_1 px-5">
         <div
-          className="px-11 py-3 rounded-[16px] overflow-hidden pb-8"
+          className="px-3 md:px-11 py-3 rounded-[16px] overflow-hidden pb-8"
           style={{
             background: "url(/assets/black-friday/now-never-bg.png)",
             backgroundPosition: "center",
             backgroundSize: "cover",
           }}
         >
-          <div className="component_header">
-            <div className="text-[28px] font-bold text-white flex capitalize py-[11px]">
+          <div className="component_header flex-col md:flex-row gap-4 md:gap-0">
+            <div className="text-2xl md:text-[28px] font-bold text-white flex capitalize py-[11px] whitespace-nowrap">
               <span>NOW OR&nbsp;</span>
               <span
                 style={{
                   display: "inline-block",
                   color: "#fff",
-                  paddingRight: "50px",
                   background:
                     "linear-gradient(90deg, #070707 5.71%, #FF1D1E 100%)",
                   clipPath: "polygon(0 0, 100% 0, 88% 100%, 0% 100%)",
                 }}
+                className={`pr-5 md:pr-12`}
               >
                 NEVER DEALS
               </span>
             </div>
-            <div className="flex justify-center items-center gap-5">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-0 md:gap-5">
               <span className="text-[22px] font-medium text-white">
                 GRAB NOW!
               </span>
@@ -143,7 +145,8 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
           <CarouselWithoutIndicators
             products={groupedProducts[currentGroupIndex]}
             type={1}
-            inner_bg={"rgba(238, 235, 250, 1)"}
+            inner_bg={"transparent"}
+            color={true}
             breakPointsProps={{
               200: { slidesPerView: 1.3 },
               375: { slidesPerView: 1.5 },

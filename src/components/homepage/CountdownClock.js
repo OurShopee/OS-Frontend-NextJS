@@ -30,9 +30,9 @@ export default function CountdownClock({
           <Image
             src={clockIcon}
             alt="Clock icon"
-            width={isMobile ? 48 * 0.8 : 48}
-            height={isMobile ? 48 * 0.8 : 48}
-            className="w-8 sm:w-12 h-auto "
+            width={isMobile ? 60 : 48}
+            height={isMobile ? 60 : 48}
+            className="w-12 sm:w-12 h-auto "
           />
         )}
         <FlipClockCountdown

@@ -42,9 +42,9 @@ const LowestPriceSection = ({ LowestPriceEver }) => {
             color={true}
             breakPointsProps={{
               200: { slidesPerView: 1.3 },
-              375: { slidesPerView: 2 },
-              425: { slidesPerView: 2 },
-              500: { slidesPerView: 2 },
+              375: { slidesPerView: 1.5 },
+              425: { slidesPerView: 1.5 },
+              500: { slidesPerView: 1.7 },
               660: { slidesPerView: 3 },
               760: { slidesPerView: 3 },
               1000: { slidesPerView: 4 },
@@ -55,7 +55,7 @@ const LowestPriceSection = ({ LowestPriceEver }) => {
           />
           <div className="flex justify-end px-1">
             <span
-              className="text-base font-semibold text-white"
+              className="text-[12px] md:text-base font-semibold text-white mr-3"
               style={{ fontFamily: "'Atma', sans-serif" }}
             >
               *For Cart Value {currentcountry?.currency}{" "}

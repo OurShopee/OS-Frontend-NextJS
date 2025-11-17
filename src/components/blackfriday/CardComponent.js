@@ -27,21 +27,21 @@ const DiscountCard = ({
         bg-cover bg-center bg-white
         ${className}
       `}
-      style={{ 
+      style={{
         backgroundImage: `url(${cardBg.src})`,
-        height: '150px'
+        height: "150px",
       }}
     >
       {/* Text block */}
       <div className="flex flex-col flex-1 justify-center gap-2 z-10">
-        <span className="text-[16px] max-w-[140px] font-bold text-[#3E4130] leading-tight">
+        <span className="text-[12px] md:text-[16px] max-w-[140px] font-bold text-[#3E4130] leading-tight">
           {title}
         </span>
         <div className="flex flex-col">
-          <span className="text-[28px] font-extrabold text-[#3E4130] group-hover:mt-1 group-hover:text-red-500 leading-none transition-all duration-300 ease-in-out">
+          <span className="text-xl md:text-[28px] font-bold text-[#3E4130] group-hover:mt-1 group-hover:text-red-500 leading-none transition-all duration-300 ease-in-out">
             upto
           </span>
-          <span className="text-[28px] font-extrabold text-[#3E4130] group-hover:text-[#FF1D1E]  leading-none transition-colors duration-300">
+          <span className="text-xl md:text-[28px] font-bold text-[#3E4130] group-hover:text-[#FF1D1E]  leading-none transition-colors duration-300">
             {discount}% OFF
           </span>
         </div>

@@ -9,6 +9,7 @@ export default function CarouselWithoutIndicators({
   bannerImage,
   bannerImageRedirectUrl = "",
   type,
+  color,
   inner_bg,
   type2,
   eid_sale,
@@ -96,6 +97,7 @@ export default function CarouselWithoutIndicators({
               indicators={false}
               products={products}
               type={type}
+              color={color}
               inner_bg={inner_bg}
               type2={type2}
               eid_sale={eid_sale}
@@ -112,6 +114,7 @@ export default function CarouselWithoutIndicators({
             indicators={false}
             products={products}
             type={type}
+            color={color}
             inner_bg={inner_bg}
             type2={type2}
             eid_sale={eid_sale}
