@@ -185,9 +185,13 @@ const Footer = () => {
               >
                 {termsAndConditions}
               </NavLink>
-              <NavLink href="/faqs" className="footerlinks no-underline">
-                {faqs}
-              </NavLink>
+              {
+                currentLanguage !== "ar" && (
+                  <NavLink href="/faqs" className="footerlinks no-underline">
+                    {faqs}
+                  </NavLink>
+                )
+              }
               <NavLink
                 href="/privacy-policy"
                 className="footerlinks no-underline"

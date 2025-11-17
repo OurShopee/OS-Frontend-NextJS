@@ -290,6 +290,14 @@ export const content = {
       en: "Apply",
       ar: "قدم",
     },
+    applyNow: {
+      en: "Apply Now",
+      ar: "تطبيق الآن",
+    },
+    tryAgain: {
+      en: "Try again",
+      ar: "حاول مرة أخرى",
+    },
     submit: {
       en: "Submit",
       ar: "إرسال",
@@ -386,6 +394,10 @@ export const content = {
       en: "Show Less",
       ar: "عرض أقل",
     },
+    learnMore: {
+      en: "Learn more",
+      ar: "اعرف المزيد",
+    },
     select: {
       en: "Select",
       ar: "اختر",
@@ -405,6 +417,18 @@ export const content = {
     clearAll: {
       en: "Clear All",
       ar: "مسح الكل",
+    },
+    price: {
+      en: "Price",
+      ar: "السعر",
+    },
+    minPrice: {
+      en: "Min Price",
+      ar: "الحد الأدنى للسعر",
+    },
+    maxPrice: {
+      en: "Max Price",
+      ar: "الحد الأقصى للسعر",
     },
     removeItem: {
       en: "Remove Item",
@@ -872,6 +896,10 @@ export const content = {
       en: "Tabby Plan",
       ar: "خطة تابي",
     },
+    checkBackSoon: {
+      en: "We're lining up great choices for you — Check back soon.",
+      ar: "نحن نعد خيارات رائعة لك — تحقق مرة أخرى قريبًا.",
+    },
     shopBySubCategories: {
       en: "Shop by Sub-Categories",
       ar: "التسوق حسب الفئات الفرعية",
@@ -1023,6 +1051,10 @@ export const content = {
     confirmPassword: {
       en: "Confirm Password",
       ar: "تأكيد كلمة المرور",
+    },
+    oldPassword: {
+      en: "Old Password",
+      ar: "كلمة المرور القديمة",
     },
     newPassword: {
       en: "New Password",
@@ -1282,9 +1314,37 @@ export const content = {
       en: "You Save",
       ar: "توفر",
     },
+    youSaved: {
+      en: "You Saved",
+      ar: "وفرت",
+    },
+    itemAddedToCart: {
+      en: "Item added to cart",
+      ar: "تمت إضافة العنصر إلى السلة",
+    },
+    productDetailsAndOptions: {
+      en: "Product details and options to continue shopping or checkout",
+      ar: "تفاصيل المنتج والخيارات لمتابعة التسوق أو الدفع",
+    },
+    addedToCart: {
+      en: "Added To Cart",
+      ar: "تمت الإضافة إلى السلة",
+    },
+    proceedToCheckoutWithSelectedItems: {
+      en: "Proceed to checkout with selected items",
+      ar: "المتابعة للدفع مع العناصر المحددة",
+    },
     rating: {
       en: "Rating",
       ar: "التقييم",
+    },
+    star: {
+      en: "Star",
+      ar: "نجمة",
+    },
+    stars: {
+      en: "Stars",
+      ar: "نجوم",
     },
     reviews: {
       en: "Reviews",
@@ -1762,6 +1822,42 @@ export const content = {
       en: "Keep exploring",
       ar: "استمر في الاستكشاف",
     },
+    processingTitle: {
+      en: "Sit tight — your order is under process.",
+      ar: "يرجى الانتظار — طلبك قيد المعالجة.",
+    },
+    successTitle: {
+      en: "Your order was placed successfully.",
+      ar: "تم تقديم طلبك بنجاح.",
+    },
+    failTitle: {
+      en: "Oh no! Your payment failed.",
+      ar: "للأسف! فشلت عملية الدفع.",
+    },
+    failDescription: {
+      en: "An error occurred while processing your payment.",
+      ar: "حدث خطأ أثناء معالجة الدفع.",
+    },
+    stuckTitle: {
+      en: "Your order's in the queue — we're reviewing it before processing.",
+      ar: "طلبك في انتظار المراجعة قبل المتابعة.",
+    },
+    loaderAlt: {
+      en: "Loading",
+      ar: "جاري التحميل",
+    },
+    orderSuccessAlt: {
+      en: "Order success",
+      ar: "نجاح الطلب",
+    },
+    paymentFailedAlt: {
+      en: "Payment failed",
+      ar: "فشل الدفع",
+    },
+    orderHoldAlt: {
+      en: "Order on hold",
+      ar: "الطلب قيد المراجعة",
+    },
   },
   wishlist: {
     title: {
@@ -1891,6 +1987,18 @@ export const content = {
     selectPaymentMethod: {
       en: "Select Payment Method",
       ar: "اختر طريقة الدفع",
+    },
+    paymentOptions: {
+      en: "Payment options",
+      ar: "خيارات الدفع",
+    },
+    monthly: {
+      en: "Monthly",
+      ar: "شهري",
+    },
+    today: {
+      en: "Today",
+      ar: "اليوم",
     },
     creditCard: {
       en: "Credit Card",
@@ -2417,6 +2525,142 @@ export const content = {
     stealTheDeal: {
       en: "Steal the Deal",
       ar: "اغتنم العرض",
+    },
+  },
+  notlogin: {
+    loginTitle: {
+      en: "Login in to continue shopping",
+      ar: "قم بتسجيل الدخول لمتابعة التسوق",
+    },
+    loginSubtitle: {
+      en: "Login to see the items you added previously",
+      ar: "قم بتسجيل الدخول لرؤية العناصر التي أضفتها سابقًا",
+    },
+  },
+  tabby: {
+    amI: {
+      en: "Am I",
+      ar: "هل أنا",
+    },
+    eligible: {
+      en: "Eligible?",
+      ar: "مؤهل؟",
+    },
+    yesIfYou: {
+      en: "Yes, if you…",
+      ar: "نعم، إذا كنت...",
+    },
+    age18Plus: {
+      en: "are 18+ years old",
+      ar: "تبلغ من العمر 18 عامًا أو أكثر",
+    },
+    validCard: {
+      en: "have a valid debit or credit card",
+      ar: "لديك بطاقة خصم أو ائتمان صالحة",
+    },
+    uaeResident: {
+      en: "are resident in the United Arab Emirates",
+      ar: "مقيم في دولة الإمارات العربية المتحدة",
+    },
+    andJustFYI: {
+      en: "and just FYI…",
+      ar: "وللمعلومية فقط...",
+    },
+    installmentPlanValid: {
+      en: "Tabby easy installment plan is valid for all electronics category products value up to {electronicsLimit} {currency} and Non-electronics category products value up to {nonElectronicsLimit} {currency}.",
+      ar: "خطة التقسيط السهلة من Tabby صالحة لجميع منتجات فئة الإلكترونيات بقيمة تصل إلى {electronicsLimit} {currency} ومنتجات فئة غير الإلكترونيات بقيمة تصل إلى {nonElectronicsLimit} {currency}.",
+    },
+    automaticPayments: {
+      en: "Your payment instalments are automatic, although a small late fee applies if you fail to make a payment on time.",
+      ar: "أقساط الدفع الخاصة بك تلقائية، على الرغم من أن رسوم تأخير صغيرة تُطبق إذا فشلت في السداد في الوقت المحدد.",
+    },
+    returnPolicy: {
+      en: "If you need to make a return, you are to do so through Ourshopee as you normally would. Once the refund is confirmed, your payments will be refunded back to you.",
+      ar: "إذا كنت بحاجة إلى إرجاع المنتج، يمكنك القيام بذلك من خلال OurShopee كما تفعل عادة. بمجرد تأكيد الاسترداد، سيتم استرداد مدفوعاتك إليك.",
+    },
+    selectEverything: {
+      en: "Select everything you love at Ourshopee",
+      ar: "اختر كل ما تحبه في OurShopee",
+    },
+    browseAndAdd: {
+      en: "Browse and add your favorite items to your cart with ease.",
+      ar: "تصفح وأضف العناصر المفضلة لديك إلى سلة التسوق بسهولة.",
+    },
+    tabbyForEMI: {
+      en: "Tabby for EMI Plans",
+      ar: "Tabby لخطط التقسيط",
+    },
+    chooseTabby: {
+      en: "Choose Tabby at checkout to split your payment into easy installments.",
+      ar: "اختر Tabby عند الدفع لتقسيم دفعتك إلى أقساط سهلة.",
+    },
+    signUp: {
+      en: "Sign Up",
+      ar: "التسجيل",
+    },
+    registerInstantly: {
+      en: "Register instantly using just your email and mobile number—it's quick and simple!",
+      ar: "سجل فورًا باستخدام بريدك الإلكتروني ورقم هاتفك المحمول فقط—إنه سريع وبسيط!",
+    },
+    shipRightAway: {
+      en: "Ourshopee will ship out your order right away",
+      ar: "سيقوم OurShopee بشحن طلبك على الفور",
+    },
+    fastProcessing: {
+      en: "Fast processing ensures your order is on its way as soon as you place it.",
+      ar: "المعالجة السريعة تضمن أن طلبك في طريقه بمجرد وضعه.",
+    },
+    pay25Percent: {
+      en: "Pay only 25% today and the rest later",
+      ar: "ادفع 25% فقط اليوم والباقي لاحقًا",
+    },
+    enjoyNowPayLater: {
+      en: "Enjoy now, pay later—just 25% upfront with the rest split into equal payments.",
+      ar: "استمتع الآن وادفع لاحقًا—25% فقط مقدماً والباقي مقسم إلى دفعات متساوية.",
+    },
+    easy: {
+      en: "Easy",
+      ar: "سهل",
+    },
+    installmentPlan: {
+      en: "Installment Plan",
+      ar: "خطة التقسيط",
+    },
+    convenienceDescription: {
+      en: "OurShopee.com at your convenience. Pay the easy way with our Buy now pay later or shop now pay later.You can buy your desired product with no wait. No Credit Card needed. You can place order using your debit card with 0% interest rate & Get your product without any burden on your pocket.",
+      ar: "OurShopee.com لراحتك. ادفع بالطريقة السهلة مع خيارات الشراء الآن والدفع لاحقًا. يمكنك شراء المنتج الذي تريده دون انتظار. لا حاجة لبطاقة ائتمان. يمكنك تقديم الطلب باستخدام بطاقة الخصم الخاصة بك بمعدل فائدة 0% واحصل على منتجك دون أي عبء على جيبك.",
+    },
+    processStep1: {
+      en: "If you desired product is worth {amount} {currency} or above, you will see installement eligibility message.",
+      ar: "إذا كان المنتج المطلوب بقيمة {amount} {currency} أو أكثر، ستظهر رسالة أهلية التقسيط.",
+    },
+    processStep2: {
+      en: "If your cart is worth {amount} {currency} or above by selecting multiple items, you will see the options to convert them into installement.",
+      ar: "إذا كانت قيمة سلة التسوق {amount} {currency} أو أكثر عن طريق اختيار عدة عناصر، ستظهر خيارات تحويلها إلى أقساط.",
+    },
+    processStep3: {
+      en: "Shop Now Pay Later There will be Shop Now pay Later option, select the option and you will be redirected on the payment plan option page. You have to register yourself on that page.",
+      ar: "تسوق الآن وادفع لاحقًا سيكون هناك خيار تسوق الآن وادفع لاحقًا، اختر الخيار وسيتم توجيهك إلى صفحة خيارات خطة الدفع. يجب عليك التسجيل في تلك الصفحة.",
+    },
+    processStep4: {
+      en: "Confirm your Phone Number.",
+      ar: "أكد رقم هاتفك.",
+    },
+    processStep5: {
+      en: "Upload your Emirates ID.",
+      ar: "قم بتحميل بطاقة الهوية الإماراتية الخاصة بك.",
+    },
+    processStep6: {
+      en: "Confirm your Phone Number.",
+      ar: "أكد رقم هاتفك.",
+    },
+    processStep7: {
+      en: "Fill in your Debit or Credit details.",
+      ar: "املأ تفاصيل بطاقة الخصم أو الائتمان الخاصة بك.",
+    },
+    processStep8: {
+      en: "Once the details are submitted and approved, you will be redirected to the Order confirmed page.",
+      ar: "بمجرد تقديم التفاصيل والموافقة عليها، سيتم توجيهك إلى صفحة تأكيد الطلب.",
     },
   },
 };

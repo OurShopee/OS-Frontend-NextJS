@@ -369,11 +369,14 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
     );
   };
 
-  const cleanedDetails = decodeHtml(productDetail[0]?.details)
-    .replace(/&lt;div&gt;/g, "")
-    .replace(/&lt;\/div&gt;/g, "")
-    .replace(/&lt;br\s*\/?&gt;/gi, "")
-    .trim();
+  const cleanedDetails = useMemo(() => {
+    const details = getDynamicContent(productDetail[0], "details", currentLanguage) || productDetail[0]?.details;
+    return decodeHtml(details)
+      .replace(/&lt;div&gt;/g, "")
+      .replace(/&lt;\/div&gt;/g, "")
+      .replace(/&lt;br\s*\/?&gt;/gi, "")
+      .trim();
+  }, [productDetail, currentLanguage]);
 
   const handleBuyNow = (id, qty, sku = "") => {
     if (!Cookiess.get("jwt_token")) {
@@ -414,19 +417,25 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
     }
   };
 
-  const getCombinedPartial = () => {
+  const getCombinedPartial = useMemo(() => {
     const smallDescData = productDetail[0]?.small_desc_data || [];
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = `<table>${cleanedDetails}</table>`;
     const allRows = Array.from(tempDiv.querySelectorAll("tr"));
     const combined = [];
 
-    for (let i = 0; i < smallDescData.length && combined.length < 3; i++) {
-      combined.push({ type: "react", data: smallDescData[i] });
+    // Map small_desc_data with language-aware content
+    const languageAwareSmallDesc = smallDescData.map((item) => ({
+      title: getDynamicContent(item, "title", currentLanguage) || item.title,
+      value: getDynamicContent(item, "value", currentLanguage) || item.value,
+    }));
+
+    for (let i = 0; i < languageAwareSmallDesc.length && combined.length < 3; i++) {
+      combined.push({ type: "react", data: languageAwareSmallDesc[i] });
     }
 
     return combined;
-  };
+  }, [productDetail, cleanedDetails, currentLanguage]);
 
   const handleToggle = () => {
     let scrollHeight;
@@ -1177,7 +1186,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 />
               </div>
 
-              <div className="bg-white px-3 py-4 max-h-[50vh] overflow-y-auto">
+              <div className="bg-white px-3 py-4 pb-0 max-h-[50vh] overflow-y-auto">
                 <div className={`relative ${expanded && "pb-8"}`}>
                   {!expanded && (
                     <div
@@ -1191,26 +1200,32 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
                   <div className="specification-main relative">
                     {expanded
-                      ? productDetail[0]?.small_desc_data.map((ele, index) => (
-                        /* Row -> flex flex-wrap */
-                        <div
-                          key={index}
-                          className={`flex flex-wrap specificationdetails ${index % 2 === 0
-                              ? "evenbacground"
-                              : "nooddbackground"
-                            }`}
-                        >
-                          {/* Col lg={4} md={4} sm={6} xs={6} -> w-full lg:w-1/3 md:w-1/3 sm:w-1/2 */}
-                          <div className="w-full lg:w-1/3 md:w-1/3 sm:w-1/2 specificationtitle">
-                            {ele.title}
-                          </div>
-                          {/* Col lg={8} md={8} sm={6} xs={6} -> w-full lg:w-2/3 md:w-2/3 sm:w-1/2 */}
-                          <div className="w-full lg:w-2/3 md:w-2/3 sm:w-1/2 specificationvalue">
-                            {ele.value}
-                          </div>
-                        </div>
-                      ))
-                      : getCombinedPartial().map((item, index) =>
+                      ? (productDetail[0]?.small_desc_data || []).map((ele, index) => {
+                          // Get language-aware content
+                          const title = getDynamicContent(ele, "title", currentLanguage) || ele.title;
+                          const value = getDynamicContent(ele, "value", currentLanguage) || ele.value;
+                          
+                          return (
+                            /* Row -> flex flex-wrap */
+                            <div
+                              key={index}
+                              className={`flex flex-wrap specificationdetails ${index % 2 === 0
+                                  ? "evenbacground"
+                                  : "nooddbackground"
+                                }`}
+                            >
+                              {/* Col lg={4} md={4} sm={6} xs={6} -> w-full lg:w-1/3 md:w-1/3 sm:w-1/2 */}
+                              <div className="w-full lg:w-1/3 md:w-1/3 sm:w-1/2 specificationtitle">
+                                {title}
+                              </div>
+                              {/* Col lg={8} md={8} sm={6} xs={6} -> w-full lg:w-2/3 md:w-2/3 sm:w-1/2 */}
+                              <div className="w-full lg:w-2/3 md:w-2/3 sm:w-1/2 specificationvalue">
+                                {value}
+                              </div>
+                            </div>
+                          );
+                        })
+                      : getCombinedPartial.map((item, index) =>
                         item.type === "react" ? (
                           /* Row -> flex flex-wrap */
                           <div
@@ -1267,7 +1282,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 </div>
               </div>
               {/* mt-2 -> mt-2 */}
-              <div className="text-center mt-2 absolute z-10 left-[50%] -translate-x-[50%] bottom-4">
+              <div className="text-center absolute z-10 left-[50%] -translate-x-[50%] bottom-4">
                 <span
                   onClick={handleToggle}
                   className="text-[#007bff] cursor-pointer font-medium font-outfit"

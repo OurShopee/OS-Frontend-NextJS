@@ -11,13 +11,25 @@ import Link from "next/link";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useContent } from "@/hooks/useContent";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const Ordersuccess = () => {
   const searchParams = useSearchParams();
+  const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
   const yourOrderNumberIs = useContent("orders.yourOrderNumberIs");
   const viewYourOrders = useContent("orders.viewYourOrders");
   const keepExploring = useContent("orders.keepExploring");
+  const processingTitle = useContent("orders.processingTitle");
+  const successTitle = useContent("orders.successTitle");
+  const failTitle = useContent("orders.failTitle");
+  const failDescription = useContent("orders.failDescription");
+  const stuckTitle = useContent("orders.stuckTitle");
+  const loaderAlt = useContent("orders.loaderAlt");
+  const orderSuccessAlt = useContent("orders.orderSuccessAlt");
+  const paymentFailedAlt = useContent("orders.paymentFailedAlt");
+  const orderHoldAlt = useContent("orders.orderHoldAlt");
+  const tryAgainLabel = useContent("buttons.tryAgain");
   const callUpdate = searchParams.get("callUpdate");
   const params = useParams();
   const orderId = params?.slug;
@@ -219,24 +231,24 @@ const Ordersuccess = () => {
   ]);
 
   return (
-    <div className="notlogin">
+    <div className="notlogin" dir={isRTL ? "rtl" : "ltr"}>
       {paymentStatus === "Due" && (
         <>
           <img
             className="w-[72px] h-[72px]"
             src="/assets/GIF/loader.gif"
-            alt="Loading"
+            alt={loaderAlt}
           />
           <h1 className="notlogintitle mt-3">
-            Sit tight — your order is under process.
+            {processingTitle}
           </h1>
         </>
       )}
       {paymentStatus === "Paid" && (
         <>
-          <img src={notcartimg.src} alt="Order Success" />
+          <img src={notcartimg.src} alt={orderSuccessAlt} />
           <div className="notlogintitle">
-            Your order was placed successfully.
+            {successTitle}
           </div>
           <div className="notloginsubtitle">
               {yourOrderNumberIs} <strong>{orderId}</strong>
@@ -256,36 +268,34 @@ const Ordersuccess = () => {
       )}
       {paymentStatus === "Fail" && (
         <>
-          <img src={failImg.src} alt="Payment Failed" />
-          <div className="notlogintitle">Oh no! Your payment failed.</div>
-          <div className="notloginsubtitle">
-            An error occurred while processing your payment.
-          </div>
+          <img src={failImg.src} alt={paymentFailedAlt} />
+          <div className="notlogintitle">{failTitle}</div>
+          <div className="notloginsubtitle">{failDescription}</div>
           <div className="d-flex">
             <Link href="/Payment" className="notloginbtn textdecoration-none">
-              Try again
+              {tryAgainLabel}
             </Link>
           </div>
         </>
       )}
       {paymentStatus === "Stuck" && (
         <>
-          <img src="/assets/orderhold.svg" alt="Order on hold" />
+          <img src="/assets/orderhold.svg" alt={orderHoldAlt} />
           <div className="notlogintitle">
-            Your order's in the queue — we're reviewing it before processing.
+            {stuckTitle}
           </div>
           <div className="notloginsubtitle">
-            Your order number is <strong>{orderId}</strong>
+            {yourOrderNumberIs} <strong>{orderId}</strong>
           </div>
           <div className="d-flex">
             <Link
               href="/my-orders"
               className="success-vieworderbtn notloginbtn textdecoration-none me-3"
             >
-              View your orders
+              {viewYourOrders}
             </Link>
             <Link href="/" className="notloginbtn textdecoration-none">
-              Keep exploring
+              {keepExploring}
             </Link>
           </div>
         </>

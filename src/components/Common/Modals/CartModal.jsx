@@ -20,6 +20,9 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const qty = useContent("buttons.qty");
   const continueShopping = useContent("buttons.continueShopping");
   const checkoutNow = useContent("buttons.checkoutNow");
+  const itemAddedToCart = useContent("product.itemAddedToCart") || "Item added to cart";
+  const productDetailsAndOptions = useContent("product.productDetailsAndOptions") || "Product details and options to continue shopping or checkout";
+  const proceedToCheckoutWithSelectedItems = useContent("product.proceedToCheckoutWithSelectedItems") || "Proceed to checkout with selected items";
   
   // Get localized product name
   const productName = useDynamicContent(productData, "name");
@@ -75,10 +78,10 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
         >
           <div className="modal-custom-body pb-4">
             <h2 id="cart-modal-title" className="sr-only">
-              Item added to cart
+              {itemAddedToCart}
             </h2>
             <div id="cart-modal-description" className="sr-only">
-              Product details and options to continue shopping or checkout
+              {productDetailsAndOptions}
             </div>
 
             <div className="cart-item gap-3">
@@ -255,7 +258,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
               <button
                 onClick={() => onBuyNow(productData.id, quantity)}
                 className="w-full bg-[#5232C2] border-0 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden hover:rotate-[-1deg] hover:shadow-[-4px_4px_0_#1c1c1c] transition-all ease-in-out"
-                aria-label="Proceed to checkout with selected items"
+                aria-label={proceedToCheckoutWithSelectedItems}
               >
                 <span
                   className="z-10 whitespace-nowrap font-semibold"

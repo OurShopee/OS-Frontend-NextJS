@@ -34,6 +34,7 @@ const HasReview = ({
   setAllProductReviews,
 }) => {
   const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
   const myRatingsAndReview = useContent("product.myRatingsAndReview");
   const edit = useContent("buttons.edit");
   const deleteText = useContent("buttons.delete");
@@ -304,7 +305,7 @@ const HasReview = ({
                 {myRatingsAndReview}
               </h3>
               {reviewData?.rstatus === 0 ? (
-                <div className="bg-transparent absolute top-0 right-0 text-[19px] h-[60px] w-[85px] md:h-[80px] tmd:w-w-[110px] leading-none flex items-center border-none text-[#5232C2] rounded-lg select-none">
+                <div className={`bg-transparent absolute top-0 ${isRTL ? "!left-0" : "!right-0"} text-[19px] h-[60px] w-[85px] md:h-[80px] tmd:w-w-[110px] leading-none flex items-center border-none text-[#5232C2] rounded-lg select-none`}>
                   <img
                     src="/assets/review/under-review.png"
                     className="h-full w-full swing-pendulum"
@@ -335,7 +336,7 @@ const HasReview = ({
 
                     {/* Dropdown Menu */}
                     {isOpenEditDelete && (
-                      <div className="absolute right-0 top-full mt-1 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-50">
+                      <div className={`absolute ${isRTL ? "!left-0" : "!right-0"} top-full mt-1 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-50`}>
                         <div className="py-1">
                           {reviewData?.rstatus === 1 &&
                             !reviewData.is_edited && (
