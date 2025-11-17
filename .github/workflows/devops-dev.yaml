@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: ap-south-1
   AWS_ACCOUNT_ID: "790730093083"
-  AWS_OIDC_ROLE_NAME: "Github_action_access"
+  AWS_OIDC_ROLE_NAME: "Github-action-cicd-role"
   ECR_REPOSITORY: 'dev/application-fe'
 
 permissions:
