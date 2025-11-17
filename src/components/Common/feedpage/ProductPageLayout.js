@@ -735,7 +735,7 @@ const ProductPageLayout = ({
                         <div className="flex items-center">
                           {currentcountry.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className={`w-6 h-6 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "black" }}
@@ -762,7 +762,7 @@ const ProductPageLayout = ({
                               {youSaved}{" "}
                               {currentcountry.currency == "AED" ? (
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className="w-4 h-4 inline-block mix-blend-multiply"
                                   style={{ color: "black" }}
@@ -785,7 +785,7 @@ const ProductPageLayout = ({
                             {currentcountry.currency == "AED" ? (
                               <div className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className="w-4 h-4 grayscale mix-blend-multiply opacity-30"
                                   style={{ color: "#9ea5a8" }}

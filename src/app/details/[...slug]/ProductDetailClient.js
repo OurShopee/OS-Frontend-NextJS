@@ -610,7 +610,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           {/* me-1 -> mr-1 */}
                           {currentcountry?.currency == "AED" ? (
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
                               style={{ color: "black" }}
@@ -622,7 +622,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           )}
                           <span className="text-[24px] md:text-[26px]">
                             {" "}
-                            {formatPrice(productDetail[0]?.display_price)}
+                            {productDetail[0]?.display_price?.toFixed(2)}
                           </span>
                         </span>
 
@@ -642,7 +642,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             <div className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                               {currentcountry?.currency == "AED" ? (
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className="w-3 h-3 inline-block mix-blend-multiply"
                                   style={{ color: "black" }}
@@ -668,15 +668,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             {currentcountry?.currency == "AED" ? (
                               <>
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
                                   className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}
                                 />
-                                {formatPrice(productDetail[0]?.old_price)}
+                                {productDetail[0]?.old_price?.toFixed(2)}
                               </>
                             ) : (
-                              currentcountry.currency + " " + formatPrice(productDetail[0]?.old_price)
+                              currentcountry.currency + " " + productDetail[0]?.old_price?.toFixed(2)
                             )}
                           </span>
                           <div className="product_Detail_price_container">
@@ -1464,7 +1464,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         {/* me-1 -> mr-1 */}
                         {currentcountry?.currency == "AED" ? (
                           <img
-                            src="/assets/feed/aed-icon.png"
+                            src="/assets/feed/aed-icon.svg"
                             alt="AED"
                             className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-5 h-5 inline-block mix-blend-multiply`}
                             style={{ color: "black" }}
@@ -1476,7 +1476,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         )}
                         <span className="!text-[22px]">
                           {" "}
-                          {formatPrice(product?.display_price)}
+                          {product?.display_price?.toFixed(2)}
                         </span>
                       </span>
 
@@ -1495,7 +1495,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             {youSaved}&nbsp;
                             {currentcountry?.currency == "AED" ? (
                               <img
-                                src="/assets/feed/aed-icon.png"
+                                src="/assets/feed/aed-icon.svg"
                                 alt="AED"
                                 className="w-3 h-3 inline-block mix-blend-multiply"
                                 style={{ color: "black" }}
@@ -1519,15 +1519,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         {currentcountry?.currency == "AED" ? (
                           <span className={`flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                             <img
-                              src="/assets/feed/aed-icon.png"
+                              src="/assets/feed/aed-icon.svg"
                               alt="AED"
                               className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "black" }}
                             />
-                            {formatPrice(product?.old_price)}
+                            {product?.old_price?.toFixed(2)}
                           </span>
                         ) : (
-                          currentcountry.currency + " " + formatPrice(product?.old_price)
+                          currentcountry.currency + " " + product?.old_price?.toFixed(2)
                         )}
                       </span>
                       <div className="product_Detail_price_container">
@@ -1553,7 +1553,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     {/* me-1 -> mr-1 */}
                     {currentcountry?.currency == "AED" ? (
                       <img
-                        src="/assets/feed/aed-icon.png"
+                        src="/assets/feed/aed-icon.svg"
                         alt="AED"
                         className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
                         style={{ color: "black" }}
@@ -1565,7 +1565,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     )}
                     <span className="text-base xl:text-[22px]">
                       {" "}
-                      {formatPrice(product?.display_price)}
+                      {product?.display_price?.toFixed(2)}
                     </span>
                   </span>
 
@@ -1584,7 +1584,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         {youSaved}&nbsp;
                         {currentcountry?.currency == "AED" ? (
                           <img
-                            src="/assets/feed/aed-icon.png"
+                            src="/assets/feed/aed-icon.svg"
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}
                             style={{ color: "black" }}
@@ -1609,15 +1609,15 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     {currentcountry?.currency == "AED" ? (
                       <>
                         <img
-                          src="/assets/feed/aed-icon.png"
+                          src="/assets/feed/aed-icon.svg"
                           alt="AED"
                           className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                           style={{ color: "black" }}
                         />
-                        {formatPrice(product?.old_price)}
+                        {product?.old_price?.toFixed(2)}
                       </>
                     ) : (
-                      currentcountry.currency + " " + formatPrice(product?.old_price)
+                      currentcountry.currency + " " + product?.old_price?.toFixed(2)
                     )}
                   </span>
                   <div className="product_Detail_price_container">

@@ -167,7 +167,7 @@ function BrandWeekMobileCard({ item }) {
           <div className="flex items-baseline">
             {currentcountry?.currency === "AED" ? (
               <img
-                src="/assets/feed/aed-icon.png"
+                src="/assets/feed/aed-icon.svg"
                 alt="AED"
                 className={`w-3 h-3 sm:w-4 sm:h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                 style={{ color: "black" }}
