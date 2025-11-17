@@ -77,7 +77,7 @@ const DesktopView = ({
         <MarqueeSale />
       </div>
       <div className="w-full bg-black">
-        <div className="pt-20">
+        <div className="pt-12">
           <img
             src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`}
             alt=""
@@ -155,10 +155,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[8].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[17]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[17].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Pre Owned Mobiles"}
         />
       </div>
@@ -170,10 +170,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[0].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[9]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[9].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Pre Owned Laptops"}
         />
       </div>
@@ -190,10 +190,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[1].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[10]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[10].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Watches"}
         />
       </div>
@@ -206,10 +206,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[2].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[11]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[11].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Perfumes"}
         />
       </div>
@@ -222,10 +222,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[3].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[12]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[12].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Health & Beauty"}
         />
       </div>
@@ -250,10 +250,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[4].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[13]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[13].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Accessories"}
         />
       </div>
@@ -266,10 +266,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[5].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[14]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[14].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Home Appliances"}
         />
       </div>
@@ -292,10 +292,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[6].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[15]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[15].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Baby & Mother care"}
         />
       </div>
@@ -395,10 +395,10 @@ const DesktopView = ({
         />
         <CarouselWithBanner
           products={rows?.[7].items}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          bannerImage={rows?.[17]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[16].url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
           section_name={"Toys & Games"}
         />
       </div>

@@ -5,8 +5,6 @@ import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 import { MediaQueries } from "../utils";
 
 const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
-  const { isMobile } = MediaQueries();
-  const top_picks = useSelector((state) => state?.homeslice?.top_picks);
   function getNextWednesdayOrSunday() {
     const now = new Date();
     const day = now.getDay();
@@ -56,7 +54,7 @@ const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
           bannerImage={FlashSaleBanner.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner?.url}
           type={1}
-          inner_bg={"rgba(238, 235, 250, 1)"}
+          inner_bg={"#f5f5f5"}
         />
       </div>
     </div>

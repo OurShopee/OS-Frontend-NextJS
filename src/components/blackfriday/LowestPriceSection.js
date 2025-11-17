@@ -55,7 +55,7 @@ const LowestPriceSection = ({ LowestPriceEver }) => {
           />
           <div className="flex justify-end px-1">
             <span
-              className="text-base font-semibold text-white"
+              className="text-[12px] md:text-base font-semibold text-white mr-3"
               style={{ fontFamily: "'Atma', sans-serif" }}
             >
               *For Cart Value {currentcountry?.currency}{" "}

@@ -110,10 +110,11 @@ const MobileViewCard = ({
     <div className="container overflow-hidden">
       {/* BANNER */}
       <div className="relative">
-        <div className="flex items-center justify-center w-full m-auto overflow-hidden">
+        <div className="w-full">
           <img
-            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanner.png`}
+            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybannermweb.png`}
             alt=""
+            className="w-full h-full"
           />
         </div>
         <MarqueeSale />
@@ -208,13 +209,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Pre Owned Mobiles"}
-          url={FlashSaleBanner.url}
+          url={rows?.[8].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[8]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[8].items}
+          bannerImage={rows?.[17]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[17].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Pre Owned Mobiles"}
@@ -223,13 +224,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Pre Owned Laptops"}
-          url={FlashSaleBanner.url}
+          url={rows?.[0].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[0]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[0].items}
+          bannerImage={rows?.[9]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[9].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Pre Owned Laptops"}
@@ -243,13 +244,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Watches"}
-          url={FlashSaleBanner.url}
+          url={rows?.[1].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[1]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[1].items}
+          bannerImage={rows?.[10]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[10].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Watches"}
@@ -259,13 +260,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Perfumes"}
-          url={FlashSaleBanner.url}
+          url={rows?.[2].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[2]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[2].items}
+          bannerImage={rows?.[11]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[11].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Perfumes"}
@@ -275,13 +276,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Health & Beauty"}
-          url={FlashSaleBanner.url}
+          url={rows?.[3].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[3]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[3].items}
+          bannerImage={rows?.[12]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[12].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Health & Beauty"}
@@ -303,13 +304,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Accessories"}
-          url={FlashSaleBanner.url}
+          url={rows?.[4].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[4]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[4].items}
+          bannerImage={rows?.[13]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[13].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Accessories"}
@@ -319,13 +320,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Home Appliances"}
-          url={FlashSaleBanner.url}
+          url={rows?.[5].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[5]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[5].items}
+          bannerImage={rows?.[14]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[14].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Home Appliances"}
@@ -344,17 +345,17 @@ const MobileViewCard = ({
 
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
-          title={"Mother & Baby"}
-          url={FlashSaleBanner.url}
+          title={"Baby & Mother care"}
+          url={rows?.[6].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[6]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[6].items}
+          bannerImage={rows?.[15]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[15].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
-          section_name={"Mother & Baby"}
+          section_name={"Baby & Mother care"}
         />
       </div>
 
@@ -408,13 +409,13 @@ const MobileViewCard = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Toys & Games"}
-          url={FlashSaleBanner.url}
+          url={rows?.[7].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[7]}
-          bannerImage={FlashSaleBanner?.desktopImage}
-          bannerImageRedirectUrl={FlashSaleBanner.url}
+          products={rows?.[7].items}
+          bannerImage={rows?.[17]?.desktopImage}
+          bannerImageRedirectUrl={rows?.[16].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
           section_name={"Toys & Games"}
