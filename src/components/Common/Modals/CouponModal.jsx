@@ -854,7 +854,7 @@ const CouponCard = ({
     <div className="relative flex items-center gap-0">
       {/* Recommended Badge */}
       {isRecommended && (
-        <div className="absolute -top-2 right-4 z-10 bg-[#E8F5E9] px-2 py-1 rounded-md flex items-center gap-1">
+        <div className="absolute -top-2 right-4 z-10 bg-gradient-to-r from-[#9CED6E] to-[#DFFFCE] px-2 py-1 rounded-md flex items-center gap-1">
           <AiFillLike className="text-black text-xs font-medium" />
           <span className="text-black text-xs font-medium">RECOMMENDED</span>
         </div>
@@ -880,7 +880,7 @@ const CouponCard = ({
 
       {/* Details */}
       <div
-        className={`flex-grow flex items-center justify-between p-5 rounded-r-lg min-h-[128px] ${
+        className={`flex-grow flex flex-col justify-between px-4 py-2 rounded-r-lg min-h-[128px] ${
           expired ? "bg-gray-50 opacity-60" : "bg-white"
         }`}
         style={{
@@ -891,11 +891,11 @@ const CouponCard = ({
       >
         <div className="flex-grow">
           <h4
-            className={`font-bold text-lg mb-1 ${
+            className={`font-semibold text-lg mb-1 ${
               expired ? "text-gray-400" : "text-[#191B1C]"
             }`}
           >
-            {description}
+            {description.toUpperCase()}
           </h4>
           {minValue && (
             <p
@@ -925,7 +925,11 @@ const CouponCard = ({
               <strong>{formatMinValue(minValue)}</strong>
             </p>
           )}
-          {coupon?.enddate && (
+        </div>
+
+        {/* Valid until and button section */}
+        {coupon?.enddate && (
+          <div className="flex items-center justify-between gap-4 ">
             <p
               className={`text-xs ${
                 expired ? "text-gray-400" : "text-gray-500"
@@ -933,247 +937,297 @@ const CouponCard = ({
             >
               Valid until <strong>{formatDate(coupon.enddate)}</strong>
             </p>
-          )}
-        </div>
+            <div className="flex-shrink-0">
+              {expired ? (
+                <button
+                  disabled
+                  className="px-6 py-2 bg-gray-400 text-white rounded-lg font-semibold text-sm uppercase cursor-not-allowed"
+                >
+                  {expiredText}
+                </button>
+              ) : isApplied ? (
+                <button
+                  disabled
+                  className="px-6 py-2 rounded-lg font-semibold text-sm uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent cursor-default"
+                >
+                  {appliedText}
+                </button>
+              ) : (
+                <button
+                  onClick={!isApplyDisabled ? onApply : undefined}
+                  disabled={isApplyDisabled}
+                  className={`px-6 py-2 rounded-lg font-semibold text-sm uppercase transition-colors ${
+                    isApplyDisabled
+                      ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                      : "bg-primary hover:bg-[#7C3AED] text-white"
+                  }`}
+                >
+                  {applyButtonText}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
-        {/* Apply / Applied / Expired button */}
-        <div className="flex-shrink-0 ml-4">
-          {expired ? (
-            <button
-              disabled
-              className="px-6 py-2 bg-gray-400 text-white rounded-lg font-semibold text-sm uppercase cursor-not-allowed"
-            >
-              {expiredText}
-            </button>
-          ) : isApplied ? (
-            <button
-              disabled
-              className="px-6 py-2 rounded-lg font-semibold text-sm uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent cursor-default"
-            >
-              {appliedText}
-            </button>
-          ) : (
-            <button
-              onClick={!isApplyDisabled ? onApply : undefined}
-              disabled={isApplyDisabled}
-              className={`px-6 py-2 rounded-lg font-semibold text-sm uppercase transition-colors ${
-                isApplyDisabled
-                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-primary hover:bg-[#7C3AED] text-white"
-              }`}
-            >
-              {applyButtonText}
-            </button>
-          )}
-        </div>
+        {/* Button only if no enddate */}
+        {!coupon?.enddate && (
+          <div className="flex-shrink-0 flex items-center justify-end mt-2">
+            {expired ? (
+              <button
+                disabled
+                className="px-6 py-2 bg-gray-400 text-white rounded-lg font-semibold text-sm uppercase cursor-not-allowed"
+              >
+                {expiredText}
+              </button>
+            ) : isApplied ? (
+              <button
+                disabled
+                className="px-6 py-2 rounded-lg font-semibold text-sm uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent cursor-default"
+              >
+                {appliedText}
+              </button>
+            ) : (
+              <button
+                onClick={!isApplyDisabled ? onApply : undefined}
+                disabled={isApplyDisabled}
+                className={`px-6 py-2 rounded-lg font-semibold text-sm uppercase transition-colors ${
+                  isApplyDisabled
+                    ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    : "bg-primary hover:bg-[#7C3AED] text-white"
+                }`}
+              >
+                {applyButtonText}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 const CouponCardMobile = ({
-  coupon,
-  expired,
-  isRecommended = false,
-  onApply,
-  formatDate,
-  cartTotal,
-}) => {
-  const applyButtonText = useContent("buttons.apply");
-  const expiredText = "EXPIRED";
-  const appliedText = "APPLIED";
-  const currentCountry = useSelector(
-    (state) => state.globalslice.currentcountry
-  );
-  const currentLanguage = useCurrentLanguage();
-  const appliedCouponState = useSelector((state) => state.paymentslice.coupon);
-
-  const getCouponCode = (promo) => {
-    return (
-      promo?.promo_code ||
-      promo?.code ||
-      promo?.couponCode ||
-      promo?.coupon ||
-      "CODE"
+    coupon,
+    expired,
+    isRecommended = false,
+    onApply,
+    formatDate,
+    cartTotal,
+  }) => {
+    const applyButtonText = useContent("buttons.apply");
+    const expiredText = "EXPIRED";
+    const appliedText = "APPLIED";
+    const currentCountry = useSelector(
+      (state) => state.globalslice.currentcountry
     );
-  };
-
-  const getDescription = (coupon) => {
-    return (
-      coupon?.promo_discription ||
-      coupon?.promo_description ||
-      coupon?.description ||
-      "Special offer"
-    );
-  };
-
-  const getMinValue = (coupon) => {
-    return parseInt(coupon?.min_order_value || coupon?.minimum_value || null);
-  };
-
-  const parseNumeric = (value) => {
-    if (value === null || value === undefined || value === "") return null;
-    const numericRaw = Number(String(value).replace(/[^\d.-]/g, ""));
-    return Number.isNaN(numericRaw) ? null : numericRaw;
-  };
-
-  const couponCode = getCouponCode(coupon);
-  const description = getDescription(coupon);
-  const minValue = getMinValue(coupon);
-  const parsedMinValue = parseNumeric(minValue);
-  const parsedCartTotal =
-    typeof cartTotal === "number" && !Number.isNaN(cartTotal)
-      ? cartTotal
-      : parseNumeric(cartTotal);
-  const isBelowMinOrder =
-    parsedMinValue !== null &&
-    parsedCartTotal !== null &&
-    parsedCartTotal < parsedMinValue;
-  const isApplyDisabled = expired || isBelowMinOrder;
-
-  const appliedCouponCode =
-    appliedCouponState?.code ||
-    appliedCouponState?.coupon ||
-    appliedCouponState?.promo_code;
-  const isApplied =
-    appliedCouponCode &&
-    couponCode &&
-    appliedCouponCode.toLowerCase() === couponCode.toLowerCase();
-
-  const locale = currentLanguage === "ar" ? "ar-AE" : "en-AE";
-  const countryCurrency = currentCountry?.currency || "AED";
-  const isAED = countryCurrency.toUpperCase() === "AED";
-
-  const formatMinValue = (value) => {
-    if (value === null || value === undefined || value === "") return value;
-    const parsed = Number(String(value).replace(/[^\d.-]/g, ""));
-    if (Number.isNaN(parsed)) return value;
-    const integerValue = Math.ceil(parsed);
-    try {
-      return new Intl.NumberFormat(locale, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(integerValue);
-    } catch (error) {
-      return integerValue;
-    }
-  };
-
-  const renderStatusButton = () => {
-    if (expired) {
+    const currentLanguage = useCurrentLanguage();
+    const appliedCouponState = useSelector((state) => state.paymentslice.coupon);
+  
+    const getCouponCode = (promo) => {
+      return (
+        promo?.promo_code ||
+        promo?.code ||
+        promo?.couponCode ||
+        promo?.coupon ||
+        "CODE"
+      );
+    };
+  
+    const getDescription = (coupon) => {
+      return (
+        coupon?.promo_discription ||
+        coupon?.promo_description ||
+        coupon?.description ||
+        "Special offer"
+      );
+    };
+  
+    const getMinValue = (coupon) => {
+      return parseInt(coupon?.min_order_value || coupon?.minimum_value || null);
+    };
+  
+    const parseNumeric = (value) => {
+      if (value === null || value === undefined || value === "") return null;
+      const numericRaw = Number(String(value).replace(/[^\d.-]/g, ""));
+      return Number.isNaN(numericRaw) ? null : numericRaw;
+    };
+  
+    const couponCode = getCouponCode(coupon);
+    const description = getDescription(coupon);
+    const minValue = getMinValue(coupon);
+    const parsedMinValue = parseNumeric(minValue);
+    const parsedCartTotal =
+      typeof cartTotal === "number" && !Number.isNaN(cartTotal)
+        ? cartTotal
+        : parseNumeric(cartTotal);
+    const isBelowMinOrder =
+      parsedMinValue !== null &&
+      parsedCartTotal !== null &&
+      parsedCartTotal < parsedMinValue;
+    const isApplyDisabled = expired || isBelowMinOrder;
+  
+    const appliedCouponCode =
+      appliedCouponState?.code ||
+      appliedCouponState?.coupon ||
+      appliedCouponState?.promo_code;
+    const isApplied =
+      appliedCouponCode &&
+      couponCode &&
+      appliedCouponCode.toLowerCase() === couponCode.toLowerCase();
+  
+    const locale = currentLanguage === "ar" ? "ar-AE" : "en-AE";
+    const countryCurrency = currentCountry?.currency || "AED";
+    const isAED = countryCurrency.toUpperCase() === "AED";
+  
+    const formatMinValue = (value) => {
+      if (value === null || value === undefined || value === "") return value;
+      const parsed = Number(String(value).replace(/[^\d.-]/g, ""));
+      if (Number.isNaN(parsed)) return value;
+      const integerValue = Math.ceil(parsed);
+      try {
+        return new Intl.NumberFormat(locale, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(integerValue);
+      } catch (error) {
+        return integerValue;
+      }
+    };
+  
+    const renderStatusButton = () => {
+      if (expired) {
+        return (
+          <button
+            disabled
+            className="px-5 py-2 bg-gray-400 text-white rounded-lg font-semibold text-xs uppercase tracking-wide"
+          >
+            {expiredText}
+          </button>
+        );
+      }
+  
+      if (isApplied) {
+        return (
+          <button
+            disabled
+            className="px-5 py-2 rounded-lg font-semibold text-xs uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent"
+          >
+            {appliedText}
+          </button>
+        );
+      }
+  
       return (
         <button
-          disabled
-          className="px-5 py-2 bg-gray-400 text-white rounded-lg font-semibold text-xs uppercase tracking-wide"
+          onClick={!isApplyDisabled ? onApply : undefined}
+          disabled={isApplyDisabled}
+          className={`px-5 py-2 rounded-lg font-semibold text-xs uppercase transition-colors ${
+            isApplyDisabled
+              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+              : "bg-primary hover:bg-[#7C3AED] text-white"
+          }`}
         >
-          {expiredText}
+          {applyButtonText}
         </button>
       );
-    }
-
-    if (isApplied) {
-      return (
-        <button
-          disabled
-          className="px-5 py-2 rounded-lg font-semibold text-xs uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent"
-        >
-          {appliedText}
-        </button>
-      );
-    }
-
+    };
+  
     return (
-      <button
-        onClick={!isApplyDisabled ? onApply : undefined}
-        disabled={isApplyDisabled}
-        className={`px-5 py-2 rounded-lg font-semibold text-xs uppercase transition-colors ${
-          isApplyDisabled
-            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-            : "bg-primary hover:bg-[#7C3AED] text-white"
-        }`}
-      >
-        {applyButtonText}
-      </button>
-    );
-  };
-
-  return (
-    <div
-      className={`relative flex items-center gap-0 rounded-2xl   ${
-        expired ? "opacity-70" : ""
-      }`}
-    >
-      {isRecommended && (
-        <div className="absolute -top-3 right-4 z-10 bg-[#E8F5E9] px-2.5 py-1 rounded-md flex items-center gap-1">
-          <AiFillLike className="text-black text-xs font-medium" />
-          <span className="text-black text-xs font-medium">RECOMMENDED</span>
-        </div>
-      )}
-
-      <div className="flex-shrink-0 w-24 h-32 relative">
-        <img
-          src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
-          alt="Coupon"
-          className={`w-full h-full object-contain ${
-            expired ? "opacity-60" : ""
-          }`}
-        />
-        <span
-          className={`absolute inset-0 flex items-center justify-center text-white text-uppercase font-bold text-sm transform -rotate-90 whitespace-nowrap ${
-            expired ? "text-gray-500" : ""
-          }`}
-        >
-          {couponCode}
-        </span>
-      </div>
-
       <div
-        className={`flex-1 flex items-center justify-between gap-4 px-4 py-4 min-h-[120px] rounded-r-2xl ${
-          expired ? "bg-gray-50" : "bg-white"
+        className={`relative flex items-stretch rounded-2xl   ${
+          expired ? "opacity-70" : ""
         }`}
       >
-        <div className="flex-1 pr-3 min-w-0">
-          <p
-            className={`text-base text-uppercase font-semibold leading-snug ${
-              expired ? "text-gray-400" : "text-[#0F1115]"
+        {isRecommended && (
+          <div className="absolute -top-3 right-4 z-10 bg-gradient-to-r from-[#9CED6E] to-[#DFFFCE] px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm">
+            <AiFillLike className="text-black text-xs font-medium" />
+            <span className="text-black text-xs font-medium">RECOMMENDED</span>
+          </div>
+        )}
+  
+        {/* Left ticket stub */}
+        <div className="flex-shrink-0 w-20 sm:w-24 min-h-[110px] relative flex items-center justify-center">
+          <img
+            src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
+            alt="Coupon"
+            className={`absolute inset-0 w-full h-full object-contain ${
+              expired ? "opacity-60" : ""
+            }`}
+          />
+          <span
+            className={`relative text-white font-bold text-xs sm:text-sm tracking-wide transform -rotate-90 whitespace-nowrap ${
+              expired ? "text-gray-500" : ""
             }`}
           >
-            {description}
-          </p>
-          {minValue && (
+            {couponCode}
+          </span>
+        </div>
+  
+        {/* Right content */}
+        <div
+          className={`flex-1 flex flex-col justify-between gap-3 px-4 py-3 sm:py-4 ${
+            expired ? "bg-gray-50" : "bg-white"
+          }`}
+        >
+          <div className="flex-1 pr-2 min-w-0">
             <p
-              className={`text-sm mt-1 flex items-center gap-1 whitespace-nowrap ${
-                expired ? "text-gray-400" : "text-[#4B5563]"
+              className={`text-sm sm:text-base font-semibold leading-snug uppercase ${
+                expired ? "text-gray-400" : "text-[#0F1115]"
               }`}
             >
-              for order above{" "}
-              {isAED ? (
-                <img
-                  src="/assets/feed/aed-icon.svg"
-                  alt="AED"
-                  className="w-4 h-4 inline-block mix-blend-multiply"
-                  style={{ color: "black" }}
-                />
-              ) : (
-                <span className="currencycode">{countryCurrency}</span>
-              )}
-              <strong>{formatMinValue(minValue)}</strong>
+              {description}
             </p>
-          )}
+
+            {minValue && (
+              <p
+                className={`text-xs sm:text-sm mt-1 flex items-center gap-1 ${
+                  expired ? "text-gray-400" : "text-[#4B5563]"
+                }`}
+              >
+                <span>for order above</span>
+                {isAED ? (
+                  <img
+                    src="/assets/feed/aed-icon.svg"
+                    alt="AED"
+                    className="w-4 h-4 inline-block mix-blend-multiply"
+                  />
+                ) : (
+                  <span className="currencycode">{countryCurrency}</span>
+                )}
+                <strong>{formatMinValue(minValue)}</strong>
+              </p>
+            )}
+          </div>
+
+          {/* Valid until and button section */}
           {coupon?.enddate && (
-            <p
-              className={`text-xs mt-2 whitespace-nowrap ${
-                expired ? "text-gray-400" : "text-gray-500"
-              }`}
-            >
-              Valid until <strong>{formatDate(coupon.enddate)}</strong>
-            </p>
+            <div className="flex items-center justify-between gap-4 ">
+              <p
+                className={`text-[11px] sm:text-xs ${
+                  expired ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
+                Valid until{" "}
+                <strong className="font-semibold">
+                  {formatDate(coupon.enddate)}
+                </strong>
+              </p>
+              <div className="flex-shrink-0 flex items-center justify-center">
+                {renderStatusButton()}
+              </div>
+            </div>
+          )}
+
+          {/* Button only if no enddate */}
+          {!coupon?.enddate && (
+            <div className="flex-shrink-0 flex items-center justify-end mt-2">
+              {renderStatusButton()}
+            </div>
           )}
         </div>
-        <div className="flex-shrink-0">{renderStatusButton()}</div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+  
 
 export default CouponModal;
