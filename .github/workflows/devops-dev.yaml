@@ -11,7 +11,6 @@ env:
   AWS_ACCOUNT_ID: "790730093083"
   AWS_OIDC_ROLE_NAME: "Github_action_access"
   ECR_REPOSITORY: "dev/application-fe"
-  ECR_REGISTRY: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com"
 
 permissions:
   id-token: write
@@ -20,6 +19,10 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
+    # Job-level env: expressions ALLOWED here
+    env:
+      ECR_REGISTRY: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com"
 
     steps:
       - name: Checkout
@@ -37,7 +40,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push image (cached)
+      - name: Build and push image
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
