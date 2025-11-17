@@ -3,14 +3,14 @@ name: Build & Push to ECR
 on:
   push:
     branches:
-      - main
+      - development-devops
 
-# 👇 You can safely declare env here (top-level)
+# Top-level env: ONLY simple values allowed.
+# DO NOT reference them using expressions inside actions.
 env:
   AWS_REGION: ap-south-1
   AWS_ACCOUNT_ID: "790730093083"
   AWS_OIDC_ROLE_NAME: "Github_action_access"
-  ECR_REPOSITORY: "dev/application-fe"
 
 permissions:
   id-token: write
@@ -20,8 +20,9 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    # Job-level env: expressions ALLOWED here
+    # Job-level env — expressions ALLOWED here
     env:
+      ECR_REPOSITORY: "dev/application-fe"
       ECR_REGISTRY: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com"
 
     steps:
@@ -49,6 +50,5 @@ jobs:
           tags: |
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
-
           cache-from: type=gha
           cache-to: type=gha,mode=max
