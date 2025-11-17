@@ -5,6 +5,7 @@ import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 import { MediaQueries } from "../utils";
 
 const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
+
   function getNextWednesdayOrSunday() {
     const now = new Date();
     const day = now.getDay();

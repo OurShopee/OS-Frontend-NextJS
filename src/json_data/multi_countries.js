@@ -29,27 +29,27 @@ const countriesData = [
       "Namaste Deals": 259,
       "Top Selling": 74,
     },
+    fridaySaleSectionIds: {
+      "Flash Sale": 15,
+      "Lowest Price": 101,
+      "Now Or Never": 217,
+    },
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: true,
     isDonationRequired: true,
     country_code: "+971",
-    min_max1: "/products-category/Skin-Care?min=0&max=49",
-    min_max2: "/products-category/perfumes?min=0&max=99",
-    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=199",
-    min_max4: "/products-category/watches?min=0&max=399",
-    min_max5:
-      "/products-subcategory/televisions-accessories/television?min=0&max=999",
+
     nav_items: [
       {
         id: 11,
-        title: "Back To School",
-        url: "/back-to-school",
+        title: "Ourshopee Friday",
+        url: "/ourshopee-friday",
         section_id: 134,
         infinite_required: true,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 0,
+        status: 1,
       },
       {
         id: 1,
@@ -175,12 +175,7 @@ const countriesData = [
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
     min_value: 20,
-    min_max1: "/products-category/Skin-Care?min=0&max=4.9",
-    min_max2: "/products-category/perfumes?min=0&max=9.9",
-    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=19.9",
-    min_max4: "/products-category/watches?min=0&max=39.9",
-    min_max5:
-      "/products-subcategory/televisions-accessories/television?min=0&max=99.9",
+
     dealsByCountry: {
       "Weekly Deals": 239,
       "Mast Zone": 244,
@@ -188,6 +183,11 @@ const countriesData = [
       "Deals You Might Like": 254,
       "Namaste Deals": 260,
       "Top Selling": 75,
+    },
+    fridaySaleSectionIds: {
+      "Flash Sale": 63,
+      "Lowest Price": 102,
+      "Now Or Never": 218,
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -197,13 +197,13 @@ const countriesData = [
     nav_items: [
       {
         id: 11,
-        title: "Back To School",
-        url: "/back-to-school",
+        title: "Ourshopee Friday",
+        url: "/ourshopee-friday",
         section_id: 135,
         infinite_required: true,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 0,
+        status: 1,
       },
       {
         id: 1,
@@ -319,12 +319,6 @@ const countriesData = [
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
     min_value: 200,
-    min_max1: "/products-category/Skin-Care?min=0&max=49",
-    min_max2: "/products-category/perfumes?min=0&max=99",
-    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=199",
-    min_max4: "/products-category/watches?min=0&max=399",
-    min_max5:
-      "/products-subcategory/televisions-accessories/television?min=0&max=999",
     dealsByCountry: {
       "Weekly Deals": 240,
       "Mast Zone": 245,
@@ -332,6 +326,11 @@ const countriesData = [
       "Deals You Might Like": 255,
       "Namaste Deals": 261,
       "Top Selling": 76,
+    },
+    fridaySaleSectionIds: {
+      "Flash Sale": 62,
+      "Lowest Price": 104,
+      "Now Or Never": 219,
     },
     isTabbyRequired: false,
     emi_months: 0,
@@ -341,13 +340,13 @@ const countriesData = [
     nav_items: [
       {
         id: 11,
-        title: "Back To School",
-        url: "/back-to-school",
+        title: "Ourshopee friday",
+        url: "/ourshopee-friday",
         section_id: 136,
         infinite_required: true,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 0,
+        status: 1,
       },
       {
         id: 1,
@@ -365,7 +364,7 @@ const countriesData = [
         url: "/mobile-fest",
         section_id: 208,
         infinite_required: false,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -461,12 +460,7 @@ const countriesData = [
       "Namaste Deals": 262,
       "Top Selling": 78,
     },
-    min_max1: "/products-category/Skin-Care?min=0&max=4.9",
-    min_max2: "/products-category/perfumes?min=0&max=9.9",
-    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=19.9",
-    min_max4: "/products-category/watches?min=0&max=39.9",
-    min_max5:
-      "/products-subcategory/televisions-accessories/television?min=0&max=99.9",
+
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: false,
@@ -480,16 +474,21 @@ const countriesData = [
       "Namaste Deals": 270,
       "Top Selling": 96,
     },
+    fridaySaleSectionIds: {
+      "Flash Sale": 88,
+      "Lowest Price": 103,
+      "Now Or Never": 220,
+    },
     nav_items: [
       {
         id: 11,
-        title: "Back To School",
-        url: "/back-to-school",
+        title: "Ourshopee Friday",
+        url: "/ourshopee-friday",
         section_id: 137,
         infinite_required: true,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 0,
+        status: 1,
       },
       {
         id: 1,
@@ -599,12 +598,12 @@ const countriesData = [
       "Namaste Deals": 263,
       "Top Selling": 77,
     },
-    min_max1: "/products-category/Skin-Care?min=0&max=4.9",
-    min_max2: "/products-category/perfumes?min=0&max=9.9",
-    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=19.9",
-    min_max4: "/products-category/watches?min=0&max=39.9",
-    min_max5:
-      "/products-subcategory/televisions-accessories/television?min=0&max=99.9",
+    fridaySaleSectionIds: {
+      "Flash Sale": 65,
+      "Lowest Price": 105,
+      "Now Or Never": 221,
+    },
+
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,
@@ -616,13 +615,13 @@ const countriesData = [
     nav_items: [
       {
         id: 11,
-        title: "Back To School",
-        url: "/back-to-school",
+        title: "Ourshopee Friday",
+        url: "/fourshopee-friday",
         section_id: 138,
         infinite_required: true,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 0,
+        status: 1,
       },
       {
         id: 1,
@@ -657,7 +656,7 @@ const countriesData = [
         url: "/mobile-fest",
         section_id: 211,
         infinite_required: false,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         status: 0,
       },
       {
@@ -748,7 +747,7 @@ const countriesData = [
         url: "/back-to-school",
         section_id: 138,
         infinite_required: true,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -785,7 +784,7 @@ const countriesData = [
         url: "/mobile-fest",
         section_id: 211,
         infinite_required: false,
-        image: "/assets/vector_icons/Top_left_banner/backToSchool.gif",
+        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
         status: 0,
       },
       {
