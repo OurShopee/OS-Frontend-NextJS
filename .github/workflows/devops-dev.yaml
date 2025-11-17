@@ -11,6 +11,7 @@ env:
   AWS_REGION: ap-south-1
   AWS_ACCOUNT_ID: "790730093083"
   AWS_OIDC_ROLE_NAME: "Github_action_access"
+  ECR_REPOSITORY: 'dev/application-fe'
 
 permissions:
   id-token: write
@@ -22,8 +23,7 @@ jobs:
 
     # Job-level env — expressions ALLOWED here
     env:
-      ECR_REPOSITORY: "dev/application-fe"
-      ECR_REGISTRY: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com"
+      ECR_REGISTRY: '${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com'
 
     steps:
       - name: Checkout
