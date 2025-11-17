@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillLike } from "react-icons/ai";
+import { MediaQueries } from "@/components/utils";
 const CouponModal = ({
   show,
   onHide,
@@ -21,7 +22,7 @@ const CouponModal = ({
   const [successModalAnimKey, setSuccessModalAnimKey] = useState(0);
   const [applyError, setApplyError] = useState("");
   const [showGif, setShowGif] = useState(false);
-
+ const {isMobile}=MediaQueries();
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
   const dispatch = useDispatch();
@@ -404,88 +405,86 @@ const CouponModal = ({
     setIsSuccessCardReady(true);
   };
 
-  return (
-    <>
-      {/* Coupon list modal */}
-      <Modal
-        show={show}
-        onHide={handleModalClose}
-        size="md"
-        centered
-        panelClassName="max-w-[600px]"
-        ariaLabel="Available Coupons"
-      >
-        <div className="p-6" dir={isRTL ? "rtl" : "ltr"}>
-          {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-[#191B1C]">
-              {availableCouponsText} ({coupons?.length || 0})
-            </h2>
-            <button
-              onClick={handleModalClose}
-              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-              aria-label="Close"
-            >
-              <IoClose className="w-5 h-5 text-gray-600" />
-            </button>
-          </div>
+  const renderDesktopCouponModal = () => (
+    <Modal
+      show={show}
+      onHide={handleModalClose}
+      size="md"
+      centered
+      panelClassName="max-w-[550px] h-[70vh]"
+      ariaLabel="Available Coupons"
+    >
+      <div className="p-6" dir={isRTL ? "rtl" : "ltr"}>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-[#191B1C]">
+            {availableCouponsText} ({coupons?.length || 0})
+          </h2>
+          <button
+            onClick={handleModalClose}
+            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+            aria-label="Close"
+          >
+            <IoClose className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
 
-          {/* Manual input */}
-          <div className="mb-6">
-            <input
-              type="text"
-              placeholder={enterCouponPlaceholder}
-              value={enteredCode}
-              onChange={(e) => {
-                setEnteredCode(e.target.value);
-                if (applyError) {
-                  setApplyError("");
-                }
-              }}
-              onKeyPress={(e) => e.key === "Enter" && handleManualApply()}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
-            />
-            {applyError && (
-              <p className="mt-2 text-sm text-red-500">{applyError}</p>
-            )}
-          </div>
-
-          {/* Best Coupons */}
-          {recommendedCoupons.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-bold text-[#191B1C] mb-4">
-                {bestCouponsForYou}
-              </h3>
-              <div className="space-y-4">
-                {recommendedCoupons.map((coupon, index) => {
-                  const expired = isCouponExpired(coupon);
-                  return (
-                    <CouponCard
-                      key={coupon.id || coupon.coupon_id || index}
-                      coupon={coupon}
-                      expired={expired}
-                      isRecommended={true}
-                      cartTotal={cartTotal}
-                      onApply={() =>
-                        handleApplyCoupon(
-                          coupon,
-                          coupon.id || coupon.coupon_id || index
-                        )
-                      }
-                      formatDate={formatDate}
-                    />
-                  );
-                })}
-              </div>
-            </div>
+        {/* Manual input */}
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder={enterCouponPlaceholder}
+            value={enteredCode}
+            onChange={(e) => {
+              setEnteredCode(e.target.value);
+              if (applyError) {
+                setApplyError("");
+              }
+            }}
+            onKeyPress={(e) => e.key === "Enter" && handleManualApply()}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
+          />
+          {applyError && (
+            <p className="mt-2 text-sm text-red-500">{applyError}</p>
           )}
+        </div>
 
-          {/* More Coupons */}
-          {otherCoupons.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-bold text-[#191B1C] mb-4">
-                {moreCoupons}
-              </h3>
+        {/* Best Coupons */}
+        {recommendedCoupons.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-bold text-[#191B1C] mb-4">
+              {bestCouponsForYou}
+            </h3>
+            <div className="space-y-4">
+              {recommendedCoupons.map((coupon, index) => {
+                const expired = isCouponExpired(coupon);
+                return (
+                  <CouponCard
+                    key={coupon.id || coupon.coupon_id || index}
+                    coupon={coupon}
+                    expired={expired}
+                    isRecommended={true}
+                    cartTotal={cartTotal}
+                    onApply={() =>
+                      handleApplyCoupon(
+                        coupon,
+                        coupon.id || coupon.coupon_id || index
+                      )
+                    }
+                    formatDate={formatDate}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* More Coupons */}
+        {otherCoupons.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-bold text-[#191B1C] mb-4">
+              {moreCoupons}
+            </h3>
               <div className="space-y-4">
                 {otherCoupons.map((coupon, index) => {
                   const expired = isCouponExpired(coupon);
@@ -507,16 +506,146 @@ const CouponModal = ({
                   );
                 })}
               </div>
-            </div>
+          </div>
+        )}
+
+        {coupons?.length === 0 && (
+          <div className="text-center text-gray-400 py-4">
+            {allCaughtUp}
+          </div>
+        )}
+      </div>
+    </Modal>
+  );
+
+  const renderMobileCouponModal = () => (
+    <Modal
+      show={show}
+      onHide={handleModalClose}
+      size="lg"
+      centered
+      panelClassName="coupon-mobile-panel self-end !max-w-none w-full h-[60vh] sm:h-[55vh] !rounded-t-[32px] !rounded-b-none overflow-hidden"
+      ariaLabel="Available Coupons"
+    >
+      <div className="flex flex-col h-full bg-[#F7F7FB]" dir={isRTL ? "rtl" : "ltr"}>
+        <div className="flex justify-center pt-3">
+          <span className="w-12 h-1.5 bg-gray-300 rounded-full" />
+        </div>
+
+        <div className="flex items-center justify-between px-5 pt-5">
+          <div>
+            <h2 className="text-xl font-semibold text-[#0F1115]">
+              {availableCouponsText} ({coupons?.length || 0})
+            </h2>
+          </div>
+          <button
+            onClick={handleModalClose}
+            className="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center"
+            aria-label="Close"
+          >
+            <IoClose className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+
+        <div className="px-5 pt-4">
+          <div className="bg-white rounded-2xl border border-gray-200 flex items-center gap-3 px-4 py-3 shadow-[0_10px_30px_rgba(15,17,21,0.05)]">
+            <input
+              type="text"
+              placeholder={enterCouponPlaceholder}
+              value={enteredCode}
+              onChange={(e) => {
+                setEnteredCode(e.target.value);
+                if (applyError) {
+                  setApplyError("");
+                }
+              }}
+              onKeyPress={(e) => e.key === "Enter" && handleManualApply()}
+              className="flex-1 text-base bg-transparent outline-none text-[#111827] placeholder:text-gray-400"
+            />
+            <button
+              onClick={handleManualApply}
+              className="text-sm font-semibold text-[#7C3AED]"
+            >
+              {applyButtonText}
+            </button>
+          </div>
+          {applyError && (
+            <p className="mt-2 text-sm text-red-500">{applyError}</p>
+          )}
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-5 pb-6 mt-5 space-y-6">
+          {recommendedCoupons.length > 0 && (
+            <section>
+              <h3 className="text-base font-semibold text-[#0F1115] mb-3">
+                {bestCouponsForYou}
+              </h3>
+              <div className="space-y-3">
+                {recommendedCoupons.map((coupon, index) => {
+                  const expired = isCouponExpired(coupon);
+                  return (
+                    <CouponCardMobile
+                      key={coupon.id || coupon.coupon_id || index}
+                      coupon={coupon}
+                      expired={expired}
+                      isRecommended
+                      cartTotal={cartTotal}
+                      onApply={() =>
+                        handleApplyCoupon(
+                          coupon,
+                          coupon.id || coupon.coupon_id || index
+                        )
+                      }
+                      formatDate={formatDate}
+                    />
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {otherCoupons.length > 0 && (
+            <section>
+              <h3 className="text-base font-semibold text-[#0F1115] mb-3">
+                {moreCoupons}
+              </h3>
+              <div className="space-y-3">
+                {otherCoupons.map((coupon, index) => {
+                  const expired = isCouponExpired(coupon);
+                  return (
+                    <CouponCardMobile
+                      key={coupon.id || coupon.coupon_id || index}
+                      coupon={coupon}
+                      expired={expired}
+                      cartTotal={cartTotal}
+                      onApply={() =>
+                        handleApplyCoupon(
+                          coupon,
+                          coupon.id || coupon.coupon_id || index
+                        )
+                      }
+                      formatDate={formatDate}
+                    />
+                  );
+                })}
+              </div>
+            </section>
           )}
 
           {coupons?.length === 0 && (
-            <div className="text-center text-gray-400 py-4">
+            <div className="text-center text-gray-400 py-4 text-sm">
               {allCaughtUp}
             </div>
           )}
         </div>
-      </Modal>
+      </div>
+    </Modal>
+  );
+
+  return (
+    <>
+      {/* Coupon list modal */}
+      {isMobile ? renderMobileCouponModal() : renderDesktopCouponModal()}
 
       {/* Success Modal */}
       <Modal
@@ -612,6 +741,25 @@ const CouponModal = ({
           backface-visibility: hidden;
         }
       `}</style>
+      <style jsx global>{`
+        .coupon-mobile-panel {
+          animation: couponMobileSheetIn 320ms cubic-bezier(0.32, 0.94, 0.6, 1)
+            both;
+          box-shadow: 0 -18px 40px rgba(15, 17, 21, 0.18);
+        }
+
+        @keyframes couponMobileSheetIn {
+          0% {
+            transform: translateY(20%);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+      `}</style>
     </>
   );
 };
@@ -636,13 +784,14 @@ const CouponCard = ({
   );
 
   const getCouponCode = (promo) => {
-    return (
-      promo?.promo_code ||
-      promo?.code ||
-      promo?.couponCode ||
-      promo?.coupon ||
-      "CODE"
-    );
+  const code =
+    promo?.promo_code ||
+    promo?.code ||
+    promo?.couponCode ||
+    promo?.coupon ||
+    "CODE";
+
+  return String(code).toUpperCase();
   };
 
   const getDescription = (coupon) => {
@@ -655,7 +804,7 @@ const CouponCard = ({
   };
 
   const getMinValue = (coupon) => {
-    return coupon?.min_order_value || coupon?.minimum_value || null;
+    return Math.ceil(coupon?.min_order_value || coupon?.minimum_value || null);
   };
 
   const parseNumeric = (value) => {
@@ -688,16 +837,17 @@ const CouponCard = ({
   const isAED = countryCurrency.toUpperCase() === "AED";
 
   const formatMinValue = (value) => {
-    if (!value) return value;
+    if (value === null || value === undefined || value === "") return value;
     const parsed = Number(String(value).replace(/[^\d.-]/g, ""));
     if (Number.isNaN(parsed)) return value;
+    const integerValue = Math.ceil(parsed);
     try {
       return new Intl.NumberFormat(locale, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(parsed);
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(integerValue);
     } catch (error) {
-      return parsed;
+      return integerValue;
     }
   };
 
@@ -721,7 +871,7 @@ const CouponCard = ({
           }`}
         />
         <span
-          className={`absolute inset-0 flex items-center justify-center text-white font-bold text-sm transform -rotate-90 whitespace-nowrap ${
+          className={`absolute inset-0 flex items-center justify-center text-white text-uppercase font-bold text-sm transform -rotate-90 whitespace-nowrap ${
             expired ? "text-gray-500" : ""
           }`}
         >
@@ -819,6 +969,211 @@ const CouponCard = ({
             </button>
           )}
         </div>
+      </div>
+    </div>
+  );
+};
+
+const CouponCardMobile = ({
+  coupon,
+  expired,
+  isRecommended = false,
+  onApply,
+  formatDate,
+  cartTotal,
+}) => {
+  const applyButtonText = useContent("buttons.apply");
+  const expiredText = "EXPIRED";
+  const appliedText = "APPLIED";
+  const currentCountry = useSelector(
+    (state) => state.globalslice.currentcountry
+  );
+  const currentLanguage = useCurrentLanguage();
+  const appliedCouponState = useSelector(
+    (state) => state.paymentslice.coupon
+  );
+
+  const getCouponCode = (promo) => {
+    return (
+      promo?.promo_code ||
+      promo?.code ||
+      promo?.couponCode ||
+      promo?.coupon ||
+      "CODE"
+    );
+  };
+
+  const getDescription = (coupon) => {
+    return (
+      coupon?.promo_discription ||
+      coupon?.promo_description ||
+      coupon?.description ||
+      "Special offer"
+    );
+  };
+
+  const getMinValue = (coupon) => {
+    return parseInt(coupon?.min_order_value || coupon?.minimum_value || null);
+  };
+
+  const parseNumeric = (value) => {
+    if (value === null || value === undefined || value === "") return null;
+    const numericRaw = Number(String(value).replace(/[^\d.-]/g, ""));
+    return Number.isNaN(numericRaw) ? null : numericRaw;
+  };
+
+  const couponCode = getCouponCode(coupon);
+  const description = getDescription(coupon);
+  const minValue = getMinValue(coupon);
+  const parsedMinValue = parseNumeric(minValue);
+  const parsedCartTotal =
+    typeof cartTotal === "number" && !Number.isNaN(cartTotal)
+      ? cartTotal
+      : parseNumeric(cartTotal);
+  const isBelowMinOrder =
+    parsedMinValue !== null &&
+    parsedCartTotal !== null &&
+    parsedCartTotal < parsedMinValue;
+  const isApplyDisabled = expired || isBelowMinOrder;
+
+  const appliedCouponCode =
+    appliedCouponState?.code ||
+    appliedCouponState?.coupon ||
+    appliedCouponState?.promo_code;
+  const isApplied =
+    appliedCouponCode &&
+    couponCode &&
+    appliedCouponCode.toLowerCase() === couponCode.toLowerCase();
+
+  const locale = currentLanguage === "ar" ? "ar-AE" : "en-AE";
+  const countryCurrency = currentCountry?.currency || "AED";
+  const isAED = countryCurrency.toUpperCase() === "AED";
+
+  const formatMinValue = (value) => {
+    if (value === null || value === undefined || value === "") return value;
+    const parsed = Number(String(value).replace(/[^\d.-]/g, ""));
+    if (Number.isNaN(parsed)) return value;
+    const integerValue = Math.ceil(parsed);
+    try {
+      return new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(integerValue);
+    } catch (error) {
+      return integerValue;
+    }
+  };
+
+  const renderStatusButton = () => {
+    if (expired) {
+      return (
+        <button
+          disabled
+          className="px-5 py-2 bg-gray-400 text-white rounded-lg font-semibold text-xs uppercase tracking-wide"
+        >
+          {expiredText}
+        </button>
+      );
+    }
+
+    if (isApplied) {
+      return (
+        <button
+          disabled
+          className="px-5 py-2 rounded-lg font-semibold text-xs uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent"
+        >
+          {appliedText}
+        </button>
+      );
+    }
+
+    return (
+      <button
+        onClick={!isApplyDisabled ? onApply : undefined}
+        disabled={isApplyDisabled}
+        className={`px-5 py-2 rounded-lg font-semibold text-xs uppercase transition-colors ${
+          isApplyDisabled
+            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+            : "bg-primary hover:bg-[#7C3AED] text-white"
+        }`}
+      >
+        {applyButtonText}
+      </button>
+    );
+  };
+
+  return (
+    <div
+      className={`relative flex items-center gap-0 rounded-2xl bg-white overflow-hidden shadow-[0_18px_45px_rgba(15,17,21,0.12)] ${
+        expired ? "opacity-70" : ""
+      }`}
+    >
+      {isRecommended && (
+        <div className="absolute -top-3 right-4 z-10 bg-[#E8F5E9] px-2.5 py-1 rounded-md flex items-center gap-1">
+          <AiFillLike className="text-black text-xs font-medium" />
+          <span className="text-black text-xs font-medium">RECOMMENDED</span>
+        </div>
+      )}
+
+      <div className="flex-shrink-0 w-20 h-[120px] relative">
+        <img
+          src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
+          alt="Coupon"
+          className={`w-full h-full object-contain ${expired ? "opacity-60" : ""}`}
+        />
+        <span
+          className={`absolute inset-0 flex items-center text-uppercase justify-center text-white font-bold text-xs transform -rotate-90 whitespace-nowrap ${
+            expired ? "text-gray-500" : ""
+          }`}
+        >
+          {couponCode}
+        </span>
+      </div>
+
+      <div
+        className={`flex-1 flex items-center justify-between gap-4 px-4 py-4 min-h-[120px] ${
+          expired ? "bg-gray-50" : "bg-white"
+        }`}
+      >
+        <div className="flex-1 pr-3 min-w-0">
+          <p
+            className={`text-base text-uppercase font-semibold leading-snug ${
+              expired ? "text-gray-400" : "text-[#0F1115]"
+            }`}
+          >
+            {description}
+          </p>
+          {minValue && (
+            <p
+              className={`text-sm mt-1 flex items-center gap-1 whitespace-nowrap ${
+                expired ? "text-gray-400" : "text-[#4B5563]"
+              }`}
+            >
+              for order above{" "}
+              {isAED ? (
+                <img
+                  src="/assets/feed/aed-icon.svg"
+                  alt="AED"
+                  className="w-4 h-4 inline-block mix-blend-multiply"
+                  style={{ color: "black" }}
+                />
+              ) : (
+                <span className="currencycode">{countryCurrency}</span>
+              )}
+              <strong>{formatMinValue(minValue)}</strong>
+            </p>
+          )}
+          {coupon?.enddate && (
+            <p
+              className={`text-xs mt-2 whitespace-nowrap ${
+                expired ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
+              Valid until <strong>{formatDate(coupon.enddate)}</strong>
+            </p>
+          )}
+        </div>
+        <div className="flex-shrink-0">{renderStatusButton()}</div>
       </div>
     </div>
   );

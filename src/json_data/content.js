@@ -1843,8 +1843,8 @@ export const content = {
       ar: "أدخل رمز القسيمة",
     },
     availableCoupons: {
-      en: "View available offers",
-      ar: "عرض العروض المتاحة",
+      en: "Available Coupons",
+      ar: "القسائم المتاحة",
     },
     couponApplied: {
       en: "Congrats! You've saved",
