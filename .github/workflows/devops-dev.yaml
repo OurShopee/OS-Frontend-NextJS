@@ -21,10 +21,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    # Job-level env — expressions ALLOWED here
-    env:
-      ECR_REGISTRY: '${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com'
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,7 +44,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
-            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
