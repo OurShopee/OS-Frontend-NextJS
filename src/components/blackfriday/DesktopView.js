@@ -155,6 +155,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[8].items}
           bannerImage={rows?.[17]?.desktopImage}
           bannerImageRedirectUrl={rows?.[17].url}
@@ -170,6 +171,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[0].items}
           bannerImage={rows?.[9]?.desktopImage}
           bannerImageRedirectUrl={rows?.[9].url}
@@ -190,6 +192,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[1].items}
           bannerImage={rows?.[10]?.desktopImage}
           bannerImageRedirectUrl={rows?.[10].url}
@@ -206,6 +209,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[2].items}
           bannerImage={rows?.[11]?.desktopImage}
           bannerImageRedirectUrl={rows?.[11].url}
@@ -222,6 +226,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[3].items}
           bannerImage={rows?.[12]?.desktopImage}
           bannerImageRedirectUrl={rows?.[12].url}
@@ -250,6 +255,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[4].items}
           bannerImage={rows?.[13]?.desktopImage}
           bannerImageRedirectUrl={rows?.[13].url}
@@ -266,6 +272,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[5].items}
           bannerImage={rows?.[14]?.desktopImage}
           bannerImageRedirectUrl={rows?.[14].url}
@@ -292,6 +299,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[6].items}
           bannerImage={rows?.[15]?.desktopImage}
           bannerImageRedirectUrl={rows?.[15].url}
@@ -395,6 +403,7 @@ const DesktopView = ({
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
+          bannerClassName={"aspect-[300/340]"}
           products={rows?.[7].items}
           bannerImage={rows?.[17]?.desktopImage}
           bannerImageRedirectUrl={rows?.[16].url}
