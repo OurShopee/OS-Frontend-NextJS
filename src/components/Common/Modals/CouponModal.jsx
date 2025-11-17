@@ -20,6 +20,7 @@ const CouponModal = ({
   const [isSuccessCardReady, setIsSuccessCardReady] = useState(false);
   const [successModalAnimKey, setSuccessModalAnimKey] = useState(0);
   const [applyError, setApplyError] = useState("");
+  const [showGif, setShowGif] = useState(false);
 
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
@@ -188,6 +189,8 @@ const CouponModal = ({
         setShowSuccessModal(true);
         setIsSuccessCardReady(false);
         setSuccessModalAnimKey((prev) => prev + 1);
+        setShowGif(true);
+        setTimeout(() => setShowGif(false), 1000);
       });
     } catch (error) {
       setApplyError("Unable to apply coupon. Please try again.");
@@ -393,6 +396,7 @@ const CouponModal = ({
   }, [showSuccessModal, isSuccessCardReady, animateSuccessCardToInput]);
 
   const handleSuccessModalClose = useCallback(() => {
+    setShowGif(false);
     animateSuccessCardToInput();
   }, [animateSuccessCardToInput]);
 
@@ -520,7 +524,7 @@ const CouponModal = ({
         onHide={handleSuccessModalClose}
         size="sm"
         centered
-        panelClassName="max-w-[420px] !bg-transparent !shadow-none p-0"
+        panelClassName="max-w-[300px] !bg-transparent !shadow-none p-0"
         ariaLabel="Coupon Applied Successfully"
         closeOnBackdrop={false}
       >
@@ -538,7 +542,7 @@ const CouponModal = ({
           <div
             key={successModalAnimKey}
             ref={successCardRef}
-            className="success-modal-card relative rounded-[32px] overflow-hidden bg-transparent p-0"
+            className="success-modal-card relative rounded-[32px] overflow-hidden !bg-transparent p-0"
           >
             <img
               src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/bg.svg"
@@ -546,7 +550,15 @@ const CouponModal = ({
               className="block w-full h-auto object-cover"
               onLoad={handleSuccessArtLoaded}
             />
-            <div className="absolute inset-x-0 bottom-[4rem] text-center text-lg text-[#1E1E1E] font-medium">
+            {showGif && (
+              <img
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-3/4 object-contain"
+                src="/assets/animation.gif"
+                alt=""
+                aria-hidden="true"
+              />
+            )}
+            <div className="absolute inset-x-0 bottom-[2rem] text-center text-lg text-[#1E1E1E] font-medium">
               You saved{" "}
               <span className="font-semibold text-[#32A928]">
                 {savingsDisplay}
