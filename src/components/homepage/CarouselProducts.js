@@ -111,7 +111,7 @@ export default function CarouselProducts({
     <div className="relative overflow-hidden">
       <img
         src={backgroundImage}
-        className="sm:hidden absolute w-full h-full z-0 border-none"
+        className={`sm:hidden absolute w-full h-full z-0 border-none ${!backgroundImage && "hidden"}`}
       />
       <div
         className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${
@@ -122,7 +122,7 @@ export default function CarouselProducts({
         <div
           className={`${
             isMobile ? "flex gap-1 mt-[144px]" : "flex items-stretch gap-1"
-          }`}
+          } ${!backgroundImage && "mt-[0px]"}`}
         >
           {indicators && (
             <button
