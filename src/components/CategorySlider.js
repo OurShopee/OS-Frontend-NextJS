@@ -4,6 +4,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useRouter } from "next/navigation";
 import { pushToDataLayer } from "./utils/dataUserpush";
 import { useSelector } from "react-redux";
+import { getDynamicContent } from "@/hooks";
 
 export default function CategorySlider({ categoryList }) {
   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
@@ -142,7 +143,7 @@ export default function CategorySlider({ categoryList }) {
                     />
                   </div>
                   <h5 className="mt-1 text-[13px] text-center font-medium text-gray-700 leading-tight min-h-10">
-                    {cat?.category_name}
+                    {getDynamicContent(cat, "category_name", currentLanguage)}
                   </h5>
                 </div>
               </div>

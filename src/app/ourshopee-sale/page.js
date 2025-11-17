@@ -66,6 +66,10 @@ const ElevenSale = () => {
   const NowOrNeverDeals =
     sectionData?.find((d) => d.heading === "NOW OR NEVER DEALS")?.items?.[0]
       ?.items || [];
+  const BudgetSectionData =
+    sectionData?.find((d) => d.heading === "Something For Every Budget")
+      ?.items || sectionData?.find((d) => d.heading === "Something For Every Budget")
+      ?.images || [];
 
   const FlashSale =
     sectionData?.find((d) => d.heading === "Flash Sale")?.items?.[0]?.items ||
@@ -216,6 +220,7 @@ const ElevenSale = () => {
           LowestPriceEver={LowestPriceEver}
           OurshoppeFridayBanner={OurshoppeFridayBanner}
           FlashSaleBanner={FlashSaleBanner}
+          BudgetSectionData={BudgetSectionData}
           BeautyBanner={BeautyBanner}
           AppUpdateBanner={AppUpdateBanner}
           rows={rows}
@@ -226,6 +231,7 @@ const ElevenSale = () => {
           NowOrNeverDeals={NowOrNeverDeals}
           FlashSaleItems={FlashSale}
           LowestPriceEver={LowestPriceEver}
+          BudgetSectionData={BudgetSectionData}
           OurshoppeFridayBanner={OurshoppeFridayBanner}
           FlashSaleBanner={FlashSaleBanner}
           BeautyBanner={BeautyBanner}

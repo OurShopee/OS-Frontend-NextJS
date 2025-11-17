@@ -3,34 +3,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { MediaQueries } from "../utils";
 
-const BudgetSection = () => {
+const BudgetSection = ({ BudgetSectionData }) => {
   const { isMobile } = MediaQueries();
   const currentcountry = useSelector(
     (state) => state?.globalslice?.currentcountry
   );
-
-  const budgetImages = [
-    {
-      image: "under_1.png",
-      url: currentcountry.min_max1 || "",
-    },
-    {
-      image: "under_2.png",
-      url: currentcountry.min_max2 || "",
-    },
-    {
-      image: "under_3.png",
-      url: currentcountry.min_max3 || "",
-    },
-    {
-      image: "under_4.png",
-      url: currentcountry.min_max4 || "",
-    },
-    {
-      image: "under_5.png",
-      url: currentcountry.min_max5 || "",
-    },
-  ];
 
   return (
     <div className="px-5">
@@ -93,10 +70,10 @@ const BudgetSection = () => {
         </div>
         {!isMobile ? (
           <div className="flex justify-center flex-wrap gap-14">
-            {budgetImages.map((i, idx) => (
+            {BudgetSectionData?.map((i, idx) => (
               <Link key={idx} href={i?.url}>
                 <img
-                  src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/${currentcountry.currency}/${i.image}`}
+                  src={i?.desktopImage}
                   alt="No image found"
                   className="w-[199px] h-[197px] object-contain"
                 />
@@ -105,10 +82,10 @@ const BudgetSection = () => {
           </div>
         ) : (
           <div className="flex flex-wrap justify-around gap-2 px-6">
-            {budgetImages.map((i, idx) => (
+            {BudgetSectionData?.map((i, idx) => (
               <Link key={idx} href={i?.url}>
                 <img
-                  src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/${currentcountry.currency}/${i.image}`}
+                  src={i?.mobileImage}
                   alt="No image found"
                   className="w-[120px] h-[120px] md:w-[199px] md:h-[197px] object-contain"
                 />

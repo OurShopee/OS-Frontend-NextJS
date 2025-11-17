@@ -24,16 +24,17 @@ const DesktopView = ({
   FlashSaleBanner,
   BeautyBanner,
   AppUpdateBanner,
+  BudgetSectionData,
   rows,
 }) => {
   const { isMobile } = MediaQueries();
   const techGadgets = {
     three: [
       {
-        title: "Pre-Owned Tablets",
+        title: "Gaming Acesssories",
         percent: "60",
-        name: "tablets.png",
-        url: "/products-category/Pre-Owned-Tablets/",
+        name: "gaming.png",
+        url: "/products-category/Gaming-PC-Accessories",
       },
       {
         title: "Pre-Owned Laptops",
@@ -144,7 +145,7 @@ const DesktopView = ({
       </div>
 
       <div className="mb-4">
-        <BudgetSection />
+        <BudgetSection BudgetSectionData={BudgetSectionData} />
       </div>
 
       <div className="component_1 mb-4 px-5">
@@ -238,7 +239,7 @@ const DesktopView = ({
               : OurshoppeFridayBanner?.desktopImage
           }
           alt="Banner"
-          className="w-full h-full"
+          className="w-full h-full rounded-xl"
         />
       </div>
 
@@ -280,7 +281,7 @@ const DesktopView = ({
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
           alt="Banner"
-          className="w-full h-full"
+          className="w-full h-full rounded-xl"
         />
       </div>
 
@@ -383,7 +384,7 @@ const DesktopView = ({
               : AppUpdateBanner?.desktopImage
           }
           alt="Banner"
-          className="w-full h-full"
+          className="w-full h-full rounded-xl"
         />
       </div>
 

@@ -22,6 +22,7 @@ const MobileViewCard = ({
   OurshoppeFridayBanner,
   FlashSaleBanner,
   BeautyBanner,
+  BudgetSectionData,
   rows,
 }) => {
   const mwebImg = [
@@ -203,7 +204,7 @@ const MobileViewCard = ({
       </div>
 
       <div className="mb-4">
-        <BudgetSection />
+        <BudgetSection BudgetSectionData={BudgetSectionData} />
       </div>
 
       <div className="component_1 mb-4 px-5">
@@ -297,7 +298,7 @@ const MobileViewCard = ({
               : OurshoppeFridayBanner?.desktopImage
           }
           alt="Banner"
-          className="w-full h-full"
+          className="w-full h-full rounded-xl"
         />
       </div>
 
@@ -339,7 +340,7 @@ const MobileViewCard = ({
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
           alt="Banner"
-          className="w-full h-full"
+          className="w-full h-full rounded-xl"
         />
       </div>
 
@@ -404,6 +405,18 @@ const MobileViewCard = ({
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="px-5 mb-4">
+        <img
+          src={
+            isMobile
+              ? AppUpdateBanner?.mobileImage
+              : AppUpdateBanner?.desktopImage
+          }
+          alt="Banner"
+          className="w-full h-full rounded-xl"
+        />
       </div>
 
       <div className="component_1 mb-4 px-5">

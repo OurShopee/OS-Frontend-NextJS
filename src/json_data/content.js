@@ -1931,16 +1931,20 @@ export const content = {
       ar: "تطبيق كوبون",
     },
     couponCode: {
-      en: "Coupon Code",
+      en: "Coupon ",
       ar: "رمز القسيمة",
     },
     enterCouponCode: {
       en: "Enter coupon code",
       ar: "أدخل رمز القسيمة",
     },
+    availableCoupons: {
+      en: "Available Coupons",
+      ar: "القسائم المتاحة",
+    },
     couponApplied: {
-      en: "Coupon applied",
-      ar: "تم تطبيق القسيمة",
+      en: "Congrats! You've saved",
+      ar: "تهانينا! لقد حفظت",
     },
     enterAmountManually: {
       en: "Enter amount manually",
