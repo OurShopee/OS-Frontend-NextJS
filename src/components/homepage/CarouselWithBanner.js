@@ -15,6 +15,7 @@ export default function CarouselWithBanner({
   breakPointsProps,
   section_name,
   backgroundImage,
+  bannerClassName = "aspect-[301/305]",
   className = "",
   style = {},
   ...restProps
@@ -56,14 +57,13 @@ export default function CarouselWithBanner({
     };
   }, [hasBanner, products, isMobile]);
 
-
   const bannerContent = (
     <img
       data-aos="fade-right"
       data-aos-easing="ease-in-out"
       src={bannerImage}
       alt="Promotional banner"
-      className="w-full max-h-[310px] object-cover rounded-2xl aspect-[301/305]"
+      className={`w-full max-h-[310px] object-cover rounded-2xl ${bannerClassName}`}
     />
   );
 
