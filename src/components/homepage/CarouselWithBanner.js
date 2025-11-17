@@ -56,6 +56,7 @@ export default function CarouselWithBanner({
     };
   }, [hasBanner, products, isMobile]);
 
+
   const bannerContent = (
     <img
       data-aos="fade-right"
@@ -68,7 +69,7 @@ export default function CarouselWithBanner({
 
   return (
     <div
-      className={`carousel-with-banner-wrapper ${
+      className={`carousel-with-banner-wrapper carousel-product-mweb ${
         hasBanner ? "with-banner" : "full-width"
       } ${className}`}
       style={style}

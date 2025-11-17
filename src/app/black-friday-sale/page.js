@@ -108,6 +108,27 @@ const ElevenSale = () => {
   const PreOwnedMobiles =
     sectionData?.find((d) => d.heading === "Pre-Owned Mobiles")?.items?.[0] ||
     [];
+  const PreOwnedLaptopsBanner =
+    sectionData?.find((d) => d.heading === "Pre Owned Laptop Banner")?.images ||
+    [];
+  const WatchesBanner =
+    sectionData?.find((d) => d.heading === "Watches Banner")?.images || [];
+  const PerfumesBanner =
+    sectionData?.find((d) => d.heading === "Perfumes Banner")?.images || [];
+  const HealthBeautyBanner =
+    sectionData?.find((d) => d.heading === "Health & Beauty Banner")?.images || [];
+  const AccessoriesBanner =
+    sectionData?.find((d) => d.heading === "Accessories Banner")?.images || [];
+  const HomeAppliancesBanner =
+    sectionData?.find((d) => d.heading === "Home Appliances Banner")?.images || [];
+  const MotherBabyBanner =
+    sectionData?.find((d) => d.heading === "Baby & Mother care Banner")?.images ||
+    [];
+  const ToysGamesBanner =
+    sectionData?.find((d) => d.heading === "Toys & Games Banner")?.images || [];
+  const PreOwnedMobilesBanner =
+    sectionData?.find((d) => d.heading === "Pre-Owned Mobiles Banner")?.images ||
+    [];
 
   const categories = sectionData?.find((d) => d.type === 1) || [];
   const categoryItems = [
@@ -173,9 +194,18 @@ const ElevenSale = () => {
     MotherBaby,
     ToysGames,
     PreOwnedMobiles,
+    PreOwnedLaptopsBanner,
+    WatchesBanner,
+    PerfumesBanner,
+    HealthBeautyBanner,
+    AccessoriesBanner,
+    HomeAppliancesBanner,
+    MotherBabyBanner,
+    ToysGamesBanner,
+    PreOwnedMobilesBanner,
   ];
 
-  console.log(rows);
+
 
   return (
     <div className="container mx-auto">

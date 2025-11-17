@@ -145,7 +145,8 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
           <CarouselWithoutIndicators
             products={groupedProducts[currentGroupIndex]}
             type={1}
-            inner_bg={"rgba(238, 235, 250, 1)"}
+            inner_bg={"transparent"}
+            color={true}
             breakPointsProps={{
               200: { slidesPerView: 1.3 },
               375: { slidesPerView: 1.5 },
