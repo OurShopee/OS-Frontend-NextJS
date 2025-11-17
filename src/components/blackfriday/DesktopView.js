@@ -23,6 +23,7 @@ const DesktopView = ({
   OurshoppeFridayBanner,
   FlashSaleBanner,
   BeautyBanner,
+  AppUpdateBanner,
   rows,
 }) => {
   const { isMobile } = MediaQueries();
@@ -32,19 +33,19 @@ const DesktopView = ({
         title: "Pre-Owned Tablets",
         percent: "60",
         name: "tablets.png",
-        url: "/products-category/Pre-Owned-Tablets",
+        url: "/products-category/Pre-Owned-Tablets/",
       },
       {
         title: "Pre-Owned Laptops",
         percent: "60",
         name: "laptops.png",
-        url: "/products-category/Pre-Owned-Laptops",
+        url: "/products-category/Pre-Owned-Laptops/",
       },
       {
         title: "Pre-Owned Mobiles",
         percent: "60",
         name: "mobiles.png",
-        url: "/products-category/Pre-Owned-Mobiles",
+        url: "/products-category/Pre-Owned-Mobiles/",
       },
     ],
     two: [
@@ -139,17 +140,21 @@ const DesktopView = ({
       </div>
 
       <div className="mb-4">
-        <NowOrNeverSection NowOrNeverDeals={NowOrNeverDeals} />
+        <LowestPriceSection LowestPriceEver={LowestPriceEver} />
+      </div>
+
+      <div className="mb-4">
+        <BudgetSection />
       </div>
 
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Pre Owned Mobiles"}
-          url={FlashSaleBanner.url}
+          url={rows?.[8].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[8]}
+          products={rows?.[8].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -160,11 +165,11 @@ const DesktopView = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Pre Owned Laptops"}
-          url={FlashSaleBanner.url}
+          url={rows?.[0].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[0]}
+          products={rows?.[0].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -174,17 +179,17 @@ const DesktopView = ({
       </div>
 
       <div className="mb-4">
-        <BudgetSection />
+        <NowOrNeverSection NowOrNeverDeals={NowOrNeverDeals} />
       </div>
 
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Watches"}
-          url={FlashSaleBanner.url}
+          url={rows?.[1].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[1]}
+          products={rows?.[1].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -193,18 +198,14 @@ const DesktopView = ({
         />
       </div>
 
-      <div className="mb-4">
-        <LowestPriceSection LowestPriceEver={LowestPriceEver} />
-      </div>
-
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Perfumes"}
-          url={FlashSaleBanner.url}
+          url={rows?.[2].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[2]}
+          products={rows?.[2].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -216,11 +217,11 @@ const DesktopView = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Health & Beauty"}
-          url={FlashSaleBanner.url}
+          url={rows?.[3].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[3]}
+          products={rows?.[3].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -244,11 +245,11 @@ const DesktopView = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Accessories"}
-          url={FlashSaleBanner.url}
+          url={rows?.[4].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[4]}
+          products={rows?.[4].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -260,11 +261,11 @@ const DesktopView = ({
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Home Appliances"}
-          url={FlashSaleBanner.url}
+          url={rows?.[5].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[5]}
+          products={rows?.[5].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
@@ -285,17 +286,17 @@ const DesktopView = ({
 
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
-          title={"Mother & Baby"}
-          url={FlashSaleBanner.url}
+          title={"Baby & Mother care"}
+          url={rows?.[6].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[6]}
+          products={rows?.[6].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
-          section_name={"Mother & Baby"}
+          section_name={"Baby & Mother care"}
         />
       </div>
 
@@ -374,14 +375,26 @@ const DesktopView = ({
         </div>
       </div>
 
+      <div className="px-5 mb-4">
+        <img
+          src={
+            isMobile
+              ? AppUpdateBanner?.mobileImage
+              : AppUpdateBanner?.desktopImage
+          }
+          alt="Banner"
+          className="w-full h-full"
+        />
+      </div>
+
       <div className="component_1 mb-4 px-5">
         <ComponentHeader
           title={"Toys & Games"}
-          url={FlashSaleBanner.url}
+          url={rows?.[7].url}
           view_all={"rgba(82, 50, 194, 1)"}
         />
         <CarouselWithBanner
-          products={rows?.[7]}
+          products={rows?.[7].items}
           bannerImage={FlashSaleBanner?.desktopImage}
           bannerImageRedirectUrl={FlashSaleBanner.url}
           type={1}

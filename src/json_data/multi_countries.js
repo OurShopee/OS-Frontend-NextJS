@@ -34,10 +34,12 @@ const countriesData = [
     isAreaCodeRequired: true,
     isDonationRequired: true,
     country_code: "+971",
-    min_max1: "/categories/health-beauty?min=0&max=49",
+    min_max1: "/products-category/Skin-Care?min=0&max=49",
     min_max2: "/products-category/perfumes?min=0&max=99",
-    min_max3: "/categories/home-appliances?min=0&max=199",
-    min_max4: "/categories/electronics?min=0&max=399",
+    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=199",
+    min_max4: "/products-category/watches?min=0&max=399",
+    min_max5:
+      "/products-subcategory/televisions-accessories/television?min=0&max=999",
     nav_items: [
       {
         id: 11,
@@ -173,10 +175,12 @@ const countriesData = [
     insta_link:
       "https://www.instagram.com/ourshopeeoman?igsh=MWI0dnVteml6Z2psaQ%3D%3D&utm_source=qr",
     min_value: 20,
-    min_max1: "/categories/health-beauty?min=0&max=4.9",
+    min_max1: "/products-category/Skin-Care?min=0&max=4.9",
     min_max2: "/products-category/perfumes?min=0&max=9.9",
-    min_max3: "/categories/home-appliances?min=0&max=19.9",
-    min_max4: "/categories/electronics?min=0&max=39.9",
+    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=19.9",
+    min_max4: "/products-category/watches?min=0&max=39.9",
+    min_max5:
+      "/products-subcategory/televisions-accessories/television?min=0&max=99.9",
     dealsByCountry: {
       "Weekly Deals": 239,
       "Mast Zone": 244,
@@ -315,10 +319,12 @@ const countriesData = [
     insta_link:
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
     min_value: 200,
-    min_max1: "/categories/health-beauty?min=0&max=49",
+    min_max1: "/products-category/Skin-Care?min=0&max=49",
     min_max2: "/products-category/perfumes?min=0&max=99",
-    min_max3: "/categories/home-appliances?min=0&max=199",
-    min_max4: "/categories/electronics?min=0&max=399",
+    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=199",
+    min_max4: "/products-category/watches?min=0&max=399",
+    min_max5:
+      "/products-subcategory/televisions-accessories/television?min=0&max=999",
     dealsByCountry: {
       "Weekly Deals": 240,
       "Mast Zone": 245,
@@ -455,10 +461,12 @@ const countriesData = [
       "Namaste Deals": 262,
       "Top Selling": 78,
     },
-    min_max1: "/categories/health-beauty?min=0&max=4.9",
+    min_max1: "/products-category/Skin-Care?min=0&max=4.9",
     min_max2: "/products-category/perfumes?min=0&max=9.9",
-    min_max3: "/categories/home-appliances?min=0&max=19.9",
-    min_max4: "/categories/electronics?min=0&max=39.9",
+    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=19.9",
+    min_max4: "/products-category/watches?min=0&max=39.9",
+    min_max5:
+      "/products-subcategory/televisions-accessories/television?min=0&max=99.9",
     isTabbyRequired: true,
     emi_months: 4,
     isAreaCodeRequired: false,
@@ -591,10 +599,12 @@ const countriesData = [
       "Namaste Deals": 263,
       "Top Selling": 77,
     },
-    min_max1: "/categories/health-beauty?min=0&max=4.9",
+    min_max1: "/products-category/Skin-Care?min=0&max=4.9",
     min_max2: "/products-category/perfumes?min=0&max=9.9",
-    min_max3: "/categories/home-appliances?min=0&max=19.9",
-    min_max4: "/categories/electronics?min=0&max=39.9",
+    min_max3: "/products-category/Food-Preparation-Kitchenwares?min=0&max=19.9",
+    min_max4: "/products-category/watches?min=0&max=39.9",
+    min_max5:
+      "/products-subcategory/televisions-accessories/television?min=0&max=99.9",
     isTabbyRequired: false,
     emi_months: 0,
     isAreaCodeRequired: false,

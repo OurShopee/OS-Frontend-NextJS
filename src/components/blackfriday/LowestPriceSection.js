@@ -42,9 +42,9 @@ const LowestPriceSection = ({ LowestPriceEver }) => {
             color={true}
             breakPointsProps={{
               200: { slidesPerView: 1.3 },
-              375: { slidesPerView: 2 },
-              425: { slidesPerView: 2 },
-              500: { slidesPerView: 2 },
+              375: { slidesPerView: 1.5 },
+              425: { slidesPerView: 1.5 },
+              500: { slidesPerView: 1.7 },
               660: { slidesPerView: 3 },
               760: { slidesPerView: 3 },
               1000: { slidesPerView: 4 },
