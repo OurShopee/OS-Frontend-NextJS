@@ -1,0 +1,43 @@
+name: Build & Push to ECR
+
+on:
+  push:
+    branches:
+      - main
+
+# 👇 You can safely declare env here (top-level)
+env:
+  AWS_REGION: ap-south-1
+  AWS_ACCOUNT_ID: "790730093083"
+  AWS_OIDC_ROLE_NAME: "Github_action_access"
+  ECR_REPOSITORY: "dev/application-fe"
+  ECR_REGISTRY: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.AWS_OIDC_ROLE_NAME }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push image (cached)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
