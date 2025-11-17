@@ -18,6 +18,7 @@ const CouponModal = ({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [isSuccessCardReady, setIsSuccessCardReady] = useState(false);
+  const [successModalAnimKey, setSuccessModalAnimKey] = useState(0);
   const [applyError, setApplyError] = useState("");
 
   const currentLanguage = useCurrentLanguage();
@@ -184,10 +185,11 @@ const CouponModal = ({
 
       // Close list modal & show success modal
       onHide();
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         setShowSuccessModal(true);
-      }, 150);
-      setIsSuccessCardReady(false);
+        setIsSuccessCardReady(false);
+        setSuccessModalAnimKey((prev) => prev + 1);
+      });
     } catch (error) {
       setApplyError("Unable to apply coupon. Please try again.");
     }
@@ -528,8 +530,9 @@ const CouponModal = ({
             <IoClose className="w-5 h-5" />
           </button>
           <div
+            key={successModalAnimKey}
             ref={successCardRef}
-            className="relative rounded-[32px] overflow-hidden bg-transparent p-0"
+            className="success-modal-card relative rounded-[32px] overflow-hidden bg-transparent p-0"
           >
             <img
               src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/bg.svg"
@@ -565,6 +568,30 @@ const CouponModal = ({
 
         .coupon-input-flight-highlight {
           animation: couponInputFlightPulse 1s ease-out forwards;
+        }
+
+        @keyframes successModalPop {
+          0% {
+            opacity: 0;
+            transform: translate3d(0, 16px, 0) scale(0.92);
+            filter: blur(2px);
+          }
+          55% {
+            opacity: 1;
+            transform: translate3d(0, -6px, 0) scale(1.02);
+            filter: blur(0);
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+            filter: blur(0);
+          }
+        }
+
+        .success-modal-card {
+          animation: successModalPop 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          will-change: transform, opacity, filter;
+          backface-visibility: hidden;
         }
       `}</style>
     </>
