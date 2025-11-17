@@ -1835,12 +1835,16 @@ export const content = {
       ar: "تطبيق كوبون",
     },
     couponCode: {
-      en: "Coupon Code",
+      en: "Coupon ",
       ar: "رمز القسيمة",
     },
     enterCouponCode: {
       en: "Enter coupon code",
       ar: "أدخل رمز القسيمة",
+    },
+    availableCoupons: {
+      en: "View available offers",
+      ar: "عرض العروض المتاحة",
     },
     couponApplied: {
       en: "Coupon applied",
