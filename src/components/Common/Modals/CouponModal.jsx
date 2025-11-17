@@ -12,11 +12,13 @@ const CouponModal = ({
   coupons = [],
   onApplyCoupon,
   inputFieldRef,
+  cartTotal = null,
 }) => {
   const [enteredCode, setEnteredCode] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [isSuccessCardReady, setIsSuccessCardReady] = useState(false);
+  const [applyError, setApplyError] = useState("");
 
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
@@ -44,7 +46,7 @@ const CouponModal = ({
   const recommendedCoupons =
     coupons?.filter((coupon) => coupon.isRecommended === "true") || [];
   const otherCoupons =
-    coupons?.filter((coupon) => !coupon.is_recommended) || [];
+    coupons?.filter((coupon) => coupon.isRecommended === "false") || [];
 
   const getCouponCode = (coupon) => {
     if (typeof coupon === "string") return coupon;
@@ -162,30 +164,40 @@ const CouponModal = ({
     });
   };
 
-  const handleApplyCoupon = (coupon, couponId, overrideCode) => {
+  const handleApplyCoupon = async (coupon, couponId, overrideCode) => {
     const couponCode = overrideCode || getCouponCode(coupon);
-    if (!couponCode) return;
+    if (!couponCode || !onApplyCoupon) return;
 
-    if (onApplyCoupon) {
-      onApplyCoupon(couponCode);
+    try {
+      const result = await onApplyCoupon(couponCode);
+      const normalizedStatus = result?.status?.toLowerCase();
+      const isFailure =
+        normalizedStatus === "faliure" || normalizedStatus === "failure";
+      if (isFailure) {
+        setApplyError(result?.message || "Invalid coupon");
+        return;
+      }
+
+      setApplyError("");
+      setAppliedCoupon(coupon);
+      setEnteredCode("");
+
+      // Close list modal & show success modal
+      onHide();
+      setTimeout(() => {
+        setShowSuccessModal(true);
+      }, 150);
+      setIsSuccessCardReady(false);
+    } catch (error) {
+      setApplyError("Unable to apply coupon. Please try again.");
     }
-
-    setAppliedCoupon(coupon);
-    setEnteredCode("");
-
-    // Close list modal & show success modal
-    onHide();
-    setTimeout(() => {
-      setShowSuccessModal(true);
-    }, 150);
-    setIsSuccessCardReady(false);
   };
 
-  const handleManualApply = () => {
+  const handleManualApply = async () => {
     const trimmedCode = enteredCode.trim();
     if (!trimmedCode) return;
     const matchedCoupon = findCouponByCode(trimmedCode);
-    handleApplyCoupon(
+    await handleApplyCoupon(
       matchedCoupon || trimmedCode,
       matchedCoupon?.id || trimmedCode,
       trimmedCode
@@ -412,10 +424,18 @@ const CouponModal = ({
               type="text"
               placeholder={enterCouponPlaceholder}
               value={enteredCode}
-              onChange={(e) => setEnteredCode(e.target.value)}
+              onChange={(e) => {
+                setEnteredCode(e.target.value);
+                if (applyError) {
+                  setApplyError("");
+                }
+              }}
               onKeyPress={(e) => e.key === "Enter" && handleManualApply()}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
             />
+            {applyError && (
+              <p className="mt-2 text-sm text-red-500">{applyError}</p>
+            )}
           </div>
 
           {/* Best Coupons */}
@@ -433,6 +453,7 @@ const CouponModal = ({
                       coupon={coupon}
                       expired={expired}
                       isRecommended={true}
+                      cartTotal={cartTotal}
                       onApply={() =>
                         handleApplyCoupon(
                           coupon,
@@ -462,6 +483,7 @@ const CouponModal = ({
                       coupon={coupon}
                       expired={expired}
                       isRecommended={false}
+                      cartTotal={cartTotal}
                       onApply={() =>
                         handleApplyCoupon(
                           coupon,
@@ -549,7 +571,14 @@ const CouponModal = ({
   );
 };
 
-const CouponCard = ({ coupon, expired, isRecommended, onApply, formatDate }) => {
+const CouponCard = ({
+  coupon,
+  expired,
+  isRecommended,
+  onApply,
+  formatDate,
+  cartTotal,
+}) => {
   const applyButtonText = useContent("buttons.apply");
   const expiredText = "EXPIRED";
   const currentCountry = useSelector(
@@ -580,9 +609,25 @@ const CouponCard = ({ coupon, expired, isRecommended, onApply, formatDate }) => 
     return coupon?.min_order_value || coupon?.minimum_value || null;
   };
 
+  const parseNumeric = (value) => {
+    if (value === null || value === undefined || value === "") return null;
+    const numericRaw = Number(String(value).replace(/[^\d.-]/g, ""));
+    return Number.isNaN(numericRaw) ? null : numericRaw;
+  };
+
   const couponCode = getCouponCode(coupon);
   const description = getDescription(coupon);
   const minValue = getMinValue(coupon);
+  const parsedMinValue = parseNumeric(minValue);
+  const parsedCartTotal =
+    typeof cartTotal === "number" && !Number.isNaN(cartTotal)
+      ? cartTotal
+      : parseNumeric(cartTotal);
+  const isBelowMinOrder =
+    parsedMinValue !== null &&
+    parsedCartTotal !== null &&
+    parsedCartTotal < parsedMinValue;
+  const isApplyDisabled = expired || isBelowMinOrder;
 
   const locale = currentLanguage === "ar" ? "ar-AE" : "en-AE";
   const countryCurrency = currentCountry?.currency || "AED";
@@ -693,8 +738,13 @@ const CouponCard = ({ coupon, expired, isRecommended, onApply, formatDate }) => 
             </button>
           ) : (
             <button
-              onClick={onApply}
-              className="px-6 py-2 bg-primary hover:bg-[#7C3AED] text-white rounded-lg font-semibold text-sm uppercase transition-colors"
+              onClick={!isApplyDisabled ? onApply : undefined}
+              disabled={isApplyDisabled}
+              className={`px-6 py-2 rounded-lg font-semibold text-sm uppercase transition-colors ${
+                isApplyDisabled
+                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                  : "bg-primary hover:bg-[#7C3AED] text-white"
+              }`}
             >
               {applyButtonText}
             </button>

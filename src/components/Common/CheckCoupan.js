@@ -11,6 +11,7 @@ import { HiMiniCheckBadge } from "react-icons/hi2";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { CiDiscount1 } from "react-icons/ci";
 import CouponModal from "./Modals/CouponModal";
+import { toast } from "react-toastify";
 
 const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,9 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
   const coupanmsg = useSelector((state) => state.paymentslice.coupanmsg);
   const coupon = useSelector((state) => state.paymentslice.coupon);
+  const currentCountry = useSelector(
+    (state) => state.globalslice?.currentcountry
+  );
   const [coupancode, setCoupancode] = useState("");
   const [showCouponModal, setShowCouponModal] = useState(false);
   const inputFieldRef = useRef(null);
@@ -31,6 +35,21 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
   const applyButtonText = useContent("buttons.apply");
   const couponAppliedText = useContent("checkout.couponApplied");
   const availableCoupons = useContent("checkout.availableCoupons");
+
+  const parseAmountToNumber = (rawValue) => {
+    if (rawValue === null || rawValue === undefined || rawValue === "") {
+      return null;
+    }
+    const numericValue = Number(String(rawValue).replace(/[^\d.-]/g, ""));
+    return Number.isNaN(numericValue) ? null : numericValue;
+  };
+
+  const isSingleCheckoutFlow = singleCheckout || (prodId && qty);
+  const cartTotalValue = parseAmountToNumber(
+    isSingleCheckoutFlow
+      ? paymentMethods?.sub_total
+      : cartlistdata?.data?.grand_total
+  );
 
   const onchange = (e) => {
     setCoupancode(e.target.value);
@@ -62,15 +81,33 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
         : cartlistdata?.data?.grand_total.replace(/[^\d.]/g, ""),
     };
 
-    await dispatch(checkCouponCodeapi(input_data));
+    try {
+      const responseAction = await dispatch(checkCouponCodeapi(input_data));
+      const resPayload = responseAction?.payload;
+      const status = resPayload?.status?.toLowerCase();
+    
+      const message =
+        resPayload?.msg || resPayload?.data?.msg || "Invalid Coupon";
+      if (couponCode) {
+        setCoupancode(couponCode);
+      }
 
-    if (couponCode) {
-      setCoupancode(couponCode);
+      if (status === "failure") {
+ 
+        toast.error(message);
+        return { status: "faliure", message };
+      }
+
+      return { status: "success", message };
+    } catch (error) {
+      const fallbackMessage = "Unable to verify coupon. Please try again.";
+      toast.error(fallbackMessage);
+      return { status: "faliure", message: fallbackMessage };
     }
   };
 
   const handleApplyCouponFromModal = (couponCode) => {
-    checkcoupan(couponCode);
+    return checkcoupan(couponCode);
   };
 
   useEffect(() => {
@@ -148,7 +185,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
               ? "rounded-tl-[8px] rounded-bl-[8px]"
               : "rounded-tr-[8px] rounded-br-[8px]"
           }`}
-          onClick={checkcoupan}
+          onClick={() => checkcoupan()}
           style={{
             whiteSpace: "nowrap",
           }}
@@ -177,7 +214,26 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
           }`}
         >
           <HiMiniCheckBadge className="text-2xl" />
-          {couponAppliedText}
+          <span className="flex items-center gap-1">
+            {couponAppliedText}
+            {currentCountry?.currency?.toUpperCase() === "AED" ? (
+              <img
+                src="/assets/feed/aed-icon.svg"
+                alt="AED"
+                className={`w-4 h-4 inline-block mix-blend-multiply ${
+                  isRTL ? "" : ""
+                }`}
+                style={{ color: "black" }}
+              />
+            ) : (
+              <span
+                className={`currencycode ${isRTL ? "" : ""}`}
+              >
+                {currentCountry?.currency || "AED"}
+              </span>
+            )}
+            <span>{coupon?.discount}</span>
+          </span>
         </div>
       )}
 
@@ -188,6 +244,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
         coupons={coupons}
         onApplyCoupon={handleApplyCouponFromModal}
         inputFieldRef={inputFieldRef}
+        cartTotal={cartTotalValue}
       />
     </div>
   );

@@ -1847,8 +1847,8 @@ export const content = {
       ar: "عرض العروض المتاحة",
     },
     couponApplied: {
-      en: "Coupon applied",
-      ar: "تم تطبيق القسيمة",
+      en: "Congratulations! You've saved",
+      ar: "تهانينا! لقد حفظت",
     },
     enterAmountManually: {
       en: "Enter amount manually",
