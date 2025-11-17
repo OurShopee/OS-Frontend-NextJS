@@ -22,7 +22,7 @@ const CouponModal = ({
   const [successModalAnimKey, setSuccessModalAnimKey] = useState(0);
   const [applyError, setApplyError] = useState("");
   const [showGif, setShowGif] = useState(false);
- const {isMobile}=MediaQueries();
+  const { isMobile } = MediaQueries();
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
   const dispatch = useDispatch();
@@ -33,9 +33,7 @@ const CouponModal = ({
   const currentCountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-  const appliedCouponState = useSelector(
-    (state) => state.paymentslice.coupon
-  );
+  const appliedCouponState = useSelector((state) => state.paymentslice.coupon);
 
   // Content
   const availableCouponsText = useContent("checkout.availableCoupons");
@@ -237,146 +235,144 @@ const CouponModal = ({
    * Runs whenever the user closes the success modal or when it auto-closes.
    */
   const animateSuccessCardToInput = useCallback(() => {
-      if (isAnimatingSuccessRef.current) return;
-      const cardElement = successCardRef.current;
-      const inputElement = getCouponInputElement();
+    if (isAnimatingSuccessRef.current) return;
+    const cardElement = successCardRef.current;
+    const inputElement = getCouponInputElement();
 
-      const cleanup = () => {
-        setShowSuccessModal(false);
-        isAnimatingSuccessRef.current = false;
+    const cleanup = () => {
+      setShowSuccessModal(false);
+      isAnimatingSuccessRef.current = false;
+    };
+
+    if (!cardElement) {
+      cleanup();
+      return;
+    }
+
+    isAnimatingSuccessRef.current = true;
+
+    const cardRect = cardElement.getBoundingClientRect();
+    const computedStyles = window.getComputedStyle(cardElement);
+
+    const floatingShell = document.createElement("div");
+    floatingShell.style.position = "fixed";
+    floatingShell.style.left = `${cardRect.left}px`;
+    floatingShell.style.top = `${cardRect.top}px`;
+    floatingShell.style.width = `${cardRect.width}px`;
+    floatingShell.style.height = `${cardRect.height}px`;
+    floatingShell.style.zIndex = "9999";
+    floatingShell.style.pointerEvents = "none";
+    floatingShell.style.borderRadius = computedStyles.borderRadius;
+    floatingShell.style.overflow = "hidden";
+    floatingShell.style.boxShadow =
+      "0 25px 70px rgba(0, 0, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)";
+    floatingShell.style.transformOrigin = "center";
+    floatingShell.style.background = computedStyles.background || "transparent";
+
+    const cardClone = cardElement.cloneNode(true);
+    cardClone.style.width = "100%";
+    cardClone.style.height = "100%";
+    cardClone.style.transformOrigin = "center";
+    floatingShell.appendChild(cardClone);
+
+    document.body.appendChild(floatingShell);
+    setShowSuccessModal(false);
+
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    const viewportWidth =
+      window.innerWidth || document.documentElement.clientWidth;
+
+    const runFlight = (targetRect) => {
+      const fallbackRect = targetRect || cardRect;
+      const startCenterX = cardRect.left + cardRect.width / 2;
+      const startCenterY = cardRect.top + cardRect.height / 2;
+      const targetCenterX = fallbackRect.left + fallbackRect.width / 2;
+      const targetCenterY = fallbackRect.top + fallbackRect.height / 2;
+
+      const translateX = targetCenterX - startCenterX;
+      const translateY = targetCenterY - startCenterY;
+      const scale =
+        Math.min(
+          fallbackRect.width / cardRect.width,
+          fallbackRect.height / cardRect.height
+        ) || 0.25;
+      const clampedScale = Math.max(Math.min(scale, 0.9), 0.22);
+
+      const keyframes = [
+        {
+          transform: "translate3d(0,0,0) scale(1)",
+          opacity: 1,
+          borderRadius: computedStyles.borderRadius,
+        },
+        {
+          transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${clampedScale})`,
+          opacity: 0.1,
+          borderRadius: "14px",
+        },
+      ];
+
+      const timing = {
+        duration: 850,
+        easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+        fill: "forwards",
       };
 
-      if (!cardElement) {
-        cleanup();
+      const animation =
+        typeof floatingShell.animate === "function"
+          ? floatingShell.animate(keyframes, timing)
+          : null;
+
+      if (!animation) {
+        requestAnimationFrame(() => {
+          floatingShell.style.transition =
+            "transform 0.85s cubic-bezier(0.22,0.61,0.36,1), opacity 0.85s ease";
+          floatingShell.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${clampedScale})`;
+          floatingShell.style.opacity = "0.1";
+        });
+        setTimeout(() => {
+          floatingShell.remove();
+          highlightCouponInput(inputElement);
+          cleanup();
+        }, timing.duration + 40);
         return;
       }
 
-      isAnimatingSuccessRef.current = true;
-
-      const cardRect = cardElement.getBoundingClientRect();
-      const computedStyles = window.getComputedStyle(cardElement);
-
-      const floatingShell = document.createElement("div");
-      floatingShell.style.position = "fixed";
-      floatingShell.style.left = `${cardRect.left}px`;
-      floatingShell.style.top = `${cardRect.top}px`;
-      floatingShell.style.width = `${cardRect.width}px`;
-      floatingShell.style.height = `${cardRect.height}px`;
-      floatingShell.style.zIndex = "9999";
-      floatingShell.style.pointerEvents = "none";
-      floatingShell.style.borderRadius = computedStyles.borderRadius;
-      floatingShell.style.overflow = "hidden";
-      floatingShell.style.boxShadow =
-        "0 25px 70px rgba(0, 0, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)";
-      floatingShell.style.transformOrigin = "center";
-      floatingShell.style.background = computedStyles.background || "transparent";
-
-      const cardClone = cardElement.cloneNode(true);
-      cardClone.style.width = "100%";
-      cardClone.style.height = "100%";
-      cardClone.style.transformOrigin = "center";
-      floatingShell.appendChild(cardClone);
-
-      document.body.appendChild(floatingShell);
-      setShowSuccessModal(false);
-
-      const viewportHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-      const viewportWidth =
-        window.innerWidth || document.documentElement.clientWidth;
-
-      const runFlight = (targetRect) => {
-        const fallbackRect = targetRect || cardRect;
-        const startCenterX = cardRect.left + cardRect.width / 2;
-        const startCenterY = cardRect.top + cardRect.height / 2;
-        const targetCenterX = fallbackRect.left + fallbackRect.width / 2;
-        const targetCenterY = fallbackRect.top + fallbackRect.height / 2;
-
-        const translateX = targetCenterX - startCenterX;
-        const translateY = targetCenterY - startCenterY;
-        const scale =
-          Math.min(
-            fallbackRect.width / cardRect.width,
-            fallbackRect.height / cardRect.height
-          ) || 0.25;
-        const clampedScale = Math.max(Math.min(scale, 0.9), 0.22);
-
-        const keyframes = [
-          {
-            transform: "translate3d(0,0,0) scale(1)",
-            opacity: 1,
-            borderRadius: computedStyles.borderRadius,
-          },
-          {
-            transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${clampedScale})`,
-            opacity: 0.1,
-            borderRadius: "14px",
-          },
-        ];
-
-        const timing = {
-          duration: 850,
-          easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
-          fill: "forwards",
-        };
-
-        const animation =
-          typeof floatingShell.animate === "function"
-            ? floatingShell.animate(keyframes, timing)
-            : null;
-
-        if (!animation) {
-          requestAnimationFrame(() => {
-            floatingShell.style.transition =
-              "transform 0.85s cubic-bezier(0.22,0.61,0.36,1), opacity 0.85s ease";
-            floatingShell.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${clampedScale})`;
-            floatingShell.style.opacity = "0.1";
-          });
-          setTimeout(() => {
-            floatingShell.remove();
-            highlightCouponInput(inputElement);
-            cleanup();
-          }, timing.duration + 40);
-          return;
-        }
-
-        animation.onfinish = () => {
-          floatingShell.remove();
-          highlightCouponInput(inputElement);
-          cleanup();
-        };
-        animation.oncancel = () => {
-          floatingShell.remove();
-          highlightCouponInput(inputElement);
-          cleanup();
-        };
+      animation.onfinish = () => {
+        floatingShell.remove();
+        highlightCouponInput(inputElement);
+        cleanup();
       };
-
-      const proceedWithFlight = () => {
-        const targetRect = inputElement?.getBoundingClientRect();
-        runFlight(targetRect);
+      animation.oncancel = () => {
+        floatingShell.remove();
+        highlightCouponInput(inputElement);
+        cleanup();
       };
+    };
 
-      if (inputElement) {
-        const targetRect = inputElement.getBoundingClientRect();
-        const isOutOfView =
-          targetRect.top < 0 ||
-          targetRect.bottom > viewportHeight ||
-          targetRect.left < 0 ||
-          targetRect.right > viewportWidth;
+    const proceedWithFlight = () => {
+      const targetRect = inputElement?.getBoundingClientRect();
+      runFlight(targetRect);
+    };
 
-        if (isOutOfView) {
-          inputElement.scrollIntoView({ behavior: "smooth", block: "center" });
-          setTimeout(proceedWithFlight, 360);
-        } else {
-          proceedWithFlight();
-        }
+    if (inputElement) {
+      const targetRect = inputElement.getBoundingClientRect();
+      const isOutOfView =
+        targetRect.top < 0 ||
+        targetRect.bottom > viewportHeight ||
+        targetRect.left < 0 ||
+        targetRect.right > viewportWidth;
+
+      if (isOutOfView) {
+        inputElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(proceedWithFlight, 360);
       } else {
-        runFlight(cardRect);
+        proceedWithFlight();
       }
-    },
-    [getCouponInputElement, highlightCouponInput]
-  );
+    } else {
+      runFlight(cardRect);
+    }
+  }, [getCouponInputElement, highlightCouponInput]);
 
   useEffect(() => {
     if (showSuccessModal && isSuccessCardReady) {
@@ -485,34 +481,32 @@ const CouponModal = ({
             <h3 className="text-lg font-bold text-[#191B1C] mb-4">
               {moreCoupons}
             </h3>
-              <div className="space-y-4">
-                {otherCoupons.map((coupon, index) => {
-                  const expired = isCouponExpired(coupon);
-                  return (
-                    <CouponCard
-                      key={coupon.id || coupon.coupon_id || index}
-                      coupon={coupon}
-                      expired={expired}
-                      isRecommended={false}
-                      cartTotal={cartTotal}
-                      onApply={() =>
-                        handleApplyCoupon(
-                          coupon,
-                          coupon.id || coupon.coupon_id || index
-                        )
-                      }
-                      formatDate={formatDate}
-                    />
-                  );
-                })}
-              </div>
+            <div className="space-y-4">
+              {otherCoupons.map((coupon, index) => {
+                const expired = isCouponExpired(coupon);
+                return (
+                  <CouponCard
+                    key={coupon.id || coupon.coupon_id || index}
+                    coupon={coupon}
+                    expired={expired}
+                    isRecommended={false}
+                    cartTotal={cartTotal}
+                    onApply={() =>
+                      handleApplyCoupon(
+                        coupon,
+                        coupon.id || coupon.coupon_id || index
+                      )
+                    }
+                    formatDate={formatDate}
+                  />
+                );
+              })}
+            </div>
           </div>
         )}
 
         {coupons?.length === 0 && (
-          <div className="text-center text-gray-400 py-4">
-            {allCaughtUp}
-          </div>
+          <div className="text-center text-gray-400 py-4">{allCaughtUp}</div>
         )}
       </div>
     </Modal>
@@ -527,7 +521,10 @@ const CouponModal = ({
       panelClassName="coupon-mobile-panel self-end !max-w-none w-full h-[60vh] sm:h-[55vh] !rounded-t-[32px] !rounded-b-none overflow-hidden"
       ariaLabel="Available Coupons"
     >
-      <div className="flex flex-col h-full bg-[#F7F7FB]" dir={isRTL ? "rtl" : "ltr"}>
+      <div
+        className="flex flex-col h-full bg-[#F7F7FB]"
+        dir={isRTL ? "rtl" : "ltr"}
+      >
         <div className="flex justify-center pt-3">
           <span className="w-12 h-1.5 bg-gray-300 rounded-full" />
         </div>
@@ -758,7 +755,6 @@ const CouponModal = ({
             opacity: 1;
           }
         }
-
       `}</style>
     </>
   );
@@ -779,19 +775,17 @@ const CouponCard = ({
     (state) => state.globalslice.currentcountry
   );
   const currentLanguage = useCurrentLanguage();
-  const appliedCouponState = useSelector(
-    (state) => state.paymentslice.coupon
-  );
+  const appliedCouponState = useSelector((state) => state.paymentslice.coupon);
 
   const getCouponCode = (promo) => {
-  const code =
-    promo?.promo_code ||
-    promo?.code ||
-    promo?.couponCode ||
-    promo?.coupon ||
-    "CODE";
+    const code =
+      promo?.promo_code ||
+      promo?.code ||
+      promo?.couponCode ||
+      promo?.coupon ||
+      "CODE";
 
-  return String(code).toUpperCase();
+    return String(code).toUpperCase();
   };
 
   const getDescription = (coupon) => {
@@ -828,8 +822,13 @@ const CouponCard = ({
   const isApplyDisabled = expired || isBelowMinOrder;
 
   // Check if this coupon is applied
-  const appliedCouponCode = appliedCouponState?.code || appliedCouponState?.coupon || appliedCouponState?.promo_code;
-  const isApplied = appliedCouponCode && couponCode && 
+  const appliedCouponCode =
+    appliedCouponState?.code ||
+    appliedCouponState?.coupon ||
+    appliedCouponState?.promo_code;
+  const isApplied =
+    appliedCouponCode &&
+    couponCode &&
     appliedCouponCode.toLowerCase() === couponCode.toLowerCase();
 
   const locale = currentLanguage === "ar" ? "ar-AE" : "en-AE";
@@ -903,9 +902,7 @@ const CouponCard = ({
               className={`text-sm mb-2 flex items-center gap-0.5 ${
                 expired ? "text-gray-400" : "text-gray-600"
               } ${
-                currentLanguage === "ar"
-                  ? "flex-row-reverse justify-start"
-                  : ""
+                currentLanguage === "ar" ? "flex-row-reverse justify-start" : ""
               }`}
             >
               for order above{" "}
@@ -989,9 +986,7 @@ const CouponCardMobile = ({
     (state) => state.globalslice.currentcountry
   );
   const currentLanguage = useCurrentLanguage();
-  const appliedCouponState = useSelector(
-    (state) => state.paymentslice.coupon
-  );
+  const appliedCouponState = useSelector((state) => state.paymentslice.coupon);
 
   const getCouponCode = (promo) => {
     return (
@@ -1104,7 +1099,7 @@ const CouponCardMobile = ({
 
   return (
     <div
-      className={`relative flex items-center gap-0 rounded-2xl bg-white overflow-hidden shadow-[0_18px_45px_rgba(15,17,21,0.12)] ${
+      className={`relative flex items-center gap-0 rounded-2xl   ${
         expired ? "opacity-70" : ""
       }`}
     >
@@ -1115,14 +1110,16 @@ const CouponCardMobile = ({
         </div>
       )}
 
-      <div className="flex-shrink-0 w-20 h-[120px] relative">
+      <div className="flex-shrink-0 w-24 h-32 relative">
         <img
           src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
           alt="Coupon"
-          className={`w-full h-full object-contain ${expired ? "opacity-60" : ""}`}
+          className={`w-full h-full object-contain ${
+            expired ? "opacity-60" : ""
+          }`}
         />
         <span
-          className={`absolute inset-0 flex items-center text-uppercase justify-center text-white font-bold text-xs transform -rotate-90 whitespace-nowrap ${
+          className={`absolute inset-0 flex items-center justify-center text-white text-uppercase font-bold text-sm transform -rotate-90 whitespace-nowrap ${
             expired ? "text-gray-500" : ""
           }`}
         >
@@ -1131,7 +1128,7 @@ const CouponCardMobile = ({
       </div>
 
       <div
-        className={`flex-1 flex items-center justify-between gap-4 px-4 py-4 min-h-[120px] ${
+        className={`flex-1 flex items-center justify-between gap-4 px-4 py-4 min-h-[120px] rounded-r-2xl ${
           expired ? "bg-gray-50" : "bg-white"
         }`}
       >
