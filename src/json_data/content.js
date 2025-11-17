@@ -1847,7 +1847,7 @@ export const content = {
       ar: "عرض العروض المتاحة",
     },
     couponApplied: {
-      en: "Congratulations! You've saved",
+      en: "Congrats! You've saved",
       ar: "تهانينا! لقد حفظت",
     },
     enterAmountManually: {

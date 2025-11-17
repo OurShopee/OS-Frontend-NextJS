@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import Modal from "./Modal";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { useDispatch, useSelector } from "react-redux";
-
+import { AiFillLike } from "react-icons/ai";
 const CouponModal = ({
   show,
   onHide,
@@ -181,10 +181,9 @@ const CouponModal = ({
 
       setApplyError("");
       setAppliedCoupon(coupon);
-      setEnteredCode("");
 
       // Close list modal & show success modal
-      onHide();
+      handleModalClose();
       requestAnimationFrame(() => {
         setShowSuccessModal(true);
         setIsSuccessCardReady(false);
@@ -221,6 +220,13 @@ const CouponModal = ({
     void inputElement.offsetWidth;
     inputElement.classList.add("coupon-input-flight-highlight");
   }, []);
+
+  const handleModalClose = useCallback(() => {
+    setEnteredCode("");
+    if (typeof onHide === "function") {
+      onHide();
+    }
+  }, [onHide]);
 
   /**
    * Brand new animation: the success card shrinks + slides into the coupon input.
@@ -399,7 +405,7 @@ const CouponModal = ({
       {/* Coupon list modal */}
       <Modal
         show={show}
-        onHide={onHide}
+        onHide={handleModalClose}
         size="md"
         centered
         panelClassName="max-w-[600px]"
@@ -412,7 +418,7 @@ const CouponModal = ({
               {availableCouponsText} ({coupons?.length || 0})
             </h2>
             <button
-              onClick={onHide}
+              onClick={handleModalClose}
               className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
               aria-label="Close"
             >
@@ -608,10 +614,14 @@ const CouponCard = ({
 }) => {
   const applyButtonText = useContent("buttons.apply");
   const expiredText = "EXPIRED";
+  const appliedText = "APPLIED";
   const currentCountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
   const currentLanguage = useCurrentLanguage();
+  const appliedCouponState = useSelector(
+    (state) => state.paymentslice.coupon
+  );
 
   const getCouponCode = (promo) => {
     return (
@@ -656,6 +666,11 @@ const CouponCard = ({
     parsedCartTotal < parsedMinValue;
   const isApplyDisabled = expired || isBelowMinOrder;
 
+  // Check if this coupon is applied
+  const appliedCouponCode = appliedCouponState?.code || appliedCouponState?.coupon || appliedCouponState?.promo_code;
+  const isApplied = appliedCouponCode && couponCode && 
+    appliedCouponCode.toLowerCase() === couponCode.toLowerCase();
+
   const locale = currentLanguage === "ar" ? "ar-AE" : "en-AE";
   const countryCurrency = currentCountry?.currency || "AED";
   const isAED = countryCurrency.toUpperCase() === "AED";
@@ -675,7 +690,15 @@ const CouponCard = ({
   };
 
   return (
-    <div className="flex items-center gap-0">
+    <div className="relative flex items-center gap-0">
+      {/* Recommended Badge */}
+      {isRecommended && (
+        <div className="absolute -top-2 right-4 z-10 bg-[#E8F5E9] px-2 py-1 rounded-md flex items-center gap-1">
+          <AiFillLike className="text-black text-xs font-medium" />
+          <span className="text-black text-xs font-medium">RECOMMENDED</span>
+        </div>
+      )}
+
       {/* Ticket graphic */}
       <div className="flex-shrink-0 w-24 h-32 relative">
         <img
@@ -754,7 +777,7 @@ const CouponCard = ({
           )}
         </div>
 
-        {/* Apply / Expired button */}
+        {/* Apply / Applied / Expired button */}
         <div className="flex-shrink-0 ml-4">
           {expired ? (
             <button
@@ -762,6 +785,13 @@ const CouponCard = ({
               className="px-6 py-2 bg-gray-400 text-white rounded-lg font-semibold text-sm uppercase cursor-not-allowed"
             >
               {expiredText}
+            </button>
+          ) : isApplied ? (
+            <button
+              disabled
+              className="px-6 py-2 rounded-lg font-semibold text-sm uppercase border border-[#7C3AED] text-[#7C3AED] bg-transparent cursor-default"
+            >
+              {appliedText}
             </button>
           ) : (
             <button
