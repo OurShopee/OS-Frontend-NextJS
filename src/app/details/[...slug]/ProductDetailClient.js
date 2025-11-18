@@ -824,7 +824,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         <div className="mb-3" key={`attribute-${index}`}>
                           <div>
                             <h6 className="mb-0 font-semibold text-lg font-[Outfit]">
-                              {attribute.title}
+                             {getDynamicContent(attribute, "title", currentLanguage) || attribute.title}
                             </h6>
                           </div>
                           <div className="flex mt-2 gap-[14px] flex-wrap">
