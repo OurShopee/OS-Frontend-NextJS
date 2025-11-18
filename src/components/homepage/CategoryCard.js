@@ -1,5 +1,5 @@
 // components/CategoryCard.jsx
-
+import { useRouter } from "next/navigation";
 import { MediaQueries } from "../utils";
 
 export default function CategoryCard({
@@ -8,7 +8,6 @@ export default function CategoryCard({
   mobileImage,
   bgColor,
 }) {
-
 const {isMobile }= MediaQueries()
   return (
     <div
