@@ -20,11 +20,11 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FaChevronUp } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ClearenceSale = ({ type }) => {
-  const dispatch = useDispatch();
   const hotDeals = useContent("specialPages.hotDeals");
+  const clearanceDeals = useContent("specialPages.clearanceDeals");
 
   const clearence_sale_items = useSelector(
     (state) => state.homeslice.clearence_sale_items
@@ -94,7 +94,7 @@ const ClearenceSale = ({ type }) => {
           <Row className="">
             <div className="component_1">
               <ComponentHeader
-                title={"Clearance Deals"}
+                title={clearanceDeals}
                 view_all={"rgba(82, 50, 194, 1)"}
               />
               <div
