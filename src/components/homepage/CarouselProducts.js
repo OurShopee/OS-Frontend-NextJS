@@ -109,14 +109,16 @@ export default function CarouselProducts({
 
   return (
     <div className="relative overflow-hidden">
-      <div className="sm:hidden p-3 overflow-hidden ">
-        <img
-          src={backgroundImage}
-          className={`sm:hidden w-full h-full rounded-xl z-0 border-none ${
-            !backgroundImage && "hidden"
-          }`}
-        />
-      </div>
+      {backgroundImage && (
+        <div className="sm:hidden p-3 overflow-hidden ">
+          <img
+            src={backgroundImage}
+            className={`sm:hidden w-full h-full rounded-xl z-0 border-none ${
+              !backgroundImage && "hidden"
+            }`}
+          />
+        </div>
+      )}
       <div
         className={`carousel_products px-1 bg-no-repeat bg-center bg-cover  ${
           color && "bg-transparent"

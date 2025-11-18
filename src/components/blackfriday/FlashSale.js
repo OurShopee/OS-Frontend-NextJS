@@ -5,7 +5,7 @@ import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 import { MediaQueries } from "../utils";
 
 const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
-
+  
   function getNextWednesdayOrSunday() {
     const now = new Date();
     const day = now.getDay();
@@ -47,6 +47,7 @@ const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
             endDate={getNextWednesdayOrSunday()}
             labelColor={"#fff"}
             separatorColor={"#fff"}
+            imageClassname={"hidden"}
           />
         </div>
 

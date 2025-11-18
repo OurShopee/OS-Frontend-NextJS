@@ -19,6 +19,7 @@ const MobileViewCard = ({
   NowOrNeverDeals,
   FlashSaleItems,
   LowestPriceEver,
+  AppUpdateBanner,
   OurshoppeFridayBanner,
   FlashSaleBanner,
   BeautyBanner,
