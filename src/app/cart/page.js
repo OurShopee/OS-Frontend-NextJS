@@ -16,6 +16,7 @@ import { setformmodal, setformstatus } from "@/redux/formslice";
 import { GetPlaceOrderapi, setpaymentmethodsdata } from "@/redux/paymentslice";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FiMinus, FiPlus } from "react-icons/fi";
@@ -99,7 +100,18 @@ const Cart = () => {
     debounceTimers.current[cart_id] = setTimeout(() => {
       dispatch(changeCartQuantityapi({ cart_id, quantity: newQty }))
         .unwrap()
-        .then(() => {
+        .then((response) => {
+          if (response?.data?.msg) {
+            if (
+              response?.status === "success" ||
+              response?.status === 200 ||
+              response?.status === "200"
+            ) {
+              toast.error(response?.data?.msg);
+            } else {
+              toast.error(response.message);
+            }
+          }
           const input_data = {
             ip_address:
               Cookies.get("jwt_token") !== undefined
@@ -112,7 +124,13 @@ const Cart = () => {
             dispatch(GetPlaceOrderapi(logindata.user_id));
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          const errorMessage =
+            err?.message ||
+            err?.data?.message ||
+            err?.error ||
+            "Unable to update cart quantity right now.";
+        });
     }, 500);
   };
 
