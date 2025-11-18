@@ -31,7 +31,6 @@ export default function ProductCard({ product }) {
   ];
 
   const handleWishList = async (e, item) => {
-    console.log(item);
     e.preventDefault();
     const input_data = {
       product_id: item?.id,

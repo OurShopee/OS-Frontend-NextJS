@@ -61,9 +61,7 @@ const Payment = () => {
   
   const fetchAvailableCoupons = async () => {
     const res = await availableCoupons();
-    console.log("res",res);
     if (res.status === "success") {
-      console.log("inside")
       setAvailableCoupon(res.data.availableCoupons);
     }
   };

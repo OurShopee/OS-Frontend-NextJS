@@ -239,7 +239,6 @@ function ProductSlot({ product }) {
 
 /* -------------------------------- Main component -------------------------------- */
 export default function BrandOfTheWeekUpdated({ products = [], name = "", url = "" }) {
-  console.log(products, name, url);
   const currentcountry = useSelector((s) => s.globalslice.currentcountry);
   const bannerList = useSelector((s) => s.homeslice.bannerList);
   const router = useRouter();

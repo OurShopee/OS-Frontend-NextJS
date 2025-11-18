@@ -102,11 +102,7 @@ export const getTopPicksApi = async () => {
   return response;
 };
 
-// export const getCatScreenApi = async (slug) => {
-//   console.log("slug", `api/getallcategoryItems?cat_url=${slug}`);
-//   const response = await axios.get(`api/getallcategoryItems?cat_url=${slug}`);
-//   return response;
-// };
+
 
 export async function getCatScreenApi(slug, req = null) {
   try {

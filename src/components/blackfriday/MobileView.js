@@ -20,7 +20,6 @@ const MobileView = ({
   const midClearanceItems = Math.ceil(clearanceItems.length / 2);
   const firstHalf = clearanceItems.slice(0, midClearanceItems);
   const secondHalf = clearanceItems.slice(midClearanceItems);
-  console.log(categoryItems);
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );

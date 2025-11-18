@@ -60,7 +60,6 @@ const ElevenSale = async () => {
     if (response?.status === "success") {
       saleData = response.data;
     }
-    console.log(response)
   }
 
   return <FridaySaleClient saleData={saleData} currentcountry={countryData} />;
