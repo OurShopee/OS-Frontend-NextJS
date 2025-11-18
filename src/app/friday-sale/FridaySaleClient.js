@@ -16,7 +16,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
       once: true,
       offset: offset,
     });
-    pushToDataLayer("view_summer_page", currentcountry?.name);
+    pushToDataLayer("view_sale_page", currentcountry?.name);
   }, [currentcountry]);
 
   const sectionData = saleData?.other_section;
