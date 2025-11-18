@@ -47,7 +47,6 @@ const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
             endDate={getNextWednesdayOrSunday()}
             labelColor={"#fff"}
             separatorColor={"#fff"}
-            imageClassname={"hidden"}
           />
         </div>
 
