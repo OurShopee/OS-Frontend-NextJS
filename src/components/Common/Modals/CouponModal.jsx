@@ -535,7 +535,7 @@ const CouponModal = ({
       ariaLabel="Available Coupons"
     >
       <div
-        className="flex flex-col h-full bg-[#F7F7FB]"
+        className="flex flex-col h-full bg-white"
         dir={isRTL ? "rtl" : "ltr"}
       >
         <div className="flex justify-center pt-3">
@@ -642,11 +642,11 @@ const CouponModal = ({
             </section>
           )}
 
-          {coupons?.length === 0 && (
+          
             <div className="text-center text-gray-400 py-4 text-sm">
               {allCaughtUp}
             </div>
-          )}
+       
         </div>
       </div>
     </Modal>
@@ -683,7 +683,7 @@ const CouponModal = ({
             ref={successCardRef}
             className="relative rounded-[13px] overflow-hidden !bg-none p-0"
           >
-            <div className="relative  h-[250px] lg:h-[376px] bg-gradient-to-b rounded-[32px]">
+            <div className="relative  h-[300px] lg:h-[376px] bg-gradient-to-b rounded-[32px]">
               <img
                 src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/bg_sale.png"
                 alt="Coupon Applied"
@@ -702,7 +702,7 @@ const CouponModal = ({
                 aria-hidden="true"
               />
             )}
-            <div className="absolute inset-x-0 lg:bottom-[3rem] bottom-[1rem] text-center text-lg text-[#1E1E1E] font-medium">
+            <div className="absolute inset-x-0 lg:bottom-[3rem] bottom-[10px] text-center text-lg text-[#1E1E1E] font-medium">
               You saved{" "}
               <span className="font-semibold text-[#32A928]">
                 {savingsDisplay}
@@ -1184,7 +1184,7 @@ const CouponCardMobile = ({
                   <img
                     src="/assets/feed/aed-icon.svg"
                     alt="AED"
-                    className="w-4 h-4 inline-block mix-blend-multiply"
+                    className="w-[12px] h-[12px] inline-block mix-blend-multiply"
                   />
                 ) : (
                   <span className="currencycode">{countryCurrency}</span>
