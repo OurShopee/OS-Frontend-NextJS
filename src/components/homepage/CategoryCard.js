@@ -8,6 +8,7 @@ export default function CategoryCard({
   mobileImage,
   bgColor,
 }) {
+const router = useRouter()
 const {isMobile }= MediaQueries()
   return (
     <div
