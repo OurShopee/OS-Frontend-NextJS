@@ -1,33 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  HomeCarousel,
-  HomeMobileCarousel,
-  HomeCategories,
-  CarouselProducts,
-  HalfCarouselProducts,
-  TopPicks,
-} from "@/components/homepage";
+import { Category } from "@/actions";
+import { ComponentHeader, ProductCard } from "@/components/Common";
 import { HomeBannerPlaceholder } from "@/components/Common/Placeholders";
+import {
+  HalfCarouselProducts,
+  HomeCarousel,
+  HomeMobileCarousel
+} from "@/components/homepage";
 import {
   CarouselProducts as CarouselProductsplaceholder,
   HalfCarouselProducts as HalfCarouselProductsplaceholder,
 } from "@/components/placeholders";
-import { Container } from "react-bootstrap";
 import { MediaQueries } from "@/components/utils";
-import { useSelector, useDispatch } from "react-redux";
-import { ComponentHeader, ProductCard } from "@/components/Common";
-import { Row, Col } from "react-bootstrap";
+import { useContent } from "@/hooks";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { Category } from "@/actions";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { FaChevronUp } from "react-icons/fa";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useSelector } from "react-redux";
 
-const DealoftheDay = ({ type }) => {
-  const dispatch = useDispatch();
+const DealoftheDay = () => {
   const hotDeals = useContent("specialPages.hotDeals");
+  const trendingProducts = useContent("specialPages.trendingProducts");
 
   const deal_of_the_day_items = useSelector(
     (state) => state.homeslice.deal_of_the_day_items
@@ -133,7 +130,7 @@ const DealoftheDay = ({ type }) => {
           <Row className="mt-4">
             <div className="component_1">
               <ComponentHeader
-                title={"Trending Products"}
+                title={trendingProducts}
                 first_title={"Trending"}
                 second_title={"Products"}
                 first_string_color={"#000"}
