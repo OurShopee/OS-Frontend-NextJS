@@ -6,7 +6,7 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     brands: {
       en: "Brands",
@@ -34,7 +34,7 @@ export const content = {
     },
     myOrders: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     myWishlist: {
       en: "My Wishlist",
@@ -42,7 +42,7 @@ export const content = {
     },
     cart: {
       en: "Cart",
-      ar: "السلة",
+      ar: "عربة التسوق",
     },
     login: {
       en: "Login",
@@ -66,7 +66,7 @@ export const content = {
     },
     deliverTo: {
       en: "Deliver to",
-      ar: "التوصيل إلى",
+      ar: "تسليم إلى",
     },
     downloadApp: {
       en: "Download App",
@@ -98,7 +98,7 @@ export const content = {
   footer: {
     aboutUs: {
       en: "About Ourshopee",
-      ar: "من نحن",
+      ar: "نبذة عن اور شوبي",
     },
     connectWithUs: {
       en: "Connect with us",
@@ -122,7 +122,7 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     information: {
       en: "Information",
@@ -130,7 +130,7 @@ export const content = {
     },
     aboutCompany: {
       en: "UAE and Beyond! Established in 2015, Ourshopee.com has proudly established itself as a prominent and rapidly growing online shopping platform in the region...",
-      ar: "الإمارات وأكثر! تأسست Ourshopee.com في عام 2015، واعتزت نفسها كمنصة تسوق عبر الإنترنت بارزة وسريعة النمو في المنطقة...",
+      ar: "الإمارات العربية المتحدة وما بعدها! تأسس موقع Ourshopee.com عام ٢٠١٥، ونجح بفخر في ترسيخ مكانته كمنصة تسوق إلكتروني رائدة وسريعة النمو في المنطقة...",
     },
     contactUs: {
       en: "Contact Us",
@@ -162,7 +162,7 @@ export const content = {
     },
     affiliateProgram: {
       en: "Affiliate Program",
-      ar: "برنامج الإحالة",
+      ar: "برنامج الشراكة",
     },
     sellWithUs: {
       en: "Sell With Us",
@@ -190,7 +190,7 @@ export const content = {
     },
     deliveryAddress: {
       en: "Delivery Address",
-      ar: "عنوان التوصيل",
+      ar: "عنوان التسليم",
     },
     address: {
       en: "Address",
@@ -230,15 +230,15 @@ export const content = {
     },
     hotline: {
       en: "Hotline: (971) 4 4120000",
-      ar: "الخط الساخن",
+      ar: "الخط الساخن: (971) 4 4120000",
     },
     whatsapp: {
       en: "WhatsApp: (971) 521881678",
-      ar: "واتساب",
+      ar: "واتساب: (971) 521881678",
     },
     email: {
       en: "E-mail: support@ourshopee.com",
-      ar: "البريد الإلكتروني",
+      ar: "البريد الإلكتروني: support@ourshopee.com",
     },
     getApp: {
       en: "Get App",
@@ -300,7 +300,7 @@ export const content = {
     },
     submit: {
       en: "Submit",
-      ar: "إرسال",
+      ar: "يُقدِّم",
     },
     save: {
       en: "Save",
@@ -308,7 +308,7 @@ export const content = {
     },
     cancel: {
       en: "Cancel",
-      ar: "إلغاء",
+      ar: "الغاء",
     },
     delete: {
       en: "Delete",
@@ -316,7 +316,7 @@ export const content = {
     },
     edit: {
       en: "Edit",
-      ar: "تعديل",
+      ar: "يحرر",
     },
     update: {
       en: "Update",
@@ -404,7 +404,7 @@ export const content = {
     },
     remove: {
       en: "Remove",
-      ar: "إزالة",
+      ar: "يزيل",
     },
     viewAll: {
       en: "View All",
@@ -636,7 +636,7 @@ export const content = {
     },
     whatAreYouLookingFor: {
       en: "What are you looking for?",
-      ar: "ماذا تبحث عنه؟",
+      ar: "ما الذي تبحث عنه؟",
     },
     loading: {
       en: "Loading...",
@@ -656,7 +656,7 @@ export const content = {
     },
     editAndSaveYourPersonalAddress: {
       en: "Edit and save your personal address",
-      ar: "تحرير وحفظ عنوانك الشخصي",
+      ar: "قم بتعديل عنوانك الشخصي وحفظه",
     },
     selectDeliveryAddress: {
       en: "Select Delivery address",
@@ -718,7 +718,7 @@ export const content = {
     },
     aboutOurshopee: {
       en: "About Ourshopee",
-      ar: "من نحن",
+      ar: "نبذة عن اور شوبي",
     },
     contactUs: {
       en: "Contact Us",
@@ -750,7 +750,7 @@ export const content = {
     },
     affiliateProgram: {
       en: "Affiliate Program",
-      ar: "برنامج الإحالة",
+      ar: "برنامج الشراكة",
     },
     sellWithUs: {
       en: "Sell With Us",
@@ -794,7 +794,7 @@ export const content = {
     },
     myOrders: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     myWishlist: {
       en: "My Wishlist",
@@ -806,7 +806,7 @@ export const content = {
     },
     deliveryAddress: {
       en: "Delivery Address",
-      ar: "عنوان التوصيل",
+      ar: "عنوان التسليم",
     },
     address: {
       en: "Address",
@@ -814,7 +814,7 @@ export const content = {
     },
     cart: {
       en: "Cart",
-      ar: "السلة",
+      ar: "عربة التسوق",
     },
     checkout: {
       en: "Checkout",
@@ -834,7 +834,7 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     productsCategory: {
       en: "Products Category",
@@ -858,7 +858,7 @@ export const content = {
     },
     bundleDeals: {
       en: "Bundle Deals",
-      ar: "عروض الباقات",
+      ar: "عروض مجمعة",
     },
     perfumes: {
       en: "Perfumes",
@@ -1384,7 +1384,7 @@ export const content = {
     },
     leaveAReviewHere: {
       en: "Leave a review here....",
-      ar: "اترك مراجعة هنا....",
+      ar: "اترك تعليقك هنا....",
     },
     deleteReview: {
       en: "Delete Review",
@@ -1472,11 +1472,11 @@ export const content = {
     },
     canYouTellUsMore: {
       en: "Can you tell us more?",
-      ar: "هل يمكنك إخبارنا بالمزيد؟",
+      ar: "هل يمكنك أن تخبرنا المزيد؟",
     },
     beTheFirstOneToReview: {
       en: "Be the first one to review",
-      ar: "كن أول من يراجع",
+      ar: "كن أول من يقوم بالمراجعة",
     },
     wantToAddProductImages: {
       en: "Want to add product images ?",
@@ -1524,7 +1524,7 @@ export const content = {
     },
     inCart: {
       en: "In Cart",
-      ar: "في السلة",
+      ar: "في سلة التسوق",
     },
     yourCartIsEmpty: {
       en: "Your cart is empty.",
@@ -1532,11 +1532,11 @@ export const content = {
     },
     totalCartValue: {
       en: "total cart value",
-      ar: "إجمالي قيمة السلة",
+      ar: "إجمالي قيمة عربة التسوق",
     },
     yourTotalSavings: {
       en: "Your total savings",
-      ar: "إجمالي توفيرك",
+      ar: "إجمالي مدخراتك",
     },
     specifications: {
       en: "Specifications",
@@ -1552,7 +1552,7 @@ export const content = {
     },
     relatedProducts: {
       en: "Related Products",
-      ar: "منتجات ذات صلة",
+      ar: "المنتجات ذات الصلة",
     },
     recentlyViewed: {
       en: "Recently Viewed",
@@ -1592,11 +1592,11 @@ export const content = {
     },
     brand: {
       en: "Brand",
-      ar: "العلامة التجارية",
+      ar: "ماركة",
     },
     category: {
       en: "Category",
-      ar: "الفئة",
+      ar: "فئة",
     },
     freeShipping: {
       en: "Free Shipping",
@@ -1690,7 +1690,7 @@ export const content = {
     },
     remove: {
       en: "Remove",
-      ar: "إزالة",
+      ar: "يزيل",
     },
     qty: {
       en: "Qty",
@@ -1732,7 +1732,7 @@ export const content = {
   orders: {
     title: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     orderHistory: {
       en: "Order History",
@@ -1828,7 +1828,7 @@ export const content = {
     },
     successTitle: {
       en: "Your order was placed successfully.",
-      ar: "تم تقديم طلبك بنجاح.",
+      ar: "لقد تم تقديم طلبك بنجاح.",
     },
     failTitle: {
       en: "Oh no! Your payment failed.",
@@ -1874,7 +1874,7 @@ export const content = {
     },
     remove: {
       en: "Remove",
-      ar: "إزالة",
+      ar: "يزيل",
     },
     addToCart: {
       en: "Add to Cart",
@@ -1952,7 +1952,7 @@ export const content = {
     },
     deliveryAddress: {
       en: "Delivery Address",
-      ar: "عنوان التوصيل",
+      ar: "عنوان التسليم",
     },
     changeAddress: {
       en: "Change Address",
@@ -1964,7 +1964,7 @@ export const content = {
     },
     pleaseSelectDeliveryAddress: {
       en: "Please select a delivery address!",
-      ar: "يرجى اختيار عنوان التوصيل!",
+      ar: "الرجاء تحديد عنوان التسليم!",
     },
     donateAndMakeADifference: {
       en: "Donate and make a difference",
@@ -2036,11 +2036,11 @@ export const content = {
     },
     profile: {
       en: "Profile",
-      ar: "الملف الشخصي",
+      ar: "حساب تعريفي",
     },
     editPersonalAddress: {
       en: "Edit and save your personal address",
-      ar: "تحرير وحفظ عنوانك الشخصي",
+      ar: "قم بتعديل عنوانك الشخصي وحفظه",
     },
     personalInformation: {
       en: "Personal Information",
@@ -2072,7 +2072,7 @@ export const content = {
     },
     myOrders: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     myOrdersDescription: {
       en: "View the details of your current and past orders, track your purchases, and stay updated on the status of your items all in one place.",
@@ -2084,7 +2084,7 @@ export const content = {
     },
     myWishlistDescription: {
       en: "Save and manage products you'd love to purchase later.",
-      ar: "احفظ وأدر المنتجات التي ترغب في شرائها لاحقًا.",
+      ar: "احفظ المنتجات التي ترغب في شرائها لاحقًا وقم بإدارتها.",
     },
     addToCart: {
       en: "Add to cart",
@@ -2108,11 +2108,11 @@ export const content = {
     },
     manageComplaintsDescription: {
       en: "Place your complaints & Track the status of your complaints.",
-      ar: "قدم شكواك وتتبع حالة شكواك.",
+      ar: "ضع شكواك وتتبع حالة شكواك.",
     },
     placeComplaint: {
       en: "Place a complaints",
-      ar: "تقديم شكوى",
+      ar: "وضع شكوى",
     },
   },
   contactUs: {
@@ -2130,7 +2130,7 @@ export const content = {
     },
     email: {
       en: "Email:",
-      ar: "البريد الإلكتروني:",
+      ar: "بريد إلكتروني:",
     },
     address: {
       en: "Address:",
@@ -2326,11 +2326,11 @@ export const content = {
   header: {
     searchPlaceholder: {
       en: "What are you looking for?",
-      ar: "ماذا تبحث عنه؟",
+      ar: "ما الذي تبحث عنه؟",
     },
     cancel: {
       en: "Cancel",
-      ar: "إلغاء",
+      ar: "الغاء",
     },
     noResults: {
       en: "No results found",
@@ -2350,7 +2350,7 @@ export const content = {
     },
     wishlist: {
       en: "Wishlist",
-      ar: "قائمة الأمنيات",
+      ar: "قائمة الرغبات",
     },
     trackOrder: {
       en: "Track Order",
@@ -2374,7 +2374,7 @@ export const content = {
     },
     signup: {
       en: "Signup",
-      ar: "التسجيل",
+      ar: "اشتراك",
     },
     welcome: {
       en: "Welcome",
@@ -2382,15 +2382,15 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     category: {
       en: "Category",
-      ar: "الفئة",
+      ar: "فئة",
     },
     shopByCategory: {
       en: "Shop by Category",
-      ar: "تسوق حسب الفئة",
+      ar: "التسوق حسب الفئة",
     },
     shopBySubCategory: {
       en: "Shop by Sub-Category",
@@ -2468,15 +2468,15 @@ export const content = {
     },
     bundleDeals: {
       en: "Bundle Deals",
-      ar: "عروض الباقات",
+      ar: "عروض مجمعة",
     },
     topSelling: {
       en: "Top Selling",
-      ar: "الأكثر مبيعاً",
+      ar: "الأكثر مبيعا",
     },
     topSellingProducts: {
       en: "Top Selling Products",
-      ar: "المنتجات الأكثر مبيعاً",
+      ar: "المنتجات الأكثر مبيعا",
     },
     saverZone: {
       en: "Saver zone",
@@ -2488,7 +2488,7 @@ export const content = {
     },
     clearanceDeals: {
       en: "Clearance Deals",
-      ar: "صفقات التخفيضات",
+      ar: "عروض التصفية",
     },
     excitingOffers: {
       en: "Exciting Offers",
@@ -2496,7 +2496,7 @@ export const content = {
     },
     shopByTopBrands: {
       en: "Shop By Top Brands",
-      ar: "تسوق حسب أفضل العلامات التجارية",
+      ar: "التسوق حسب أفضل العلامات التجارية",
     },
     browsePopularCategories: {
       en: "Browse Popular Categories",
@@ -2504,7 +2504,7 @@ export const content = {
     },
     topPicks: {
       en: "Top Picks",
-      ar: "أفضل الخيارات",
+      ar: "أفضل الاختيارات",
     },
     brandOfTheWeek: {
       en: "Brand of the Week",
