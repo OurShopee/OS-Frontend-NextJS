@@ -1,56 +1,14 @@
 "use client";
-import { clearance_saleApi, getSectionPagesApi } from "@/api/products";
 import DesktopView from "@/components/blackfriday/DesktopView";
 import MobileViewCard from "@/components/blackfriday/mobileViewCard";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-const ElevenSale = () => {
+import { useEffect } from "react";
+
+const FridaySaleClient = ({ saleData, currentcountry }) => {
   const { isMobile } = MediaQueries();
-  const [saleData, setSaleData] = useState(null);
-  const [productsAtOne, setProductsAtOne] = useState([]);
-  const [clearanceItems, setClearanceItems] = useState([]);
-  const [topBrands, setTopBrands] = useState([]);
-  const [sectionId, setSectionId] = useState();
-  const currentcountry = useSelector(
-    (state) => state.globalslice.currentcountry
-  );
-
-  useEffect(() => {
-    const getData = async () => {
-      const res = await getSectionPagesApi(sectionId);
-      if (res.data.status === "success") {
-        setSaleData(res.data.data);
-      }
-    };
-    const getOneAed = async () => {
-      const data = await clearance_saleApi(1, 20);
-      if (data?.data?.status === "success") {
-        setProductsAtOne(data?.data?.data?.top_items || []);
-        setClearanceItems(data?.data?.data?.items || []);
-      }
-    };
-    if (sectionId) {
-      getData();
-    }
-    getOneAed();
-  }, [sectionId]);
-
-  useEffect(() => {
-    const id = currentcountry.nav_items.find((i) => i.id === 11)?.section_id;
-    setSectionId(id);
-  }, [currentcountry]);
-
-  useEffect(() => {
-    const sectionData = saleData?.other_section;
-    const topBrands = sectionData?.find(
-      (d) => d.heading === "Top Brands"
-    )?.items;
-    setTopBrands(topBrands || []);
-  }, [saleData]);
 
   useEffect(() => {
     const offset = window.innerHeight * 0.08;
@@ -59,7 +17,7 @@ const ElevenSale = () => {
       offset: offset,
     });
     pushToDataLayer("view_summer_page", currentcountry?.name);
-  }, []);
+  }, [currentcountry]);
 
   const sectionData = saleData?.other_section;
 
@@ -68,8 +26,10 @@ const ElevenSale = () => {
       ?.items || [];
   const BudgetSectionData =
     sectionData?.find((d) => d.heading === "Something For Every Budget")
-      ?.items || sectionData?.find((d) => d.heading === "Something For Every Budget")
-      ?.images || [];
+      ?.items ||
+    sectionData?.find((d) => d.heading === "Something For Every Budget")
+      ?.images ||
+    [];
 
   const FlashSale =
     sectionData?.find((d) => d.heading === "Flash Sale")?.items?.[0]?.items ||
@@ -120,19 +80,21 @@ const ElevenSale = () => {
   const PerfumesBanner =
     sectionData?.find((d) => d.heading === "Perfumes Banner")?.images || [];
   const HealthBeautyBanner =
-    sectionData?.find((d) => d.heading === "Health & Beauty Banner")?.images || [];
+    sectionData?.find((d) => d.heading === "Health & Beauty Banner")?.images ||
+    [];
   const AccessoriesBanner =
     sectionData?.find((d) => d.heading === "Accessories Banner")?.images || [];
   const HomeAppliancesBanner =
-    sectionData?.find((d) => d.heading === "Home Appliances Banner")?.images || [];
-  const MotherBabyBanner =
-    sectionData?.find((d) => d.heading === "Baby & Mother care Banner")?.images ||
+    sectionData?.find((d) => d.heading === "Home Appliances Banner")?.images ||
     [];
+  const MotherBabyBanner =
+    sectionData?.find((d) => d.heading === "Baby & Mother care Banner")
+      ?.images || [];
   const ToysGamesBanner =
     sectionData?.find((d) => d.heading === "Toys & Games Banner")?.images || [];
   const PreOwnedMobilesBanner =
-    sectionData?.find((d) => d.heading === "Pre-Owned Mobiles Banner")?.images ||
-    [];
+    sectionData?.find((d) => d.heading === "Pre-Owned Mobiles Banner")
+      ?.images || [];
 
   const categories = sectionData?.find((d) => d.type === 1) || [];
   const categoryItems = [
@@ -209,8 +171,6 @@ const ElevenSale = () => {
     PreOwnedMobilesBanner,
   ];
 
-
-
   return (
     <div className="container mx-auto">
       {!isMobile ? (
@@ -234,6 +194,7 @@ const ElevenSale = () => {
           BudgetSectionData={BudgetSectionData}
           OurshoppeFridayBanner={OurshoppeFridayBanner}
           FlashSaleBanner={FlashSaleBanner}
+          AppUpdateBanner={AppUpdateBanner}
           BeautyBanner={BeautyBanner}
           rows={rows}
           categoryItems={categoryItems}
@@ -243,4 +204,4 @@ const ElevenSale = () => {
   );
 };
 
-export default ElevenSale;
+export default FridaySaleClient;

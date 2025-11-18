@@ -44,10 +44,12 @@ const countriesData = [
       {
         id: 11,
         title: "Ourshopee Friday",
-        url: "/ourshopee-friday",
+        url: "/friday-sale",
         section_id: 134,
         infinite_required: true,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -198,10 +200,12 @@ const countriesData = [
       {
         id: 11,
         title: "Ourshopee Friday",
-        url: "/ourshopee-friday",
+        url: "/friday-sale",
         section_id: 135,
         infinite_required: true,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -341,10 +345,12 @@ const countriesData = [
       {
         id: 11,
         title: "Ourshopee friday",
-        url: "/ourshopee-friday",
+        url: "/friday-sale",
         section_id: 136,
         infinite_required: true,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -364,7 +370,9 @@ const countriesData = [
         url: "/mobile-fest",
         section_id: 208,
         infinite_required: false,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -483,10 +491,12 @@ const countriesData = [
       {
         id: 11,
         title: "Ourshopee Friday",
-        url: "/ourshopee-friday",
+        url: "/friday-sale",
         section_id: 137,
         infinite_required: true,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -616,10 +626,12 @@ const countriesData = [
       {
         id: 11,
         title: "Ourshopee Friday",
-        url: "/fourshopee-friday",
+        url: "/friday-sale",
         section_id: 138,
         infinite_required: true,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -656,7 +668,9 @@ const countriesData = [
         url: "/mobile-fest",
         section_id: 211,
         infinite_required: false,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         status: 0,
       },
       {
@@ -747,7 +761,9 @@ const countriesData = [
         url: "/back-to-school",
         section_id: 138,
         infinite_required: true,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -784,7 +800,9 @@ const countriesData = [
         url: "/mobile-fest",
         section_id: 211,
         infinite_required: false,
-        image: process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY+"/ourshopee_sale.gif",
+        image:
+          process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
+          "/ourshopee_sale.gif",
         status: 0,
       },
       {

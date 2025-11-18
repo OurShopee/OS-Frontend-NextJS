@@ -134,6 +134,10 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
                 GRAB NOW!
               </span>
               <CountdownClock
+                digitWidth={isMobile ? 15 : 12}
+                digitHeight={isMobile ? 20 : 18}
+                digitFontSize={isMobile ? 15 : 12}
+                imageClassname={"w-16"}
                 endDate={getNextResetTime()}
                 labelColor={"#fff"}
                 showDays={false}
