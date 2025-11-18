@@ -33,6 +33,8 @@ export default function CarouselProducts({
   breakPointsProps,
   section_name,
   backgroundImage,
+  indicators = true,
+  color = false,
 }) {
   const { isMobile } = MediaQueries();
   const swiperContainerRef = useRef(null);
@@ -92,7 +94,7 @@ export default function CarouselProducts({
   }, [breakPointsProps, type]);
 
   const btnBase =
-    "block lg:grid place-items-center  h-[74px] w-[25px] rounded-2 border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
+    "block lg:grid place-items-center h-[58px] w-[16px] md:h-[74px] md:w-[25px] rounded-[4px] border border-gray-200 bg-white/90 shadow-md backdrop-blur cursor-pointer";
   const btnDisabled = "opacity-30 pointer-events-none";
 
   const swiperModules = useMemo(() => {
@@ -107,34 +109,46 @@ export default function CarouselProducts({
 
   return (
     <div className="relative overflow-hidden">
-      <img src={backgroundImage} className="sm:hidden absolute w-full h-full z-0 border-none" />
+      {backgroundImage && (
+        <div className="sm:hidden p-3 overflow-hidden ">
+          <img
+            src={backgroundImage}
+            className={`sm:hidden w-full h-full rounded-xl z-0 border-none ${
+              !backgroundImage && "hidden"
+            }`}
+          />
+        </div>
+      )}
       <div
-        className={`carousel_products px-1 bg-no-repeat bg-center bg-cover ${
-          eid_sale && "bg-transparent"
-        } ${(type == 2 || type == 3) && "p-0"}`}
+        className={`carousel_products px-1 bg-no-repeat bg-center bg-cover  ${
+          color && "bg-transparent"
+        } ${(type == 2 || type == 3) && "p-0"} ${!indicators && "px-5"}`}
+        style={inner_bg ? { background: inner_bg } : {}}
       >
         {/* LEFT ARROW - Desktop Only */}
         <div
-          className={`${
-            isMobile ? "flex gap-1 mt-[144px]" : "flex items-stretch gap-1"
-          }`}
+          className={`${isMobile ? "flex gap-1" : "flex items-stretch gap-1"}`}
         >
-          <button
-            type="button"
-            className={`${btnBase} self-center ${
-              isBeginning ? btnDisabled : ""
-            }`}
-            onClick={handlePrev}
-            disabled={isBeginning}
-            aria-disabled={isBeginning}
-            aria-label="Previous"
-          >
-            <img
-              src="/assets/vector_icons/arrow_left.svg"
-              alt="Arrow"
-              className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${isRTL ? "rotate-180" : ""}`}
-            />
-          </button>
+          {indicators && (
+            <button
+              type="button"
+              className={`${btnBase} self-center ${
+                isBeginning ? btnDisabled : ""
+              }`}
+              onClick={handlePrev}
+              disabled={isBeginning}
+              aria-disabled={isBeginning}
+              aria-label="Previous"
+            >
+              <img
+                src="/assets/vector_icons/arrow_left.svg"
+                alt="Arrow"
+                className={`w-3 h-3 md:w-4 md:h-4 cursor-pointer grayscale  transition-transform ${
+                  isRTL ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+          )}
 
           {/* SWIPER */}
           <div className={`flex-1 min-w-0`}>
@@ -202,19 +216,23 @@ export default function CarouselProducts({
             </Swiper>
           </div>
 
-          <button
-            type="button"
-            className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
-            onClick={handleNext}
-            aria-disabled={isEnd}
-            aria-label="Next"
-          >
-            <img
-              src="/assets/vector_icons/arrow_right.svg"
-              alt="Arrow"
-              className={`w-4 h-4 cursor-pointer grayscale  transition-transform ${isRTL ? "rotate-180" : ""}`}
-            />
-          </button>
+          {indicators && (
+            <button
+              type="button"
+              className={`${btnBase} self-center ${isEnd ? btnDisabled : ""}`}
+              onClick={handleNext}
+              aria-disabled={isEnd}
+              aria-label="Next"
+            >
+              <img
+                src="/assets/vector_icons/arrow_right.svg"
+                alt="Arrow"
+                className={`w-3 h-3 md:w-4 md:h-4 cursor-pointer grayscale  transition-transform ${
+                  isRTL ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+          )}
         </div>
       </div>
     </div>

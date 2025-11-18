@@ -295,7 +295,7 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-title">
                           {shippingCharge}
                         </div>
-                        <div className="order-paymenttype-cost flex items-center">
+                        <div className={`order-paymenttype-cost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                           {currentcountry?.currency == "AED" ? (
                             <img
                               src="/assets/feed/aed-icon.svg"

@@ -53,16 +53,20 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Anta:wght@400&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>
         <ReduxProvider>
           <RTLDirection />
           <TamaraConfig />
+          <DynamicHeader />
           <ScrollTop>
-            <DynamicHeader />
-            <div className="overflow-x-hidden">
-              <div className="bg-white md:mx-auto relative">
-                <div className="container mainbody">{children}</div>
+            <div className="overflow-x-hidden" style={{ paddingTop: 0, overflowY: 'visible' }}>
+              <div className="bg-white md:mx-auto relative" style={{ overflow: 'visible' }}>
+                <div className="container mainbody" style={{ overflow: 'visible' }}>{children}</div>
                 <BootstrapClient />
                 <Footer />
               </div>

@@ -13,6 +13,7 @@ import {
   HalfCarouselProducts as HalfCarouselProductsplaceholder,
 } from "@/components/placeholders";
 import { MediaQueries } from "@/components/utils";
+import { useContent } from "@/hooks";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";

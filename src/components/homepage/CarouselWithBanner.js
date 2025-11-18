@@ -15,6 +15,7 @@ export default function CarouselWithBanner({
   breakPointsProps,
   section_name,
   backgroundImage,
+  bannerClassName = "aspect-[301/305]",
   className = "",
   style = {},
   ...restProps
@@ -62,13 +63,13 @@ export default function CarouselWithBanner({
       data-aos-easing="ease-in-out"
       src={bannerImage}
       alt="Promotional banner"
-      className="w-full max-h-[310px] object-cover rounded-2xl aspect-[301/305]"
+      className={`w-full max-h-[310px] object-cover rounded-2xl ${bannerClassName}`}
     />
   );
 
   return (
     <div
-      className={`carousel-with-banner-wrapper ${
+      className={`carousel-with-banner-wrapper carousel-product-mweb ${
         hasBanner ? "with-banner" : "full-width"
       } ${className}`}
       style={style}

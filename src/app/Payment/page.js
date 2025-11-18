@@ -1,6 +1,5 @@
 "use client";
-
-import { checkoutSingleProd } from "@/api/payments";
+import { availableCoupons, checkoutSingleProd } from "@/api/payments";
 import Breadcomp from "@/components/Common/Breadcomp";
 import CheckCoupan from "@/components/Common/CheckCoupan";
 import Donation from "@/components/Common/Donation";
@@ -24,6 +23,7 @@ import { useContent } from "@/hooks";
 const Payment = () => {
   const searchParams = useSearchParams();
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [availableCoupon, setAvailableCoupon] = useState([]);
   const prodId = searchParams.get("prodId");
   const qty = searchParams.get("qty");
   const sku = searchParams.get("sku");
@@ -58,11 +58,18 @@ const Payment = () => {
   const changeAddress = useContent("checkout.changeAddress");
   const selectAddress = useContent("checkout.selectAddress");
   const pleaseSelectDeliveryAddress = useContent("checkout.pleaseSelectDeliveryAddress");
-
+  
+  const fetchAvailableCoupons = async () => {
+    const res = await availableCoupons();
+    if (res.status === "success") {
+      setAvailableCoupon(res.data.availableCoupons);
+    }
+  };
   useEffect(() => {
     if (Cookies.get("jwt_token") !== undefined) {
       dispatch(GetPlaceOrderapi(logindata.user_id));
     }
+    fetchAvailableCoupons();
   }, [dispatch, logindata.user_id]);
 
   useEffect(() => {
@@ -220,15 +227,16 @@ const Payment = () => {
                   {defaultAddress?.mobile}
                 </p>
               </div>
-              <div className="payment-border-bottom"></div>
+              <div className="payment-border-bottom border-b-[1px] border-gray-200"></div>
               <CheckCoupan
                 prodId={prodId}
                 qty={qty}
                 sku={sku}
                 paymentMethods={paymentMethods}
+                coupons={availableCoupon}
                 price={price}
               />
-              {isMobile && <div className="payment-border-bottom"></div>}
+              <div className="payment-border-bottom"></div>
               {currentcountry.isDonationRequired && (
                 <Donation donation={paymentMethods?.donation} />
               )}

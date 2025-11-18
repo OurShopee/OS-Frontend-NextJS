@@ -46,6 +46,7 @@ const HomeClient = ({
   initialSectionsData,
   initialBrandOfTheWeekData,
 }) => {
+
   const router = useRouter();
   const currentLanguage = useCurrentLanguage();
   const bannerListFromRedux = useSelector(
@@ -70,7 +71,6 @@ const HomeClient = ({
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
   const categoryloading = useSelector((state) => state?.globalslice?.loading);
-
   const currentcountry = useSelector(
     (state) => state?.globalslice?.currentcountry
   );
@@ -228,7 +228,6 @@ const HomeClient = ({
   const section59Data = getSectionData("Namaste Deals");
   const topSellingData = getSectionData("Top Selling");
 
-  console.log(topSellingData, "topSellingData");
 
   let mastZoneBgImage = section238Data?.background_image[0]?.desktopImage;
   let namasteZoneBgImage = section59Data?.background_image[0]?.desktopImage;
@@ -419,7 +418,7 @@ const HomeClient = ({
           </>
         )}
         {/* Brand of the week */}
-        <BrandOfTheWeekUpdated products={brandOfTheWeekData} />
+        <BrandOfTheWeekUpdated products={brand_week?.[0]?.items} name={brand_week?.[0]?.brand_name} url={brand_week?.[0]?.url} />
         {/* Next 2 Categories Sections */}
         {!loading6 && (
           <>

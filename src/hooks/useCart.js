@@ -5,12 +5,17 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
+import { useContent } from "@/hooks";
+
 export default function useCart() {
   const [isLoading, setIsLoading] = useState(false);
   const cookies = new Cookies();
   const dispatch = useDispatch();
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const logindata = useSelector((state) => state.formslice.logindata);
+  
+  // Get translated content
+  const addedToCart = useContent("product.addedToCart") || "Added To Cart";
 
   const add2cart = async (input_data) => {
     setIsLoading(true);
@@ -27,7 +32,7 @@ export default function useCart() {
       };
       dispatch(cartlistapi(input_data));
       setIsLoading(false);
-      toast.success('Added To Cart', {
+      toast.success(addedToCart, {
           autoClose: 1000,
         });
     } else {

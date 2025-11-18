@@ -6,7 +6,7 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     brands: {
       en: "Brands",
@@ -34,7 +34,7 @@ export const content = {
     },
     myOrders: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     myWishlist: {
       en: "My Wishlist",
@@ -42,7 +42,7 @@ export const content = {
     },
     cart: {
       en: "Cart",
-      ar: "السلة",
+      ar: "عربة التسوق",
     },
     login: {
       en: "Login",
@@ -66,7 +66,7 @@ export const content = {
     },
     deliverTo: {
       en: "Deliver to",
-      ar: "التوصيل إلى",
+      ar: "تسليم إلى",
     },
     downloadApp: {
       en: "Download App",
@@ -98,7 +98,7 @@ export const content = {
   footer: {
     aboutUs: {
       en: "About Ourshopee",
-      ar: "من نحن",
+      ar: "نبذة عن اور شوبي",
     },
     connectWithUs: {
       en: "Connect with us",
@@ -122,7 +122,7 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     information: {
       en: "Information",
@@ -130,7 +130,7 @@ export const content = {
     },
     aboutCompany: {
       en: "UAE and Beyond! Established in 2015, Ourshopee.com has proudly established itself as a prominent and rapidly growing online shopping platform in the region...",
-      ar: "الإمارات وأكثر! تأسست Ourshopee.com في عام 2015، واعتزت نفسها كمنصة تسوق عبر الإنترنت بارزة وسريعة النمو في المنطقة...",
+      ar: "الإمارات العربية المتحدة وما بعدها! تأسس موقع Ourshopee.com عام ٢٠١٥، ونجح بفخر في ترسيخ مكانته كمنصة تسوق إلكتروني رائدة وسريعة النمو في المنطقة...",
     },
     contactUs: {
       en: "Contact Us",
@@ -162,7 +162,7 @@ export const content = {
     },
     affiliateProgram: {
       en: "Affiliate Program",
-      ar: "برنامج الإحالة",
+      ar: "برنامج الشراكة",
     },
     sellWithUs: {
       en: "Sell With Us",
@@ -190,7 +190,7 @@ export const content = {
     },
     deliveryAddress: {
       en: "Delivery Address",
-      ar: "عنوان التوصيل",
+      ar: "عنوان التسليم",
     },
     address: {
       en: "Address",
@@ -230,15 +230,15 @@ export const content = {
     },
     hotline: {
       en: "Hotline: (971) 4 4120000",
-      ar: "الخط الساخن",
+      ar: "الخط الساخن: (971) 4 4120000",
     },
     whatsapp: {
       en: "WhatsApp: (971) 521881678",
-      ar: "واتساب",
+      ar: "واتساب: (971) 521881678",
     },
     email: {
       en: "E-mail: support@ourshopee.com",
-      ar: "البريد الإلكتروني",
+      ar: "البريد الإلكتروني: support@ourshopee.com",
     },
     getApp: {
       en: "Get App",
@@ -290,9 +290,17 @@ export const content = {
       en: "Apply",
       ar: "قدم",
     },
+    applyNow: {
+      en: "Apply Now",
+      ar: "تطبيق الآن",
+    },
+    tryAgain: {
+      en: "Try again",
+      ar: "حاول مرة أخرى",
+    },
     submit: {
       en: "Submit",
-      ar: "إرسال",
+      ar: "يُقدِّم",
     },
     save: {
       en: "Save",
@@ -300,7 +308,7 @@ export const content = {
     },
     cancel: {
       en: "Cancel",
-      ar: "إلغاء",
+      ar: "الغاء",
     },
     delete: {
       en: "Delete",
@@ -308,7 +316,7 @@ export const content = {
     },
     edit: {
       en: "Edit",
-      ar: "تعديل",
+      ar: "يحرر",
     },
     update: {
       en: "Update",
@@ -386,13 +394,17 @@ export const content = {
       en: "Show Less",
       ar: "عرض أقل",
     },
+    learnMore: {
+      en: "Learn more",
+      ar: "اعرف المزيد",
+    },
     select: {
       en: "Select",
       ar: "اختر",
     },
     remove: {
       en: "Remove",
-      ar: "إزالة",
+      ar: "يزيل",
     },
     viewAll: {
       en: "View All",
@@ -405,6 +417,18 @@ export const content = {
     clearAll: {
       en: "Clear All",
       ar: "مسح الكل",
+    },
+    price: {
+      en: "Price",
+      ar: "السعر",
+    },
+    minPrice: {
+      en: "Min Price",
+      ar: "الحد الأدنى للسعر",
+    },
+    maxPrice: {
+      en: "Max Price",
+      ar: "الحد الأقصى للسعر",
     },
     removeItem: {
       en: "Remove Item",
@@ -612,7 +636,7 @@ export const content = {
     },
     whatAreYouLookingFor: {
       en: "What are you looking for?",
-      ar: "ماذا تبحث عنه؟",
+      ar: "ما الذي تبحث عنه؟",
     },
     loading: {
       en: "Loading...",
@@ -632,7 +656,7 @@ export const content = {
     },
     editAndSaveYourPersonalAddress: {
       en: "Edit and save your personal address",
-      ar: "تحرير وحفظ عنوانك الشخصي",
+      ar: "قم بتعديل عنوانك الشخصي وحفظه",
     },
     selectDeliveryAddress: {
       en: "Select Delivery address",
@@ -694,7 +718,7 @@ export const content = {
     },
     aboutOurshopee: {
       en: "About Ourshopee",
-      ar: "من نحن",
+      ar: "نبذة عن اور شوبي",
     },
     contactUs: {
       en: "Contact Us",
@@ -726,7 +750,7 @@ export const content = {
     },
     affiliateProgram: {
       en: "Affiliate Program",
-      ar: "برنامج الإحالة",
+      ar: "برنامج الشراكة",
     },
     sellWithUs: {
       en: "Sell With Us",
@@ -770,7 +794,7 @@ export const content = {
     },
     myOrders: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     myWishlist: {
       en: "My Wishlist",
@@ -782,7 +806,7 @@ export const content = {
     },
     deliveryAddress: {
       en: "Delivery Address",
-      ar: "عنوان التوصيل",
+      ar: "عنوان التسليم",
     },
     address: {
       en: "Address",
@@ -790,7 +814,7 @@ export const content = {
     },
     cart: {
       en: "Cart",
-      ar: "السلة",
+      ar: "عربة التسوق",
     },
     checkout: {
       en: "Checkout",
@@ -810,7 +834,7 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     productsCategory: {
       en: "Products Category",
@@ -834,7 +858,7 @@ export const content = {
     },
     bundleDeals: {
       en: "Bundle Deals",
-      ar: "عروض الباقات",
+      ar: "عروض مجمعة",
     },
     perfumes: {
       en: "Perfumes",
@@ -871,6 +895,10 @@ export const content = {
     tabbyPlan: {
       en: "Tabby Plan",
       ar: "خطة تابي",
+    },
+    checkBackSoon: {
+      en: "We're lining up great choices for you — Check back soon.",
+      ar: "نحن نعد خيارات رائعة لك — تحقق مرة أخرى قريبًا.",
     },
     shopBySubCategories: {
       en: "Shop by Sub-Categories",
@@ -1023,6 +1051,10 @@ export const content = {
     confirmPassword: {
       en: "Confirm Password",
       ar: "تأكيد كلمة المرور",
+    },
+    oldPassword: {
+      en: "Old Password",
+      ar: "كلمة المرور القديمة",
     },
     newPassword: {
       en: "New Password",
@@ -1282,9 +1314,37 @@ export const content = {
       en: "You Save",
       ar: "توفر",
     },
+    youSaved: {
+      en: "You Saved",
+      ar: "وفرت",
+    },
+    itemAddedToCart: {
+      en: "Item added to cart",
+      ar: "تمت إضافة العنصر إلى السلة",
+    },
+    productDetailsAndOptions: {
+      en: "Product details and options to continue shopping or checkout",
+      ar: "تفاصيل المنتج والخيارات لمتابعة التسوق أو الدفع",
+    },
+    addedToCart: {
+      en: "Added To Cart",
+      ar: "تمت الإضافة إلى السلة",
+    },
+    proceedToCheckoutWithSelectedItems: {
+      en: "Proceed to checkout with selected items",
+      ar: "المتابعة للدفع مع العناصر المحددة",
+    },
     rating: {
       en: "Rating",
       ar: "التقييم",
+    },
+    star: {
+      en: "Star",
+      ar: "نجمة",
+    },
+    stars: {
+      en: "Stars",
+      ar: "نجوم",
     },
     reviews: {
       en: "Reviews",
@@ -1324,7 +1384,7 @@ export const content = {
     },
     leaveAReviewHere: {
       en: "Leave a review here....",
-      ar: "اترك مراجعة هنا....",
+      ar: "اترك تعليقك هنا....",
     },
     deleteReview: {
       en: "Delete Review",
@@ -1412,11 +1472,11 @@ export const content = {
     },
     canYouTellUsMore: {
       en: "Can you tell us more?",
-      ar: "هل يمكنك إخبارنا بالمزيد؟",
+      ar: "هل يمكنك أن تخبرنا المزيد؟",
     },
     beTheFirstOneToReview: {
       en: "Be the first one to review",
-      ar: "كن أول من يراجع",
+      ar: "كن أول من يقوم بالمراجعة",
     },
     wantToAddProductImages: {
       en: "Want to add product images ?",
@@ -1464,7 +1524,7 @@ export const content = {
     },
     inCart: {
       en: "In Cart",
-      ar: "في السلة",
+      ar: "في سلة التسوق",
     },
     yourCartIsEmpty: {
       en: "Your cart is empty.",
@@ -1472,11 +1532,11 @@ export const content = {
     },
     totalCartValue: {
       en: "total cart value",
-      ar: "إجمالي قيمة السلة",
+      ar: "إجمالي قيمة عربة التسوق",
     },
     yourTotalSavings: {
       en: "Your total savings",
-      ar: "إجمالي توفيرك",
+      ar: "إجمالي مدخراتك",
     },
     specifications: {
       en: "Specifications",
@@ -1492,7 +1552,7 @@ export const content = {
     },
     relatedProducts: {
       en: "Related Products",
-      ar: "منتجات ذات صلة",
+      ar: "المنتجات ذات الصلة",
     },
     recentlyViewed: {
       en: "Recently Viewed",
@@ -1532,11 +1592,11 @@ export const content = {
     },
     brand: {
       en: "Brand",
-      ar: "العلامة التجارية",
+      ar: "ماركة",
     },
     category: {
       en: "Category",
-      ar: "الفئة",
+      ar: "فئة",
     },
     freeShipping: {
       en: "Free Shipping",
@@ -1555,7 +1615,7 @@ export const content = {
       ar: "نطاق السعر",
     },
     youSaved: {
-      en: "You saved",
+      en: "You saved ",
       ar: "لقد وفرت",
     },
     productSpecifications: {
@@ -1630,7 +1690,7 @@ export const content = {
     },
     remove: {
       en: "Remove",
-      ar: "إزالة",
+      ar: "يزيل",
     },
     qty: {
       en: "Qty",
@@ -1672,7 +1732,7 @@ export const content = {
   orders: {
     title: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     orderHistory: {
       en: "Order History",
@@ -1762,6 +1822,42 @@ export const content = {
       en: "Keep exploring",
       ar: "استمر في الاستكشاف",
     },
+    processingTitle: {
+      en: "Sit tight — your order is under process.",
+      ar: "يرجى الانتظار — طلبك قيد المعالجة.",
+    },
+    successTitle: {
+      en: "Your order was placed successfully.",
+      ar: "لقد تم تقديم طلبك بنجاح.",
+    },
+    failTitle: {
+      en: "Oh no! Your payment failed.",
+      ar: "للأسف! فشلت عملية الدفع.",
+    },
+    failDescription: {
+      en: "An error occurred while processing your payment.",
+      ar: "حدث خطأ أثناء معالجة الدفع.",
+    },
+    stuckTitle: {
+      en: "Your order's in the queue — we're reviewing it before processing.",
+      ar: "طلبك في انتظار المراجعة قبل المتابعة.",
+    },
+    loaderAlt: {
+      en: "Loading",
+      ar: "جاري التحميل",
+    },
+    orderSuccessAlt: {
+      en: "Order success",
+      ar: "نجاح الطلب",
+    },
+    paymentFailedAlt: {
+      en: "Payment failed",
+      ar: "فشل الدفع",
+    },
+    orderHoldAlt: {
+      en: "Order on hold",
+      ar: "الطلب قيد المراجعة",
+    },
   },
   wishlist: {
     title: {
@@ -1778,7 +1874,7 @@ export const content = {
     },
     remove: {
       en: "Remove",
-      ar: "إزالة",
+      ar: "يزيل",
     },
     addToCart: {
       en: "Add to Cart",
@@ -1835,16 +1931,20 @@ export const content = {
       ar: "تطبيق كوبون",
     },
     couponCode: {
-      en: "Coupon Code",
+      en: "Coupon ",
       ar: "رمز القسيمة",
     },
     enterCouponCode: {
       en: "Enter coupon code",
       ar: "أدخل رمز القسيمة",
     },
+    availableCoupons: {
+      en: "Available Coupons",
+      ar: "القسائم المتاحة",
+    },
     couponApplied: {
-      en: "Coupon applied",
-      ar: "تم تطبيق القسيمة",
+      en: "Congrats! You've saved",
+      ar: "تهانينا! لقد حفظت",
     },
     enterAmountManually: {
       en: "Enter amount manually",
@@ -1852,7 +1952,7 @@ export const content = {
     },
     deliveryAddress: {
       en: "Delivery Address",
-      ar: "عنوان التوصيل",
+      ar: "عنوان التسليم",
     },
     changeAddress: {
       en: "Change Address",
@@ -1864,7 +1964,7 @@ export const content = {
     },
     pleaseSelectDeliveryAddress: {
       en: "Please select a delivery address!",
-      ar: "يرجى اختيار عنوان التوصيل!",
+      ar: "الرجاء تحديد عنوان التسليم!",
     },
     donateAndMakeADifference: {
       en: "Donate and make a difference",
@@ -1891,6 +1991,18 @@ export const content = {
     selectPaymentMethod: {
       en: "Select Payment Method",
       ar: "اختر طريقة الدفع",
+    },
+    paymentOptions: {
+      en: "Payment options",
+      ar: "خيارات الدفع",
+    },
+    monthly: {
+      en: "Monthly",
+      ar: "شهري",
+    },
+    today: {
+      en: "Today",
+      ar: "اليوم",
     },
     creditCard: {
       en: "Credit Card",
@@ -1924,11 +2036,11 @@ export const content = {
     },
     profile: {
       en: "Profile",
-      ar: "الملف الشخصي",
+      ar: "حساب تعريفي",
     },
     editPersonalAddress: {
       en: "Edit and save your personal address",
-      ar: "تحرير وحفظ عنوانك الشخصي",
+      ar: "قم بتعديل عنوانك الشخصي وحفظه",
     },
     personalInformation: {
       en: "Personal Information",
@@ -1960,7 +2072,7 @@ export const content = {
     },
     myOrders: {
       en: "My Orders",
-      ar: "طلباتي",
+      ar: "طلبياتي",
     },
     myOrdersDescription: {
       en: "View the details of your current and past orders, track your purchases, and stay updated on the status of your items all in one place.",
@@ -1972,7 +2084,7 @@ export const content = {
     },
     myWishlistDescription: {
       en: "Save and manage products you'd love to purchase later.",
-      ar: "احفظ وأدر المنتجات التي ترغب في شرائها لاحقًا.",
+      ar: "احفظ المنتجات التي ترغب في شرائها لاحقًا وقم بإدارتها.",
     },
     addToCart: {
       en: "Add to cart",
@@ -1996,11 +2108,11 @@ export const content = {
     },
     manageComplaintsDescription: {
       en: "Place your complaints & Track the status of your complaints.",
-      ar: "قدم شكواك وتتبع حالة شكواك.",
+      ar: "ضع شكواك وتتبع حالة شكواك.",
     },
     placeComplaint: {
       en: "Place a complaints",
-      ar: "تقديم شكوى",
+      ar: "وضع شكوى",
     },
   },
   contactUs: {
@@ -2018,7 +2130,7 @@ export const content = {
     },
     email: {
       en: "Email:",
-      ar: "البريد الإلكتروني:",
+      ar: "بريد إلكتروني:",
     },
     address: {
       en: "Address:",
@@ -2214,11 +2326,11 @@ export const content = {
   header: {
     searchPlaceholder: {
       en: "What are you looking for?",
-      ar: "ماذا تبحث عنه؟",
+      ar: "ما الذي تبحث عنه؟",
     },
     cancel: {
       en: "Cancel",
-      ar: "إلغاء",
+      ar: "الغاء",
     },
     noResults: {
       en: "No results found",
@@ -2238,7 +2350,7 @@ export const content = {
     },
     wishlist: {
       en: "Wishlist",
-      ar: "قائمة الأمنيات",
+      ar: "قائمة الرغبات",
     },
     trackOrder: {
       en: "Track Order",
@@ -2262,7 +2374,7 @@ export const content = {
     },
     signup: {
       en: "Signup",
-      ar: "التسجيل",
+      ar: "اشتراك",
     },
     welcome: {
       en: "Welcome",
@@ -2270,15 +2382,15 @@ export const content = {
     },
     categories: {
       en: "Categories",
-      ar: "الفئات",
+      ar: "فهرست",
     },
     category: {
       en: "Category",
-      ar: "الفئة",
+      ar: "فئة",
     },
     shopByCategory: {
       en: "Shop by Category",
-      ar: "تسوق حسب الفئة",
+      ar: "التسوق حسب الفئة",
     },
     shopBySubCategory: {
       en: "Shop by Sub-Category",
@@ -2356,15 +2468,15 @@ export const content = {
     },
     bundleDeals: {
       en: "Bundle Deals",
-      ar: "عروض الباقات",
+      ar: "عروض مجمعة",
     },
     topSelling: {
       en: "Top Selling",
-      ar: "الأكثر مبيعاً",
+      ar: "الأكثر مبيعا",
     },
     topSellingProducts: {
       en: "Top Selling Products",
-      ar: "المنتجات الأكثر مبيعاً",
+      ar: "المنتجات الأكثر مبيعا",
     },
     saverZone: {
       en: "Saver zone",
@@ -2376,7 +2488,7 @@ export const content = {
     },
     clearanceDeals: {
       en: "Clearance Deals",
-      ar: "صفقات التخفيضات",
+      ar: "عروض التصفية",
     },
     excitingOffers: {
       en: "Exciting Offers",
@@ -2384,7 +2496,7 @@ export const content = {
     },
     shopByTopBrands: {
       en: "Shop By Top Brands",
-      ar: "تسوق حسب أفضل العلامات التجارية",
+      ar: "التسوق حسب أفضل العلامات التجارية",
     },
     browsePopularCategories: {
       en: "Browse Popular Categories",
@@ -2392,7 +2504,7 @@ export const content = {
     },
     topPicks: {
       en: "Top Picks",
-      ar: "أفضل الخيارات",
+      ar: "أفضل الاختيارات",
     },
     brandOfTheWeek: {
       en: "Brand of the Week",
@@ -2417,6 +2529,142 @@ export const content = {
     stealTheDeal: {
       en: "Steal the Deal",
       ar: "اغتنم العرض",
+    },
+  },
+  notlogin: {
+    loginTitle: {
+      en: "Login in to continue shopping",
+      ar: "قم بتسجيل الدخول لمتابعة التسوق",
+    },
+    loginSubtitle: {
+      en: "Login to see the items you added previously",
+      ar: "قم بتسجيل الدخول لرؤية العناصر التي أضفتها سابقًا",
+    },
+  },
+  tabby: {
+    amI: {
+      en: "Am I",
+      ar: "هل أنا",
+    },
+    eligible: {
+      en: "Eligible?",
+      ar: "مؤهل؟",
+    },
+    yesIfYou: {
+      en: "Yes, if you…",
+      ar: "نعم، إذا كنت...",
+    },
+    age18Plus: {
+      en: "are 18+ years old",
+      ar: "تبلغ من العمر 18 عامًا أو أكثر",
+    },
+    validCard: {
+      en: "have a valid debit or credit card",
+      ar: "لديك بطاقة خصم أو ائتمان صالحة",
+    },
+    uaeResident: {
+      en: "are resident in the United Arab Emirates",
+      ar: "مقيم في دولة الإمارات العربية المتحدة",
+    },
+    andJustFYI: {
+      en: "and just FYI…",
+      ar: "وللمعلومية فقط...",
+    },
+    installmentPlanValid: {
+      en: "Tabby easy installment plan is valid for all electronics category products value up to {electronicsLimit} {currency} and Non-electronics category products value up to {nonElectronicsLimit} {currency}.",
+      ar: "خطة التقسيط السهلة من Tabby صالحة لجميع منتجات فئة الإلكترونيات بقيمة تصل إلى {electronicsLimit} {currency} ومنتجات فئة غير الإلكترونيات بقيمة تصل إلى {nonElectronicsLimit} {currency}.",
+    },
+    automaticPayments: {
+      en: "Your payment instalments are automatic, although a small late fee applies if you fail to make a payment on time.",
+      ar: "أقساط الدفع الخاصة بك تلقائية، على الرغم من أن رسوم تأخير صغيرة تُطبق إذا فشلت في السداد في الوقت المحدد.",
+    },
+    returnPolicy: {
+      en: "If you need to make a return, you are to do so through Ourshopee as you normally would. Once the refund is confirmed, your payments will be refunded back to you.",
+      ar: "إذا كنت بحاجة إلى إرجاع المنتج، يمكنك القيام بذلك من خلال OurShopee كما تفعل عادة. بمجرد تأكيد الاسترداد، سيتم استرداد مدفوعاتك إليك.",
+    },
+    selectEverything: {
+      en: "Select everything you love at Ourshopee",
+      ar: "اختر كل ما تحبه في OurShopee",
+    },
+    browseAndAdd: {
+      en: "Browse and add your favorite items to your cart with ease.",
+      ar: "تصفح وأضف العناصر المفضلة لديك إلى سلة التسوق بسهولة.",
+    },
+    tabbyForEMI: {
+      en: "Tabby for EMI Plans",
+      ar: "Tabby لخطط التقسيط",
+    },
+    chooseTabby: {
+      en: "Choose Tabby at checkout to split your payment into easy installments.",
+      ar: "اختر Tabby عند الدفع لتقسيم دفعتك إلى أقساط سهلة.",
+    },
+    signUp: {
+      en: "Sign Up",
+      ar: "التسجيل",
+    },
+    registerInstantly: {
+      en: "Register instantly using just your email and mobile number—it's quick and simple!",
+      ar: "سجل فورًا باستخدام بريدك الإلكتروني ورقم هاتفك المحمول فقط—إنه سريع وبسيط!",
+    },
+    shipRightAway: {
+      en: "Ourshopee will ship out your order right away",
+      ar: "سيقوم OurShopee بشحن طلبك على الفور",
+    },
+    fastProcessing: {
+      en: "Fast processing ensures your order is on its way as soon as you place it.",
+      ar: "المعالجة السريعة تضمن أن طلبك في طريقه بمجرد وضعه.",
+    },
+    pay25Percent: {
+      en: "Pay only 25% today and the rest later",
+      ar: "ادفع 25% فقط اليوم والباقي لاحقًا",
+    },
+    enjoyNowPayLater: {
+      en: "Enjoy now, pay later—just 25% upfront with the rest split into equal payments.",
+      ar: "استمتع الآن وادفع لاحقًا—25% فقط مقدماً والباقي مقسم إلى دفعات متساوية.",
+    },
+    easy: {
+      en: "Easy",
+      ar: "سهل",
+    },
+    installmentPlan: {
+      en: "Installment Plan",
+      ar: "خطة التقسيط",
+    },
+    convenienceDescription: {
+      en: "OurShopee.com at your convenience. Pay the easy way with our Buy now pay later or shop now pay later.You can buy your desired product with no wait. No Credit Card needed. You can place order using your debit card with 0% interest rate & Get your product without any burden on your pocket.",
+      ar: "OurShopee.com لراحتك. ادفع بالطريقة السهلة مع خيارات الشراء الآن والدفع لاحقًا. يمكنك شراء المنتج الذي تريده دون انتظار. لا حاجة لبطاقة ائتمان. يمكنك تقديم الطلب باستخدام بطاقة الخصم الخاصة بك بمعدل فائدة 0% واحصل على منتجك دون أي عبء على جيبك.",
+    },
+    processStep1: {
+      en: "If you desired product is worth {amount} {currency} or above, you will see installement eligibility message.",
+      ar: "إذا كان المنتج المطلوب بقيمة {amount} {currency} أو أكثر، ستظهر رسالة أهلية التقسيط.",
+    },
+    processStep2: {
+      en: "If your cart is worth {amount} {currency} or above by selecting multiple items, you will see the options to convert them into installement.",
+      ar: "إذا كانت قيمة سلة التسوق {amount} {currency} أو أكثر عن طريق اختيار عدة عناصر، ستظهر خيارات تحويلها إلى أقساط.",
+    },
+    processStep3: {
+      en: "Shop Now Pay Later There will be Shop Now pay Later option, select the option and you will be redirected on the payment plan option page. You have to register yourself on that page.",
+      ar: "تسوق الآن وادفع لاحقًا سيكون هناك خيار تسوق الآن وادفع لاحقًا، اختر الخيار وسيتم توجيهك إلى صفحة خيارات خطة الدفع. يجب عليك التسجيل في تلك الصفحة.",
+    },
+    processStep4: {
+      en: "Confirm your Phone Number.",
+      ar: "أكد رقم هاتفك.",
+    },
+    processStep5: {
+      en: "Upload your Emirates ID.",
+      ar: "قم بتحميل بطاقة الهوية الإماراتية الخاصة بك.",
+    },
+    processStep6: {
+      en: "Confirm your Phone Number.",
+      ar: "أكد رقم هاتفك.",
+    },
+    processStep7: {
+      en: "Fill in your Debit or Credit details.",
+      ar: "املأ تفاصيل بطاقة الخصم أو الائتمان الخاصة بك.",
+    },
+    processStep8: {
+      en: "Once the details are submitted and approved, you will be redirected to the Order confirmed page.",
+      ar: "بمجرد تقديم التفاصيل والموافقة عليها، سيتم توجيهك إلى صفحة تأكيد الطلب.",
     },
   },
 };

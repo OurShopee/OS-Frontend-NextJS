@@ -1,19 +1,10 @@
 "use client";
 import { useState, useRef, useEffect, useMemo } from "react";
-import flag from "@/images/Flag.png";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useCurrentLanguage, getDynamicContent } from "@/hooks";
-const options = [
-  { name: "Dubai", flag: flag },
-  { name: "UAE", flag: flag },
-  { name: "Oman", flag: flag },
-  { name: "Kuwait", flag: flag },
-  { name: "Qatar", flag: flag },
-];
 
 export default function CountryDropdown({ countryDropdown }) {
-  const [selected, setSelected] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const currentLanguage = useCurrentLanguage();
@@ -55,8 +46,6 @@ export default function CountryDropdown({ countryDropdown }) {
     } else {
       window.open(option.url, "_blank");
     }
-
-    setSelected(option);
     setIsOpen(false);
   };
 

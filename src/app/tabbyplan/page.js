@@ -4,11 +4,56 @@ import { Container, Row, Col } from "react-bootstrap";
 import starimg from "@/images/Sta5r.png"   
 import { MediaQueries } from "@/components/utils";
 import { useSelector} from "react-redux";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const Tabbyplan = () => {
      const { isMobile } = MediaQueries();
+     const currentLanguage = useCurrentLanguage();
+     const isRTL = currentLanguage === "ar";
      const currentcountry = useSelector((state) => state.globalslice.currentcountry);
+     
+     // Get translated content
+     const amI = useContent("tabby.amI");
+     const eligible = useContent("tabby.eligible");
+     const yesIfYou = useContent("tabby.yesIfYou");
+     const age18Plus = useContent("tabby.age18Plus");
+     const validCard = useContent("tabby.validCard");
+     const uaeResident = useContent("tabby.uaeResident");
+     const andJustFYI = useContent("tabby.andJustFYI");
+     const installmentPlanValid = useContent("tabby.installmentPlanValid")
+       .replace("{electronicsLimit}", "1500")
+       .replace("{nonElectronicsLimit}", "2500")
+       .replace(/{currency}/g, currentcountry.currency);
+     const automaticPayments = useContent("tabby.automaticPayments");
+     const returnPolicy = useContent("tabby.returnPolicy");
+     const selectEverything = useContent("tabby.selectEverything");
+     const browseAndAdd = useContent("tabby.browseAndAdd");
+     const tabbyForEMI = useContent("tabby.tabbyForEMI");
+     const chooseTabby = useContent("tabby.chooseTabby");
+     const signUp = useContent("tabby.signUp");
+     const registerInstantly = useContent("tabby.registerInstantly");
+     const shipRightAway = useContent("tabby.shipRightAway");
+     const fastProcessing = useContent("tabby.fastProcessing");
+     const pay25Percent = useContent("tabby.pay25Percent");
+     const enjoyNowPayLater = useContent("tabby.enjoyNowPayLater");
+     const easy = useContent("tabby.easy");
+     const installmentPlan = useContent("tabby.installmentPlan");
+     const convenienceDescription = useContent("tabby.convenienceDescription");
+     const processStep1 = useContent("tabby.processStep1")
+       .replace("{amount}", "200")
+       .replace(/{currency}/g, currentcountry.currency);
+     const processStep2 = useContent("tabby.processStep2")
+       .replace("{amount}", "200")
+       .replace(/{currency}/g, currentcountry.currency);
+     const processStep3 = useContent("tabby.processStep3");
+     const processStep4 = useContent("tabby.processStep4");
+     const processStep5 = useContent("tabby.processStep5");
+     const processStep6 = useContent("tabby.processStep6");
+     const processStep7 = useContent("tabby.processStep7");
+     const processStep8 = useContent("tabby.processStep8");
+     
     return (
-        <Container fluid className="homepagecontainer mt-3 mb-3">
+        <Container fluid className="homepagecontainer mt-3 mb-3" dir={isRTL ? "rtl" : "ltr"}>
             <div className="single_banner ">
                 {
                     !isMobile?
@@ -22,53 +67,54 @@ const Tabbyplan = () => {
                 <Col lg={2} >
                 <div className={isMobile?"bnpl-eligible":""}>
 
-                    <div className={isMobile?" ami":" ami  pb-2"} >Am I</div>
-                    <div className="tabbyplansbtn">Eligible?
+                    <div className={isMobile?" ami":" ami  pb-2"} >{amI}</div>
+                    <div className="tabbyplansbtn">{eligible}
 
                     </div>
                     </div>
                 </Col>
                 <Col lg={10}>
                     <div className="tabbyplan-card mb-2">
-                        <div className="tabbycard-title">Yes, if you…</div>
+                        <div className="tabbycard-title">{yesIfYou}</div>
                         <div className="d-flex">
-                            <img src={starimg} className="me-3 tabbtstaring"></img>
+                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
                             <div className="tabbycard-content">
-                                are 18+ years old
+                                {age18Plus}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg} className="me-3 tabbtstaring"></img>
+                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
                             <div className="tabbycard-content">
-                                have a valid debit or credit card
+                                {validCard}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg} className="me-3 tabbtstaring"></img>
+                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
                             <div className="tabbycard-content">
-                                are resident in the United Arab Emirates
+                                {uaeResident}
                             </div>
                         </div>
 
 
                     </div>
                     <div className="tabbyplan-card ">
-                        <div className="tabbycard-title">and just FYI…</div>
+                        <div className="tabbycard-title">{andJustFYI}</div>
                         <div className="d-flex">
-                            <img src={starimg} className="me-3 tabbtstaring"></img>
+                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
                             <div className="tabbycard-content">
-                                Tabby easy installment plan is valid for all electronics category products value up to 1500 {currentcountry.currency} and Non-electronics category products value up to 2500 {currentcountry.currency}.
+                                {installmentPlanValid}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg} className="me-3 tabbtstaring"></img>
+                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
                             <div className="tabbycard-content">
-                                Your payment instalments are automatic, although a small late fee applies if you fail to make a payment on time.
+                                {automaticPayments}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg} className="me-3 tabbtstaring"></img>
-                            <div className="tabbycard-content">If you need to make a return, you are to do so through Ourshopee as you normally would. Once the refund is confirmed, your payments will be refunded back to you.
+                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <div className="tabbycard-content">
+                                {returnPolicy}
                             </div>
                         </div>
 
@@ -88,36 +134,36 @@ const Tabbyplan = () => {
                     <div className="benfitscard benfitsmiddle">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg} className="me-3 tabbtstaring"></img>
-                                <div className="benfitscontent">Select everything you love at Ourshopee
+                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <div className="benfitscontent">{selectEverything}
                                 </div>
 
                             </div>
-                            <div className="benfits-subcontent">Browse and add your favorite items to your cart with ease.</div>
+                            <div className="benfits-subcontent">{browseAndAdd}</div>
                         </div>
                         <img className="bnplcardimages" src={'assets/banners/bnpl1.png'} />
                     </div>
                     <div className="benfitscard benfitsmiddle">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg} className="me-3 tabbtstaring"></img>
-                                <div className="benfitscontent">Tabby for EMI Plans
+                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <div className="benfitscontent">{tabbyForEMI}
                                 </div>
 
                             </div>
-                            <div className="benfits-subcontent">Choose Tabby at checkout to split your payment into easy installments.</div>
+                            <div className="benfits-subcontent">{chooseTabby}</div>
                         </div>
                         <img className="bnplcardimages" src={'assets/banners/bnpl2.png'} />
                     </div>
                     <div className="benfitscard benfitsmiddle">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg} className="me-3 tabbtstaring"></img>
-                                <div className="benfitscontent">Sign Up
+                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <div className="benfitscontent">{signUp}
                                 </div>
 
                             </div>
-                            <div className="benfits-subcontent">Register instantly using just your email and mobile number—it's quick and simple!</div>
+                            <div className="benfits-subcontent">{registerInstantly}</div>
                         </div>
                         <img className="bnplcardimages" src={'assets/banners/bnpl3.png'} />
                     </div>
@@ -126,24 +172,24 @@ const Tabbyplan = () => {
                     <div className="benfitscard benfitslast">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg} className="me-3 tabbtstaring"></img>
-                                <div className="benfitscontent">Ourshopee will ship out your order right away
+                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <div className="benfitscontent">{shipRightAway}
                                 </div>
 
                             </div>
-                            <div className="benfits-subcontent">Fast processing ensures your order is on its way as soon as you place it.</div>
+                            <div className="benfits-subcontent">{fastProcessing}</div>
                         </div>
                         <img className="bnplcardimages" src={'assets/banners/bnpl4.png'} />
                     </div>
                     <div className="benfitscard benfitslast">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg} className="me-3 tabbtstaring"></img>
-                                <div className="benfitscontent">Pay only 25% today and the rest later
+                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <div className="benfitscontent">{pay25Percent}
                                 </div>
 
                             </div>
-                            <div className="benfits-subcontent">Enjoy now, pay later—just 25% upfront with the rest split into equal payments.</div>
+                            <div className="benfits-subcontent">{enjoyNowPayLater}</div>
                         </div>
                         <img className="bnplcardimages" src={'assets/banners/bnpl5.png'} />
                     </div>
@@ -154,14 +200,14 @@ const Tabbyplan = () => {
                 <Col lg={6} className="installment">
                     <div className="tabbyinstallments">
 
-                        <div className="tabbyplansbtn">Easy
+                        <div className="tabbyplansbtn">{easy}
 
                         </div>
-                        <div className="tabby-sub ps-3">Installment Plan</div>
+                        <div className="tabby-sub ps-3">{installmentPlan}</div>
                     </div>
                 </Col>
                 <Col lg={6}>
-                    <div className="tabbyinstallment-content">OurShopee.com at your convenience. Pay the easy way with our Buy now pay later or shop now pay later.You can buy your desired product with no wait. No Credit Card needed. You can place order using your debit card with 0% interest rate & Get your product without any burden on your pocket.</div>
+                    <div className="tabbyinstallment-content">{convenienceDescription}</div>
                 </Col>
             </Row>
             <Row className="shopnow-paylater-eligible mt-3 mb-3">
@@ -172,7 +218,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">1</div>
-                    <div className="tprocess-content">If you desired product is worth 200<span>{currentcountry.currency}</span> or above, you will see installement eligibility message.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep1}</div>
 
                  </div>
                  </div>
@@ -183,7 +229,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">2</div>
-                    <div className="tprocess-content">If your cart is worth 200<span>{currentcountry.currency}</span> or above by selecting multiple items, you will see the options to convert them into installement.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep2}</div>
 
                  </div>
                  </div>
@@ -194,7 +240,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">3</div>
-                    <div className="tprocess-content">Shop Now Pay Later There will be Shop Now pay Later option, select the option and you will be redirected on the payment plan option page. You have to register yourself on that page.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep3}</div>
 
                  </div>
                  </div>
@@ -205,7 +251,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">4</div>
-                    <div className="tprocess-content">Confirm your Phone Number.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep4}</div>
 
                  </div>
                  </div>
@@ -216,7 +262,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">5</div>
-                    <div className="tprocess-content">Upload your Emirates ID.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep5}</div>
 
                  </div>
                  </div>
@@ -227,7 +273,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">6</div>
-                    <div className="tprocess-content">Confirm your Phone Number.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep6}</div>
 
                  </div>
                  </div>
@@ -238,7 +284,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">7</div>
-                    <div className="tprocess-content">Fill in your Debit or Credit details.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep7}</div>
 
                  </div>
                  </div>
@@ -249,7 +295,7 @@ const Tabbyplan = () => {
 
                  <div className="d-flex">
                     <div className="tprocesscount">8</div>
-                    <div className="tprocess-content">Once the details are submitted and approved, you will be redirected to the Order confirmed page.</div>
+                    <div className={isRTL ? "!pl-0 !pr-2" : "tprocess-content"}>{processStep8}</div>
 
                  </div>
                  </div>

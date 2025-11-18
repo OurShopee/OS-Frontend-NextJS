@@ -45,3 +45,9 @@ export const postSingleCheckout = async (input_data) => {
   });
   return res.data;
 };
+export const availableCoupons = async () => {
+  const res = await axios.get("api/couponList", {
+    headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+  });
+  return res.data;
+};
