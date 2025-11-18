@@ -229,7 +229,7 @@ const Payment = () => {
                   {defaultAddress?.mobile}
                 </p>
               </div>
-              <div className="payment-border-bottom"></div>
+              <div className="payment-border-bottom border-b-[1px] border-gray-200"></div>
               <CheckCoupan
                 prodId={prodId}
                 qty={qty}
@@ -238,7 +238,7 @@ const Payment = () => {
                 coupons={availableCoupon}
                 price={price}
               />
-              {isMobile && <div className="payment-border-bottom"></div>}
+              <div className="payment-border-bottom"></div>
               {currentcountry.isDonationRequired && (
                 <Donation donation={paymentMethods?.donation} />
               )}

@@ -421,7 +421,7 @@ const CouponModal = ({
         {/* Fixed Header */}
         <div className="flex-shrink-0 p-6 pb-4">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-[#191B1C]">
+            <h2 className="text-xl font-bold text-[#191B1C]">
               {availableCouponsText} ({coupons?.length || 0})
             </h2>
             <button
@@ -483,6 +483,7 @@ const CouponModal = ({
                   );
                 })}
               </div>
+              
             </div>
           )}
 
@@ -516,9 +517,9 @@ const CouponModal = ({
             </div>
           )}
 
-          {coupons?.length === 0 && (
-            <div className="text-center text-gray-400 py-4">{allCaughtUp}</div>
-          )}
+         
+            <div className="text-center text-gray-400 py-2">{allCaughtUp}</div>
+        
         </div>
       </div>
     </Modal>
