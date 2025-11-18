@@ -8,9 +8,9 @@ import { CalculatePaymentDetails } from "@/components/utils/Cart";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import deleteimg from "@/images/Delete.png";
 import {
-    cartlistWithoutLoaderapi,
-    changeCartQuantityapi,
-    removeFromCartapi,
+  cartlistWithoutLoaderapi,
+  changeCartQuantityapi,
+  removeFromCartapi,
 } from "@/redux/cartslice";
 import { setformmodal, setformstatus } from "@/redux/formslice";
 import { GetPlaceOrderapi, setpaymentmethodsdata } from "@/redux/paymentslice";
@@ -40,7 +40,7 @@ const Cart = () => {
   const [cartQuantities, setCartQuantities] = useState({});
   const debounceTimers = useRef({});
   const { isTablet, isMobile } = MediaQueries();
-  
+
   // Language content
   const myCart = useContent("cart.myCart");
   const qtyText = useContent("cart.qty");
@@ -176,17 +176,31 @@ const Cart = () => {
                           className={"text-decoration-none"}
                         >
                           <div>
-                            <div className="cartproduct-title">{ele.localizedName || ele.name}</div>
-                            <div className={`cartproduct-price flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
+                            <div className="cartproduct-title">
+                              {ele.localizedName || ele.name}
+                            </div>
+                            <div
+                              className={`cartproduct-price flex items-center gap-0.5 ${
+                                currentLanguage === "ar"
+                                  ? "flex-row-reverse justify-end"
+                                  : ""
+                              }`}
+                            >
                               {currentcountry?.currency == "AED" ? (
                                 <img
                                   src="/assets/feed/aed-icon.svg"
                                   alt="AED"
-                                  className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  className={`w-4 h-4 inline-block mix-blend-multiply ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
                                   style={{ color: "black" }}
                                 />
                               ) : (
-                                <span className={`currencycode ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
+                                <span
+                                  className={`currencycode ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
+                                >
                                   {currentcountry.currency}
                                 </span>
                               )}{" "}
@@ -196,43 +210,46 @@ const Cart = () => {
                             </div>
                           </div>
                         </Link>
-                        {!isTablet && (
-                          <div>
-                            <div className="quantity-title">{qtyText}</div>
-                            <div className="d-flex justify-content-between">
-                              <div className="cart-product-quantitybtn">
-                                <FiMinus
-                                  className="cursorpointer"
-                                  onClick={() =>
-                                    handleQuantityChange(
-                                      ele.cart_id,
-                                      cartQuantities[ele.cart_id] - 1
-                                    )
-                                  }
-                                />
-                                <div>{cartQuantities[ele.cart_id]}</div>
-                                {
-                                  <FiPlus
+                        {ele.single_price * cartQuantities[ele.cart_id] > 0 &&
+                          !isTablet && (
+                            <div>
+                              <div className="quantity-title">{qtyText}</div>
+                              <div className="d-flex justify-content-between">
+                                <div className="cart-product-quantitybtn">
+                                  <FiMinus
                                     className="cursorpointer"
                                     onClick={() =>
                                       handleQuantityChange(
                                         ele.cart_id,
-                                        cartQuantities[ele.cart_id] + 1
+                                        cartQuantities[ele.cart_id] - 1
                                       )
                                     }
                                   />
-                                }
-                              </div>
-                              <div
-                                className="cart-product-quantitybtn hoverbox-shadow"
-                                onClick={() => removeproduct(ele.cart_id)}
-                              >
-                                <img src={deleteimg.src} alt="delete" />
-                                <span className="cartremone">{removeText}</span>
+                                  <div>{cartQuantities[ele.cart_id]}</div>
+                                  {
+                                    <FiPlus
+                                      className="cursorpointer"
+                                      onClick={() =>
+                                        handleQuantityChange(
+                                          ele.cart_id,
+                                          cartQuantities[ele.cart_id] + 1
+                                        )
+                                      }
+                                    />
+                                  }
+                                </div>
+                                <div
+                                  className="cart-product-quantitybtn hoverbox-shadow"
+                                  onClick={() => removeproduct(ele.cart_id)}
+                                >
+                                  <img src={deleteimg.src} alt="delete" />
+                                  <span className="cartremone">
+                                    {removeText}
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                       </div>
                     </div>
 
@@ -284,17 +301,27 @@ const Cart = () => {
                       {!isMobile && (
                         <>
                           <div className="payment-type">
-                            <div className="payment-type-title">{subtotalText}</div>
+                            <div className="payment-type-title">
+                              {subtotalText}
+                            </div>
                             <div className="payment-type-cost flex items-center">
                               {currentcountry?.currency == "AED" ? (
                                 <img
                                   src="/assets/feed/aed-icon.svg"
                                   alt="AED"
-                                  className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
                                   style={{ color: "black" }}
                                 />
                               ) : (
-                                <span className={currentLanguage === "ar" ? "ml-1" : "mr-1"}>{currentcountry.currency}{" "}</span>
+                                <span
+                                  className={
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }
+                                >
+                                  {currentcountry.currency}{" "}
+                                </span>
                               )}
                               {CalculatePaymentDetails(
                                 cartlistdata,
@@ -309,9 +336,11 @@ const Cart = () => {
                       )}
                       {isMobile && (
                         <div className=" mobile_version_cart_bottom">
-                            <div className="mobile-payment-total">
+                          <div className="mobile-payment-total">
                             <div className="payment-type">
-                              <div className="payment-type-title">{subtotalText}</div>
+                              <div className="payment-type-title">
+                                {subtotalText}
+                              </div>
                               <div className="payment-type-cost">
                                 {currentcountry.currency}{" "}
                                 {CalculatePaymentDetails(
