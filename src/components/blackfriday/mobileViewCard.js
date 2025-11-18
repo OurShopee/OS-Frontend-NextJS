@@ -51,23 +51,23 @@ const MobileViewCard = ({
   const mwebImg2 = [
     {
       path: "img-1.png",
-      url: "/products-category/Pre-Owned-Tablets/",
+      url: "/categories/gaming-accessoriess",
     },
     {
       path: "img-2.png",
-      url: "/products-category/Pre-Owned-Laptops/",
+      url: "/products-category/pre-owned-laptops",
     },
     {
       path: "img-3.png",
-      url: "/products-category/Pre-Owned-Mobiles/",
+      url: "/products-category/pre-owned-mobiles",
     },
     {
       path: "img-4.png",
-      url: "/products-category/Gaming-PC-Accessories/",
+      url: "/categories/accessories",
     },
     {
       path: "img-5.png",
-      url: "/products-category/electronics/",
+      url: "/categories/electronics",
     },
   ];
   const { isMobile } = MediaQueries();
