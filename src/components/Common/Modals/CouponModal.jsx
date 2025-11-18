@@ -673,15 +673,15 @@ const CouponModal = ({
         >
           <button
             onClick={handleSuccessModalClose}
-            className="absolute top-4 right-4 z-10 rounded-full bg-white/90 text-gray-700 flex items-center justify-center"
+            className="absolute top-4 right-4 z-10 rounded-full bg-white/90 text-gray-700 flex items-center justify-center p-1"
             aria-label="Close"
           >
-            <IoClose className="w-5 h-5" />
+            <IoClose className="w-[22px] h-[22px]" />
           </button>
           <div
             key={successModalAnimKey}
             ref={successCardRef}
-            className="success-modal-card relative rounded-[13px] overflow-hidden !bg-none p-0"
+            className="relative rounded-[13px] overflow-hidden !bg-none p-0"
           >
             <div className="relative  h-[250px] lg:h-[376px] bg-gradient-to-b rounded-[32px]">
               <img
@@ -732,29 +732,6 @@ const CouponModal = ({
           animation: couponInputFlightPulse 1s ease-out forwards;
         }
 
-        @keyframes successModalPop {
-          0% {
-            opacity: 0;
-            transform: translate3d(0, 16px, 0) scale(0.92);
-            filter: blur(2px);
-          }
-          55% {
-            opacity: 1;
-            transform: translate3d(0, -6px, 0) scale(1.02);
-            filter: blur(0);
-          }
-          100% {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1);
-            filter: blur(0);
-          }
-        }
-
-        .success-modal-card {
-          animation: successModalPop 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
-          will-change: transform, opacity, filter;
-          backface-visibility: hidden;
-        }
       `}</style>
       <style jsx global>{`
         .coupon-mobile-panel {
