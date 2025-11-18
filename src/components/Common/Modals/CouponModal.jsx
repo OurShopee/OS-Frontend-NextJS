@@ -702,7 +702,7 @@ const CouponModal = ({
                 aria-hidden="true"
               />
             )}
-            <div className="absolute inset-x-0 lg:bottom-[3rem] bottom-[10px] text-center text-lg text-[#1E1E1E] font-medium">
+            <div className="absolute inset-x-0 lg:bottom-[3rem] bottom-[11px] text-center text-lg text-[#1E1E1E] font-medium">
               You saved{" "}
               <span className="font-semibold text-[#32A928]">
                 {savingsDisplay}
@@ -1162,9 +1162,15 @@ const CouponCardMobile = ({
         <div
           className={`flex-1 flex flex-col justify-between gap-3 px-4 py-3 sm:py-4 ${
             expired ? "bg-gray-50" : "bg-white"
-          }`}
+          }` 
+        }
+        style={{
+          boxShadow: expired
+            ? "0 2px 8px rgba(0, 0, 0, 0.1)"
+            : "0 1px 3px rgba(255, 255, 255, 0.9), 0 2px 6px rgba(255, 255, 255, 0.7), 0 4px 12px rgba(0, 0, 0, 0.1)",
+        }}
         >
-          <div className="flex-1 pr-2 min-w-0">
+          <div className="flex-1 pr-2 min-w-0"  >
             <p
               className={`text-sm sm:text-base font-semibold leading-snug uppercase ${
                 expired ? "text-gray-400" : "text-[#0F1115]"
