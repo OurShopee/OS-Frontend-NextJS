@@ -2,17 +2,19 @@
 
 import CountdownClock from "./CountdownClock";
 import LimitedDealCard from "./LimitedDealCard";
+import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 export default function LimitedTimeDeals({
   deals,
 }) {
   const countdownTimestamp = deals?.timer;
+  const currentLanguage = useCurrentLanguage();
   return (
     <div className="">
       {/* Content */}
       <div className="relative z-10 p-[14px]">
         <div className="flex items-center justify-between mb-1">
-          <h2 className="text-lg sm:text-[22px] font-bold text-black">{deals?.heading}</h2>
+          <h2 className="text-lg sm:text-[22px] font-bold text-black">{getDynamicContent(deals, "heading", currentLanguage)}</h2>
           {countdownTimestamp && (
             <CountdownClock endDate={countdownTimestamp} />
           )}
