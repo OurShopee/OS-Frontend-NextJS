@@ -97,7 +97,7 @@ const CouponModal = ({
 
     const indicator = isAED ? (
       <img
-        src="/assets/feed/aed-icon.svg"
+        src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/dirham.svg"
         alt="AED"
         className={`w-4 h-4 inline-block mix-blend-multiply ${appliedIndicatorClass}`}
         style={{ color: "black" }}
@@ -208,10 +208,17 @@ const CouponModal = ({
   };
 
   const getCouponInputElement = useCallback(() => {
+    // Check if ref points to an input element, otherwise find the input
+    const refElement = inputFieldRef?.current;
+    if (refElement && refElement.tagName === "INPUT") {
+      return refElement;
+    }
+    // If ref is not an input (e.g., it's the span), find the actual input element
     return (
-      inputFieldRef?.current ||
       document.querySelector("input.coupan-input") ||
-      document.querySelector(".coupan-input")
+      document.querySelector(".coupan-input") ||
+      refElement?.closest(".position-relative")?.querySelector("input.coupan-input") ||
+      refElement?.closest(".position-relative")?.querySelector(".coupan-input")
     );
   }, [inputFieldRef]);
 
@@ -407,107 +414,112 @@ const CouponModal = ({
       onHide={handleModalClose}
       size="md"
       centered
-      panelClassName="max-w-[550px] h-[70vh]"
+      panelClassName="h-[70vh] flex flex-col"
       ariaLabel="Available Coupons"
     >
-      <div className="p-6" dir={isRTL ? "rtl" : "ltr"}>
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-[#191B1C]">
-            {availableCouponsText} ({coupons?.length || 0})
-          </h2>
-          <button
-            onClick={handleModalClose}
-            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-            aria-label="Close"
-          >
-            <IoClose className="w-5 h-5 text-gray-600" />
-          </button>
+      <div className="flex flex-col h-full" dir={isRTL ? "rtl" : "ltr"}>
+        {/* Fixed Header */}
+        <div className="flex-shrink-0 p-6 pb-4">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-[#191B1C]">
+              {availableCouponsText} ({coupons?.length || 0})
+            </h2>
+            <button
+              onClick={handleModalClose}
+              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              aria-label="Close"
+            >
+              <IoClose className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Fixed Manual input */}
+          <div>
+            <input
+              type="text"
+              placeholder={enterCouponPlaceholder}
+              value={enteredCode}
+              onChange={(e) => {
+                setEnteredCode(e.target.value);
+                if (applyError) {
+                  setApplyError("");
+                }
+              }}
+              onKeyPress={(e) => e.key === "Enter" && handleManualApply()}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-[2px] focus:ring-[#3B82F6] focus:border-transparent"
+            />
+            {applyError && (
+              <p className="mt-2 text-sm text-red-500">{applyError}</p>
+            )}
+          </div>
         </div>
 
-        {/* Manual input */}
-        <div className="mb-6">
-          <input
-            type="text"
-            placeholder={enterCouponPlaceholder}
-            value={enteredCode}
-            onChange={(e) => {
-              setEnteredCode(e.target.value);
-              if (applyError) {
-                setApplyError("");
-              }
-            }}
-            onKeyPress={(e) => e.key === "Enter" && handleManualApply()}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
-          />
-          {applyError && (
-            <p className="mt-2 text-sm text-red-500">{applyError}</p>
+        {/* Scrollable Coupon Section */}
+        <div className="flex-1 overflow-y-auto px-6 pb-6">
+          {/* Best Coupons */}
+          {recommendedCoupons.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-[#191B1C] mb-4">
+                {bestCouponsForYou}
+              </h3>
+              <div className="space-y-4">
+                {recommendedCoupons.map((coupon, index) => {
+                  const expired = isCouponExpired(coupon);
+                  return (
+                    <CouponCard
+                      key={coupon.id || coupon.coupon_id || index}
+                      coupon={coupon}
+                      expired={expired}
+                      isRecommended={true}
+                      cartTotal={cartTotal}
+                      onApply={() =>
+                        handleApplyCoupon(
+                          coupon,
+                          coupon.id || coupon.coupon_id || index
+                        )
+                      }
+                      formatDate={formatDate}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* More Coupons */}
+          {otherCoupons.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-[#191B1C] mb-4">
+                {moreCoupons}
+              </h3>
+              <div className="space-y-4">
+                {otherCoupons.map((coupon, index) => {
+                  const expired = isCouponExpired(coupon);
+                  return (
+                    <CouponCard
+                      key={coupon.id || coupon.coupon_id || index}
+                      coupon={coupon}
+                      expired={expired}
+                      isRecommended={false}
+                      cartTotal={cartTotal}
+                      onApply={() =>
+                        handleApplyCoupon(
+                          coupon,
+                          coupon.id || coupon.coupon_id || index
+                        )
+                      }
+                      formatDate={formatDate}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {coupons?.length === 0 && (
+            <div className="text-center text-gray-400 py-4">{allCaughtUp}</div>
           )}
         </div>
-
-        {/* Best Coupons */}
-        {recommendedCoupons.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-[#191B1C] mb-4">
-              {bestCouponsForYou}
-            </h3>
-            <div className="space-y-4">
-              {recommendedCoupons.map((coupon, index) => {
-                const expired = isCouponExpired(coupon);
-                return (
-                  <CouponCard
-                    key={coupon.id || coupon.coupon_id || index}
-                    coupon={coupon}
-                    expired={expired}
-                    isRecommended={true}
-                    cartTotal={cartTotal}
-                    onApply={() =>
-                      handleApplyCoupon(
-                        coupon,
-                        coupon.id || coupon.coupon_id || index
-                      )
-                    }
-                    formatDate={formatDate}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* More Coupons */}
-        {otherCoupons.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-[#191B1C] mb-4">
-              {moreCoupons}
-            </h3>
-            <div className="space-y-4">
-              {otherCoupons.map((coupon, index) => {
-                const expired = isCouponExpired(coupon);
-                return (
-                  <CouponCard
-                    key={coupon.id || coupon.coupon_id || index}
-                    coupon={coupon}
-                    expired={expired}
-                    isRecommended={false}
-                    cartTotal={cartTotal}
-                    onApply={() =>
-                      handleApplyCoupon(
-                        coupon,
-                        coupon.id || coupon.coupon_id || index
-                      )
-                    }
-                    formatDate={formatDate}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {coupons?.length === 0 && (
-          <div className="text-center text-gray-400 py-4">{allCaughtUp}</div>
-        )}
       </div>
     </Modal>
   );
@@ -545,7 +557,7 @@ const CouponModal = ({
         </div>
 
         <div className="px-5 pt-4">
-          <div className="bg-white rounded-2xl border border-gray-200 flex items-center gap-3 px-4 py-3 shadow-[0_10px_30px_rgba(15,17,21,0.05)]">
+          <div className="bg-white rounded-2xl border border-gray-200 flex items-center gap-3 px-4 py-3 shadow-[0_2px_8px_rgba(15,17,21,0.05)]">
             <input
               type="text"
               placeholder={enterCouponPlaceholder}
@@ -650,17 +662,17 @@ const CouponModal = ({
         onHide={handleSuccessModalClose}
         size="sm"
         centered
-        panelClassName="max-w-[300px] !bg-transparent !shadow-none p-0"
+        panelClassName="max-w-[18rem] lg:max-w-[22rem] !bg-transparent !shadow-none p-0 overflow-hidden"
         ariaLabel="Coupon Applied Successfully"
         closeOnBackdrop={false}
       >
         <div
-          className="relative rounded-[32px] overflow-hidden !bg-transparent"
+          className="relative rounded-[13px] overflow-hidden !bg-transparent"
           dir={isRTL ? "rtl" : "ltr"}
         >
           <button
             onClick={handleSuccessModalClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 text-gray-700 flex items-center justify-center"
+            className="absolute top-4 right-4 z-10 rounded-full bg-white/90 text-gray-700 flex items-center justify-center"
             aria-label="Close"
           >
             <IoClose className="w-5 h-5" />
@@ -668,14 +680,19 @@ const CouponModal = ({
           <div
             key={successModalAnimKey}
             ref={successCardRef}
-            className="success-modal-card relative rounded-[32px] overflow-hidden !bg-transparent p-0"
+            className="success-modal-card relative rounded-[13px] overflow-hidden !bg-none p-0"
           >
-            <img
-              src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/bg.svg"
-              alt="Coupon Applied"
-              className="block w-full h-auto object-cover"
-              onLoad={handleSuccessArtLoaded}
-            />
+            <div className="relative  h-[250px] lg:h-[376px] bg-gradient-to-b rounded-[32px]">
+              <img
+                src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/bg_sale.png"
+                alt="Coupon Applied"
+                className="inset-0 w-full h-full object-cover"
+                style={{ 
+                  mixBlendMode: 'multiply'
+                }}
+                onLoad={handleSuccessArtLoaded}
+              />
+            </div>
             {showGif && (
               <img
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-3/4 object-contain"
@@ -684,7 +701,7 @@ const CouponModal = ({
                 aria-hidden="true"
               />
             )}
-            <div className="absolute inset-x-0 bottom-[2rem] text-center text-lg text-[#1E1E1E] font-medium">
+            <div className="absolute inset-x-0 lg:bottom-[3rem] bottom-[1rem] text-center text-lg text-[#1E1E1E] font-medium">
               You saved{" "}
               <span className="font-semibold text-[#32A928]">
                 {savingsDisplay}
@@ -701,7 +718,7 @@ const CouponModal = ({
             transform: scale(1);
           }
           40% {
-            box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.35);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35);
             transform: scale(1.02);
           }
           100% {
@@ -861,7 +878,7 @@ const CouponCard = ({
       )}
 
       {/* Ticket graphic */}
-      <div className="flex-shrink-0 w-24 h-32 relative">
+      <div className="flex-shrink-0 h-32 relative">
         <img
           src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
           alt="Coupon"
@@ -870,7 +887,7 @@ const CouponCard = ({
           }`}
         />
         <span
-          className={`absolute inset-0 flex items-center justify-center text-white text-uppercase font-bold text-sm transform -rotate-90 whitespace-nowrap ${
+          className={`absolute inset-0 flex items-center justify-center text-white text-uppercase font-bold text-[18px] transform -rotate-90 whitespace-nowrap ${
             expired ? "text-gray-500" : ""
           }`}
         >
@@ -910,13 +927,13 @@ const CouponCard = ({
                 <img
                   src="/assets/feed/aed-icon.svg"
                   alt="AED"
-                  className="w-4 h-4 inline-block mix-blend-multiply"
+                  className="w-[14px] h-[14px] inline-block mix-blend-multiply"
                   style={{ color: "black" }}
                 />
               ) : (
                 <span
                   className={`currencycode ${
-                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                    currentLanguage === "ar" ? "" : ""
                   }`}
                 >
                   {countryCurrency}
