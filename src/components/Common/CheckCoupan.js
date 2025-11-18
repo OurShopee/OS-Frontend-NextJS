@@ -284,13 +284,13 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
           }`}
         >
           <HiMiniCheckBadge className="text-xl" />
-          <span className="flex items-center gap-1">
-            {couponAppliedText}
+          <span className="flex items-center gap-[3px]">
+            <span className="text-black font-medium text-sm">{couponAppliedText}</span>
             {currentCountry?.currency?.toUpperCase() === "AED" ? (
               <img
                 src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/dirham.svg"
                 alt="AED"
-                className={`w-4 h-4 inline-block mix-blend-multiply ${
+                className={`w-[14px] h-[14px] inline-block mix-blend-multiply ${
                   isRTL ? "" : ""
                 }`}
                 style={{ color: "black" }}
@@ -302,7 +302,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
                 {currentCountry?.currency || "AED"}
               </span>
             )}
-            <span>{coupon?.discount}</span>
+            <span className="text-green-[#33B056] font-semibold text-sm">{coupon?.discount}</span>
           </span>
         </div>
       )}
