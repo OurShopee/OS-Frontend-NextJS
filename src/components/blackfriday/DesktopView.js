@@ -34,19 +34,19 @@ const DesktopView = ({
         title: "Gaming Acesssories",
         percent: "60",
         name: "gaming.png",
-        url: "/products-category/Gaming-PC-Accessories",
+        url: "/categories/gaming-accessories",
       },
       {
         title: "Pre-Owned Laptops",
         percent: "60",
         name: "laptops.png",
-        url: "/products-category/Pre-Owned-Laptops/",
+        url: "/products-category/pre-owned-laptops",
       },
       {
         title: "Pre-Owned Mobiles",
         percent: "60",
         name: "mobiles.png",
-        url: "/products-category/Pre-Owned-Mobiles/",
+        url: "/products-category/pre-owned-mobiles",
       },
     ],
     two: [
@@ -54,13 +54,13 @@ const DesktopView = ({
         title: "Acessories",
         percent: "60",
         name: "acessories.png",
-        url: "/products-category/Gaming-PC-Accessories",
+        url: "/categories/accessories",
       },
       {
         title: "Electronics Gadgets",
         percent: "60",
         name: "gadgets.png",
-        url: "/categories/Electronics",
+        url: "/categories/electronics",
       },
     ],
   };
