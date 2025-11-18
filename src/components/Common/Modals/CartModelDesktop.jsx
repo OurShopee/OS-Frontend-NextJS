@@ -501,7 +501,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                                   <img
                                     src="/assets/feed/aed-icon.svg"
                                     alt="AED"
-                                    className={`w-3.5 w-3.5 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                                    className={`w-3.5  inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                     style={{ color: "black" }}
                                   />
                                   {(item.old_price * item.quantity).toFixed(2)}
