@@ -80,11 +80,19 @@
     height: 16px;
     border-radius: 50%;
     background: #CED2D4;
-
-
     margin-right: 12px;
     z-index: 1;
     /* Ensure the circle is above the track line */
+
+    // RTL support
+    html[dir="rtl"] &,
+    html.rtl &,
+    body[dir="rtl"] &,
+    body.rtl &,
+    [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 12px;
+    }
 }
 
 .indicator.green {
@@ -145,6 +153,18 @@
     border-left: 1px dashed #CED2D4;
     z-index: 0;
     /* Ensure the track line is behind the circles */
+
+    // RTL support
+    html[dir="rtl"] &,
+    html.rtl &,
+    body[dir="rtl"] &,
+    body.rtl &,
+    [dir="rtl"] & {
+        left: auto;
+        right: 23px;
+        border-left: none;
+        border-right: 1px dashed #CED2D4;
+    }
 }
 
 .activeback {
@@ -171,6 +191,16 @@
     font-size: 10px;
     /* Adjust size as needed */
     /* Add any other styling you need (padding, margin, etc.) */
+
+    // RTL support
+    html[dir="rtl"] &,
+    html.rtl &,
+    body[dir="rtl"] &,
+    body.rtl &,
+    [dir="rtl"] & {
+        left: auto;
+        right: 20px;
+    }
 }
 
 .activetitle {

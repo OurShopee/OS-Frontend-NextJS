@@ -22,6 +22,7 @@ import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 const ProductCategory = () => {
   const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
   const filterTitle = useContent("buttons.filter");
   const products = useContent("product.products");
   const filtersTitle = useContent("buttons.filters");
@@ -32,6 +33,15 @@ const ProductCategory = () => {
   const lowToHighPrice = useContent("buttons.lowToHighPrice");
   const highToLowPrice = useContent("buttons.highToLowPrice");
   const position = useContent("buttons.position");
+  const checkBackSoon = useContent("pages.checkBackSoon");
+  const applyNow = useContent("buttons.applyNow");
+  const clearAll = useContent("buttons.clearAll");
+  const searchPlaceholder = useContent("nav.searchPlaceholder");
+  const seeLess = useContent("buttons.showLess");
+  const seeAll = useContent("buttons.showMore");
+  const price = useContent("buttons.price");
+  const minPrice = useContent("buttons.minPrice");
+  const maxPrice = useContent("buttons.maxPrice");
   const sort_byArray = [
     { id: 1, title: newArrivals, slug: "new arrival" },
     { id: 2, title: lowToHighPrice, slug: "Low to High" },
@@ -543,7 +553,7 @@ const ProductCategory = () => {
 
   return (
     <>
-      <div className="w-full pt-2 pb-3 px-3">
+      <div className="w-full pt-2 pb-3 px-3" dir={isRTL ? "rtl" : "ltr"}>
         {/* Breadcrumbs */}
         {!isMobile &&
           (categorytype === "products-category" ? (
@@ -660,7 +670,7 @@ const ProductCategory = () => {
                         <div className="relative mb-2">
                           <input
                             type="text"
-                            placeholder="Search"
+                            placeholder={searchPlaceholder}
                             className="w-full rounded border border-gray-300 py-2 pl-3 pr-9 text-sm"
                             value={searchInputs[cat.title] || ""}
                             onChange={(e) => {
@@ -706,7 +716,7 @@ const ProductCategory = () => {
                             handleSelectedAll(event, cat.title);
                           }}
                         >
-                          {limited_items.includes(cat.title) ? "See less" : "See all"}
+                          {limited_items.includes(cat.title) ? seeLess : seeAll}
                         </h6>
                       )}
                     </div>
@@ -808,17 +818,17 @@ const ProductCategory = () => {
 
                     {/* Price range chip */}
                     {(() => {
-                      const minPrice = urlParams.get("min");
-                      const maxPrice = urlParams.get("max");
-                      if (minPrice || maxPrice) {
+                      const minPriceValue = urlParams.get("min");
+                      const maxPriceValue = urlParams.get("max");
+                      if (minPriceValue || maxPriceValue) {
                         const currency = currentcountry?.currency || "";
                         let priceLabel = "";
-                        if (minPrice && maxPrice) {
-                          priceLabel = `Price: ${currency} ${minPrice} - ${currency} ${maxPrice}`;
-                        } else if (minPrice) {
-                          priceLabel = `Min Price: ${currency} ${minPrice}`;
-                        } else if (maxPrice) {
-                          priceLabel = `Max Price: ${currency} ${maxPrice}`;
+                        if (minPriceValue && maxPriceValue) {
+                          priceLabel = `${price}: ${currency} ${minPriceValue} - ${currency} ${maxPriceValue}`;
+                        } else if (minPriceValue) {
+                          priceLabel = `${minPrice}: ${currency} ${minPriceValue}`;
+                        } else if (maxPriceValue) {
+                          priceLabel = `${maxPrice}: ${currency} ${maxPriceValue}`;
                         }
                         return (
                           <button
@@ -915,7 +925,7 @@ const ProductCategory = () => {
                     </>
                   ) : !has_more ? (
                     <div className="flex items-center justify-center py-20">
-                      <h4 className="text-lg">We're lining up great choices for you — Check back soon.</h4>
+                      <h4 className="text-lg">{checkBackSoon}</h4>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center py-20">
@@ -941,9 +951,9 @@ const ProductCategory = () => {
         {/* Mobile Filters Modal */}
         {show && (
           <Overlay onClose={() => setShow(false)}>
-            <div className="bg-white h-full w-full flex flex-col">
+            <div className="bg-white h-full w-full flex flex-col" dir={isRTL ? "rtl" : "ltr"}>
               <div className="flex items-center justify-between border-b p-4">
-                <h4 className="text-lg font-semibold">Filters</h4>
+                <h4 className="text-lg font-semibold">{filtersTitle}</h4>
                 <img
                   src="/assets/vector_icons/close.png"
                   width={16}
@@ -1066,13 +1076,13 @@ const ProductCategory = () => {
                     className="w-1/2 rounded-md border border-gray-300 py-2 text-sm font-medium"
                     onClick={clear_all}
                   >
-                    Clear All
+                    {clearAll}
                   </button>
                   <button
                     className="w-1/2 rounded-md bg-indigo-600 text-white py-2 text-sm font-medium"
                     onClick={apply_all}
                   >
-                    Apply Now
+                    {applyNow}
                   </button>
                 </div>
               )}

@@ -47,6 +47,7 @@ const ReviewWithRating = ({
   setAllProductReviews,
 }) => {
   const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
   const ratingsAndReview = useContent("product.ratingsAndReview");
   const yourReviewMakesADifference = useContent("product.yourReviewMakesADifference");
   const writeReview = useContent("product.writeReview");
@@ -55,6 +56,9 @@ const ReviewWithRating = ({
   const lowestRating = useContent("product.lowestRating");
   const trustedReviewer = useContent("product.trustedReviewer");
   const noReviewsFound = useContent("product.noReviewsFound");
+  const all = useContent("labels.all") || "All";
+  const star = useContent("product.star") || "Star";
+  const stars = useContent("product.stars") || "Stars";
   const clickToViewAllImages = useContent("product.clickToViewAllImages");
   const newestFirst = useContent("product.newestFirst");
   const oldestFirst = useContent("product.oldestFirst");
@@ -662,7 +666,7 @@ const ReviewWithRating = ({
                 {/* Search and Filters */}
                 <div className="flex flex-wrap items-center gap-4 mb-3 md:mb-0">
                   {/* Search Bar with debounced search */}
-                  <div className="flex items-center bg-white border border-gray-300 flex-[1_0_0]">
+                  <div className={`flex items-center bg-white border border-gray-300 flex-[1_0_0] rounded-full md:rounded-[4px]`}>
                     <input
                       type="text"
                       placeholder={searchCustomerReview}
@@ -670,12 +674,12 @@ const ReviewWithRating = ({
                       onChange={(e) => {
                         setSearchTerm(e.target.value);
                       }}
-                      className="flex-1 px-4 py-2 md:py-1 border-none border-rating-input-filter placeholder-[#9EA5A8] text-gray-700 text-[15px] bg-[#FCFCFC] rounded-l-full md:rounded-l-[4px] outline-none ring-0 focus:outline-none focus:ring-0 focus:border-none"
+                      className={`flex-1 px-4 py-2 md:py-1 border-none border-rating-input-filter placeholder-[#9EA5A8] text-gray-700 text-[15px] bg-[#FCFCFC] ${currentLanguage === "ar" ? "!rounded-r-full md:!rounded-r-[4px]" : "!rounded-l-full md:!rounded-l-[4px]"} outline-none ring-0 focus:outline-none focus:ring-0 focus:border-none`}
                       dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                     />
                     <button
                       type="button"
-                      className="flex items-center justify-center px-[15px] text-[15px] font-normal text-white py-[.56rem] md:py-[5px] bg-black border-none rounded-r-full md:rounded-r-[4px] cursor-pointer"
+                      className={`flex items-center justify-center px-[15px] text-[15px] font-normal text-white py-[.56rem] md:py-[5px] bg-black border-none ${currentLanguage === "ar" ? "!rounded-l-full md:!rounded-l-[4px]" : "!rounded-r-full md:!rounded-r-[4px]"} cursor-pointer`}
                       onClick={() => {
                         console.log("Search clicked:", debouncedSearchTerm);
                       }}
@@ -740,10 +744,10 @@ const ReviewWithRating = ({
                     >
                       <span className="text-[15px] font-normal">
                         {selectedStars.length === 0
-                          ? "All"
+                          ? all
                           : selectedStars.length === 1
-                          ? `${selectedStars[0]} Star`
-                          : `${selectedStars.length} Stars`}
+                          ? `${selectedStars[0]} ${star}`
+                          : `${selectedStars.length} ${stars}`}
                       </span>
                       <MdKeyboardArrowDown
                         className={`text-gray-400 w-[15px] h-5 transition-transform ${
@@ -761,7 +765,7 @@ const ReviewWithRating = ({
                           }}
                           className="px-3 py-2 text-[15px] font-normal cursor-pointer hover:bg-gray-50 border-b border-gray-100"
                         >
-                          <span className="font-semibold">All</span>
+                          <span className="font-semibold">{all}</span>
                         </div>
 
                         {[5, 4, 3, 2, 1].map((star) => {
@@ -818,7 +822,7 @@ const ReviewWithRating = ({
                           }}
                           className="px-3 py-2 text-[15px] font-normal cursor-pointer hover:bg-gray-50 border-b border-gray-100"
                         >
-                          <span className="font-semibold">All</span>
+                          <span className="font-semibold">{all}</span>
                         </div>
 
                         {[5, 4, 3, 2, 1].map((star) => {
