@@ -130,7 +130,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
     },
     {
       id: 4,
-      percent: "60",
+      percent: "40",
       color: "#A9E5DBB2",
       textColor: " #4D4D4D",
       url: "/categories/home-appliances",

@@ -5,6 +5,7 @@ import { useState, useCallback } from "react";
 import AutoToggleHeader from "./AutoToggleHeader";
 import CategoryCard from "./CategoryCard";
 import { MediaQueries } from "../utils";
+import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 export default function MastZone({
   section238Data,
@@ -13,10 +14,11 @@ export default function MastZone({
   namasteZoneBgImage,
 }) {
   const { isMobile } = MediaQueries();
+  const currentLanguage = useCurrentLanguage();
   const [activeTab, setActiveTab] = useState(section238Data?.heading);
 
   const categories =
-    activeTab === section238Data?.heading ? section238Data : section59Data;
+    activeTab === getDynamicContent(section238Data, "heading", currentLanguage) ? section238Data : section59Data;
 
   const backgroundImage =
     activeTab === section238Data?.heading

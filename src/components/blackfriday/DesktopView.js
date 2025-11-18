@@ -52,7 +52,7 @@ const DesktopView = ({
     two: [
       {
         title: "Acessories",
-        percent: "60",
+        percent: "50",
         name: "acessories.png",
         url: "/categories/accessories",
       },

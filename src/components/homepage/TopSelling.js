@@ -11,7 +11,7 @@ import { MediaQueries } from "../utils";
 import { ProductCard } from "../Common";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { useContent, useCurrentLanguage } from "@/hooks";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 export default function TopSelling({
   type,
@@ -129,7 +129,7 @@ export default function TopSelling({
       <div className="flex items-center justify-between mb-3 px-3.5">
         <div className="flex items-center gap-1.5">
           <h2 className="top-selling-shimmer relative text-[26px] font-[800] italic">
-            {topSellingData?.heading}
+            {getDynamicContent(topSellingData, "heading", currentLanguage)}
           </h2>
           {(topSellingData?.icon_image?.[0]?.mobileImage ||
             topSellingData?.icon_image?.[0]?.desktopImage) && (

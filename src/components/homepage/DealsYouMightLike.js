@@ -1,12 +1,14 @@
 // components/deals/DealsYouMightLike.js
 
 import DealCard from "./DealCard";
+import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 export default function DealsYouMightLike({ deals }) {
+  const currentLanguage = useCurrentLanguage();
   return (
     <div className="bg-white p-[14px]">
       <h2 className="text-[22px] font-bold mb-[7px] sm:mb-[18px] flex items-center gap-2.5">
-        {deals?.heading}
+        {getDynamicContent(deals, "heading", currentLanguage)}
         {deals?.icon_image.length > 0 && (
           <img src={deals?.icon_image} className="w-[24px] h-[34px]" />
         )}

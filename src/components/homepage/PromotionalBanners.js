@@ -1,9 +1,15 @@
 // components/PromotionalBanners.jsx
 
 import { MediaQueries } from "../utils";
-
+import { useRouter } from "next/navigation";
+import { pushToDataLayer } from "../utils/dataUserpush";
+import { useSelector } from "react-redux";
 export default function PromotionalBanners({ sectionBanners }) {
   const { isMobile, isTablet, isLaptop } = MediaQueries();
+  const router = useRouter();
+  const currentcountry = useSelector(
+    (state) => state.globalslice.currentcountry
+  );
   const banners = [
     {
       id: 1,
