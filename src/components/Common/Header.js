@@ -487,11 +487,11 @@ const Header = () => {
                         transformStyle: "preserve-3d",
                         backfaceVisibility: "hidden",
                         width: "100px",
-                        height: "80px",
+                        height: "90px",
                       }}
                     >
                       <img
-                        className="w-full h-full"
+                        className="flex justify-center items-center ml-4 w-full h-[90px] object-contain"
                         src={filteredItems?.[0]?.image}
                         alt=""
                       />
