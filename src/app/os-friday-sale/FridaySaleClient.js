@@ -30,7 +30,6 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
     sectionData?.find((d) => d.heading === "Something For Every Budget")
       ?.images ||
     [];
-
   const FlashSale =
     sectionData?.find((d) => d.heading === "Flash Sale")?.items?.[0]?.items ||
     [];
