@@ -49,7 +49,7 @@ const Cart = () => {
   const removeText = useContent("cart.remove");
   const subtotalText = useContent("cart.subtotal");
   const loginRegisterText = useContent("cart.loginRegister");
-
+const freeGiftText = useContent("cart.freeGift");
   useEffect(() => {
     pushToDataLayer("viewed_cart_page", currentcountry.name);
   }, [currentcountry.name]);
@@ -187,9 +187,9 @@ const Cart = () => {
                   >
                     {ele.single_price * cartQuantities[ele.cart_id] === 0 && (
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-l from-[#FFEF76] to-white px-3 py-1 text-sm font-semibold text-black">
+                        <span className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-l from-[#FFEF76] to-white px-3 py-1 text-sm font-semibold text-black transform-uppercase">
                         <IoGiftOutline />
-                          Free Gift
+                          {freeGiftText.toUpperCase()}
                         </span>
                       </div>
                     )}
