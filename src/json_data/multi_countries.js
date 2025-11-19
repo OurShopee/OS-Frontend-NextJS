@@ -631,7 +631,7 @@ const countriesData = [
           process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY +
           "/ourshopee_sale.gif",
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        status: 1,
+        status: parseInt(process.env.NEXT_PUBLIC_SALE_LIVE),
       },
       {
         id: 1,
