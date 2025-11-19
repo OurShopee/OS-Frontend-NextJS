@@ -1,4 +1,4 @@
-name: Build & Push to ECR
+name: DEV CICD Kubernetes
 
 on:
   push:
@@ -28,8 +28,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.AWS_OIDC_ROLE_NAME }}
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: 'arn:aws:iam::790730093083:role/Github-action-cicd-role'
+          aws-region: 'ap-south-1'
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
