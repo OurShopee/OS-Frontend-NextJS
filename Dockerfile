@@ -17,7 +17,7 @@ COPY  --chown=node:node . .
 
 # Disable Next.js telemetry collection
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build 
+RUN CI=false NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build
 
 RUN mkdir -p /app/logs && chown -R node:node /app/logs /app/.next
 
