@@ -22,6 +22,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
+import { IoGiftOutline } from "react-icons/io5";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -176,8 +177,23 @@ const Cart = () => {
             <Row>
               <Col lg={8}>
                 {localizedCartItems.map((ele) => (
-                  <div className="Cartitem-maindiv" key={ele.cart_id}>
-                    <div className="d-flex">
+                  <div
+                    className={`Cartitem-maindiv ${
+                      ele.single_price * cartQuantities[ele.cart_id] > 0
+                        ? "bg-white"
+                        : "bg-gradient-to-b from-[#FFFCE4] via-[#FFFFFF] to-white !p-[16px]"
+                    }`}
+                    key={ele.cart_id}
+                  >
+                    {ele.single_price * cartQuantities[ele.cart_id] === 0 && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-l from-[#FFEF76] to-white px-3 py-1 text-sm font-semibold text-black">
+                        <IoGiftOutline />
+                          Free Gift
+                        </span>
+                      </div>
+                    )}
+                    <div className="d-flex"> 
                       <Link
                         href={`/details/${ele.url}`}
                         className={"text-decoration-none"}
@@ -271,7 +287,7 @@ const Cart = () => {
                       </div>
                     </div>
 
-                    {isTablet && (
+                    {(ele.single_price * cartQuantities[ele.cart_id] > 0) && isTablet && (
                       <div className="d-flex mobileaddremov-buttons">
                         <div className="cart-product-quantitybtn me-2">
                           <FiMinus
