@@ -1716,6 +1716,10 @@ export const content = {
       en: "Login/Register",
       ar: "تسجيل الدخول/التسجيل",
     },
+    freeGift: {
+      en: "Free Gift",
+      ar: "هدية مجانية",
+    },
     loadingMoreOrders: {
       en: "Loading more orders...",
       ar: "جاري تحميل المزيد من الطلبات...",
