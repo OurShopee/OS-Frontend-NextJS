@@ -619,7 +619,7 @@ const ProductPageLayout = ({
     setIsSubmitting(true);
     try {
       console.log("Calling addFeed API...");
-      const result = await addFeed(pendingFormData);
+      const result = await addFeed(dataToSubmit);
       console.log("addFeed API response:", result);
 
       if (result.data.status === "success") {
