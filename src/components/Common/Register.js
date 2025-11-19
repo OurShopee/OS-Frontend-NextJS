@@ -9,6 +9,7 @@ import Inputbox from "./Inputbox";
 import PhoneInput from "./PhoneInput";
 import GenderDropdown from "./GenderDropdown";
 import NationalityDropdown from "./NationalityDropdown";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 import {
   checkmobileotpapi,
@@ -43,6 +44,7 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
 
 const SignupForm = () => {
   const dispatch = useDispatch();
+  const currentLanguage = useCurrentLanguage();
   const nationalitydata = useSelector(
     (state) => state.formslice.nationalitydata
   );
@@ -57,6 +59,21 @@ const SignupForm = () => {
   );
   const isBigScreen = useMediaQuery({ query: "(min-width: 991px)" });
   const [errors, setErrors] = useState({});
+
+  // Content translations
+  const createAnAccount = useContent("buttons.createAnAccount");
+  const looksLikeYoureNewHere = useContent("buttons.looksLikeYoureNewHere");
+  const enterName = useContent("buttons.enterName");
+  const enterEmail = useContent("buttons.emailPlaceholder");
+  const enterPassword = useContent("buttons.passwordPlaceholder");
+  const signUp = useContent("buttons.signup");
+  const alreadyHaveAnAccount = useContent("buttons.alreadyHaveAnAccount");
+  const login = useContent("buttons.login");
+  const iAgreeTo = useContent("buttons.iAgreeTo");
+  const terms = useContent("buttons.terms");
+  const and = useContent("buttons.and");
+  const privacyPolicy = useContent("pages.privacyPolicy");
+  const receiveNews = useContent("buttons.receiveNews");
 
   useEffect(() => {
     dispatch(getnationalitydata());
@@ -148,9 +165,9 @@ const SignupForm = () => {
             className="FormHeading"
             style={{ WebkitTextFillColor: "transparent" }}
           >
-            Create an account
+            {createAnAccount}
           </div>
-          <div className="formsubheading">Looks like you're new here!</div>
+          <div className="formsubheading">{looksLikeYoureNewHere}</div>
           <div className="form-border-bottom"></div>
         </>
       )}
@@ -160,7 +177,7 @@ const SignupForm = () => {
         type="text"
         value={formData.first_name}
         handleChange={handleChange}
-        placeholder="Enter Name"
+        placeholder={enterName}
       />
 
       <GenderDropdown
@@ -181,7 +198,7 @@ const SignupForm = () => {
         type="email"
         value={formData.email}
         handleChange={handleChange}
-        placeholder="Enter Email"
+        placeholder={enterEmail}
         error={checkemailerror && checkemailerror}
       />
       <Inputbox
@@ -189,7 +206,7 @@ const SignupForm = () => {
         type="password"
         value={formData.password}
         handleChange={handleChange}
-        placeholder="Enter Password"
+        placeholder={enterPassword}
       />
 
       <PhoneInput
@@ -206,22 +223,22 @@ const SignupForm = () => {
           checked={formData.agreeTerms}
           onChange={handleChange}
         />
-        <span className="ml-3">
-          I agree to
+        <span className={currentLanguage === "ar" ? "mr-3" : "ml-3"}>
+          {iAgreeTo}{" "}
           <NavLink
             to={"/terms-and-conditions"}
             onClick={handleCloseDropDown}
             className="no-underline primarycolor termstitle"
           >
-            Terms
-          </NavLink>
-          &
+            {terms}
+          </NavLink>{" "}
+          {and}{" "}
           <NavLink
             to={"/privacy-policy"}
             onClick={handleCloseDropDown}
             className="no-underline primarycolor termstitle"
           >
-            Privacy Policy
+            {privacyPolicy}
           </NavLink>
         </span>
       </label>
@@ -233,9 +250,8 @@ const SignupForm = () => {
           checked={formData.offersale}
           onChange={handleChange}
         />
-        <span className="ml-3">
-          Yes, I would like to receive news, special offers & other information
-          about ourshopee.com
+        <span className={currentLanguage === "ar" ? "mr-3" : "ml-3"}>
+          {receiveNews}
         </span>
       </label>
 
@@ -245,17 +261,16 @@ const SignupForm = () => {
         }
         onClick={() => isFormValid() && handleSubmit()}
       >
-        Sign Up
+        {signUp}
       </button>
 
       <div className="formbotton">
-        Already have an account?
+        {alreadyHaveAnAccount}{" "}
         <span
-          className="primarycolor termstitle"
+          className="primarycolor termstitle cursor-pointer"
           onClick={() => dispatch(setformstatus(1))}
         >
-          {" "}
-          Login{" "}
+          {login}
         </span>
       </div>
     </div>

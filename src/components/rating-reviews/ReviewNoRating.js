@@ -8,12 +8,35 @@ import { ComponentHeader } from "../Common";
 import { MediaQueries } from "../utils";
 import { useLoginModal } from "../utils/helpers";
 import HasReview from "./HasReview";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const ReviewNoRating = ({
   setProductReviews,
   productReviews,
   setAllProductReviews,
 }) => {
+  const currentLanguage = useCurrentLanguage();
+  const ratingsAndReview = useContent("product.ratingsAndReview");
+  const yourReviewMakesADifference = useContent("product.yourReviewMakesADifference");
+  const shareItNow = useContent("product.shareItNow");
+  const writeReview = useContent("product.writeReview");
+  const beTheFirstOneToReview = useContent("product.beTheFirstOneToReview");
+  const canYouTellUsMore = useContent("product.canYouTellUsMore");
+  const leaveAReviewHere = useContent("product.leaveAReviewHere");
+  const submit = useContent("buttons.submit");
+  const wantToAddProductImages = useContent("product.wantToAddProductImages");
+  const clickToUpload = useContent("product.clickToUpload");
+  const orDragAndDrop = useContent("product.orDragAndDrop");
+  const pngJpgJpegMax5MB = useContent("product.pngJpgJpegMax5MB");
+  const maximumFilesAllowed = useContent("product.maximumFilesAllowed");
+  const filesAllowed = useContent("product.filesAllowed");
+  const selectedFilesText = useContent("product.selectedFiles");
+  const skipForNow = useContent("product.skipForNow");
+  const onlyPngJpgJpegAllowed = useContent("product.onlyPngJpgJpegAllowed");
+  const fileSizeMustBeLessThan5MB = useContent("product.fileSizeMustBeLessThan5MB");
+  const youCanOnlyUploadUpTo = useContent("product.youCanOnlyUploadUpTo");
+  const images = useContent("product.images");
+  
   const { isMobile } = MediaQueries();
   const authstatus = useSelector((state) => state.formslice.authstatus);
 
@@ -61,11 +84,11 @@ const ReviewNoRating = ({
     const errors = [];
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      errors.push(`${file.name}: Only PNG, JPG, and JPEG files are allowed`);
+      errors.push(`${file.name}: ${onlyPngJpgJpegAllowed}`);
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      errors.push(`${file.name}: File size must be less than 5MB`);
+      errors.push(`${file.name}: ${fileSizeMustBeLessThan5MB}`);
     }
 
     return errors;
@@ -89,7 +112,7 @@ const ReviewNoRating = ({
     const validFiles = [];
 
     if (selectedFiles.length + fileArray.length > MAX_FILES) {
-      newErrors.push(`You can only upload up to ${MAX_FILES} files`);
+      newErrors.push(`${youCanOnlyUploadUpTo} ${MAX_FILES} ${images}`);
       setErrors(newErrors);
       return;
     }
@@ -170,7 +193,6 @@ const ReviewNoRating = ({
   // Create FormData and handle final submission
   const createFormData = () => {
     const formData = new FormData();
-    console.log(productDetail[0]?.id);
 
     formData.append("productid", productDetail[0]?.id);
     formData.append("rating", rating);
@@ -247,7 +269,7 @@ const ReviewNoRating = ({
         <div className="component_1 product_Detail_carousel_prod mb-6">
           {/* {productDetail_products.hasOwnProperty("related_products") && ( */}
           <ComponentHeader
-            title={"Ratings & Review"}
+            title={ratingsAndReview}
             // first_title={"Related"}
             // second_title={"PRODUCTS"}
             // first_string_color={"#000"}
@@ -283,15 +305,15 @@ const ReviewNoRating = ({
               data-aos-duration="600"
             >
               <p className="md:text-[22px] font-semibold md:font-bold text-[#43494b] text-center leading-relaxed">
-                Your review makes a difference <br />
-                share it now!
+                {yourReviewMakesADifference} <br />
+                {shareItNow}
               </p>
 
               <button
                 onClick={openLoginModal}
                 className="bg-[#FFCF0A] hover:bg-[#FFCF0A] transition-colors duration-200 px-5 md:px-8 py-2 md:py-4 rounded-lg font-semibold text-[14px] md:text-base text-black border-none"
               >
-                Write a review
+                {writeReview}
               </button>
             </div>
           </div>
@@ -308,7 +330,7 @@ const ReviewNoRating = ({
                 <h3
                   className={`text-base md:text-[22px] font-semibold text-[#43494b] text-start sm:text-center mb-0`}
                 >
-                  Be the first one to review
+                  {beTheFirstOneToReview}
                 </h3>
 
                 {/* Interactive Star Rating */}
@@ -398,7 +420,7 @@ const ReviewNoRating = ({
               <div className="text-left">
                 {!isMobile && (
                   <h4 className="text-base sm:text-lg font-semibold text-[#354259] mb-1">
-                    Can you tell us more?
+                    {canYouTellUsMore}
                   </h4>
                 )}
 
@@ -407,7 +429,8 @@ const ReviewNoRating = ({
                   <textarea
                     value={reviewText}
                     onChange={handleReviewChange}
-                    placeholder="Leave a review here...."
+                    placeholder={leaveAReviewHere}
+                    dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                     className={`w-full p-4 h-32 bg-white border rounded-lg text-gray-700 placeholder-gray-400 resize-auto focus:outline-none focus:ring-1 ${
                       reviewText.length === 200
                         ? "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -428,7 +451,7 @@ const ReviewNoRating = ({
                 onClick={handleSubmit}
                 className="w-full text-base bg-[#5F1BE7] hover:bg-[#5215cc] text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none"
               >
-                Submit
+                {submit}
               </button>
             </div>
           </div>
@@ -457,7 +480,7 @@ const ReviewNoRating = ({
             {/* Header */}
             <div className="flex justify-between items-center border-b">
               <h2 className="text-[22px] md:text-xl font-semibold text-gray-800 mb-0">
-                Want to add product images ?
+                {wantToAddProductImages}
               </h2>
               <button
                 onClick={handleImageModalClose}
@@ -501,17 +524,17 @@ const ReviewNoRating = ({
 
                   <p className="text-lg mb-2">
                     <span className="text-[#5F1BE7] font-medium">
-                      Click to upload
+                      {clickToUpload}
                     </span>
-                    <span className="text-gray-600"> or drag and drop</span>
+                    <span className="text-gray-600"> {orDragAndDrop}</span>
                   </p>
 
                   <p className="text-sm text-gray-500">
-                    PNG, JPG or JPEG (max. 5MB)
+                    {pngJpgJpegMax5MB}
                   </p>
 
                   <p className="text-xs text-gray-400 mt-2">
-                    Maximum {MAX_FILES} files allowed
+                    {maximumFilesAllowed} {MAX_FILES} {filesAllowed}
                   </p>
 
                   <input
@@ -543,7 +566,7 @@ const ReviewNoRating = ({
               {selectedFiles.length > 0 && (
                 <div className="flex flex-col gap-2">
                   <h3 className="text-base font-semibold text-gray-700 mb-2 text-end md:text-start">
-                    {isMobile ? "" : "Selected Files:"} {selectedFiles.length}/
+                    {isMobile ? "" : selectedFilesText} {selectedFiles.length}/
                     {MAX_FILES}
                   </h3>
                   <div className="grid grid-cols-5 gap-3">
@@ -583,13 +606,13 @@ const ReviewNoRating = ({
                 onClick={handleImageSubmit}
                 className="flex-1 bg-[#E7E8E9] btn-cancel-editmodal text-[#43494B] font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Skip for now
+                {skipForNow}
               </button>
               <button
                 onClick={handleImageSubmit}
                 className="flex-1 bg-[#5F1BE7] hover:bg-[#5215cc] border-none text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
               >
-                Submit
+                {submit}
               </button>
             </div>
           </div>

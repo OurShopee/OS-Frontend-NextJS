@@ -8,18 +8,21 @@ import { CalculatePaymentDetails } from "@/components/utils/Cart";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import deleteimg from "@/images/Delete.png";
 import {
-    cartlistWithoutLoaderapi,
-    changeCartQuantityapi,
-    removeFromCartapi,
+  cartlistWithoutLoaderapi,
+  changeCartQuantityapi,
+  removeFromCartapi,
 } from "@/redux/cartslice";
 import { setformmodal, setformstatus } from "@/redux/formslice";
 import { GetPlaceOrderapi, setpaymentmethodsdata } from "@/redux/paymentslice";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
+import { IoGiftOutline } from "react-icons/io5";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -34,24 +37,41 @@ const Cart = () => {
     (state) => state.globalslice.currentcountry
   );
   const logindata = useSelector((state) => state.formslice.logindata);
+  const currentLanguage = useCurrentLanguage();
 
   const [cartQuantities, setCartQuantities] = useState({});
   const debounceTimers = useRef({});
   const { isTablet, isMobile } = MediaQueries();
 
+  // Language content
+  const myCart = useContent("cart.myCart");
+  const qtyText = useContent("cart.qty");
+  const removeText = useContent("cart.remove");
+  const subtotalText = useContent("cart.subtotal");
+  const loginRegisterText = useContent("cart.loginRegister");
+const freeGiftText = useContent("cart.freeGift");
   useEffect(() => {
     pushToDataLayer("viewed_cart_page", currentcountry.name);
   }, [currentcountry.name]);
 
+  const localizedCartItems = useMemo(() => {
+    const items = cartlistdata?.data?.result;
+    if (!Array.isArray(items)) return [];
+    return items.map((item) => ({
+      ...item,
+      localizedName: getDynamicContent(item, "name", currentLanguage),
+    }));
+  }, [cartlistdata, currentLanguage]);
+
   useEffect(() => {
-    if (cartlistdata?.data?.result?.length) {
+    if (localizedCartItems.length) {
       const initialQuantities = {};
-      cartlistdata.data.result.forEach((item) => {
+      localizedCartItems.forEach((item) => {
         initialQuantities[item.cart_id] = item.quantity;
       });
       setCartQuantities(initialQuantities);
     }
-  }, [cartlistdata]);
+  }, [localizedCartItems]);
 
   const handleQuantityChange = (cart_id, newQty) => {
     if (newQty < 1) return;
@@ -81,7 +101,18 @@ const Cart = () => {
     debounceTimers.current[cart_id] = setTimeout(() => {
       dispatch(changeCartQuantityapi({ cart_id, quantity: newQty }))
         .unwrap()
-        .then(() => {
+        .then((response) => {
+          if (response?.data?.msg) {
+            if (
+              response?.status === "success" ||
+              response?.status === 200 ||
+              response?.status === "200"
+            ) {
+              toast.error(response?.data?.msg);
+            } else {
+              toast.error(response.message);
+            }
+          }
           const input_data = {
             ip_address:
               Cookies.get("jwt_token") !== undefined
@@ -94,7 +125,13 @@ const Cart = () => {
             dispatch(GetPlaceOrderapi(logindata.user_id));
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          const errorMessage =
+            err?.message ||
+            err?.data?.message ||
+            err?.error ||
+            "Unable to update cart quantity right now.";
+        });
     }, 500);
   };
 
@@ -128,7 +165,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="mobile-marginbottom">
+    <div className="homepagecontainer">
       {!loading ? (
         cartlistdata?.data?.result?.length > 0 ? (
           <Container fluid className="homepagecontainer">
@@ -136,12 +173,27 @@ const Cart = () => {
               <Breadcomp />
             </div> */}
 
-            <div className="Cart-titile">My cart</div>
+            <div className="Cart-titile">{myCart}</div>
             <Row>
               <Col lg={8}>
-                {cartlistdata.data.result.map((ele) => (
-                  <div className="Cartitem-maindiv" key={ele.cart_id}>
-                    <div className="d-flex">
+                {localizedCartItems.map((ele) => (
+                  <div
+                    className={`Cartitem-maindiv ${
+                      ele.single_price * cartQuantities[ele.cart_id] > 0
+                        ? "bg-white"
+                        : "bg-gradient-to-b from-[#FFFCE4] via-[#FFFFFF] to-white !p-[16px]"
+                    }`}
+                    key={ele.cart_id}
+                  >
+                    {ele.single_price * cartQuantities[ele.cart_id] === 0 && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-l from-[#FFEF76] to-white px-3 py-1 text-sm font-semibold text-black transform-uppercase">
+                        <IoGiftOutline />
+                          {freeGiftText.toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    <div className="d-flex"> 
                       <Link
                         href={`/details/${ele.url}`}
                         className={"text-decoration-none"}
@@ -158,58 +210,84 @@ const Cart = () => {
                           className={"text-decoration-none"}
                         >
                           <div>
-                            <div className="cartproduct-title">{ele.name}</div>
-                            <div className="cartproduct-price">
-                              <span className="currencycode">
-                                {currentcountry.currency}
-                              </span>{" "}
+                            <div className="cartproduct-title">
+                              {ele.localizedName || ele.name}
+                            </div>
+                            <div
+                              className={`cartproduct-price flex items-center gap-0.5 ${
+                                currentLanguage === "ar"
+                                  ? "flex-row-reverse justify-end"
+                                  : ""
+                              }`}
+                            >
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.svg"
+                                  alt="AED"
+                                  className={`w-4 h-4 inline-block mix-blend-multiply ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span
+                                  className={`currencycode ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
+                                >
+                                  {currentcountry.currency}
+                                </span>
+                              )}{" "}
                               {(
                                 ele.single_price * cartQuantities[ele.cart_id]
                               ).toFixed(2)}
                             </div>
                           </div>
                         </Link>
-                        {!isTablet && (
-                          <div>
-                            <div className="quantity-title">Qty</div>
-                            <div className="d-flex justify-content-between">
-                              <div className="cart-product-quantitybtn">
-                                <FiMinus
-                                  className="cursorpointer"
-                                  onClick={() =>
-                                    handleQuantityChange(
-                                      ele.cart_id,
-                                      cartQuantities[ele.cart_id] - 1
-                                    )
-                                  }
-                                />
-                                <div>{cartQuantities[ele.cart_id]}</div>
-                                {
-                                  <FiPlus
+                        {ele.single_price * cartQuantities[ele.cart_id] > 0 &&
+                          !isTablet && (
+                            <div>
+                              <div className="quantity-title">{qtyText}</div>
+                              <div className="d-flex justify-content-between">
+                                <div className="cart-product-quantitybtn">
+                                  <FiMinus
                                     className="cursorpointer"
                                     onClick={() =>
                                       handleQuantityChange(
                                         ele.cart_id,
-                                        cartQuantities[ele.cart_id] + 1
+                                        cartQuantities[ele.cart_id] - 1
                                       )
                                     }
                                   />
-                                }
-                              </div>
-                              <div
-                                className="cart-product-quantitybtn hoverbox-shadow"
-                                onClick={() => removeproduct(ele.cart_id)}
-                              >
-                                <img src={deleteimg.src} alt="delete" />
-                                <span className="cartremone">Remove</span>
+                                  <div>{cartQuantities[ele.cart_id]}</div>
+                                  {
+                                    <FiPlus
+                                      className="cursorpointer"
+                                      onClick={() =>
+                                        handleQuantityChange(
+                                          ele.cart_id,
+                                          cartQuantities[ele.cart_id] + 1
+                                        )
+                                      }
+                                    />
+                                  }
+                                </div>
+                                <div
+                                  className="cart-product-quantitybtn hoverbox-shadow"
+                                  onClick={() => removeproduct(ele.cart_id)}
+                                >
+                                  <img src={deleteimg.src} alt="delete" />
+                                  <span className="cartremone">
+                                    {removeText}
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                       </div>
                     </div>
 
-                    {isTablet && (
+                    {(ele.single_price * cartQuantities[ele.cart_id] > 0) && isTablet && (
                       <div className="d-flex mobileaddremov-buttons">
                         <div className="cart-product-quantitybtn me-2">
                           <FiMinus
@@ -239,7 +317,7 @@ const Cart = () => {
                           onClick={() => removeproduct(ele.cart_id)}
                         >
                           <img src={deleteimg.src} alt="delete" />
-                          <span className="cartremone">Remove</span>
+                          <span className="cartremone">{removeText}</span>
                         </div>
                       </div>
                     )}
@@ -257,9 +335,28 @@ const Cart = () => {
                       {!isMobile && (
                         <>
                           <div className="payment-type">
-                            <div className="payment-type-title">Subtotal</div>
-                            <div className="payment-type-cost">
-                              {currentcountry.currency}{" "}
+                            <div className="payment-type-title">
+                              {subtotalText}
+                            </div>
+                            <div className="payment-type-cost flex items-center">
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.svg"
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span
+                                  className={
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }
+                                >
+                                  {currentcountry.currency}{" "}
+                                </span>
+                              )}
                               {CalculatePaymentDetails(
                                 cartlistdata,
                                 cartQuantities
@@ -267,7 +364,7 @@ const Cart = () => {
                             </div>
                           </div>
                           <div className="payment-cost" onClick={loginclick}>
-                            Login/Register
+                            {loginRegisterText}
                           </div>
                         </>
                       )}
@@ -275,7 +372,9 @@ const Cart = () => {
                         <div className=" mobile_version_cart_bottom">
                           <div className="mobile-payment-total">
                             <div className="payment-type">
-                              <div className="payment-type-title">Subtotal</div>
+                              <div className="payment-type-title">
+                                {subtotalText}
+                              </div>
                               <div className="payment-type-cost">
                                 {currentcountry.currency}{" "}
                                 {CalculatePaymentDetails(
@@ -285,7 +384,7 @@ const Cart = () => {
                               </div>
                             </div>
                             <div className="payment-cost" onClick={loginclick}>
-                              Login/Register
+                              {loginRegisterText}
                             </div>
                           </div>
                         </div>

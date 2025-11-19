@@ -73,6 +73,7 @@ const globalslice = createSlice({
     error: null,
     sidebarstatus: false,
     formmodal: false,
+    currentLanguage: "en", // 'en' for English, 'ar' for Arabic
   },
   reducers: {
     setsidebar: (state) => {
@@ -86,6 +87,9 @@ const globalslice = createSlice({
     },
     setcurrentcountry: (state, action) => {
       state.currentcountry = action.payload;
+    },
+    setCurrentLanguage: (state, action) => {
+      state.currentLanguage = action.payload; // 'en' or 'ar'
     },
   },
   extraReducers: (builder) => {
@@ -162,6 +166,10 @@ const globalslice = createSlice({
       });
   },
 });
-export const { setformmodal, setcountryDropdown, setcurrentcountry } =
-  globalslice.actions;
+export const {
+  setformmodal,
+  setcountryDropdown,
+  setcurrentcountry,
+  setCurrentLanguage,
+} = globalslice.actions;
 export default globalslice.reducer;

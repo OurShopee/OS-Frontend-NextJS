@@ -1,9 +1,11 @@
 .mainheader {
-    position: sticky;
-    top: 0%;
-    left: 0%;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    right: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 999 !important;
+    background-color: #fff;
 
     .headertop-main {
         background-color: #191B1C;
@@ -126,7 +128,7 @@
         .header-middle {
             display: flex;
             justify-content: space-between;
-            flex-direction: row;
+            flex-direction: row !important;
             align-items: center;
             width: 100%;
 
@@ -135,6 +137,13 @@
 
             }
 
+            // RTL Support - Mirror the header layout
+            html[dir="rtl"] &,
+            html.rtl &,
+            body[dir="rtl"] &,
+            body.rtl & {
+                flex-direction: row-reverse;
+            }
         }
 
         .header-middle-sub {
@@ -157,6 +166,14 @@
             .companylogo-image {
                 width: 100%;
             }
+
+            // RTL Support - Keep logo in original position
+            html[dir="rtl"] &,
+            html.rtl &,
+            body[dir="rtl"] &,
+            body.rtl & {
+                order: 0 !important;
+            }
         }
 
 
@@ -166,6 +183,14 @@
 
             display: flex;
             align-items: center;
+
+            // RTL Support - Mirror the right side icons
+            html[dir="rtl"] &,
+            html.rtl &,
+            body[dir="rtl"] &,
+            body.rtl & {
+                flex-direction: row-reverse;
+            }
         }
 
         .header-middle-rightsub {
@@ -182,6 +207,18 @@
                 font-size: 12px;
             }
 
+        }
+
+        // RTL Support for companylogomain - Keep logo in original position
+        .companylogomain {
+            // RTL Support - Keep logo area structure, don't reverse
+            html[dir="rtl"] &,
+            html.rtl &,
+            body[dir="rtl"] &,
+            body.rtl & {
+                flex-direction: row !important;
+                direction: rtl;
+            }
         }
 
     }

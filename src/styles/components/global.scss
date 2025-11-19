@@ -1469,6 +1469,12 @@ html {
   gap: 4px;
 }
 
+@media only screen and (max-width: 640px) {
+  ._qWTcH {
+    gap: 1px !important;
+  }
+}
+
 .border-webfeed {
   border: 1px solid #5232c2;
   box-shadow: 0px 2px 5.6px 0px #79797940;
@@ -1633,7 +1639,7 @@ html {
   position: absolute;
   top: 0;
   height: 100%;
-  width: 200px; 
+  width: 200px;
   z-index: 10;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -1642,7 +1648,7 @@ html {
 @media only screen and (max-width: 667px) {
   .home_categories::before,
   .home_categories::after {
-    width: 0px !important; 
+    width: 0px !important;
   }
 }
 
@@ -1713,10 +1719,10 @@ html {
     overflow: hidden !important;
     padding-bottom: 20px !important;
   }
-  
+
   .carouselSwiper .swiper-pagination {
     position: absolute !important;
-    bottom: 0 !important;
+    bottom: 3px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
@@ -1725,7 +1731,7 @@ html {
     justify-content: center;
     align-items: center;
   }
-  
+
   .carouselSwiper .swiper-pagination-bullet {
     background-color: #cbd5e1;
     opacity: 1;
@@ -1733,22 +1739,61 @@ html {
     height: 8px;
     margin: 0 4px;
   }
-  
+
   .carouselSwiper .swiper-pagination-bullet-active {
     background-color: #413e3ebb;
     width: 80px;
     border-radius: 12px;
   }
+
 }
 
 .swiper-seller .swiper {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: visible !important;
-    list-style: none;
-    padding: 0;
-    z-index: 1;
-    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: visible !important;
+  list-style: none;
+  padding: 0;
+  z-index: 1;
+  display: block;
 }
 
+.shadow-bg-top-selling {
+  box-shadow: 0px 2px 12px 0px #7f7f7f40;
+  border-radius: 12px;
+}
+
+.product-card {
+  box-shadow: 0px 1px 7.3px 0px #d6d6d640;
+  border: 1px solid #f1f1f1;
+  border-radius: 12px;
+  background: white;
+}
+
+.deals-you-like {
+  border: 1px solid #eeeeee;
+  box-shadow: 0px 2px 12px 0px #ededed40;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sale-overlay {
+  backdrop-filter: blur(15.300000190734863px);
+  background: #f9f9f9;
+}
+
+@media only screen and (max-width: 567px){
+  .carousel-product-mweb {
+    border: 1.75px solid #ebebeb;
+    border-radius: 12px;
+  }
+
+  .carousel_products {
+    background: transparent !important;
+  }
+
+  .carouselSwiper {
+    padding-bottom: 0px !important;
+  }
+}

@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import CartModal from "./Modals/CartModal";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const StickyActionBar = ({
   quantity,
@@ -17,9 +18,12 @@ const StickyActionBar = ({
 }) => {
   const [stage, setStage] = useState("idle");
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const buyNowText = useContent("product.buyNow");
+  const addToCartText = useContent("product.addToCart");
+  const addedToCartText = useContent("product.addedToCart");
   const [showCartModal, setShowCartModal] = useState(false);
   const router = useRouter();
-
+  const currentLanguage = useCurrentLanguage();
   useEffect(() => {
     const handleScroll = () => {
       // Show button after scrolling down 1 full screen height
@@ -199,9 +203,8 @@ const StickyActionBar = ({
 
             {/* Cart Button */}
             <div
-              className="relative"
+              className={`relative ${currentLanguage === "ar" ? "ml-[10px]" : "mr-[10px]"}`}
               style={{
-                marginRight: "10px",
                 width: stage === "idle" || stage === "reset" ? "48px" : "100%",
                 flexGrow: stage === "idle" || stage === "reset" ? 0 : 1,
                 transition: "all 0.3s ease",
@@ -209,7 +212,7 @@ const StickyActionBar = ({
             >
               <button
                 onClick={handleAddToCart}
-                className={`flex items-center justify-start overflow-hidden focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 ${
+                className={`${currentLanguage === "ar" ? "mr-2" : "ml-2"} flex items-center justify-start overflow-hidden focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 ${
                   stage === "expanded" ? "expand-animation" : ""
                 } ${stage === "slideRight" ? "gradient-expand" : ""}`}
                 style={{
@@ -221,7 +224,6 @@ const StickyActionBar = ({
                       ? "#5232C2"
                       : `linear-gradient(120deg, #4429A6 30%, #5232C2 30%)`,
                   borderRadius: "12px",
-                  marginLeft: "10px",
                   color: "white",
                   padding: stage === "idle" || stage === "reset" ? 0 : "0 16px",
                   flexGrow: stage === "idle" || stage === "reset" ? 0 : 1,
@@ -231,7 +233,7 @@ const StickyActionBar = ({
                   border: "none",
                 }}
                 aria-label={
-                  showAddedToCartGif ? "Added to cart" : "Add to cart"
+                  showAddedToCartGif ? addedToCartText : addToCartText
                 }
                 type="button"
               >
@@ -280,7 +282,7 @@ const StickyActionBar = ({
                       style={{ height: "48px" }}
                     >
                       <span className="font-semibold whitespace-nowrap">
-                        Add to Cart
+                        {addToCartText}
                       </span>
                     </div>
                   )}
@@ -290,7 +292,7 @@ const StickyActionBar = ({
               {/* Plus Icon Overlay */}
               {stage === "idle" && !showAddedToCartGif && (
                 <div
-                  className="absolute -top-1 -right-5 w-[22px] h-[22px] bg-white text-lg rounded-full flex items-center justify-center font-bold leading-none"
+                  className={`absolute -top-1 ${currentLanguage === "ar" ? "-left-5" : "-right-5"} w-[22px] h-[22px] bg-white text-lg rounded-full flex items-center justify-center font-bold leading-none`}
                   aria-hidden="true"
                 >
                   <span className="text-primary">
@@ -303,14 +305,13 @@ const StickyActionBar = ({
             {/* Buy Now Button */}
             <button
               onClick={handleBuyNow}
-              className="font-bold flex items-center justify-center gap-0 overflow-hidden focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 hover:bg-yellow-300 transition-colors"
+              className={`font-bold flex items-center justify-center gap-0 overflow-hidden focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 hover:bg-yellow-300 transition-colors ${currentLanguage === "ar" ? "mr-2" : "ml-2"}`}
               style={{
                 backgroundColor: "#FFD100",
                 color: "#000",
                 borderRadius: "12px",
                 padding:
                   stage === "idle" || stage === "reset" ? "12px 24px" : "0",
-                marginLeft: "10px",
                 flexGrow: stage === "idle" || stage === "reset" ? 1 : 0,
                 width: stage === "idle" || stage === "reset" ? "auto" : "80px",
                 height: "48px",
@@ -331,7 +332,7 @@ const StickyActionBar = ({
                 }}
               />
               {(stage === "idle" || stage === "reset") && (
-                <span className="ml-2 whitespace-nowrap">BUY NOW</span>
+                <span className={`${currentLanguage === "ar" ? "mr-2" : "ml-2"} whitespace-nowrap`}>{buyNowText}</span>
               )}
             </button>
           </>

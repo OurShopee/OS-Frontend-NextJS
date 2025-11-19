@@ -7,8 +7,15 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const Resetpassword = () => {
+  const currentLanguage = useCurrentLanguage();
+  const resetPassword = useContent("forms.resetPassword");
+  const pleaseEnterNewPasswordBelow = useContent("forms.pleaseEnterNewPasswordBelow");
+  const newPassword = useContent("forms.newPassword");
+  const confirmNewPassword = useContent("forms.confirmNewPassword");
+  const passwordDidntMatch = useContent("forms.passwordDidntMatch");
   const router = useRouter();
   const params = useParams();
   const token = params?.token;
@@ -70,17 +77,17 @@ const Resetpassword = () => {
     formData.newpassword === formData.ConfirmNewpassword;
 
   return (
-    <div className="resetpassword">
+    <div className="resetpassword" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       <div className="Resetpassword-main">
         <div>
           <div
             className="FormHeading"
             style={{ WebkitTextFillColor: "transparent" }}
           >
-            Reset Password
+            {resetPassword}
           </div>
           <div className="formsubheading resentbelowheading">
-            Please enter your new password below
+            {pleaseEnterNewPasswordBelow}
           </div>
           <div className="form-border-bottom"></div>
         </div>
@@ -88,25 +95,25 @@ const Resetpassword = () => {
         <Inputbox
           id="newpassword"
           type="password"
-          placeholder="New Password"
+          placeholder={newPassword}
           value={formData.newpassword}
           handleChange={handleChange}
         />
         <Inputbox
           id="ConfirmNewpassword"
           type="password"
-          placeholder="Confirm New Password"
+          placeholder={confirmNewPassword}
           value={formData.ConfirmNewpassword}
           handleChange={handleChange}
           error={
             formData.ConfirmNewpassword.length ===
               formData.newpassword.length &&
             formData.newpassword != formData.ConfirmNewpassword &&
-            "Password didn't match"
+            passwordDidntMatch
           }
         />
         <div className="submitmsg">{changePasswordapidata}</div>
-        <div className="d-flex justify-content-end">
+        <div className={`d-flex ${currentLanguage === "ar" ? "justify-content-start" : "justify-content-end"}`}>
           <div
             className={
               isFormValid
@@ -116,7 +123,7 @@ const Resetpassword = () => {
             onClick={handleSubmit}
             disabled={!isFormValid}
           >
-            Reset Password
+            {resetPassword}
           </div>
         </div>
       </div>

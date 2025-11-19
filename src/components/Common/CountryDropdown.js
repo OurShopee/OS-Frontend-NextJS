@@ -1,24 +1,29 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import flag from "@/images/Flag.png";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-
-const options = [
-  { name: "Dubai", flag: flag },
-  { name: "UAE", flag: flag },
-  { name: "Oman", flag: flag },
-  { name: "Kuwait", flag: flag },
-  { name: "Qatar", flag: flag },
-];
+import { useCurrentLanguage, getDynamicContent } from "@/hooks";
 
 export default function CountryDropdown({ countryDropdown }) {
-  const [selected, setSelected] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const currentLanguage = useCurrentLanguage();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
+  );
+
+  const localizedCurrentCountryName = useMemo(
+    () => getDynamicContent(currentcountry, "name", currentLanguage),
+    [currentcountry, currentLanguage]
+  );
+
+  const localizedCountryOptions = useMemo(
+    () =>
+      countryDropdown?.map((option) => ({
+        ...option,
+        localizedName: getDynamicContent(option, "name", currentLanguage),
+      })) || [],
+    [countryDropdown, currentLanguage]
   );
 
   // Handle click outside to close dropdown
@@ -41,8 +46,6 @@ export default function CountryDropdown({ countryDropdown }) {
     } else {
       window.open(option.url, "_blank");
     }
-
-    setSelected(option);
     setIsOpen(false);
   };
 
@@ -58,39 +61,39 @@ export default function CountryDropdown({ countryDropdown }) {
         <div className="flex items-center">
           <img
             src={`/flags/${currentcountry?.image}`}
-            alt={currentcountry?.name || "Country"}
-            className="mr-2"
+            alt={localizedCurrentCountryName || currentcountry?.name || "Country"}
+            className={`${currentLanguage === "ar" ? "ml-2" : "mr-2"}`}
             width="20"
           />
           <span className="text-white text-sm font-outfit font-semibold md:text-sm">
-            {currentcountry?.name}
+            {localizedCurrentCountryName || currentcountry?.name}
           </span>
           {isOpen ? (
-            <FaAngleUp className="ml-1 text-secondary" />
+            <FaAngleUp className={`${currentLanguage === "ar" ? "!mr-1" : "!ml-1"} text-secondary`} />
           ) : (
-            <FaAngleDown className="ml-1" />
+            <FaAngleDown className={`${currentLanguage === "ar" ? "!mr-1" : "!ml-1"}`} />
           )}
         </div>
       )}
 
       {isOpen && (
         <div className="absolute top-full -left-1/2 sm:left-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 p-2.5 z-50 min-w-[120px]">
-          {countryDropdown?.length > 0 &&
-            countryDropdown
-              ?.filter(({ id }) => id != currentcountry.id)
+          {localizedCountryOptions?.length > 0 &&
+            localizedCountryOptions
+              ?.filter(({ id }) => id != currentcountry?.id)
               ?.map((option) => (
                 <div
-                  key={option.name}
+                  key={`${option.name}-${option.id || ""}`}
                   onClick={() => handleOptionClick(option)}
                   className="flex items-center px-3 py-2 text-sm font-semibold text-black hover:bg-purple-50 hover:text-primary rounded cursor-pointer transition-colors duration-150"
                 >
                   <img
                     src={`/flags/${option.image}`}
-                    alt={option.name}
-                    className="mr-2"
+                    alt={option.localizedName || option.name}
+                    className={`${currentLanguage === "ar" ? "ml-2" : "mr-2"}`}
                     width="20"
                   />
-                  {option.name}
+                  {option.localizedName || option.name}
                 </div>
               ))}
         </div>

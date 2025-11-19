@@ -24,10 +24,12 @@ import { useParams } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Category } from "@/actions";
 import { FaChevronUp } from "react-icons/fa";
+import { useContent } from "@/hooks";
 
 const TopSelling = ({ type }) => {
   const dispatch = useDispatch();
-
+  const hotDeals = useContent("specialPages.hotDeals");
+  const topSellingProducts = useContent("specialPages.topSellingProducts");
   const deal_of_the_day_items = useSelector(
     (state) => state.homeslice.deal_of_the_day_items
   );
@@ -80,7 +82,7 @@ const TopSelling = ({ type }) => {
                 />
               ) : (
                 <HalfCarouselProducts
-                  title={"Hot Deals"}
+                  title={hotDeals}
                   products={deal_of_the_day_items.items}
                   type={1}
                   inner_bg={"rgba(255, 250, 229, 1)"}
@@ -94,7 +96,7 @@ const TopSelling = ({ type }) => {
           <Row className="mt-4">
             <div className="component_1">
               <ComponentHeader
-                title={"Top Selling Products"}
+                title={topSellingProducts}
                 view_all={"rgba(82, 50, 194, 1)"}
               />
               <div

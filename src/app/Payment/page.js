@@ -1,6 +1,5 @@
 "use client";
-
-import { checkoutSingleProd } from "@/api/payments";
+import { availableCoupons, checkoutSingleProd } from "@/api/payments";
 import Breadcomp from "@/components/Common/Breadcomp";
 import CheckCoupan from "@/components/Common/CheckCoupan";
 import Donation from "@/components/Common/Donation";
@@ -19,10 +18,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useContent } from "@/hooks";
 
 const Payment = () => {
   const searchParams = useSearchParams();
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [availableCoupon, setAvailableCoupon] = useState([]);
   const prodId = searchParams.get("prodId");
   const qty = searchParams.get("qty");
   const sku = searchParams.get("sku");
@@ -49,11 +50,26 @@ const Payment = () => {
   const defaultAddress = addresslistdata?.data?.find(
     (add) => add.default_address === 1
   );
-
+  
+  // Language content
+  const selectPaymentMethod = useContent("payment.selectPaymentMethod");
+  const orderSummary = useContent("checkout.orderSummary");
+  const deliveryAddress = useContent("checkout.deliveryAddress");
+  const changeAddress = useContent("checkout.changeAddress");
+  const selectAddress = useContent("checkout.selectAddress");
+  const pleaseSelectDeliveryAddress = useContent("checkout.pleaseSelectDeliveryAddress");
+  
+  const fetchAvailableCoupons = async () => {
+    const res = await availableCoupons();
+    if (res.status === "success") {
+      setAvailableCoupon(res.data.availableCoupons);
+    }
+  };
   useEffect(() => {
     if (Cookies.get("jwt_token") !== undefined) {
       dispatch(GetPlaceOrderapi(logindata.user_id));
     }
+    fetchAvailableCoupons();
   }, [dispatch, logindata.user_id]);
 
   useEffect(() => {
@@ -120,7 +136,7 @@ const Payment = () => {
           <Breadcomp prodId={prodId} qty={qty} sku={sku} />
         </div>
 
-        <div className="Cart-titile">Select Payment Method</div>
+        <div className="Cart-titile">{selectPaymentMethod}</div>
         <Row>
           <Col lg={8}>
             <div className="Cartitem-maindiv">
@@ -172,18 +188,18 @@ const Payment = () => {
             <div
               className={!isMobile ? "pricedetails" : "p-2 mobilepricedetails"}
             >
-              <div className="ordersummary-title">Order Summary</div>
+              <div className="ordersummary-title">{orderSummary}</div>
               <div className="payment-border-bottom"></div>
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
-                  <div className="coupan-title !pb-0">Delivery Address</div>
+                  <div className="coupan-title !pb-0">{deliveryAddress}</div>
                   <button
                     onClick={() => handleChangeAddress()}
                     className="flex items-center gap-1 px-3 py-1.5 border-blue rounded-lg !text-[#3B82F6] font-medium text-sm bg-white"
                   >
                     <img src="/assets/vector_icons/Edit.svg" alt="edit" />
                     <div className="">
-                      {defaultAddress ? "Change Address" : "Select Address"}
+                      {defaultAddress ? changeAddress : selectAddress}
                     </div>
                   </button>
                 </div>
@@ -193,7 +209,7 @@ const Payment = () => {
                       isMobile && "text-sm font-normal"
                     }`}
                   >
-                    Please select a delivery address!
+                    {pleaseSelectDeliveryAddress}
                   </p>
                 )}
                 <p
@@ -211,15 +227,16 @@ const Payment = () => {
                   {defaultAddress?.mobile}
                 </p>
               </div>
-              <div className="payment-border-bottom"></div>
+              <div className="payment-border-bottom border-b-[1px] border-gray-200"></div>
               <CheckCoupan
                 prodId={prodId}
                 qty={qty}
                 sku={sku}
                 paymentMethods={paymentMethods}
+                coupons={availableCoupon}
                 price={price}
               />
-              {isMobile && <div className="payment-border-bottom"></div>}
+              <div className="payment-border-bottom"></div>
               {currentcountry.isDonationRequired && (
                 <Donation donation={paymentMethods?.donation} />
               )}

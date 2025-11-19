@@ -18,13 +18,35 @@ import { HomeCarousel, HomeCategories, HomeMobileCarousel } from "../homepage";
 import { ProductCardPlaceHolder, SubcategoryPlaceHolder } from "../placeholders/ProductCategory";
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
+import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
 
 const ProductCategory = () => {
+  const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
+  const filterTitle = useContent("buttons.filter");
+  const products = useContent("product.products");
+  const filtersTitle = useContent("buttons.filters");
+  const categoryTitle = useContent("product.category");
+  const shopBySubCategories = useContent("pages.shopBySubCategories");
+  const sortBy = useContent("buttons.sortBy");
+  const newArrivals = useContent("buttons.newArrivals");
+  const lowToHighPrice = useContent("buttons.lowToHighPrice");
+  const highToLowPrice = useContent("buttons.highToLowPrice");
+  const position = useContent("buttons.position");
+  const checkBackSoon = useContent("pages.checkBackSoon");
+  const applyNow = useContent("buttons.applyNow");
+  const clearAll = useContent("buttons.clearAll");
+  const searchPlaceholder = useContent("nav.searchPlaceholder");
+  const seeLess = useContent("buttons.showLess");
+  const seeAll = useContent("buttons.showMore");
+  const price = useContent("buttons.price");
+  const minPrice = useContent("buttons.minPrice");
+  const maxPrice = useContent("buttons.maxPrice");
   const sort_byArray = [
-    { id: 1, title: "New Arrivals", slug: "new arrival" },
-    { id: 2, title: "Low to High Price", slug: "Low to High" },
-    { id: 3, title: "High to Low Price", slug: "High to Low" },
-    { id: 4, title: "Position", slug: "Position" },
+    { id: 1, title: newArrivals, slug: "new arrival" },
+    { id: 2, title: lowToHighPrice, slug: "Low to High" },
+    { id: 3, title: highToLowPrice, slug: "High to Low" },
+    { id: 4, title: position, slug: "Position" },
   ];
 
   // Debouncing utility function
@@ -412,9 +434,7 @@ const ProductCategory = () => {
   const getNextPageData = async (forcedPage) => {
     const nextPage = forcedPage ?? page;
     const input_data = await getInputData();
-    console.log("input_data",input_data)
     const res = await getSubCatScreenList({ ...input_data, page: nextPage });
-    console.log(res)
     setTotalCount(res?.display_items?.total_count);
     setCurrentPage((prev) => (forcedPage != null ? nextPage + 1 : prev + 1));
   };
@@ -533,7 +553,7 @@ const ProductCategory = () => {
 
   return (
     <>
-      <div className="w-full pt-2 pb-3 px-3">
+      <div className="w-full pt-2 pb-3 px-3" dir={isRTL ? "rtl" : "ltr"}>
         {/* Breadcrumbs */}
         {!isMobile &&
           (categorytype === "products-category" ? (
@@ -558,7 +578,7 @@ const ProductCategory = () => {
           <div className="hidden lg:block col-span-12 lg:col-span-3">
             {!isMobile && (
               <>
-                <h5 className="text-lg font-semibold mb-2">Filters</h5>
+                <h5 className="text-lg font-semibold mb-2">{filtersTitle}</h5>
                 <hr />
 
                 {/* Category */}
@@ -566,7 +586,7 @@ const ProductCategory = () => {
                   onClick={handleCategoryToggle}
                   className="cursor-pointer flex items-center justify-between mb-3 mt-1.5"
                 >
-                  <h5 className="mb-0 text-base font-semibold">Category</h5>
+                  <h5 className="mb-0 text-base font-semibold">{categoryTitle}</h5>
                 </div>
 
                 <div className="border-b pb-3 mb-3">
@@ -579,7 +599,7 @@ const ProductCategory = () => {
                         key={cat.sub_category_id}
                       >
                         <div className="flex items-center justify-between mb-3 cursor-pointer">
-                          <h5 className="mb-0 text-[15px] font-medium">{cat.label}</h5>
+                          <h5 className="mb-0 text-[15px] font-medium">{getDynamicContent(cat, "label", currentLanguage)}</h5>
                           {selected.includes(cat.sub_category_id || cat.category_id) ? (
                             <img src="/assets/vector_icons/arrow_up.png" />
                           ) : (
@@ -600,7 +620,7 @@ const ProductCategory = () => {
                                 checked={selected_items.includes(child.value.split("@")[0])}
                                 readOnly
                               />
-                              <span className="text-sm">{child.label}</span>
+                              <span className="text-sm">{ getDynamicContent(child, "label", currentLanguage)}</span>
                             </div>
                           ))}
                       </div>
@@ -639,7 +659,7 @@ const ProductCategory = () => {
                         className="flex items-center justify-between mb-3 cursor-pointer"
                         onClick={() => handleSelectFilter(cat.title)}
                       >
-                        <h5 className="mb-0 text-base font-semibold">{cat.title}</h5>
+                        <h5 className="mb-0 text-base font-semibold">{getDynamicContent(cat, "title", currentLanguage)}</h5>
                         <img
                           src={isSelected ? "/assets/vector_icons/arrow_up.png" : "/assets/vector_icons/arrow_down.png"}
                           alt="arrow"
@@ -650,7 +670,7 @@ const ProductCategory = () => {
                         <div className="relative mb-2">
                           <input
                             type="text"
-                            placeholder="Search"
+                            placeholder={searchPlaceholder}
                             className="w-full rounded border border-gray-300 py-2 pl-3 pr-9 text-sm"
                             value={searchInputs[cat.title] || ""}
                             onChange={(e) => {
@@ -684,7 +704,7 @@ const ProductCategory = () => {
                               checked={selected_items.includes(child.name)}
                               readOnly
                             />
-                            <span className="text-sm">{child.name}</span>
+                            <span className="text-sm">{getDynamicContent(child, "name", currentLanguage)}</span>
                           </div>
                         ))}
 
@@ -696,7 +716,7 @@ const ProductCategory = () => {
                             handleSelectedAll(event, cat.title);
                           }}
                         >
-                          {limited_items.includes(cat.title) ? "See less" : "See all"}
+                          {limited_items.includes(cat.title) ? seeLess : seeAll}
                         </h6>
                       )}
                     </div>
@@ -743,7 +763,7 @@ const ProductCategory = () => {
                     return subCategories.length > 0 ? (
                       <div className="col-span-12">
                         <div className="component_1 cat_carousel">
-                          <ComponentHeader title={"Shop by Sub-Categories"} view_all={"rgba(82, 50, 194, 1)"} />
+                          <ComponentHeader title={shopBySubCategories} view_all={"rgba(82, 50, 194, 1)"} />
                           <HomeCategories
                             category_list={subCategories}
                             type={slug1 == undefined ? 5 : 3}
@@ -798,17 +818,17 @@ const ProductCategory = () => {
 
                     {/* Price range chip */}
                     {(() => {
-                      const minPrice = urlParams.get("min");
-                      const maxPrice = urlParams.get("max");
-                      if (minPrice || maxPrice) {
+                      const minPriceValue = urlParams.get("min");
+                      const maxPriceValue = urlParams.get("max");
+                      if (minPriceValue || maxPriceValue) {
                         const currency = currentcountry?.currency || "";
                         let priceLabel = "";
-                        if (minPrice && maxPrice) {
-                          priceLabel = `Price: ${currency} ${minPrice} - ${currency} ${maxPrice}`;
-                        } else if (minPrice) {
-                          priceLabel = `Min Price: ${currency} ${minPrice}`;
-                        } else if (maxPrice) {
-                          priceLabel = `Max Price: ${currency} ${maxPrice}`;
+                        if (minPriceValue && maxPriceValue) {
+                          priceLabel = `${price}: ${currency} ${minPriceValue} - ${currency} ${maxPriceValue}`;
+                        } else if (minPriceValue) {
+                          priceLabel = `${minPrice}: ${currency} ${minPriceValue}`;
+                        } else if (maxPriceValue) {
+                          priceLabel = `${maxPrice}: ${currency} ${maxPriceValue}`;
                         }
                         return (
                           <button
@@ -830,7 +850,7 @@ const ProductCategory = () => {
                 {!isMobile && (
                   <div ref={sortDropdownRef} className="relative">
                     <div className="flex items-center gap-2">
-                      <h5 className="text-sm text-gray-700">Sort by</h5>
+                      <h5 className="text-sm text-gray-700">{sortBy}</h5>
                       <button
                         className="dropdown_title inline-flex items-center gap-2 rounded border px-3 py-2 text-sm"
                         onClick={() => setsort_show_desktop(!sort_show_desktop)}
@@ -874,7 +894,7 @@ const ProductCategory = () => {
               {!catloading && filters?.display_items?.total_count !== undefined && (
                 <div className="col-span-12">
                   <h6 className="mb-0 text-xl font-semibold">
-                    Products ({filters.display_items.total_count})
+                    {products} ({filters.display_items.total_count})
                   </h6>
                 </div>
               )}
@@ -905,7 +925,7 @@ const ProductCategory = () => {
                     </>
                   ) : !has_more ? (
                     <div className="flex items-center justify-center py-20">
-                      <h4 className="text-lg">We're lining up great choices for you — Check back soon.</h4>
+                      <h4 className="text-lg">{checkBackSoon}</h4>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center py-20">
@@ -931,9 +951,9 @@ const ProductCategory = () => {
         {/* Mobile Filters Modal */}
         {show && (
           <Overlay onClose={() => setShow(false)}>
-            <div className="bg-white h-full w-full flex flex-col">
+            <div className="bg-white h-full w-full flex flex-col" dir={isRTL ? "rtl" : "ltr"}>
               <div className="flex items-center justify-between border-b p-4">
-                <h4 className="text-lg font-semibold">Filters</h4>
+                <h4 className="text-lg font-semibold">{filtersTitle}</h4>
                 <img
                   src="/assets/vector_icons/close.png"
                   width={16}
@@ -1056,13 +1076,13 @@ const ProductCategory = () => {
                     className="w-1/2 rounded-md border border-gray-300 py-2 text-sm font-medium"
                     onClick={clear_all}
                   >
-                    Clear All
+                    {clearAll}
                   </button>
                   <button
                     className="w-1/2 rounded-md bg-indigo-600 text-white py-2 text-sm font-medium"
                     onClick={apply_all}
                   >
-                    Apply Now
+                    {applyNow}
                   </button>
                 </div>
               )}
@@ -1075,7 +1095,7 @@ const ProductCategory = () => {
           <Overlay onClose={() => setsort_show(false)} center>
             <div className="bg-white w-[92vw] max-w-md rounded-2xl overflow-hidden">
               <div className="flex items-center justify-between border-b p-4">
-                <h4 className="text-lg font-semibold">Sort By</h4>
+                <h4 className="text-lg font-semibold">{sortBy}</h4>
                 <img
                   src="/assets/vector_icons/close.png"
                   width={16}
@@ -1129,11 +1149,11 @@ const ProductCategory = () => {
             onClick={() => setsort_show(true)}
           >
             <img src="/assets/vector_icons/swap.png" />
-            <span className="text-sm">Sort By</span>
+            <span className="text-sm">{sortBy}</span>
           </button>
           <button className="flex-1 flex items-center justify-center gap-2 py-3" onClick={() => setShow(true)}>
             <img src="/assets/vector_icons/filter.png" />
-            <span className="text-sm">Filter</span>
+            <span className="text-sm">{filterTitle}</span>
           </button>
         </div>
       )}

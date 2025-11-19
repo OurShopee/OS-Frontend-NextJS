@@ -10,13 +10,14 @@ import { pushToDataLayer } from "../utils/dataUserpush";
 import { Category } from "@/actions";
 import { setcurrent_page } from "@/redux/categoryslice";
 import { searchapi } from "@/api/products";
+import { useContent } from "@/hooks";
 
 const Search = () => {
   const { getSubCatScreenList, filtered_items } = Category();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const location = usePathname()
+  const location = usePathname();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
@@ -24,13 +25,19 @@ const Search = () => {
   const smallcsreen = useMediaQuery({ query: "(max-width: 991px)" });
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // Language content
+  const searchPlaceholder = useContent("header.searchPlaceholder");
+  const cancelText = useContent("header.cancel");
+  const noResults = useContent("header.noResults");
+  const noTitle = useContent("header.noTitle");
   useEffect(() => {
     if (!location.startsWith("/search-result")) {
       setSearchQuery("");
       setSearchResults([]);
       setShowDropdown(false);
     }
-  }, [location]); 
+  }, [location]);
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -124,7 +131,6 @@ const Search = () => {
   }, [searchQuery]);
 
   const handlenavigate = (item) => {
-    console.log("clicked_item", item);
     if (item?.url) {
       if (item.type === "detail") {
         router.push(`/details/${item.url}`);
@@ -161,7 +167,7 @@ const Search = () => {
     >
       <input
         type="text"
-        placeholder="What are you looking for?"
+        placeholder={searchPlaceholder}
         className="header-inputbox w-[350px] text-black"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
@@ -180,7 +186,7 @@ const Search = () => {
       </div>
       {smallcsreen && (searchQuery || isFocused) && (
         <div className="searchcanclebtn" onClick={clearSearch}>
-          Cancel <MdClose size={10} className="ml-1" />
+          {cancelText} <MdClose size={10} className="ml-1" />
         </div>
       )}
       {/* Search Dropdown */}
@@ -215,7 +221,7 @@ const Search = () => {
                           }}
                         />
                       ) : (
-                        <div>no tilte</div>
+                        <div>{noTitle}</div>
                       )}
 
                       <div className="search-title">{item.small_title}</div>
@@ -231,7 +237,7 @@ const Search = () => {
               </div>
             ))
           ) : (
-            <div className="search-item">No results found</div>
+            <div className="search-item">{noResults}</div>
           )}
         </div>
       )}

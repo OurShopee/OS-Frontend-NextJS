@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { MdThumbUp, MdThumbDown, MdSort, MdSearch } from "react-icons/md";
 import RatingOverview from "./RatingOverview";
+import { useContent } from "@/hooks";
 
 const ReviewList = () => {
+  const ratingsAndReview = useContent("product.ratingsAndReview");
+  const topReviews = useContent("product.topReviews");
+  const searchCustomerReview = useContent("product.searchCustomerReview");
+  const noReviewsFound = useContent("product.noReviewsFound");
   // Sample reviews data
   const [allReviews, setAllReviews] = useState([
     {
@@ -263,7 +268,7 @@ const ReviewList = () => {
       {/* Header */}
       <div className="relative z-20 w-full text-left mb-6">
         <h2 className="text-3xl font-bold text-[#43494b] text-left w-full max-w-screen-xl">
-          Ratings & Review
+          {ratingsAndReview}
         </h2>
       </div>
 
@@ -280,7 +285,7 @@ const ReviewList = () => {
               <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search our customer's review"
+                placeholder={searchCustomerReview}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
@@ -292,7 +297,7 @@ const ReviewList = () => {
               {/* Sort Dropdown */}
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-700">
-                  Top reviews
+                  {topReviews}
                 </span>
                 <div className="relative">
                   <select
@@ -481,9 +486,9 @@ const ReviewList = () => {
         {/* No Results */}
         {filteredReviews?.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-gray-400 text-lg mb-2">No reviews found</div>
+            <div className="text-gray-400 text-lg mb-2">{noReviewsFound}</div>
             <div className="text-gray-500 text-sm">
-              Try adjusting your search or filter criteria
+              {tryAdjustingSearchOrFilter}
             </div>
           </div>
         )}

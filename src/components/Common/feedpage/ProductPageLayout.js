@@ -28,6 +28,8 @@ import {
 import { pushToDataLayer } from "../../utils/dataUserpush";
 import { MediaQueries } from "../../utils";
 import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
+import { useDynamicContent, useCurrentLanguage } from "@/hooks";
+import { useContent } from "@/hooks/useContent";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -104,7 +106,11 @@ const ProductPageLayout = ({
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-
+  const currentLanguage = useCurrentLanguage();
+  const placeOrderTitle = useContent("checkout.placeOrder");
+  const youSaved = useContent("product.youSaved");
+  const incOfVat = useContent("forms.incOfVat");
+  const off = useContent("product.off");
   // --- Original State ---
   const [activeImage, setActiveImage] = useState(null);
   const [imageError, setImageError] = useState(false);
@@ -151,6 +157,10 @@ const ProductPageLayout = ({
     (state) => state.formslice.registerapicall
   );
   const isOrderFormVisible = useElementVisibility("order-form");
+
+  // Get dynamic content based on current language
+  const productName = useDynamicContent(product, "name");
+  const productDetails = useDynamicContent(product, "details");
 
   useEffect(() => {
     AOS.init({
@@ -230,14 +240,7 @@ const ProductPageLayout = ({
   // --- ProductForm Effects ---
   // OTP verification success handler
   useEffect(() => {
-    console.log(
-      "Redux effect triggered - registerapicall:",
-      registerapicall,
-      "pendingFormData:",
-      pendingFormData,
-      "optmodalopen:",
-      optmodalopen
-    );
+
     if (registerapicall && pendingFormData && !optmodalopen) {
       const submitForm = async () => {
         try {
@@ -534,9 +537,8 @@ const ProductPageLayout = ({
 
     const apiData = {
       form_name: updatedFormData.form_name.trim(),
-      contact_no: `${
-        currentcountry.country_code
-      }${updatedFormData.contact_no.trim()}`,
+      contact_no: `${currentcountry.country_code
+        }${updatedFormData.contact_no.trim()}`,
       product: updatedFormData.product,
       emirate: updatedFormData.location,
       area: updatedFormData.area,
@@ -617,7 +619,7 @@ const ProductPageLayout = ({
     setIsSubmitting(true);
     try {
       console.log("Calling addFeed API...");
-      const result = await addFeed(dataToSubmit);
+      const result = await addFeed(pendingFormData);
       console.log("addFeed API response:", result);
 
       if (result.data.status === "success") {
@@ -642,9 +644,8 @@ const ProductPageLayout = ({
           quantity: dataToSubmit.quantity,
           sku_id: product?.sku,
           product_name: product?.name,
-          product_price: `${currentcountry.currency} ${
-            product?.display_price || "0.00"
-          }`,
+          product_price: `${currentcountry.currency} ${product?.display_price || "0.00"
+            }`,
           location: selectedLocationName,
           order_id: result.data.order_id || "",
           order_status: "submitted",
@@ -741,7 +742,7 @@ const ProductPageLayout = ({
                 </span>
               </div>
               <div className="mb-3.5 sm:hidden">
-                <h1 className="font-medium text-lg">{product.name}</h1>
+                <h1 className="font-medium text-lg">{productName}</h1>
               </div>
 
               <div className="sm:flex mt-4">
@@ -783,7 +784,7 @@ const ProductPageLayout = ({
 
                     <div className="sm:mb-3.5 hidden sm:flex">
                       <h1 className="font-medium text-[22px]">
-                        {product.name}
+                        {productName}
                       </h1>
                     </div>
 
@@ -791,15 +792,14 @@ const ProductPageLayout = ({
                       <div className="my-2 sm:my-0 flex">
                         <div className="flex items-center">
                           {currentcountry.currency == "AED" ? (
-                            <div className="w-6 flex">
-                              <img
-                                src="/assets/feed/aed-icon.png"
-                                alt="AED"
-                                className="w-full h-full"
-                              />
-                            </div>
+                            <img
+                              src="/assets/feed/aed-icon.svg"
+                              alt="AED"
+                              className={`w-6 h-6 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              style={{ color: "black" }}
+                            />
                           ) : (
-                            <span className="currency-symbol mr-1 text-[24px] md:text-[26px] font-bold">
+                            <span className={`currency-symbol text-[24px] md:text-[26px] font-bold ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
                               {currentcountry.currency}
                             </span>
                           )}
@@ -809,27 +809,27 @@ const ProductPageLayout = ({
                         </div>
                         {savedPrice > 0 && (
                           <div className="save-banner ml-4 px-3 py-2 flex items-center font-medium">
-                            <span className="badge-icon mr-2 flex items-center justify-center">
-                              <img
+                          <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon flex items-center justify-center`}>
+                          <img
                                 src="/assets/vector_icons/Vector.png"
                                 alt="%"
                                 className="discount-icon"
                               />
                             </span>
                             <span className="flex gap-1 items-center text-sm">
-                              You saved{" "}
-                              <span className="currency-symbol text-sm">
-                                {currentcountry.currency == "AED" ? (
-                                  <img
-                                    src="/assets/feed/aed-icon.png"
-                                    alt="AED"
-                                    className="w-4 h-full mix-blend-multiply "
-                                    style={{ color: "black" }}
-                                  />
-                                ) : (
-                                  currentcountry.currency
-                                )}
-                              </span>
+                              {youSaved}{" "}
+                              {currentcountry.currency == "AED" ? (
+                                <img
+                                  src="/assets/feed/aed-icon.svg"
+                                  alt="AED"
+                                  className="w-4 h-4 inline-block mix-blend-multiply"
+                                  style={{ color: "black" }}
+                                />
+                              ) : (
+                                <span className="currency-symbol text-sm">
+                                  {currentcountry.currency}
+                                </span>
+                              )}
                               {Math.ceil(savedPrice)}
                             </span>
                           </div>
@@ -838,32 +838,30 @@ const ProductPageLayout = ({
 
                       {product?.hasOwnProperty("old_price") &&
                         Number(product?.display_price) <
-                          Number(product?.old_price) && (
+                        Number(product?.old_price) && (
                           <div className="old_price">
                             {currentcountry.currency == "AED" ? (
-                              <div className="flex justify-center items-center text-[#9ea5a8] line-through gap-1">
+                              <div className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                 <img
-                                  src="/assets/feed/aed-icon.png"
+                                  src="/assets/feed/aed-icon.svg"
                                   alt="AED"
-                                  className="w-4 h-full grayscale mix-blend-multiply opacity-30"
+                                  className="w-4 h-4 grayscale mix-blend-multiply opacity-30"
                                   style={{ color: "#9ea5a8" }}
-                                />{" "}
+                                />
                                 {product?.old_price}
                               </div>
                             ) : (
-                              <span>
-                                {currentcountry.currency +
-                                  " " +
-                                  product?.old_price}
+                              <span className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                                {currentcountry.currency + " " + product?.old_price}
                               </span>
                             )}
                             <div className="product_Detail_price_container">
                               <div className="display_percentage">
-                                {product?.percentage + "% OFF"}
+                                {product?.percentage + "%" + off}
                               </div>
                             </div>
                             <p className="text-[#9EA5A8] mb-0 text-base">
-                              (Inc. of VAT)
+                                {incOfVat}
                             </p>
                           </div>
                         )}
@@ -960,11 +958,10 @@ const ProductPageLayout = ({
                                   {attribute_item.code === "" ? (
                                     <Link
                                       href={`/feed/${attribute_item.sku}`}
-                                      className={`flex items-center cursor-pointer rounded-full px-10 py-3 border ${
-                                        isActive
-                                          ? "border-webfeed font-semibold text-primary text-[14px]"
-                                          : "border-gray-300 text-[#91979A] font-medium bg-[#FCFCFC]"
-                                      }`}
+                                      className={`flex items-center cursor-pointer rounded-full px-10 py-3 border ${isActive
+                                        ? "border-webfeed font-semibold text-primary text-[14px]"
+                                        : "border-gray-300 text-[#91979A] font-medium bg-[#FCFCFC]"
+                                        }`}
                                     >
                                       <h6 className="text-[14px] text-center mb-0">
                                         {attribute_item?.name}
@@ -976,20 +973,18 @@ const ProductPageLayout = ({
                                       className="flex flex-col items-center cursor-pointer w-max max-w-16"
                                     >
                                       <div
-                                        className={`flex items-center justify-center w-7 h-7 rounded-full ${
-                                          isActive
-                                            ? "border-webfeed1"
-                                            : "border-gray-300"
-                                        }`}
+                                        className={`flex items-center justify-center w-7 h-7 rounded-full ${isActive
+                                          ? "border-webfeed1"
+                                          : "border-gray-300"
+                                          }`}
                                       >
                                         <div style={colorCircleStyle}></div>
                                       </div>
                                       <h6
-                                        className={`mt-3 text-[14px] mb-0 text-center ${
-                                          isActive
-                                            ? "text-[#43494B] font-semibold text-[15px]"
-                                            : "text-[#91979A] font-medium"
-                                        }`}
+                                        className={`mt-3 text-[14px] mb-0 text-center ${isActive
+                                          ? "text-[#43494B] font-semibold text-[15px]"
+                                          : "text-[#91979A] font-medium"
+                                          }`}
                                       >
                                         {attribute_item.name}
                                       </h6>
@@ -1026,13 +1021,13 @@ const ProductPageLayout = ({
                   ))}
                 </div>
 
-                {!isMobile && product.details && (
+                {!isMobile && productDetails && (
                   <ProductDescription product={product} />
                 )}
               </div>
               {isMobile && (
                 <div className="mt-[18px] rounded-[20px] p-4 pb-0 feed-card bg-shadow-feed-form">
-                  {product.details && <ProductDescription product={product} />}
+                  {productDetails && <ProductDescription product={product} />}
                 </div>
               )}
             </div>
@@ -1041,11 +1036,11 @@ const ProductPageLayout = ({
             className="w-full lg:w-4/12 webfeed-order-form-sticky"
             {...(isMobile
               ? {
-                  "data-aos": "fade-down",
-                  "data-aos-easing": "ease-out-back",
-                  "data-aos-duration": "1000",
-                  "data-aos-delay": "100",
-                }
+                "data-aos": "fade-down",
+                "data-aos-easing": "ease-out-back",
+                "data-aos-duration": "1000",
+                "data-aos-delay": "100",
+              }
               : {})}
             id="order-form"
           >
@@ -1053,6 +1048,7 @@ const ProductPageLayout = ({
               <div>
                 <h4 className="font-bold mb-5 text-xl sm:text-2xl">
                   Place Your Order Here
+                  {placeOrderTitle}
                 </h4>
                 <form onSubmit={handlePlaceOrder}>
                   <div className="mb-4">
@@ -1062,9 +1058,8 @@ const ProductPageLayout = ({
                     <input
                       type="text"
                       name="form_name"
-                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${
-                        errors.form_name ? "border-red-600" : "border-gray-300"
-                      }`}
+                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${errors.form_name ? "border-red-600" : "border-gray-300"
+                        }`}
                       placeholder="Enter Full Name"
                       value={formData.form_name}
                       onChange={handleChange}
@@ -1094,11 +1089,10 @@ const ProductPageLayout = ({
                         <input
                           type="tel"
                           name="contact_no"
-                          className={`col-span-2 webfeed-form-input rounded-lg border px-4 py-2 text-gray-700 font-medium outline-none ${
-                            errors.contact_no
-                              ? "border-red-600"
-                              : "border-gray-300"
-                          }`}
+                          className={`col-span-2 webfeed-form-input rounded-lg border px-4 py-2 text-gray-700 font-medium outline-none ${errors.contact_no
+                            ? "border-red-600"
+                            : "border-gray-300"
+                            }`}
                           value={formData.contact_no}
                           onChange={handleChange}
                           placeholder={getPhonePlaceholder(
@@ -1133,9 +1127,8 @@ const ProductPageLayout = ({
                           >
                             <FiMinus
                               height={22}
-                              className={`${
-                                qty == 1 && "text-[#ddd9d9] text-opacity-50"
-                              }`}
+                              className={`${qty == 1 && "text-[#ddd9d9] text-opacity-50"
+                                }`}
                             />
                           </button>
 
@@ -1179,9 +1172,8 @@ const ProductPageLayout = ({
                           >
                             <FiPlus
                               height={22}
-                              className={`${
-                                qty == 999 && "text-[#ddd9d9] text-opacity-50"
-                              }`}
+                              className={`${qty == 999 && "text-[#ddd9d9] text-opacity-50"
+                                }`}
                             />
                           </button>
                         </div>
@@ -1196,9 +1188,8 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="location"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
-                          errors.location ? "is-invalid" : ""
-                        }`}
+                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${errors.location ? "is-invalid" : ""
+                          }`}
                         value={formData.location}
                         onChange={handleChange}
                         disabled={isSubmitting || loadingLocations}
@@ -1238,9 +1229,8 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="area"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg ${
-                          errors.area ? "border-red-600" : "border-gray-300"
-                        } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
+                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg ${errors.area ? "border-red-600" : "border-gray-300"
+                          } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
                         value={formData.area}
                         onChange={handleChange}
                         disabled={
@@ -1283,11 +1273,10 @@ const ProductPageLayout = ({
                     </label>
                     <textarea
                       name="delivery_address"
-                      className={`block w-full border-2 product webfeed-form-input rounded-lg px-3 py-2 ${
-                        errors.delivery_address
-                          ? "border-red-600"
-                          : "border-gray-300"
-                      }`}
+                      className={`block w-full border-2 product webfeed-form-input rounded-lg px-3 py-2 ${errors.delivery_address
+                        ? "border-red-600"
+                        : "border-gray-300"
+                        }`}
                       rows="4"
                       placeholder="Enter your delivery address"
                       value={formData.delivery_address}
@@ -1312,9 +1301,8 @@ const ProductPageLayout = ({
                           >
                             <FiMinus
                               height={22}
-                              className={`${
-                                qty == 1 && "text-[#ddd9d9] text-opacity-50"
-                              }`}
+                              className={`${qty == 1 && "text-[#ddd9d9] text-opacity-50"
+                                }`}
                             />
                           </button>
 
@@ -1358,9 +1346,8 @@ const ProductPageLayout = ({
                           >
                             <FiPlus
                               height={22}
-                              className={`${
-                                qty == 999 && "text-[#ddd9d9] text-opacity-50"
-                              }`}
+                              className={`${qty == 999 && "text-[#ddd9d9] text-opacity-50"
+                                }`}
                             />
                           </button>
                         </div>
@@ -1384,7 +1371,7 @@ const ProductPageLayout = ({
                           }}
                         />
                         <span className="text-sm sm:text-base movetext-feed text-black">
-                          Place Order
+                          {placeOrderTitle}
                         </span>
                         <div className="absolute inset-0 pointer-events-none flex gap-2 justify-center items-center shimmer-overlay">
                           <div className="h-20 w-10 bg-gradient-to-tr from-transparent to-white opacity-60 skew-y-12"></div>
@@ -1397,11 +1384,10 @@ const ProductPageLayout = ({
                   {/* Submission Status Message */}
                   {submissionStatus.message && (
                     <div
-                      className={`mt-3 p-3 rounded ${
-                        submissionStatus.type === "success"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
+                      className={`mt-3 p-3 rounded ${submissionStatus.type === "success"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                        }`}
                     >
                       {submissionStatus.message}
                     </div>
@@ -1415,11 +1401,10 @@ const ProductPageLayout = ({
         {isMobile && (
           <div
             id="fixed-bottom"
-            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg transition-all duration-300 ${
-              isOrderFormVisible
-                ? "opacity-0 pointer-events-none translate-y-full"
-                : "opacity-100 pointer-events-auto translate-y-0"
-            }`}
+            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg transition-all duration-300 ${isOrderFormVisible
+              ? "opacity-0 pointer-events-none translate-y-full"
+              : "opacity-100 pointer-events-auto translate-y-0"
+              }`}
           >
             <div className="px-4 py-3">
               <div className="flex items-center justify-between gap-2">
@@ -1492,7 +1477,7 @@ const ProductPageLayout = ({
                     }}
                   />
                   <span className="text-[#191B1C] font-bold text-sm">
-                    Place Order
+                    {placeOrderTitle}
                   </span>
                   <div className="absolute inset-0 pointer-events-none flex gap-2 justify-center items-center shimmer-overlay">
                     <div className="h-20 w-10 bg-gradient-to-tr from-transparent to-white opacity-60 skew-y-12"></div>

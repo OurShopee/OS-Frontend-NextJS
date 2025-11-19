@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useContent } from "@/hooks";
 
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=www.ourshopee.com";
@@ -9,6 +10,13 @@ const APP_STORE_URL =
 
 const ToolTip = ({ text, handleToolTip }) => {
   const [store, setStore] = useState(null);
+
+  // Language content
+  const appBetter = useContent("header.appBetter");
+  const androidRating = useContent("header.androidRating");
+  const iosAvailable = useContent("header.iosAvailable");
+  const takeMeToApp = useContent("header.takeMeToApp");
+  const clickHere = useContent("header.clickHere");
 
   useEffect(() => {
     // Safe browser detection only on client side
@@ -34,7 +42,7 @@ const ToolTip = ({ text, handleToolTip }) => {
           rel="noopener noreferrer"
           className="font-bold px-2 py-1 bg-yellow-400 text-black rounded-lg text-sm whitespace-nowrap hover:bg-yellow-500 transition-colors"
         >
-        Click here
+          {clickHere}
         </a>
       );
     }
@@ -60,13 +68,13 @@ const ToolTip = ({ text, handleToolTip }) => {
             style={{ width: 35, height: 35 }}
           />
           <div className="flex flex-col text-sm">
-            <span className="font-bold">App–solutely better on the app.</span>
+            <span className="font-bold">{appBetter}</span>
             <span className="text-gray-400 text-xs">
               {store === "android"
-                ? "4.1★ rating with 500K+ downloads"
+                ? androidRating
                 : store === "ios"
-                ? "Available on iPhone, iPad & Mac"
-                : "Take me to the app."}
+                ? iosAvailable
+                : takeMeToApp}
             </span>
           </div>
         </div>

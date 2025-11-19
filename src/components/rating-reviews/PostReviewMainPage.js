@@ -1,3 +1,5 @@
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 const PostReviewMainPage = ({
   rating,
   setRating,
@@ -9,6 +11,12 @@ const PostReviewMainPage = ({
   onCancel,
   isEditing = false,
 }) => {
+  const currentLanguage = useCurrentLanguage();
+  const rateThisProductAndTellOthers = useContent("product.rateThisProductAndTellOthers");
+  const leaveAReviewHere = useContent("product.leaveAReviewHere");
+  const cancel = useContent("buttons.cancel");
+  const update = useContent("buttons.update");
+  const submit = useContent("buttons.submit");
   const handleStarClick = (star) => {
     setRating(star);
   };
@@ -40,7 +48,7 @@ const PostReviewMainPage = ({
         <h3
           className={`text-base md:text-[22px] font-semibold text-[#43494b] text-start mb-0`}
         >
-          Rate this product and tell others what you think
+          {rateThisProductAndTellOthers}
         </h3>
 
         {/* Interactive Star Rating */}
@@ -127,7 +135,8 @@ const PostReviewMainPage = ({
           <textarea
             value={reviewText}
             onChange={handleReviewChange}
-            placeholder="Leave a review here...."
+            placeholder={leaveAReviewHere}
+            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
             className={`w-full p-4 h-32 bg-white border rounded-lg text-gray-700 placeholder-gray-400 resize-auto focus:outline-none focus:ring-1 ${
               reviewText.length === 200
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -148,7 +157,7 @@ const PostReviewMainPage = ({
             onClick={onCancel}
             className="flex-1 text-base bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none"
           >
-            Cancel
+            {cancel}
           </button>
         )}
         <button
@@ -157,7 +166,7 @@ const PostReviewMainPage = ({
             onCancel ? "flex-1" : ""
           } text-base bg-[#5F1BE7] hover:bg-[#5215cc] text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border-none`}
         >
-          {isEditing ? "Update" : "Submit"}
+          {isEditing ? update : submit}
         </button>
       </div>
     </div>

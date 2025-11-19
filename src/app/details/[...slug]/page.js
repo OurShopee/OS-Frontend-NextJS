@@ -69,7 +69,6 @@ export default async function ProductDetailsPage({ params }) {
   let productData ;
 try{
   productData = await getproduct_detail(productInfo.productSku, req);
-  console.log("req", req)
 }
 catch(error){
   console.log("error", error)

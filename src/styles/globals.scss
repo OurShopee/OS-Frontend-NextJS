@@ -99,6 +99,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Ensure content doesn't hide behind fixed header */
+.container.mainbody {
+  padding-top: 0 !important;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -155,8 +160,8 @@ a {
   }
 
   .container-fluid {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
   /* Ensure full width on mobile */
   .w-full {
@@ -193,3 +198,446 @@ a {
     max-width: 1470px !important;
   }
 }
+
+/* ============================================
+   RTL (Right-to-Left) Support for Arabic
+   ============================================ */
+
+/* RTL Base Styles */
+html[dir="rtl"],
+body[dir="rtl"],
+html.rtl,
+body.rtl {
+  width: 100% !important;
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Flexbox Support - More selective approach */
+/* Don't auto-reverse all flex containers - only reverse when needed */
+/* Exclude common utility classes that shouldn't be reversed */
+html[dir="rtl"] .flex:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right):not(.items-center):not(.justify-between):not(.justify-center):not(.justify-start):not(.justify-end):not(.gap-):not([class*="gap-"]),
+html.rtl .flex:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right):not(.items-center):not(.justify-between):not(.justify-center):not(.justify-start):not(.justify-end):not(.gap-):not([class*="gap-"]),
+body[dir="rtl"] .flex:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right):not(.items-center):not(.justify-between):not(.justify-center):not(.justify-start):not(.justify-end):not(.gap-):not([class*="gap-"]),
+body.rtl .flex:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right):not(.items-center):not(.justify-between):not(.justify-center):not(.justify-start):not(.justify-end):not(.gap-):not([class*="gap-"]) {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .flex-row:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right),
+html.rtl .flex-row:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right),
+body[dir="rtl"] .flex-row:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right),
+body.rtl .flex-row:not(.no-rtl-reverse):not(.companylogomain):not(.header-middle):not(.header-middle-right) {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .flex-col,
+html.rtl .flex-col,
+body[dir="rtl"] .flex-col,
+body.rtl .flex-col {
+  flex-direction: column;
+}
+
+/* Header specific RTL rules - Keep logo in place, mirror the container */
+html[dir="rtl"] .companylogomain,
+html.rtl .companylogomain,
+body[dir="rtl"] .companylogomain,
+body.rtl .companylogomain {
+  flex-direction: row !important;
+  direction: rtl;
+}
+
+/* Keep elements with no-rtl-reverse class from being reversed */
+html[dir="rtl"] .no-rtl-reverse,
+html.rtl .no-rtl-reverse,
+body[dir="rtl"] .no-rtl-reverse,
+body.rtl .no-rtl-reverse {
+  flex-direction: row !important;
+}
+
+/* Mirror the header-middle container - this will swap logo area with right side */
+html[dir="rtl"] .header-middle,
+html.rtl .header-middle,
+body[dir="rtl"] .header-middle,
+body.rtl .header-middle {
+  flex-direction: row-reverse !important;
+}
+
+/* Mirror header right side icons */
+html[dir="rtl"] .header-middle-right,
+html.rtl .header-middle-right,
+body[dir="rtl"] .header-middle-right,
+body.rtl .header-middle-right {
+  flex-direction: row-reverse !important;
+}
+
+/* RTL Margin and Padding Utilities */
+html[dir="rtl"] .ml-auto,
+html.rtl .ml-auto,
+body[dir="rtl"] .ml-auto,
+body.rtl .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .mr-auto,
+html.rtl .mr-auto,
+body[dir="rtl"] .mr-auto,
+body.rtl .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* RTL Text Alignment */
+html[dir="rtl"] .text-left,
+html.rtl .text-left,
+body[dir="rtl"] .text-left,
+body.rtl .text-left {
+  text-align: right !important;
+}
+
+html[dir="rtl"] .text-right,
+html.rtl .text-right,
+body[dir="rtl"] .text-right,
+body.rtl .text-right {
+  text-align: left;
+}
+
+/* RTL Float */
+html[dir="rtl"] .float-left,
+html.rtl .float-left,
+body[dir="rtl"] .float-left,
+body.rtl .float-left {
+  float: right;
+}
+
+html[dir="rtl"] .float-right,
+html.rtl .float-right,
+body[dir="rtl"] .float-right,
+body.rtl .float-right {
+  float: left;
+}
+
+/* RTL Position Utilities */
+html[dir="rtl"] .left-0,
+html.rtl .left-0,
+body[dir="rtl"] .left-0,
+body.rtl .left-0 {
+  left: auto !important;
+  right: 0;
+}
+
+html[dir="rtl"] .right-0,
+html.rtl .right-0,
+body[dir="rtl"] .right-0,
+body.rtl .right-0 {
+  right: auto;
+  left: 0;
+}
+
+/* RTL Transform for Icons (if needed) */
+html[dir="rtl"] .rtl-flip,
+html.rtl .rtl-flip,
+body[dir="rtl"] .rtl-flip,
+body.rtl .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* RTL Border Radius (swap left/right) */
+html[dir="rtl"] .rounded-l,
+html.rtl .rounded-l,
+body[dir="rtl"] .rounded-l,
+body.rtl .rounded-l {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+
+html[dir="rtl"] .rounded-r,
+html.rtl .rounded-r,
+body[dir="rtl"] .rounded-r,
+body.rtl .rounded-r {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+
+/* RTL Bootstrap Overrides */
+html[dir="rtl"] .row:not(.no-rtl-reverse),
+html.rtl .row:not(.no-rtl-reverse),
+body[dir="rtl"] .row:not(.no-rtl-reverse),
+body.rtl .row:not(.no-rtl-reverse) {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .col,
+html.rtl .col,
+body[dir="rtl"] .col,
+body.rtl .col {
+  direction: rtl;
+}
+
+/* RTL Input and Form Elements */
+html[dir="rtl"] input,
+html.rtl input,
+html[dir="rtl"] textarea,
+html.rtl textarea,
+html[dir="rtl"] select,
+html.rtl select,
+body[dir="rtl"] input,
+body.rtl input,
+body[dir="rtl"] textarea,
+body.rtl textarea,
+body[dir="rtl"] select,
+body.rtl select {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Navigation and Menu */
+html[dir="rtl"] nav,
+html.rtl nav,
+body[dir="rtl"] nav,
+body.rtl nav {
+  direction: rtl;
+}
+
+/* RTL List Items */
+html[dir="rtl"] ul,
+html.rtl ul,
+html[dir="rtl"] ol,
+html.rtl ol,
+body[dir="rtl"] ul,
+body.rtl ul,
+body[dir="rtl"] ol,
+body.rtl ol {
+  direction: rtl;
+  text-align: right;
+  padding-right: 0;
+  padding-left: 1.5em;
+}
+
+/* RTL Dropdown and Menu Items */
+html[dir="rtl"] .dropdown-menu,
+html.rtl .dropdown-menu,
+body[dir="rtl"] .dropdown-menu,
+body.rtl .dropdown-menu {
+  right: auto;
+  left: 0;
+  text-align: right;
+}
+
+/* RTL Modal */
+html[dir="rtl"] .modal,
+html.rtl .modal,
+body[dir="rtl"] .modal,
+body.rtl .modal {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Carousel/Slider */
+html[dir="rtl"] .carousel,
+html.rtl .carousel,
+body[dir="rtl"] .carousel,
+body.rtl .carousel {
+  direction: rtl;
+}
+
+/* RTL Table */
+html[dir="rtl"] table,
+html.rtl table,
+body[dir="rtl"] table,
+body.rtl table {
+  direction: rtl;
+}
+
+html[dir="rtl"] th,
+html.rtl th,
+html[dir="rtl"] td,
+html.rtl td,
+body[dir="rtl"] th,
+body.rtl th,
+body[dir="rtl"] td,
+body.rtl td {
+  text-align: right;
+}
+
+/* RTL Button Groups */
+html[dir="rtl"] .btn-group,
+html.rtl .btn-group,
+body[dir="rtl"] .btn-group,
+body.rtl .btn-group {
+  flex-direction: row-reverse;
+}
+
+/* RTL Breadcrumb */
+html[dir="rtl"] .breadcrumb,
+html.rtl .breadcrumb,
+body[dir="rtl"] .breadcrumb,
+body.rtl .breadcrumb {
+  direction: rtl;
+  flex-direction: row-reverse;
+}
+
+/* RTL Pagination */
+html[dir="rtl"] .pagination,
+html.rtl .pagination,
+body[dir="rtl"] .pagination,
+body.rtl .pagination {
+  direction: rtl;
+  flex-direction: row-reverse;
+}
+
+/* RTL Tooltip and Popover */
+html[dir="rtl"] .tooltip,
+html.rtl .tooltip,
+html[dir="rtl"] .popover,
+html.rtl .popover,
+body[dir="rtl"] .tooltip,
+body.rtl .tooltip,
+body[dir="rtl"] .popover,
+body.rtl .popover {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Scrollbar (optional - for better UX) */
+// html[dir="rtl"] ::-webkit-scrollbar,
+// html.rtl ::-webkit-scrollbar,
+// body[dir="rtl"] ::-webkit-scrollbar,
+// body.rtl ::-webkit-scrollbar {
+//   direction: rtl;
+// }
+
+/* RTL Specific Utility Classes */
+.rtl\:text-left {
+  @media (min-width: 0) {
+    html[dir="rtl"] &,
+    html.rtl &,
+    body[dir="rtl"] &,
+    body.rtl & {
+      text-align: left;
+    }
+  }
+}
+
+.rtl\:text-right {
+  @media (min-width: 0) {
+    html[dir="rtl"] &,
+    html.rtl &,
+    body[dir="rtl"] &,
+    body.rtl & {
+      text-align: right;
+    }
+  }
+}
+
+/* Ensure Arabic font support */
+html[dir="rtl"],
+html.rtl,
+body[dir="rtl"],
+body.rtl {
+  font-family: "Outfit", "Arial", "Tahoma", sans-serif;
+}
+
+/* RTL Animation Support */
+@keyframes slideInRTL {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+html[dir="rtl"] .slide-in,
+html.rtl .slide-in,
+body[dir="rtl"] .slide-in,
+body.rtl .slide-in {
+  animation: slideInRTL 0.3s ease-out;
+}
+
+/* ============================================
+   Additional RTL Mirror Support
+   ============================================ */
+
+/* Note: Tailwind utilities (pl-, pr-, ml-, mr-, etc.) automatically 
+   work correctly with RTL when using flex-direction: row-reverse 
+   and the direction: rtl attribute on html/body */
+
+/* RTL Transform for complete mirror */
+html[dir="rtl"] .mirror-x,
+html.rtl .mirror-x,
+body[dir="rtl"] .mirror-x,
+body.rtl .mirror-x {
+  transform: scaleX(-1);
+}
+
+/* RTL Grid Support */
+html[dir="rtl"] .grid,
+html.rtl .grid,
+body[dir="rtl"] .grid,
+body.rtl .grid {
+  direction: rtl;
+}
+
+/* RTL Space Between - Reverse order */
+html[dir="rtl"] .space-x-reverse,
+html.rtl .space-x-reverse,
+body[dir="rtl"] .space-x-reverse,
+body.rtl .space-x-reverse {
+  flex-direction: row-reverse;
+}
+/* CSS Approach */
+.savings-badge {
+  position: relative;
+  background: linear-gradient(135deg, #d4f7c5 0%, #e8f9d8 50%, #d4f7c5 100%);
+  border-radius: 20px;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  overflow: hidden;
+}
+
+/* Left side cutout */
+.savings-badge::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Right side cutout */
+.savings-badge::after {
+  content: '';
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Wavy pattern overlay */
+.savings-badge-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+}
+

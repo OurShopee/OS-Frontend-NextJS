@@ -45,9 +45,7 @@ const PlacecomplaintForm = () => {
             email: formData.email,
             comment: formData.comments
         };
-        console.log("input_data",input_data)
         const response = await addComplaint(input_data);
-        console.log("tes",response)
         if (response.status === false) {
             toast.error(response?.message, {
                 position: "top-center",

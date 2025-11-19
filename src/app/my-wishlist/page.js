@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ProductCard } from "@/components/Common";
 import { PiTrashSimpleLight } from "react-icons/pi";
 import { postWishList, getWishLists } from "@/redux/cartslice";
-import { useCart } from "@/hooks";
+import { useCart, useContent } from "@/hooks";
 import Cookies from "universal-cookie";
 import Link from "next/link";
 import withAuth from "@/components/Common/withAuth";
@@ -21,6 +21,11 @@ const page = () => {
   const wishListData = useSelector((state) => state.cartslice.wishListData);
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const logindata = useSelector((state) => state.formslice.logindata);
+  
+  // Language content
+  const myWishlist = useContent("account.myWishlist");
+  const myWishlistDescription = useContent("account.myWishlistDescription");
+  const addToCart = useContent("account.addToCart");
 
   const handleRemove = async (item) => {
     var input_data = {
@@ -58,8 +63,8 @@ const page = () => {
           {isMobile ? (
             <Col lg={12}>
               <div>
-                <BreadComp title={"My wishlist"} />
-                <div className="page-titile">My wishlist</div>
+                <BreadComp title={myWishlist} />
+                <div className="page-titile">{myWishlist}</div>
                 <div className="Myaccount-rightsidecard">
                   <Row>
                     {wishListData?.map((item) => {
@@ -75,7 +80,7 @@ const page = () => {
                               className="product_detail_btn mt-3 w-100"
                               onClick={() => handleClick(item)}
                             >
-                              Add to cart
+                              {addToCart}
                             </div>
                             <div
                               onClick={() => handleRemove(item)}
@@ -102,9 +107,9 @@ const page = () => {
           ) : (
             <Col lg={9}>
               <div className="Myaccount-rightsidecard">
-                <div className="title">My wishlist</div>
+                <div className="title">{myWishlist}</div>
                 <div className="discription">
-                  Save and manage products you'd love to purchase later.
+                  {myWishlistDescription}
                 </div>
                 <Row>
                   {wishListData?.map((item) => {
@@ -121,7 +126,7 @@ const page = () => {
                             className="product_detail_btn mt-3 w-100"
                             onClick={() => handleClick(item)}
                           >
-                            Add to cart
+                            {addToCart}
                           </div>
                           <div
                             onClick={() => handleRemove(item)}

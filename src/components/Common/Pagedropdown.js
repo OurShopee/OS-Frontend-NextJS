@@ -1,20 +1,20 @@
 "use client";
-import complaints from "@/images/Info Square.png";
+import complaintsImg from "@/images/Info Square.png";
 import trackorder from "@/images/Location.png";
-import logout from "@/images/Logout.png";
+import logoutImg from "@/images/Logout.png";
 import profileimg from "@/images/Profile.png";
 import whistlistimage from "@/images/Stroke 1.png";
 import orderimg from "@/images/order.png";
 import { setcartlistdata } from "@/redux/cartslice";
-import {
-    setauthstatus
-} from "@/redux/formslice";
+import { setauthstatus } from "@/redux/formslice";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { useContent, useCurrentLanguage } from "@/hooks";
+
 
 const NavLink = ({ to, children, className, onClick, ...props }) => {
   const pathname = usePathname();
@@ -32,23 +32,37 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
   );
 };
 
-const dropdownItems = [
-  { to: "/myaccount", img: profileimg.src, label: "My Profile" },
-  { to: "/my-orders", img: orderimg.src, label: "My Order" },
-  { to: "/my-wishlist", img: whistlistimage.src, label: "Wishlist" },
-  { to: "/track-your-order", img: trackorder.src, label: "Track Order" },
-  { to: "/address", img: trackorder.src, label: "Address" },
-  { to: "/complaints", img: complaints.src, label: "Complaints" },
-];
+// Note: dropdownItems will be populated inside component to use useContent hook
 
 export default function Pagedropdown({ logindata }) {
+  const currentLanguage = useCurrentLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const dispatch = useDispatch();
 
+  // Language content
+  const myProfile = useContent("header.myProfile");
+  const myOrder = useContent("header.myOrder");
+  const wishlist = useContent("header.wishlist");
+  const trackOrder = useContent("header.trackOrder");
+  const address = useContent("header.address");
+  const complaints = useContent("header.complaints");
+  const logout = useContent("header.logout");
+
+  const logoutText = useContent("header.logout");
+
+  const dropdownItems = [
+    { to: "/myaccount", img: profileimg.src, label: myProfile },
+    { to: "/my-orders", img: orderimg.src, label: myOrder },
+    { to: "/my-wishlist", img: whistlistimage.src, label: wishlist },
+    { to: "/track-your-order", img: trackorder.src, label: trackOrder },
+    { to: "/address", img: trackorder.src, label: address },
+    { to: "/complaints", img: complaintsImg.src, label: complaints },
+  ];
+
   const closeDropdown = () => setIsOpen(false);
-  
+
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleMouseLeave = () => {
@@ -102,28 +116,28 @@ export default function Pagedropdown({ logindata }) {
   }, []);
 
   return (
-    <div 
+    <div
       className="header-middle-rightsub countrydropdown relative"
       ref={dropdownRef}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
     >
       {/* Dropdown Toggle Button */}
-      <div 
+      <div
         className="cursor-pointer headermain flex usermain items-center"
         onClick={toggleDropdown}
       >
         <FaUser size={16} />
-        <span className="pl-2 header-middle-right-title username">
+        {/* <span className={`header-middle-right-title username ${currentLanguage === "ar" ? "pr-2" : "pl-2"}`}>
           {logindata.first_name.trim().length > 20
             ? logindata.first_name.trim().substring(0, 20) + "..."
             : logindata.first_name.trim()}
-        </span>
+        </span> */}
       </div>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="custom-dropdown-menu absolute top-full right-0 mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3">
+        <div className={`custom-dropdown-menu absolute top-full ${currentLanguage === "ar" ? "!left-0" : "right-0"} mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3`}>
           {dropdownItems.length > 0 &&
             dropdownItems.map((item, index) => (
               <div key={item.to} className="dropdown-item">
@@ -135,19 +149,19 @@ export default function Pagedropdown({ logindata }) {
                 >
                   <div className="flex items-center">
                     <img src={item.img} alt={item.label} />
-                    <div className="dropdownpages">{item.label}</div>
+                    <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
                   </div>
                 </NavLink>
               </div>
             ))}
           <div className="dropdown-item" onClick={logoutclick}>
             <div className="userdropdown no-underline cursor-pointer">
-              <img src={logout.src} alt="logout" />
-              <div className="dropdownpages">Logout</div>
+              <img src={logoutImg.src} alt="logout" />
+              <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{logoutText}</div>
             </div>
           </div>
         </div>
-      )}
+       )} 
     </div>
   );
 }

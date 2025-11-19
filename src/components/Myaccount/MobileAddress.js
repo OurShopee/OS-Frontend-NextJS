@@ -11,14 +11,22 @@ import { setaddressnumber, setformmodal, setformstatus } from '../../redux/forms
 
 import MobileAddressModal from "../Common/Modals/MobileAddressModal";
 import { selectaddressclick } from "../utils/dataUserpush";
+import { useContent, useCurrentLanguage } from "@/hooks";
 
 const MobileAddress = () => {
     const dispatch = useDispatch();
     const { isMobile } = MediaQueries();
+    const currentLanguage = useCurrentLanguage();
     const addresslistdata = useSelector(state => state.addresslice.addresslistdata);
     const loading = useSelector(state => state.addresslice.loading);
  const currentcountry = useSelector((state) => state.globalslice.currentcountry);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
+    
+    // Content translations
+    const edit = useContent("buttons.edit");
+    const remove = useContent("buttons.remove");
+    const defaultText = useContent("buttons.default");
+    const addANewAddress = useContent("buttons.addANewAddress");
 
     useEffect(() => {
         if (selectedAddressId === null && addresslistdata?.data?.length > 0) {
@@ -76,14 +84,18 @@ const MobileAddress = () => {
 
 
     return (
-        <div>
+        <div dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
             {!loading ? (sortedAddressList.length > 0 ? (
                 sortedAddressList.map(ele => (
                     <div className="Cartitem-maindiv" key={ele.idaddress}>
                         <Row className="addresslist-main">
                             <Col lg={7} md={9} sm={9}>
-                                <label className="d-flex">
-                                    <div className={`${!isMobile ? "ms-4 me-4 mt-1" : "ms-1 me-2 mt-1"}`}>
+                                <label className={`d-flex ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                                    <div className={`${!isMobile ? "mt-1" : "mt-1"} ${
+                                        currentLanguage === "ar" 
+                                          ? (!isMobile ? "ms-4 me-4" : "ms-1 me-2")
+                                          : (!isMobile ? "ms-4 me-4" : "ms-1 me-2")
+                                    }`}>
                                         <input
                                             type="radio"
                                             name="defaultAddress"
@@ -93,10 +105,10 @@ const MobileAddress = () => {
                                         />
                                     </div>
                                     <div>
-                                        <div className="address-top">
+                                        <div className={`address-top ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                             <div className="addres-name">{ele.first_name}</div>
                                             {ele.default_address === 1 && (
-                                                <div className="address-default-button">Default</div>
+                                                <div className="address-default-button">{defaultText}</div>
                                             )}
                                         </div>
                                         <div className="address-fulladdress">
@@ -110,17 +122,17 @@ const MobileAddress = () => {
                                 <>
                                     <div className={`${!isMobile ? "ms-4 me-4 mt-1" : "ms-1 me-2 mt-1"}`}>
                                     </div>
-                                    <div className="edit-remove-main">
+                                    <div className={`edit-remove-main ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                         <div className="address-page-edit-remove-btn hoverbox-shadow" onClick={() => handleEditAddress(ele.idaddress)}>
                                             <img src={editimg} alt="Edit" />
-                                            <span className="btn-title">Edit</span>
+                                            <span className="btn-title">{edit}</span>
                                         </div>
                                         <div
                                             className="address-page-edit-remove-btn hoverbox-shadow"
                                             onClick={() => deleteAddress(ele.idaddress)}
                                         >
                                             <img src={deleteimg} alt="Delete" />
-                                            <span className="btn-title">Remove</span>
+                                            <span className="btn-title">{remove}</span>
                                         </div>
                                     </div>
                                 </>
@@ -164,9 +176,9 @@ const MobileAddress = () => {
 
             {/* Add New Address Button */}
             <div className="Cartitem-maindiv" style={{ cursor: 'pointer' }}>
-                <div className="add-addressbtn d-flex align-items-center" onClick={handleAddNewAddress}>
+                <div className={`add-addressbtn d-flex align-items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`} onClick={handleAddNewAddress}>
                     <FaPlus /> 
-                    <div className="ms-1">Add a new address</div>
+                    <div className={currentLanguage === "ar" ? "me-1" : "ms-1"}>{addANewAddress}</div>
                 </div>
             </div>
             {

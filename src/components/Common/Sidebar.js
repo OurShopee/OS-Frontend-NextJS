@@ -9,6 +9,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { setformmodal, setformstatus } from "../../redux/formslice";
 import { pushToDataLayer } from "../utils/dataUserpush";
+import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, onClick, ...props }) => {
@@ -39,6 +40,13 @@ const Sidebar = ({ isOpen, onClose }) => {
   const formmodal = useSelector((state) => state.globalslice.formmodal);
   const authstatus = useSelector((state) => state.formslice.authstatus);
   const [openStatus, setOpenStatus] = useState(1);
+  const currentLanguage = useCurrentLanguage();
+
+  // Language content
+  const loginText = useContent("header.login");
+  const signupText = useContent("header.signup");
+  const welcomeText = useContent("header.welcome");
+  const categoriesText = useContent("header.categories");
 
   const handleSubcategoryToggle = (category) => {
     setOpenSubcategory(category);
@@ -131,12 +139,12 @@ const Sidebar = ({ isOpen, onClose }) => {
             {!authstatus ? (
               <div className="sidebar-login cursor-pointer">
                 {" "}
-                <span onClick={loginclick}>Login </span> /{" "}
-                <span onClick={signupclick}>Signup</span>
+                <span onClick={loginclick}>{loginText} </span> /{" "}
+                <span onClick={signupclick}>{signupText}</span>
               </div>
             ) : (
               <div className="side-welcome">
-                {`Welcome ${
+                {`${welcomeText} ${
                   logindata?.first_name?.trim().length > 15
                     ? logindata.first_name.trim().substring(0, 15) + "..."
                     : logindata?.first_name?.trim()
@@ -151,15 +159,16 @@ const Sidebar = ({ isOpen, onClose }) => {
         {/* Main Categories */}
         {openStatus === 1 && (
           <div>
-            <div className="category-headers">Categories</div>
+            <div className="category-headers">{categoriesText}</div>
             {categorydata?.map((category, i) => (
               <NavLink
                 className="sidebar-category no-underline"
                 key={i}
                 to={`/categories/${category.url}`}
                 onClick={() => {
+                  const categoryName = getDynamicContent(category, "category_name", currentLanguage);
                   handlecategoryclick(
-                    category.category_name,
+                    categoryName,
                     currentcountry.name
                   );
 
@@ -169,13 +178,13 @@ const Sidebar = ({ isOpen, onClose }) => {
                     "clicked_category_from_menu",
                     currentcountry.name,
                     {
-                      category_name: category.category_name,
+                      category_name: categoryName,
                       page_name: landingUrl,
                     }
                   );
                 }}
               >
-                {category.category_name}
+                {getDynamicContent(category, "category_name", currentLanguage)}
                 {category.subcategory?.length > 0 && (
                   <img
                     src={"/assets/vector_icons/Arrow -right.png"}
@@ -197,9 +206,12 @@ const Sidebar = ({ isOpen, onClose }) => {
         {openStatus === 2 && openSubcategory && (
           <div>
             <div className="category-headers">
-              {openSubcategory.category_name}
+              {getDynamicContent(openSubcategory, "category_name", currentLanguage)}
             </div>
-            {openSubcategory.subcategory.map((sub) => (
+            {openSubcategory.subcategory.map((sub) => {
+              const categoryName = getDynamicContent(openSubcategory, "category_name", currentLanguage);
+              const subCategoryName = getDynamicContent(sub, "sub_category_name", currentLanguage);
+              return (
               <NavLink
                 to={`/products-category/${sub.url}`}
                 className="sidebar-category no-underline"
@@ -208,22 +220,22 @@ const Sidebar = ({ isOpen, onClose }) => {
                   const landingUrl = "/products-category/" + sub?.url;
 
                   handlesubcategoryclick(
-                    openSubcategory.category_name,
-                    sub.sub_category_name
+                    categoryName,
+                    subCategoryName
                   );
 
                   pushToDataLayer(
                     "clicked_subcategory_from_menu",
                     currentcountry.name,
                     {
-                      category_name: openSubcategory.category_name,
-                      sub_category_name: sub.sub_category_name,
+                      category_name: categoryName,
+                      sub_category_name: subCategoryName,
                       page_name: landingUrl,
                     }
                   );
                 }}
               >
-                {sub.sub_category_name}
+                {subCategoryName}
                 {sub.sub_subcategory?.length > 0 && (
                   <img
                     src={"/assets/vector_icons/Arrow -right.png"}
@@ -237,7 +249,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                   // <FaAngleDown size={16}  />
                 )}
               </NavLink>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -246,14 +259,18 @@ const Sidebar = ({ isOpen, onClose }) => {
           <div>
             <div className="category-headers">
               {" "}
-              {openSubsubcategory.sub_category_name}
+              {getDynamicContent(openSubsubcategory, "sub_category_name", currentLanguage)}
             </div>
-            {openSubsubcategory.sub_subcategory.map((sub) => (
+            {openSubsubcategory.sub_subcategory.map((sub) => {
+              const openSubcategoryName = getDynamicContent(openSubcategory, "category_name", currentLanguage);
+              const subSubcategoryName = getDynamicContent(sub, "sub_subcategory_name", currentLanguage);
+              const openSubsubcategoryName = getDynamicContent(openSubsubcategory, "sub_category_name", currentLanguage);
+              return (
               <NavLink
                 onClick={() => {
                   handlesubcategory2click(
-                    openSubcategory.category_name,
-                    sub.sub_subcategory_name
+                    openSubcategoryName,
+                    subSubcategoryName
                   );
                   const landingUrl = "/products-category/" + sub.url;
 
@@ -261,8 +278,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                     "clicked_subcategory2_from_menu",
                     currentcountry.name,
                     {
-                      category_name: openSubsubcategory.sub_category_name,
-                      sub_category2_name: sub.sub_subcategory_name,
+                      category_name: openSubsubcategoryName,
+                      sub_category2_name: subSubcategoryName,
                       page_name: landingUrl,
                     }
                   );
@@ -271,9 +288,10 @@ const Sidebar = ({ isOpen, onClose }) => {
                 className="no-underline sidebar-category"
                 key={sub.sub_subcategory_id}
               >
-                {sub.sub_subcategory_name}
+                {subSubcategoryName}
               </NavLink>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

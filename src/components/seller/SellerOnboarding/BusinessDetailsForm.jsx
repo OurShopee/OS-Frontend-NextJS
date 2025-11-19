@@ -152,25 +152,6 @@ const BusinessDetailsForm = ({ formData, setFormData, onBack, onNext }) => {
 
   const selectedAreaValues = selectedAreas.map((item) => item.value);
 
-  // const makeDummyApiCall = async (selectedLocationIds) => {
-  //   try {
-  //     const locationIdsString = selectedLocationIds.join(",");
-  //     const response = await new Promise((resolve) => {
-  //       setTimeout(() => {
-  //         resolve({
-  //           status: "success",
-  //           data: {
-  //             message: "Locations processed successfully",
-  //             locationIds: locationIdsString,
-  //           },
-  //         });
-  //       }, 1000);
-  //     });
-  //     console.log("Dummy API response:", response);
-  //   } catch (error) {
-  //     console.error("Dummy API call failed:", error);
-  //   }
-  // };
 
   const getAreas = async (selectedLocationIds) => {
     try {
