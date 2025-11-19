@@ -1,4 +1,4 @@
-name: DEV CICD Kubernetes
+name: DEV APP_FE CICD Kubernetes
 
 on:
   push:
@@ -12,13 +12,16 @@ env:
   ECR_REPOSITORY: 'dev/application-fe'
   SECRET_ID: 'dev/application/FE'
   PROFILE: "dev"
+  HELM_REPO: 'OurShopee/helm-chart'      # Helm charts repo
+  HELM_REPO_PATH: 'charts/application-fe'               # Path to chart inside Helm repo
+  HELM_REPO_BRANCH: 'main'
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -66,3 +69,33 @@ jobs:
           build-args: |
             profile=${{ env.PROFILE }}
             ${{ env.BUILD_ARGS }}
+
+      # ---------------------------
+      # Checkout Helm charts repo
+      # ---------------------------
+      - name: Checkout Helm charts repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.HELM_REPO }}
+          token: ${{ secrets.HELM_GITHUB_TOKEN }}
+          path: helm-charts
+          ref: ${{ env.HELM_REPO_BRANCH }}
+
+      # ---------------------------
+      # Update image tag in Helm chart
+      # ---------------------------
+      - name: Update Helm chart image tag
+        run: |
+          sed -i "s|tag:.*|tag: '${{ github.sha }}'|" helm-charts/${{ env.HELM_REPO_PATH }}/values-dev.yaml
+
+      # ---------------------------
+      # Commit & push Helm chart update
+      # ---------------------------
+      - name: Commit and push Helm chart update
+        run: |
+          cd helm-charts
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add ${{ env.HELM_REPO_PATH }}/values-dev.yaml
+          git commit -m "Update application-fe image to ${{ github.sha }}" || echo "No changes to commit"
+          git push
