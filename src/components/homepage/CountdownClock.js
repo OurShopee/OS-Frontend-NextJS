@@ -5,6 +5,7 @@ import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import Image from "next/image";
 import { MediaQueries } from "../utils";
+import { useContent } from "@/hooks";
 export default function CountdownClock({
   endDate,
   clockIcon = "/assets/feed/clock.png",
@@ -21,8 +22,13 @@ export default function CountdownClock({
   backgroundColor = "linear-gradient(0deg,#ff3437,#fa2c2c)",
   digitColor = "#fff",
   labelColor = "#000",
+  imageClassname = "w-12",
 }) {
-  const {isMobile} = MediaQueries()
+  const { isMobile } = MediaQueries();
+  const daysLabel = useContent("countdown.days") || "Days";
+  const hoursLabel = useContent("countdown.hours") || "Hrs";
+  const minutesLabel = useContent("countdown.minutes") || "Min";
+  const secondsLabel = useContent("countdown.seconds") || "Sec";
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center">
@@ -32,12 +38,12 @@ export default function CountdownClock({
             alt="Clock icon"
             width={isMobile ? 48 * 0.8 : 48}
             height={isMobile ? 48 * 0.8 : 48}
-            className="w-8 sm:w-12 h-auto "
+            className={`${imageClassname} sm:w-12 h-auto`}
           />
         )}
         <FlipClockCountdown
           to={endDate}
-          labels={["Days", "Hrs", "Min", "Sec"]}
+          labels={[daysLabel, hoursLabel, minutesLabel, secondsLabel]}
           showLabels={true}
           renderMap={[showDays, showHours, showMinutes, showSeconds]}
           digitBlockStyle={{

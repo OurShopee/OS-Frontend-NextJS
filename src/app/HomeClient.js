@@ -228,8 +228,6 @@ const HomeClient = ({
   const section59Data = getSectionData("Namaste Deals");
   const topSellingData = getSectionData("Top Selling");
 
-  console.log(topSellingData, "topSellingData");
-
   let mastZoneBgImage = section238Data?.background_image[0]?.desktopImage;
   let namasteZoneBgImage = section59Data?.background_image[0]?.desktopImage;
 
