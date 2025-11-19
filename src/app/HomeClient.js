@@ -46,7 +46,7 @@ const HomeClient = ({
   initialSectionsData,
   initialBrandOfTheWeekData,
 }) => {
-
+ console.log(initialSectionsData)
   const router = useRouter();
   const currentLanguage = useCurrentLanguage();
   const bannerListFromRedux = useSelector(
@@ -221,13 +221,11 @@ const HomeClient = ({
       );
     });
   };
-
-  const dealsYouMightLikeData = getSectionData("Deals You Might Like");
-  const limitedTimeDealsData = getSectionData("Limited Time Deals");
   const section238Data = getSectionData("Mast Zone");
   const section59Data = getSectionData("Namaste Deals");
   const topSellingData = getSectionData("Top Selling");
-
+  const dealsYouMightLikeData = getSectionData("Deals You Might Like");
+  const limitedTimeDealsData = getSectionData("Limited Time Deals");
   let mastZoneBgImage = section238Data?.background_image[0]?.desktopImage;
   let namasteZoneBgImage = section59Data?.background_image[0]?.desktopImage;
 
