@@ -405,7 +405,7 @@ const DesktopView = ({
         <CarouselWithBanner
           bannerClassName={"aspect-[300/340]"}
           products={rows?.[7].items}
-          bannerImage={rows?.[17]?.desktopImage}
+          bannerImage={rows?.[16]?.desktopImage}
           bannerImageRedirectUrl={rows?.[16].url}
           type={1}
           inner_bg={"#f5f5f5"}
