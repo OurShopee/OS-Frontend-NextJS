@@ -2,12 +2,12 @@ FROM node:20-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat && npm install -g pm2@latest
 
-ARG env="prod" 
+ARG profile="prod" 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN if [ "$env" = "prod" ]; then \
+RUN if [ "$profile" = "prod" ]; then \
     npm ci --omit=dev --force; \
     else \
     npm ci --force; \
