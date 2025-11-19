@@ -5,13 +5,13 @@ on:
     branches:
       - development-devops
 
-# Top-level env: ONLY simple values allowed.
-# DO NOT reference them using expressions inside actions.
 env:
   AWS_REGION: ap-south-1
   AWS_ACCOUNT_ID: "790730093083"
   AWS_OIDC_ROLE_NAME: "Github-action-cicd-role"
   ECR_REPOSITORY: 'dev/application-fe'
+  SECRET_ID: 'dev/application/FE'
+  PROFILE: "dev"
 
 permissions:
   id-token: write
@@ -37,6 +37,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Fetch secrets from AWS Secrets Manager
+        id: secrets
+        run: |
+          SECRET_JSON=$(aws secretsmanager get-secret-value \
+            --secret-id "${{ env.SECRET_ID }}" \
+            --region "${{ env.AWS_REGION }}" \
+            --query SecretString \
+            --output text)
+
+          # Convert secret JSON to build args dynamically
+          echo "BUILD_ARGS<<EOF" >> $GITHUB_ENV
+          echo "$SECRET_JSON" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
@@ -48,3 +62,6 @@ jobs:
             ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            profile=${{ env.PROFILE }}
+            ${{ env.BUILD_ARGS }}
