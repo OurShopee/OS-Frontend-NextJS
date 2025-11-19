@@ -23,11 +23,11 @@ const countriesData = [
     },
     min_value: 200,
     dealsByCountry: {
-      "Weekly Deals": 238,
-      "Mast Zone": 243,
-      "Limited Time Deals": 248,
-      "Deals You Might Like": 253,
-      "Namaste Deals": 259,
+      "Weekly Deals": 261,
+      "Mast Zone": 237,
+      "Limited Time Deals": 255,
+      "Deals You Might Like": 249,
+      "Namaste Deals": 243,
       "Top Selling": 74,
     },
     fridaySaleSectionIds: {
@@ -181,11 +181,11 @@ const countriesData = [
     min_value: 20,
 
     dealsByCountry: {
-      "Weekly Deals": 239,
-      "Mast Zone": 244,
-      "Limited Time Deals": 249,
-      "Deals You Might Like": 254,
-      "Namaste Deals": 260,
+      "Weekly Deals": 262,
+      "Mast Zone": 238,
+      "Limited Time Deals": 256,
+      "Deals You Might Like": 250,
+      "Namaste Deals": 244,
       "Top Selling": 75,
     },
     fridaySaleSectionIds: {
@@ -327,16 +327,16 @@ const countriesData = [
       "https://www.instagram.com/ourshopeeqatar?igsh=dGUwajljMHNocHAw&utm_source=qr",
     min_value: 200,
     dealsByCountry: {
-      "Weekly Deals": 240,
-      "Mast Zone": 245,
-      "Limited Time Deals": 250,
-      "Deals You Might Like": 255,
-      "Namaste Deals": 261,
+      "Weekly Deals": 263,
+      "Mast Zone": 239,
+      "Limited Time Deals": 257,
+      "Deals You Might Like": 251,
+      "Namaste Deals": 245,
       "Top Selling": 76,
     },
     fridaySaleSectionIds: {
       "Flash Sale": 62,
-      "Lowest Price": 104,
+      "Lowest Price": 103,
       "Now Or Never": 219,
     },
     isTabbyRequired: false,
@@ -465,11 +465,11 @@ const countriesData = [
       "https://www.instagram.com/kuwait_ourshopee?igsh=dHRjMTA5dW41NGVt&utm_source=qr",
     min_value: 20,
     dealsByCountry: {
-      "Weekly Deals": 241,
-      "Mast Zone": 246,
-      "Limited Time Deals": 251,
-      "Deals You Might Like": 256,
-      "Namaste Deals": 262,
+      "Weekly Deals": 264,
+      "Mast Zone": 240,
+      "Limited Time Deals": 258,
+      "Deals You Might Like": 252,
+      "Namaste Deals": 246,
       "Top Selling": 78,
     },
 
@@ -478,17 +478,10 @@ const countriesData = [
     isAreaCodeRequired: false,
     isDonationRequired: false,
     country_code: "+965",
-    dealsByCountry: {
-      "Weekly Deals": 271,
-      "Mast Zone": 269,
-      "Limited Time Deals": 267,
-      "Deals You Might Like": 258,
-      "Namaste Deals": 270,
-      "Top Selling": 96,
-    },
+    
     fridaySaleSectionIds: {
       "Flash Sale": 88,
-      "Lowest Price": 103,
+      "Lowest Price": 104,
       "Now Or Never": 220,
     },
     nav_items: [
@@ -606,11 +599,11 @@ const countriesData = [
     },
     min_value: 20,
     dealsByCountry: {
-      "Weekly Deals": 242,
-      "Mast Zone": 247,
-      "Limited Time Deals": 252,
-      "Deals You Might Like": 257,
-      "Namaste Deals": 263,
+      "Weekly Deals": 265,
+      "Mast Zone": 241,
+      "Limited Time Deals": 259,
+      "Deals You Might Like": 253,
+      "Namaste Deals": 247,
       "Top Selling": 77,
     },
     fridaySaleSectionIds: {
@@ -753,11 +746,11 @@ const countriesData = [
     insta_link:
       "https://www.instagram.com/ourshopee_ksa?igsh=MWlucnh6d3RxcGd5&utm_source=qr",
     dealsByCountry: {
-      "Weekly Deals": 271,
-      "Mast Zone": 269,
-      "Limited Time Deals": 267,
-      "Deals You Might Like": 258,
-      "Namaste Deals": 270,
+      "Weekly Deals": 266,
+      "Mast Zone": 242,
+      "Limited Time Deals": 260,
+      "Deals You Might Like": 254,
+      "Namaste Deals": 248,
       "Top Selling": 96,
     },
     nav_items: [
