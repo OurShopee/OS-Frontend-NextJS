@@ -165,7 +165,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="mobile-marginbottom">
+    <div className="homepagecontainer">
       {!loading ? (
         cartlistdata?.data?.result?.length > 0 ? (
           <Container fluid className="homepagecontainer">
