@@ -14,7 +14,7 @@ export default function CategorySlider({ categoryList }) {
   // Determine direction based on language
   const direction = currentLanguage === "ar" ? "rtl" : "ltr";
 
-  // Autoplay instance - create it once and reuse
+  // Autoplay instance - recreate when direction changes to ensure proper initialization
   const autoplayPlugin = useMemo(
     () =>
       Autoplay(
@@ -25,7 +25,7 @@ export default function CategorySlider({ categoryList }) {
         },
         (emblaRoot) => emblaRoot.parentElement
       ),
-    []
+    [direction] // Recreate plugin when direction changes
   );
 
   // Memoize options to trigger reinitialization when direction changes
@@ -51,17 +51,25 @@ export default function CategorySlider({ categoryList }) {
 
   // Immediate pause on hover
   const handleMouseEnter = useCallback(() => {
-    if (autoplayPlugin) {
-      autoplayPlugin.stop();
-      setIsAutoplayActive(false);
+    if (autoplayPlugin && typeof autoplayPlugin.stop === 'function') {
+      try {
+        autoplayPlugin.stop();
+        setIsAutoplayActive(false);
+      } catch (error) {
+        console.warn('Autoplay stop error:', error);
+      }
     }
   }, [autoplayPlugin]);
 
   // Resume autoplay when leaving
   const handleMouseLeave = useCallback(() => {
-    if (autoplayPlugin) {
-      autoplayPlugin?.play();
-      setIsAutoplayActive(true);
+    if (autoplayPlugin && typeof autoplayPlugin.play === 'function') {
+      try {
+        autoplayPlugin.play();
+        setIsAutoplayActive(true);
+      } catch (error) {
+        console.warn('Autoplay play error:', error);
+      }
     }
   }, [autoplayPlugin]);
 
@@ -101,7 +109,18 @@ export default function CategorySlider({ categoryList }) {
     if (!emblaApi || !autoplayPlugin) return;
     
     // Restart autoplay after direction change
-    autoplayPlugin?.play();
+    // Add a small delay to ensure Embla is fully initialized
+    const timer = setTimeout(() => {
+      try {
+        if (autoplayPlugin && typeof autoplayPlugin.play === 'function') {
+          autoplayPlugin.play();
+        }
+      } catch (error) {
+        console.warn('Autoplay plugin error:', error);
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [emblaApi, autoplayPlugin, direction]);
 
   return (
