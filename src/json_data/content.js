@@ -1635,6 +1635,24 @@ export const content = {
       ar: "توصيل سريع",
     },
   },
+  countdown: {
+    days: {
+      en: "Days",
+      ar: "أيام",
+    },
+    hours: {
+      en: "Hrs",
+      ar: "ساعات",
+    },
+    minutes: {
+      en: "Min",
+      ar: "دقائق",
+    },
+    seconds: {
+      en: "Sec",
+      ar: "ثوانٍ",
+    },
+  },
   cart: {
     title: {
       en: "Shopping Cart",
