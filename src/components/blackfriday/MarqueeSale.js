@@ -22,7 +22,7 @@ const MarqueeSale = () => {
   };
 
   return (
-    <div className="absolute top-[70%] md:top-[95%] w-full h-[30vh] overflow-visible">
+    <div className="absolute top-[70%] md:top-[99%] w-full h-[30vh] overflow-visible">
       {/* Top layer scrolling left */}
       <div style={{ rotate: "5deg" }}>
         <div
