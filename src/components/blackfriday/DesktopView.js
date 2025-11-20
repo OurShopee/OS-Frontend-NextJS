@@ -14,7 +14,7 @@ import FlashSale from "./FlashSale";
 import { MediaQueries } from "../utils";
 import { ComponentHeader } from "../Common";
 import { CarouselWithBanner } from "../homepage";
-
+import { useRouter } from "next/navigation";
 const DesktopView = ({
   categoryItems,
   NowOrNeverDeals,
@@ -28,6 +28,7 @@ const DesktopView = ({
   rows,
 }) => {
   const { isMobile } = MediaQueries();
+  const router = useRouter();
   const techGadgets = {
     three: [
       {
@@ -243,6 +244,9 @@ const DesktopView = ({
               ? OurshoppeFridayBanner?.mobileImage
               : OurshoppeFridayBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(OurshoppeFridayBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         />
@@ -287,6 +291,9 @@ const DesktopView = ({
           src={
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(BeautyBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         />
@@ -391,6 +398,9 @@ const DesktopView = ({
               ? AppUpdateBanner?.mobileImage
               : AppUpdateBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(AppUpdateBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         />
