@@ -19,12 +19,12 @@ export default function ProductBanners() {
       <DynamicBanners
         bannerKey="mainBanner1"
         enableAos={true}
-        className="mt-0 aspect-[449/170] object-cover h-[170px] rounded-[10px] overflow-hidden"
+        className="mt-0 aspect-[363/136] lg:aspect-[449/170] object-cover h-[140px] lg:h-[170px] rounded-[10px] overflow-hidden"
       />
       <DynamicBanners
         bannerKey="mainBanner2"
         enableAos={true}
-        className="mt-0 aspect-[449/170] object-cover h-[170px] rounded-[10px] overflow-hidden"
+        className="mt-0 aspect-[363/136] lg:aspect-[449/170] object-cover h-[140px] lg:h-[170px] rounded-[10px] overflow-hidden"
       />
     </div>
   );
