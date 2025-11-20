@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import infoimg from "@/images/Info Square.png";
 import donateimg1 from "@/images/Frame 1321316476.png";
 import donateimg2 from "@/images/Frame 1321316477.png";
@@ -14,6 +14,16 @@ const Donation = ({ donation }) => {
   const dispatch = useDispatch();
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
+
+  useEffect(() => {
+    dispatch(setshowdonation(true));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!showdonation) {
+      dispatch(setdonationfee("0"));
+    }
+  }, [showdonation, dispatch]);
 
   const handleChange = (e) => {
     const value = e.target.value;
