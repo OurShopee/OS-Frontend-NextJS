@@ -144,9 +144,9 @@ export default function TopSelling({
             />
           )}
         </div>
-        <Link href={topSellingData?.icon_image?.[0]?.url || "/"} className="text-[#43494B] font-semibold gap-1 flex items-center">
+        {/* <Link href={topSellingData?.icon_image?.[0]?.url || "/"} className="text-[#43494B] font-semibold gap-1 flex items-center">
           {viewAllText} <IoChevronForward className={`${currentLanguage === "ar" ? "rotate-180" : ""}`} size={18} />
-        </Link>
+        </Link> */}
       </div>
 
       <div

@@ -11,6 +11,7 @@ const ComponentHeader = ({
   second_title,
   title,
   first_title,
+  view = true
 }) => {
   const viewAllText = useContent("buttons.viewAll");
   const currentLanguage = useCurrentLanguage();
@@ -19,7 +20,7 @@ const ComponentHeader = ({
       <div>
         <h4>{title}</h4>
       </div>
-      {url != undefined && (
+      {url != undefined && view && (
         <Link
           href={url}
           className="no-underline view_all border-none shadow-none bg-transparent flex items-center gap-1"

@@ -281,7 +281,8 @@ const HomeClient = ({
         <div className="component_1 mt-4">
           <ComponentHeader
             title={topPicks}
-            view_all={"rgba(82, 50, 194, 1)"}
+            view={false}
+            // view_all={"rgba(82, 50, 194, 1)"}
             url={top_picks?.[0]?.url}
           />
 

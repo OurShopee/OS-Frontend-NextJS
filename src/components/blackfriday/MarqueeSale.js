@@ -63,7 +63,7 @@ const MarqueeSale = () => {
               style={{ ...textStyle }}
               className="border-l-0 border-r-0 px-2.5 text-2xl py-[5px] md:px-[30px] md:text-6xl"
             >
-              90% OFF
+             Upto 90% OFF
             </span>
           ))}
         </div>
