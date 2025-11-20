@@ -23,12 +23,6 @@ const nextConfig = {
   reactStrictMode: true,
   // Ensure proper SSR
   serverExternalPackages: [],
-  compiler: {
-    removeConsole:
-      process.env.NEXT_PUBLIC_NODE_ENV === "production"
-        ? { exclude: ["error", "warn"] }
-        : false,
-  },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
