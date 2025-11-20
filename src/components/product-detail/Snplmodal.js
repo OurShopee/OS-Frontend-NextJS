@@ -130,10 +130,11 @@ const Snplmodal = ({ productcost }) => {
                       : isRTL
                       ? moment()
                           .add(index, "months")
-                          .locale("ar")
+                          .locale(currentLanguage)
                           .format("dddd، D MMMM YYYY")
                       : moment()
                           .add(index, "months")
+                          .locale(currentLanguage)
                           .format("dddd, Do MMMM YYYY");
 
                     return (
