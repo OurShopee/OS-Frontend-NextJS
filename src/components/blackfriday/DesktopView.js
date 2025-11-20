@@ -72,7 +72,7 @@ const DesktopView = ({
       <div className="relative">
         <div className="flex items-center justify-center w-full m-auto overflow-hidden">
           <img
-            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanner.png`}
+            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanners.png`}
             alt=""
           />
         </div>

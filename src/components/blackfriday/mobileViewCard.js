@@ -115,7 +115,7 @@ const MobileViewCard = ({
       <div className="relative">
         <div className="w-full">
           <img
-            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybannermweb.png`}
+            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybannermwebs.png`}
             alt=""
             className="w-full h-full"
           />
