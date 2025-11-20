@@ -52,13 +52,15 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
 
   const products = NowOrNeverDeals;
 
-  const groupedProducts = [
-    products.slice(0, 6), // 00:00–05:59
-    products.slice(6, 12), // 06:00–11:59
-    products.slice(12, 18), // 12:00–17:59
-    products.slice(18, 24), // 18:00–23:59
-  ];
-
+  const groupedProducts = useMemo(
+    () => [
+      products.slice(0, 6), // 00:00–05:59
+      products.slice(6, 12), // 06:00–11:59
+      products.slice(12, 18), // 12:00–17:59
+      products.slice(18, 24), // 18:00–23:59
+    ],
+    [products]
+  );
   const [timeUpdate, setTimeUpdate] = useState(Date.now());
 
   useEffect(() => {
@@ -70,7 +72,7 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
       for (let h of resetHours) {
         if (
           hours < h ||
-          (hours === h && now.getMinutes() === 0 && now.getSeconds() === 0)
+          (hours === 0 && now.getMinutes() === 0 && now.getSeconds() === 0)
         ) {
           const nextReset = new Date(now);
           nextReset.setHours(h, 0, 0, 0);
@@ -101,6 +103,24 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
     () => getCurrentProductGroupIndex(),
     [timeUpdate]
   );
+  const lastAvailableGroupIndex = useMemo(() => {
+    let lastIndex = -1;
+    groupedProducts.forEach((group, idx) => {
+      if (group.length) {
+        lastIndex = idx;
+      }
+    });
+    return lastIndex;
+  }, [groupedProducts]);
+  const safeGroupIndex = useMemo(() => {
+    if (groupedProducts[currentGroupIndex]?.length) {
+      return currentGroupIndex;
+    }
+    if (lastAvailableGroupIndex >= 0) {
+      return Math.min(currentGroupIndex, lastAvailableGroupIndex);
+    }
+    return 0;
+  }, [currentGroupIndex, groupedProducts, lastAvailableGroupIndex]);
 
   return (
     <div className="">
@@ -147,7 +167,7 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
           </div>
 
           <CarouselWithoutIndicators
-            products={groupedProducts[currentGroupIndex]}
+            products={groupedProducts[safeGroupIndex] || []}
             type={1}
             inner_bg={"transparent"}
             color={true}
