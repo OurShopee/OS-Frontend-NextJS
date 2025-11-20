@@ -1,6 +1,7 @@
 FROM node:20-alpine AS base
 WORKDIR /app
-RUN apk add --no-cache libc6-compat && npm install -g pm2@latest
+
+RUN apk add --no-cache libc6-compat curl
 
 ARG profile="prod" 
 WORKDIR /app
