@@ -11,7 +11,7 @@ export default function LimitedDealCard({ deal }) {
           src={isMobile ? deal?.mobileImage : deal?.desktopImage}
           alt={deal?.title}
           fill
-          className="object-cover aspect-[165/136] cursor-pointer rounded-[10px]"
+          className="object-cover lg:aspect-[165/136] aspect-[123/168] cursor-pointer rounded-[10px]"
         />
       </div>
     </Link>
