@@ -20,11 +20,9 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
   }, [currentcountry]);
 
   const sectionData = saleData?.other_section;
-console.log("sectionData", sectionData);
   const NowOrNeverDeals =
     sectionData?.find((d) => d.heading === "NOW OR NEVER DEALS")?.items?.[0]
       ?.items || [];
-      console.log("NowOrNeverDeals", NowOrNeverDeals);
   const BudgetSectionData =
     sectionData?.find((d) => d.heading === "Something For Every Budget")
       ?.items ||

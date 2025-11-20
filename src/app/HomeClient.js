@@ -46,7 +46,6 @@ const HomeClient = ({
   initialSectionsData,
   initialBrandOfTheWeekData,
 }) => {
- console.log(initialSectionsData)
   const router = useRouter();
   const currentLanguage = useCurrentLanguage();
   const bannerListFromRedux = useSelector(
