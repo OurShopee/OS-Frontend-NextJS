@@ -20,19 +20,19 @@ import {
 import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 import Tabs from "@/components/Common/Tabs";
 import {
+  BrandOfTheWeekUpdated,
   CarouselWithBanner,
+  DealsYouMightLike,
+  DynamicBanners,
   HomeCarousel,
   HomeCategories,
   HomeMobileCarousel,
+  LimitedTimeDeals,
+  MastZone,
+  ProductBanners,
+  PromotionalBanners,
+  TopSelling,
 } from "@/components/homepage";
-import BrandOfTheWeekUpdated from "@/components/homepage/BrandOfTheWeekUpdated";
-import DealsYouMightLike from "@/components/homepage/DealsYouMightLike";
-import DynamicBanners from "@/components/homepage/DynamicBanners";
-import LimitedTimeDeals from "@/components/homepage/LimitedTimeDeals";
-import MastZone from "@/components/homepage/MastZone";
-import ProductBanners from "@/components/homepage/ProductBanners";
-import PromotionalBanners from "@/components/homepage/PromotionalBanners";
-import TopSelling from "@/components/homepage/TopSelling";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import { getImagesByKey } from "@/components/utils/getImagesByKey";
@@ -41,24 +41,18 @@ import { getcategory_items } from "@/redux/homeslice";
 const HomeClient = ({
   initialNavigationData,
   initialBannerListData,
-  initialSectionPagesData,
   initialCategoryItemsData,
   initialSectionsData,
-  initialBrandOfTheWeekData,
 }) => {
-  const router = useRouter();
   const currentLanguage = useCurrentLanguage();
   const bannerListFromRedux = useSelector(
     (state) => state?.homeslice?.bannerList
   );
   const bannerList = initialBannerListData?.data || bannerListFromRedux;
-  const brandOfTheWeekData = initialBrandOfTheWeekData?.data;
   const loadingFromRedux = useSelector((state) => state?.homeslice?.loading);
   const loading = initialBannerListData ? false : loadingFromRedux;
   const loading6FromRedux = useSelector((state) => state?.homeslice?.loading6);
   const loading6 = initialCategoryItemsData ? false : loading6FromRedux;
-  const loading8 = useSelector((state) => state?.homeslice?.loading8);
-  const loading9 = useSelector((state) => state?.homeslice?.loading9);
   const home_category_itemsFromRedux = useSelector(
     (state) => state?.homeslice?.home_category_items
   );
@@ -69,17 +63,12 @@ const HomeClient = ({
   const brand_week = useSelector((state) => state?.homeslice?.brand_week);
   const loading5 = useSelector((state) => state?.homeslice?.loading5);
   const categoryList = useSelector((state) => state?.globalslice?.data);
-  const categoryloading = useSelector((state) => state?.globalslice?.loading);
   const currentcountry = useSelector(
     (state) => state?.globalslice?.currentcountry
   );
   const dispatch = useDispatch();
   const leftColRef = useRef(null);
-  const [leftHeight, setLeftHeight] = useState(0);
-  const [saleData, setSaleData] = useState(null);
   const { isMobile, isTablet, isLaptop } = MediaQueries();
-  const [topBrands, setTopBrands] = useState([]);
-  const [sectionId, setSectionId] = useState([]);
   const [saverId, setSaverId] = useState();
   const [sectionBanners, setSectionBanners] = useState({});
 
@@ -90,10 +79,6 @@ const HomeClient = ({
   const dealsOfTheDay = useContent("specialPages.dealsOfTheDay");
   const bundleDeals = useContent("specialPages.bundleDeals");
   const excitingOffers = useContent("specialPages.excitingOffers");
-  const shopByTopBrands = useContent("specialPages.shopByTopBrands");
-  const browsePopularCategories = useContent(
-    "specialPages.browsePopularCategories"
-  );
   const topPicks = useContent("specialPages.topPicks");
 
   const timeZoneMap = {
@@ -134,44 +119,16 @@ const HomeClient = ({
     setSectionBanners(banners);
   }, [bannerList]);
 
-  useEffect(() => {
-    // Use server-side data if available, otherwise fetch client-side
-    if (
-      initialSectionPagesData &&
-      initialSectionPagesData?.status === "success"
-    ) {
-      setSaleData(initialSectionPagesData.data);
-    } else {
-      const getData = async () => {
-        const res = await getSectionPagesApi(sectionId);
-        if (res?.data?.status === "success") {
-          setSaleData(res.data.data);
-        }
-      };
-      if (sectionId && !(sectionId?.length === 0)) {
-        getData();
-      }
-    }
-  }, [sectionId, initialSectionPagesData]);
 
   useEffect(() => {
     // Use server-side navigation data if available, otherwise use Redux state
     const navItems =
       initialNavigationData?.data?.nav_items || currentcountry?.nav_items;
 
-    const id = navItems?.find((i) => i.id === 11)?.section_id;
-    setSectionId(id);
     const saverId = navItems?.find((i) => i.id === 6)?.section_id;
     setSaverId(saverId);
   }, [currentcountry?.nav_items, initialNavigationData]);
 
-  useEffect(() => {
-    const sectionData = saleData?.other_section;
-    const topBrands = sectionData?.find(
-      (d) => d.heading === "Top Brands"
-    )?.items;
-    setTopBrands(topBrands || []);
-  }, [saleData]);
 
   useEffect(() => {
     // Only dispatch getcategory_items if we don't have server-side data

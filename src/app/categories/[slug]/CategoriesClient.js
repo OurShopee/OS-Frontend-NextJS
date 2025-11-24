@@ -8,11 +8,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { FaChevronUp } from "react-icons/fa";
 import BreadComps from "@/components/Common/Breadcomps";
 import ComponentHeader from "@/components/Common/ComponentHeader";
-import HomeCarousel from "@/components/homepage/HomeCarousel";
-import HomeMobileCarousel from "@/components/homepage/HomeMobileCarousel";
-import HomeCategories from "@/components/homepage/HomeCategories";
-import CarouselProducts from "@/components/homepage/CarouselProducts";
-import HalfCarouselProducts from "@/components/homepage/HalfCarouselProducts";
+import {
+  CarouselProducts,
+  HalfCarouselProducts,
+  HomeCarousel,
+  HomeCategories,
+  HomeMobileCarousel,
+} from "@/components/homepage";
 import LoadMoreButton from "@/components/Common/LoadMoreButton";
 import { getCatScreenList, setscrolled_products } from "@/redux/categoryslice";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
