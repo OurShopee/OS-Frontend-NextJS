@@ -3,6 +3,7 @@ import DesktopView from "@/components/blackfriday/DesktopView";
 import MobileViewCard from "@/components/blackfriday/mobileViewCard";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -103,7 +104,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
       color: "#EED6B2",
       textColor: "#FFFFFFCC",
       url: "/categories/pre-owned",
-      sub_category_image: "/assets/11-sale/categories/phone.png",
+      sub_category_image: getAssetsUrl("11-sale/categories/phone.png"),
       sub_category_name: `Pre-Owned Laptops & Mobiles`,
       mobileImg: "preowned.png",
     },
@@ -113,7 +114,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
       color: "#4F4537",
       textColor: "#F3E3CA",
       url: "/products-category/perfumes",
-      sub_category_image: "/assets/11-sale/categories/sunglass.png",
+      sub_category_image: getAssetsUrl("11-sale/categories/sunglass.png"),
       sub_category_name: "Perfumes",
       mobileImg: "perfumes.png",
     },
@@ -123,7 +124,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
       color: "#B5AA99B2",
       textColor: " #4D4D4D",
       url: "/products-category/Analog-Watches",
-      sub_category_image: "/assets/11-sale/categories/Perfume.png",
+      sub_category_image: getAssetsUrl("11-sale/categories/Perfume.png"),
       sub_category_name: "Watches",
       mobileImg: "watches.png",
     },
@@ -133,7 +134,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
       color: "#A9E5DBB2",
       textColor: " #4D4D4D",
       url: "/categories/home-appliances",
-      sub_category_image: "/assets/11-sale/categories/Watch.png",
+      sub_category_image: getAssetsUrl("11-sale/categories/Watch.png"),
       sub_category_name: "Home Appliances",
       mobileImg: "homeAppliances.png",
     },
@@ -143,7 +144,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
       color: "#D2B993",
       textColor: "#F2EEE8",
       url: "/categories/health-beauty",
-      sub_category_image: "/assets/11-sale/categories/Tv.png",
+      sub_category_image: getAssetsUrl("11-sale/categories/Tv.png"),
       sub_category_name: "Health & Beauty",
       mobileImg: "health.png",
     },

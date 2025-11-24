@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import user from "@images/user.png";
+import { getAssetsUrl } from "../utils/helpers";
 
 const Blogslist = ({ data }) => {
   return (
@@ -14,11 +14,10 @@ const Blogslist = ({ data }) => {
           <div className="flex flex-col sm:flex-row gap-4 my-[10px]">
             {/* Image Column */}
             <div className="sm:w-1/3 w-full">
-              <img
-                src={ele.image}
+              <img src={ele.image}
                 alt={ele.title}
                 className="rounded-lg w-full h-auto object-cover"
-              />
+              loading="lazy" />
             </div>
 
             {/* Content Column */}
@@ -35,11 +34,10 @@ const Blogslist = ({ data }) => {
               </div>
 
               <div className="flex items-center mt-4">
-                <img
-                  src={user.src}
+                <img src={getAssetsUrl("user.png")}
                   alt="user"
                   className="w-6 h-6 mr-[10px] rounded-full"
-                />
+                loading="lazy" />
                 <div>
                   <div className="font-normal text-[10px] text-[#43494B]">
                     posted by admin Ourshopee.com

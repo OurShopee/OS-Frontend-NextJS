@@ -32,7 +32,7 @@ export default function MastZone({
   return (
     <div className="relative overflow-hidden">
       {/* Background Image */}
-      <img src={backgroundImage} className="absolute w-full h-full z-0" />
+      <img src={backgroundImage} className="absolute w-full h-full z-0" loading="lazy" />
       <div className="z-10 rounded-2xl px-5">
         {/* Header */}
         <AutoToggleHeader

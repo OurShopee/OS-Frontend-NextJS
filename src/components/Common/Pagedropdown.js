@@ -1,10 +1,5 @@
 "use client";
-import complaintsImg from "@/images/Info Square.png";
-import trackorder from "@/images/Location.png";
-import logoutImg from "@/images/Logout.png";
-import profileimg from "@/images/Profile.png";
-import whistlistimage from "@/images/Stroke 1.png";
-import orderimg from "@/images/order.png";
+import { getAssetsUrl } from "../utils/helpers";
 import { setcartlistdata } from "@/redux/cartslice";
 import { setauthstatus } from "@/redux/formslice";
 import Cookies from "js-cookie";
@@ -53,12 +48,12 @@ export default function Pagedropdown({ logindata }) {
   const logoutText = useContent("header.logout");
 
   const dropdownItems = [
-    { to: "/myaccount", img: profileimg.src, label: myProfile },
-    { to: "/my-orders", img: orderimg.src, label: myOrder },
-    { to: "/my-wishlist", img: whistlistimage.src, label: wishlist },
-    { to: "/track-your-order", img: trackorder.src, label: trackOrder },
-    { to: "/address", img: trackorder.src, label: address },
-    { to: "/complaints", img: complaintsImg.src, label: complaints },
+    { to: "/myaccount", img: getAssetsUrl("Profile.png"), label: myProfile },
+    { to: "/my-orders", img: getAssetsUrl("order.png"), label: myOrder },
+    { to: "/my-wishlist", img: getAssetsUrl("Stroke 1.png"), label: wishlist },
+    { to: "/track-your-order", img: getAssetsUrl("Location.png"), label: trackOrder },
+    { to: "/address", img: getAssetsUrl("Location.png"), label: address },
+    { to: "/complaints", img: getAssetsUrl("Info Square.png"), label: complaints },
   ];
 
   const closeDropdown = () => setIsOpen(false);
@@ -148,7 +143,7 @@ export default function Pagedropdown({ logindata }) {
                   onClick={closeDropdown}
                 >
                   <div className="flex items-center">
-                    <img src={item.img} alt={item.label} />
+                    <img src={item.img} alt={item.label} loading="lazy" />
                     <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
                   </div>
                 </NavLink>
@@ -156,7 +151,7 @@ export default function Pagedropdown({ logindata }) {
             ))}
           <div className="dropdown-item" onClick={logoutclick}>
             <div className="userdropdown no-underline cursor-pointer">
-              <img src={logoutImg.src} alt="logout" />
+              <img src={getAssetsUrl("Logout.png")} alt="logout" loading="lazy" />
               <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{logoutText}</div>
             </div>
           </div>

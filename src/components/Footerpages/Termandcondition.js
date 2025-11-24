@@ -2,9 +2,9 @@
 import React, { memo } from "react";
 import { Container } from "react-bootstrap";
 import BreadComp from "../../components/Myaccount/BreadComp";
-import starimg from "@/images/Sta5r.png";
 import Link from "next/link";
 import { useCurrentLanguage, useContent } from "@/hooks";
+import { getAssetsUrl } from "../../components/utils/helpers";
 
 const Section = memo(function Section({ title, children }) {
     return (
@@ -12,7 +12,7 @@ const Section = memo(function Section({ title, children }) {
             <div className="privacy-policy-min-titles">
                 <img
                     className="starimg"
-                    src={starimg.src}
+                    src={getAssetsUrl("Sta5r.png")}
                     alt="decorative star"
                     loading="lazy"
                 />

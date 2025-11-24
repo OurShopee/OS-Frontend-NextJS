@@ -2,7 +2,7 @@ import Lottie from "lottie-react";
 import { useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { deleteReview, getAllReviews, updateUserReview } from "@/api/review";
-import { getImageUrl } from "../utils/helpers";
+import { getAssetsUrl, getImageUrl } from "../utils/helpers";
 import CustomStarRating from "./CustomStarRating";
 import garbage from "./Garbage.json";
 import { useContent, useCurrentLanguage } from "@/hooks";
@@ -306,18 +306,16 @@ const HasReview = ({
               </h3>
               {reviewData?.rstatus === 0 ? (
                 <div className={`bg-transparent absolute top-0 ${isRTL ? "!left-0" : "!right-0"} text-[19px] h-[60px] w-[85px] md:h-[80px] tmd:w-w-[110px] leading-none flex items-center border-none text-[#5232C2] rounded-lg select-none`}>
-                  <img
-                    src="/assets/review/under-review.png"
+                  <img src={getAssetsUrl("review/under-review.png")}
                     className="h-full w-full swing-pendulum"
                     alt={underReview}
-                  />
+                  loading="lazy" />
                 </div>
               ) : (
                 <>
                   {/* <div className="bg-transparent h-[33px] text-[19px] leading-none cursor-pointer flex items-center border-none text-[#5232C2] rounded-lg select-none">
-                    <img
-                      onClick={() => setDeleteModalState("confirm")}
-                      src="/assets/review/delete-icon.png"
+                    <img onClick={() => setDeleteModalState("confirm")}
+                      src={getAssetsUrl("review/delete-icon.png")}
                       className="h-full w-full"
                       alt="Delete Review"
                     />
@@ -484,15 +482,14 @@ const HasReview = ({
                   {/* Image Previews in Edit Mode */}
                   {editReviewImages?.map((image, i) => (
                     <div key={image.id} className="relative aspect-square">
-                      <img
-                        src={
+                      <img src={
                           typeof image === "string"
                             ? getImageUrl(image)
                             : URL.createObjectURL(image.file)
                         }
                         alt="Review"
                         className="w-full h-full object-cover rounded-lg border border-gray-200"
-                      />
+                      loading="lazy" />
                       <button
                         onClick={() => removeImage(i)}
                         className="absolute -top-2 -right-2 border-none bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
@@ -507,14 +504,14 @@ const HasReview = ({
                 <div className="grid grid-cols-5 gap-3">
                   {reviewData?.image.map((image, index) => (
                     <div key={image.id || index} className="relative">
-                      <img
-                        title={clickToViewAllImages}
+                      <img title={clickToViewAllImages}
                         src={getImageUrl(image)}
                         alt={`Review ${index + 1}`}
                         className="w-16 h-16 p-2 object-cover has-review-shadow !shadow-none rounded-lg border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
                         onClick={() =>
                           handleImageClick(reviewData.image, index)
                         }
+                        loading="lazy"
                       />
                     </div>
                   ))}
@@ -612,15 +609,14 @@ const HasReview = ({
                   {/* Image Previews in Edit Mode */}
                   {editReviewImages?.map((image, i) => (
                     <div key={image.id} className="relative aspect-square">
-                      <img
-                        src={
+                      <img src={
                           typeof image === "string"
                             ? getImageUrl(image)
                             : URL.createObjectURL(image.file)
                         }
                         alt="Review"
                         className="w-full h-full object-cover rounded-lg border border-gray-200"
-                      />
+                      loading="lazy" />
                       <button
                         onClick={() => removeImage(i)}
                         className="absolute -top-2 -right-2 border-none bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
@@ -635,14 +631,14 @@ const HasReview = ({
                 <div className="grid grid-cols-5 gap-3">
                   {reviewData?.image.map((image, index) => (
                     <div key={image.id || index} className="relative">
-                      <img
-                        title={clickToViewAllImages}
+                      <img title={clickToViewAllImages}
                         src={getImageUrl(image)}
                         alt={`Review ${index + 1}`}
                         className="w-full h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
                         onClick={() =>
                           handleImageClick(reviewData.image, index)
                         }
+                        loading="lazy"
                       />
                     </div>
                   ))}
@@ -703,11 +699,10 @@ const HasReview = ({
                       data-aos-duration="1000"
                       data-aos-easing="ease-out-back"
                     >
-                      <img
-                        className="w-full h-full"
-                        src="/assets/review/delete-cross.png"
-                        alt=""
-                      />
+                      <img className="w-full h-full"
+                        src={getAssetsUrl("review/delete-cross.png")}
+                        alt={deleteReviewTitle}
+                      loading="lazy" />
                     </div>
                   </div>
 
@@ -818,11 +813,10 @@ const HasReview = ({
                 {carouselImages.map((image, index) => (
                   <SwiperSlide key={index}>
                     <div className="w-full h-full flex items-center justify-center">
-                      <img
-                        src={getImageUrl(image)}
+                      <img src={getImageUrl(image)}
                         alt={`Review ${index + 1}`}
                         className="max-w-full flex-grow max-h-full object-contain rounded-lg"
-                      />
+                      loading="lazy" />
                     </div>
                   </SwiperSlide>
                 ))}

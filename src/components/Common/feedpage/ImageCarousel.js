@@ -12,6 +12,7 @@ import { Grid } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getWishLists, postWishList } from "@/redux/cartslice";
 import { MediaQueries } from "../../utils";
+import { getAssetsUrl } from "../../utils/helpers";
 const ImageCarousel = ({
   images,
   product,
@@ -125,11 +126,10 @@ const ImageCarousel = ({
               } rounded-full p-3 w-10 h-10`} // fixed width and height e.g. 2.5rem (40px)
             >
               {/* <IoChevronBack size={22} /> */}
-              <img
-                src="/assets/feed/left.png"
+              <img src={getAssetsUrl("feed/left.png")}
                 alt="left"
                 className="max-w-full max-h-full object-contain" // fit inside container
-              />
+              loading="lazy" />
             </div>
 
             <div
@@ -139,11 +139,10 @@ const ImageCarousel = ({
               } rounded-full p-3 w-10 h-10`} // fixed width and height
             >
               {/* <IoChevronForward size={22} /> */}
-              <img
-                src="/assets/feed/right.png"
+              <img src={getAssetsUrl("feed/right.png")}
                 alt="right"
                 className="max-w-full max-h-full object-contain"
-              />
+              loading="lazy" />
             </div>
           </div>}
         </div>
@@ -208,8 +207,7 @@ const ImageCarousel = ({
                   }}
                   // className={webfeed && "shadow-sm"}
                 >
-                  <img
-                    src={img}
+                  <img src={img}
                     alt=""
                     style={{
                       objectFit: "contain",
@@ -220,7 +218,7 @@ const ImageCarousel = ({
                         ? "scale-120"
                         : ""
                     }`}
-                  />
+                  loading="lazy" />
                 </SwiperSlide>
               ))}
             </Swiper>

@@ -5,6 +5,7 @@ import { MediaQueries } from "../../components/utils";
 import DeskOrdertrack from "./DeskOrdertrack";
 import Mobiletrack from "./Mobiletrack";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../../components/utils/helpers";
 
 const Orders = ({ orderlistdata }) => {
   const { isMobile } = MediaQueries();
@@ -128,12 +129,11 @@ const Orders = ({ orderlistdata }) => {
                   <div className="order-title">{orderTotal}</div>
                   <div className="order-content flex items-center">
                     {currentcountry?.currency == "AED" ? (
-                      <img
-                        src="/assets/feed/aed-icon.svg"
+                      <img src={getAssetsUrl("feed/aed-icon.svg")}
                         alt="AED"
                         className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                         style={{ color: "black" }}
-                      />
+                      loading="lazy" />
                     ) : (
                       <>{currentcountry.currency} </>
                     )}
@@ -149,7 +149,7 @@ const Orders = ({ orderlistdata }) => {
                 }`}>
                   <div>
                     {/* <div className="myorder-orderstatus d-flex align-items-center gap-2">
-                                        <img className="ordersbox-img" src={Deliveybox} alt="box" />
+                                        <img className="ordersbox-img" src={Deliveybox} alt="box" loading="lazy" />
                                         Ordered
                                     </div> */}
                     <div className={`d-flex gap-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
@@ -171,21 +171,19 @@ const Orders = ({ orderlistdata }) => {
                     <div className="form-border-bottom"></div>
                     <Col lg={12}>
                       <div className={`d-flex gap-3 mt-3 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                        <img
-                          src={item.image}
+                        <img src={item.image}
                           className="order-image"
                           alt="product"
-                        />
+                        loading="lazy" />
                         <div className="cartproduct-details">
                           <div className="cartproduct-title">{item.name}</div>
                           <div className={`cartproduct-price flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                             {currentcountry?.currency == "AED" ? (
-                              <img
-                                src="/assets/feed/aed-icon.svg"
+                              <img src={getAssetsUrl("feed/aed-icon.svg")}
                                 alt="AED"
                                 className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                                 style={{ color: "black" }}
-                              />
+                              loading="lazy" />
                             ) : (
                               <span className="currencycode">
                                 {currentcountry.currency}
@@ -258,12 +256,11 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-title">{subtotal}</div>
                         <div className="order-paymenttype-cost flex items-center">
                           {currentcountry?.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <>{currentcountry.currency}{" "}</>
                           )}
@@ -278,12 +275,11 @@ const Orders = ({ orderlistdata }) => {
                             <div className="order-paymenttype-title">{vat}</div>
                             <div className="order-paymenttype-cost flex items-center">
                               {currentcountry?.currency == "AED" ? (
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                               ) : (
                                 <>{currentcountry.currency} </>
                               )}
@@ -297,12 +293,11 @@ const Orders = ({ orderlistdata }) => {
                         </div>
                         <div className={`order-paymenttype-cost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                           {currentcountry?.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <>{currentcountry.currency}{" "}</>
                           )}
@@ -315,12 +310,11 @@ const Orders = ({ orderlistdata }) => {
                         </div>
                         <div className="order-paymenttype-cost flex items-center">
                           {currentcountry?.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <>{currentcountry.currency}{" "}</>
                           )}
@@ -331,12 +325,11 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-title text-green-500">{discount}</div>
                         <div className="order-paymenttype-cost text-green-500 flex items-center">
                          - {currentcountry?.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className="w-3 h-3 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <>{currentcountry.currency} </>
                           )}
@@ -356,12 +349,11 @@ const Orders = ({ orderlistdata }) => {
                         </div>
                         <div className={`payment-type-totalcost flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                           {currentcountry?.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <>{currentcountry.currency}{" "}</>
                           )}
@@ -381,23 +373,19 @@ const Orders = ({ orderlistdata }) => {
                   >
                     {orderDetails}
                     {openOrderId === ele.referenceNo ? (
-                      <img
-                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
-                        src="/assets/vector_icons/arrow_up.png"
+                      <img className={currentLanguage === "ar" ? "me-2" : "ms-2"}
+                        src={getAssetsUrl("vector_icons/arrow_up.png")}
                         alt="arrow up"
                         style={{
                           transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
-                        }}
-                      ></img>
+                        }} loading="lazy"></img>
                     ) : (
-                      <img
-                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
-                        src="/assets/vector_icons/arrow_down.png"
+                      <img className={currentLanguage === "ar" ? "me-2" : "ms-2"}
+                        src={getAssetsUrl("vector_icons/arrow_down.png")}
                         alt="arrow down"
                         style={{
                           transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
-                        }}
-                      ></img>
+                        }} loading="lazy"></img>
                     )}
                   </div>
                 ) : (
@@ -409,23 +397,19 @@ const Orders = ({ orderlistdata }) => {
                   >
                     {orderDetails}
                     {openOrderId === ele.referenceNo ? (
-                      <img
-                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
-                        src="/assets/vector_icons/arrow_up.png"
+                      <img className={currentLanguage === "ar" ? "me-2" : "ms-2"}
+                        src={getAssetsUrl("vector_icons/arrow_up.png")}
                         alt="arrow up"
                         style={{
                           transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
-                        }}
-                      ></img>
+                        }} loading="lazy"></img>
                     ) : (
-                      <img
-                        className={currentLanguage === "ar" ? "me-2" : "ms-2"}
-                        src="/assets/vector_icons/arrow_down.png"
+                      <img className={currentLanguage === "ar" ? "me-2" : "ms-2"}
+                        src={getAssetsUrl("vector_icons/arrow_down.png")}
                         alt="arrow down"
                         style={{
                           transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
-                        }}
-                      ></img>
+                        }} loading="lazy"></img>
                     )}
                   </div>
                 )}
@@ -486,12 +470,11 @@ const Orders = ({ orderlistdata }) => {
                     <div className="order-paymenttype-title">{subtotal}</div>
                     <div className="order-paymenttype-cost flex items-center">
                       {currentcountry?.currency == "AED" ? (
-                        <img
-                          src="/assets/feed/aed-icon.svg"
+                        <img src={getAssetsUrl("feed/aed-icon.svg")}
                           alt="AED"
                           className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                           style={{ color: "black" }}
-                        />
+                        loading="lazy" />
                       ) : (
                         <>{currentcountry.currency}{" "}</>
                       )}
@@ -508,12 +491,11 @@ const Orders = ({ orderlistdata }) => {
                         <div className="order-paymenttype-cost flex items-center">
                           {currentcountry?.currency == "AED" ? (
                             <>
-                              <img
-                                src="/assets/feed/aed-icon.svg"
+                              <img src={getAssetsUrl("feed/aed-icon.svg")}
                                 alt="AED"
                                 className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                 style={{ color: "black" }}
-                              />
+                              loading="lazy" />
                               {ele.orderDetail.vat}
                             </>
                           ) : (
@@ -529,12 +511,11 @@ const Orders = ({ orderlistdata }) => {
                     <div className="order-paymenttype-cost flex items-center">
                       {currentcountry?.currency == "AED" ? (
                         <>
-                          <img
-                            src="/assets/feed/aed-icon.svg"
+                          <img src={getAssetsUrl("feed/aed-icon.svg")}
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
-                          />
+                          loading="lazy" />
                           {ele.orderDetail.shipping_charge}
                         </>
                       ) : (
@@ -549,12 +530,11 @@ const Orders = ({ orderlistdata }) => {
                     <div className="order-paymenttype-cost flex items-center">
                       {currentcountry?.currency == "AED" ? (
                         <>
-                          <img
-                            src="/assets/feed/aed-icon.svg"
+                          <img src={getAssetsUrl("feed/aed-icon.svg")}
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
-                          />
+                          loading="lazy" />
                           {ele.orderDetail.processing_fee}
                         </>
                       ) : (
@@ -567,12 +547,11 @@ const Orders = ({ orderlistdata }) => {
                     <div className="order-paymenttype-cost text-green-500 flex items-center">
                      - {currentcountry?.currency == "AED" ? (
                         <>
-                          <img
-                            src="/assets/feed/aed-icon.svg"
+                          <img src={getAssetsUrl("feed/aed-icon.svg")}
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
-                          />
+                          loading="lazy" />
                           {ele.orderDetail.discount}
                         </>
                       ) : (
@@ -592,12 +571,11 @@ const Orders = ({ orderlistdata }) => {
                     <div className={`payment-type-totalcost flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                       {currentcountry?.currency == "AED" ? (
                         <>
-                          <img
-                            src="/assets/feed/aed-icon.svg"
+                          <img src={getAssetsUrl("feed/aed-icon.svg")}
                             alt="AED"
                             className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                             style={{ color: "black" }}
-                          />
+                          loading="lazy" />
                           {ele.orderDetail.total_amount}
                         </>
                       ) : (
@@ -615,23 +593,19 @@ const Orders = ({ orderlistdata }) => {
                 >
                   {orderDetails}
                   {openOrderId === ele.referenceNo ? (
-                    <img
-                      className={currentLanguage === "ar" ? "me-2" : "ms-2"}
-                      src="/assets/vector_icons/arrow_up.png"
+                    <img className={currentLanguage === "ar" ? "me-2" : "ms-2"}
+                      src={getAssetsUrl("vector_icons/arrow_up.png")}
                       alt="arrow up"
                       style={{
                         transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
-                      }}
-                    ></img>
+                      }} loading="lazy"></img>
                   ) : (
-                    <img
-                      className={currentLanguage === "ar" ? "me-2" : "ms-2"}
-                      src="/assets/vector_icons/arrow_down.png"
+                    <img className={currentLanguage === "ar" ? "me-2" : "ms-2"}
+                      src={getAssetsUrl("vector_icons/arrow_down.png")}
                       alt="arrow down"
                       style={{
                         transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
-                      }}
-                    ></img>
+                      }} loading="lazy"></img>
                   )}
                 </div>
               </div>

@@ -11,6 +11,7 @@ import SellerDetailsForm from "@/components/seller/SellerOnboarding/SellerDetail
 import StepIndicator from "@/components/seller/SellerOnboarding/StepIndicator";
 import { addVendorApi } from "@/api/seller";
 import BankDetailsForm from "@/components/seller/SellerOnboarding/BankDetailsForm";
+import { getAssetsUrl } from "@/components/utils/helpers";
 
 const SellerOnboarding = () => {
   const [step, setStep] = useState(0);
@@ -164,11 +165,10 @@ const SellerOnboarding = () => {
     <>
       <div className="mx-auto bg-white shadow-lg flex max-w-full overflow-hidden max-h-[calc(100vh-78px)]">
         <div className="hidden sm:block">
-          <img
-            src={`/assets/seller/step${step + 1}.png`}
-            alt=""
+          <img src={getAssetsUrl(`seller/step${step + 1}.png`)}
+            alt={`Step ${step + 1}`}
             className="img-seller-height w-full"
-          />
+          loading="lazy" />
         </div>
         <div className="relative flex-grow min-w-0 pb-4 px-6 sm:px-10 overflow-y-scroll">
           <div className="sticky -top-0 py-4 bg-white z-10 pb-8 sm:pb-4">
@@ -179,11 +179,10 @@ const SellerOnboarding = () => {
                 step === 0 && "hidden"
               }`}
             >
-              <img
-                src="/assets/seller/back-arrow.png"
-                alt=""
+              <img src={getAssetsUrl("seller/back-arrow.png")}
+                alt="Back"
                 className="w-1.5 h-3"
-              />{" "}
+              loading="lazy" />{" "}
               Back
             </button>
 
@@ -260,11 +259,10 @@ const SellerOnboarding = () => {
             </button>
 
             {/* Background Image */}
-            <img
-              className="w-full h-full relative"
-              src="/assets/seller/thankyou-popup.png"
-              alt=""
-            />
+            <img className="w-full h-full relative"
+              src={getAssetsUrl("seller/thankyou-popup.png")}
+              alt="Thank you"
+            loading="lazy" />
             {/* Button positioned absolutely at bottom */}
             <button
               onClick={handleExplore}

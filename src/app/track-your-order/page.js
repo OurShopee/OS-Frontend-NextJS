@@ -10,7 +10,8 @@ import TrackbyReferenceid from "@/components/Myaccount/TrackbyReferenceid";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import withAuth from "@/components/Common/withAuth";
 import { useContent } from "@/hooks";
-// import righticon from "../../../public/assets/vector_icons/arrow_right.png"
+import { getAssetsUrl } from "@/components/utils/helpers";
+
 const Ordertrack = () => {
     const { isMobile } = MediaQueries();
     
@@ -37,13 +38,9 @@ const Ordertrack = () => {
                                     <div className="page-titile">{trackYourOrder}
                                     </div>
                                   
-                                    {/* <Link href="/track-your-orderbyid" className="cardmobilecard textdecoration-none">
-                                        <div className="tractordermobiletitle">Track by Order ID</div>
-                                        <img src='/assets/vector_icons/arrow_right.png' />
-                                    </Link> */}
                                     <Link href="/track-your-orderbyrefrrenceid" className="cardmobilecard textdecoration-none">
                                         <div className="tractordermobiletitle">{trackByReferenceId}</div>
-                                        <img src='/assets/vector_icons/arrow_right.png' />
+                                        <img src={getAssetsUrl("vector_icons/arrow_right.png")} alt="arrow right" loading="lazy" />
                                     </Link>
                                 </div>
                             </Col>

@@ -2567,6 +2567,32 @@ export const content = {
       ar: "قم بتسجيل الدخول لرؤية العناصر التي أضفتها سابقًا",
     },
   },
+  error: {
+    title: {
+      en: "Something went wrong!",
+      ar: "حدث خطأ ما!",
+    },
+    subtitle: {
+      en: "We encountered an unexpected error. Please try again.",
+      ar: "واجهنا خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    },
+    goBack: {
+      en: "Go Back",
+      ar: "العودة",
+    },
+    goHome: {
+      en: "Go to Home",
+      ar: "الذهاب إلى الصفحة الرئيسية",
+    },
+    tryAgain: {
+      en: "Try Again",
+      ar: "حاول مرة أخرى",
+    },
+    helpText: {
+      en: "If the problem persists, please contact our support team.",
+      ar: "إذا استمرت المشكلة، يرجى الاتصال بفريق الدعم لدينا.",
+    },
+  },
   tabby: {
     amI: {
       en: "Am I",

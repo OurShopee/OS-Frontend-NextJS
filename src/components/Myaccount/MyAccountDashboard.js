@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setauthstatus } from "../../redux/formslice";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../../components/utils/helpers";
 
 const MyAccountDashboard = () => {
     const pathname = usePathname()
@@ -198,13 +199,12 @@ const MyAccountDashboard = () => {
                                 {card_item.name}
                               </h5>
                             </div>
-                            <img 
-                              src="/assets/vector_icons/arrow_right.png" 
+                            <img src={getAssetsUrl("vector_icons/arrow_right.png")} 
                               style={{
                                 transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
                               }}
                               alt="arrow"
-                            />
+                            loading="lazy" />
                           </Link>
                         ) : (
                           <Link

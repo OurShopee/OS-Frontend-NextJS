@@ -84,15 +84,14 @@ function HomeCarousel({ carousel_data, searchPage = true }) {
                 };
 
                 const imageElement = (
-                  <img
-                    src={formatImageUrl(item.image_url)}
+                  <img src={formatImageUrl(item.image_url)}
                     alt=""
                     className={`rounded-[13px] w-full ${
                       !searchPage && "aspect-[988/250]"
                     } ${!shouldWrapWithNavLink ? "cursor-default" : ""}`}
                     onLoad={index === 0 ? handleFirstImageLoad : undefined}
                     style={!shouldWrapWithNavLink ? { cursor: "default" } : {}}
-                  />
+                  loading="lazy" />
                 );
 
                 return (

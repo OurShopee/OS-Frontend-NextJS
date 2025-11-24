@@ -19,6 +19,7 @@ import { ProductCardPlaceHolder, SubcategoryPlaceHolder } from "../placeholders/
 import { MediaQueries } from "../utils";
 import { pushToDataLayer } from "../utils/dataUserpush";
 import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 const ProductCategory = () => {
   const currentLanguage = useCurrentLanguage();
@@ -601,9 +602,9 @@ const ProductCategory = () => {
                         <div className="flex items-center justify-between mb-3 cursor-pointer">
                           <h5 className="mb-0 text-[15px] font-medium">{getDynamicContent(cat, "label", currentLanguage)}</h5>
                           {selected.includes(cat.sub_category_id || cat.category_id) ? (
-                            <img src="/assets/vector_icons/arrow_up.png" />
+                            <img src={getAssetsUrl("vector_icons/arrow_up.png")} loading="lazy" />
                           ) : (
-                            <img src="/assets/vector_icons/arrow_down.png" />
+                            <img src={getAssetsUrl("vector_icons/arrow_down.png")} loading="lazy" />
                           )}
                         </div>
 
@@ -660,10 +661,9 @@ const ProductCategory = () => {
                         onClick={() => handleSelectFilter(cat.title)}
                       >
                         <h5 className="mb-0 text-base font-semibold">{getDynamicContent(cat, "title", currentLanguage)}</h5>
-                        <img
-                          src={isSelected ? "/assets/vector_icons/arrow_up.png" : "/assets/vector_icons/arrow_down.png"}
+                        <img src={isSelected ? getAssetsUrl("vector_icons/arrow_up.png") : getAssetsUrl("vector_icons/arrow_down.png")}
                           alt="arrow"
-                        />
+                        loading="lazy" />
                       </div>
 
                       {isSelected && (
@@ -681,11 +681,10 @@ const ProductCategory = () => {
                               });
                             }}
                           />
-                          <img
-                            src="/assets/vector_icons/filtersearch.png"
+                          <img src={getAssetsUrl("vector_icons/filtersearch.png")}
                             alt="Search"
                             className="absolute right-3 top-1/2 -translate-y-1/2"
-                          />
+                          loading="lazy" />
                         </div>
                       )}
 
@@ -864,7 +863,7 @@ const ProductCategory = () => {
                               )
                             : sort_byArray[0].title}
                         </span>
-                        <img src="/assets/vector_icons/arrow_down.png" width={20} height={20} />
+                        <img src={getAssetsUrl("vector_icons/arrow_down.png")} width={20} height={20} loading="lazy" />
                       </button>
                     </div>
 
@@ -954,12 +953,12 @@ const ProductCategory = () => {
             <div className="bg-white h-full w-full flex flex-col" dir={isRTL ? "rtl" : "ltr"}>
               <div className="flex items-center justify-between border-b p-4">
                 <h4 className="text-lg font-semibold">{filtersTitle}</h4>
-                <img
-                  src="/assets/vector_icons/close.png"
+                <img src={getAssetsUrl("vector_icons/close.png")}
                   width={16}
                   height={16}
                   className="cursor-pointer"
                   onClick={() => setShow(false)}
+                  loading="lazy"
                 />
               </div>
 
@@ -985,15 +984,14 @@ const ProductCategory = () => {
                           >
                             {cat.label}
                           </h5>
-                          <img
-                            alt="arrow"
-                            src="/assets/vector_icons/arrow_up_2.png"
+                          <img alt="arrow"
+                            src={getAssetsUrl("vector_icons/arrow_up_2.png")}
                             className={`w-[15px] h-[15px] transition-transform ${
                               mobile_selected === cat.sub_category_id || mobile_selected === cat.category_id
                                 ? "rotate-90"
                                 : "rotate-0"
                             }`}
-                          />
+                          loading="lazy" />
                         </div>
                       ))}
 
@@ -1006,14 +1004,13 @@ const ProductCategory = () => {
                           onClick={() => handleMobileSelectFilter(cat.title)}
                         >
                           <h5 className="text-sm font-semibold">{cat.title}</h5>
-                          <img
-                            src={
+                          <img src={
                               mobile_selected == cat.title
-                                ? "/assets/vector_icons/arrow_up_2.png"
-                                : "/assets/vector_icons/arrow_down.png"
+                                ? getAssetsUrl("vector_icons/arrow_up_2.png")
+                                : getAssetsUrl("vector_icons/arrow_down.png")
                             }
                             className="w-[15px] h-[15px]"
-                          />
+                          loading="lazy" />
                         </div>
                       ))}
                     </>
@@ -1096,12 +1093,12 @@ const ProductCategory = () => {
             <div className="bg-white w-[92vw] max-w-md rounded-2xl overflow-hidden">
               <div className="flex items-center justify-between border-b p-4">
                 <h4 className="text-lg font-semibold">{sortBy}</h4>
-                <img
-                  src="/assets/vector_icons/close.png"
+                <img src={getAssetsUrl("vector_icons/close.png")}
                   width={16}
                   height={16}
                   className="cursor-pointer"
                   onClick={() => setsort_show(false)}
+                  loading="lazy"
                 />
               </div>
               <div className="p-0">
@@ -1148,11 +1145,11 @@ const ProductCategory = () => {
             className="flex-1 flex items-center justify-center gap-2 py-3 border-r"
             onClick={() => setsort_show(true)}
           >
-            <img src="/assets/vector_icons/swap.png" />
+            <img src={getAssetsUrl("vector_icons/swap.png")} loading="lazy" />
             <span className="text-sm">{sortBy}</span>
           </button>
           <button className="flex-1 flex items-center justify-center gap-2 py-3" onClick={() => setShow(true)}>
-            <img src="/assets/vector_icons/filter.png" />
+            <img src={getAssetsUrl("vector_icons/filter.png")} loading="lazy" />
             <span className="text-sm">{filterTitle}</span>
           </button>
         </div>

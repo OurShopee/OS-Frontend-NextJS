@@ -1,10 +1,10 @@
 import React from "react";
-import Img from "@/images/invite.png"
+import { getAssetsUrl } from "../utils/helpers";
 const Invitefriend =()=>{
     return(
         <div className="pt-3 pb-3">
             
-          <img className="invitefrndimg" src={Img.src}></img>
+          <img className="invitefrndimg" src={getAssetsUrl("invite.png")} loading="lazy"></img>
         </div>
     )
 }

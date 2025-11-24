@@ -14,11 +14,10 @@ const NotFound = () => {
     >
       <div className="text-center">
         <div className="flex flex-col items-center gap-2">
-          <img
-            src="/NotFound.svg"
+          <img src="/NotFound.svg"
             alt="Page not found!"
             className="w-max h-max scale-75 md:scale-[100%]"
-          />
+          loading="lazy" />
           <h1 className="!text-[40px] font-bold">Oops! Page not found</h1>
           <p className="font-normal text-[#475156] text-lg leading-5 mb-2">
             It might have been moved or updated. Let’s get you back on track.

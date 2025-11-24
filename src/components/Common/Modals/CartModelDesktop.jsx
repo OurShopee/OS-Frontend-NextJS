@@ -2,7 +2,6 @@
 import { animate, motion } from "framer-motion";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import deleteimg from "@/images/Delete.png";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { RiDiscountPercentFill } from "react-icons/ri";
@@ -21,6 +20,7 @@ import { setformmodal, setformstatus } from "@/redux/formslice";
 import AlertModal from "../AlertModal";
 import OdometerCounter from "@/components/OdometerCounter";
 import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "@/components/utils/helpers";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, onClick, ...props }) => {
@@ -392,11 +392,10 @@ const CartModalDesktop = ({ show, onHide }) => {
                           aria-label={`View ${displayName} details`}
                           type="button"
                         >
-                          <img
-                            src={item.image}
+                          <img src={item.image}
                             alt={`${displayName} product image`}
                             className="w-full h-full object-contain"
-                          />
+                          loading="lazy" />
                         </button>
 
                         <div className="cart-item-info flex-1">
@@ -428,11 +427,10 @@ const CartModalDesktop = ({ show, onHide }) => {
                                     aria-label={`Remove ${displayName} from cart`}
                                     type="button"
                                   >
-                                    <img
-                                      src={deleteimg.src}
+                                    <img src={getAssetsUrl("Delete.png")}
                                       alt=""
                                       aria-hidden="true"
-                                    />
+                                    loading="lazy" />
                                   </button>
                                 ) : (
                                   <button
@@ -494,12 +492,11 @@ const CartModalDesktop = ({ show, onHide }) => {
                                 }`}
                               >
                                 {currentcountry?.currency == "AED" ? (
-                                  <img
-                                    src="/assets/feed/aed-icon.svg"
+                                  <img src={getAssetsUrl("feed/aed-icon.svg")}
                                     alt="AED"
                                     className={`w-4 h-4 inline-block mix-blend-multiply`}
                                     style={{ color: "black" }}
-                                  />
+                                  loading="lazy" />
                                 ) : (
                                   <>{currentcountry?.currency} </>
                                 )}
@@ -539,8 +536,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                               >
                                 {currentcountry?.currency == "AED" ? (
                                   <>
-                                    <img
-                                      src="/assets/feed/aed-icon.svg"
+                                    <img src={getAssetsUrl("feed/aed-icon.svg")}
                                       alt="AED"
                                       className={`w-3.5  inline-block mix-blend-multiply ${
                                         currentLanguage === "ar"
@@ -548,7 +544,7 @@ const CartModalDesktop = ({ show, onHide }) => {
                                           : "mr-1"
                                       }`}
                                       style={{ color: "black" }}
-                                    />
+                                    loading="lazy" />
                                     {(item.old_price * item.quantity).toFixed(
                                       2
                                     )}
@@ -595,12 +591,11 @@ const CartModalDesktop = ({ show, onHide }) => {
                           currentLanguage === "ar" ? "flex-row-reverse" : ""
                         }`}
                       >
-                        <img
-                          src="/assets/feed/aed-icon.svg"
+                        <img src={getAssetsUrl("feed/aed-icon.svg")}
                           alt="AED"
                           className={`w-3.5 h-3.5 inline-block mix-blend-multiply`}
                           style={{ color: "black" }}
-                        />
+                        loading="lazy" />
                         {totalOld}
                       </span>
                     ) : (
@@ -622,7 +617,7 @@ const CartModalDesktop = ({ show, onHide }) => {
             <div
               style={{
                 backgroundImage:
-                  "url('/assets/vector_icons/cart_sidebar_wave.svg')",
+                  `url(${getAssetsUrl("vector_icons/cart_sidebar_wave.svg")})`,
               }}
               className="relative select-none flex justify-between px-4 text-[#33B056] items-center bg-no-repeat bg-cover bg-top w-full h-16 overflow-hidden"
             >
@@ -697,12 +692,11 @@ const CartModalDesktop = ({ show, onHide }) => {
               </button>
             </div>
             {showGif && (
-              <img
-                className="absolute inset-0 w-full h-full object-contain bottom-0"
-                src="/assets/animation.gif"
+              <img className="absolute inset-0 w-full h-full object-contain bottom-0"
+                src={getAssetsUrl("animation.gif")}
                 alt=""
                 aria-hidden="true"
-              />
+              loading="lazy" />
             )}
           </div>
         </div>

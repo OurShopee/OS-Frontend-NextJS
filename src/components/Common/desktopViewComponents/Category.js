@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Navigationapi } from "@/api/products";
 import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 import { pushToDataLayer } from "../../utils/dataUserpush";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const Categorylist = () => {
   const currentcountry = useSelector(
@@ -106,13 +107,12 @@ const Categorylist = () => {
         onClick={() => setShowDropdown(!showDropdown)}
       >
         <div className="flex items-center justify-between gap-1 py-1">
-          <img
-            src="/assets/vector_icons/burgericon.png"
+          <img src={getAssetsUrl("vector_icons/burgericon.png")}
             height={22}
             width={15}
             className="mr-1 text-[17px] cursor-pointer flex"
             alt="burger"
-          />
+          loading="lazy" />
           <span className="text-white font-[Outfit] text-[15px] cursor-pointer font-medium">
             {categoryText}
           </span>
@@ -166,11 +166,10 @@ const Categorylist = () => {
                         }`}
                       >
                         <div className="w-[70px] h-[70px] rounded-full flex items-center justify-center mb-2">
-                          <img
-                            src={sub.sub_category_image}
+                          <img src={sub.sub_category_image}
                             alt={getDynamicContent(sub, "sub_category_name", currentLanguage)}
                             className="w-16 h-16 object-contain"
-                          />
+                          loading="lazy" />
                         </div>
                         <span
                           className={`text-[15px] font-medium font-[Outfit] leading-[1.2] break-words group-hover:text-[#5232C2] ${
@@ -262,11 +261,10 @@ const Categorylist = () => {
                               }}
                               className="group p-2 flex items-center bg-[#F4F4F4] justify-center w-full h-[80px] rounded-xl no-underline transition-all duration-200"
                             >
-                              <img
-                                src={brand.image}
+                              <img src={brand.image}
                                 alt={brand.name}
                                 className="h-[1.6rem] xl:h-8 mix-blend-multiply w-auto object-contain filter grayscale group-hover:scale-110 transition-all duration-200"
-                              />
+                              loading="lazy" />
                             </Link>
                           );
                         })

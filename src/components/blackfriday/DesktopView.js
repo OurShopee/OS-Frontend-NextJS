@@ -14,6 +14,7 @@ import FlashSale from "./FlashSale";
 import { MediaQueries } from "../utils";
 import { ComponentHeader } from "../Common";
 import { CarouselWithBanner } from "../homepage";
+import { getAssetsUrl } from "../utils/helpers";
 import { useRouter } from "next/navigation";
 const DesktopView = ({
   categoryItems,
@@ -71,20 +72,18 @@ const DesktopView = ({
       {/* BANNER */}
       <div className="relative">
         <div className="flex items-center justify-center w-full m-auto overflow-hidden">
-          <img
-            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanners.png`}
+          <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybanner.png`}
             alt=""
-          />
+          loading="lazy" />
         </div>
         <MarqueeSale />
       </div>
       <div className="w-full bg-black">
         <div className="pt-12">
-          <img
-            src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`}
+          <img src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`}
             alt=""
             className="w-full bg-black"
-          />
+          loading="lazy" />
         </div>
       </div>
       <div className="bg-black px-4">
@@ -238,8 +237,7 @@ const DesktopView = ({
       </div>
 
       <div className="px-5 mb-4">
-        <img
-          src={
+        <img src={
             isMobile
               ? OurshoppeFridayBanner?.mobileImage
               : OurshoppeFridayBanner?.desktopImage
@@ -249,7 +247,7 @@ const DesktopView = ({
           }}
           alt="Banner"
           className="w-full h-full rounded-xl"
-        />
+        loading="lazy" />
       </div>
 
       <div className="component_1 mb-4 px-5">
@@ -287,8 +285,7 @@ const DesktopView = ({
       </div>
 
       <div className="px-5 mb-4">
-        <img
-          src={
+        <img src={
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
           onClick={() => {
@@ -296,7 +293,7 @@ const DesktopView = ({
           }}
           alt="Banner"
           className="w-full h-full rounded-xl"
-        />
+        loading="lazy" />
       </div>
 
       <div className="component_1 mb-4 px-5">
@@ -328,7 +325,7 @@ const DesktopView = ({
                 <div
                   className="group relative w-full h-[170px] rounded-xl flex pt-1 pl-[20px] overflow-hidden bg-cover bg-center"
                   style={{
-                    background: "url(/assets/black-friday/bg-gadgets.png)",
+                    background: `url(${getAssetsUrl("black-friday/bg-gadgets.png")})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                   }}
@@ -345,11 +342,10 @@ const DesktopView = ({
                   </div>
 
                   <div className="absolute -bottom-[1.4rem] right-0 group-hover:bottom-1 transition-all duration-1000 w-[16rem] h-[11rem] ease-in-out">
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/cantResist/${item.name}`}
+                    <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/cantResist/${item.name}`}
                       alt={item.title}
                       className="object-contain w-full h-full"
-                    />
+                    loading="lazy" />
                   </div>
                 </div>
               </Link>
@@ -361,7 +357,7 @@ const DesktopView = ({
                 <div
                   className="group relative w-full h-[170px] rounded-xl flex pt-1 pl-[20px] overflow-hidden bg-cover bg-center"
                   style={{
-                    background: "url(/assets/black-friday/bg-gadgets.png)",
+                    background: `url(${getAssetsUrl("black-friday/bg-gadgets.png")})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                   }}
@@ -378,11 +374,10 @@ const DesktopView = ({
                   </div>
 
                   <div className="absolute -bottom-[2.5rem] right-0 group-hover:bottom-0 transition-all duration-1000 w-[12rem] h-[12rem] ease-in-out">
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/cantResist/${item.name}`}
+                    <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/cantResist/${item.name}`}
                       alt={item.title}
                       className="object-contain w-full h-full"
-                    />
+                    loading="lazy" />
                   </div>
                 </div>
               </Link>
@@ -392,8 +387,7 @@ const DesktopView = ({
       </div>
 
       <div className="px-5 mb-4">
-        <img
-          src={
+        <img src={
             isMobile
               ? AppUpdateBanner?.mobileImage
               : AppUpdateBanner?.desktopImage
@@ -403,7 +397,7 @@ const DesktopView = ({
           }}
           alt="Banner"
           className="w-full h-full rounded-xl"
-        />
+        loading="lazy" />
       </div>
 
       <div className="component_1 mb-4 px-5">

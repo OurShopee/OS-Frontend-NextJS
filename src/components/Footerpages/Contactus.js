@@ -2,9 +2,8 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import BreadComp from "@/components/Myaccount/BreadComp";
-import appstore from "@/images/appstore.png";
-import playstore from "@/images/playstore.png";
 import Link from "next/link";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { useContent } from "@/hooks";
 const Contactus = () => {
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
@@ -67,13 +66,13 @@ const Contactus = () => {
                     href="https://play.google.com/store/apps/details?id=www.ourshopee.com"
                     target="_blank"
                   >
-                    <img src={playstore.src} alt="Google Play" />
+                    <img src={getAssetsUrl("playstore.png")} alt="Google Play" loading="lazy" />
                   </Link>
                   <Link
                     href="https://apps.apple.com/us/app/ourshopee-online-shopping/id1226954989"
                     target="_blank"
                   >
-                    <img src={appstore.src} alt="App Store" />
+                    <img src={getAssetsUrl("appstore.png")} alt="App Store" loading="lazy" />
                   </Link>
                 </div>
               </div>

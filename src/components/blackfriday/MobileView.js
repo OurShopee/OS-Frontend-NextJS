@@ -256,11 +256,10 @@ const MobileView = ({
     <div>
       {/* Banner section */}
       <div className="h-full w-full flex items-center justify-center relative overflow-hidden rounded-b-2xl">
-        <img
-          src="https://cdn.ourshopee.com/ourshopee-img/summer_sale/mwebBanners.png"
+        <img src="https://cdn.ourshopee.com/ourshopee-img/summer_sale/mwebBanners.png"
           alt=""
           className="h-full w-full"
-        />
+        loading="lazy" />
       </div>
 
       {/* Popular Categories */}
@@ -273,11 +272,10 @@ const MobileView = ({
               to={item?.url}
               className="no-underline block w-full h-full"
             >
-              <img
-                src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/mwebCategories/${item.mobileImg}`}
+              <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/mwebCategories/${item.mobileImg}`}
                 alt=""
                 className="w-full h-full object-cover rounded-lg"
-              />
+              loading="lazy" />
             </NavLink>
           ))}
         </div>
@@ -290,11 +288,10 @@ const MobileView = ({
               to={item?.url}
               className="no-underline block w-full h-full"
             >
-              <img
-                src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/mwebCategories/${item.mobileImg}`}
+              <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/mwebCategories/${item.mobileImg}`}
                 alt=""
                 className="w-full h-full object-cover rounded-lg"
-              />
+              loading="lazy" />
             </NavLink>
           ))}
         </div>
@@ -319,11 +316,10 @@ const MobileView = ({
 
       {/* Unbeatable Deals section */}
       {/* <section className="my-4 relative overflow-hidden">
-        <img
-          src="https://cdn.ourshopee.com/ourshopee-img/summer_sale/mWebPageCard.png"
+        <img src="https://cdn.ourshopee.com/ourshopee-img/summer_sale/mWebPageCard.png"
           alt="Save Big on School Supplies"
           className="block w-full h-[500px]"
-        />
+        loading="lazy" />
 
         <div className="absolute inset-0 mt-[7.5rem] flex flex-col items-center justify-center gap-4 px-4">
   
@@ -338,11 +334,10 @@ const MobileView = ({
                 to={item.url}
                 className="relative w-[100px] flex-shrink-0"
               >
-                <img
-                  src={item.image}
+                <img src={item.image}
                   alt={`Under ${item.amount}`}
                   className="block w-full h-auto object-contain"
-                />
+                loading="lazy" />
 
                 <div className="text-[#266B4A] mt-1 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
                   <div
@@ -376,11 +371,10 @@ const MobileView = ({
                   to={item.url}
                   className="relative w-[100px] flex-shrink-0"
                 >
-                  <img
-                    src={item.image}
+                  <img src={item.image}
                     alt={`Under ${item.amount}`}
                     className="block w-full h-auto object-contain"
-                  />
+                  loading="lazy" />
 
                   <div className="text-[#266B4A] mt-1 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
                     <div
@@ -414,11 +408,10 @@ const MobileView = ({
                 to={item.url}
                 className="no-underline block w-full h-full"
               >
-                <img
-                  src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/homeLivingMweb/${item.name}`}
+                <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/homeLivingMweb/${item.name}`}
                   alt=""
                   className="w-full h-full object-cover rounded-lg"
-                />
+                loading="lazy" />
               </NavLink>
             );
           })}
@@ -430,11 +423,10 @@ const MobileView = ({
               to={item.url}
               className="no-underline block w-full h-full"
             >
-              <img
-                src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/homeLivingMweb/${item.name}`}
+              <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/homeLivingMweb/${item.name}`}
                 alt=""
                 className="w-full h-full object-cover rounded-lg"
-              />
+              loading="lazy" />
             </NavLink>
           ))}
         </div>
@@ -449,22 +441,20 @@ const MobileView = ({
                 to={item.url}
                 className="no-underline block w-full h-full"
               >
-                <img
-                  src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/lifestyleMweb/${item.name}`}
+                <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/lifestyleMweb/${item.name}`}
                   alt=""
                   className="w-full h-full object-cover rounded-lg"
-                />
+                loading="lazy" />
               </NavLink>
             ))}
           </div>
           <div className="grid grid-cols-[56%_44%] gap-2 mb-2 font-outfit w-full">
             {lifestyle.two.map((item, idx) => (
               <NavLink key={idx} to={item.url} className={`w-full h-full`}>
-                <img
-                  src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/lifestyleMweb/${item.name}`}
+                <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/lifestyleMweb/${item.name}`}
                   alt=""
                   className="w-full h-full rounded-lg"
-                />
+                loading="lazy" />
               </NavLink>
             ))}
           </div>
@@ -483,11 +473,10 @@ const MobileView = ({
               to={item.url}
               className="no-underline block w-full h-full"
             >
-              <img
-                src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgetsMweb/${item.name}`}
+              <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgetsMweb/${item.name}`}
                 alt=""
                 className="w-full h-full object-cover rounded-lg"
-              />
+              loading="lazy" />
             </NavLink>
           ))}
         </div>
@@ -498,11 +487,10 @@ const MobileView = ({
               to={item.url}
               className="no-underline block w-full h-full"
             >
-              <img
-                src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgetsMweb/${item.name}`}
+              <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgetsMweb/${item.name}`}
                 alt=""
                 className="w-full h-full object-cover rounded-lg"
-              />
+              loading="lazy" />
             </NavLink>
           ))}
         </div>
@@ -513,11 +501,10 @@ const MobileView = ({
               to={item.url}
               className="no-underline block w-full h-full"
             >
-              <img
-                src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgetsMweb/${item.name}`}
+              <img src={`https://cdn.ourshopee.com/ourshopee-img/summer_sale/TechGadgetsMweb/${item.name}`}
                 alt=""
                 className="w-full h-full object-cover rounded-lg"
-              />
+              loading="lazy" />
             </NavLink>
           ))}
         </div>

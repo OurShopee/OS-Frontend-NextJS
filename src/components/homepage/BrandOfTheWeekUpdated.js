@@ -8,6 +8,7 @@ import { pushToDataLayer } from "../utils/dataUserpush";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { ProductCard } from "../Common";
 import { MediaQueries } from "../utils";
+import { getAssetsUrl } from "../utils/helpers";
 
 /* ---------------- One-way overlay crossfade (no layout jump, no blink) ---------------- */
 function CrossfadeOverlay({ item, render, duration = 500 }) {
@@ -153,7 +154,10 @@ function BrandWeekMobileCard({ item }) {
           <img
             src={item?.image}
             alt={item?.name || "Product"}
-            onError={() => setHasError(true)}
+            onError={(e) => {
+              e.target.onerror = null;
+              setHasError(true);
+            }}
             className="w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] object-contain aspect-square"
             loading="lazy"
           />
@@ -166,12 +170,11 @@ function BrandWeekMobileCard({ item }) {
           {/* Current Price */}
           <div className="flex items-baseline">
             {currentcountry?.currency === "AED" ? (
-              <img
-                src="/assets/feed/aed-icon.svg"
+              <img src={getAssetsUrl("feed/aed-icon.svg")}
                 alt="AED"
                 className={`w-3 h-3 sm:w-4 sm:h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                 style={{ color: "black" }}
-              />
+              loading="lazy" />
             ) : (
               <span className={`text-black text-sm sm:text-xl font-bold leading-none ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
                 {currentcountry?.currency}

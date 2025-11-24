@@ -23,22 +23,20 @@ const TopBrands = ({ topBrands }) => {
               style={{ fontFamily: "'Bobby Jones Soft Regular', cursive" }}
             >
               {/* leaf before the start */}
-              <img
-                src={leaf}
+              <img src={leaf}
                 alt=""
                 width={50}
                 className="absolute -left-[32px] -top-[5px] w-7 h-auto"
-              />
+              loading="lazy" />
               BIG DEALS ON BIG BRANDS
               {/* scribble underline */}
               <div className="absolute right-0 top-[3.9rem] flex justify-end h-[40px]">
-                <img
-                  src={underline}
+                <img src={underline}
                   alt=""
                   width={110}
                   height={17}
                   className="object-contain"
-                />
+                loading="lazy" />
               </div>
             </div>
           </div>

@@ -362,15 +362,14 @@ const HomeClient = ({
             <div className="lg:col-span-1 deals-you-like relative">
               {limitedTimeDealsData?.background_image?.length > 0 ? (
                 <div className="absolute inset-0 z-0">
-                  <img
-                    src={
+                  <img src={
                       limitedTimeDealsData?.background_image[0]?.desktopImage
                     }
                     alt="Limited Time Deals Background"
                     fill
                     className="object-cover w-full h-full"
                     priority
-                  />
+                  loading="lazy" />
                   {/* Optional overlay for better text readability */}
                   <div className="absolute inset-0 bg-black/20"></div>
                 </div>

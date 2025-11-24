@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const BankDetailsForm = ({ formData, setFormData, onBack, onSubmit }) => {
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -57,11 +58,10 @@ const BankDetailsForm = ({ formData, setFormData, onBack, onSubmit }) => {
         <div className="flex flex-col gap-2.5 mb-3">
           <h2 className="font-bold text-2xl mb-0 flex items-center gap-1.5">
             Submit Your Bank Details for Verification
-            <img
-              src="/assets/seller/shield.png"
+            <img src={getAssetsUrl("seller/shield.png")}
               alt="tick"
               className="text-green-500 w-5 h-5"
-            />
+            loading="lazy" />
           </h2>
           <hr className="h-1 bg-[#E5E5E5] !m-0" />
         </div>
@@ -194,11 +194,10 @@ const BankDetailsForm = ({ formData, setFormData, onBack, onSubmit }) => {
           >
             {/* Header Section */}
             <div className="bg-[#FFF8E0] rounded-t-2xl px-5 py-3 flex items-center gap-3">
-              <img
-                src="/assets/seller/doc-icon.png"
+              <img src={getAssetsUrl("seller/doc-icon.png")}
                 alt="document"
                 className="w-6 h-6"
-              />
+              loading="lazy" />
               <div>
                 <div className="font-medium text-[22px]">
                   Business Agreement

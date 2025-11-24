@@ -5,46 +5,11 @@ import { useRouter } from "next/navigation";
 import { pushToDataLayer } from "../utils/dataUserpush";
 import { useSelector } from "react-redux";
 export default function PromotionalBanners({ sectionBanners }) {
-  const { isMobile, isTablet, isLaptop } = MediaQueries();
+  const { isMobile } = MediaQueries();
   const router = useRouter();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
-  const banners = [
-    {
-      id: 1,
-      title: "LAPTOPS",
-      subtitle: "COLLECTIONS",
-      label: "FRESH ARRIVAL",
-      badge: "LIMITED",
-      buttonText: "SHOP NOW",
-      image: "/images/laptop-promo.png",
-      gradient: "from-pink-500 via-red-500 to-orange-500",
-      textColor: "text-white",
-    },
-    {
-      id: 2,
-      title: "NEW EARPHONES",
-      subtitle: "TAURUS",
-      badge: "10% OFF",
-      buttonText: "SHOP ONLINE NOW",
-      image: "/images/earphones.png",
-      gradient: "from-purple-600 to-purple-700",
-      textColor: "text-white",
-      url: "www.yourmusiclife.com +91 765 787",
-    },
-    {
-      id: 3,
-      title: "BABY",
-      subtitle: "FROM 1ST MONTH FOR YOU",
-      label: "Best Protection",
-      badge: "MORE",
-      image: "/images/baby.png",
-      gradient: "from-yellow-300 to-yellow-400",
-      textColor: "text-red-600",
-      hasBabyBottle: true,
-    },
-  ];
 
   return (
     <div className="grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
@@ -68,15 +33,14 @@ export default function PromotionalBanners({ sectionBanners }) {
               router.push(url);
             }}
           >
-            <img
-              src={
+            <img src={
                 !isMobile
                   ? sectionBanners?.sectionBanner1?.image_web
                   : sectionBanners?.sectionBanner1?.image_app
               }
               className={`w-full  ${isMobile? "h-[189px] aspect-[363/189]" : "h-[350px] aspect-[268/350]"} rounded-2xl object-cover`}
               alt="Banners"
-            />
+            loading="lazy" />
           </div>
         )}
       </div>
@@ -100,15 +64,14 @@ export default function PromotionalBanners({ sectionBanners }) {
               router.push(url);
             }}
           >
-            <img
-              src={
+            <img src={
                 !isMobile
                   ? sectionBanners?.sectionBanner2?.image_web
                   : sectionBanners?.sectionBanner2?.image_app
               }
               className={`w-full rounded-2xl  lg:h-[170px] ${isMobile? "h-[140px] aspect-[180/140]" : "aspect-[195/170]"} object-cover`}
               alt="Banners"
-            />
+            loading="lazy" />
           </div>
         )}
         {sectionBanners?.sectionBanner3 && (
@@ -128,15 +91,14 @@ export default function PromotionalBanners({ sectionBanners }) {
               router.push(url);
             }}
           >
-            <img
-              src={
+            <img src={
                 !isMobile
                   ? sectionBanners?.sectionBanner3?.image_web
                   : sectionBanners?.sectionBanner3?.image_app
               }
               className={`w-full rounded-2xl lg:h-[170px] ${isMobile? "h-[140px] aspect-[180/140]" : "aspect-[195/170]"} object-cover`}
               alt="Banners"
-            />
+            loading="lazy" />
           </div>
         )}
       </div>

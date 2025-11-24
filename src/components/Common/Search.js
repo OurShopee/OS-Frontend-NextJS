@@ -11,6 +11,7 @@ import { Category } from "@/actions";
 import { setcurrent_page } from "@/redux/categoryslice";
 import { searchapi } from "@/api/products";
 import { useContent } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 const Search = () => {
   const { getSubCatScreenList, filtered_items } = Category();
@@ -182,7 +183,7 @@ const Search = () => {
         }}
       />
       <div className="header-search secondarybackground" onClick={handleSearch}>
-        <img src={"/assets/vector_icons/search.png"} />
+        <img src={getAssetsUrl("vector_icons/search.png")} loading="lazy" />
       </div>
       {smallcsreen && (searchQuery || isFocused) && (
         <div className="searchcanclebtn" onClick={clearSearch}>

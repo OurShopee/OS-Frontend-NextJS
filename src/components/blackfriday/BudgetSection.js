@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 import { MediaQueries } from "../utils";
+import { getAssetsUrl } from "../utils/helpers";
 
 const BudgetSection = ({ BudgetSectionData }) => {
   const { isMobile } = MediaQueries();
@@ -14,7 +15,7 @@ const BudgetSection = ({ BudgetSectionData }) => {
       <div
         className="rounded-[18px] overflow-hidden pt-5 pb-8"
         style={{
-          background: "url(/assets/black-friday/bg-under-section.png)",
+          background: `url(${getAssetsUrl("black-friday/bg-under-section.png")})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -72,11 +73,10 @@ const BudgetSection = ({ BudgetSectionData }) => {
           <div className="flex justify-center flex-wrap gap-14">
             {BudgetSectionData?.map((i, idx) => (
               <Link key={idx} href={i?.url}>
-                <img
-                  src={i?.desktopImage}
+                <img src={i?.desktopImage}
                   alt="No image found"
                   className="w-[199px] h-[197px] object-contain"
-                />
+                loading="lazy" />
               </Link>
             ))}
           </div>
@@ -84,11 +84,10 @@ const BudgetSection = ({ BudgetSectionData }) => {
           <div className="flex flex-wrap justify-around gap-2 px-6">
             {BudgetSectionData?.map((i, idx) => (
               <Link key={idx} href={i?.url}>
-                <img
-                  src={i?.mobileImage}
+                <img src={i?.mobileImage}
                   alt="No image found"
                   className="w-[120px] h-[120px] md:w-[199px] md:h-[197px] object-contain"
-                />
+                loading="lazy" />
               </Link>
             ))}
           </div>

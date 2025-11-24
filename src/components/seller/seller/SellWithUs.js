@@ -1,7 +1,6 @@
 import React from "react";
-import border from "@/images/border.png";
-import ipad from "@/images/ipad.png";
 import SellerAlignCards from "../../Common/SellerAlignCards";
+import { getAssetsUrl } from "../../utils/helpers";
 const SellWithUs = () => {
   const cards = [
     {
@@ -39,8 +38,7 @@ const SellWithUs = () => {
           <span className="text-[36px] font-semibold font-[Outfit] text-black">
             Get Started & Sell With Us
           </span>
-          <img
-            src={border.src}
+          <img src={getAssetsUrl("border.png")}
             alt="Hero"
             className=""
             style={{
@@ -49,7 +47,7 @@ const SellWithUs = () => {
               zIndex: 1,
               height: "1.5px",
             }}
-          />
+          loading="lazy" />
         </div>
       </div>
       <div className="xl:hidden text-center w-max">
@@ -67,11 +65,10 @@ const SellWithUs = () => {
 
       <div className="flex w-full px-3 items-center">
         <div className="hidden xl:flex justify-end items-center w-[60%]">
-          <img
-            src={ipad.src}
+          <img src={getAssetsUrl("ipad.png")}
             alt="Hero"
             className="w-full h-full object-cover z-10"
-          />
+          loading="lazy" />
         </div>
         <div className="flex justify-center w-full xl:w-[60%]">
           <SellerAlignCards data={cards} />
