@@ -1,17 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Link from "next/link";
-import { MediaQueries } from "@/components/utils";
-import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
-import BreadComp from "@/components/Myaccount/BreadComp";
-import { useContent } from "@/hooks";
-import { FaWallet } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { getAssetsUrl } from "@/components/utils/helpers";
-import InfoCardWithModal from "@/components/Common/InfoCardWithModal";
-import { FiHelpCircle } from "react-icons/fi";
 import { getWalletBalance } from "@/api/user";
+import FAQAccordion from "@/components/Common/FAQAccordion";
+import InfoCardWithModal from "@/components/Common/InfoCardWithModal";
+import BreadComp from "@/components/Myaccount/BreadComp";
+import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
+import { MediaQueries } from "@/components/utils";
+import { getAssetsUrl } from "@/components/utils/helpers";
+import { useContent } from "@/hooks";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const page = () => {
   const { isMobile } = MediaQueries();
@@ -135,19 +133,28 @@ const page = () => {
                 </div>
 
                 <InfoCardWithModal
-                  icon={<FiHelpCircle />}
+                  icon={"wallet/question.svg"}
                   heading="How To Use?"
                   description="Use Shopee Wallet for hassle-free checkout by easily applying your available balance"
-                  modalTitle="How To Use Shopee Wallet?"
-                  modalContent="Detailed modal content goes here. Add anything your modal needs."
-                  modalActions={
-                    <button
-                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                      onClick={() => alert("Action clicked!")}
-                    >
-                      Got it!
-                    </button>
-                  }
+                  modalContent={<FAQAccordion />}
+                />
+                <InfoCardWithModal
+                  icon={"wallet/Ticket.png"}
+                  heading="Coupons"
+                  description="Discover available coupons for your transactions and view details to maximize your savings."
+                  modalContent={<FAQAccordion />}
+                />
+                <InfoCardWithModal
+                  icon={"wallet/comments.svg"}
+                  heading="Commonly Asked Questions?"
+                  description="Quick answers to common questions about using and managing your Shopee Wallet."
+                  modalContent={<FAQAccordion />}
+                />
+                <InfoCardWithModal
+                  icon={"wallet/terms.svg"}
+                  heading="Terms & Conditions"
+                  description="These terms outline your responsibilities and secure payment policies for Shopee Wallet."
+                  modalContent={<FAQAccordion />}
                 />
               </div>
             </Col>
