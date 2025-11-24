@@ -32,6 +32,7 @@ const MyAccountDashboard = () => {
     const wishlist = useContent("account.wishlist");
     const orderDetails = useContent("buttons.orderDetails");
     const myOrders = useContent("account.myOrders");
+    const wallet = useContent("account.wallet");
     const trackYourOrder = useContent("account.trackYourOrder");
     const helpCenter = useContent("buttons.helpCenter");
     const complaints = useContent("pages.complaints");
@@ -93,6 +94,18 @@ const MyAccountDashboard = () => {
             ]
         },
         {
+          id: 4,
+          card_title: wallet,
+          card_items: [
+              {
+                  id: 1,
+                  name: wallet,
+                  url: 'wallet',
+                  icon: <CiCircleQuestion size={20} color={pathname?.split('/')[1] == 'wallet' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+              }
+          ]
+      },
+        {
             id: 3,
             card_title: helpCenter,
             card_items: [
@@ -104,7 +117,7 @@ const MyAccountDashboard = () => {
                 }
             ]
         }
-    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname]);
+    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname, wallet]);
 
     return (
       <>

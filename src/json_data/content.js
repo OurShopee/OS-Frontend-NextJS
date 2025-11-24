@@ -2052,6 +2052,10 @@ export const content = {
     },
   },
   account: {
+    wallet: {
+      en: "Wallet",
+      ar: "المحفظة",
+    },
     myAccount: {
       en: "My Account",
       ar: "حسابي",
