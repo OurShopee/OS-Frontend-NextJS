@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { FiRefreshCcw } from "react-icons/fi";
 import { getAssetsUrl } from "../utils/helpers";
 
 const DATE_FORMAT_OPTIONS = {
@@ -8,7 +7,7 @@ const DATE_FORMAT_OPTIONS = {
   year: "2-digit",
 };
 
-const Transactions = ({ transactions = [] }) => {
+const Transactions = ({ transactions = [], limit = 5 }) => {
   const [activeTransaction, setActiveTransaction] = useState(null);
 
   const parsedTransactions = useMemo(
@@ -23,6 +22,16 @@ const Transactions = ({ transactions = [] }) => {
     [transactions]
   );
 
+  const visibleTransactions = useMemo(() => {
+    if (!parsedTransactions.length) {
+      return [];
+    }
+    if (typeof limit === "number") {
+      return parsedTransactions.slice(0, limit);
+    }
+    return parsedTransactions;
+  }, [parsedTransactions, limit]);
+
   const handleSeeMore = (tx) => {
     setActiveTransaction(tx);
   };
@@ -36,7 +45,7 @@ const Transactions = ({ transactions = [] }) => {
   return (
     <>
       <div className="flex flex-col gap-1 w-full">
-        {parsedTransactions.slice(0, 5).map((tx) => (
+        {visibleTransactions.map((tx) => (
           <div
             key={tx.id}
             className="flex items-center justify-between w-full  border-gray-100 pb-6 last:border-b-0 last:pb-0"
