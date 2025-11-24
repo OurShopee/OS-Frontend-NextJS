@@ -139,3 +139,12 @@ export const trackdatabyreferencid = async (input_data) => {
   );
   return response.data;
 };
+export const getWalletBalance = async () => {
+  const response = await axios.get(
+    `api/wallet/balance`,
+    {
+      headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+    }
+  );
+  return response.data;
+};
