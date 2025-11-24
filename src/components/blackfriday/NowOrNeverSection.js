@@ -4,6 +4,7 @@ import CountdownClock from "../homepage/CountdownClock";
 import CarouselWithoutIndicators from "./CarouselWithoutIndicator";
 import { useMemo, useEffect, useState } from "react";
 import { MediaQueries } from "../utils";
+import { getAssetsUrl } from "../utils/helpers";
 
 function getNextResetTime() {
   const now = new Date();
@@ -128,7 +129,7 @@ const NowOrNeverSection = ({ NowOrNeverDeals }) => {
         <div
           className="px-3 md:px-11 py-3 rounded-[16px] overflow-hidden pb-8"
           style={{
-            background: "url(/assets/black-friday/now-never-bg.png)",
+            background: `url(${getAssetsUrl("black-friday/now-never-bg.png")})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
           }}

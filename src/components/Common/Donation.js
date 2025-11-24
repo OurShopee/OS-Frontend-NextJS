@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import infoimg from "@/images/Info Square.png";
-import donateimg1 from "@/images/Frame 1321316476.png";
-import donateimg2 from "@/images/Frame 1321316477.png";
+import { getAssetsUrl } from "../utils/helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { setdonationfee, setshowdonation } from "@/redux/paymentslice";
 import { useContent, useCurrentLanguage } from "@/hooks";
@@ -60,12 +58,12 @@ const Donation = ({ donation }) => {
           />
           {donateAndMakeADifference}
         </div>
-        <img src={infoimg.src} alt="info" />
+        <img src={getAssetsUrl("Info Square.png")} alt="info" loading="lazy" />
       </div>
 
       <div className={`ps-3 flex ${isRTL ? "flex-row-reverse gap-2 justify-end" : "gap-2"}`}>
-        <img src={donateimg1.src} alt="donation1" />
-        <img src={donateimg2.src} alt="donation2" />
+        <img src={getAssetsUrl("Frame 1321316476.png")} alt="donation1" loading="lazy" />
+        <img src={getAssetsUrl("Frame 1321316477.png")} alt="donation2" loading="lazy" />
       </div>
 
       <div>

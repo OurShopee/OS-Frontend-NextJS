@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import PostReview from "./PostReview"; // Import the PostReview component
 import HasReview from "./HasReview"; // Import the HasReview component
 import RatingOverview from "./RatingOverview";
-import { useLoginModal } from "../utils/helpers";
+import { getAssetsUrl, useLoginModal } from "../utils/helpers";
 import { ComponentHeader } from "../Common";
 import { useContent, useCurrentLanguage } from "@/hooks";
 
@@ -280,16 +280,14 @@ const ReviewOnlyRating = () => {
               {/* Quote Icons - Only show when not authenticated */}
               {!authstatus && (
                 <>
-                  <img
-                    src={"/assets/review/left-icon-review.png"}
+                  <img src={getAssetsUrl("review/left-icon-review.png")}
                     alt="Quote Left"
                     className="hidden xl:block absolute left-[2%] top-[8%] -translate-y-1/2 w-[100px] z-1"
-                  />
-                  <img
-                    src={"/assets/review/left-icon-review.png"}
+                  loading="lazy" />
+                  <img src={getAssetsUrl("review/left-icon-review.png")}
                     alt="Quote Right"
                     className="hidden xl:block absolute right-[2%] top-[90%] -translate-y-1/2 w-[100px] z-1 rotate-180"
-                  />
+                  loading="lazy" />
                 </>
               )}
 
@@ -434,11 +432,10 @@ const ReviewOnlyRating = () => {
                     {selectedFiles.map((file) => (
                       <div key={file.id} className="relative group">
                         <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-                          <img
-                            src={file.preview}
+                          <img src={file.preview}
                             alt={file.name}
                             className="w-full h-full object-cover"
-                          />
+                          loading="lazy" />
                         </div>
 
                         {/* Remove Button */}

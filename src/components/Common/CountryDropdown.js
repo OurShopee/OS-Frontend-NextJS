@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useCurrentLanguage, getDynamicContent } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 export default function CountryDropdown({ countryDropdown }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,10 +61,11 @@ export default function CountryDropdown({ countryDropdown }) {
       {currentcountry && Object.keys(currentcountry).length > 0 && (
         <div className="flex items-center">
           <img
-            src={`/flags/${currentcountry?.image}`}
+            src={getAssetsUrl(`flags/${currentcountry?.image}`)}
             alt={localizedCurrentCountryName || currentcountry?.name || "Country"}
             className={`${currentLanguage === "ar" ? "ml-2" : "mr-2"}`}
             width="20"
+            loading="lazy"
           />
           <span className="text-white text-sm font-outfit font-semibold md:text-sm">
             {localizedCurrentCountryName || currentcountry?.name}
@@ -88,10 +90,11 @@ export default function CountryDropdown({ countryDropdown }) {
                   className="flex items-center px-3 py-2 text-sm font-semibold text-black hover:bg-purple-50 hover:text-primary rounded cursor-pointer transition-colors duration-150"
                 >
                   <img
-                    src={`/flags/${option.image}`}
+                    src={getAssetsUrl(`flags/${option.image}`)}
                     alt={option.localizedName || option.name}
                     className={`${currentLanguage === "ar" ? "ml-2" : "mr-2"}`}
                     width="20"
+                    loading="lazy"
                   />
                   {option.localizedName || option.name}
                 </div>

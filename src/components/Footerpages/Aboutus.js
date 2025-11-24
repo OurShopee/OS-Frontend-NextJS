@@ -49,7 +49,7 @@ const Aboutus = () => {
       <BreadComp title={aboutOurshopee} />
       <div className="footerpagesheader">{aboutOurshopee}</div>
       <div className="single_banner pt-4">
-        <img src={"assets/banners/aboutus.png"} />
+        <img src={"assets/banners/aboutus.png"} loading="lazy" />
       </div>
 
       <div className="abouts-company">
@@ -63,7 +63,7 @@ const Aboutus = () => {
       <div className="ourjourny">
         <div className="aboutus-title">{journey}</div>
         <div className="single_banner pt-4">
-          <img src={"assets/banners/aboutmap.png"} />
+          <img src={"assets/banners/aboutmap.png"} loading="lazy" />
         </div>
       </div>
       <Row className="mt-4">
@@ -83,9 +83,9 @@ const Aboutus = () => {
       <Row className="mt-4 factors">
         <div className="fcatortitle">
           {isMobile ? (
-            <img src={"assets/banners/mobilefactror.png"} />
+            <img src={"assets/banners/mobilefactror.png"} loading="lazy" />
           ) : (
-            <img src={"assets/banners/factors.png"} />
+            <img src={"assets/banners/factors.png"} loading="lazy" />
           )}
 
           {/* <div className="foutfactor-title">The </div>
@@ -169,7 +169,7 @@ const Aboutus = () => {
       </Row>
       <Row className="mt-4 ceocomponent fivebannerbackground">
         <Col lg={3} md={6} sm={12}>
-          <img className="ceoimg" src={"assets/banners/ceo.png"} />
+          <img className="ceoimg" src={"assets/banners/ceo.png"} loading="lazy" />
         </Col>
         <Col lg={9} md={6} sm={12}>
           <div className="ceoname">{founderName}</div>
@@ -184,7 +184,7 @@ const Aboutus = () => {
           </div>
           <Row className="mt-4 Ceo-main">
             <div className="Ceo-main-title">
-              <img className="medalimg" src={"assets/banners/Medal.png"} />
+              <img className="medalimg" src={"assets/banners/Medal.png"} loading="lazy" />
               {achievements}
             </div>
             <Col lg={4} md={4} sm={12} className="mb-4 ">

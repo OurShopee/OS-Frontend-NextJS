@@ -6,6 +6,7 @@ import { PiTranslateBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { setCurrentLanguage } from "@/redux/globalslice";
+import { getAssetsUrl } from "../utils/helpers";
 
 export default function LanguageDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ export default function LanguageDropdown() {
         className="flex items-center gap-1 text-white hover:bg-primary/90 transition focus:outline-none"
       >
         <span className="flex items-center justify-center rounded-full">
-          <img src="/language.svg" alt="Language" className="h-7 w-7" />
+          <img src={getAssetsUrl("language.svg")} alt="Language" className="h-7 w-7" loading="lazy" />
           {/* <PiTranslateBold className="h-5 w-5 text-white" /> */}
         </span>
         <span className="text-sm font-outfit font-semibold md:text-base tracking-wide">

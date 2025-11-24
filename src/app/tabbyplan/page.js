@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import starimg from "@/images/Sta5r.png"   
 import { MediaQueries } from "@/components/utils";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { useSelector} from "react-redux";
 import { useContent, useCurrentLanguage } from "@/hooks";
 
@@ -57,8 +57,8 @@ const Tabbyplan = () => {
             <div className="single_banner ">
                 {
                     !isMobile?
-                    <img src={'assets/banners/shopnowpaylater.png'} />:
-                    <img src={'assets/banners/mobiletabbybanner.png'}></img>
+                    <img src={'assets/banners/shopnowpaylater.png'} loading="lazy" />:
+                    <img src={'assets/banners/mobiletabbybanner.png'} loading="lazy"></img>
                 }
             
             </div>
@@ -77,19 +77,19 @@ const Tabbyplan = () => {
                     <div className="tabbyplan-card mb-2">
                         <div className="tabbycard-title">{yesIfYou}</div>
                         <div className="d-flex">
-                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                             <div className="tabbycard-content">
                                 {age18Plus}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                             <div className="tabbycard-content">
                                 {validCard}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                             <div className="tabbycard-content">
                                 {uaeResident}
                             </div>
@@ -100,19 +100,19 @@ const Tabbyplan = () => {
                     <div className="tabbyplan-card ">
                         <div className="tabbycard-title">{andJustFYI}</div>
                         <div className="d-flex">
-                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                             <div className="tabbycard-content">
                                 {installmentPlanValid}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                             <div className="tabbycard-content">
                                 {automaticPayments}
                             </div>
                         </div>
                         <div className="d-flex">
-                            <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                            <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                             <div className="tabbycard-content">
                                 {returnPolicy}
                             </div>
@@ -125,8 +125,8 @@ const Tabbyplan = () => {
                 <Col lg={4}>
                 {
                     isMobile?
-                    <img className="benfitsimg" src={'assets/banners/bnplmobile.png'} />:
-                    <img className="benfitsimg" src={'assets/banners/benefitofbnpl.png'} />
+                    <img className="benfitsimg" src={'assets/banners/bnplmobile.png'} loading="lazy" />:
+                    <img className="benfitsimg" src={'assets/banners/benefitofbnpl.png'} loading="lazy" />
                 }
      
                 </Col>
@@ -134,64 +134,64 @@ const Tabbyplan = () => {
                     <div className="benfitscard benfitsmiddle">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                                 <div className="benfitscontent">{selectEverything}
                                 </div>
 
                             </div>
                             <div className="benfits-subcontent">{browseAndAdd}</div>
                         </div>
-                        <img className="bnplcardimages" src={'assets/banners/bnpl1.png'} />
+                        <img className="bnplcardimages" src={'assets/banners/bnpl1.png'} loading="lazy" />
                     </div>
                     <div className="benfitscard benfitsmiddle">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                                 <div className="benfitscontent">{tabbyForEMI}
                                 </div>
 
                             </div>
                             <div className="benfits-subcontent">{chooseTabby}</div>
                         </div>
-                        <img className="bnplcardimages" src={'assets/banners/bnpl2.png'} />
+                        <img className="bnplcardimages" src={'assets/banners/bnpl2.png'} loading="lazy" />
                     </div>
                     <div className="benfitscard benfitsmiddle">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                                 <div className="benfitscontent">{signUp}
                                 </div>
 
                             </div>
                             <div className="benfits-subcontent">{registerInstantly}</div>
                         </div>
-                        <img className="bnplcardimages" src={'assets/banners/bnpl3.png'} />
+                        <img className="bnplcardimages" src={'assets/banners/bnpl3.png'} loading="lazy" />
                     </div>
                 </Col>
                 <Col lg={4} className="benfitscard-main">
                     <div className="benfitscard benfitslast">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                                 <div className="benfitscontent">{shipRightAway}
                                 </div>
 
                             </div>
                             <div className="benfits-subcontent">{fastProcessing}</div>
                         </div>
-                        <img className="bnplcardimages" src={'assets/banners/bnpl4.png'} />
+                        <img className="bnplcardimages" src={'assets/banners/bnpl4.png'} loading="lazy" />
                     </div>
                     <div className="benfitscard benfitslast">
                         <div>
                             <div className="d-flex">
-                                <img src={starimg?.src} className="me-3 tabbtstaring"></img>
+                                <img src={getAssetsUrl("Sta5r.png")} className="me-3 tabbtstaring" loading="lazy"></img>
                                 <div className="benfitscontent">{pay25Percent}
                                 </div>
 
                             </div>
                             <div className="benfits-subcontent">{enjoyNowPayLater}</div>
                         </div>
-                        <img className="bnplcardimages" src={'assets/banners/bnpl5.png'} />
+                        <img className="bnplcardimages" src={'assets/banners/bnpl5.png'} loading="lazy" />
                     </div>
                 </Col>
             </Row>
@@ -214,7 +214,7 @@ const Tabbyplan = () => {
 
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess1.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess1.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">1</div>
@@ -225,7 +225,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess2.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess2.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">2</div>
@@ -236,7 +236,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess3.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess3.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">3</div>
@@ -247,7 +247,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess4.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess4.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">4</div>
@@ -258,7 +258,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess5.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess5.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">5</div>
@@ -269,7 +269,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess6.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess6.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">6</div>
@@ -280,7 +280,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess7.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess7.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">7</div>
@@ -291,7 +291,7 @@ const Tabbyplan = () => {
                 </Col>
                 <Col lg={6} className="d-flex align-content-center bnpl-bottom">
                  <div className="tabbyimages">
-                 <img src={'assets/banners/tprocess8.png'} className="tabbyprocessimg" />
+                 <img src={'assets/banners/tprocess8.png'} className="tabbyprocessimg" loading="lazy" />
 
                  <div className="d-flex">
                     <div className="tprocesscount">8</div>

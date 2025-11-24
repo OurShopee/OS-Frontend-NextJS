@@ -113,21 +113,19 @@ const MobileViewCard = ({
       {/* BANNER */}
       <div className="relative">
         <div className="w-full">
-          <img
-            src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybannermweb.png`}
+          <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/blackfridaybannermweb.png`}
             alt=""
             className="w-full h-full"
-          />
+          loading="lazy" />
         </div>
         <MarqueeSale />
       </div>
       <div className="w-full bg-black">
         <div className="pt-12 md:pt-20">
-          <img
-            src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`}
+          <img src={`https://cdn.ourshopee.com/ourshopee-img/blackFriday/web/sectionBg.png`}
             alt=""
             className="w-full bg-black"
-          />
+          loading="lazy" />
         </div>
       </div>
       <div className="bg-black px-4">
@@ -158,9 +156,8 @@ const MobileViewCard = ({
                   ease: "easeOut",
                 }}
               >
-                <img
-                  src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/mweb/popularCat/${item.path}`}
-                />
+                <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/mweb/popularCat/${item.path}`}
+                loading="lazy" />
               </motion.div>
             </Link>
           ))}
@@ -177,9 +174,8 @@ const MobileViewCard = ({
                   ease: "easeOut",
                 }}
               >
-                <img
-                  src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/mweb/popularCat/${item.path}`}
-                />
+                <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/mweb/popularCat/${item.path}`}
+                loading="lazy" />
               </motion.div>
             </Link>
           ))}
@@ -292,15 +288,14 @@ const MobileViewCard = ({
       </div>
 
       <div className="px-5 mb-4">
-        <img
-          src={
+        <img src={
             isMobile
               ? OurshoppeFridayBanner?.mobileImage
               : OurshoppeFridayBanner?.desktopImage
           }
           alt="Banner"
           className="w-full h-full rounded-xl"
-        />
+        loading="lazy" />
       </div>
 
       <div className="component_1 mb-4 px-5">
@@ -336,13 +331,12 @@ const MobileViewCard = ({
       </div>
 
       <div className="px-5 mb-4">
-        <img
-          src={
+        <img src={
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
           alt="Banner"
           className="w-full h-full rounded-xl"
-        />
+        loading="lazy" />
       </div>
 
       <div className="component_1 mb-4 px-5">
@@ -379,9 +373,8 @@ const MobileViewCard = ({
                     ease: "easeOut",
                   }}
                 >
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/resist/${item.path}`}
-                  />
+                  <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/resist/${item.path}`}
+                  loading="lazy" />
                 </motion.div>
               </Link>
             ))}
@@ -398,9 +391,8 @@ const MobileViewCard = ({
                     ease: "easeOut",
                   }}
                 >
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/resist/${item.path}`}
-                  />
+                  <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/resist/${item.path}`}
+                  loading="lazy" />
                 </motion.div>
               </Link>
             ))}
@@ -409,15 +401,14 @@ const MobileViewCard = ({
       </div>
 
       <div className="px-5 mb-4">
-        <img
-          src={
+        <img src={
             isMobile
               ? AppUpdateBanner?.mobileImage
               : AppUpdateBanner?.desktopImage
           }
           alt="Banner"
           className="w-full h-full rounded-xl"
-        />
+        loading="lazy" />
       </div>
 
       <div className="component_1 mb-4 px-5">

@@ -18,6 +18,7 @@ import { pushToDataLayer } from "../utils/dataUserpush";
 import Modal from "./Modal";
 import { checkoutSingleProd } from "@/api/payments";
 import { useContent } from "@/hooks/useContent";
+import { getAssetsUrl } from "../utils/helpers";
 
 const Paymentdetails = ({ prodId, qty, sku, address }) => {
   const currentLanguage = useSelector((state) => state.globalslice.currentLanguage);
@@ -256,12 +257,11 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
 
                 <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                   {currentcountry?.currency == "AED" ? (
-                    <img
-                      src="/assets/feed/aed-icon.svg"
+                    <img src={getAssetsUrl("feed/aed-icon.svg")}
                       alt="AED"
                       className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                       style={{ color: "black" }}
-                    />
+                    loading="lazy" />
                   ) : (
                     <span className="pe-2">{currentcountry.currency} </span>
                   )}
@@ -351,12 +351,11 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
                   {" "}
                   {currentcountry?.currency == "AED" ? (
-                    <img
-                      src="/assets/feed/aed-icon.svg"
+                    <img src={getAssetsUrl("feed/aed-icon.svg")}
                       alt="AED"
                       className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                       style={{ color: "black" }}
-                    />
+                    loading="lazy" />
                   ) : (
                     <span className="pe-2">{currentcountry.currency} </span>
                   )}

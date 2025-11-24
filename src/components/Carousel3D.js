@@ -240,8 +240,7 @@ export default function Carousel3D({
                 cursor: styleData.cursor,
               }}
             >
-              <img
-                src={card?.image}
+              <img src={card?.image}
                 alt={card?.alt || "Card image"}
                 style={{
                   width: "95%",
@@ -249,7 +248,7 @@ export default function Carousel3D({
                   objectFit: "cover",
                   borderRadius: 12,
                 }}
-              />
+              loading="lazy" />
             </motion.div>
           );
         })}

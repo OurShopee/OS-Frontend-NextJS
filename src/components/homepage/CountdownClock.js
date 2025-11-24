@@ -6,9 +6,10 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import Image from "next/image";
 import { MediaQueries } from "../utils";
 import { useContent } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 export default function CountdownClock({
   endDate,
-  clockIcon = "/assets/feed/clock.png",
+  clockIcon = getAssetsUrl("feed/clock.png"),
   showDays = true,
   showHours = true,
   showMinutes = true,
@@ -34,7 +35,7 @@ export default function CountdownClock({
       <div className="flex items-center">
         {clockIcon && (
           <Image
-            src={clockIcon}
+            src={typeof clockIcon === 'string' && clockIcon.startsWith('http') ? clockIcon : getAssetsUrl(clockIcon.replace('/assets/', ''))}
             alt="Clock icon"
             width={isMobile ? 48 * 0.8 : 48}
             height={isMobile ? 48 * 0.8 : 48}

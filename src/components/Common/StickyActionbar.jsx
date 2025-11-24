@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import CartModal from "./Modals/CartModal";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 const StickyActionBar = ({
   quantity,
@@ -259,11 +260,10 @@ const StickyActionBar = ({
                       flexShrink: 0,
                     }}
                   >
-                    <img
-                      src={
+                    <img src={
                         showAddedToCartGif
-                          ? "/assets/vector_icons/added_to_cart_gif.gif"
-                          : "/assets/vector_icons/cart_icon.svg"
+                          ? getAssetsUrl("vector_icons/added_to_cart_gif.gif")
+                          : getAssetsUrl("vector_icons/cart_icon.svg")
                       }
                       alt=""
                       aria-hidden="true"
@@ -272,7 +272,7 @@ const StickyActionBar = ({
                         height: showAddedToCartGif ? "42px" : "20px",
                         objectFit: showAddedToCartGif ? "" : "contain",
                       }}
-                    />
+                    loading="lazy" />
                   </div>
 
                   {/* Add to Cart Text */}
@@ -321,8 +321,7 @@ const StickyActionBar = ({
               aria-label="Buy now - proceed to checkout"
               type="button"
             >
-              <img
-                src="/assets/vector_icons/buy_now_flash_.gif"
+              <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                 alt=""
                 aria-hidden="true"
                 style={{
@@ -330,7 +329,7 @@ const StickyActionBar = ({
                   height: "20px",
                   objectFit: "contain",
                 }}
-              />
+              loading="lazy" />
               {(stage === "idle" || stage === "reset") && (
                 <span className={`${currentLanguage === "ar" ? "mr-2" : "ml-2"} whitespace-nowrap`}>{buyNowText}</span>
               )}

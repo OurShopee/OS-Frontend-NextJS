@@ -55,10 +55,10 @@ function HomeMobileCarousel({ carousel_data }) {
                   });
                 }}
               >
-                <img
-                  className={`${carousel_data.length > 1 ? "" : "rounded-0"}`}
+                <img className={`${carousel_data.length > 1 ? "" : "rounded-0"}`}
                   src={item.mobile_image_url}
                   alt=""
+                  loading="lazy"
                 />
               </Link>
             </Carousel.Item>

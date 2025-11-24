@@ -12,6 +12,7 @@ import Snplmodal from "@/components/product-detail/Snplmodal";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import { useCart, getDynamicContent, useCurrentLanguage, useContent } from "@/hooks";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { decode } from "html-entities";
 import Cookiess from "js-cookie";
 import Link from "next/link";
@@ -242,36 +243,36 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
 
   const trustBadges = [
     {
-      img: "/assets/vector_icons/top_rated_customer.png",
+      img: getAssetsUrl("vector_icons/top_rated_customer.png"),
       text: topRatedByCustomers,
     },
     {
-      img: "/assets/vector_icons/Secure_Transaction.png",
+      img: getAssetsUrl("vector_icons/Secure_Transaction.png"),
       text: secureTransaction,
     },
     {
-      img: "/assets/vector_icons/Exchange_Available.png",
+      img: getAssetsUrl("vector_icons/Exchange_Available.png"),
       text: exchangeAvailable,
     },
     {
-      img: "/assets/vector_icons/Pay_Delivery.png",
+      img: getAssetsUrl("vector_icons/Pay_Delivery.png"),
       text: cashPayOnDelivery,
     },
   ];
 
   const bankBanner = [
     {
-      image: "/assets/vector_icons/Bank_offer_blue.png",
+      image: getAssetsUrl("vector_icons/Bank_offer_blue.png"),
       textBackground: "#4171DB",
       payBackground: "rgb(173, 218, 253)",
     },
     {
-      image: "/assets/vector_icons/Bank_offer_green.png",
+      image: getAssetsUrl("vector_icons/Bank_offer_green.png"),
       textBackground: "#38A60C",
       payBackground: "rgb(222, 242, 195)",
     },
     {
-      image: "/assets/vector_icons/Bank_offer_pink.png",
+      image: getAssetsUrl("vector_icons/Bank_offer_pink.png"),
       textBackground: "#DA372D",
       payBackground: "rgb(255, 175, 187)",
     },
@@ -618,12 +619,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                           {/* me-1 -> mr-1 */}
                           {currentcountry?.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
                               {currentcountry.currency}
@@ -640,22 +640,20 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           <div className="save-banner ml-2 px-3 py-2 flex items-center !font-medium">
                             {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
                             <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon inline-flex items-center justify-center`}>
-                            <img
-                                src="/assets/vector_icons/Vector.png"
+                            <img src={getAssetsUrl("vector_icons/Vector.png")}
                                 alt="%"
                                 className="discount-icon"
-                              />
+                              loading="lazy" />
                             </span>
                             <span className="text-sm flex items-center">
                             {youSaved}&nbsp;
                             <div className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                               {currentcountry?.currency == "AED" ? (
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-3 h-3 inline-block mix-blend-multiply"
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                               ) : (
                                 <span className="currency-symbol !text-sm">
                                   &nbsp;{currentcountry.currency}{" "}
@@ -676,12 +674,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           <span className="flex items-center">
                             {currentcountry?.currency == "AED" ? (
                               <>
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                                 {productDetail[0]?.old_price?.toFixed(2)}
                               </>
                             ) : (
@@ -726,12 +723,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             </span>
                           {/* d-flex align-items-center justify-content-center -> flex items-center justify-center */}
                           <div className="flex items-center justify-center">
-                            <img
-                              src={"/assets/vector_icons/fire.png"}
+                            <img src={getAssetsUrl("vector_icons/fire.png")}
                               alt="fire"
                               width={11.75}
                               height={20}
-                            />
+                            loading="lazy" />
                             <span
                               /* ms-1 fw-bold -> ml-1 font-bold */
                               className={`font-bold ${currentLanguage === "ar" ? "mr-1" : "ml-1"}`}
@@ -750,12 +746,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             } flex-nowrap min-w-0`}
                         >
                           {productDetail?.[0]?.fastTrack === 1 && (
-                            <img
-                              src={"/assets/vector_icons/Express_delivery.gif"}
+                            <img src={getAssetsUrl("vector_icons/Express_delivery.gif")}
                               alt="gif"
                               width={isMobile ? 200 : 230}
                               height={35}
-                            />
+                            loading="lazy" />
                           )}
                           <span
                             /* ms-1 -> ml-1 */
@@ -800,13 +795,12 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             key={index}
                             className="flex flex-col items-center text-center gap-1"
                           >
-                            <img
-                              src={badge.img}
+                            <img src={badge.img}
                               alt={badge.text}
                               width={68}
                               height={68}
                               className="mb-2 bg-gray-100 p-2 rounded-full"
-                            />
+                            loading="lazy" />
                             <div className="text-xs font-semibold">
                               {badge.text}
                             </div>
@@ -926,10 +920,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           className="bg-[#5232C2] uppercase whitespace-nowrap rounded-lg py-[0.9rem] text-white items-center flex justify-center flex-1 gap-2 border-none font-semibold"
                           onClick={handleClick}
                         >
-                          <img
-                            src={"/assets/vector_icons/cart_icon.svg"}
+                          <img src={getAssetsUrl("vector_icons/cart_icon.svg")}
                             alt={"cart"}
-                          />
+                          loading="lazy" />
                           {addToCart}
                           {isLoading && (
                             /* ms-3 -> ml-3 */
@@ -947,15 +940,14 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                           /* fw-bold -> font-bold, overflow-hidden stays same */
                           className="whitespace-nowrap hidden lg:flex flex-1 border-none rounded-lg py-[0.9rem] !bg-[#FFD100] text-[#191B1C] font-bold items-center justify-center gap-2 overflow-hidden"
                         >
-                          <img
-                            src="/assets/vector_icons/buy_now_flash_.gif"
+                          <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                             alt="flash"
                             style={{
                               width: "20px",
                               height: "20px",
                               objectFit: "contain",
                             }}
-                          />
+                          loading="lazy" />
                           <span>{buyNow.toUpperCase()}</span>
                         </button>
                       </div>
@@ -966,15 +958,14 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         /* fw-bold -> font-bold, overflow-hidden stays same */
                         className="whitespace-nowrap flex-1 lg:hidden border-none rounded-lg py-[0.9rem] !bg-[#FFD100] text-[#191B1C] font-bold flex items-center justify-center gap-2 overflow-hidden"
                       >
-                        <img
-                          src="/assets/vector_icons/buy_now_flash_.gif"
+                        <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                           alt="flash"
                           style={{
                             width: "20px",
                             height: "20px",
                             objectFit: "contain",
                           }}
-                        />
+                        loading="lazy" />
                         <span>{buyNow.toUpperCase()}</span>
                       </button>
                     </div>
@@ -1008,12 +999,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                             /* text-center gap-2 -> text-center gap-2 */
                             className="flex text-center gap-2 items-center"
                           >
-                            <img
-                              src={badge.img}
+                            <img src={badge.img}
                               alt={badge.text}
                               width={70}
                               height={70}
-                              /* mb-2 bg-light p-2 rounded-circle -> mb-2 bg-gray-100 p-2 rounded-full */
+                              /* mb-2 bg-light p-2 rounded-circle - loading="lazy"> mb-2 bg-gray-100 p-2 rounded-full */
                               className="mb-2 bg-gray-100 p-2 rounded-full"
                             />
                             <div className="flex items-center text-start text-sm font-semibold">
@@ -1029,12 +1019,12 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     {currentcountry?.isTabbyRequired && (
                       <>
                         <div className="flex max-w-full overflow-hidden">
-                          <img
-                            src={"/assets/vector_icons/Tabby_web.png"}
+                          <img src={getAssetsUrl("vector_icons/Tabby_web.png")}
                             alt="Tabby Offer"
                             className="flex-1 max-w-full cursor-pointer"
                             style={{ borderRadius: "12px" }}
                             onClick={() => dispatch(setsnplmodal(true))}
+                            loading="lazy"
                           />
                         </div>
                       </>
@@ -1186,13 +1176,12 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 >
                   {productSpecifications}
                 </span>
-                <img
-                  onClick={handleToggle}
-                  src="/assets/downArrow.png"
+                <img onClick={handleToggle}
+                  src={getAssetsUrl("downArrow.png")}
                   alt="Arrow"
                   className={`w-4 h-4 cursor-pointer grayscale ${expanded ? "rotate-180" : ""
                     } transition-transform`}
-                />
+                loading="lazy" />
               </div>
 
               <div className="bg-white px-3 py-4 pb-0 max-h-[50vh] overflow-y-auto">
@@ -1299,20 +1288,18 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   {expanded ? (
                     <div className="flex items-center justify-center">
                       <span className="mr-1">{viewLess}</span>
-                      <img
-                        src="/assets/downArrow.png"
+                      <img src={getAssetsUrl("downArrow.png")}
                         alt="Up Arrow"
                         className="w-4 h-4 rotate-180 mt-1"
-                      />
+                      loading="lazy" />
                     </div>
                   ) : (
                     <div className="flex items-center justify-center">
                       <span className="mr-1">{viewMore}</span>
-                      <img
-                        src="/assets/downArrow.png"
+                      <img src={getAssetsUrl("downArrow.png")}
                         alt="Down Arrow"
                         className="w-4 h-4 mt-1"
-                      />
+                      loading="lazy" />
                     </div>
                   )}
                 </span>
@@ -1324,7 +1311,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
           {a_plus_images?.length > 0 && (
             <div className="flex flex-col pb-7 sm:pb-0">
               {a_plus_images?.map((i) => (
-                <img className="w-full h-auto" src={i} alt="img" />
+                <img className="w-full h-auto" src={i} alt="img" loading="lazy" />
               ))}
             </div>
           )}
@@ -1456,11 +1443,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
           <div className="backdrop-blur-3xl items-center shadow-[0_10px_25px_rgba(0,0,0,0.2)] gap-10 border border-gray-300 p-4 md:p-6 flex justify-between transition-transform duration-300 transform bg-white perspective-[1000px]">
             <div className="flex gap-4 max-w-[650px]">
               <div className="flex items-center gap-4">
-                <img
-                  src={product?.images?.[0]}
+                <img src={product?.images?.[0]}
                   alt="product"
                   className="w-auto h-28 object-contain"
-                />
+                loading="lazy" />
                 <p className="font-semibold text-base xl:text-lg hidden xl:block">
                   {productName || product?.name}
                 </p>
@@ -1478,12 +1464,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         {/* me-1 -> mr-1 */}
                         {currentcountry?.currency == "AED" ? (
-                          <img
-                            src="/assets/feed/aed-icon.svg"
+                          <img src={getAssetsUrl("feed/aed-icon.svg")}
                             alt="AED"
                             className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-5 h-5 inline-block mix-blend-multiply`}
                             style={{ color: "black" }}
-                          />
+                          loading="lazy" />
                         ) : (
                           <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol !text-[22px]`}>
                             {currentcountry?.currency}
@@ -1500,21 +1485,19 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                         <div className="save-banner ml-2 px-3 py-2 flex items-center !font-medium">
                           {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
                           <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon inline-flex items-center justify-center`}>
-                            <img
-                              src="/assets/vector_icons/Vector.png"
+                            <img src={getAssetsUrl("vector_icons/Vector.png")}
                               alt="%"
                               className="discount-icon"
-                            />
+                            loading="lazy" />
                           </span>
                           <span className={`text-sm text-nowrap flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                             {youSaved}&nbsp;
                             {currentcountry?.currency == "AED" ? (
-                              <img
-                                src="/assets/feed/aed-icon.svg"
+                              <img src={getAssetsUrl("feed/aed-icon.svg")}
                                 alt="AED"
                                 className="w-3 h-3 inline-block mix-blend-multiply"
                                 style={{ color: "black" }}
-                              />
+                              loading="lazy" />
                             ) : (
                               <span className="currency-symbol !text-sm !xl:text-sm">
                                 &nbsp;{currentcountry?.currency}{" "}
@@ -1533,12 +1516,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                       <span className={`text-base xl:text-lg flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         {currentcountry?.currency == "AED" ? (
                           <span className={`flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className={`w-4 h-4 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                             {product?.old_price?.toFixed(2)}
                           </span>
                         ) : (
@@ -1567,12 +1549,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   <span className={`font-bold text-xl flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                     {/* me-1 -> mr-1 */}
                     {currentcountry?.currency == "AED" ? (
-                      <img
-                        src="/assets/feed/aed-icon.svg"
+                      <img src={getAssetsUrl("feed/aed-icon.svg")}
                         alt="AED"
                         className={`${currentLanguage === "ar" ? "ml-1" : "mr-1"} w-6 h-6 inline-block mix-blend-multiply`}
                         style={{ color: "black" }}
-                      />
+                      loading="lazy" />
                     ) : (
                       <span className={`${currentLanguage === "ar" ? "ml-1" : "mr-1" } currency-symbol text-[24px] md:text-[26px]`}>
                         {currentcountry?.currency}
@@ -1589,21 +1570,19 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     <div className={`save-banner px-3 py-2 flex items-center !font-medium ${currentLanguage === "ar" ? "mr-2 !bg-right" : "ml-2"}`}>
                       {/* me-2 d-inline-flex align-items-center justify-content-center -> mr-2 inline-flex items-center justify-center */}
                       <span className={`badge-icon ${currentLanguage === "ar" ? "ml-2" : "mr-2"} inline-flex items-center justify-center`}>
-                        <img
-                          src="/assets/vector_icons/Vector.png"
+                        <img src={getAssetsUrl("vector_icons/Vector.png")}
                           alt="%"
                           className="discount-icon"
-                        />
+                        loading="lazy" />
                       </span>
                       <span className={`text-sm text-nowrap flex items-center gap-0.5 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                         {youSaved}&nbsp;
                         {currentcountry?.currency == "AED" ? (
-                          <img
-                            src="/assets/feed/aed-icon.svg"
+                          <img src={getAssetsUrl("feed/aed-icon.svg")}
                             alt="AED"
                             className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}
                             style={{ color: "black" }}
-                          />
+                          loading="lazy" />
                         ) : (
                           <span className={`currency-symbol !text-sm !xl:text-sm ${currentLanguage === "ar" ? "ml-0.5" : "mr-0.5"}`}>
                             &nbsp;{currentcountry?.currency}{" "}
@@ -1623,12 +1602,11 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   <span className={`text-base xl:text-lg flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                     {currentcountry?.currency == "AED" ? (
                       <>
-                        <img
-                          src="/assets/feed/aed-icon.svg"
+                        <img src={getAssetsUrl("feed/aed-icon.svg")}
                           alt="AED"
                           className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                           style={{ color: "black" }}
-                        />
+                        loading="lazy" />
                         {product?.old_price?.toFixed(2)}
                       </>
                     ) : (
@@ -1678,10 +1656,9 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     className="w-full bg-[#5232C2] uppercase whitespace-nowrap rounded-lg px-4 py-3 text-white items-center flex justify-center flex-1 gap-2 border-none font-semibold"
                     onClick={handleClick}
                   >
-                    <img
-                      src={"/assets/vector_icons/cart_icon.svg"}
+                    <img src={getAssetsUrl("vector_icons/cart_icon.svg")}
                       alt={"cart"}
-                    />
+                    loading="lazy" />
                     {addToCart}
                     {isLoading && (
                       /* ms-3 -> ml-3 */
@@ -1693,15 +1670,14 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     /* fw-bold -> font-bold, overflow-hidden stays */
                     className="whitespace-nowrap flex-1 border-none rounded-lg py-3 !bg-[#FFD100] text-[#191B1C] font-bold flex items-center justify-center gap-2 overflow-hidden"
                   >
-                    <img
-                      src="/assets/vector_icons/buy_now_flash_.gif"
+                    <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                       alt="flash"
                       style={{
                         width: "20px",
                         height: "20px",
                         objectFit: "contain",
                       }}
-                    />
+                    loading="lazy" />
                     <span className="uppercase">{buyNow}</span>
                   </button>
                 </div>

@@ -13,6 +13,7 @@ import { CiDiscount1 } from "react-icons/ci";
 import CouponModal from "./Modals/CouponModal";
 import { toast } from "react-toastify";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
+import { getAssetsUrl } from "../utils/helpers";
 
 const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
   const dispatch = useDispatch();
@@ -232,15 +233,14 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
               }}
             >
               {showSuccessAnimation ? (
-                <img
-                 ref={inputFieldRef}
-                  src="/assets/vector_icons/successfull.gif"
+                <img ref={inputFieldRef}
+                  src={getAssetsUrl("vector_icons/successfull.gif")}
                   alt="Success"
                   style={{
                     width: "24px",
                     height: "24px",
                   }}
-                />
+                loading="lazy" />
               ) : (
                <span className="flex justify-center items-center mr-1"> ✕</span>
               )}
@@ -287,14 +287,13 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
           <span className="flex items-center gap-[3px]">
             <span className="text-black font-medium text-sm">{couponAppliedText}</span>
             {currentCountry?.currency?.toUpperCase() === "AED" ? (
-              <img
-                src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/dirham.svg"
+              <img src={getAssetsUrl("coupons/dirham.svg")}
                 alt="AED"
                 className={`w-[14px] h-[14px] inline-block mix-blend-multiply ${
                   isRTL ? "" : ""
                 }`}
                 style={{ color: "black" }}
-              />
+              loading="lazy" />
             ) : (
               <span
                 className={`currencycode ${isRTL ? "" : ""}`}

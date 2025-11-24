@@ -27,6 +27,7 @@ import {
 import { getAreas, getLocations } from "../../../redux/globalslice";
 import { InputBox1 } from "../formInputs";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../../utils/helpers";
 
 function MobileAddressModal() {
   const dispatch = useDispatch();
@@ -308,7 +309,7 @@ function MobileAddressModal() {
                         setIsFocused(false);
                       }}
                     >
-                      <img src="/assets/vector_icons/arrow_left.svg" />
+                      <img src={getAssetsUrl("vector_icons/arrow_left.svg")} loading="lazy" />
                     </div>
 
                     <div className="flex w-full items-center">

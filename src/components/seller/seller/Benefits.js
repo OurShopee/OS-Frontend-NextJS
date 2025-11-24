@@ -1,8 +1,8 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import border from "@/images/border.png";
 import MediaQueries from "../../utils/MediaQueries.js";
+import { getAssetsUrl } from "../../utils/helpers";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -22,11 +22,10 @@ export default function Benefits({ benefits }) {
           </span>
         </div>
         <div>
-          <img
-            src={border.src}
+          <img src={getAssetsUrl("border.png")}
             alt="Hero"
             className="w-full object-cover z-1"
-          />
+          loading="lazy" />
         </div>
       </div>
 
@@ -68,7 +67,7 @@ export default function Benefits({ benefits }) {
           {benefits.map((card, idx) => (
             <SwiperSlide key={idx}>
               <div className="carousel-card xl:h-[287px] xl:w-[333px]">
-                <img src={card.icon} alt="icon" />
+                <img src={card.icon} alt="icon" loading="lazy" />
                 <h2 className="text-xl gradient-text">{card.title}</h2>
                 <p>{card.description}</p>
               </div>
@@ -82,7 +81,7 @@ export default function Benefits({ benefits }) {
       {/* <div className="flex overflow-x-scroll max-w-full mt-5">
                 {benefits.slice(0, 4).map((card, idx) => (
                     <div className="h-[287px] w-[333px] flex-shrink-0">
-                        <img src={card.icon} alt="icon" />
+                        <img src={card.icon} alt="icon" loading="lazy" />
                         <h2 className="text-xl gradient-text">{card.title}</h2>
                         <p>{card.description}</p>
                     </div>

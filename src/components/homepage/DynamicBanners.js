@@ -58,11 +58,11 @@ const DynamicBanners = ({
         });
       }}
     >
-      <img {...imgProps} />
+      <img {...imgProps} loading="lazy" />
     </Link>
   ) : (
     <div className="single_banner cursor-default">
-      <img {...imgProps} style={{ cursor: "default" }} />
+      <img {...imgProps} style={{ cursor: "default" }} loading="lazy" />
     </div>
   );
 };

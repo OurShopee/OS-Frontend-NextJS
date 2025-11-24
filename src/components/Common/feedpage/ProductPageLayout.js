@@ -30,6 +30,7 @@ import { MediaQueries } from "../../utils";
 import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
 import { useDynamicContent, useCurrentLanguage } from "@/hooks";
 import { useContent } from "@/hooks/useContent";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -792,12 +793,11 @@ const ProductPageLayout = ({
                       <div className="my-2 sm:my-0 flex">
                         <div className="flex items-center">
                           {currentcountry.currency == "AED" ? (
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className={`w-6 h-6 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "black" }}
-                            />
+                            loading="lazy" />
                           ) : (
                             <span className={`currency-symbol text-[24px] md:text-[26px] font-bold ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
                               {currentcountry.currency}
@@ -810,21 +810,19 @@ const ProductPageLayout = ({
                         {savedPrice > 0 && (
                           <div className="save-banner ml-4 px-3 py-2 flex items-center font-medium">
                           <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon flex items-center justify-center`}>
-                          <img
-                                src="/assets/vector_icons/Vector.png"
+                          <img src={getAssetsUrl("vector_icons/Vector.png")}
                                 alt="%"
                                 className="discount-icon"
-                              />
+                              loading="lazy" />
                             </span>
                             <span className="flex gap-1 items-center text-sm">
                               {youSaved}{" "}
                               {currentcountry.currency == "AED" ? (
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-4 h-4 inline-block mix-blend-multiply"
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                               ) : (
                                 <span className="currency-symbol text-sm">
                                   {currentcountry.currency}
@@ -842,12 +840,11 @@ const ProductPageLayout = ({
                           <div className="old_price">
                             {currentcountry.currency == "AED" ? (
                               <div className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-4 h-4 grayscale mix-blend-multiply opacity-30"
                                   style={{ color: "#9ea5a8" }}
-                                />
+                                loading="lazy" />
                                 {product?.old_price}
                               </div>
                             ) : (
@@ -870,11 +867,10 @@ const ProductPageLayout = ({
                     {countdownTimestamp > now && (
                       <div className="hidden sm:flex items-center gap-2 mt-3">
                         <div className="flex items-center">
-                          <img
-                            src="/assets/feed/clock.png"
+                          <img src={getAssetsUrl("feed/clock.png")}
                             alt=""
                             className="w-16 h-full"
-                          />
+                          loading="lazy" />
                           <FlipClockCountdown
                             to={countdownTimestamp}
                             labels={["Days", "Hrs", "Min", "Sec"]}
@@ -909,11 +905,10 @@ const ProductPageLayout = ({
                     )}
 
                     <div className="w-[212px] mt-1 sm:mt-3">
-                      <img
-                        src="/assets/feed/limited-offer.gif"
+                      <img src={getAssetsUrl("feed/limited-offer.gif")}
                         className="w-full h-full"
                         alt=""
-                      />
+                      loading="lazy" />
                     </div>
                   </div>
                 </div>
@@ -1361,15 +1356,14 @@ const ProductPageLayout = ({
                         type="submit"
                         className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
-                        <img
-                          src="/assets/vector_icons/buy_now_flash_.gif"
+                        <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                           alt="flash"
                           style={{
                             width: "20px",
                             height: "20px",
                             objectFit: "contain",
                           }}
-                        />
+                        loading="lazy" />
                         <span className="text-sm sm:text-base movetext-feed text-black">
                           {placeOrderTitle}
                         </span>
@@ -1412,11 +1406,10 @@ const ProductPageLayout = ({
                 {countdownTimestamp > now && (
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
-                      <img
-                        src="/assets/feed/clock.png"
+                      <img src={getAssetsUrl("feed/clock.png")}
                         alt=""
                         className="w-10 h-full"
-                      />
+                      loading="lazy" />
                       <FlipClockCountdown
                         to={countdownTimestamp}
                         labels={["Days", "Hrs", "Min", "Sec"]}
@@ -1467,15 +1460,14 @@ const ProductPageLayout = ({
                     }
                   }}
                 >
-                  <img
-                    src="/assets/vector_icons/buy_now_flash_.gif"
+                  <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                     alt="flash"
                     style={{
                       width: "20px",
                       height: "20px",
                       objectFit: "contain",
                     }}
-                  />
+                  loading="lazy" />
                   <span className="text-[#191B1C] font-bold text-sm">
                     {placeOrderTitle}
                   </span>

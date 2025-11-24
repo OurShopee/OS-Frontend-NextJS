@@ -44,13 +44,12 @@ const SectionMweb = ({
           {/* scribble underline image behind the text */}
           {underlineimg && (
             <div className="flex absolute right-0 top-[2.4rem] justify-end h-[30px]">
-              <img
-                src={underlineSrc}
+              <img src={underlineSrc}
                 alt=""
                 width={120}
                 height={18}
                 className="object-contain"
-              />
+              loading="lazy" />
             </div>
           )}
         </div>

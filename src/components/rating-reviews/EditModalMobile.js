@@ -396,8 +396,7 @@ const EditModalMobile = ({
                         key={image.id || i}
                         className="relative aspect-square group"
                       >
-                        <img
-                          title="Click to view all images"
+                        <img title="Click to view all images"
                           src={
                             typeof image === "string"
                               ? getImageUrl(image)
@@ -406,6 +405,7 @@ const EditModalMobile = ({
                           alt="Review"
                           className="w-full h-full object-cover rounded-xl border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
                           onClick={() => handleImageClick(editReviewImages, i)}
+                          loading="lazy"
                         />
                         <button
                           onClick={() => removeImage(i)}
@@ -500,15 +500,14 @@ const EditModalMobile = ({
                 {carouselImages.map((image, index) => (
                   <SwiperSlide key={index}>
                     <div className="w-full h-full flex items-center justify-center">
-                      <img
-                        src={
+                      <img src={
                           typeof image === "string"
                             ? getImageUrl(image)
                             : image.preview || URL.createObjectURL(image.file)
                         }
                         alt={`Review ${index + 1}`}
                         className="max-w-full flex-grow max-h-full object-contain rounded-lg"
-                      />
+                      loading="lazy" />
                     </div>
                   </SwiperSlide>
                 ))}

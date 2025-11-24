@@ -6,7 +6,7 @@ import { setformstatus } from "@/redux/formslice";
 import { getAllReviews, postUserReview } from "@/api/review";
 import { ComponentHeader } from "../Common";
 import { MediaQueries } from "../utils";
-import { useLoginModal } from "../utils/helpers";
+import { getAssetsUrl, useLoginModal } from "../utils/helpers";
 import HasReview from "./HasReview";
 import { useContent, useCurrentLanguage } from "@/hooks";
 
@@ -242,22 +242,20 @@ const ReviewNoRating = ({
     <>
       <section className="relative w-full text-center overflow-hidden md:py-10">
         {/* Left Quote Icon Image */}
-        <img
-          src={"/assets/review/left-icon-review.png"}
+        <img src={getAssetsUrl("review/left-icon-review.png")}
           alt="Quote Left"
           className={`hidden md:block absolute ${
             authstatus ? "left-[10%] top-[30%]" : "left-[18%] top-[35%]"
           }  -translate-y-1/2 w-[100px] z-[9]`}
-        />
+        loading="lazy" />
 
         {/* Right Quote Icon Image */}
-        <img
-          src={"/assets/review/left-icon-review.png"}
+        <img src={getAssetsUrl("review/left-icon-review.png")}
           alt="Quote Right"
           className={`hidden md:block absolute rotate-180 ${
             authstatus ? "right-[10%] top-[85%] " : "right-[18%] top-[75%]"
           } -translate-y-1/2 w-[100px] z-[9]`}
-        />
+        loading="lazy" />
 
         {/* Header - now with proper z-index */}
         {/* <div className="relative z-[5] w-full text-left mb-12">
@@ -292,11 +290,10 @@ const ReviewNoRating = ({
               ref={ref}
               className="relative flex justify-center items-center z-30 w-[300px]"
             >
-              <img
-                src="/assets/review/star.gif"
+              <img src={getAssetsUrl("review/star.gif")}
                 alt=""
                 className="w-full h-full"
-              />
+              loading="lazy" />
             </div>
             <div
               className="flex flex-col items-center mx-auto"
@@ -573,11 +570,10 @@ const ReviewNoRating = ({
                     {selectedFiles.map((file) => (
                       <div key={file.id} className="relative group">
                         <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-                          <img
-                            src={file.preview}
+                          <img src={file.preview}
                             alt={file.name}
                             className="w-full h-full object-cover"
-                          />
+                          loading="lazy" />
                         </div>
 
                         {/* Remove Button */}

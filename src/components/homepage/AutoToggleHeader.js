@@ -158,7 +158,7 @@ export default function AutoToggleHeader({
           {activeTab === section238Data?.heading && (
             <div className="absolute right-1 top-0 w-6 h-6 rounded-full flex items-center justify-center">
               <span className="text-[12px]">
-                <img src={section238Data?.icon_image[0]?.desktopImage} />
+                <img src={section238Data?.icon_image[0]?.desktopImage} loading="lazy" />
               </span>
             </div>
           )}
@@ -177,7 +177,7 @@ export default function AutoToggleHeader({
           {activeTab === section59Data?.heading && (
             <div className="w-6 h-6 rounded-full flex items-center justify-center">
               <span className="text-[12px] overflow-hidden">
-                <img src={section59Data?.icon_image[0]?.desktopImage} className="rounded-full" />
+                <img src={section59Data?.icon_image[0]?.desktopImage} className="rounded-full" loading="lazy" />
               </span>
             </div>
           )}

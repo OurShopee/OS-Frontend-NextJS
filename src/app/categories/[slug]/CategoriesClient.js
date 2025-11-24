@@ -18,6 +18,7 @@ import { getCatScreenList, setscrolled_products } from "@/redux/categoryslice";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import { MediaQueries } from "@/components/utils";
 import { ProductCard } from "@/components/Common";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { useContent, useCurrentLanguage, getDynamicContent } from "@/hooks";
 
 export default function CategoryClient({ initialCategoryData, categorySlug }) {
@@ -138,7 +139,7 @@ export default function CategoryClient({ initialCategoryData, categorySlug }) {
 
         {currentcountry.isTabbyRequired && (
           <div className="single_banner">
-            <img src="/assets/banners/banner_4.png" alt="Banner" />
+            <img src={getAssetsUrl("banners/banner_4.png")} alt="Banner" loading="lazy" />
           </div>
         )}
 

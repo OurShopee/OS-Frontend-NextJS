@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { CarouselProducts } from "../homepage";
+import { getAssetsUrl } from "../utils/helpers";
 
 const OneAED = ({ productsAtOne }) => {
   const currentcountry = useSelector(
@@ -59,7 +60,7 @@ const OneAED = ({ productsAtOne }) => {
                     </div> */}
           <img
             loading="lazy"
-            src="/assets/11-sale/oneaed.png"
+            src={getAssetsUrl("11-sale/oneaed.png")}
             alt="frame"
             className="absolute rounded-xl object-cover object-top w-full h-full"
           />

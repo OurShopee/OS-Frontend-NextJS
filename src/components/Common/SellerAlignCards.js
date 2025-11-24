@@ -1,7 +1,7 @@
 "use client";
 import { gsap } from "gsap";
-import lines from "@/images/lines.svg";
 import { useLayoutEffect, useRef } from "react";
+import { getAssetsUrl } from "../utils/helpers";
 import { FaArrowRightLong } from "react-icons/fa6";
 import MediaQueries from "../utils/MediaQueries";
 import { useRouter } from "next/navigation";
@@ -37,11 +37,10 @@ const SellerAlignCards = ({ data }) => {
       </div>
 
       {/* Lines overlay */}
-      <img
-        className="absolute inset-0 pointer-events-none z-0 group-hover:opacity-30 transition-all ease-in-out duration-500"
-        src={lines.src}
+      <img className="absolute inset-0 pointer-events-none z-0 group-hover:opacity-30 transition-all ease-in-out duration-500"
+        src={getAssetsUrl("lines.svg")}
         alt="img"
-      />
+      loading="lazy" />
 
       {/* Number */}
       <span

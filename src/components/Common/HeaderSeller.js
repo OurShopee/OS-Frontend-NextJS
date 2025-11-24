@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
-import logo_new from "@/images/Logo.png";
-import account_logo from "@/images/account_logo.png";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
+import { getAssetsUrl } from "../utils/helpers";
 
 const HeaderSeller = () => {
   const router = useRouter();
@@ -66,9 +65,9 @@ const HeaderSeller = () => {
       >
         <div>
           <Link href="/">
-            <img className="companylogo" src={logo_new.src} alt="OurShopee Logo"
+            <img className="companylogo" src={getAssetsUrl("Logo.svg")} alt="OurShopee Logo"
                     width={120}
-                    height={40} />
+                    height={40} loading="lazy" />
           </Link>
         </div>
         <div className="hidden xl:flex gap-5">
@@ -90,12 +89,11 @@ const HeaderSeller = () => {
               onClick={() => router.push("/onboarding")}
               className="flex gap-2 items-center pl-2 xl:pl-0 cursor-pointer"
             >
-              <img
-                className="h-[20px] w-[14px]"
-                src={account_logo.src}
+              <img className="h-[20px] w-[14px]"
+                src={getAssetsUrl("account_logo.png")}
                 alt="logo"
                 style={{ height: "20px", width: "14px" }}
-              />
+              loading="lazy" />
               <span className="text-white font-[Outfit] font-semibold tex-[16px]">
                 Become a seller
               </span>
@@ -105,12 +103,11 @@ const HeaderSeller = () => {
           <>
             {/* <CountryDropdown countryDropdown={countryDropdown} /> */}
             <div className="flex justify-center items-center gap-1 text-white">
-              <img
-                src={`/flags/${currentcountry.image}`}
+              <img src={`/flags/${currentcountry.image}`}
                 alt={currentcountry.name}
                 className="me-2"
                 width="20"
-              />
+              loading="lazy" />
               {currentcountry.name}
             </div>
           </>

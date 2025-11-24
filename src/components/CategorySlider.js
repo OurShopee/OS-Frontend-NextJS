@@ -151,15 +151,14 @@ export default function CategorySlider({ categoryList }) {
               >
                 <div className="relative transition-transform duration-[300ms] group-hover:duration-[800ms] group-hover:scale-110 z-10 flex flex-col items-center justify-start">
                   <div className="w-16 h-16 rounded-full flex items-center justify-center">
-                    <img
-                      src={cat?.vector_icon || null}
+                    <img src={cat?.vector_icon || null}
                       alt={cat?.category_name}
                       className="w-full h-full object-contain pointer-events-none"
                       style={{
                         filter: "drop-shadow(0px 4px 2px rgba(0,0,0,0.2))",
                       }}
                       draggable={false}
-                    />
+                    loading="lazy" />
                   </div>
                   <h5 className="mt-1 text-[13px] text-center font-medium text-gray-700 leading-tight min-h-10">
                     {getDynamicContent(cat, "category_name", currentLanguage)}

@@ -1,6 +1,5 @@
 "use client";
-import arrowleft from "@/images/Arrow - Left 2.png";
-import userimg from "@/images/sidebaruser.png";
+import { getAssetsUrl } from "../utils/helpers";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -120,12 +119,11 @@ const Sidebar = ({ isOpen, onClose }) => {
       <div className="sidebar-content">
         <div className="sidebattopsection">
           <div>
-            <img
-              src={arrowleft.src}
+            <img src={getAssetsUrl("Arrow - Left 2.png")}
               alt="Back arrow"
               onClick={backcategory}
               className="cursor-pointer"
-            />
+            loading="lazy" />
           </div>
           <div onClick={onClose}>
             <AiOutlineClose size={20} />
@@ -133,7 +131,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </div>
 
         <div className="sidebar-top-details">
-          <img src={userimg.src} alt="User" />
+          <img src={getAssetsUrl("sidebaruser.png")} alt="User" loading="lazy" />
           {/* <BiSolidUserCircle size={40} /> */}
           <div className="sidebaruser">
             {!authstatus ? (
@@ -186,14 +184,14 @@ const Sidebar = ({ isOpen, onClose }) => {
               >
                 {getDynamicContent(category, "category_name", currentLanguage)}
                 {category.subcategory?.length > 0 && (
-                  <img
-                    src={"/assets/vector_icons/Arrow -right.png"}
+                  <img src={getAssetsUrl("vector_icons/Arrow -right.png")}
                     alt="Right arrow"
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
                       handleSubcategoryToggle(category);
                     }}
+                    loading="lazy"
                   />
                   // <FaAngleDown size={16} />
                 )}
@@ -237,14 +235,14 @@ const Sidebar = ({ isOpen, onClose }) => {
               >
                 {subCategoryName}
                 {sub.sub_subcategory?.length > 0 && (
-                  <img
-                    src={"/assets/vector_icons/Arrow -right.png"}
+                  <img src={getAssetsUrl("vector_icons/Arrow -right.png")}
                     alt="Right arrow"
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
                       handleSubsubcategoryToggle(sub);
                     }}
+                    loading="lazy"
                   />
                   // <FaAngleDown size={16}  />
                 )}

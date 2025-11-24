@@ -62,11 +62,10 @@ const ToolTip = ({ text, handleToolTip }) => {
           >
             &times;
           </button>
-          <img
-            src="/favicon.png"
+          <img src="/favicon.png"
             alt="Ourshopee App Icon"
             style={{ width: 35, height: 35 }}
-          />
+          loading="lazy" />
           <div className="flex flex-col text-sm">
             <span className="font-bold">{appBetter}</span>
             <span className="text-gray-400 text-xs">

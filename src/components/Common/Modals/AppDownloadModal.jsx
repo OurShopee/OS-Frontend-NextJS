@@ -2,6 +2,7 @@ import { MdClose } from "react-icons/md";
 import { FaApple, FaAndroid } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const AppDownloadModal = ({ isOpen, onClose }) => {
   const currentLanguage = useCurrentLanguage();
@@ -37,11 +38,10 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
           </button>
 
           {/* Full Image */}
-          <img
-            src={ currentLanguage === "ar" ? `/assets/qrs/qr-ar.png` : `/assets/qrs/qr.png`}
+          <img src={ currentLanguage === "ar" ? getAssetsUrl("qrs/qr-ar.png") : getAssetsUrl("qrs/qr.png")}
             alt="QR"
             className="w-full h-auto object-cover"
-          />
+          loading="lazy" />
           <div className={`absolute bottom-7 sm:bottom-16 z-10 flex items-center justify-center ${
             currentLanguage === "ar" 
               ? "left-[10vw] sm:left-[52px]" 
@@ -54,11 +54,10 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
                 rel="noopener noreferrer"
                 className="cursor-pointer"
               >
-                <img
-                  src="/assets/qrs/play-store.png"
+                <img src={getAssetsUrl("qrs/play-store.png")}
                   alt="Play Store"
                   className="w-[66px] sm:w-32 hover:opacity-80 transition-opacity"
-                />
+                loading="lazy" />
               </a>
               <a
                 href="https://apps.apple.com/us/app/ourshopee-online-shopping/id1226954989"
@@ -66,11 +65,10 @@ const AppDownloadModal = ({ isOpen, onClose }) => {
                 rel="noopener noreferrer"
                 className="cursor-pointer"
               >
-                <img
-                  src="/assets/qrs/app-store.png"
+                <img src={getAssetsUrl("qrs/app-store.png")}
                   alt="App Store"
                   className="w-[66px] sm:w-32 hover:opacity-80 transition-opacity"
-                />
+                loading="lazy" />
               </a>
             </div>
           </div>

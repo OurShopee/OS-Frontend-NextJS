@@ -7,8 +7,8 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import { MediaQueries } from "@/components/utils";
-import user from "@/images/user.png";
 import { blogByCatIdapi } from "@/redux/globalslice";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { getDynamicContent, useCurrentLanguage } from "@/hooks";
 
 const BlogDetail = () => {
@@ -41,7 +41,7 @@ const BlogDetail = () => {
         </div>
         <div className="blogdeatil-details">
           <div>
-            <Image className="blogdetailuserimg" src={user} alt="User" />
+            <Image className="blogdetailuserimg" src={getAssetsUrl("user.png")} alt="User" />
           </div>
           <div className="d-flex">
             <div className="blogdeatilsadmin-name">
@@ -61,11 +61,10 @@ const BlogDetail = () => {
           </div>
         </div>
 
-        <img
-          className="blogmain-img"
+        <img className="blogmain-img"
           src={blogcatdata?.categoryList?.[0].image}
           alt={getDynamicContent(blogcatdata?.categoryList?.[0], "title", currentLanguage) || "Blog image"}
-        />
+        loading="lazy" />
         <div className="blog-subtitle pt-2 pb-2">
           <div
             dangerouslySetInnerHTML={{

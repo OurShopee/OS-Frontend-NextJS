@@ -37,10 +37,9 @@ const FlashSale = ({ FlashSaleItems, FlashSaleBanner }) => {
       <div className="component_1 p-4">
         <div className="component_header">
           <div>
-            <img
-              src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/flash-sale.gif`}
+            <img src={`${process.env.NEXT_PUBLIC_S3_PREFIX_BLACK_FRIDAY}/flash-sale.gif`}
               className="w-[146px] md:w-[210px] h-full"
-            />
+            loading="lazy" />
           </div>
 
           <CountdownClock

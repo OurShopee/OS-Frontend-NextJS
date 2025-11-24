@@ -1,4 +1,5 @@
 import React from "react";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const SuccessPage = ({ onExplore }) => {
   return (
@@ -10,20 +11,18 @@ const SuccessPage = ({ onExplore }) => {
         data-aos-duration="600"
       >
         <div className="w-44 h-44 rounded-2xl flex items-center justify-center">
-          <img
-            src="/assets/seller/checklist.png"
-            alt=""
+          <img src={getAssetsUrl("seller/checklist.png")}
+            alt="Checklist"
             className="w-full h-full"
-          />
+          loading="lazy" />
         </div>
 
         <div className="relative w-full h-full flex justify-center items-center flex-col gap-0 -mt-4">
           <div className="h-24 sm:h-36">
-            <img
-              src="/assets/seller/thank-you-text.png"
-              alt=""
+            <img src={getAssetsUrl("seller/thank-you-text.png")}
+              alt="Thank You Text"
               className="w-full h-full"
-            />
+            loading="lazy" />
           </div>
           <p className="hidden sm:block absolute bottom-0 whitespace-nowrap text-[#686868] text-lg font-medium leading-relaxed">
             Thanks for sharing your details! We're reviewing your documents and

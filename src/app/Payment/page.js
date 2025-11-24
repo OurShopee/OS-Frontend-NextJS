@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useContent } from "@/hooks";
+import { getAssetsUrl } from "@/components/utils/helpers";
 
 const Payment = () => {
   const searchParams = useSearchParams();
@@ -164,11 +165,10 @@ const Payment = () => {
                       <div className="paymentmethod-label flex">
                         {" "}
                         {ele.image && (
-                          <img
-                            src={ele.image}
+                          <img src={ele.image}
                             alt={ele.label}
                             className="paymentmethod-image"
-                          />
+                          loading="lazy" />
                         )}
                         {ele.label}
                       </div>
@@ -197,7 +197,7 @@ const Payment = () => {
                     onClick={() => handleChangeAddress()}
                     className="flex items-center gap-1 px-3 py-1.5 border-blue rounded-lg !text-[#3B82F6] font-medium text-sm bg-white"
                   >
-                    <img src="/assets/vector_icons/Edit.svg" alt="edit" />
+                    <img src={getAssetsUrl("vector_icons/Edit.svg")} alt="edit" loading="lazy" />
                     <div className="">
                       {defaultAddress ? changeAddress : selectAddress}
                     </div>

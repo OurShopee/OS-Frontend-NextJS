@@ -23,6 +23,7 @@ import { MediaQueries } from "../utils";
 import { ProductCard } from "../Common";
 import Link from "next/link";
 import { useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 export default function CarouselProducts({
   products,
@@ -111,12 +112,11 @@ export default function CarouselProducts({
     <div className="relative overflow-hidden">
       {backgroundImage && (
         <div className="sm:hidden p-3 overflow-hidden ">
-          <img
-            src={backgroundImage}
+          <img src={backgroundImage}
             className={`sm:hidden w-full h-full rounded-xl z-0 border-none ${
               !backgroundImage && "hidden"
             }`}
-          />
+          loading="lazy" />
         </div>
       )}
       <div
@@ -140,13 +140,12 @@ export default function CarouselProducts({
               aria-disabled={isBeginning}
               aria-label="Previous"
             >
-              <img
-                src="/assets/vector_icons/arrow_left.svg"
+              <img src={getAssetsUrl("vector_icons/arrow_left.svg")}
                 alt="Arrow"
                 className={`w-3 h-3 md:w-4 md:h-4 cursor-pointer grayscale  transition-transform ${
                   isRTL ? "rotate-180" : ""
                 }`}
-              />
+              loading="lazy" />
             </button>
           )}
 
@@ -224,13 +223,12 @@ export default function CarouselProducts({
               aria-disabled={isEnd}
               aria-label="Next"
             >
-              <img
-                src="/assets/vector_icons/arrow_right.svg"
+              <img src={getAssetsUrl("vector_icons/arrow_right.svg")}
                 alt="Arrow"
                 className={`w-3 h-3 md:w-4 md:h-4 cursor-pointer grayscale  transition-transform ${
                   isRTL ? "rotate-180" : ""
                 }`}
-              />
+              loading="lazy" />
             </button>
           )}
         </div>

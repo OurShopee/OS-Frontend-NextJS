@@ -318,14 +318,13 @@ export default function HomeCategories({ category_list, no_bg, type }) {
                     (type == 2 || no_bg != undefined) && "no_bg"
                   }`}
                 >
-                  <img
-                    src={formatImageUrl(
+                  <img src={formatImageUrl(
                       cat_item.vector_icon ||
                         cat_item.sub_category_image ||
                         cat_item.sub_subcategory_image
                     )}
                     alt=""
-                  />
+                  loading="lazy" />
                 </div>
                 <p>
                   {getDynamicContent(cat_item, "category_name", currentLanguage) ||
