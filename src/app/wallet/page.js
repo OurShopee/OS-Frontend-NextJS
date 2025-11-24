@@ -11,7 +11,7 @@ import InfoCardWithModal from "@/components/wallet/InfoCardWithModal";
 import ShopeeWalletHowTo from "@/components/wallet/ShopeeWalletHowTo";
 import TermsConditionsCard from "@/components/wallet/TermsConditionsCard";
 import { useContent } from "@/hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
@@ -21,7 +21,10 @@ const page = () => {
   const [page, setPage] = useState(1);
   const [filterType, setFilterType] = useState(""); // "" for all, "REFUND" for credit, others for debit
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [sortOption, setSortOption] = useState("NEWEST");
   const filterDropdownRef = useRef(null);
+  const sortDropdownRef = useRef(null);
   const wallet = useContent("account.wallet");
   const walletHeading = useContent("wallet.walletHeading");
   const walletDescription = useContent("wallet.walletDescription");
@@ -41,6 +44,9 @@ const page = () => {
     const handleClickOutside = (event) => {
       if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
         setIsFilterOpen(false);
+      }
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target)) {
+        setIsSortOpen(false);
       }
     };
 
@@ -72,6 +78,41 @@ const page = () => {
     setFilterType(type);
     setIsFilterOpen(false);
     setPage(1); // Reset to first page when filter changes
+  };
+
+  const handleSortChange = (option) => {
+    setSortOption(option);
+    setIsSortOpen(false);
+  };
+
+  const sortedTransactions = useMemo(() => {
+    const txs = [...transactions];
+    switch (sortOption) {
+      case "OLDEST":
+        return txs.sort(
+          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        );
+      case "AMOUNT_ASC":
+        return txs.sort(
+          (a, b) => (Number(a.amount) || 0) - (Number(b.amount) || 0)
+        );
+      case "AMOUNT_DESC":
+        return txs.sort(
+          (a, b) => (Number(b.amount) || 0) - (Number(a.amount) || 0)
+        );
+      case "NEWEST":
+      default:
+        return txs.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+    }
+  }, [transactions, sortOption]);
+
+  const sortLabels = {
+    NEWEST: "Newest First",
+    OLDEST: "Oldest First",
+    // AMOUNT_ASC: "Amount Asc",
+    // AMOUNT_DESC: "Amount Dsc",
   };
   return (
     <Container fluid className="homepagecontainer !px-16 py-3">
@@ -227,7 +268,44 @@ const page = () => {
                                   </div>
                                 )}
                             </div>
-                            <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-2 rounded-[12px] "><HiArrowsUpDown /></button>
+                            <div ref={sortDropdownRef} className="relative">
+                              <button
+                                onClick={() => setIsSortOpen(!isSortOpen)}
+                                className="flex text-sm items-center justify-center gap-2 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-3 rounded-[12px]"
+                              >
+                                <HiArrowsUpDown className="text-lg" />
+                                {/* <span>{sortLabels[sortOption]}</span> */}
+                              </button>
+                              {isSortOpen && (
+                                <div className="absolute right-0 mt-2 bg-white rounded-[12px] shadow-lg border border-gray-200 z-50 overflow-hidden py-2 min-w-[180px]">
+                                  {Object.entries(sortLabels).map(([value, label]) => (
+                                    <label
+                                      key={value}
+                                      onClick={() => handleSortChange(value)}
+                                      className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                                    >
+                                      <input
+                                        type="radio"
+                                        name="transactionSort"
+                                        value={value}
+                                        checked={sortOption === value}
+                                        onChange={() => handleSortChange(value)}
+                                        className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
+                                      />
+                                      <span
+                                        className={
+                                          sortOption === value
+                                            ? "text-[#5232C2]"
+                                            : "text-gray-700"
+                                        }
+                                      >
+                                        {label}
+                                      </span>
+                                    </label>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                         </div>
                      
                       </h3>
@@ -247,7 +325,7 @@ const page = () => {
                       ) : (
                         <div className="flex flex-col items-center justify-between  w-full">
                           <h3 className="text-xl font-semibold text-gray-900 w-full">
-                            <Transactions transactions={transactions} />
+                            <Transactions transactions={sortedTransactions} />
                           </h3>
                           {/* see more button */}
                           <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4">
