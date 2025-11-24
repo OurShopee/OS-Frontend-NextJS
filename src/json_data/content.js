@@ -2719,4 +2719,22 @@ export const content = {
       ar: "بمجرد تقديم التفاصيل والموافقة عليها، سيتم توجيهك إلى صفحة تأكيد الطلب.",
     },
   },
+  wallet:{
+    walletHeading: {
+      en: "Shopee Wallet",
+      ar: "محفظة شوبي",
+    },
+    walletDescription: {
+      en:"View your transaction details, manage coupons, find FAQs, get simple instructions, and review our terms all in one place.",
+      ar:"اعرض تفاصيل المعاملات الخاصة بك، ادارة القسائم، العثور على الأسئلة الشائعة، الحصول على تعليمات بسيطة، ومراجعة الشروط الخاصة بنا في مكان واحد.",
+    },
+    totalAvailableBalance: {
+      en: "Total Available Balance",
+      ar: "إجمالي الرصيد المتاح",
+    },
+    balanceDescription: {
+      en: "Use Shopee Balance for quick payments and a seamless checkout process.",
+      ar: "استخدم رصيد شوبي للمدفوعات السريعة وعملية دفع سلسة.",
+    },
+  }
 };
