@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getAssetsUrl } from "../utils/helpers";
 import { useCurrentLanguage } from "@/hooks";
 import { IoCloseSharp } from "react-icons/io5";
 
-const InfoCardWithModal = ({
-  icon, 
-  heading,
-  description,
-  modalContent, 
-}) => {
+const InfoCardWithModal = ({ icon, heading, description, modalContent }) => {
   const [open, setOpen] = useState(false);
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
+
+  useEffect(() => {
+    if (open) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    // Cleanup when unmounting
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [open]);
 
   return (
     <>

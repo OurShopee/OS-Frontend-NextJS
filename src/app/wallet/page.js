@@ -1,7 +1,7 @@
 "use client";
 import { getWalletTransactions } from "@/api/user";
-import FAQAccordion from "@/components/Common/FAQAccordion";
-import InfoCardWithModal from "@/components/Common/InfoCardWithModal";
+import FAQAccordion from "@/components/wallet/FAQAccordion";
+import InfoCardWithModal from "@/components/wallet/InfoCardWithModal";
 import Transactions from "@/components/Common/transactions";
 import withAuth from "@/components/Common/withAuth";
 import BreadComp from "@/components/Myaccount/BreadComp";
@@ -12,6 +12,8 @@ import { useContent } from "@/hooks";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import TermsConditionsCard from "@/components/wallet/TermsConditionsCard";
+import ShopeeWalletHowTo from "@/components/wallet/ShopeeWalletHowTo";
 
 const page = () => {
   const { isMobile } = MediaQueries();
@@ -32,7 +34,7 @@ const page = () => {
     const fetchWalletTransactions = async () => {
       try {
         const response = await getWalletTransactions(page, 20);
-        console.log(response)
+        console.log(response);
         setTransactions(response?.data?.transactions || []);
         setWalletBalance(response?.data?.wallet);
       } catch (error) {
@@ -138,10 +140,12 @@ const page = () => {
                           </h3>
                           {/* see more button */}
                           <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4">
-                            <span>
-                            See more
-                            </span>
-                            <img src={getAssetsUrl("vector_icons/arrow_right.svg")} alt="Arrow Right" className="w-[15px] h-[15px]" />
+                            <span>See more</span>
+                            <img
+                              src={getAssetsUrl("vector_icons/arrow_right.svg")}
+                              alt="Arrow Right"
+                              className="w-[15px] h-[15px]"
+                            />
                           </button>
                         </div>
                       )}
@@ -153,13 +157,7 @@ const page = () => {
                   icon={"wallet/question.svg"}
                   heading="How To Use?"
                   description="Use Shopee Wallet for hassle-free checkout by easily applying your available balance"
-                  modalContent={<FAQAccordion />}
-                />
-                <InfoCardWithModal
-                  icon={"wallet/Ticket.png"}
-                  heading="Coupons"
-                  description="Discover available coupons for your transactions and view details to maximize your savings."
-                  modalContent={<FAQAccordion />}
+                  modalContent={<ShopeeWalletHowTo />}
                 />
                 <InfoCardWithModal
                   icon={"wallet/comments.svg"}
@@ -171,7 +169,7 @@ const page = () => {
                   icon={"wallet/terms.svg"}
                   heading="Terms & Conditions"
                   description="These terms outline your responsibilities and secure payment policies for Shopee Wallet."
-                  modalContent={<FAQAccordion />}
+                  modalContent={<TermsConditionsCard />}
                 />
               </div>
             </Col>
