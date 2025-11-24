@@ -214,7 +214,7 @@ const page = () => {
                         </span>
                       )}
                       <span className="text-[52px] font-bold bg-gradient-to-b from-[#125810] to-[#45D441] bg-clip-text text-transparent leading-none">
-                        {parseFloat(walletBalance?.amount).toFixed(2)}
+                        {parseFloat(walletBalance?.amount).toFixed(2)|| "0"}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">

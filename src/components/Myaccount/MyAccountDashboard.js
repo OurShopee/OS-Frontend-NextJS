@@ -102,7 +102,7 @@ const MyAccountDashboard = () => {
                   id: 1,
                   name: wallet,
                   url: 'wallet',
-                  icon: <CiCircleQuestion size={20} color={pathname?.split('/')[1] == 'wallet' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+                  icon: <img src={getAssetsUrl("wallet/walllet_icon.svg")} alt="Wallet" className="w-[20px] h-[20px]" />
               }
           ]
       },
