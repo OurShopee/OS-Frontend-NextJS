@@ -1,7 +1,9 @@
 "use client";
-import { getWalletBalance } from "@/api/user";
+import { getWalletTransactions } from "@/api/user";
 import FAQAccordion from "@/components/Common/FAQAccordion";
 import InfoCardWithModal from "@/components/Common/InfoCardWithModal";
+import Transactions from "@/components/Common/transactions";
+import withAuth from "@/components/Common/withAuth";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import { MediaQueries } from "@/components/utils";
@@ -13,6 +15,7 @@ import { useSelector } from "react-redux";
 
 const page = () => {
   const { isMobile } = MediaQueries();
+  const [page, setPage] = useState(1);
   const wallet = useContent("account.wallet");
   const walletHeading = useContent("wallet.walletHeading");
   const walletDescription = useContent("wallet.walletDescription");
@@ -24,15 +27,22 @@ const page = () => {
   const transactionHistory = useContent("wallet.transactionHistory");
   const noTransactionHistory = useContent("wallet.noTransactionHistory");
   const [transactions, setTransactions] = useState([]);
-  const [walletBalance, setWalletBalance] = useState(0);
+  const [walletBalance, setWalletBalance] = useState({ amount: 0 });
   useEffect(() => {
-    const fetchWalletBalance = async () => {
-      const response = await getWalletBalance();
-      setWalletBalance(response.data);
-    
+    const fetchWalletTransactions = async () => {
+      try {
+        const response = await getWalletTransactions(page, 20);
+        console.log(response)
+        setTransactions(response?.data?.transactions || []);
+        setWalletBalance(response?.data?.wallet);
+      } catch (error) {
+        console.error("Failed to fetch wallet transactions", error);
+        setTransactions([]);
+        setWalletBalance({ amount: 0 });
+      }
     };
-    fetchWalletBalance();
-  }, []);
+    fetchWalletTransactions();
+  }, [page]);
   return (
     <Container fluid className="homepagecontainer !px-16 py-3">
       <div className="py-4">
@@ -77,11 +87,11 @@ const page = () => {
                         />
                       ) : (
                         <span className="text-5xl font-bold text-green-600">
-                          {currentCountry.currency}
+                          {currentCountry?.currency}
                         </span>
                       )}
                       <span className="text-[52px] font-bold bg-gradient-to-b from-[#125810] to-[#45D441] bg-clip-text text-transparent leading-none">
-                        0
+                        {parseFloat(walletBalance?.amount).toFixed(2)}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
@@ -102,14 +112,14 @@ const page = () => {
                   </p>
                 </div>
 
-                <div className="flex justify-center items-center w-full">
-                  <div className="complaintCard w-full max-w-[1000px] rounded-2xl bg-white wallet-cards-shadows px-10 py-12">
-                    <div className="flex flex-col gap-10">
+                <div className="flex  w-full">
+                  <div className="complaintCard w-full max-w-[1000px] rounded-2xl bg-white wallet-cards-shadows px-5 py-6">
+                    <div className="flex flex-col gap-7">
                       <h3 className="text-xl font-semibold text-gray-900">
                         {transactionHistory}
                       </h3>
                       {transactions.length == 0 ? (
-                        <div className="flex flex-col items-center justify-center gap-4 py-6">
+                        <div className="flex flex-col items-center justify-center gap-4 pb-6">
                           <img
                             src={getAssetsUrl("no_transac.svg")}
                             alt="Image"
@@ -122,10 +132,17 @@ const page = () => {
                           </p>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justify-center gap-8 py-6">
-                          <h3 className="text-xl font-semibold text-gray-900">
-                            {transactionHistory}
+                        <div className="flex flex-col items-center justify-between  w-full">
+                          <h3 className="text-xl font-semibold text-gray-900 w-full">
+                            <Transactions transactions={transactions} />
                           </h3>
+                          {/* see more button */}
+                          <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4">
+                            <span>
+                            See more
+                            </span>
+                            <img src={getAssetsUrl("vector_icons/arrow_right.svg")} alt="Arrow Right" className="w-[15px] h-[15px]" />
+                          </button>
                         </div>
                       )}
                     </div>
@@ -165,4 +182,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default withAuth(page);
