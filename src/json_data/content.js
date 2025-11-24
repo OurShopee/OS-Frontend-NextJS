@@ -2736,5 +2736,13 @@ export const content = {
       en: "Use Shopee Balance for quick payments and a seamless checkout process.",
       ar: "استخدم رصيد شوبي للمدفوعات السريعة وعملية دفع سلسة.",
     },
+    transactionHistory: {
+      en: "Transaction History",
+      ar: "سجل المعاملات",
+    },
+    noTransactionHistory: {
+      en: "No transaction history",
+      ar: "لا يوجد تاريخ معاملات",
+    },
   }
 };

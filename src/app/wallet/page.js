@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Link from "next/link";
 import { MediaQueries } from "@/components/utils";
@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { getAssetsUrl } from "@/components/utils/helpers";
 import InfoCardWithModal from "@/components/Common/InfoCardWithModal";
 import { FiHelpCircle } from "react-icons/fi";
+import { getWalletBalance } from "@/api/user";
 
 const page = () => {
   const { isMobile } = MediaQueries();
@@ -22,6 +23,18 @@ const page = () => {
   const currentCountry = useSelector(
     (state) => state.globalslice.currentcountry
   );
+  const transactionHistory = useContent("wallet.transactionHistory");
+  const noTransactionHistory = useContent("wallet.noTransactionHistory");
+  const [transactions, setTransactions] = useState([]);
+  const [walletBalance, setWalletBalance] = useState(0);
+  useEffect(() => {
+    const fetchWalletBalance = async () => {
+      const response = await getWalletBalance();
+      setWalletBalance(response.data);
+    
+    };
+    fetchWalletBalance();
+  }, []);
   return (
     <Container fluid className="homepagecontainer !px-16 py-3">
       <div className="py-4">
@@ -89,6 +102,36 @@ const page = () => {
                   <p className="text-gray-700 text-sm text-center leading-relaxed px-2">
                     {balanceDescription}
                   </p>
+                </div>
+
+                <div className="flex justify-center items-center w-full">
+                  <div className="complaintCard w-full max-w-[1000px] rounded-2xl bg-white wallet-cards-shadows px-10 py-12">
+                    <div className="flex flex-col gap-10">
+                      <h3 className="text-xl font-semibold text-gray-900">
+                        {transactionHistory}
+                      </h3>
+                      {transactions.length == 0 ? (
+                        <div className="flex flex-col items-center justify-center gap-4 py-6">
+                          <img
+                            src={getAssetsUrl("no_transac.svg")}
+                            alt="Image"
+                            className="w-[124px] h-[124px] inline-block mix-blend-multiply object-contain"
+                            style={{ color: "black" }}
+                            loading="lazy"
+                          />
+                          <p className="text-md text-gray-500 font-medium">
+                            {noTransactionHistory}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center gap-8 py-6">
+                          <h3 className="text-xl font-semibold text-gray-900">
+                            {transactionHistory}
+                          </h3>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <InfoCardWithModal
