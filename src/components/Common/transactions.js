@@ -36,14 +36,18 @@ const Transactions = ({ transactions = [] }) => {
   return (
     <>
       <div className="flex flex-col gap-1 w-full">
-        {parsedTransactions.map((tx) => (
+        {parsedTransactions.slice(0, 5).map((tx) => (
           <div
             key={tx.id}
             className="flex items-center justify-between w-full  border-gray-100 pb-6 last:border-b-0 last:pb-0"
           >
             <div className="flex items-center gap-4">
               <div className="w-[52px] h-[52px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
-               <img src={getAssetsUrl("wallet/transaction_wallet.svg")} alt="Wallet" className="w-10 h-10" />
+                <img
+                  src={getAssetsUrl("wallet/transaction_wallet.svg")}
+                  alt="Wallet"
+                  className="w-10 h-10"
+                />
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-base font-semibold text-gray-900">
@@ -103,8 +107,14 @@ const Transactions = ({ transactions = [] }) => {
             </div>
 
             <div className="space-y-3 text-sm text-gray-600">
-              <DetailRow label="Transaction Type" value={activeTransaction.tx_type} />
-              <DetailRow label="Amount" value={formatAmount(activeTransaction)} />
+              <DetailRow
+                label="Transaction Type"
+                value={activeTransaction.tx_type}
+              />
+              <DetailRow
+                label="Amount"
+                value={formatAmount(activeTransaction)}
+              />
               <DetailRow
                 label="Balance Before"
                 value={formatCurrency(activeTransaction.balance_before)}
@@ -113,7 +123,10 @@ const Transactions = ({ transactions = [] }) => {
                 label="Balance After"
                 value={formatCurrency(activeTransaction.balance_after)}
               />
-              <DetailRow label="Order ID" value={activeTransaction.order_id || "--"} />
+              <DetailRow
+                label="Order ID"
+                value={activeTransaction.order_id || "--"}
+              />
               <DetailRow
                 label="Reason"
                 value={activeTransaction?.metadata?.reason || "--"}

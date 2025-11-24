@@ -18,8 +18,9 @@ import { useSelector } from "react-redux";
 import { HiArrowsUpDown } from "react-icons/hi2";
 const page = () => {
   const { isMobile } = MediaQueries();
+  const [isFilterUse, setIsFilterUse] = useState(false);
   const [page, setPage] = useState(1);
-  const [filterType, setFilterType] = useState(""); // "" for all, "REFUND" for credit, others for debit
+  const [filterType, setFilterType] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterDropdownRef = useRef(null);
   const wallet = useContent("account.wallet");
@@ -35,11 +36,14 @@ const page = () => {
   const seeMore = useContent("wallet.seeMore");
   const [transactions, setTransactions] = useState([]);
   const [walletBalance, setWalletBalance] = useState({ amount: 0 });
-  
+
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
+      if (
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target)
+      ) {
         setIsFilterOpen(false);
       }
     };
@@ -54,9 +58,14 @@ const page = () => {
     const fetchWalletTransactions = async () => {
       try {
         // If filterType is "REFUND", use "CREDIT", otherwise use "DEBIT" or empty string
-        const txType = filterType === "REFUND" ? "CREDIT" : filterType === "DEBIT" ? "DEBIT" : "";
+        const txType =
+          filterType === "REFUND"
+            ? "CREDIT"
+            : filterType === "DEBIT"
+            ? "DEBIT"
+            : "";
         const response = await getWalletTransactions(page, 20, txType);
-        console.log(response)
+        console.log(response);
         setTransactions(response?.data?.transactions || []);
         setWalletBalance(response?.data?.wallet);
       } catch (error) {
@@ -67,8 +76,13 @@ const page = () => {
     };
     fetchWalletTransactions();
   }, [page, filterType]);
-  
+
   const handleFilterChange = (type) => {
+    if (type === "DEBIT" || type === "REFUND") {
+      setIsFilterUse(true);
+    } else {
+      setIsFilterUse(false);
+    }
     setFilterType(type);
     setIsFilterOpen(false);
     setPage(1); // Reset to first page when filter changes
@@ -145,92 +159,103 @@ const page = () => {
                 <div className="flex  w-full">
                   <div className="complaintCard w-full max-w-[1000px] rounded-2xl bg-white wallet-cards-shadows px-5 py-6">
                     <div className="flex flex-col gap-7">
-                      <h3 className="flex items-center justify-between text-xl font-semibold text-gray-900">
+                      <div className="flex items-center justify-between text-xl font-semibold text-gray-900">
                         <span>{transactionHistory}</span>
-                       
-                        <div className="flex items-center justify-center gap-2 ">
+
+                        {(isFilterUse || transactions.length > 0) && (
+                          <div className="flex items-center justify-center gap-2 ">
                             <div ref={filterDropdownRef} className="relative">
-                                <button 
-                                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                  className=" bg-[#E7E8E9] px-2 w-max py-2 rounded-[12px] "
-                                >
-                                    <img src={getAssetsUrl("wallet/Filter.svg")} alt="Filter" className="h-[18px] w-auto" />
-                                </button>
-                                {isFilterOpen && (
-                                  <div className="absolute right-0 mt-2 bg-white rounded-[12px] shadow-lg border border-gray-200 z-50  overflow-hidden py-2">
-                                    <label
-                                      onClick={() => handleFilterChange("")}
-                                      className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                              <button
+                                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                                className=" bg-[#E7E8E9] px-2 w-max py-2 rounded-[12px] "
+                              >
+                                <img
+                                  src={getAssetsUrl("wallet/Filter.svg")}
+                                  alt="Filter"
+                                  className="h-[18px] w-auto"
+                                />
+                              </button>
+                              {isFilterOpen && (
+                                <div className="absolute right-0 mt-2 bg-white rounded-[12px] shadow-lg border border-gray-200 z-50  overflow-hidden py-2">
+                                  <label
+                                    onClick={() => handleFilterChange("")}
+                                    className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                                  >
+                                    <input
+                                      type="radio"
+                                      name="transactionFilter"
+                                      value=""
+                                      checked={filterType === ""}
+                                      onChange={() => handleFilterChange("")}
+                                      className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
+                                    />
+                                    <span
+                                      className={
+                                        filterType === ""
+                                          ? "text-[#5232C2]"
+                                          : "text-gray-700"
+                                      }
                                     >
-                                      <input
-                                        type="radio"
-                                        name="transactionFilter"
-                                        value=""
-                                        checked={filterType === ""}
-                                        onChange={() => handleFilterChange("")}
-                                        className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
-                                      />
-                                      <span
-                                        className={
-                                          filterType === ""
-                                            ? "text-[#5232C2]"
-                                            : "text-gray-700"
-                                        }
-                                      >
-                                        All
-                                      </span>
-                                    </label>
-                                    <label
-                                      onClick={() => handleFilterChange("REFUND")}
-                                      className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                                      All
+                                    </span>
+                                  </label>
+                                  <label
+                                    onClick={() => handleFilterChange("REFUND")}
+                                    className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                                  >
+                                    <input
+                                      type="radio"
+                                      name="transactionFilter"
+                                      value="REFUND"
+                                      checked={filterType === "REFUND"}
+                                      onChange={() =>
+                                        handleFilterChange("REFUND")
+                                      }
+                                      className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
+                                    />
+                                    <span
+                                      className={
+                                        filterType === "REFUND"
+                                          ? "text-[#5232C2]"
+                                          : "text-gray-700"
+                                      }
                                     >
-                                      <input
-                                        type="radio"
-                                        name="transactionFilter"
-                                        value="REFUND"
-                                        checked={filterType === "REFUND"}
-                                        onChange={() => handleFilterChange("REFUND")}
-                                        className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
-                                      />
-                                      <span
-                                        className={
-                                          filterType === "REFUND"
-                                            ? "text-[#5232C2]"
-                                            : "text-gray-700"
-                                        }
-                                      >
-                                        Refund
-                                      </span>
-                                    </label>
-                                    <label
-                                      onClick={() => handleFilterChange("DEBIT")}
-                                      className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                                      Refund
+                                    </span>
+                                  </label>
+                                  <label
+                                    onClick={() => handleFilterChange("DEBIT")}
+                                    className="flex items-center w-full px-4 py-2 text-sm font-medium hover:bg-[#E7E8E9] transition-colors cursor-pointer"
+                                  >
+                                    <input
+                                      type="radio"
+                                      name="transactionFilter"
+                                      value="DEBIT"
+                                      checked={filterType === "DEBIT"}
+                                      onChange={() =>
+                                        handleFilterChange("DEBIT")
+                                      }
+                                      className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
+                                    />
+                                    <span
+                                      className={
+                                        filterType === "DEBIT"
+                                          ? "text-[#5232C2]"
+                                          : "text-gray-700"
+                                      }
                                     >
-                                      <input
-                                        type="radio"
-                                        name="transactionFilter"
-                                        value="DEBIT"
-                                        checked={filterType === "DEBIT"}
-                                        onChange={() => handleFilterChange("DEBIT")}
-                                        className="mr-3 w-4 h-4 text-[#43494B] focus:ring-[#43494B] focus:ring-2 cursor-pointer"
-                                      />
-                                      <span
-                                        className={
-                                          filterType === "DEBIT"
-                                            ? "text-[#5232C2]"
-                                            : "text-gray-700"
-                                        }
-                                      >
-                                        Used
-                                      </span>
-                                    </label>
-                                  </div>
-                                )}
+                                      Used
+                                    </span>
+                                  </label>
+                                </div>
+                              )}
                             </div>
-                            <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-2 rounded-[12px] "><HiArrowsUpDown /></button>
-                        </div>
-                     
-                      </h3>
+                            <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-2 rounded-[12px] ">
+                              <HiArrowsUpDown />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                       {transactions.length == 0 ? (
                         <div className="flex flex-col items-center justify-center gap-4 pb-6">
                           <img
@@ -251,10 +276,12 @@ const page = () => {
                           </h3>
                           {/* see more button */}
                           <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4">
-                            <span>
-                            {seeMore}
-                            </span>
-                            <img src={getAssetsUrl("vector_icons/arrow_right.svg")} alt="Arrow Right" className="w-[15px] h-[15px]" />
+                            <span>{seeMore}</span>
+                            <img
+                              src={getAssetsUrl("vector_icons/arrow_right.svg")}
+                              alt="Arrow Right"
+                              className="w-[15px] h-[15px]"
+                            />
                           </button>
                         </div>
                       )}
