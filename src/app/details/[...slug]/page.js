@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import ProductDetailClient from "./ProductDetailClient";
+import ProductDetailFallback from "./ProductDetailFallback";
 import { getproduct_detail } from "@/api/products";
 import { headers } from "next/headers";
 import { getServerSideHeaders } from "@/lib/serverUtils";
@@ -80,9 +82,11 @@ catch(error){
   }
 
   return (
-    <ProductDetailClient
-      initialProductData={productData?.data?.product}
-      productInfo={productInfo}
-    />
+    <Suspense fallback={<ProductDetailFallback />}>
+      <ProductDetailClient
+        initialProductData={productData?.data?.product}
+        productInfo={productInfo}
+      />
+    </Suspense>
   );
 }

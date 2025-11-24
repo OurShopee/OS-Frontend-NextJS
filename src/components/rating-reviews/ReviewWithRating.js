@@ -32,7 +32,7 @@ import {
 } from "@/api/review";
 import { ComponentHeader } from "../Common";
 import { MediaQueries } from "../utils";
-import { getAssetsUrl } from "../utils/helpers";
+import { getAssetsUrl, useLoginModal } from "../utils/helpers";
 
 import CustomStarRating from "./CustomStarRating";
 import HasReview from "./HasReview";

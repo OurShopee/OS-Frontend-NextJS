@@ -2,13 +2,8 @@
 
 import { ComponentHeader } from "@/components/Common";
 import BreadComps from "@/components/Common/Breadcomps";
-import CartModalDesktop from "@/components/Common/Modals/CartModelDesktop";
-import StickyActionBar from "@/components/Common/StickyActionbar";
 import { CarouselProducts } from "@/components/homepage";
-import { ProductCardPlaceHolder } from "@/components/placeholders/ProductCategory";
-import Bankoffermodal from "@/components/product-detail/Bankoffermodal";
 import ImageCarousel from "@/components/product-detail/ImageCarousel";
-import Snplmodal from "@/components/product-detail/Snplmodal";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
 import { useCart, getDynamicContent, useCurrentLanguage, useContent } from "@/hooks";
@@ -17,7 +12,7 @@ import { decode } from "html-entities";
 import Cookiess from "js-cookie";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { FaChevronUp } from "react-icons/fa6";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,11 +31,25 @@ import {
   getrelatedItems,
   setprodcatloading,
 } from "@/redux/productslice";
-import ReviewNoRating from "@/components/rating-reviews/ReviewNoRating";
-import ReviewOnlyRating from "@/components/rating-reviews/ReviewOnlyRating";
-import ReviewWithRating from "@/components/rating-reviews/ReviewWithRating";
 import CustomStarRating from "@/components/rating-reviews/CustomStarRating";
 import { getAllReviews } from "@/api/review";
+
+const CartModalDesktop = lazy(() =>
+  import("@/components/Common/Modals/CartModelDesktop")
+);
+const StickyActionBar = lazy(() =>
+  import("@/components/Common/StickyActionbar")
+);
+const Bankoffermodal = lazy(() =>
+  import("@/components/product-detail/Bankoffermodal")
+);
+const Snplmodal = lazy(() => import("@/components/product-detail/Snplmodal"));
+const ReviewNoRating = lazy(() =>
+  import("@/components/rating-reviews/ReviewNoRating")
+);
+const ReviewWithRating = lazy(() =>
+  import("@/components/rating-reviews/ReviewWithRating")
+);
 
 const ProductDetailClient = ({ initialProductData, productInfo }) => {
   // Helper function to format price - shows decimals only when needed
@@ -478,11 +487,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
       <div className="">
         {/* Container fluid -> w-full px-4 */}
         <div className="pb-3 px-3">
-          {!loading ? (
-            <div
-              className={`2xl:container top-[20px] flex ${isMobile && "flex-col"
-                } gap-5 !m-auto relative`}
-            >
+          <div
+            className={`2xl:container top-[20px] flex ${isMobile && "flex-col"
+              } gap-5 !m-auto relative`}
+          >
               <div
                 className={`${!isMobile &&
                   "flex-[0_0_47%] w-[47%] sticky top-[0px] self-start"
@@ -529,7 +537,7 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                   </>
                 )}
                 <div className="product_Detail_left_side">
-                  {!loading && !isLaptop && (
+                  {!isLaptop && (
                     <div className="!mb-3 2xl:container !m-auto">
                       <BreadComps
                         title0={getDynamicContent(productDetail[0], "category_name", currentLanguage)}
@@ -552,14 +560,16 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     setQty={setQty}
                   />
                   {isTablet && (
-                    <StickyActionBar
-                      quantity={qty}
-                      onIncrease={() => setQty((q) => q + 1)}
-                      onDecrease={() => setQty((q) => Math.max(1, q - 1))}
-                      onAddToCart={handleClick}
-                      onBuyNow={(id, qty, sku) => handleBuyNow(id, qty, sku)}
-                      productData={productDetail[0]}
-                    />
+                    <Suspense fallback={null}>
+                      <StickyActionBar
+                        quantity={qty}
+                        onIncrease={() => setQty((q) => q + 1)}
+                        onDecrease={() => setQty((q) => Math.max(1, q - 1))}
+                        onAddToCart={handleClick}
+                        onBuyNow={(id, qty, sku) => handleBuyNow(id, qty, sku)}
+                        productData={productDetail[0]}
+                      />
+                    </Suspense>
                   )}
                 </div>
               </div>
@@ -1031,133 +1041,23 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                     )}
                   </div>
                   {bankofferdata?.plans?.length > 0 && (
-                    <Bankoffermodal plans={bankofferdata?.plans} />
+                    <Suspense fallback={null}>
+                      <Bankoffermodal plans={bankofferdata?.plans} />
+                    </Suspense>
                   )}
-                  {
+                  <Suspense fallback={null}>
                     <Snplmodal
                       productcost={
                         productDetail[0]?.display_price /
                         currentcountry?.emi_months
                       }
                     />
-                  }
+                  </Suspense>
 
                   <div className="mt-4"></div>
                 </div>
               </div>
             </div>
-          ) : (
-            /* Row -> flex flex-wrap, mt-3 -> mt-3 */
-            <div className="flex flex-wrap mt-3">
-              {/* Col lg={4} -> w-full lg:w-1/3 */}
-              <div className="w-full lg:w-1/3">
-                <div className="product_Detail_left_side">
-                  <div
-                    className="placeholder_color"
-                    style={{ width: "100%", height: 450, borderRadius: 8 }}
-                  />
-                  {/* d-flex mt-3 -> flex mt-3 */}
-                  <div className="flex mt-3">
-                    {[1, 2, 3, 4, 5].map((_i) => {
-                      return (
-                        <div
-                          key={_i}
-                          /* me-3 -> mr-3 */
-                          className="placeholder_color mr-3"
-                          style={{
-                            width: "15%",
-                            height: 100,
-                            borderRadius: 8,
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-              {/* Col lg={8} -> w-full lg:w-2/3 */}
-              <div className="w-full lg:w-2/3">
-                <div className="product_Detail_right_side">
-                  <div
-                    className="placeholder_color"
-                    style={{ width: "80%", height: 10, borderRadius: 5 }}
-                  />
-                  <div
-                    /* mt-3 -> mt-3 */
-                    className="placeholder_color mt-3"
-                    style={{ width: "20%", height: 10, borderRadius: 5 }}
-                  />
-                  {/* d-block mt-5 -> block mt-5 */}
-                  <div className="block mt-5">
-                    {[1, 2, 3, 4, 5, 6].map((_i) => {
-                      return (
-                        <div
-                          key={_i}
-                          /* mt-3 -> mt-3 */
-                          className="placeholder_color mt-3"
-                          style={{
-                            width: "50%",
-                            height: 10,
-                            borderRadius: 8,
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                  {/* d-flex mt-5 -> flex mt-5 */}
-                  <div className="flex mt-5">
-                    <div
-                      /* me-3 -> mr-3 */
-                      className="placeholder_color mr-3"
-                      style={{ width: "15%", height: 10, borderRadius: 5 }}
-                    />
-                    <div
-                      className="placeholder_color"
-                      style={{ width: "8%", height: 10, borderRadius: 5 }}
-                    />
-                  </div>
-                  {/* d-flex mt-3 -> flex mt-3 */}
-                  <div className="flex mt-3">
-                    {[1, 2, 3, 4, 5].map((_i) => {
-                      return (
-                        <div
-                          key={_i}
-                          /* me-3 -> mr-3 */
-                          className="placeholder_color mr-3"
-                          style={{ width: 40, height: 40, borderRadius: 50 }}
-                        />
-                      );
-                    })}
-                  </div>
-                  {/* d-flex mt-5 -> flex mt-5 */}
-                  <div className="flex mt-5">
-                    <div
-                      /* me-3 -> mr-3 */
-                      className="placeholder_color mr-3"
-                      style={{ width: "15%", height: 10, borderRadius: 5 }}
-                    />
-                    <div
-                      className="placeholder_color"
-                      style={{ width: "8%", height: 10, borderRadius: 5 }}
-                    />
-                  </div>
-                  {/* d-flex mt-3 -> flex mt-3 */}
-                  <div className="flex mt-3">
-                    {[1, 2, 3, 4, 5].map((_i) => {
-                      return (
-                        <div
-                          key={_i}
-                          /* me-3 -> mr-3 */
-                          className="placeholder_color mr-3"
-                          style={{ width: 100, height: 40, borderRadius: 10 }}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Product Specifications */}
           <div className={`${!isMobile ? "mt-8" : "mt-4"}`}>
@@ -1321,24 +1221,28 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
             {allProductReviews?.data?.result?.length === 0 &&
               (!allProductReviews?.data?.userReview ||
                 allProductReviews?.data?.userReview?.rstatus === 0) && (
-                <ReviewNoRating
-                  setProductReviews={setProductReviews}
-                  productReviews={productReviews}
-                  setAllProductReviews={setAllProductReviews}
-                />
+                <Suspense fallback={<div className="min-h-[160px]" />}>
+                  <ReviewNoRating
+                    setProductReviews={setProductReviews}
+                    productReviews={productReviews}
+                    setAllProductReviews={setAllProductReviews}
+                  />
+                </Suspense>
               )}
             {allProductReviews?.data?.stats?.averageRating > 0 && (
-              <ReviewWithRating
-                setProductReviews={setProductReviews}
-                productReviews={productReviews}
-                allProductReviews={allProductReviews}
-                setAllProductReviews={setAllProductReviews}
-              />
+              <Suspense fallback={<div className="min-h-[160px]" />}>
+                <ReviewWithRating
+                  setProductReviews={setProductReviews}
+                  productReviews={productReviews}
+                  allProductReviews={allProductReviews}
+                  setAllProductReviews={setAllProductReviews}
+                />
+              </Suspense>
             )}
           </div>
 
           {/* Related Products */}
-          {!loading1 ? (
+          {!loading1 && (
             <div className="component_1 product_Detail_carousel_prod mt-5">
               {productDetail_products?.hasOwnProperty("related_products") && (
                 <ComponentHeader
@@ -1358,25 +1262,10 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 inner_bg={"rgba(238, 235, 250, 1)"}
               />
             </div>
-          ) : (
-            /* mt-3 row -> mt-3 flex flex-wrap */
-            <div className="mt-3 flex flex-wrap">
-              {[1, 2, 3, 4, 5].map((product) => {
-                return (
-                  /* Col xxl={2} xl={2} lg={3} md={3} sm={6} xs={6} mb-4 -> w-full 2xl:w-1/6 xl:w-1/6 lg:w-1/4 md:w-1/4 sm:w-1/2 mb-4 */
-                  <div
-                    key={product}
-                    className="w-full 2xl:w-1/6 xl:w-1/6 lg:w-1/4 md:w-1/4 sm:w-1/2 mb-4"
-                  >
-                    <ProductCardPlaceHolder />
-                  </div>
-                );
-              })}
-            </div>
           )}
 
           {/* Recently Viewed */}
-          {!loading1 ? (
+          {!loading1 && (
             /* mt-4 -> mt-4 */
             <div className="component_1 product_Detail_carousel_prod mt-4">
               {productDetail_products?.hasOwnProperty("recently_viewed") && (
@@ -1397,30 +1286,17 @@ const ProductDetailClient = ({ initialProductData, productInfo }) => {
                 inner_bg={"rgba(238, 235, 250, 1)"}
               />
             </div>
-          ) : (
-            /* mt-3 row -> mt-3 flex flex-wrap */
-            <div className="mt-3 flex flex-wrap">
-              {[1, 2, 3, 4, 5].map((product) => {
-                return (
-                  /* Same Col mapping as above */
-                  <div
-                    key={product}
-                    className="w-full 2xl:w-1/6 xl:w-1/6 lg:w-1/4 md:w-1/4 sm:w-1/2 mb-4"
-                  >
-                    <ProductCardPlaceHolder />
-                  </div>
-                );
-              })}
-            </div>
           )}
         </div>
 
         {!isMobile && (
-          <CartModalDesktop
-            show={showCartModalDesktop}
-            onHide={() => setShowCartModalDesktop(false)}
-            productData={productDetail[0]}
-          />
+          <Suspense fallback={null}>
+            <CartModalDesktop
+              show={showCartModalDesktop}
+              onHide={() => setShowCartModalDesktop(false)}
+              productData={productDetail[0]}
+            />
+          </Suspense>
         )}
       </div>
 
