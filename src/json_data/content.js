@@ -2744,5 +2744,9 @@ export const content = {
       en: "No transaction history",
       ar: "لا يوجد تاريخ معاملات",
     },
+    seeMore: {
+      en: "See more",
+      ar: "عرض المزيد",
+    },
   }
 };
