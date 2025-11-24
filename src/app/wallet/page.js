@@ -12,7 +12,7 @@ import { useContent } from "@/hooks";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-
+import { HiArrowsUpDown } from "react-icons/hi2";
 const page = () => {
   const { isMobile } = MediaQueries();
   const [page, setPage] = useState(1);
@@ -26,6 +26,7 @@ const page = () => {
   );
   const transactionHistory = useContent("wallet.transactionHistory");
   const noTransactionHistory = useContent("wallet.noTransactionHistory");
+  const seeMore = useContent("wallet.seeMore");
   const [transactions, setTransactions] = useState([]);
   const [walletBalance, setWalletBalance] = useState({ amount: 0 });
   useEffect(() => {
@@ -115,8 +116,16 @@ const page = () => {
                 <div className="flex  w-full">
                   <div className="complaintCard w-full max-w-[1000px] rounded-2xl bg-white wallet-cards-shadows px-5 py-6">
                     <div className="flex flex-col gap-7">
-                      <h3 className="text-xl font-semibold text-gray-900">
-                        {transactionHistory}
+                      <h3 className="flex items-center justify-between text-xl font-semibold text-gray-900">
+                        <span>{transactionHistory}</span>
+                        {transactions.length > 0 && (
+                        <div className="flex items-center justify-center gap-2 ">
+                            <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-2 rounded-[12px] mt-4">
+                                <img src={getAssetsUrl("wallet/Filter.svg")} alt="Arrow Up" className="w-[18px] h-[18px]" />
+                            </button>
+                            <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-2 rounded-[12px] mt-4"><HiArrowsUpDown /></button>
+                        </div>
+                        )}
                       </h3>
                       {transactions.length == 0 ? (
                         <div className="flex flex-col items-center justify-center gap-4 pb-6">
@@ -139,7 +148,7 @@ const page = () => {
                           {/* see more button */}
                           <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4">
                             <span>
-                            See more
+                            {seeMore}
                             </span>
                             <img src={getAssetsUrl("vector_icons/arrow_right.svg")} alt="Arrow Right" className="w-[15px] h-[15px]" />
                           </button>
