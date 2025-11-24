@@ -39,6 +39,7 @@ import HasReview from "./HasReview";
 import PostReviewMainPage from "./PostReviewMainPage";
 import RatingOverview from "./RatingOverview";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import useDebounce from "../utils/UseDebounce";
 
 const ReviewWithRating = ({
   setProductReviews,
