@@ -9,6 +9,8 @@ import { useContent } from "@/hooks";
 import { FaWallet } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { getAssetsUrl } from "@/components/utils/helpers";
+import InfoCardWithModal from "@/components/Common/InfoCardWithModal";
+import { FiHelpCircle } from "react-icons/fi";
 
 const page = () => {
   const { isMobile } = MediaQueries();
@@ -17,10 +19,15 @@ const page = () => {
   const walletDescription = useContent("wallet.walletDescription");
   const totalAvailableBalance = useContent("wallet.totalAvailableBalance");
   const balanceDescription = useContent("wallet.balanceDescription");
-  const currentCountry = useSelector((state) => state.globalslice.currentcountry);
+  const currentCountry = useSelector(
+    (state) => state.globalslice.currentcountry
+  );
   return (
-    <Container fluid className="homepagecontainer">
-      <Row className={!isMobile ? "mt-4" : ""}>
+    <Container fluid className="homepagecontainer !px-16 py-3">
+      <div className="py-4">
+        <BreadComp title={wallet} />
+      </div>
+      <Row>
         {!isMobile && (
           <Col lg={3}>
             <MyAccountDashboard />
@@ -28,23 +35,10 @@ const page = () => {
         )}
 
         <Col lg={9}>
-          {isMobile ? (
-            <>
-              <div>
-                <BreadComp title={wallet} />
-                <div className="page-titile">hello</div>
-              </div>
-            </>
-          ) : null}
-
           <Row>
             <Col sm={12}>
-              <BreadComp title={wallet} />
-              <Link
-                href="/place-a-complaints"
-                className="complaintcard flex justify-start items-start py-4 px-4 text-black"
-              >
-                <div className="complianttitle p-4 justify-start items-start">
+              <div className="complaintcard p-8 flex flex-col gap-8">
+                <div className="flex justify-start flex-col w-full">
                   <h1 className="text-black text-xl font-semibold">
                     {walletHeading}
                   </h1>
@@ -52,54 +46,67 @@ const page = () => {
                     {walletDescription}
                   </p>
                 </div>
-                <div className="flex justify-center items-center w-full">
-                  <div className="complaintCard w-[900px] flex flex-col justify-center items-center bg-gradient-to-b from-[#E2FFD3] via-[#ECFFE2] to-[#FFFFFF] rounded-lg p-6 shadow-sm relative overflow-hidden min-h-[280px]">
-                    {/* Title */}
-                    <h3 className="text-gray-800 font-medium text-base mb-2 text-center">
-                      {totalAvailableBalance}
-                    </h3>
-                    
-                    {/* Balance Display with Icon */}
-                    <div className="flex items-center justify-center  mb-1">
-                      <div className="flex items-center gap-1">
-                        {currentCountry.currency === "AED" ? (
-                          <img 
-                            src={getAssetsUrl("coupons/dirham.svg")}
-                            alt="AED"
-                            className="w-12 h-[37px] inline-block mix-blend-multiply object-contain"
-                            style={{ color: "black" }}
-                            loading="lazy" 
-                          />
-                        ) : (
-                          <span className="text-5xl font-bold text-green-600">
-                            {currentCountry.currency}
-                          </span>
-                        )}
-                        <span className="text-[52px] font-bold bg-gradient-to-b from-[#125810] to-[#45D441] bg-clip-text text-transparent leading-none">
-                          0
+
+                <div className="complaintCard w-full flex flex-col justify-center items-center bg-gradient-to-b rounded-2xl from-[#E2FFD3] via-[#ECFFE2] to-[#FFFFFF] p-6 wallet-cards-shadows relative overflow-hidden min-h-[280px]">
+                  {/* Title */}
+                  <h3 className="text-gray-800 font-medium text-base mb-2 text-center">
+                    {totalAvailableBalance}
+                  </h3>
+
+                  {/* Balance Display with Icon */}
+                  <div className="flex items-center justify-center  mb-1">
+                    <div className="flex items-center gap-1">
+                      {currentCountry.currency === "AED" ? (
+                        <img
+                          src={getAssetsUrl("coupons/dirham.svg")}
+                          alt="AED"
+                          className="w-12 h-[37px] inline-block mix-blend-multiply object-contain"
+                          style={{ color: "black" }}
+                          loading="lazy"
+                        />
+                      ) : (
+                        <span className="text-5xl font-bold text-green-600">
+                          {currentCountry.currency}
                         </span>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <img 
-                              src={getAssetsUrl("wallet.png")}
-                              alt="Image"
-                              className="w-[38px] h-[44px] inline-block mix-blend-multiply object-contain"
-                              style={{ color: "black" }}
-                              loading="lazy" 
-                          />
-                      </div>
+                      )}
+                      <span className="text-[52px] font-bold bg-gradient-to-b from-[#125810] to-[#45D441] bg-clip-text text-transparent leading-none">
+                        0
+                      </span>
                     </div>
-                    <div className="w-[50%] h-px bg-gradient-to-r from-[#FFFFFF] via-[#81CC59] to-[#FFFFFF] mb-4"></div>
-                    
-                  
-                    
-                    {/* Description */}
-                    <p className="text-gray-700 text-sm text-center leading-relaxed px-2">
-                      {balanceDescription}
-                    </p>
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={getAssetsUrl("wallet.png")}
+                        alt="Image"
+                        className="w-[38px] h-[44px] inline-block mix-blend-multiply object-contain"
+                        style={{ color: "black" }}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
+                  <div className="w-[50%] h-px bg-gradient-to-r from-[#FFFFFF] via-[#81CC59] to-[#FFFFFF] mb-4"></div>
+
+                  {/* Description */}
+                  <p className="text-gray-700 text-sm text-center leading-relaxed px-2">
+                    {balanceDescription}
+                  </p>
                 </div>
-              </Link>
+
+                <InfoCardWithModal
+                  icon={<FiHelpCircle />}
+                  heading="How To Use?"
+                  description="Use Shopee Wallet for hassle-free checkout by easily applying your available balance"
+                  modalTitle="How To Use Shopee Wallet?"
+                  modalContent="Detailed modal content goes here. Add anything your modal needs."
+                  modalActions={
+                    <button
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      onClick={() => alert("Action clicked!")}
+                    >
+                      Got it!
+                    </button>
+                  }
+                />
+              </div>
             </Col>
           </Row>
         </Col>
