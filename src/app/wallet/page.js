@@ -8,6 +8,7 @@ import { MediaQueries } from "@/components/utils";
 import { getAssetsUrl } from "@/components/utils/helpers";
 import FAQAccordion from "@/components/wallet/FAQAccordion";
 import InfoCardWithModal from "@/components/wallet/InfoCardWithModal";
+import TransactionsModal from "@/components/wallet/TransactionsModal";
 import ShopeeWalletHowTo from "@/components/wallet/ShopeeWalletHowTo";
 import TermsConditionsCard from "@/components/wallet/TermsConditionsCard";
 import { useContent } from "@/hooks";
@@ -38,6 +39,7 @@ const page = () => {
   const seeMore = useContent("wallet.seeMore");
   const [transactions, setTransactions] = useState([]);
   const [walletBalance, setWalletBalance] = useState({ amount: 0 });
+  const [isSeeMoreModalOpen, setIsSeeMoreModalOpen] = useState(false);
   
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -328,7 +330,11 @@ const page = () => {
                             <Transactions transactions={sortedTransactions} />
                           </h3>
                           {/* see more button */}
-                          <button className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4">
+                          <button
+                            type="button"
+                            onClick={() => setIsSeeMoreModalOpen(true)}
+                            className="flex text-lg items-center justify-center gap-1 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 rounded-[12px] mt-4"
+                          >
                             <span>
                             {seeMore}
                             </span>
@@ -363,6 +369,13 @@ const page = () => {
           </Row>
         </Col>
       </Row>
+      <TransactionsModal
+        isOpen={isSeeMoreModalOpen}
+        onClose={() => setIsSeeMoreModalOpen(false)}
+        heading={transactionHistory}
+        transactions={sortedTransactions}
+        emptyMessage={noTransactionHistory}
+      />
     </Container>
   );
 };
