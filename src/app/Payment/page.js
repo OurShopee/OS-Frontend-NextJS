@@ -15,6 +15,7 @@ import {
   setselecteddeafultoption,
   setselecteddefaultpaymentmethod,
 } from "@/redux/paymentslice";
+import { Checkbox } from "@mui/material";
 import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -267,28 +268,69 @@ const Payment = () => {
             <div className="mt-4">
               <div className="Cart-titile">{shopeeWallet}</div>
               <div
-                className={`Cartitem-maindiv ${
+                className={`Cartitem-maindiv walletpaybg ${
                   walletSelected && "walletpaybg"
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between cursor-pointer select-none w-full">
-                    <input
-                      type="radio"
-                      name="walletpayment"
+                  <div
+                    className={`flex cursor-pointer select-none w-full ${
+                      isMobile
+                        ? " items-start gap-1"
+                        : "items-start justify-between"
+                    }`}
+                  >
+                    <Checkbox
                       checked={walletSelected}
                       disabled={walletBalance === 0}
                       onClick={handleWalletChange}
-                      className="me-2 payment-radiobtn"
+                      className="me-2 payment-radiobtn rounded-md mt-2"
                     />
-                    <div className="flex flex-col sm:flex-row sm:justify-between items-center w-full">
+                    <div
+                      className={`flex flex-col gap-3 items-start w-full sm:flex-row sm:items-center sm:justify-between`}
+                    >
                       <div
                         onClick={handleWalletChange}
                         disabled={walletBalance === 0}
-                        className="font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex items-center justify-center gap-2"
+                        className={`font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex  gap-2 ${
+                          isMobile ? "items-start w-full" : "items-center justify-center"
+                        }`}
                       >
+                        <div className="flex flex-col gap-1">
+
                         {walletPaymentMethod}
-                    
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-[#43494B]">Available Balance:</span>
+                          <div className="font-semibold text-[#191B1C] text-xl flex items-center">
+                            {currentcountry?.currency == "AED" ? (
+                              <img
+                                src={getAssetsUrl("feed/aed-icon.svg")}
+                                alt="AED"
+                                className={`w-[14px] h-[14px] sm:w-[14px] sm:h-[14px] inline-block mix-blend-multiply ${
+                                  isRTL ? "ml-0.5" : "mr-0.5"
+                                }`}
+                                style={{ color: "black" }}
+                                loading="lazy"
+                              />
+                            ) : (
+                              <span
+                                className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
+                                  isRTL ? "ml-0.5" : "mr-0.5"
+                                }`}
+                              >
+                                {currentcountry?.currency}
+                              </span>
+                            )}
+                            <span className="text-sm font-semibold text-[#191B1C]">
+                            {(walletSelected
+                              ? availableBalanceAfterUse
+                              : walletBalance
+                            ).toFixed(2)}
+
+                            </span>
+                          </div>
+                        </div>
+                        </div>
                         {/* <img
                           src={"/assets/payment/shopee_wallet.png"}
                           alt={"ele.label"}
@@ -298,13 +340,21 @@ const Payment = () => {
                           <img
                         src={getAssetsUrl("wallet.png")}
                         alt="Image"
-                        className="lg:w-[23px] lg:h-[24px] w-[23px] h-[24px] inline-block mix-blend-multiply object-contain"
+                        className="lg:w-[23px] lg:h-[24px] w-[23px] h-[24px] inline-block mix-blend-multiply object-contain mt-1"
                         style={{ color: "black" }}
                         loading="lazy"
                       />
                       </div>
-                      <div className="font-normal text-sm sm:text-lg text-[#43494B] flex flex-col gap-1 ">
-                        <div className="flex items-center gap-2">
+                      <div
+                        className={`font-normal text-sm sm:text-lg text-[#43494B] flex flex-col gap-1 text-left sm:text-right ${
+                          isMobile ? "w-full border-t border-[#E5E7EB] pt-3" : ""
+                        }`}
+                      >
+                        <div
+                          className={`flex items-center gap-2 ${
+                            isMobile ? "justify-between w-full" : "sm:justify-end"
+                          }`}
+                        >
                           <span>Used Balance:</span>
                           <div className="font-semibold text-[#191B1C] text-xl flex items-center">
                             {currentcountry?.currency == "AED" ? (
@@ -330,40 +380,15 @@ const Payment = () => {
                           </div>
                           {walletSelected && (
                             <AiOutlineEdit
-                              className="ml-1 cursor-pointer"
+                              className={`ml-1 cursor-pointer ${
+                                isMobile ? "shrink-0" : ""
+                              }`}
                               fill="#3B82F6"
                               onClick={() => setWalletUpdateModalOpen(true)}
                             />
                           )}
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span>Available Balance:</span>
-                          <div className="font-semibold text-[#191B1C] text-xl flex items-center">
-                            {currentcountry?.currency == "AED" ? (
-                              <img
-                                src={getAssetsUrl("feed/aed-icon.svg")}
-                                alt="AED"
-                                className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] inline-block mix-blend-multiply ${
-                                  isRTL ? "ml-0.5" : "mr-0.5"
-                                }`}
-                                style={{ color: "black" }}
-                                loading="lazy"
-                              />
-                            ) : (
-                              <span
-                                className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
-                                  isRTL ? "ml-0.5" : "mr-0.5"
-                                }`}
-                              >
-                                {currentcountry?.currency}
-                              </span>
-                            )}
-                            {(walletSelected
-                              ? availableBalanceAfterUse
-                              : walletBalance
-                            ).toFixed(2)}
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
