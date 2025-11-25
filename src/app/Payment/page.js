@@ -170,8 +170,6 @@ const Payment = () => {
     setWalletUpdateModalOpen(false);
   };
 
-  console.log("walletUpdatedValue", walletUpdatedValue);
-
   return (
     <div className="mobile-marginbottom">
       <Container fluid className="homepagecontainer">
@@ -258,7 +256,7 @@ const Payment = () => {
                         <BsWallet2 />
                       </div>
                       <div className="font-normal text-sm sm:text-lg text-[#43494B] flex items-center justify-center gap-2">
-                        Total Available Balance :
+                        Total {usedWalletValue > 0 ? "Used" : "Available" } Balance :
                         <div className="font-semibold text-[#191B1C] text-xl flex items-center">
                           {currentcountry?.currency == "AED" ? (
                             <img
