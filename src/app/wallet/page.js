@@ -85,10 +85,17 @@ const page = () => {
             : filterType === "DEBIT"
             ? "DEBIT"
             : "";
+        const order =
+          sortOption === "OLDEST"
+            ? "ASC"
+            : sortOption === "NEWEST"
+            ? "DESC"
+            : "";
         const response = await getWalletTransactions(
           transactionPage,
           TRANSACTIONS_PAGE_SIZE,
-          txType
+          txType,
+          order
         );
         const fetchedTransactions = response?.data?.transactions || [];
         setTransactions((prevTransactions) =>
@@ -116,7 +123,7 @@ const page = () => {
       }
     };
     fetchWalletTransactions();
-  }, [transactionPage, filterType]);
+  }, [transactionPage, filterType, sortOption]);
 
   const handleFilterChange = (type) => {
     if (filterType === type) return;
@@ -133,8 +140,15 @@ const page = () => {
   };
 
   const handleSortChange = (option) => {
+    if (sortOption === option) {
+      setIsSortOpen(false);
+      return;
+    }
     setSortOption(option);
     setIsSortOpen(false);
+    setTransactionPage(1);
+    setTransactions([]);
+    setHasMoreTransactions(true);
   };
 
   const sortedTransactions = useMemo(() => {
