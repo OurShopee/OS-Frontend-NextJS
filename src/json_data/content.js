@@ -2752,5 +2752,9 @@ export const content = {
       en: "See more",
       ar: "عرض المزيد",
     },
+    paymentMethod: {
+      en: "Pay with Shopee Wallet",
+      ar: "ادفع باستخدام محفظة شوبي",
+    },
   },
 };

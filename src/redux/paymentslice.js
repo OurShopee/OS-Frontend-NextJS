@@ -29,6 +29,7 @@ const paymentslice = createSlice({
     showdonation: true,
     selecteddefaultpaymentmethod: {},
     selecteddeafultoption: [],
+    walletValue: 0,
   },
   reducers: {
     setdonationfee: (state, action) => {
@@ -56,6 +57,9 @@ const paymentslice = createSlice({
       state.coupanmsg = "";
       state.coupon = null;
     },
+    setwalletValue: (state, action) => {
+      state.walletValue = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -70,10 +74,12 @@ const paymentslice = createSlice({
           state.donationfee = action.payload.data.donation;
           state.selecteddefaultpaymentmethod =
             action.payload.data.payment_method.find((m) => m.selected).id;
+          state.walletValue = action.payload.data.wallet;
         }
       })
       .addCase(GetPlaceOrderapi.rejected, (state, action) => {
         state.loading = false;
+        state.walletValue = 0;
       })
 
       //......................coupancode
@@ -100,5 +106,6 @@ export const {
   clearCouponMsg,
   clearCoupon,
   removeCoupon,
+  setwalletValue,
 } = paymentslice.actions;
 export default paymentslice.reducer;

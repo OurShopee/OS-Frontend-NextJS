@@ -28,7 +28,6 @@ const Payment = () => {
   const searchParams = useSearchParams();
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [walletSelected, setWalletSelected] = useState(false);
-  const [walletValue, setWalletValue] = useState(130);
   const [usedWalletValue, setUsedWalletValue] = useState(0);
   const [walletUpdatedValue, setWalletUpdatedValue] = useState(usedWalletValue);
   const [walletUpdateModalOpen, setWalletUpdateModalOpen] = useState(false);
@@ -47,6 +46,9 @@ const Payment = () => {
   const router = useRouter();
   const paymentmethodsdata = useSelector(
     (state) => state.paymentslice.paymentmethodsdata
+  );
+  const wallet = useSelector(
+    (state) => state.paymentslice.walletValue
   );
   const selecteddeafultoption = useSelector(
     (state) => state.paymentslice.selecteddeafultoption
@@ -69,6 +71,7 @@ const Payment = () => {
   const deliveryAddress = useContent("checkout.deliveryAddress");
   const changeAddress = useContent("checkout.changeAddress");
   const selectAddress = useContent("checkout.selectAddress");
+  const walletPaymentMethod = useContent("wallet.paymentMethod");
   const pleaseSelectDeliveryAddress = useContent(
     "checkout.pleaseSelectDeliveryAddress"
   );
@@ -95,6 +98,7 @@ const Payment = () => {
           });
           if (res.status === 200) {
             setPaymentMethods(res.data.data);
+            console.log(res.data.data)
           }
         } catch (error) {
           console.error("Single checkout fetch failed", error);
@@ -112,6 +116,7 @@ const Payment = () => {
       payment_method: selecteddeafultoption?.[0]?.payment_method,
       amount: paymentMethods?.final_total,
     });
+
   }, []);
 
   useEffect(() => {
@@ -122,11 +127,10 @@ const Payment = () => {
         )
       )
     );
+    dispatch(clearCouponMsg());
   }, [paymentMethods, selecteddefaultpaymentmethod, dispatch]);
 
-  useEffect(() => {
-    dispatch(clearCouponMsg());
-  }, [dispatch]);
+
 
   const handlePaymentChange = (id, processing_fee) => {
     dispatch(setselecteddefaultpaymentmethod(id));
@@ -146,7 +150,7 @@ const Payment = () => {
   const handleWalletChange = () => {
     setWalletSelected(!walletSelected);
     if (!walletSelected) {
-      setUsedWalletValue(walletValue);
+      setUsedWalletValue(wallet.amount);
     } else {
       setUsedWalletValue(0);
     }
@@ -161,7 +165,7 @@ const Payment = () => {
       setWalletUpdatedValue(0);
       return;
     }
-    const numericValue = Math.max(0, Math.min(Number(value), walletValue));
+    const numericValue = Math.max(0, Math.min(Number(value), wallet.amount));
     setWalletUpdatedValue(numericValue);
   };
 
@@ -238,22 +242,30 @@ const Payment = () => {
                       type="radio"
                       name="walletpayment"
                       checked={walletSelected}
+                      disabled={wallet.amount === 0}
                       onClick={handleWalletChange}
                       className="me-2 payment-radiobtn"
                     />
                     <div className="flex flex-col sm:flex-row sm:justify-between items-start w-full">
                       <div
                         onClick={handleWalletChange}
+                        disabled={wallet.amount === 0}
                         className="font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex items-center justify-center gap-2"
                       >
-                        Pay with Shopee Wallet{" "}
+                        {walletPaymentMethod}
                         {/* <img
                           src={"/assets/payment/shopee_wallet.png"}
                           alt={"ele.label"}
                           className="paymentmethod-image"
                           loading="lazy"
                         /> */}
-                        <BsWallet2 />
+                          <img
+                        src={getAssetsUrl("wallet.png")}
+                        alt="Image"
+                        className="lg:w-[23px] lg:h-[24px] w-[23px] h-[24px] inline-block mix-blend-multiply object-contain"
+                        style={{ color: "black" }}
+                        loading="lazy"
+                      />
                       </div>
                       <div className="font-normal text-sm sm:text-lg text-[#43494B] flex items-center justify-center gap-2">
                         Total {usedWalletValue > 0 ? "Used" : "Available" } Balance :
@@ -277,7 +289,7 @@ const Payment = () => {
                               {currentcountry?.currency}
                             </span>
                           )}
-                          {usedWalletValue > 0 ? usedWalletValue : walletValue}
+                          {usedWalletValue > 0 ? usedWalletValue : wallet.amount}
                           {walletSelected && (
                             <AiOutlineEdit
                               className="ml-1"
@@ -391,7 +403,7 @@ const Payment = () => {
               <div
                 className={`flex items-center px-6 py-1 bg-white rounded-[12px] border-[2px] text-lg opacity-100 text-[#43494B] font-semibold transition-all duration-300 w-full
               ${
-                !(walletUpdatedValue == 0 || walletUpdatedValue > walletValue)
+                !(walletUpdatedValue == 0 || walletUpdatedValue > wallet.amount)
                   ? "border-[#2775EC]"
                   : "border-[#E8E8E8]"
               }`}
@@ -421,7 +433,7 @@ const Payment = () => {
                 <input
                   type="number"
                   min="1"
-                  max={walletValue}
+                  max={wallet.amount}
                   step="1"
                   value={walletUpdatedValue}
                   onChange={(e) => handleWalletAmountChange(e.target.value)}
@@ -432,12 +444,12 @@ const Payment = () => {
               <button
                 className={`rounded-lg w-[124px] h-[46px] text-base font-semibold transition
               ${
-                !(walletUpdatedValue == 0 || walletUpdatedValue > walletValue)
+                !(walletUpdatedValue == 0 || walletUpdatedValue > wallet.amount)
                   ? "bg-[#5B32C2] text-white hover:bg-[#47269E] cursor-pointer"
                   : "bg-[#E8E8E8] text-[#43494B] cursor-not-allowed"
               }`}
                 disabled={
-                  walletUpdatedValue === 0 || walletUpdatedValue > walletValue
+                  walletUpdatedValue === 0 || walletUpdatedValue > wallet.amount
                 }
                 onClick={() => handleSubmitWalletAmount()}
               >
