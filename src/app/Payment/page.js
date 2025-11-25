@@ -235,7 +235,7 @@ const Payment = () => {
                 }`}
               >
                 <div>
-                  <div className="flex items-center cursor-pointer select-none">
+                  <div className="flex items-center cursor-pointer select-none w-full">
                     <input
                       type="radio"
                       name="walletpayment"
@@ -243,10 +243,10 @@ const Payment = () => {
                       onClick={handleWalletChange}
                       className="me-2 payment-radiobtn"
                     />
-                    <div className="flex justify-between w-full">
+                    <div className="flex flex-col sm:flex-row sm:justify-between items-start w-full">
                       <div
                         onClick={handleWalletChange}
-                        className="font-semibold select-none text-xl text-[#191B1C] flex items-center justify-center gap-2"
+                        className="font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex items-center justify-center gap-2"
                       >
                         Pay with Shopee Wallet{" "}
                         {/* <img
@@ -257,14 +257,14 @@ const Payment = () => {
                         /> */}
                         <BsWallet2 />
                       </div>
-                      <div className="font-normal text-lg text-[#43494B] flex items-center justify-center gap-2">
+                      <div className="font-normal text-sm sm:text-lg text-[#43494B] flex items-center justify-center gap-2">
                         Total Available Balance :
                         <div className="font-semibold text-[#191B1C] text-xl flex items-center">
                           {currentcountry?.currency == "AED" ? (
                             <img
                               src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
-                              className={`w-[18px] h-[18px] inline-block mix-blend-multiply ${
+                              className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] inline-block mix-blend-multiply ${
                                 isRTL ? "ml-0.5" : "mr-0.5"
                               }`}
                               style={{ color: "black" }}
@@ -272,7 +272,7 @@ const Payment = () => {
                             />
                           ) : (
                             <span
-                              className={`text-[#191B1C] text-xl font-semibold ${
+                              className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
                                 isRTL ? "ml-0.5" : "mr-0.5"
                               }`}
                             >
@@ -369,7 +369,7 @@ const Payment = () => {
 
       {walletUpdateModalOpen && (
         <div className="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-30 flex items-center justify-center z-50">
-          <div className="relative bg-white rounded-[24px] w-full max-w-[410px] p-8 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)]">
+          <div className="relative bg-white rounded-[24px] w-[90%] sm:w-full max-w-[410px] p-8 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)]">
             {/* Close button */}
             <button
               className="absolute top-5 right-6 text-[#191B1C] hover:text-gray-600 transition"
