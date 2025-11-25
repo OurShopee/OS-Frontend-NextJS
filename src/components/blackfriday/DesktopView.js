@@ -15,7 +15,7 @@ import { MediaQueries } from "../utils";
 import { ComponentHeader } from "../Common";
 import { CarouselWithBanner } from "../homepage";
 import { getAssetsUrl } from "../utils/helpers";
-
+import { useRouter } from "next/navigation";
 const DesktopView = ({
   categoryItems,
   NowOrNeverDeals,
@@ -29,6 +29,7 @@ const DesktopView = ({
   rows,
 }) => {
   const { isMobile } = MediaQueries();
+  const router = useRouter();
   const techGadgets = {
     three: [
       {
@@ -241,6 +242,9 @@ const DesktopView = ({
               ? OurshoppeFridayBanner?.mobileImage
               : OurshoppeFridayBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(OurshoppeFridayBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         loading="lazy" />
@@ -284,6 +288,9 @@ const DesktopView = ({
         <img src={
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(BeautyBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         loading="lazy" />
@@ -385,6 +392,9 @@ const DesktopView = ({
               ? AppUpdateBanner?.mobileImage
               : AppUpdateBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(AppUpdateBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         loading="lazy" />

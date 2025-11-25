@@ -139,3 +139,21 @@ export const trackdatabyreferencid = async (input_data) => {
   );
   return response.data;
 };
+export const getWalletBalance = async () => {
+  const response = await axios.get(
+    `api/wallet/balance`,
+    {
+      headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+    }
+  );
+  return response.data;
+};
+export const getWalletTransactions = async (page =1, limit=20,tx_type="",order="",source="") => {
+  const response = await axios.get(
+    `api/wallet/transactions?page=${page}&limit=${limit}&tx_type=${tx_type}&order=${order}&source=${source}`,
+    {
+      headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+    }
+  );
+  return response.data;
+};

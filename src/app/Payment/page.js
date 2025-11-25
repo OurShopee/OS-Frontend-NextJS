@@ -7,23 +7,31 @@ import Paymentdetails from "@/components/Common/Paymentdetails";
 import withAuth from "@/components/Common/withAuth";
 import { MediaQueries } from "@/components/utils";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
+import { getAssetsUrl } from "@/components/utils/helpers";
+import { useContent, useCurrentLanguage } from "@/hooks";
 import {
   clearCouponMsg,
   GetPlaceOrderapi,
   setselecteddeafultoption,
   setselecteddefaultpaymentmethod,
 } from "@/redux/paymentslice";
+import { Checkbox } from "@mui/material";
 import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { AiOutlineEdit } from "react-icons/ai";
+import { BsWallet2 } from "react-icons/bs";
+import { IoCloseSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useContent } from "@/hooks";
-import { getAssetsUrl } from "@/components/utils/helpers";
 
 const Payment = () => {
   const searchParams = useSearchParams();
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [walletSelected, setWalletSelected] = useState(false);
+  const [usedWalletValue, setUsedWalletValue] = useState(0);
+  const [walletUpdatedValue, setWalletUpdatedValue] = useState(usedWalletValue);
+  const [walletUpdateModalOpen, setWalletUpdateModalOpen] = useState(false);
   const [availableCoupon, setAvailableCoupon] = useState([]);
   const prodId = searchParams.get("prodId");
   const qty = searchParams.get("qty");
@@ -32,11 +40,16 @@ const Payment = () => {
   const addresslistdata = useSelector(
     (state) => state.addresslice.addresslistdata
   );
+  const currentLanguage = useCurrentLanguage();
+  const isRTL = currentLanguage === "ar";
   const logindata = useSelector((state) => state.formslice.logindata);
   const dispatch = useDispatch();
   const router = useRouter();
   const paymentmethodsdata = useSelector(
     (state) => state.paymentslice.paymentmethodsdata
+  );
+  const wallet = useSelector(
+    (state) => state.paymentslice.walletValue
   );
   const selecteddeafultoption = useSelector(
     (state) => state.paymentslice.selecteddeafultoption
@@ -51,15 +64,45 @@ const Payment = () => {
   const defaultAddress = addresslistdata?.data?.find(
     (add) => add.default_address === 1
   );
-  
+  const parseAmountValue = (value) => {
+    if (value === null || value === undefined) {
+      return 0;
+    }
+    if (typeof value === "number") {
+      return value;
+    }
+    const numericValue = Number(String(value).replace(/[^\d.-]/g, ""));
+    return Number.isNaN(numericValue) ? 0 : numericValue;
+  };
+  const walletBalance = parseAmountValue(wallet?.amount);
+  const orderSubTotalValue = parseAmountValue(
+    paymentMethods?.sub_total ?? paymentMethods?.final_total
+  );
+  const maxWalletUsable =
+    orderSubTotalValue > 0
+      ? Math.min(walletBalance, orderSubTotalValue)
+      : walletBalance;
+  const clampWalletUsage = (value) => {
+    const numericValue = Number(value) || 0;
+    return Math.max(0, Math.min(numericValue, maxWalletUsable));
+  };
+  const availableBalanceAfterUse = Math.max(
+    walletBalance - (usedWalletValue || 0),
+    0
+  );
+ 
   // Language content
   const selectPaymentMethod = useContent("payment.selectPaymentMethod");
+  const shopeeWallet = useContent("payment.shopeeWallet");
   const orderSummary = useContent("checkout.orderSummary");
   const deliveryAddress = useContent("checkout.deliveryAddress");
   const changeAddress = useContent("checkout.changeAddress");
   const selectAddress = useContent("checkout.selectAddress");
-  const pleaseSelectDeliveryAddress = useContent("checkout.pleaseSelectDeliveryAddress");
-  
+  const walletPaymentMethod = useContent("wallet.paymentMethod");
+  const pleaseSelectDeliveryAddress = useContent(
+    "checkout.pleaseSelectDeliveryAddress"
+  );
+
   const fetchAvailableCoupons = async () => {
     const res = await availableCoupons();
     if (res.status === "success") {
@@ -82,6 +125,7 @@ const Payment = () => {
           });
           if (res.status === 200) {
             setPaymentMethods(res.data.data);
+            console.log(res.data.data)
           }
         } catch (error) {
           console.error("Single checkout fetch failed", error);
@@ -99,6 +143,7 @@ const Payment = () => {
       payment_method: selecteddeafultoption?.[0]?.payment_method,
       amount: paymentMethods?.final_total,
     });
+
   }, []);
 
   useEffect(() => {
@@ -109,11 +154,10 @@ const Payment = () => {
         )
       )
     );
+    dispatch(clearCouponMsg());
   }, [paymentMethods, selecteddefaultpaymentmethod, dispatch]);
 
-  useEffect(() => {
-    dispatch(clearCouponMsg());
-  }, [dispatch]);
+
 
   const handlePaymentChange = (id, processing_fee) => {
     dispatch(setselecteddefaultpaymentmethod(id));
@@ -129,6 +173,42 @@ const Payment = () => {
       router.push("/deliveryaddress");
     }
   };
+
+  const handleWalletChange = () => {
+    const nextSelected = !walletSelected;
+    setWalletSelected(nextSelected);
+    if (nextSelected) {
+      setUsedWalletValue(maxWalletUsable);
+    } else {
+      setUsedWalletValue(0);
+    }
+  };
+
+  useEffect(() => {
+    setWalletUpdatedValue(usedWalletValue);
+  }, [usedWalletValue]);
+
+  const handleWalletAmountChange = (value) => {
+    if (value === "") {
+      setWalletUpdatedValue(0);
+      return;
+    }
+    const clampedValue = clampWalletUsage(value);
+    setWalletUpdatedValue(clampedValue);
+  };
+
+  const handleSubmitWalletAmount = () => {
+    setUsedWalletValue(clampWalletUsage(walletUpdatedValue));
+    setWalletUpdateModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (!walletSelected) return;
+    const clampedValue = clampWalletUsage(usedWalletValue);
+    if (clampedValue !== usedWalletValue) {
+      setUsedWalletValue(clampedValue);
+    }
+  }, [walletSelected, maxWalletUsable, usedWalletValue]);
 
   return (
     <div className="mobile-marginbottom">
@@ -165,10 +245,12 @@ const Payment = () => {
                       <div className="paymentmethod-label flex">
                         {" "}
                         {ele.image && (
-                          <img src={ele.image}
+                          <img
+                            src={ele.image}
                             alt={ele.label}
                             className="paymentmethod-image"
-                          loading="lazy" />
+                            loading="lazy"
+                          />
                         )}
                         {ele.label}
                       </div>
@@ -182,6 +264,136 @@ const Payment = () => {
                   )}
                 </div>
               ))}
+            </div>
+            <div className="mt-4">
+              <div className="Cart-titile">{shopeeWallet}</div>
+              <div
+                className={`Cartitem-maindiv walletpaybg ${
+                  walletSelected && "walletpaybg"
+                }`}
+              >
+                <div>
+                  <div
+                    className={`flex cursor-pointer select-none w-full ${
+                      isMobile
+                        ? " items-start gap-1"
+                        : "items-start justify-between"
+                    }`}
+                  >
+                    <Checkbox
+                      checked={walletSelected}
+                      disabled={walletBalance === 0}
+                      onClick={handleWalletChange}
+                      className="me-2 payment-radiobtn rounded-md mt-2"
+                    />
+                    <div
+                      className={`flex flex-col gap-3 items-start w-full sm:flex-row sm:items-center sm:justify-between`}
+                    >
+                      <div
+                        onClick={handleWalletChange}
+                        disabled={walletBalance === 0}
+                        className={`font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex  gap-2 ${
+                          isMobile ? "items-start w-full" : "items-center justify-center"
+                        }`}
+                      >
+                        <div className="flex flex-col gap-1">
+
+                        {walletPaymentMethod}
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-[#43494B]">Available Balance:</span>
+                          <div className="font-semibold text-[#191B1C] text-xl flex items-center">
+                            {currentcountry?.currency == "AED" ? (
+                              <img
+                                src={getAssetsUrl("feed/aed-icon.svg")}
+                                alt="AED"
+                                className={`w-[14px] h-[14px] sm:w-[14px] sm:h-[14px] inline-block mix-blend-multiply ${
+                                  isRTL ? "ml-0.5" : "mr-0.5"
+                                }`}
+                                style={{ color: "black" }}
+                                loading="lazy"
+                              />
+                            ) : (
+                              <span
+                                className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
+                                  isRTL ? "ml-0.5" : "mr-0.5"
+                                }`}
+                              >
+                                {currentcountry?.currency}
+                              </span>
+                            )}
+                            <span className="text-sm font-semibold text-[#191B1C]">
+                            {(walletSelected
+                              ? availableBalanceAfterUse
+                              : walletBalance
+                            ).toFixed(2)}
+
+                            </span>
+                          </div>
+                        </div>
+                        </div>
+                        {/* <img
+                          src={"/assets/payment/shopee_wallet.png"}
+                          alt={"ele.label"}
+                          className="paymentmethod-image"
+                          loading="lazy"
+                        /> */}
+                          <img
+                        src={getAssetsUrl("wallet.png")}
+                        alt="Image"
+                        className="lg:w-[23px] lg:h-[24px] w-[23px] h-[24px] inline-block mix-blend-multiply object-contain mt-1"
+                        style={{ color: "black" }}
+                        loading="lazy"
+                      />
+                      </div>
+                      <div
+                        className={`font-normal text-sm sm:text-lg text-[#43494B] flex flex-col gap-1 text-left sm:text-right ${
+                          isMobile ? "w-full border-t border-[#E5E7EB] pt-3" : ""
+                        }`}
+                      >
+                        <div
+                          className={`flex items-center gap-2 ${
+                            isMobile ? "justify-between w-full" : "sm:justify-end"
+                          }`}
+                        >
+                          <span>Used Balance:</span>
+                          <div className="font-semibold text-[#191B1C] text-xl flex items-center">
+                            {currentcountry?.currency == "AED" ? (
+                              <img
+                                src={getAssetsUrl("feed/aed-icon.svg")}
+                                alt="AED"
+                                className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] inline-block mix-blend-multiply ${
+                                  isRTL ? "ml-0.5" : "mr-0.5"
+                                }`}
+                                style={{ color: "black" }}
+                                loading="lazy"
+                              />
+                            ) : (
+                              <span
+                                className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
+                                  isRTL ? "ml-0.5" : "mr-0.5"
+                                }`}
+                              >
+                                {currentcountry?.currency}
+                              </span>
+                            )}
+                            {(walletSelected ? usedWalletValue : 0).toFixed(2)}
+                          </div>
+                          {walletSelected && (
+                            <AiOutlineEdit
+                              className={`ml-1 cursor-pointer ${
+                                isMobile ? "shrink-0" : ""
+                              }`}
+                              fill="#3B82F6"
+                              onClick={() => setWalletUpdateModalOpen(true)}
+                            />
+                          )}
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </Col>
           <Col lg={4}>
@@ -197,7 +409,11 @@ const Payment = () => {
                     onClick={() => handleChangeAddress()}
                     className="flex items-center gap-1 px-3 py-1.5 border-blue rounded-lg !text-[#3B82F6] font-medium text-sm bg-white"
                   >
-                    <img src={getAssetsUrl("vector_icons/Edit.svg")} alt="edit" loading="lazy" />
+                    <img
+                      src={getAssetsUrl("vector_icons/Edit.svg")}
+                      alt="edit"
+                      loading="lazy"
+                    />
                     <div className="">
                       {defaultAddress ? changeAddress : selectAddress}
                     </div>
@@ -246,11 +462,117 @@ const Payment = () => {
                 qty={qty}
                 address={defaultAddress}
                 sku={sku}
+                walletSelected={walletSelected}
+                usedWalletValue={usedWalletValue}
               />
             </div>
           </Col>
         </Row>
       </Container>
+
+      {walletUpdateModalOpen && (
+        <div className="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-30 flex items-center justify-center z-50">
+          <div className="relative bg-white rounded-[24px] w-[90%] sm:w-full max-w-[410px] p-8 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)]">
+            {/* Close button */}
+            <button
+              className="absolute top-5 right-6 text-[#191B1C] hover:text-gray-600 transition"
+              onClick={() => setWalletUpdateModalOpen(false)}
+            >
+              <IoCloseSharp className="w-7 h-7" />
+            </button>
+            {/* Heading and subtext */}
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold text-[#191B1C] mb-1">
+                Edit Amount
+              </h3>
+              <p className="text-[#43494B] text-lg font-normal">
+                Adjust the shopee wallet amount to apply
+                <br />
+                for your payment.
+              </p>
+            </div>
+            <div>
+              Available Balance:{" "}
+              {(walletUpdatedValue > 0
+                ? Math.max(0, walletBalance - walletUpdatedValue)
+                : walletBalance
+              ).toFixed(2)}
+            </div>
+            {/* Input and Save button */}
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <div
+                  className={`flex items-center px-6 py-1 bg-white rounded-[12px] border-[2px] text-lg opacity-100 text-[#43494B] font-semibold transition-all duration-300 w-full
+                ${
+                  !(
+                    walletUpdatedValue == 0 ||
+                    walletUpdatedValue > maxWalletUsable
+                  )
+                    ? "border-[#2775EC]"
+                    : "border-[#E8E8E8]"
+                }`}
+                >
+                  <span className="flex text-lg font-medium text-[#43494B] mr-0.5">
+                    {currentcountry?.currency == "AED" ? (
+                      <img
+                        src={getAssetsUrl("feed/aed-icon.svg")}
+                        alt="AED"
+                        className={`w-[16px] h-[16px] inline-block mix-blend-multiply ${
+                          isRTL ? "ml-0.5" : "mr-0.5"
+                        }`}
+                        style={{ color: "black" }}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span
+                        className={`text-[#191B1C] text-xl font-semibold ${
+                          isRTL ? "ml-0.5" : "mr-0.5"
+                        }`}
+                      >
+                        {currentcountry?.currency}
+                      </span>
+                    )}
+                  </span>
+
+                  <input
+                    type="number"
+                    min={1}
+                    max={maxWalletUsable}
+                    step="1"
+                    value={walletUpdatedValue}
+                    onChange={(e) => handleWalletAmountChange(e.target.value)}
+                    className="bg-transparent outline-none w-full font-semibold text-lg text-[#191B1C]"
+                  />
+                </div>
+                {/* Save button */}
+                <button
+                  className={`rounded-lg w-[124px] h-[46px] text-base font-semibold transition
+                ${
+                  !(
+                    walletUpdatedValue == 0 ||
+                    walletUpdatedValue > maxWalletUsable
+                  )
+                    ? "bg-[#5B32C2] text-white hover:bg-[#47269E] cursor-pointer"
+                    : "bg-[#E8E8E8] text-[#43494B] cursor-not-allowed"
+                }`}
+                  disabled={
+                    walletUpdatedValue === 0 ||
+                    walletUpdatedValue > maxWalletUsable
+                  }
+                  onClick={() => handleSubmitWalletAmount()}
+                >
+                  SAVE
+                </button>
+              </div>
+              {walletUpdatedValue > maxWalletUsable && (
+                <p className="text-red-500 text-sm font-normal mt-[-8px]">
+                  You have reached the maximum limit of your balance
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

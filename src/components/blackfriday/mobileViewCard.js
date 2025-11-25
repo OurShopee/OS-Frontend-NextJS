@@ -13,7 +13,7 @@ import FlashSale from "./FlashSale";
 import LowestPriceSection from "./LowestPriceSection";
 import MarqueeSale from "./MarqueeSale";
 import NowOrNeverSection from "./NowOrNeverSection";
-
+import { useRouter } from "next/navigation";
 const MobileViewCard = ({
   categoryItems,
   NowOrNeverDeals,
@@ -26,6 +26,7 @@ const MobileViewCard = ({
   BudgetSectionData,
   rows,
 }) => {
+  const router = useRouter();
   const mwebImg = [
     {
       path: "img-1.png",
@@ -293,6 +294,9 @@ const MobileViewCard = ({
               ? OurshoppeFridayBanner?.mobileImage
               : OurshoppeFridayBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(OurshoppeFridayBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         loading="lazy" />
@@ -334,6 +338,9 @@ const MobileViewCard = ({
         <img src={
             isMobile ? BeautyBanner?.mobileImage : BeautyBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(BeautyBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         loading="lazy" />
@@ -406,6 +413,9 @@ const MobileViewCard = ({
               ? AppUpdateBanner?.mobileImage
               : AppUpdateBanner?.desktopImage
           }
+          onClick={() => {
+            router.push(AppUpdateBanner?.url);
+          }}
           alt="Banner"
           className="w-full h-full rounded-xl"
         loading="lazy" />

@@ -21,6 +21,7 @@ const FridaySaleClient = ({ saleData, currentcountry }) => {
   }, [currentcountry]);
 
   const sectionData = saleData?.other_section;
+  console.log(sectionData);
   const NowOrNeverDeals =
     sectionData?.find((d) => d.heading === "NOW OR NEVER DEALS")?.items?.[0]
       ?.items || [];

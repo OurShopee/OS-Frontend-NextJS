@@ -33,6 +33,7 @@ const MyAccountDashboard = () => {
     const wishlist = useContent("account.wishlist");
     const orderDetails = useContent("buttons.orderDetails");
     const myOrders = useContent("account.myOrders");
+    const wallet = useContent("account.wallet");
     const trackYourOrder = useContent("account.trackYourOrder");
     const helpCenter = useContent("buttons.helpCenter");
     const complaints = useContent("pages.complaints");
@@ -94,6 +95,18 @@ const MyAccountDashboard = () => {
             ]
         },
         {
+          id: 4,
+          card_title: wallet,
+          card_items: [
+              {
+                  id: 1,
+                  name: wallet,
+                  url: 'wallet',
+                  icon: <img src={getAssetsUrl("wallet/walllet_icon.svg")} alt="Wallet" className="w-[20px] h-[20px]" />
+              }
+          ]
+      },
+        {
             id: 3,
             card_title: helpCenter,
             card_items: [
@@ -105,7 +118,7 @@ const MyAccountDashboard = () => {
                 }
             ]
         }
-    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname]);
+    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname, wallet]);
 
     return (
       <>

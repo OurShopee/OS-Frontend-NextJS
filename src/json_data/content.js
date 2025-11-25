@@ -698,7 +698,7 @@ export const content = {
       en: "Sign Out",
       ar: "تسجيل الخروج",
     },
-    changePassword:{
+    changePassword: {
       en: "Change Password",
       ar: "تغيير كلمة المرور",
     },
@@ -971,8 +971,8 @@ export const content = {
       ar: "دعم BNPL",
     },
     factor3Text: {
-      en: "BNPL is a tech-enabled payment system where \"Buy Now Pay later\" is the key and, that too comes with zero interest or cost.",
-      ar: "BNPL هو نظام دفع مدعوم بالتكنولوجيا حيث \"اشتري الآن وادفع لاحقاً\" هو المفتاح، وذلك أيضاً بدون فائدة أو تكلفة.",
+      en: 'BNPL is a tech-enabled payment system where "Buy Now Pay later" is the key and, that too comes with zero interest or cost.',
+      ar: 'BNPL هو نظام دفع مدعوم بالتكنولوجيا حيث "اشتري الآن وادفع لاحقاً" هو المفتاح، وذلك أيضاً بدون فائدة أو تكلفة.',
     },
     factor4Title: {
       en: "Trusted Ancillary Business",
@@ -1270,9 +1270,9 @@ export const content = {
       en: "Selling out fast!",
       ar: "بيع سريع!",
     },
-    expectedBy:{
+    expectedBy: {
       en: "Expected By",
-      ar: "متوقع في"
+      ar: "متوقع في",
     },
     outOfStock: {
       en: "Out of Stock",
@@ -1622,7 +1622,7 @@ export const content = {
       en: "Product Specifications",
       ar: "مواصفات المنتج",
     },
-    off:{
+    off: {
       en: "OFF",
       ar: "عن",
     },
@@ -1996,15 +1996,15 @@ export const content = {
       en: "Donation Fee",
       ar: "رسوم التبرع",
     },
-    payment:{
+    payment: {
       en: "Payment",
       ar: "الدفع",
     },
-    address:{
+    address: {
       en: "Address",
       ar: "عنوان",
     },
-    cart:{
+    cart: {
       en: "Cart",
       ar: "عربة التسوق",
     },
@@ -2013,6 +2013,10 @@ export const content = {
     selectPaymentMethod: {
       en: "Select Payment Method",
       ar: "اختر طريقة الدفع",
+    },
+    shopeeWallet: {
+      en: "Shopee Wallet",
+      ar: "محفظة شوبي",
     },
     paymentOptions: {
       en: "Payment options",
@@ -2052,6 +2056,10 @@ export const content = {
     },
   },
   account: {
+    wallet: {
+      en: "Wallet",
+      ar: "المحفظة",
+    },
     myAccount: {
       en: "My Account",
       ar: "حسابي",
@@ -2713,6 +2721,44 @@ export const content = {
     processStep8: {
       en: "Once the details are submitted and approved, you will be redirected to the Order confirmed page.",
       ar: "بمجرد تقديم التفاصيل والموافقة عليها، سيتم توجيهك إلى صفحة تأكيد الطلب.",
+    },
+  },
+  wallet: {
+    walletHeading: {
+      en: "Shopee Wallet",
+      ar: "محفظة شوبي",
+    },
+    walletDescription: {
+      en: "View your transaction details, manage coupons, find FAQs, get simple instructions, and review our terms all in one place.",
+      ar: "اعرض تفاصيل المعاملات الخاصة بك، ادارة القسائم، العثور على الأسئلة الشائعة، الحصول على تعليمات بسيطة، ومراجعة الشروط الخاصة بنا في مكان واحد.",
+    },
+    totalAvailableBalance: {
+      en: "Total Available Balance",
+      ar: "إجمالي الرصيد المتاح",
+    },
+    balanceDescription: {
+      en: "Use Shopee Balance for quick payments and a seamless checkout process.",
+      ar: "استخدم رصيد شوبي للمدفوعات السريعة وعملية دفع سلسة.",
+    },
+    transactionHistory: {
+      en: "Transaction History",
+      ar: "سجل المعاملات",
+    },
+    noTransactionHistory: {
+      en: "No transaction history",
+      ar: "لا يوجد تاريخ معاملات",
+    },
+    seeMore: {
+      en: "See more",
+      ar: "عرض المزيد",
+    },
+    paymentMethod: {
+      en: "Pay using Wallet Balance",
+      ar: "ادفع باستخدام رصيد المحفظة",
+    },
+    walletlabel: {
+      en: "Wallet",
+      ar: "المحفظة",
     },
   },
 };
