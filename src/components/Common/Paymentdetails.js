@@ -20,7 +20,7 @@ import { checkoutSingleProd } from "@/api/payments";
 import { useContent } from "@/hooks/useContent";
 import { getAssetsUrl } from "../utils/helpers";
 
-const Paymentdetails = ({ prodId, qty, sku, address }) => {
+const Paymentdetails = ({ prodId, qty, sku, address, walletSelected, usedWalletValue }) => {
   const currentLanguage = useSelector((state) => state.globalslice.currentLanguage);
   const placeOrder = useContent("checkout.placeOrder");
   const subtotal = useContent("cart.subtotal");
@@ -31,6 +31,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
   const inclusiveOfVat = useContent("forms.inclusiveOfVat");
   const total = useContent("checkout.total");
   const continueText = useContent("buttons.continue");
+  const walletLabel = useContent("wallet.walletlabel");
   const [paymentData, setPaymentData] = useState();
   const [singleCheckout, setSingleCheckout] = useState(false);
   const [cartIds, setCartIds] = useState("");
@@ -140,6 +141,9 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         cartIds: cartIds,
         discount: coupon?.discount ? coupon.discount : "",
         addressId: address?.idaddress,
+        ...(walletSelected && usedWalletValue > 0 && {
+          wallet_amount: usedWalletValue,
+        }),
       };
       if (prodId && qty) {
         await SingleCheckout(input_data);
@@ -211,6 +215,27 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
             <div className="payment-type-cost">{donationfee}</div>
           </div>
         )}
+        {walletSelected && usedWalletValue > 0 && (
+          <div className="payment-type">
+            <div className="payment-type-title">{walletLabel}</div>
+            <div className="payment-type-cost" style={{ color: "green" }}>
+              {currentcountry?.currency == "AED" ? (
+                <>
+                  -<img
+                    src={getAssetsUrl("feed/aed-icon.svg")}
+                    alt="AED"
+                    className="w-4 h-4 inline-block mix-blend-multiply mr-1"
+                    style={{ color: "black" }}
+                    loading="lazy"
+                  />
+                  {usedWalletValue.toFixed(2)}
+                </>
+              ) : (
+                `-${currentcountry.currency} ${usedWalletValue.toFixed(2)}`
+              )}
+            </div>
+          </div>
+        )}
         {paymentData?.msg && (
           <div
             style={{
@@ -273,7 +298,8 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                       ? Number(donationfee || 0)
                       : 0) +
                     Number(selecteddeafultoption?.[0]?.processing_fee || 0) -
-                    Number(coupon?.discount || 0)
+                    Number(coupon?.discount || 0) -
+                    (walletSelected && usedWalletValue > 0 ? Number(usedWalletValue || 0) : 0)
                   ).toFixed(2)}
                 </div>
               </div>
@@ -365,7 +391,8 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                     ) +
                     (showdonation ? Number(donationfee || 0) : 0) +
                     Number(selecteddeafultoption?.[0]?.processing_fee || 0) -
-                    Number(coupon?.discount || 0)
+                    Number(coupon?.discount || 0) -
+                    (walletSelected && usedWalletValue > 0 ? Number(usedWalletValue || 0) : 0)
                   ).toFixed(2)}
                 </div>
               </div>
