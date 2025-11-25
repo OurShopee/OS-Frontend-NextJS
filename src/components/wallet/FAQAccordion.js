@@ -53,7 +53,7 @@ const FAQAccordion = () => {
   };
 
   return (
-    <div className="bg-white p-8 rounded-[32px] w-[42rem] h-[72vh] overflow-y-auto">
+    <div className="bg-white p-8 rounded-[32px] lg:w-[42rem] w-[100vw] h-[72vh] overflow-y-auto">
       <h2 className="text-2xl font-semibold mb-4">Commonly Asked Questions</h2>
       <div className="flex flex-col gap-1.5">
         {faqData.map((faq, i) => (

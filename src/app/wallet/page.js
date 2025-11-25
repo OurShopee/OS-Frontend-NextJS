@@ -85,10 +85,17 @@ const page = () => {
             : filterType === "DEBIT"
             ? "DEBIT"
             : "";
+        const order =
+          sortOption === "OLDEST"
+            ? "ASC"
+            : sortOption === "NEWEST"
+            ? "DESC"
+            : "";
         const response = await getWalletTransactions(
           transactionPage,
           TRANSACTIONS_PAGE_SIZE,
-          txType
+          txType,
+          order
         );
         const fetchedTransactions = response?.data?.transactions || [];
         setTransactions((prevTransactions) =>
@@ -116,7 +123,7 @@ const page = () => {
       }
     };
     fetchWalletTransactions();
-  }, [transactionPage, filterType]);
+  }, [transactionPage, filterType, sortOption]);
 
   const handleFilterChange = (type) => {
     if (filterType === type) return;
@@ -127,14 +134,21 @@ const page = () => {
     }
     setFilterType(type);
     setIsFilterOpen(false);
-    setTransactionPage(1); 
+    setTransactionPage(1);
     setTransactions([]);
     setHasMoreTransactions(true);
   };
 
   const handleSortChange = (option) => {
+    if (sortOption === option) {
+      setIsSortOpen(false);
+      return;
+    }
     setSortOption(option);
     setIsSortOpen(false);
+    setTransactionPage(1);
+    setTransactions([]);
+    setHasMoreTransactions(true);
   };
 
   const sortedTransactions = useMemo(() => {
@@ -181,17 +195,18 @@ const page = () => {
         <Col lg={9}>
           <Row>
             <Col sm={12}>
-              <div className="complaintcard p-8 flex flex-col gap-8">
-                <div className="flex justify-start flex-col w-full">
-                  <h1 className="text-black text-xl font-semibold">
-                    {walletHeading}
-                  </h1>
-                  <p className="text-black text-sm font-normal py-1">
-                    {walletDescription}
-                  </p>
-                </div>
-
-                <div className="complaintCard w-full flex flex-col justify-center items-center bg-gradient-to-b rounded-2xl from-[#E2FFD3] via-[#ECFFE2] to-[#FFFFFF] p-6 wallet-cards-shadows relative overflow-hidden min-h-[280px]">
+              <div className={`${!isMobile ? "complaintcard p-8 gap-8" : "p-1 gap-4"} flex flex-col`}>
+                {!isMobile && (
+                  <div className="flex justify-start flex-col w-full">
+                    <h1 className="text-black text-xl font-semibold">
+                      {walletHeading}
+                    </h1>
+                    <p className="text-black text-sm font-normal py-1">
+                      {walletDescription}
+                    </p>
+                  </div>
+                )}
+                <div className="complaintCard w-full flex flex-col justify-center items-center bg-gradient-to-b rounded-2xl from-[#E2FFD3] via-[#ECFFE2] to-[#FFFFFF] p-6 wallet-cards-shadows relative overflow-hidden lg:min-h-[280px] min-h-[220px]">
                   {/* Title */}
                   <h3 className="text-gray-800 font-medium text-base mb-2 text-center">
                     {totalAvailableBalance}
@@ -204,24 +219,24 @@ const page = () => {
                         <img
                           src={getAssetsUrl("coupons/dirham.svg")}
                           alt="AED"
-                          className="w-12 h-[37px] inline-block mix-blend-multiply object-contain"
+                          className="w-[35px] lg:w-12 h-[28px] lg:h-[37px] inline-block mix-blend-multiply object-contain"
                           style={{ color: "black" }}
                           loading="lazy"
                         />
                       ) : (
-                        <span className="text-5xl font-bold text-green-600">
+                        <span className="lg:text-5xl text-3xl font-bold text-green-600">
                           {currentCountry?.currency}
                         </span>
                       )}
-                      <span className="text-[52px] font-bold bg-gradient-to-b from-[#125810] to-[#45D441] bg-clip-text text-transparent leading-none">
-                        {parseFloat(walletBalance?.amount).toFixed(2)|| "0"}
+                      <span className="lg:text-[52px] text-3xl font-bold bg-gradient-to-b from-[#125810] to-[#45D441] bg-clip-text text-transparent leading-none">
+                        {parseFloat(walletBalance?.amount).toFixed(2) || "0"}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
                       <img
                         src={getAssetsUrl("wallet.png")}
                         alt="Image"
-                        className="w-[38px] h-[44px] inline-block mix-blend-multiply object-contain"
+                        className="lg:w-[38px] lg:h-[44px] w-[28px] h-[32px] inline-block mix-blend-multiply object-contain"
                         style={{ color: "black" }}
                         loading="lazy"
                       />
@@ -238,7 +253,7 @@ const page = () => {
                 <div className="flex  w-full">
                   <div className="complaintCard w-full max-w-[1000px] rounded-2xl bg-white wallet-cards-shadows px-5 py-6">
                     <div className="flex flex-col gap-7">
-                      <div className="flex items-center justify-between text-xl font-semibold text-gray-900">
+                      <div className="flex items-center justify-between lg:text-xl text-lg font-semibold text-gray-900">
                         <span>{transactionHistory}</span>
 
                         {(isFilterUse || transactions.length > 0) && (
@@ -475,7 +490,7 @@ const TransactionsHistoryModalContent = ({
   const hasTransactions = transactions.length > 0;
 
   return (
-    <div className="bg-white rounded-2xl w-[42rem] max-h-[72vh] shadow-2xl flex flex-col">
+    <div className={`bg-white rounded-2xl w-[100vw]  lg:w-[42rem]   max-h-[72vh] shadow-2xl flex flex-col`}>
       <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
         <h3 className="text-lg font-semibold text-gray-900">{heading}</h3>
       </div>

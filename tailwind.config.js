@@ -13,6 +13,7 @@ module.exports = {
       animation: {
         "progress-bar": "fillBar 3s linear forwards",
         "fadeIn": "fadeIn 0.2s ease-in-out",
+        "slide-up": "slideUp 0.3s ease-out",
       },
       keyframes: {
         fillBar: {
@@ -22,6 +23,10 @@ module.exports = {
         fadeIn: {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        slideUp: {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
         },
       },
       screens: {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getAssetsUrl } from "../utils/helpers";
 import { useCurrentLanguage } from "@/hooks";
 import { IoCloseSharp } from "react-icons/io5";
+import { MediaQueries } from "../utils";
 
 const InfoCardWithModal = ({
   icon,
@@ -11,6 +12,7 @@ const InfoCardWithModal = ({
   renderTrigger,
   containerClassName = "",
 }) => {
+  const { isMobile } = MediaQueries();
   const [open, setOpen] = useState(false);
   const currentLanguage = useCurrentLanguage();
   const isRTL = currentLanguage === "ar";
@@ -40,19 +42,23 @@ const InfoCardWithModal = ({
         })
       ) : (
         <div
-          className={`flex w-full gap-1.5 items-center p-6 bg-white rounded-2xl wallet-cards-shadows cursor-pointer transition ${containerClassName}`}
+          className={`flex w-full items-center bg-white rounded-2xl wallet-cards-shadows cursor-pointer transition ${
+            isMobile ? "gap-3 p-4" : "gap-3 p-6"
+          } ${containerClassName}`}
           onClick={handleOpen}
         >
-          <div className="h-12 rounded-lg text-2xl">
+          <div className="h-12 w-12 flex-shrink-0 rounded-lg text-2xl">
             <img src={getAssetsUrl(icon)} alt="" />
           </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-xl font-semibold text-[#191B1C]">
+          <div className="flex flex-col gap-2 min-w-0 flex-1">
+            <span className="lg:text-xl text-lg font-semibold text-[#191B1C] leading-tight">
               {heading}
             </span>
-            <span className="font-normal text-[#43494B]">{description}</span>
+            <span className="font-normal text-[#43494B] lg:text-base text-sm leading-snug">
+              {description}
+            </span>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex-shrink-0">
             <img
               src={getAssetsUrl("vector_icons/arrow_right.svg")}
               alt="Arrow"
@@ -66,11 +72,31 @@ const InfoCardWithModal = ({
       )}
 
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="relative">
-            {modalContent}
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-40 z-50 ${
+            isMobile
+              ? "flex items-end"
+              : "flex items-center justify-center"
+          }`}
+          onClick={handleClose}
+        >
+          <div
+            className={`relative ${
+              isMobile
+                ? "w-full max-h-[90vh] bg-white rounded-t-3xl animate-slide-up overflow-visible"
+                : ""
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              className={`${
+                isMobile ? "max-h-[90vh] overflow-y-auto" : ""
+              }`}
+            >
+              {modalContent}
+            </div>
             <button
-              className="absolute -top-4 right-5 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C]"
+              className="absolute -top-4 right-5 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] hover:bg-gray-100 transition-colors z-10"
               onClick={handleClose}
             >
               <IoCloseSharp className="w-5 h-5" />

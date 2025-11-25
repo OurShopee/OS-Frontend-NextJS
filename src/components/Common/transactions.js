@@ -51,15 +51,15 @@ const Transactions = ({ transactions = [], limit = 5 }) => {
             className="flex items-center justify-between w-full  border-gray-100 pb-6 last:border-b-0 last:pb-0"
           >
             <div className="flex items-center gap-4">
-              <div className="w-[52px] h-[52px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
+              <div className="lg:w-[52px] lg:h-[52px] w-[40px] h-[40px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
                 <img
                   src={getAssetsUrl("wallet/transaction_wallet.svg")}
                   alt="Wallet"
-                  className="w-10 h-10"
+                  className="lg:w-10 lg:h-10 w-[30px] h-[30px]"
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-base font-semibold text-gray-900">
+                <p className="text-base lg:font-semibold font-medium text-gray-900">
                   {tx.source_text || "Wallet Transaction"}
                 </p>
                 <p className="text-sm text-[#43494B] font-normal">
