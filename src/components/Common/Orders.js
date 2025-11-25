@@ -38,55 +38,6 @@ const Orders = ({ orderlistdata }) => {
     setOpenOrderId((prev) => (prev === orderId ? null : orderId));
   };
 
-  // const orderlistdata = {
-  //     data: [
-  //         {
-  //             "referenceNo": "1531974Z549J",
-  //             "orderId": "OMRSSOP3236",
-  //             "totalAmount": 7.4,
-  //             "placedOn": "2025-05-05 17:13:58",
-  //             "items": [
-  //                 {
-  //                     "name": "Vacuum Suction Magnetic Car Phone Holder Electric Magnetic Phone Holder",
-  //                     "image": "https://www.ourshopee.com/ourshopee-img/ourshopee_products/300/920473381Car-Phone-Stand-with-360-Rotation-Vacuum-Suction-Cup-and-Strong-Magnetic-Adsorption-for-Universal-Phone-Holder.jpg",
-  //                     "product_id": 234756,
-  //                     "price": 5.9,
-  //                     "quantity": 1
-  //                 }
-  //             ],
-  //             "cancelled": true,
-  //             "cancelledText": "As per your request, your item has been cancelled",
-  //             "cancelledDate": "2025-05-06T17:56:54.000Z",
-  //             "processDateOver": true,
-  //             "packDateOver": true,
-  //             "dispatchDateOver": false,
-  //             "deliverydateOver": false,
-  //             "orderDetail": {
-  //                 "order_id": 1531974,
-  //                 "order_refid": "1531974Z549J",
-  //                 "user_name": "sai murali",
-  //                 "mobile": "5074125889",
-  //                 "paymode": "cash",
-  //                 "total_amount": 7.4,
-  //                 "shipping_charge": 1,
-  //                 "processing_fee": "0.500",
-  //                 "discount": "0.000",
-  //                 "order_date": "2025-05-05T17:13:58.000Z",
-  //                 "order_status": "Pending",
-  //                 "shipping_address": "C85H+P9G,NehruOuterRingRd,FinancialDistrict,Nanakramguda,Hyderabad,Telangana500032,India",
-  //                 "vat": "0.352",
-  //                 "orderedDate": "Mon, May 05",
-  //                 "processedDate": "Mon, May 05",
-  //                 "packedDate": "Mon, May 07",
-  //                 "dispatchedDate": "Tue, May 08",
-  //                 "deliveryDate": "Thu, May 10"
-  //             }
-  //         }
-  //     ]
-  // }
-
-  // Logic to determine current step based on order status
-
   const getCurrentStep = (ele) => {
     if (ele.cancelled) {
       if (ele.deliverydateOver) return 5;
@@ -105,7 +56,7 @@ const Orders = ({ orderlistdata }) => {
 
   return (
     <>
-      {orderlistdata?.data?.map((ele) => {
+      {orderlistdata.data.map((ele) => {
         // console.log(ele)
         return (
           <div key={ele.orderId} className="mt-4 mb-4" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>

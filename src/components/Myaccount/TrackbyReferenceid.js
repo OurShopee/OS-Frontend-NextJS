@@ -1,83 +1,137 @@
-import React, { useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import Inputbox from '@/components/Common/Inputbox';
-import Formvalidation from '@/components/Validation/Formvalidation';
-import {trackdatabyreferencidapi} from "@/redux/formslice";
+import React, { useState } from "react";
+import Inputbox from "@/components/Common/Inputbox";
+import Formvalidation from "@/components/Validation/Formvalidation";
 import { MediaQueries } from "@/components/utils";
-import BreadComp from '@/components/Myaccount/BreadComp';
-import Orders from '../Common/Orders';
+import BreadComp from "@/components/Myaccount/BreadComp";
+import Orders from "../Common/Orders";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import { trackdatabyreferencid } from "@/api/user";
 
 const TrackbyReferenceid = () => {
   const currentLanguage = useCurrentLanguage();
-  const trackYourOrderText = useContent("helpCenter.trackYourOrder");
+  const trackYourOrderText = useContent("pages.trackYourOrder");
   const trackByReferenceIdText = useContent("account.trackByReferenceId");
   const referenceIdText = useContent("forms.referenceId");
+  const fetchingOrderDetails = useContent("orders.fetchingOrderDetails");
   const enterReferenceIdText = useContent("forms.enterReferenceId");
+  const noOrdersFound = useContent("orders.noOrdersFound");
   const submitText = useContent("buttons.submit");
-    const { isMobile } = MediaQueries()
-    const dispatch = useDispatch();
-    const trackorderlistdata = useSelector((state) => state.formslice.trackorderlistdata);
-    const [formData, setFormData] = useState({
-        referenceid: "",
-    });
-    const [errors, setErrors] = useState({});
 
-    const isFormValid = () => {
-        return formData.referenceid.trim() !== "";
-    };
+  const { isMobile } = MediaQueries();
+  const [formData, setFormData] = useState({
+    referenceid: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [trackorderlistdata, setTrackorderlistdata] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(null);
 
-    const handleNext = () => {
-        if (!isFormValid()) return;
+  const isFormValid = () => formData.referenceid.trim() !== "";
 
-        const input_data = {
-            referenceid: formData.referenceid,
-        };
+  const handleNext = async () => {
+    if (!isFormValid() || isLoading) return;
 
-        // Dispatch the track order action here (replace with your actual action)
-        dispatch(trackdatabyreferencidapi(input_data));
-    };
+    setIsLoading(true);
+    setApiError(null);
 
-    const { handleChange, handleSubmit } = Formvalidation(
-        formData,
-        setFormData,
-        setErrors,
-        handleNext
-    );
+    try {
+      const res = await trackdatabyreferencid({
+        referenceid: formData.referenceid.trim(),
+      });
+      setTrackorderlistdata(res);
+    } catch (error) {
+      setApiError(
+        error?.response?.data?.message ||
+          "Unable to fetch order details. Please try again."
+      );
+      setTrackorderlistdata(undefined);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return (
-        <div className='ms-2 me-2 mb-2' dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
-        {
-            isMobile &&
-            <>   <BreadComp title={trackYourOrderText} />
-            <div className="page-titile">{trackYourOrderText}
-            </div></>
-        }
-        <div className="mytractrightside order-trackcard">
-            <div className='ordrtract-title'>{trackByReferenceIdText}</div>
-            <Inputbox
-                id="referenceid"
-                type="text"
-                value={formData.referenceid}
-                handleChange={handleChange}
-                placeholder={enterReferenceIdText}
-                title={referenceIdText}
-                error={errors.referenceid}
-            />
-           
+  const { handleChange, handleSubmit } = Formvalidation(
+    formData,
+    setFormData,
+    setErrors,
+    handleNext
+  );
+
+  const showNoOrders =
+    trackorderlistdata &&
+    Array.isArray(trackorderlistdata?.data) &&
+    trackorderlistdata.data.length === 0 &&
+    !isLoading;
+
+  const showOrders =
+    trackorderlistdata &&
+    Array.isArray(trackorderlistdata?.data) &&
+    trackorderlistdata.data.length > 0;
+
+  return (
+    <div
+      className="ms-2 me-2 mb-2"
+      dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+    >
+      {isMobile && (
+        <>
+          <BreadComp title={trackYourOrderText} />
+          <div className="page-titile">{trackYourOrderText}</div>
+        </>
+      )}
+      <div className="mytractrightside order-trackcard">
+        <div className="ordrtract-title">{trackByReferenceIdText}</div>
+        <Inputbox
+          id="referenceid"
+          type="text"
+          value={formData.referenceid}
+          handleChange={handleChange}
+          placeholder={enterReferenceIdText}
+          title={referenceIdText}
+          error={errors.referenceid}
+        />
+      </div>
+      <div
+        className={`d-flex ${
+          currentLanguage === "ar"
+            ? "justify-content-start"
+            : "justify-content-end"
+        }`}
+      >
+        <div
+          className={
+            isFormValid()
+              ? "activeformsubmitbutton profileviewsubmitbtn cursor-pointer"
+              : "formsubmitbutton profileviewsubmitbtn cursor-pointer"
+          }
+          onClick={isFormValid() && !isLoading ? handleSubmit : null}
+          aria-disabled={!isFormValid() || isLoading}
+        >
+          {isLoading ? `${submitText}...` : submitText}
         </div>
-        <div className={`d-flex ${currentLanguage === "ar" ? "justify-content-start" : "justify-content-end"}`}>
-                <div
-                    className={isFormValid() ? "activeformsubmitbutton profileviewsubmitbtn cursor-pointer" : "formsubmitbutton profileviewsubmitbtn cursor-pointer"}
-                    onClick={isFormValid() ? handleSubmit : null}
-                >
-                    {submitText}
-                </div>
-            </div>
-            <Orders orderlistdata={trackorderlistdata ? trackorderlistdata : []}/>
+      </div>
+
+      {apiError && (
+        <div className="text-center text-red-500 mt-4">{apiError}</div>
+      )}
+
+      {isLoading && (
+        <div className="text-center py-10 text-gray-500">
+          {fetchingOrderDetails}
         </div>
-       
-    );
+      )}
+
+      {showNoOrders && (
+        <div className="text-center py-16">
+          <p className="text-lg font-semibold text-gray-600">{noOrdersFound}</p>
+        </div>
+      )}
+
+      {showOrders && !isLoading && (
+        <Orders orderlistdata={trackorderlistdata} />
+      )}
+    </div>
+  );
 };
 
 export default TrackbyReferenceid;

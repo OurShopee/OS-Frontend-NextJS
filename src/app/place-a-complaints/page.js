@@ -1,17 +1,17 @@
 "use client"
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { MediaQueries } from "@/components/utils";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import PlacecomplaintForm from "@/components/Myaccount/PlacecomplaintForm"
 import withAuth from "@/components/Common/withAuth";
-import { useContent, useCurrentLanguage } from "@/hooks";
+import { useContent } from "@/hooks";
 
 const Placecomplaints = () => {
-    const currentLanguage = useCurrentLanguage();
-    const placeComplaint = useContent("helpCenter.placeComplaint");
-    const manageComplaints = useContent("helpCenter.manageComplaints");
+    const placeComplaint = useContent("account.placeComplaint");
+    const manageComplaints = useContent("account.manageComplaints");
+    const complaintSupportDescription = useContent("account.complaintSupportDescription");
     const { isMobile } = MediaQueries()
 
     return (
@@ -37,7 +37,7 @@ const Placecomplaints = () => {
                                      </div>:
                                        <div className="Myaccount-rightsidecard">
                                        <div className="title">{placeComplaint}</div>
-                                       <div className="discription">Register Your Complaints here..Our Customer Care Executive will get back to you soon.</div>
+                                       <div className="discription">{complaintSupportDescription}</div>
                                    </div>
                                 }
                               <PlacecomplaintForm/>

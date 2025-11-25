@@ -29,35 +29,19 @@ const Ordertrack = () => {
                             <MyAccountDashboard />
                         </Col>
                     }
-                    {
-                        isMobile ?
-                            <Col lg={12}>
-                                <div>
-                                    <BreadComp title={trackYourOrder} />
-                                    <div className="page-titile">{trackYourOrder}
-                                    </div>
-                                  
-                                    {/* <Link href="/track-your-orderbyid" className="cardmobilecard textdecoration-none">
-                                        <div className="tractordermobiletitle">Track by Order ID</div>
-                                        <img src='/assets/vector_icons/arrow_right.png' />
-                                    </Link> */}
-                                    <Link href="/track-your-orderbyrefrrenceid" className="cardmobilecard textdecoration-none">
-                                        <div className="tractordermobiletitle">{trackByReferenceId}</div>
-                                        <img src='/assets/vector_icons/arrow_right.png' />
-                                    </Link>
-                                </div>
-                            </Col>
-                            :
-
-                            <Col lg={9}>
-                                <div className="Myaccount-rightsidecard">
-                                    <div className="title">{trackYourOrder}</div>
-                                    <div className="discription">{trackYourOrderDescription}</div>
-                                    {/* <Trackorderbyid /> */}
-                                    <TrackbyReferenceid />
-                                </div>
-                            </Col>
-                    }
+                    {isMobile ? (
+                        <Col lg={12}>
+                            <TrackbyReferenceid />
+                        </Col>
+                    ) : (
+                        <Col lg={9}>
+                            <div className="Myaccount-rightsidecard">
+                                <div className="title">{trackYourOrder}</div>
+                                <div className="discription">{trackYourOrderDescription}</div>
+                                <TrackbyReferenceid />
+                            </div>
+                        </Col>
+                    )}
                 </Row>
             </Container>
         </>

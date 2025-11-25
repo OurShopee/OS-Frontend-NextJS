@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import deleteimg from "@/images/Delete.png";
 import editimg from "@/images/Edit.png";
@@ -63,69 +62,95 @@ const Address = () => {
         dispatch(setformmodal(true))
     }
 
+    const truncateText = (text = "", limit = 80) =>
+        text.length > limit ? `${text.slice(0, limit)}...` : text;
+
     return (
-        <Row dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
-            <Col xxl={3} lg={4} md={6} sm={12} className="mb-4" >
-                <div className="Cartitem-maindiv addaddressbtn"  onClick={handleAddNewAddress}>
-                    <FaPlus size={30} className="mb-3" />
-                    <div className="add-addressbtn">
-                        {addANewAddress}
+        <div
+            className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+        >
+            <button
+                type="button"
+                onClick={handleAddNewAddress}
+                className="min-h-[180px] rounded-2xl border-2 border-dashed border-[#C7C9D9] flex flex-col items-center justify-center text-center gap-3 text-[#5232C2] hover:border-[#5232C2] hover:bg-[#F8F5FF] transition-colors"
+            >
+                <FaPlus size={28} />
+                <span className="font-semibold">{addANewAddress}</span>
+            </button>
+
+            {addresslistdata?.data?.map((ele) => (
+                <div
+                    key={ele.idaddress}
+                    className="relative rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-sm hover:shadow-md transition-all"
+                >
+                    {ele.default_address === 1 && (
+                                    <span className="absolute -top-3 right-2 text-xs font-semibold text-white bg-[#5232C2] rounded-full px-3 py-1">
+                                        {defaultText}
+                                    </span>
+                                )}
+                    <label
+                        className={`flex ${currentLanguage === "ar" ? "flex-row-reverse" : ""} gap-3`}
+                    >
+                        <div>
+                            <input
+                                type="radio"
+                                name="defaultAddress"
+                                aria-label={`Select address of ${ele.first_name}`}
+                                checked={selectedAddressId === ele.idaddress}
+                                onChange={() => handleSelectAddress(ele.idaddress)}
+                                className="h-4 w-4 accent-[#5232C2]"
+                            />
+                        </div>
+                        <div className="flex-grow cursor-pointer space-y-2">
+                            <div
+                                className={`flex items-start gap-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""
+                                    }`}
+                            >
+                                <p
+                                    className="font-semibold text-[#1F2937] text-base leading-snug"
+                                    title={ele.first_name}
+                                >
+                                    {truncateText(ele.first_name, 60)}
+                                </p>
+                                
+                            </div>
+                            <p className="text-sm text-[#4B5563]">
+                                {truncateText(
+                                    `${ele.building_name} ${ele.address}, ${ele.address2}`,
+                                    120
+                                )}
+                            </p>
+                            <p className="text-sm font-medium text-[#111827]">
+                                {ele.mobile}
+                            </p>
+                        </div>
+                    </label>
+
+                    <div
+                        className={`flex gap-3 mt-4 ${currentLanguage === "ar" ? "flex-row-reverse" : ""
+                            }`}
+                    >
+                        <button
+                            type="button"
+                            onClick={() => handleEditAddress(ele.idaddress)}
+                            className="flex items-center gap-1 text-sm font-semibold text-[#1F2937] px-3 py-2 border border-[#E5E7EB] rounded-full hover:bg-[#F3F4F6]"
+                        >
+                            <img src={editimg.src} alt="Edit" className="w-4 h-4" />
+                            {edit}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => deleteAddress(ele.idaddress)}
+                            className="flex items-center gap-1 text-sm font-semibold px-3 py-2 border rounded-full hover:bg-[#FEF2F2]"
+                        >
+                            <img src={deleteimg.src} alt="Delete" className="w-4 h-4" />
+                            {remove}
+                        </button>
                     </div>
                 </div>
-            </Col>
-            {addresslistdata?.data?.length > 0 ? (
-                addresslistdata.data.map(ele => (
-
-                    <Col xxl={3} lg={4} md={6} sm={12} key={ele.idaddress} className="mb-4">
-                        <div className=" addresscard cursor-pointer">
-                            <label className={`d-flex ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-
-                                <div className="cursor-pointer">
-                                    <div className="mb-2">
-                                        <input
-                                            type="radio"
-                                            name="defaultAddress"
-                                            aria-label={`Select address of ${ele.first_name}`}
-                                            checked={selectedAddressId === ele.idaddress}
-                                            onChange={() => handleSelectAddress(ele.idaddress)}
-                                            className="myaccount-addresslist-radiobtn"
-                                        />
-                                    </div>
-                                    <div className={`address-top ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                        <div className="addres-name">{ele.first_name}</div>
-                                        {ele.default_address === 1 && (
-                                            <div className="address-default-button">{defaultText}</div>
-                                        )}
-                                    </div>
-                                    <div className="address-fulladdress">
-                                        {ele.building_name} {ele.address}, {ele.address2}
-                                    </div>
-                                    <div className="address-phone">{ele.mobile}</div>
-                                </div>
-                            </label>
-                            <div className={`d-flex mt-4 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                <div className="address-page-edit-remove-btn hoverbox-shadow" onClick={() => handleEditAddress(ele.idaddress)}>
-                                    <img src={editimg.src} alt="Edit" />
-                                    <span className="btn-title">{edit}</span>
-                                </div>
-                                <div
-                                    className="address-page-edit-remove-btn hoverbox-shadow"
-                                    onClick={() => deleteAddress(ele.idaddress)}
-                                >
-                                    <img src={deleteimg.src} alt="Delete" />
-                                    <span className="btn-title">{remove}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </Col>
-
-
-                ))
-            ) : (
-                ""
-            )}
-
-        </Row>
+            ))}
+        </div>
     );
 };
 

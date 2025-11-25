@@ -267,6 +267,8 @@
         height: 400px;
         position: absolute;
         padding: 10px 15px;
+        z-index: 1;
+        border-radius: 8px;
 
         .suggestion-item {
             margin-bottom: 15px;
