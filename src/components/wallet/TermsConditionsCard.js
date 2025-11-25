@@ -25,7 +25,7 @@ const termsData = [
 ];
 
 const TermsConditionsCard = () => (
-  <div className="bg-white p-8 rounded-[32px] w-[42rem] h-[72vh] overflow-y-auto">
+  <div className="bg-white p-8 rounded-[32px] lg:w-[42rem] w-[100vw] h-[72vh] overflow-y-auto">
     <h2 className="text-2xl font-semibold mb-4">Terms & Conditions</h2>
     <div className="flex flex-col">
       {termsData.map((section, idx) => (

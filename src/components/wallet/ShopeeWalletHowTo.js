@@ -23,17 +23,17 @@ const steps = [
 ];
 
 const ShopeeWalletHowTo = () => (
-  <div className="p-8 rounded-[32px] w-[42rem] h-[72vh] overflow-y-auto bg-gradient-to-br from-[#DBFFC8] to-[#FFFFFF]  flex flex-col items-center relative">
+  <div className="lg:p-8 px-1 py-2 rounded-[32px] lg:w-[42rem] w-[100vw] h-[72vh] overflow-y-auto bg-gradient-to-br from-[#DBFFC8] to-[#FFFFFF]  flex flex-col items-center relative">
     {/* Title section */}
     <div className="pb-6 text-center w-full">
-      <h2 className="text-[22px] font-semibold text-[#125810]">How to Use</h2>
+      <h2 className="text-[22px] mt-1 font-semibold text-[#125810]">How to Use</h2>
 
       <span className="text-[32px] font-extrabold text-[#125810]">
         Shopee Wallet?
       </span>
     </div>
     {/* Steps */}
-    <div className="w-full flex flex-col gap-[14px] px-6">
+    <div className="flex flex-col gap-[14px] lg:px-6 px-3">
       {steps.map(({ number, heading, description }, i) => (
         <div
           key={number}
@@ -54,7 +54,7 @@ const ShopeeWalletHowTo = () => (
           </span>
           {/* Card content */}
           <div className={`${i % 2 == 0 ? "pl-9" : ""}`}>
-            <span className="text-[22px] font-semibold text-[#43494B] block mb-2">
+            <span className="text-[22px] font-semibold text-[#43494B] block lg:mb-2 m-1">
               {heading}
             </span>
             <span className="text-sm font-normal text-[#43494B]">
