@@ -1764,6 +1764,14 @@ export const content = {
       en: "You have no orders yet",
       ar: "ليس لديك طلبات بعد",
     },
+    noOrdersFound: {
+      en: "No orders found for the provided reference ID.",
+      ar: "لم يتم العثور على طلبات لرقم المرجع المقدم.",
+    },
+    fetchingOrderDetails: {
+      en: "Fetching order details...",
+      ar: "جاري تحميل تفاصيل الطلب...",
+    },
     orderId: {
       en: "Order ID",
       ar: "معرف الطلب",
@@ -2141,8 +2149,44 @@ export const content = {
       ar: "ضع شكواك وتتبع حالة شكواك.",
     },
     placeComplaint: {
-      en: "Place a complaints",
+      en: "Place a complaint",
       ar: "وضع شكوى",
+    },
+    trackYourComplaints: {
+      en: "Track your complaints",
+      ar: "تتبع شكاواك",
+    },
+    complaintSupportDescription: {
+      en: "Register your complaints here. Our Customer Care Executive will get back to you soon.",
+      ar: "سجّل شكاواك هنا. سيتواصل معك ممثل خدمة العملاء قريبًا.",
+    },
+    complaintSubmitted: {
+      en: "Complaint ID – {{complaint_id}} has been submitted successfully.",
+      ar: "تم تقديم الشكوى ذات المعرف – {{complaint_id}} بنجاح.",
+    },
+    weWillContactSoon: {
+      en: "We will get back to you soon.",
+      ar: "سنتواصل معك قريبًا.",
+    },
+    trackComplaintCta: {
+      en: "Track your complaint",
+      ar: "تتبع شكواك",
+    },
+    complaintReferencePlaceholder: {
+      en: "Order Id / Reference no.",
+      ar: "رقم الطلب / رقم المرجع",
+    },
+    complaintReferenceTitle: {
+      en: "Order Id / Reference ID",
+      ar: "رقم الطلب / معرف المرجع",
+    },
+    complaintCaptchaPlaceholder: {
+      en: "Enter reCAPTCHA",
+      ar: "أدخل رمز التحقق",
+    },
+    captchaMismatch: {
+      en: "Captcha mismatch!",
+      ar: "رمز التحقق غير متطابق!",
     },
   },
   contactUs: {
@@ -2487,6 +2531,10 @@ export const content = {
     dealsOfTheDay: {
       en: "Deals of the Day",
       ar: "عروض اليوم",
+    },
+    trendingProducts: {
+      en: "Trending Products",
+      ar: "المنتجات الرائجة",
     },
     flashSale: {
       en: "Flash Sale",

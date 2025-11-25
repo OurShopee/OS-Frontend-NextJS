@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { MediaQueries } from "@/components/utils";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
@@ -7,9 +7,14 @@ import BreadComp from "@/components/Myaccount/BreadComp";
 import Mangecomplaintform from "@/components/Myaccount/Mangecomplaintform"
 import Invitefriend from "@/components/Common/Invitefriend"
 import withAuth from "@/components/Common/withAuth";
+import { useContent } from "@/hooks";
 const ManageComplaints = () => {
 
     const { isMobile } = MediaQueries()
+    const placeComplaint = useContent("account.placeComplaint");
+    const manageComplaints = useContent("account.manageComplaints");
+    const trackYourComplaints = useContent("account.trackYourComplaints");
+    const complaintSupportDescription = useContent("account.complaintSupportDescription");
 
     return (
         < >
@@ -28,13 +33,13 @@ const ManageComplaints = () => {
                         {
                             isMobile ?
                                 <div>
-                                    <BreadComp title={"Place a complaints"} title0={"Manage Complaints"} />
-                                    <div className="page-titile">Track your Complaints
+                                    <BreadComp title={placeComplaint} title0={manageComplaints} />
+                                    <div className="page-titile">{trackYourComplaints}
                                     </div>
                                 </div> :
                                 <div className="Myaccount-rightsidecard">
-                                    <div className="title">Track your Complaints</div>
-                                    <div className="discription">Register Your Complaints here..Our Customer Care Executive will get back to you soon.</div>
+                                    <div className="title">{trackYourComplaints}</div>
+                                    <div className="discription">{complaintSupportDescription}</div>
                                 </div>
                         }
                          <Invitefriend/>

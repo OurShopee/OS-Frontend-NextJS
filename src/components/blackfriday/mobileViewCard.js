@@ -213,7 +213,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[8].items}
-          bannerImage={rows?.[17]?.desktopImage}
+          bannerImage={rows?.[17]?.mobileImage}
           bannerImageRedirectUrl={rows?.[17].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -228,7 +228,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[0].items}
-          bannerImage={rows?.[9]?.desktopImage}
+          bannerImage={rows?.[9]?.mobileImage}
           bannerImageRedirectUrl={rows?.[9].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -248,7 +248,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[1].items}
-          bannerImage={rows?.[10]?.desktopImage}
+          bannerImage={rows?.[10]?.mobileImage}
           bannerImageRedirectUrl={rows?.[10].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -264,7 +264,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[2].items}
-          bannerImage={rows?.[11]?.desktopImage}
+          bannerImage={rows?.[11]?.mobileImage}
           bannerImageRedirectUrl={rows?.[11].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -280,7 +280,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[3].items}
-          bannerImage={rows?.[12]?.desktopImage}
+          bannerImage={rows?.[12]?.mobileImage}
           bannerImageRedirectUrl={rows?.[12].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -310,7 +310,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[4].items}
-          bannerImage={rows?.[13]?.desktopImage}
+          bannerImage={rows?.[13]?.mobileImage}
           bannerImageRedirectUrl={rows?.[13].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -326,7 +326,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[5].items}
-          bannerImage={rows?.[14]?.desktopImage}
+          bannerImage={rows?.[14]?.mobileImage}
           bannerImageRedirectUrl={rows?.[14].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -354,7 +354,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[6].items}
-          bannerImage={rows?.[15]?.desktopImage}
+          bannerImage={rows?.[15]?.mobileImage}
           bannerImageRedirectUrl={rows?.[15].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}
@@ -429,7 +429,7 @@ const MobileViewCard = ({
         />
         <CarouselWithBanner
           products={rows?.[7].items}
-          bannerImage={rows?.[16]?.desktopImage}
+          bannerImage={rows?.[16]?.mobileImage}
           bannerImageRedirectUrl={rows?.[16].url}
           type={1}
           inner_bg={"rgba(238, 235, 250, 1)"}

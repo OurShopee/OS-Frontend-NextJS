@@ -28,7 +28,7 @@ const MobileAddress = () => {
     const addANewAddress = useContent("buttons.addANewAddress");
 
     useEffect(() => {
-        if (selectedAddressId === null && addresslistdata?.data?.length > 0) {
+        if (addresslistdata?.data?.length > 0) {
             const defaultAddress = addresslistdata.data.find(ele => ele.default_address === 1);
             if (defaultAddress) {
                 setSelectedAddressId(defaultAddress.idaddress);
@@ -37,7 +37,7 @@ const MobileAddress = () => {
     }, [addresslistdata, selectedAddressId]);
 
     const handleSelectAddress = async (idaddress) => {
-        setSelectedAddressId(idaddress);
+        // setSelectedAddressId(idaddress);
         await dispatch(saveDefaultAddressapi({ idaddress }));
         dispatch(getalladdressesapi(0));
         selectaddressclick("selected_address", currentcountry.name,idaddress)
@@ -99,7 +99,7 @@ const MobileAddress = () => {
                                             type="radio"
                                             name="defaultAddress"
                                             aria-label={`Select address of ${ele.first_name}`}
-                                            checked={ele.default_address === 1}
+                                            checked={selectedAddressId === ele.idaddress}
                                             onChange={() => handleSelectAddress(ele.idaddress)}
                                         />
                                     </div>

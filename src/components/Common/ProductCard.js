@@ -375,8 +375,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 {currentcountry?.currency}
               </span>
             )}
-            <span className="text-[#191B1C] text-xl font-semibold">
-              {parseFloat(item?.display_price || item?.special_price || item?.price).toFixed(2)}
+            <span className="text-[#191B1C] lg:text-lg text-md font-semibold">
+              {(() => {
+                const price = parseFloat(item?.display_price || item?.special_price || item?.price);
+                return Number.isInteger(price) ? price : price.toFixed(1);
+              })()}
             </span>
           </div>
           {/* Old Price and Discount Percentage */}
