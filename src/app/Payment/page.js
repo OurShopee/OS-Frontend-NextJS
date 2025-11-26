@@ -55,6 +55,9 @@ const Payment = () => {
   const selecteddefaultpaymentmethod = useSelector(
     (state) => state.paymentslice.selecteddefaultpaymentmethod
   );
+  const donationfee = useSelector((state) => state.paymentslice.donationfee);
+  const showdonation = useSelector((state) => state.paymentslice.showdonation);
+  const coupon = useSelector((state) => state.paymentslice.coupon);
   const { isMobile } = MediaQueries();
   const currentcountry = useSelector(
     (state) => state.globalslice.currentcountry
@@ -73,12 +76,27 @@ const Payment = () => {
     return Number.isNaN(numericValue) ? 0 : numericValue;
   };
   const walletBalance = parseAmountValue(wallet?.amount);
-  const orderSubTotalValue = parseAmountValue(
-    paymentMethods?.sub_total ?? paymentMethods?.final_total
+  // Calculate total amount including final_total, processing fee, donation, and shipping (shipping is already in final_total)
+  const finalTotalValue = parseAmountValue(paymentMethods?.final_total);
+  const processingFeeValue = parseAmountValue(
+    selecteddeafultoption?.[0]?.processing_fee || paymentMethods?.processing_fee || 0
   );
+  const donationFeeValue = 
+    showdonation && currentcountry.isDonationRequired
+      ? parseAmountValue(donationfee || 0)
+      : 0;
+  const couponDiscountValue = parseAmountValue(coupon?.discount || 0);
+  
+  // Total amount that needs to be paid (before wallet deduction)
+  const totalAmountToPay = 
+    finalTotalValue + 
+    processingFeeValue + 
+    donationFeeValue - 
+    couponDiscountValue;
+  
   const maxWalletUsable =
-    orderSubTotalValue > 0
-      ? Math.min(walletBalance, orderSubTotalValue)
+    totalAmountToPay > 0
+      ? Math.min(walletBalance, totalAmountToPay)
       : walletBalance;
   const clampWalletUsage = (value) => {
     const numericValue = Number(value) || 0;
