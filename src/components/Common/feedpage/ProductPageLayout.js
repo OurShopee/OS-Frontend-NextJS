@@ -1561,13 +1561,6 @@ const ProductPageLayout = ({
                           <div className="h-20 w-3 bg-gradient-to-tr from-transparent to-white opacity-60 skew-y-12"></div>
                         </div>
                       </button>
-                      <button
-                        type="button"
-                        className="w-full mt-3 h-[44px] text-sm whitespace-nowrap border border-[#191B1C] gap-2 uppercase select-none inline-flex items-center justify-center rounded-xl font-semibold text-[#191B1C] bg-white hover:bg-gray-50 transition-colors"
-                        onClick={() => setIsGenerateModalOpen(true)}
-                      >
-                        Open Order Modal
-                      </button>
                     </div>
                   </div>
 
@@ -1700,13 +1693,6 @@ const ProductPageLayout = ({
             />
           }
         />
-
-        <button
-          className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => setOpenPayLaterModal(true)}
-        >
-          Click for modal
-        </button>
 
         <MainModal
           isOpen={openPayLaterModal}
