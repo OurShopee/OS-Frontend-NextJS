@@ -8,6 +8,7 @@ import { useContent, useCurrentLanguage } from "@/hooks";
 import { getAssetsUrl } from "../../components/utils/helpers";
 
 const Orders = ({ orderlistdata }) => {
+  console.log(orderlistdata)
   const { isMobile } = MediaQueries();
   const currentLanguage = useCurrentLanguage();
   // const orderlistdata = useSelector((state) => state.formslice.orderlistdata);
@@ -33,6 +34,7 @@ const Orders = ({ orderlistdata }) => {
   const shippingCharge = useContent("forms.shippingCharge");
   const processingFee = useContent("forms.processingFee");
   const discount = useContent("checkout.discount");
+  const walletAmountUsedLabel = useContent("wallet.walletlabel");
   const total = useContent("checkout.total");
   const inclusiveOfVat = useContent("forms.inclusiveOfVat");
   const toggleOrderDetails = (orderId) => {
@@ -107,6 +109,12 @@ const Orders = ({ orderlistdata }) => {
   return (
     <>
       {orderlistdata?.data?.map((ele) => {
+        const walletAmountUsedValue =
+          parseFloat(
+            ele?.orderDetail?.walletAmountUsed ??
+              ele?.walletAmountUsed ??
+              0
+          ) || 0;
         // console.log(ele)
         return (
           <div key={ele.orderId} className="mt-4 mb-4" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
@@ -336,6 +344,35 @@ const Orders = ({ orderlistdata }) => {
                           {ele.orderDetail.discount}
                         </div>
                       </div>
+                      {walletAmountUsedValue > 0 && (
+                        <div className="payment-type">
+                          <div className="order-paymenttype-title text-green-500">
+                            {walletAmountUsedLabel}
+                          </div>
+                          <div className="order-paymenttype-cost text-green-500 flex items-center">
+                            -{" "}
+                            {currentcountry?.currency == "AED" ? (
+                              <>
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
+                                  alt="AED"
+                                  className={`w-3 h-3 inline-block mix-blend-multiply ${
+                                    currentLanguage === "ar" ? "ml-1" : "mr-1"
+                                  }`}
+                                  style={{ color: "black" }}
+                                  loading="lazy"
+                                />
+                                {walletAmountUsedValue.toFixed(2)}
+                              </>
+                            ) : (
+                              <>
+                                {currentcountry.currency}{" "}
+                                {walletAmountUsedValue.toFixed(2)}
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      )}
                       <div className="form-border-bottom"></div>
                       <div className="payment-type pt-3 pb-2">
                         <div className="payment-type-total">
@@ -559,6 +596,35 @@ const Orders = ({ orderlistdata }) => {
                       )}
                     </div>
                   </div>
+                  {walletAmountUsedValue > 0 && (
+                    <div className="payment-type">
+                      <div className="order-paymenttype-title text-green-500">
+                        {walletAmountUsedLabel}
+                      </div>
+                      <div className="order-paymenttype-cost text-green-500 flex items-center">
+                        -{" "}
+                        {currentcountry?.currency == "AED" ? (
+                          <>
+                            <img
+                              src={getAssetsUrl("feed/aed-icon.svg")}
+                              alt="AED"
+                              className={`w-3 h-3 inline-block mix-blend-multiply ${
+                                currentLanguage === "ar" ? "ml-1" : "mr-1"
+                              }`}
+                              style={{ color: "black" }}
+                              loading="lazy"
+                            />
+                            {walletAmountUsedValue.toFixed(2)}
+                          </>
+                        ) : (
+                          <>
+                            {currentcountry.currency}{" "}
+                            {walletAmountUsedValue.toFixed(2)}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
                   <div className="form-border-bottom"></div>
                   <div className="payment-type pt-3 pb-2">
                     <div className="payment-type-total">
