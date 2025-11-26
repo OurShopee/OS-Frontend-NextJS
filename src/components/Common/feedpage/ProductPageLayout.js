@@ -31,6 +31,8 @@ import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
 import { useDynamicContent, useCurrentLanguage } from "@/hooks";
 import { useContent } from "@/hooks/useContent";
 import { getAssetsUrl } from "../../utils/helpers";
+import MainModal from "./MainModal";
+import GeneratedOrderModal from "./GeneratedOrderModal";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -119,6 +121,7 @@ const ProductPageLayout = ({
   const [savedPrice, setSavedPrice] = useState(0);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
 
   // --- ProductForm State Integration ---
   const [formData, setFormData] = useState({
@@ -169,11 +172,11 @@ const ProductPageLayout = ({
       delay: 200,
       duration: 500,
     });
-    pushToDataLayer('viewed_feed_page', country, {
+    pushToDataLayer("viewed_feed_page", country, {
       sku_id: product?.sku,
       product_name: product?.name,
-      product_price: `${product?.currency || ''} ${product?.display_price}`,
-      source_: 'WebFeed',
+      product_price: `${product?.currency || ""} ${product?.display_price}`,
+      source_: "WebFeed",
     });
     // Fix overflow-x-hidden breaking sticky positioning
     const overflowHiddenDiv = document.querySelector(".overflow-x-hidden");
@@ -191,40 +194,42 @@ const ProductPageLayout = ({
     };
   }, []);
 
-  const { galleryImages, isOutOfStock, productInfoDetails, areAllWebfeedsEmpty } = useMemo(
-    () => {
-      // Check if all web-feeds (alternateAttributes) are empty
-      // const alternateAttributes = product?.alternateAttributes || [];
-      // const hasEmptyWebfeeds = 
-      //   !alternateAttributes.length || 
-      //   alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
+  const {
+    galleryImages,
+    isOutOfStock,
+    productInfoDetails,
+    areAllWebfeedsEmpty,
+  } = useMemo(() => {
+    // Check if all web-feeds (alternateAttributes) are empty
+    // const alternateAttributes = product?.alternateAttributes || [];
+    // const hasEmptyWebfeeds =
+    //   !alternateAttributes.length ||
+    //   alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
 
-      return {
-        displayPrice: product?.display_price || "Price not available",
-        oldPrice: product?.old_price,
-        galleryImages: product?.images?.length
-          ? product.images
-          : product?.image
-          ? [product.image]
-          : [],
-        isOutOfStock:
-          product?.stock?.toLowerCase() !== "in stock" ||
-          !product?.display_price ||
-          typeof product?.display_price !== "number",
-        productInfoDetails: [
-          ...(product?.small_desc_data || [])
-            .filter((item) => item.title && (item.value || item.value === 0))
-            .map((item) => ({
-              label: item.title,
-              value: item.value,
-            })),
-        ],
-        decodedDetails: product?.details ? he.decode(product.details) : "",
-        // areAllWebfeedsEmpty: hasEmptyWebfeeds,
-      };
-    },
-    [product]
-  );
+    return {
+      displayPrice: product?.display_price || "Price not available",
+      oldPrice: product?.old_price,
+      galleryImages: product?.images?.length
+        ? product.images
+        : product?.image
+        ? [product.image]
+        : [],
+      isOutOfStock:
+        product?.stock?.toLowerCase() !== "in stock" ||
+        !product?.display_price ||
+        typeof product?.display_price !== "number",
+      productInfoDetails: [
+        ...(product?.small_desc_data || [])
+          .filter((item) => item.title && (item.value || item.value === 0))
+          .map((item) => ({
+            label: item.title,
+            value: item.value,
+          })),
+      ],
+      decodedDetails: product?.details ? he.decode(product.details) : "",
+      // areAllWebfeedsEmpty: hasEmptyWebfeeds,
+    };
+  }, [product]);
 
   // Check if all required form fields are filled
   const isFormValid = useMemo(() => {
@@ -236,12 +241,18 @@ const ProductPageLayout = ({
       formData.delivery_address?.trim() !== "" &&
       qty > 0
     );
-  }, [formData.form_name, formData.contact_no, formData.location, formData.area, formData.delivery_address, qty]);
+  }, [
+    formData.form_name,
+    formData.contact_no,
+    formData.location,
+    formData.area,
+    formData.delivery_address,
+    qty,
+  ]);
 
   // --- ProductForm Effects ---
   // OTP verification success handler
   useEffect(() => {
-
     if (registerapicall && pendingFormData && !optmodalopen) {
       const submitForm = async () => {
         try {
@@ -538,8 +549,9 @@ const ProductPageLayout = ({
 
     const apiData = {
       form_name: updatedFormData.form_name.trim(),
-      contact_no: `${currentcountry.country_code
-        }${updatedFormData.contact_no.trim()}`,
+      contact_no: `${
+        currentcountry.country_code
+      }${updatedFormData.contact_no.trim()}`,
       product: updatedFormData.product,
       emirate: updatedFormData.location,
       area: updatedFormData.area,
@@ -552,10 +564,10 @@ const ProductPageLayout = ({
 
     // Check if OTP verification is enabled via environment variable
     // Properly parse the environment variable (handle string "false" and "true")
-    const checkOtpEnabled = 
-      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" || 
+    const checkOtpEnabled =
+      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" ||
       process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === true;
-    
+
     // If OTP check is disabled, directly submit the form
     if (!checkOtpEnabled) {
       setPendingFormData(apiData);
@@ -645,8 +657,9 @@ const ProductPageLayout = ({
           quantity: dataToSubmit.quantity,
           sku_id: product?.sku,
           product_name: product?.name,
-          product_price: `${currentcountry.currency} ${product?.display_price || "0.00"
-            }`,
+          product_price: `${currentcountry.currency} ${
+            product?.display_price || "0.00"
+          }`,
           location: selectedLocationName,
           order_id: result.data.order_id || "",
           order_status: "submitted",
@@ -784,22 +797,28 @@ const ProductPageLayout = ({
                     )}
 
                     <div className="sm:mb-3.5 hidden sm:flex">
-                      <h1 className="font-medium text-[22px]">
-                        {productName}
-                      </h1>
+                      <h1 className="font-medium text-[22px]">{productName}</h1>
                     </div>
 
                     <div className="mb-4">
                       <div className="my-2 sm:my-0 flex">
                         <div className="flex items-center">
                           {currentcountry.currency == "AED" ? (
-                            <img src={getAssetsUrl("feed/aed-icon.svg")}
+                            <img
+                              src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
-                              className={`w-6 h-6 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              className={`w-6 h-6 inline-block mix-blend-multiply ${
+                                currentLanguage === "ar" ? "ml-1" : "mr-1"
+                              }`}
                               style={{ color: "black" }}
-                            loading="lazy" />
+                              loading="lazy"
+                            />
                           ) : (
-                            <span className={`currency-symbol text-[24px] md:text-[26px] font-bold ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
+                            <span
+                              className={`currency-symbol text-[24px] md:text-[26px] font-bold ${
+                                currentLanguage === "ar" ? "ml-1" : "mr-1"
+                              }`}
+                            >
                               {currentcountry.currency}
                             </span>
                           )}
@@ -809,20 +828,28 @@ const ProductPageLayout = ({
                         </div>
                         {savedPrice > 0 && (
                           <div className="save-banner ml-4 px-3 py-2 flex items-center font-medium">
-                          <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon flex items-center justify-center`}>
-                          <img src={getAssetsUrl("vector_icons/Vector.png")}
+                            <span
+                              className={`${
+                                currentLanguage === "ar" ? "ml-2" : "mr-2"
+                              } badge-icon flex items-center justify-center`}
+                            >
+                              <img
+                                src={getAssetsUrl("vector_icons/Vector.png")}
                                 alt="%"
                                 className="discount-icon"
-                              loading="lazy" />
+                                loading="lazy"
+                              />
                             </span>
                             <span className="flex gap-1 items-center text-sm">
                               {youSaved}{" "}
                               {currentcountry.currency == "AED" ? (
-                                <img src={getAssetsUrl("feed/aed-icon.svg")}
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-4 h-4 inline-block mix-blend-multiply"
                                   style={{ color: "black" }}
-                                loading="lazy" />
+                                  loading="lazy"
+                                />
                               ) : (
                                 <span className="currency-symbol text-sm">
                                   {currentcountry.currency}
@@ -836,20 +863,36 @@ const ProductPageLayout = ({
 
                       {product?.hasOwnProperty("old_price") &&
                         Number(product?.display_price) <
-                        Number(product?.old_price) && (
+                          Number(product?.old_price) && (
                           <div className="old_price">
                             {currentcountry.currency == "AED" ? (
-                              <div className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                <img src={getAssetsUrl("feed/aed-icon.svg")}
+                              <div
+                                className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${
+                                  currentLanguage === "ar"
+                                    ? "flex-row-reverse"
+                                    : ""
+                                }`}
+                              >
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-4 h-4 grayscale mix-blend-multiply opacity-30"
                                   style={{ color: "#9ea5a8" }}
-                                loading="lazy" />
+                                  loading="lazy"
+                                />
                                 {product?.old_price}
                               </div>
                             ) : (
-                              <span className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                {currentcountry.currency + " " + product?.old_price}
+                              <span
+                                className={`flex items-center ${
+                                  currentLanguage === "ar"
+                                    ? "flex-row-reverse"
+                                    : ""
+                                }`}
+                              >
+                                {currentcountry.currency +
+                                  " " +
+                                  product?.old_price}
                               </span>
                             )}
                             <div className="product_Detail_price_container">
@@ -858,7 +901,7 @@ const ProductPageLayout = ({
                               </div>
                             </div>
                             <p className="text-[#9EA5A8] mb-0 text-base">
-                                {incOfVat}
+                              {incOfVat}
                             </p>
                           </div>
                         )}
@@ -867,10 +910,12 @@ const ProductPageLayout = ({
                     {countdownTimestamp > now && (
                       <div className="hidden sm:flex items-center gap-2 mt-3">
                         <div className="flex items-center">
-                          <img src={getAssetsUrl("feed/clock.png")}
+                          <img
+                            src={getAssetsUrl("feed/clock.png")}
                             alt=""
                             className="w-16 h-full"
-                          loading="lazy" />
+                            loading="lazy"
+                          />
                           <FlipClockCountdown
                             to={countdownTimestamp}
                             labels={["Days", "Hrs", "Min", "Sec"]}
@@ -905,10 +950,12 @@ const ProductPageLayout = ({
                     )}
 
                     <div className="w-[212px] mt-1 sm:mt-3">
-                      <img src={getAssetsUrl("feed/limited-offer.gif")}
+                      <img
+                        src={getAssetsUrl("feed/limited-offer.gif")}
                         className="w-full h-full"
                         alt=""
-                      loading="lazy" />
+                        loading="lazy"
+                      />
                     </div>
                   </div>
                 </div>
@@ -953,10 +1000,11 @@ const ProductPageLayout = ({
                                   {attribute_item.code === "" ? (
                                     <Link
                                       href={`/feed/${attribute_item.sku}`}
-                                      className={`flex items-center cursor-pointer rounded-full px-10 py-3 border ${isActive
-                                        ? "border-webfeed font-semibold text-primary text-[14px]"
-                                        : "border-gray-300 text-[#91979A] font-medium bg-[#FCFCFC]"
-                                        }`}
+                                      className={`flex items-center cursor-pointer rounded-full px-10 py-3 border ${
+                                        isActive
+                                          ? "border-webfeed font-semibold text-primary text-[14px]"
+                                          : "border-gray-300 text-[#91979A] font-medium bg-[#FCFCFC]"
+                                      }`}
                                     >
                                       <h6 className="text-[14px] text-center mb-0">
                                         {attribute_item?.name}
@@ -968,18 +1016,20 @@ const ProductPageLayout = ({
                                       className="flex flex-col items-center cursor-pointer w-max max-w-16"
                                     >
                                       <div
-                                        className={`flex items-center justify-center w-7 h-7 rounded-full ${isActive
-                                          ? "border-webfeed1"
-                                          : "border-gray-300"
-                                          }`}
+                                        className={`flex items-center justify-center w-7 h-7 rounded-full ${
+                                          isActive
+                                            ? "border-webfeed1"
+                                            : "border-gray-300"
+                                        }`}
                                       >
                                         <div style={colorCircleStyle}></div>
                                       </div>
                                       <h6
-                                        className={`mt-3 text-[14px] mb-0 text-center ${isActive
-                                          ? "text-[#43494B] font-semibold text-[15px]"
-                                          : "text-[#91979A] font-medium"
-                                          }`}
+                                        className={`mt-3 text-[14px] mb-0 text-center ${
+                                          isActive
+                                            ? "text-[#43494B] font-semibold text-[15px]"
+                                            : "text-[#91979A] font-medium"
+                                        }`}
                                       >
                                         {attribute_item.name}
                                       </h6>
@@ -1031,18 +1081,17 @@ const ProductPageLayout = ({
             className="w-full lg:w-4/12 webfeed-order-form-sticky"
             {...(isMobile
               ? {
-                "data-aos": "fade-down",
-                "data-aos-easing": "ease-out-back",
-                "data-aos-duration": "1000",
-                "data-aos-delay": "100",
-              }
+                  "data-aos": "fade-down",
+                  "data-aos-easing": "ease-out-back",
+                  "data-aos-duration": "1000",
+                  "data-aos-delay": "100",
+                }
               : {})}
             id="order-form"
           >
             <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form">
               <div>
                 <h4 className="font-bold mb-5 text-xl sm:text-2xl">
-                  Place Your Order Here
                   {placeOrderTitle}
                 </h4>
                 <form onSubmit={handlePlaceOrder}>
@@ -1053,8 +1102,9 @@ const ProductPageLayout = ({
                     <input
                       type="text"
                       name="form_name"
-                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${errors.form_name ? "border-red-600" : "border-gray-300"
-                        }`}
+                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${
+                        errors.form_name ? "border-red-600" : "border-gray-300"
+                      }`}
                       placeholder="Enter Full Name"
                       value={formData.form_name}
                       onChange={handleChange}
@@ -1084,10 +1134,11 @@ const ProductPageLayout = ({
                         <input
                           type="tel"
                           name="contact_no"
-                          className={`col-span-2 webfeed-form-input rounded-lg border px-4 py-2 text-gray-700 font-medium outline-none ${errors.contact_no
-                            ? "border-red-600"
-                            : "border-gray-300"
-                            }`}
+                          className={`col-span-2 webfeed-form-input rounded-lg border px-4 py-2 text-gray-700 font-medium outline-none ${
+                            errors.contact_no
+                              ? "border-red-600"
+                              : "border-gray-300"
+                          }`}
                           value={formData.contact_no}
                           onChange={handleChange}
                           placeholder={getPhonePlaceholder(
@@ -1122,8 +1173,9 @@ const ProductPageLayout = ({
                           >
                             <FiMinus
                               height={22}
-                              className={`${qty == 1 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 1 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
 
@@ -1167,8 +1219,9 @@ const ProductPageLayout = ({
                           >
                             <FiPlus
                               height={22}
-                              className={`${qty == 999 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 999 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
                         </div>
@@ -1183,8 +1236,9 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="location"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${errors.location ? "is-invalid" : ""
-                          }`}
+                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
+                          errors.location ? "is-invalid" : ""
+                        }`}
                         value={formData.location}
                         onChange={handleChange}
                         disabled={isSubmitting || loadingLocations}
@@ -1224,8 +1278,9 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="area"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg ${errors.area ? "border-red-600" : "border-gray-300"
-                          } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
+                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg ${
+                          errors.area ? "border-red-600" : "border-gray-300"
+                        } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
                         value={formData.area}
                         onChange={handleChange}
                         disabled={
@@ -1268,10 +1323,11 @@ const ProductPageLayout = ({
                     </label>
                     <textarea
                       name="delivery_address"
-                      className={`block w-full border-2 product webfeed-form-input rounded-lg px-3 py-2 ${errors.delivery_address
-                        ? "border-red-600"
-                        : "border-gray-300"
-                        }`}
+                      className={`block w-full border-2 product webfeed-form-input rounded-lg px-3 py-2 ${
+                        errors.delivery_address
+                          ? "border-red-600"
+                          : "border-gray-300"
+                      }`}
                       rows="4"
                       placeholder="Enter your delivery address"
                       value={formData.delivery_address}
@@ -1296,8 +1352,9 @@ const ProductPageLayout = ({
                           >
                             <FiMinus
                               height={22}
-                              className={`${qty == 1 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 1 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
 
@@ -1341,8 +1398,9 @@ const ProductPageLayout = ({
                           >
                             <FiPlus
                               height={22}
-                              className={`${qty == 999 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 999 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
                         </div>
@@ -1356,14 +1414,16 @@ const ProductPageLayout = ({
                         type="submit"
                         className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
-                        <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
+                        <img
+                          src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                           alt="flash"
                           style={{
                             width: "20px",
                             height: "20px",
                             objectFit: "contain",
                           }}
-                        loading="lazy" />
+                          loading="lazy"
+                        />
                         <span className="text-sm sm:text-base movetext-feed text-black">
                           {placeOrderTitle}
                         </span>
@@ -1372,16 +1432,24 @@ const ProductPageLayout = ({
                           <div className="h-20 w-3 bg-gradient-to-tr from-transparent to-white opacity-60 skew-y-12"></div>
                         </div>
                       </button>
+                      <button
+                        type="button"
+                        className="w-full mt-3 h-[44px] text-sm whitespace-nowrap border border-[#191B1C] gap-2 uppercase select-none inline-flex items-center justify-center rounded-xl font-semibold text-[#191B1C] bg-white hover:bg-gray-50 transition-colors"
+                        onClick={() => setIsGenerateModalOpen(true)}
+                      >
+                        Open Order Modal
+                      </button>
                     </div>
                   </div>
 
                   {/* Submission Status Message */}
                   {submissionStatus.message && (
                     <div
-                      className={`mt-3 p-3 rounded ${submissionStatus.type === "success"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                        }`}
+                      className={`mt-3 p-3 rounded ${
+                        submissionStatus.type === "success"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
                     >
                       {submissionStatus.message}
                     </div>
@@ -1395,10 +1463,11 @@ const ProductPageLayout = ({
         {isMobile && (
           <div
             id="fixed-bottom"
-            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg transition-all duration-300 ${isOrderFormVisible
-              ? "opacity-0 pointer-events-none translate-y-full"
-              : "opacity-100 pointer-events-auto translate-y-0"
-              }`}
+            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg transition-all duration-300 ${
+              isOrderFormVisible
+                ? "opacity-0 pointer-events-none translate-y-full"
+                : "opacity-100 pointer-events-auto translate-y-0"
+            }`}
           >
             <div className="px-4 py-3">
               <div className="flex items-center justify-between gap-2">
@@ -1406,10 +1475,12 @@ const ProductPageLayout = ({
                 {countdownTimestamp > now && (
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
-                      <img src={getAssetsUrl("feed/clock.png")}
+                      <img
+                        src={getAssetsUrl("feed/clock.png")}
                         alt=""
                         className="w-10 h-full"
-                      loading="lazy" />
+                        loading="lazy"
+                      />
                       <FlipClockCountdown
                         to={countdownTimestamp}
                         labels={["Days", "Hrs", "Min", "Sec"]}
@@ -1460,14 +1531,16 @@ const ProductPageLayout = ({
                     }
                   }}
                 >
-                  <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
+                  <img
+                    src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                     alt="flash"
                     style={{
                       width: "20px",
                       height: "20px",
                       objectFit: "contain",
                     }}
-                  loading="lazy" />
+                    loading="lazy"
+                  />
                   <span className="text-[#191B1C] font-bold text-sm">
                     {placeOrderTitle}
                   </span>
@@ -1480,6 +1553,18 @@ const ProductPageLayout = ({
             </div>
           </div>
         )}
+
+        <MainModal
+          modalWidth={"lg"}
+          isOpen={isGenerateModalOpen}
+          onClose={() => setIsGenerateModalOpen(false)}
+          modalContent={
+            <GeneratedOrderModal
+              onPayNow={() => setIsGenerateModalOpen(false)}
+              onPayLater={() => setIsGenerateModalOpen(false)}
+            />
+          }
+        />
       </div>
     </div>
   );
