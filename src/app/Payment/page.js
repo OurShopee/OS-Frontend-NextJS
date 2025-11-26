@@ -48,9 +48,7 @@ const Payment = () => {
   const paymentmethodsdata = useSelector(
     (state) => state.paymentslice.paymentmethodsdata
   );
-  const wallet = useSelector(
-    (state) => state.paymentslice.walletValue
-  );
+  const wallet = useSelector((state) => state.paymentslice.walletValue);
   const selecteddeafultoption = useSelector(
     (state) => state.paymentslice.selecteddeafultoption
   );
@@ -90,7 +88,7 @@ const Payment = () => {
     walletBalance - (usedWalletValue || 0),
     0
   );
- 
+
   // Language content
   const selectPaymentMethod = useContent("payment.selectPaymentMethod");
   const shopeeWallet = useContent("payment.shopeeWallet");
@@ -125,7 +123,7 @@ const Payment = () => {
           });
           if (res.status === 200) {
             setPaymentMethods(res.data.data);
-            console.log(res.data.data)
+            console.log(res.data.data);
           }
         } catch (error) {
           console.error("Single checkout fetch failed", error);
@@ -143,7 +141,6 @@ const Payment = () => {
       payment_method: selecteddeafultoption?.[0]?.payment_method,
       amount: paymentMethods?.final_total,
     });
-
   }, []);
 
   useEffect(() => {
@@ -156,8 +153,6 @@ const Payment = () => {
     );
     dispatch(clearCouponMsg());
   }, [paymentMethods, selecteddefaultpaymentmethod, dispatch]);
-
-
 
   const handlePaymentChange = (id, processing_fee) => {
     dispatch(setselecteddefaultpaymentmethod(id));
@@ -290,46 +285,49 @@ const Payment = () => {
                       className={`flex flex-col gap-3 items-start w-full sm:flex-row sm:items-center sm:justify-between`}
                     >
                       <div
-                        onClick={handleWalletChange}
-                        disabled={walletBalance === 0}
+                        onClick={
+                          walletBalance === 0 ? () => {} : handleWalletChange
+                        }
                         className={`font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex  gap-2 ${
-                          isMobile ? "items-start w-full" : "items-center justify-center"
+                          isMobile
+                            ? "items-start w-full"
+                            : "items-center justify-center"
                         }`}
                       >
                         <div className="flex flex-col gap-1">
-
-                        {walletPaymentMethod}
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-[#43494B]">Available Balance:</span>
-                          <div className="font-semibold text-[#191B1C] text-xl flex items-center">
-                            {currentcountry?.currency == "AED" ? (
-                              <img
-                                src={getAssetsUrl("feed/aed-icon.svg")}
-                                alt="AED"
-                                className={`w-[14px] h-[14px] sm:w-[14px] sm:h-[14px] inline-block mix-blend-multiply ${
-                                  isRTL ? "ml-0.5" : "mr-0.5"
-                                }`}
-                                style={{ color: "black" }}
-                                loading="lazy"
-                              />
-                            ) : (
-                              <span
-                                className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
-                                  isRTL ? "ml-0.5" : "mr-0.5"
-                                }`}
-                              >
-                                {currentcountry?.currency}
-                              </span>
-                            )}
-                            <span className="text-sm font-semibold text-[#191B1C]">
-                            {(walletSelected
-                              ? availableBalanceAfterUse
-                              : walletBalance
-                            ).toFixed(2)}
-
+                          {walletPaymentMethod}
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-[#43494B]">
+                              Available Balance:
                             </span>
+                            <div className="font-semibold text-[#191B1C] text-xl flex items-center">
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
+                                  alt="AED"
+                                  className={`w-[14px] h-[14px] sm:w-[14px] sm:h-[14px] inline-block mix-blend-multiply ${
+                                    isRTL ? "ml-0.5" : "mr-0.5"
+                                  }`}
+                                  style={{ color: "black" }}
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <span
+                                  className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
+                                    isRTL ? "ml-0.5" : "mr-0.5"
+                                  }`}
+                                >
+                                  {currentcountry?.currency}
+                                </span>
+                              )}
+                              <span className="text-sm font-semibold text-[#191B1C]">
+                                {(walletSelected
+                                  ? availableBalanceAfterUse
+                                  : walletBalance
+                                ).toFixed(2)}
+                              </span>
+                            </div>
                           </div>
-                        </div>
                         </div>
                         {/* <img
                           src={"/assets/payment/shopee_wallet.png"}
@@ -337,22 +335,26 @@ const Payment = () => {
                           className="paymentmethod-image"
                           loading="lazy"
                         /> */}
-                          <img
-                        src={getAssetsUrl("wallet.png")}
-                        alt="Image"
-                        className="lg:w-[23px] lg:h-[24px] w-[23px] h-[24px] inline-block mix-blend-multiply object-contain mt-1"
-                        style={{ color: "black" }}
-                        loading="lazy"
-                      />
+                        <img
+                          src={getAssetsUrl("wallet.png")}
+                          alt="Image"
+                          className="lg:w-[23px] lg:h-[24px] w-[23px] h-[24px] inline-block mix-blend-multiply object-contain mt-1"
+                          style={{ color: "black" }}
+                          loading="lazy"
+                        />
                       </div>
                       <div
                         className={`font-normal text-sm sm:text-lg text-[#43494B] flex flex-col gap-1 text-left sm:text-right ${
-                          isMobile ? "w-full border-t border-[#E5E7EB] pt-3" : ""
+                          isMobile
+                            ? "w-full border-t border-[#E5E7EB] pt-3"
+                            : ""
                         }`}
                       >
                         <div
                           className={`flex items-center gap-2 ${
-                            isMobile ? "justify-between w-full" : "sm:justify-end"
+                            isMobile
+                              ? "justify-between w-full"
+                              : "sm:justify-end"
                           }`}
                         >
                           <span>Used Balance:</span>
@@ -388,7 +390,6 @@ const Payment = () => {
                             />
                           )}
                         </div>
-                        
                       </div>
                     </div>
                   </div>

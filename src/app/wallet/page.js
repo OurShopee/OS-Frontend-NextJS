@@ -181,7 +181,7 @@ const page = () => {
     // AMOUNT_DESC: "Amount Dsc",
   };
   return (
-    <Container fluid className="homepagecontainer !px-16 py-3">
+    <Container fluid className="homepagecontainer py-3">
       <div className="py-4">
         <BreadComp title={wallet} />
       </div>
