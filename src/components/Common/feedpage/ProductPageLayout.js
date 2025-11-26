@@ -31,6 +31,8 @@ import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
 import { useDynamicContent, useCurrentLanguage } from "@/hooks";
 import { useContent } from "@/hooks/useContent";
 import { getAssetsUrl } from "../../utils/helpers";
+import PayNowFinal from "./PayNowFinal";
+import MainModal from "./MainModal";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -117,6 +119,7 @@ const ProductPageLayout = ({
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
+  const [openFinalModal , setOpenFinalModal] = useState(false);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
 
@@ -731,6 +734,15 @@ const ProductPageLayout = ({
 
   return (
     <div className="webfeed-bg relative">
+        <button 
+               className='w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed'
+               onClick={() => setOpenFinalModal(true)}
+               >Click for modal</button>
+              <MainModal
+                isOpen={openFinalModal}
+                onClose={() => setOpenFinalModal(false)}
+                modalContent={<PayNowFinal />}
+              />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           {/* Left Side - Product Images and Overview */}
@@ -1478,6 +1490,7 @@ const ProductPageLayout = ({
                 </button>
               </div>
             </div>
+             
           </div>
         )}
       </div>
