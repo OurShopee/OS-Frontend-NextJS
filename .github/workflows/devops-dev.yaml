@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development-devops
+      - development
 
 env:
   AWS_REGION: ap-south-1
@@ -102,4 +103,5 @@ jobs:
           git config user.email "actions@github.com"
           git add ${{ env.HELM_REPO_PATH }}/values-dev.yaml
           git commit -m "Update application-fe image to ${{ github.sha }}-${{ env.TS }}" || echo "No changes to commit"
+
           git push
