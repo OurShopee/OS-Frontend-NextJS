@@ -33,6 +33,8 @@ import { useContent } from "@/hooks/useContent";
 import { getAssetsUrl } from "../../utils/helpers";
 import MainModal from "./MainModal";
 import GeneratedOrderModal from "./GeneratedOrderModal";
+import PayNowFinal from "./PayNowFinal";
+import PayLaterModal from "./PayLaterModal";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -120,6 +122,7 @@ const ProductPageLayout = ({
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
   const [openFinalModal , setOpenFinalModal] = useState(false);
+  const [openPayLaterModal , setOpenPayLaterModal] = useState(true);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -747,12 +750,13 @@ const ProductPageLayout = ({
     <div className="webfeed-bg relative">
         <button 
                className='w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed'
-               onClick={() => setOpenFinalModal(true)}
+               onClick={() => setOpenPayLaterModal(true)}
                >Click for modal</button>
               <MainModal
-                isOpen={openFinalModal}
-                onClose={() => setOpenFinalModal(false)}
-                modalContent={<PayNowFinal />}
+                isOpen={openPayLaterModal}
+                modalWidth="lg"
+                onClose={() => setOpenPayLaterModal(false)}
+                modalContent={<PayLaterModal />}
               />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
