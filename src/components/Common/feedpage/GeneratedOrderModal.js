@@ -1,17 +1,23 @@
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { BsCheckCircleFill } from "react-icons/bs";
 
 const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
-  <div className="relative flex flex-col items-center">
+  <div className="relative flex flex-col items-center p-4">
     {/* Top Section with Checkmark */}
-    <div className="flex justify-center -mt-10 mb-4 w-full">
-      <div className="flex items-center justify-center w-24 h-24 rounded-full bg-white shadow-lg">
-        <span className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#61D129]">
-          <BsCheckCircleFill className="text-white text-6xl" />
-        </span>
-      </div>
+    <img
+      src={getAssetsUrl("webFeed/order-submitted-bg.png")}
+      alt="Success"
+      className="absolute object-cover -z-10 top-0 left-0 w-full h-full"
+    />
+    <div className="flex justify-center mt-5 mb-3 rounded-full">
+      <img
+        src={getAssetsUrl("webFeed/check-icon.png")}
+        alt="Processing"
+        className="w-40 h-full"
+      />
     </div>
     {/* Title */}
-    <p className="text-2xl font-bold text-[#191B1C] mb-4">
+    <p className="text-2xl font-bold text-white mb-10.5">
       Order Is Being Generated!
     </p>
 

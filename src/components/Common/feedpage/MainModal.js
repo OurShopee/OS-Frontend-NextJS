@@ -27,12 +27,16 @@ const MainModal = ({ isOpen = false, onClose = () => {}, modalContent, modalWidt
         onClick={onClose}
       >
         <div
-          className={`relative w-full max-w-${modalWidth} max-h-[90vh] bg-white ${
+          className={`relative w-full max-w-${modalWidth} max-h-[90vh] ${
             isMobile ? "rounded-t-3xl" : "rounded-3xl"
-          }  animate-slide-up overflow-visible`}
+          }  animate-slide-up`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={`${isMobile ? "max-h-[90vh] overflow-y-auto" : ""}`}>
+          <div
+            className={`overflow-hidden ${isMobile ? "max-h-[90vh] overflow-y-auto" : ""} ${
+              isMobile ? "rounded-t-3xl" : "rounded-3xl"
+            }`}
+          >
             {modalContent}
           </div>
           <button
