@@ -283,8 +283,8 @@ export const content = {
       ar: "اكمل",
     },
     placeOrder: {
-      en: "Place Order",
-      ar: "وضع الطلب",
+      en: "Place Your Order Here",
+      ar: "ضع طلبك هنا",
     },
     apply: {
       en: "Apply",
