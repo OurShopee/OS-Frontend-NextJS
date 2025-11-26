@@ -1,7 +1,7 @@
 import { getAssetsUrl } from "@/components/utils/helpers";
 import Link from "next/link";
 
-const PayLaterModal = ({ promoImages = [] }) => {
+const PayLaterModal = () => {
   const bgImage = getAssetsUrl("webFeed/pay-later-bg.png");
   const qrImage = getAssetsUrl("webFeed/qr.svg");
 

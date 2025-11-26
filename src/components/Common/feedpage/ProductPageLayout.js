@@ -6,35 +6,33 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import he from "he";
 import Lottie from "lottie-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import ImageCarousel from "./ImageCarousel";
 import fire from "./fire.json";
+import ImageCarousel from "./ImageCarousel";
 import ProductDescription from "./ProductDescription";
 
 // --- ProductForm Imports ---
-import { toast } from "react-toastify";
-import {
-  checkmobileotpapi,
-  setotpmodal,
-  setregisterapicall,
-  setregistermobile,
-} from "@/redux/formslice";
-import { pushToDataLayer } from "../../utils/dataUserpush";
-import { MediaQueries } from "../../utils";
 import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
-import { useDynamicContent, useCurrentLanguage } from "@/hooks";
+import { useCurrentLanguage, useDynamicContent } from "@/hooks";
 import { useContent } from "@/hooks/useContent";
+import {
+  setotpmodal,
+  setregisterapicall
+} from "@/redux/formslice";
+import { toast } from "react-toastify";
+import { MediaQueries } from "../../utils";
+import { pushToDataLayer } from "../../utils/dataUserpush";
 import { getAssetsUrl } from "../../utils/helpers";
-import MainModal from "./MainModal";
 import GeneratedOrderModal from "./GeneratedOrderModal";
-import PayNowFinal from "./PayNowFinal";
+import MainModal from "./MainModal";
 import PayLaterModal from "./PayLaterModal";
+import { TRUE } from "sass";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -102,7 +100,6 @@ const useElementVisibility = (elementId, options = {}) => {
 
 const ProductPageLayout = ({
   product,
-  locationsData = [],
   queryParams = {},
   country = "uae",
   Webfeed,
@@ -121,8 +118,8 @@ const ProductPageLayout = ({
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
-  const [openFinalModal , setOpenFinalModal] = useState(false);
-  const [openPayLaterModal , setOpenPayLaterModal] = useState(true);
+  const [openFinalModal, setOpenFinalModal] = useState(false);
+  const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -256,18 +253,18 @@ const ProductPageLayout = ({
 
   // --- ProductForm Effects ---
   // OTP verification success handler
-  useEffect(() => {
-    if (registerapicall && pendingFormData && !optmodalopen) {
-      const submitForm = async () => {
-        try {
-          await submitFormAfterOTP();
-        } catch (error) {
-          console.error("Error submitting form after OTP:", error);
-        }
-      };
-      submitForm();
-    }
-  }, [registerapicall, pendingFormData, optmodalopen]);
+  // useEffect(() => {
+  //   if (registerapicall && pendingFormData && !optmodalopen) {
+  //     const submitForm = async () => {
+  //       try {
+  //         await submitFormAfterOTP();
+  //       } catch (error) {
+  //         console.error("Error submitting form after OTP:", error);
+  //       }
+  //     };
+  //     submitForm();
+  //   }
+  // }, [registerapicall, pendingFormData, optmodalopen]);
 
   // Fetch locations on component mount
   useEffect(() => {
@@ -574,70 +571,27 @@ const ProductPageLayout = ({
 
     // If OTP check is disabled, directly submit the form
     if (!checkOtpEnabled) {
-      setPendingFormData(apiData);
-      try {
-        // Pass apiData directly to avoid state timing issues
-        await submitFormAfterOTP(apiData);
-      } catch (error) {
-        console.error("Order submission error:", error);
-        toast.error("Failed to submit order. Please try again.");
-        setSubmissionStatus({
-          message: "Failed to submit order. Please try again.",
-          type: "error",
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
-      return;
+      setIsGenerateModalOpen(true);
     }
 
     // OTP check is enabled, set pending data and proceed with OTP verification
-    setPendingFormData(apiData);
+    console.log("Placing order, pending OTP verification with data:", apiData);
 
-    try {
-      const mobileNumber = updatedFormData.contact_no.trim();
-      dispatch(setregistermobile(mobileNumber));
-      const result = await dispatch(
-        checkmobileotpapi({ mobile: mobileNumber })
-      );
 
-      if (result.payload.status === "success") {
-        dispatch(setotpmodal(true));
-      } else {
-        toast.error(result.payload.message || "Failed to send OTP");
-        setSubmissionStatus({
-          message:
-            result.payload.message || "Failed to send OTP. Please try again.",
-          type: "error",
-        });
-      }
-    } catch (error) {
-      console.error("OTP send error:", error);
-      toast.error("Failed to send OTP. Please try again.");
-      setSubmissionStatus({
-        message: "Failed to send OTP. Please try again.",
-        type: "error",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+
   };
 
   // Function to submit form after OTP verification
   const submitFormAfterOTP = async (formDataToSubmit = null) => {
     // Use passed data if available, otherwise fall back to state
     const dataToSubmit = formDataToSubmit || pendingFormData;
-    console.log("submitFormAfterOTP called with data:", dataToSubmit);
     if (!dataToSubmit) {
-      console.log("No pending form data, returning early");
       return;
     }
 
     setIsSubmitting(true);
     try {
-      console.log("Calling addFeed API...");
       const result = await addFeed(dataToSubmit);
-      console.log("addFeed API response:", result);
 
       if (result.data.status === "success") {
         setSubmissionStatus({
@@ -748,17 +702,6 @@ const ProductPageLayout = ({
 
   return (
     <div className="webfeed-bg relative">
-        <button 
-               className='w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed'
-               onClick={() => setOpenPayLaterModal(true)}
-               >Click for modal</button>
-              <MainModal
-                isOpen={openPayLaterModal}
-                modalWidth={"sm"}
-                onClose={() => setOpenPayLaterModal(false)}
-                modalContent={<PayLaterModal onPayNow={() => setIsGenerateModalOpen(false)}
-                onPayLater={() => setIsGenerateModalOpen(false)} />}
-              />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           {/* Left Side - Product Images and Overview */}
@@ -1566,7 +1509,6 @@ const ProductPageLayout = ({
                 </button>
               </div>
             </div>
-             
           </div>
         )}
 
@@ -1577,8 +1519,24 @@ const ProductPageLayout = ({
           modalContent={
             <GeneratedOrderModal
               onPayNow={() => setIsGenerateModalOpen(false)}
-              onPayLater={() => setIsGenerateModalOpen(false)}
+              onPayLater={() => { setIsGenerateModalOpen(false); setOpenPayLaterModal(true)}}
             />
+          }
+        />
+
+        <button
+          className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={() => setOpenPayLaterModal(true)}
+        >
+          Click for modal
+        </button>
+
+        <MainModal
+          isOpen={openPayLaterModal}
+          modalWidth={"sm"}
+          onClose={() => setOpenPayLaterModal(false)}
+          modalContent={
+            <PayLaterModal />
           }
         />
       </div>
