@@ -247,11 +247,10 @@ const Paymentdetails = ({
         )}
         {walletSelected && usedWalletValue > 0 && (
           <div className="payment-type">
-            <div className="payment-type-title">{walletLabel}</div>
+            <div className="payment-type-title text-[#40B862]">{walletLabel}</div>
             <div className="payment-type-cost" style={{ color: "green" }}>
               {currentcountry?.currency == "AED" ? (
                 <>
-                  -
                   <img
                     src={getAssetsUrl("feed/aed-icon.svg")}
                     alt="AED"
