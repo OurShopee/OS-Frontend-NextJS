@@ -57,3 +57,10 @@ export const feedOtpCheck = async (input_data) => {
   const res = await axios.post("/api/check-otp-and-send", input_data);
   return res.data;
 };
+
+export const getFeedPlaceOrder = async (input_data) => {
+  const res = await axios.post("api/GetFeedPlaceOrder", {
+    ...input_data
+  })
+  return res.data;
+};

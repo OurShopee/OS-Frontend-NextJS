@@ -31,7 +31,7 @@ const MainModal = ({
         }`}
       >
         <div
-          className={`relative w-full max-w-${modalWidth} max-h-[85vh] overflow-hidden ${
+          className={`relative  max-w-${modalWidth} max-h-[85vh] ${
             isMobile ? "rounded-t-3xl" : "rounded-3xl"
           }  animate-slide-up`}
           onClick={(e) => e.stopPropagation()}
