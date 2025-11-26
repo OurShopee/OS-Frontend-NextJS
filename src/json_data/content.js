@@ -1271,7 +1271,7 @@ export const content = {
       ar: "بيع سريع!",
     },
     expectedBy: {
-      en: "Expected By",
+      en: "Expected ",
       ar: "متوقع في",
     },
     outOfStock: {
