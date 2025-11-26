@@ -2,7 +2,12 @@ import { MediaQueries } from "@/components/utils";
 import { useEffect } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
-const MainModal = ({ isOpen = false, onClose = () => {}, modalContent, modalWidth = "lg" }) => {
+const MainModal = ({
+  isOpen = false,
+  onClose = () => {},
+  modalContent,
+  modalWidth = "lg",
+}) => {
   const { isMobile } = MediaQueries();
 
   useEffect(() => {
@@ -27,13 +32,13 @@ const MainModal = ({ isOpen = false, onClose = () => {}, modalContent, modalWidt
         onClick={onClose}
       >
         <div
-          className={`relative w-full max-w-${modalWidth} max-h-[90vh] ${
+          className={`relative w-full max-w-${modalWidth} max-h-[85vh] overflow-hidden ${
             isMobile ? "rounded-t-3xl" : "rounded-3xl"
           }  animate-slide-up`}
           onClick={(e) => e.stopPropagation()}
         >
           <div
-            className={`overflow-hidden ${isMobile ? "max-h-[75vh] overflow-y-auto" : ""} ${
+            className={`${
               isMobile ? "rounded-t-3xl" : "rounded-3xl"
             }`}
           >

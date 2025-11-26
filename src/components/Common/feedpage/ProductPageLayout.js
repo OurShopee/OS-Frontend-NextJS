@@ -754,7 +754,7 @@ const ProductPageLayout = ({
                >Click for modal</button>
               <MainModal
                 isOpen={openPayLaterModal}
-                modalWidth={"md"}
+                modalWidth={"sm"}
                 onClose={() => setOpenPayLaterModal(false)}
                 modalContent={<PayLaterModal onPayNow={() => setIsGenerateModalOpen(false)}
                 onPayLater={() => setIsGenerateModalOpen(false)} />}
