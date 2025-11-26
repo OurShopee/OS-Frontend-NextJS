@@ -51,3 +51,10 @@ export const availableCoupons = async () => {
   });
   return res.data;
 };
+export const getFeedPlaceOrder = async (input_data) => {
+  const res = await axios.post("api/GetFeedPlaceOrder", {
+  ...input_data
+  }
+);
+  return res.data;
+};

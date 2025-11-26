@@ -716,6 +716,9 @@ const ProductPageLayout = ({
                 <PayNowFinal onPayNow={() => setIsGenerateModalOpen(false)}
                 onPayLater={() => setIsGenerateModalOpen(false)}
                 formData={formData}
+                product={product}
+                qty={qty}
+                sku={sku}
                 />
               
               }
