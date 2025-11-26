@@ -122,7 +122,8 @@ const ProductPageLayout = ({
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
   const [openFinalModal , setOpenFinalModal] = useState(false);
-  const [openPayLaterModal , setOpenPayLaterModal] = useState(true);
+  const [openPayLaterModal , setOpenPayLaterModal] = useState(false);
+  const [openPayNowModal , setOpenPayNowModal] = useState(true);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -750,14 +751,19 @@ const ProductPageLayout = ({
     <div className="webfeed-bg relative">
         <button 
                className='w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed'
-               onClick={() => setOpenPayLaterModal(true)}
+               onClick={() => setOpenPayNowModal(true)}
                >Click for modal</button>
               <MainModal
-                isOpen={openPayLaterModal}
-                modalWidth={"md"}
-                onClose={() => setOpenPayLaterModal(false)}
-                modalContent={<PayLaterModal onPayNow={() => setIsGenerateModalOpen(false)}
-                onPayLater={() => setIsGenerateModalOpen(false)} />}
+                isOpen={openPayNowModal}
+                modalWidth="xl"
+                onClose={() => setOpenPayNowModal(false)}
+                modalContent={
+                <PayNowFinal onPayNow={() => setIsGenerateModalOpen(false)}
+                onPayLater={() => setIsGenerateModalOpen(false)}
+                formData={formData}
+                />
+              
+              }
               />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
