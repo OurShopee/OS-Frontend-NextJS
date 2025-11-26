@@ -51,3 +51,9 @@ export const availableCoupons = async () => {
   });
   return res.data;
 };
+
+
+export const feedOtpCheck = async (input_data) => {
+  const res = await axios.post("/api/check-otp-and-send", input_data);
+  return res.data;
+};

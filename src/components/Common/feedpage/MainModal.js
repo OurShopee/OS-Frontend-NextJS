@@ -29,7 +29,6 @@ const MainModal = ({
         className={`fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md z-50 ${
           isMobile ? "flex items-end" : "flex items-center justify-center"
         }`}
-        onClick={onClose}
       >
         <div
           className={`relative w-full max-w-${modalWidth} max-h-[85vh] overflow-hidden ${
@@ -37,11 +36,7 @@ const MainModal = ({
           }  animate-slide-up`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className={`${
-              isMobile ? "rounded-t-3xl" : "rounded-3xl"
-            }`}
-          >
+          <div className={`${isMobile ? "rounded-t-3xl" : "rounded-3xl"}`}>
             {modalContent}
           </div>
           <button

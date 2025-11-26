@@ -19,11 +19,13 @@ import ProductDescription from "./ProductDescription";
 
 // --- ProductForm Imports ---
 import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
+import { feedOtpCheck } from "@/api/payments";
 import { useCurrentLanguage, useDynamicContent } from "@/hooks";
 import { useContent } from "@/hooks/useContent";
 import {
   setotpmodal,
-  setregisterapicall
+  setregisterapicall,
+  setregistermobile,
 } from "@/redux/formslice";
 import { toast } from "react-toastify";
 import { MediaQueries } from "../../utils";
@@ -252,19 +254,15 @@ const ProductPageLayout = ({
   ]);
 
   // --- ProductForm Effects ---
-  // OTP verification success handler
-  // useEffect(() => {
-  //   if (registerapicall && pendingFormData && !optmodalopen) {
-  //     const submitForm = async () => {
-  //       try {
-  //         await submitFormAfterOTP();
-  //       } catch (error) {
-  //         console.error("Error submitting form after OTP:", error);
-  //       }
-  //     };
-  //     submitForm();
-  //   }
-  // }, [registerapicall, pendingFormData, optmodalopen]);
+  useEffect(() => {
+    if (!registerapicall || !pendingFormData) {
+      return;
+    }
+
+    // When OTP is verified, just open the generate modal without calling addFeed
+    setIsGenerateModalOpen(true);
+    dispatch(setregisterapicall(false));
+  }, [dispatch, pendingFormData, registerapicall]);
 
   // Fetch locations on component mount
   useEffect(() => {
@@ -565,20 +563,97 @@ const ProductPageLayout = ({
 
     // Check if OTP verification is enabled via environment variable
     // Properly parse the environment variable (handle string "false" and "true")
-    const checkOtpEnabled =
-      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" ||
-      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === true;
+    // const checkOtpEnabled =
+    //   process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" ||
+    //   process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === true;
 
-    // If OTP check is disabled, directly submit the form
-    if (!checkOtpEnabled) {
-      setIsGenerateModalOpen(true);
+    // // If OTP check is disabled, directly submit the form
+    // if (!checkOtpEnabled) {
+    //   setPendingFormData(apiData);
+    //   try {
+    //     // Pass apiData directly to avoid state timing issues
+    //     await submitFormAfterOTP(apiData);
+    //   } catch (error) {
+    //     console.error("Order submission error:", error);
+    //     toast.error("Failed to submit order. Please try again.");
+    //     setSubmissionStatus({
+    //       message: "Failed to submit order. Please try again.",
+    //       type: "error",
+    //     });
+    //   } finally {
+    //     setIsSubmitting(false);
+    //   }
+    //   return;
+    // }
+
+    setPendingFormData(apiData);
+
+    const mobileNumber = updatedFormData.contact_no.trim();
+    dispatch(setregistermobile(mobileNumber));
+
+    if (!product?.category_id || !product?.subcategory_id) {
+      toast.error("Missing product category details. Please try again later.");
+      setSubmissionStatus({
+        message: "Missing product category details. Please try again later.",
+        type: "error",
+      });
+      setIsSubmitting(false);
+      return;
     }
 
-    // OTP check is enabled, set pending data and proceed with OTP verification
-    console.log("Placing order, pending OTP verification with data:", apiData);
+    try {
+      const otpCheckPayload = {
+        category_id: product.category_id,
+        subcategory_id: product.subcategory_id,
+        mobile: mobileNumber,
+      };
 
+      const otpResponse = await feedOtpCheck(otpCheckPayload);
+      const otpStatus =
+        otpResponse?.otp_status ||
+        otpResponse?.data?.otp_status ||
+        otpResponse?.data?.status ||
+        otpResponse?.status;
 
-
+      switch (otpStatus) {
+        case "OTP_SENT":
+          dispatch(setotpmodal(true));
+          break;
+        case "OTP_DISABLED": {
+          // const submitted = await submitFormAfterOTP(apiData);
+          // if (submitted) {
+          //   setIsGenerateModalOpen(true);
+          // }
+          setIsGenerateModalOpen(true);
+          break;
+        }
+        case "OTP_BLOCKED":
+          toast.error(
+            "OTP verification limit exceeded. Please try again later."
+          );
+          setSubmissionStatus({
+            message: "OTP verification limit exceeded. Please try again later.",
+            type: "error",
+          });
+          break;
+        default:
+          toast.error("Failed to send OTP. Please try again.");
+          setSubmissionStatus({
+            message: "Failed to send OTP. Please try again.",
+            type: "error",
+          });
+          break;
+      }
+    } catch (error) {
+      console.error("OTP send error:", error);
+      toast.error("Failed to send OTP. Please try again.");
+      setSubmissionStatus({
+        message: "Failed to send OTP. Please try again.",
+        type: "error",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Function to submit form after OTP verification
@@ -586,14 +661,104 @@ const ProductPageLayout = ({
     // Use passed data if available, otherwise fall back to state
     const dataToSubmit = formDataToSubmit || pendingFormData;
     if (!dataToSubmit) {
-      return;
+      return false;
     }
 
     setIsSubmitting(true);
+    let isSuccessful = false;
     try {
       const result = await addFeed(dataToSubmit);
 
       if (result.data.status === "success") {
+        isSuccessful = true;
+        setSubmissionStatus({
+          message: result.message || "Order submitted successfully!",
+          type: "success",
+        });
+        toast.success("Order submitted successfully!");
+
+        const selectedLocationName =
+          locations.find((loc) => loc.id === parseInt(dataToSubmit.emirate))
+            ?.name || "N/A";
+        pushToDataLayer("submitted_feed_order", currentcountry.name, {
+          form_name: dataToSubmit.form_name,
+          contact_no: dataToSubmit.contact_no,
+          product: dataToSubmit.product,
+          emirate: dataToSubmit.emirate,
+          area: dataToSubmit.area,
+          delivery_address: dataToSubmit.delivery_address,
+          source: dataToSubmit.orderfrom,
+          price: dataToSubmit.price,
+          quantity: dataToSubmit.quantity,
+          sku_id: product?.sku,
+          product_name: product?.name,
+          product_price: `${currentcountry.currency} ${
+            product?.display_price || "0.00"
+          }`,
+          location: selectedLocationName,
+          order_id: result.data.order_id || "",
+          order_status: "submitted",
+        });
+
+        // Reset form
+        setFormData({
+          form_name: "",
+          contact_no: "",
+          quantity: "1",
+          location: "",
+          area: "",
+          delivery_address: "",
+          product: product?.sku || "",
+          price: product?.display_price || "0.00",
+          orderfrom: queryParams?.orderfrom || "WebFeed",
+          source: queryParams?.source || "",
+          medium: queryParams?.medium || "",
+          campaign: queryParams?.campaign || "",
+          content: queryParams?.content || "",
+          term: queryParams?.term || "",
+        });
+        setAreas([]);
+        setMapCoords(null);
+        setPendingFormData(null);
+        setQty(1); // Reset quantity
+        dispatch(setotpmodal(false));
+      } else {
+        setSubmissionStatus({
+          message: result.message || "Submission failed. Please try again.",
+          type: "error",
+        });
+        toast.error("Submission failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission catch error:", error);
+      setSubmissionStatus({
+        message: "An unexpected error occurred during submission.",
+        type: "error",
+      });
+    } finally {
+      setIsSubmitting(false);
+      dispatch(setregisterapicall(false));
+    }
+
+    return isSuccessful;
+  };
+
+  // Reusable function to submit order and open pay later modal
+  const submitOrderAndOpenPayLaterModal = async (formDataToSubmit = null) => {
+    // Use passed data if available, otherwise fall back to state
+    const dataToSubmit = formDataToSubmit || pendingFormData;
+    if (!dataToSubmit) {
+      toast.error("No order data available. Please fill the form again.");
+      return false;
+    }
+
+    setIsSubmitting(true);
+    let isSuccessful = false;
+    try {
+      const result = await addFeed(dataToSubmit);
+
+      if (result.data.status === "success") {
+        isSuccessful = true;
         setSubmissionStatus({
           message: result.message || "Order submitted successfully!",
           type: "success",
@@ -646,6 +811,9 @@ const ProductPageLayout = ({
         setQty(1); // Reset quantity
         dispatch(setotpmodal(false));
         dispatch(setregisterapicall(false));
+
+        // Open pay later modal
+        setOpenPayLaterModal(true);
       } else {
         setSubmissionStatus({
           message: result.message || "Submission failed. Please try again.",
@@ -659,9 +827,12 @@ const ProductPageLayout = ({
         message: "An unexpected error occurred during submission.",
         type: "error",
       });
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
+
+    return isSuccessful;
   };
 
   const handleChangeQty = (action) => {
@@ -1515,11 +1686,17 @@ const ProductPageLayout = ({
         <MainModal
           modalWidth={"[425px]"}
           isOpen={isGenerateModalOpen}
-          onClose={() => setIsGenerateModalOpen(false)}
+          onClose={async () => {
+            setIsGenerateModalOpen(false);
+            await submitOrderAndOpenPayLaterModal();
+          }}
           modalContent={
             <GeneratedOrderModal
               onPayNow={() => setIsGenerateModalOpen(false)}
-              onPayLater={() => { setIsGenerateModalOpen(false); setOpenPayLaterModal(true)}}
+              onPayLater={async () => {
+                setIsGenerateModalOpen(false);
+                await submitOrderAndOpenPayLaterModal();
+              }}
             />
           }
         />
@@ -1535,9 +1712,7 @@ const ProductPageLayout = ({
           isOpen={openPayLaterModal}
           modalWidth={"sm"}
           onClose={() => setOpenPayLaterModal(false)}
-          modalContent={
-            <PayLaterModal />
-          }
+          modalContent={<PayLaterModal />}
         />
       </div>
     </div>
