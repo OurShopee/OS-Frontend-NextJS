@@ -22,7 +22,7 @@ const MainModal = ({ isOpen = false, onClose = () => {}, modalContent, modalWidt
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black bg-opacity-40 z-50 ${
+        className={`fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md z-50 ${
           isMobile ? "flex items-end" : "flex items-center justify-center"
         }`}
         onClick={onClose}
@@ -34,14 +34,14 @@ const MainModal = ({ isOpen = false, onClose = () => {}, modalContent, modalWidt
           onClick={(e) => e.stopPropagation()}
         >
           <div
-            className={`overflow-hidden ${isMobile ? "max-h-[90vh] overflow-y-auto" : ""} ${
+            className={`overflow-hidden ${isMobile ? "max-h-[75vh] overflow-y-auto" : ""} ${
               isMobile ? "rounded-t-3xl" : "rounded-3xl"
             }`}
           >
             {modalContent}
           </div>
           <button
-            className="absolute -top-4 right-5 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] hover:bg-gray-100 transition-colors z-10"
+            className="absolute top-4 right-4 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] hover:bg-gray-100 transition-colors z-10"
             onClick={onClose}
           >
             <IoCloseSharp className="w-5 h-5" />

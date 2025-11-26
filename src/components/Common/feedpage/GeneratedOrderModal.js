@@ -17,46 +17,65 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
       />
     </div>
     {/* Title */}
-    <p className="text-2xl font-bold text-white mb-10.5">
+    <p className="text-2xl font-bold text-white mb-10">
       Order Is Being Generated!
     </p>
 
     {/* Content Card */}
-    <div className="bg-white rounded-3xl p-6 w-full max-w-lg flex flex-col items-center shadow-md">
-      <p className="text-lg font-semibold text-[#191B1C] mb-2 text-center">
+    <div className="bg-white rounded-3xl py-[30px] px-5 w-full max-w-lg flex flex-col items-center backdrop-blur-[0px] gap-4">
+      <p className="text-[22px] font-semibold text-[#191B1C] text-center">
         Your order is now moving to the next step.{" "}
         <span role="img" aria-label="party">
           🎉
         </span>
       </p>
-      <p className="text-gray-500 mb-5 text-center text-base">
+      <p className="text-[#43494B] mb-2.5 font-normal text-center text-base">
         Please complete your payment now to confirm your order and speed up
         delivery.
       </p>
       {/* Pay Now Button */}
-      <button
-        className="w-full py-3 mb-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 font-bold text-[#191B1C] flex items-center justify-center gap-2 text-lg transition-colors"
-        onClick={onPayNow}
-      >
-        PAY NOW
-        {/* Payment Icons - Use your own SVGs/images as in your project */}
-        <span className="ml-2 flex gap-1">
-          <img src="/your/path/tabby.svg" className="w-6 h-6" alt="Tabby" />
-          <img src="/your/path/visa.svg" className="w-6 h-6" alt="Visa" />
-          <img
-            src="/your/path/mastercard.svg"
-            className="w-6 h-6"
-            alt="Mastercard"
-          />
-        </span>
-      </button>
-      {/* Pay Later Button */}
-      <button
-        className="w-full py-3 rounded-lg border border-gray-300 bg-white text-[#191B1C] font-bold text-lg hover:bg-gray-100 transition-colors"
-        onClick={onPayLater}
-      >
-        I'LL PAY LATER
-      </button>
+      <div className="w-full flex flex-col gap-1.5">
+        <div className="animated-bg-button-container m-0 h-[54px]">
+          <div className="animated-bg-button-shadow" />
+          <button
+            type="submit"
+            className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-14 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            <img
+              src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
+              alt="flash"
+              style={{
+                width: "20px",
+                height: "20px",
+                objectFit: "contain",
+              }}
+              loading="lazy"
+            />
+            <span className="text-sm sm:text-base movetext-feed text-black flex items-center">
+              PAY NOW
+              <span className="ml-0.5 flex gap-1">
+                <img
+                  src={getAssetsUrl("webFeed/payment-options.png")}
+                  className="w-full h-6"
+                  alt="Tabby"
+                />
+              </span>
+            </span>
+            <div className="absolute inset-0 pointer-events-none flex gap-2 justify-center items-center shimmer-overlay">
+              <div className="h-20 w-10 bg-gradient-to-tr from-transparent to-white opacity-60 skew-y-12"></div>
+              <div className="h-20 w-3 bg-gradient-to-tr from-transparent to-white opacity-60 skew-y-12"></div>
+            </div>
+          </button>
+        </div>
+
+        {/* Pay Later Button */}
+        <button
+          className="w-full py-4 rounded-lg border bg-white text-[#191B1C] font-semibold text-base"
+          onClick={onPayLater}
+        >
+          I'LL PAY LATER
+        </button>
+      </div>
     </div>
   </div>
 );
