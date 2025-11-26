@@ -754,9 +754,10 @@ const ProductPageLayout = ({
                >Click for modal</button>
               <MainModal
                 isOpen={openPayLaterModal}
-                modalWidth="lg"
+                modalWidth={"md"}
                 onClose={() => setOpenPayLaterModal(false)}
-                modalContent={<PayLaterModal />}
+                modalContent={<PayLaterModal onPayNow={() => setIsGenerateModalOpen(false)}
+                onPayLater={() => setIsGenerateModalOpen(false)} />}
               />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">

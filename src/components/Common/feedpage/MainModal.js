@@ -33,7 +33,7 @@ const MainModal = ({ isOpen = false, onClose = () => {}, modalContent, modalWidt
           onClick={(e) => e.stopPropagation()}
         >
           <div
-            className={`overflow-hidden ${isMobile ? "max-h-[90vh] overflow-y-auto" : ""} ${
+            className={`overflow-hidden ${isMobile ? "max-h-[75vh] overflow-y-auto" : ""} ${
               isMobile ? "rounded-t-3xl" : "rounded-3xl"
             }`}
           >
