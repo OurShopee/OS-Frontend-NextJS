@@ -1684,7 +1684,7 @@ const ProductPageLayout = ({
         )}
 
         <MainModal
-          modalWidth={"[425px]"}
+          modalWidth={"md"}
           isOpen={isGenerateModalOpen}
           onClose={async () => {
             setIsGenerateModalOpen(false);
