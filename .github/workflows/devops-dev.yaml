@@ -1,0 +1,107 @@
+name: DEV APP_FE CICD Kubernetes
+
+on:
+  push:
+    branches:
+      - development-devops
+      - development
+
+env:
+  AWS_REGION: ap-south-1
+  AWS_ACCOUNT_ID: "790730093083"
+  AWS_OIDC_ROLE_NAME: "Github-action-cicd-role"
+  ECR_REPOSITORY: 'dev/application-fe'
+  SECRET_ID: 'dev/application/FE'
+  PROFILE: "dev"
+  HELM_REPO: 'OurShopee/helm-chart'      # Helm charts repo
+  HELM_REPO_PATH: 'charts/application-fe'               # Path to chart inside Helm repo
+  HELM_REPO_BRANCH: 'main'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_DEV_ACCOUNT_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_DEV_ACCOUNT_SECRET_KEY }}
+          aws-region: ap-south-1  
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate timestamp
+        id: ts
+        run: echo "TS=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+
+      - name: Fetch secrets from AWS Secrets Manager
+        id: secrets
+        run: |
+          SECRET_JSON=$(aws secretsmanager get-secret-value \
+            --secret-id "${{ env.SECRET_ID }}" \
+            --region "${{ env.AWS_REGION }}" \
+            --query SecretString \
+            --output text)
+
+          # Convert secret JSON to build args dynamically
+          echo "BUILD_ARGS<<EOF" >> $GITHUB_ENV
+          echo "$SECRET_JSON" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.sha }}-${{ env.TS }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            profile=${{ env.PROFILE }}
+            ${{ env.BUILD_ARGS }}
+
+      # ---------------------------
+      # Checkout Helm charts repo
+      # ---------------------------
+      - name: Checkout Helm charts repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.HELM_REPO }}
+          token: ${{ secrets.HELM_GITHUB_TOKEN }}
+          path: helm-charts
+          ref: ${{ env.HELM_REPO_BRANCH }}
+
+      # ---------------------------
+      # Update image tag in Helm chart
+      # ---------------------------
+      - name: Update Helm chart image tag
+        run: |
+          sed -i "s|tag:.*|tag: '${{ github.sha }}-${{ env.TS }}'|" helm-charts/${{ env.HELM_REPO_PATH }}/values-dev.yaml
+
+      # ---------------------------
+      # Commit & push Helm chart update
+      # ---------------------------
+      - name: Commit and push Helm chart update
+        run: |
+          cd helm-charts
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add ${{ env.HELM_REPO_PATH }}/values-dev.yaml
+          git commit -m "Update application-fe image to ${{ github.sha }}-${{ env.TS }}" || echo "No changes to commit"
+
+          git push
