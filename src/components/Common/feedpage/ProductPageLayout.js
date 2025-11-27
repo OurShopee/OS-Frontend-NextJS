@@ -36,6 +36,7 @@ import MainModal from "./MainModal";
 import PayLaterModal from "./PayLaterModal";
 import { TRUE } from "sass";
 import PayNowFinal from "./PayNowFinal";
+import CODOrderModal from "./CODOrderModal";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -125,7 +126,8 @@ const ProductPageLayout = ({
   const [savedPrice, setSavedPrice] = useState(0);
   const [openFinalModal, setOpenFinalModal] = useState(false);
   const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
-  const [openPayNowModal, setOpenPayNowModal] = useState(true);
+  const [openPayNowModal, setOpenPayNowModal] = useState(false);
+  const [openCODModal, setOpenCODModal] = useState(true);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -1210,7 +1212,7 @@ const ProductPageLayout = ({
 
                     {/* Quantity */}
                     <div className="hidden sm:block col-span-2">
-                      <label className="block text-[#454545] font-medium mb-2">
+                      <label className="block text-[#454545] font-medium">
                         Quantity<span className="text-red-600">*</span>
                       </label>
                       <div className="flex flex-col gap-4">
@@ -1633,6 +1635,12 @@ const ProductPageLayout = ({
           modalWidth={"md"}
           onClose={() => setOpenPayLaterModal(false)}
           modalContent={<PayLaterModal />}
+        />
+        <MainModal
+          isOpen={openCODModal}
+          modalWidth={"md"}
+          onClose={() => setOpenCODModal(false)}
+          modalContent={<CODOrderModal />}
         />
 
         <MainModal
