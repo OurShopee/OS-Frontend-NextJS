@@ -1,5 +1,9 @@
 import { getAreasApi, getLocationsApi } from "@/api/others";
-import { availableCoupons, getFeedPlaceOrder } from "@/api/payments";
+import {
+  availableCoupons,
+  getFeedPlaceOrder,
+  postFeedPlaceOrder,
+} from "@/api/payments";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -60,6 +64,7 @@ const PayNowFinal = ({
     (state) => state.globalslice.currentcountry
   );
   const [paymentOptions, setPaymentOptions] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const selecteddefaultpaymentmethod = useSelector(
     (state) => state.paymentslice.selecteddefaultpaymentmethod
@@ -325,6 +330,133 @@ const PayNowFinal = ({
       } else if (paymentMethods.length > 0) {
         dispatch(setselecteddefaultpaymentmethod(paymentMethods[0].id));
       }
+    }
+  };
+  const handleSubmit = async () => {
+    if (!product?.id) {
+      console.error("Product details missing, cannot place order.");
+      return;
+    }
+
+    const selectedMethod = selectedPaymentMethod || {};
+    const formattedProcessingFee = parseAmountValue(
+      selectedMethod.processing_fee ?? feedData?.processing_fee
+    );
+
+    const payload = {
+      coupon_code:
+        coupon?.coupon_code ||
+        coupon?.couponCode ||
+        coupon?.code ||
+        coupon?.coupon ||
+        "",
+      donation_fee: parseAmountValue(donationfee || 0),
+      notes: formData?.notes || "Write user note here...",
+      payment_method:
+        selectedMethod.slug ||
+        selectedMethod.payment_method ||
+        selectedMethod.label ||
+        "cash",
+      processing_fee: formattedProcessingFee.toFixed(2),
+      tabbyType:
+        selectedMethod.tabbyType || selectedMethod.tabby_type || selectedMethod.tabby_type_id || 1,
+      cartIds: `${product?.id || ""}|${qty}|${parseAmountValue(
+        product?.display_price || feedData?.sub_total || 0
+      ).toFixed(2)},`,
+      discount: getCouponDiscount().toFixed(2),
+      fromCRM: formData?.fromCRM ?? true,
+      orderfrom: "WebFeed",
+      userData: {
+        form_name,
+        contact_no:
+          contact_no && currentcountry?.country_code
+            ? `+${currentcountry.country_code}${contact_no}`
+            : contact_no,
+        product: sku || product?.sku || product?.product_code || "",
+        emirate: addressForm.location || location || "",
+        area: addressForm.area || area || "",
+        delivery_address: addressForm.delivery_address || delivery_address || "",
+        orderfrom: "WebFeed",
+        price: parseAmountValue(product?.display_price || feedData?.sub_total || 0),
+        quantity: String(qty || 1),
+        productid: product?.id,
+        latitude: geoLocation?.lat || latitude || "",
+        longitude: geoLocation?.lng || longitude || "",
+      },
+    };
+
+    try {
+      setIsSubmitting(true);
+      const response = await postFeedPlaceOrder(payload);
+      if (response.hasOwnProperty("status")) {
+        if (response.status === "success") {
+          if (response.data.pmode === "cash") {
+            router.push(
+              `/order/thanks/${response?.data?.orderRefId}?callUpdate=${response?.data?.callUpdateStatus}`
+            );
+          }
+  
+          if (response.data.pmode === "credit_payfort") {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = response.data.payfortURL;
+  
+            const params = response.data.params;
+            const orderId = params.merchant_extra
+              .split(";")
+              .find((item) => item.startsWith("orderId_"))
+              ?.split("_")[1];
+            const fields = {
+              merchant_identifier: params.merchant_identifier,
+              access_code: params.access_code,
+              merchant_extra: params.merchant_extra,
+              merchant_reference: params.merchant_reference,
+              amount: params.amount,
+              currency: params.currency,
+              customer_email: params.customer_email,
+              command: params.command,
+              language: params.language,
+              signature: params.signature,
+              return_url: params.return_url,
+              // return_url: `${window.location.origin}/order/thanks/${orderId}`,
+            };
+  
+            for (const key in fields) {
+              const input = document.createElement("input");
+              input.type = "hidden";
+              input.name = key;
+              input.value = fields[key];
+              form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+          }
+  
+          if (response.data.action === "REDIRECT" && response.data.hasOwnProperty("redirectionURL")) {
+            window.location.href = response.data.redirectionURL;
+          }
+        }
+      } else {
+        toast.warn(
+          response.message == "" || Object.keys(response).length <= 0
+            ? "something went wrong"
+            : response.message,
+          {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Failed to place feed order", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   const totalSavings = useMemo(() => {
@@ -814,12 +946,17 @@ const PayNowFinal = ({
                   </span>
                 </div>
               </div>
-              <button
-                onClick={onPayNow}
-                className="flex justify-center items-center w-full rounded-2xl bg-[#FFC107] py-3 text-lg font-semibold text-[#1E1E1E] gap-2"
-              >
-                <div>Pay Now</div>
-                <div className="flex items-center">
+            
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className={`flex justify-center items-center w-full rounded-2xl bg-[#FFC107] py-3 text-lg font-semibold text-[#1E1E1E] shadow-[0_10px_20px_rgba(255,193,7,0.35)] gap-2 ${
+                isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+            >
+              <div>{isSubmitting ? "Processing..." : "Pay Now"}</div>
+              <div className="flex items-center">
+               
                   {currentcountry.currency?.toUpperCase() === "AED" ? (
                     <img
                       src={getAssetsUrl("feed/aed-icon.svg")}
