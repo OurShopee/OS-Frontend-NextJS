@@ -787,30 +787,6 @@ const ProductPageLayout = ({
 
   return (
     <div className="webfeed-bg relative">
-      <button
-        className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={() => setOpenPayNowModal(true)}
-      >
-        Click for modal
-      </button>
-      <MainModal
-        isOpen={openPayNowModal}
-        modalWidth="xl"
-        onClose={() => setOpenPayNowModal(false)}
-        modalContent={
-          <PayNowFinal
-            onPayNow={() => setIsGenerateModalOpen(false)}
-            onPayLater={() => setIsGenerateModalOpen(false)}
-            formData={formData}
-            product={product}
-            qty={qty}
-            sku={sku}
-            onUpdateFormData={(updatedFields) =>
-              setFormData((prev) => ({ ...prev, ...updatedFields }))
-            }
-          />
-        }
-      />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           {/* Left Side - Product Images and Overview */}
@@ -1479,7 +1455,7 @@ const ProductPageLayout = ({
                       <button
                         disabled={isOutOfStock || isSubmitting || !isFormValid}
                         type="submit"
-                        className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:bg-[#e5e5e5] disabled:cursor-not-allowed"
                       >
                         <img
                           src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
@@ -1489,9 +1465,20 @@ const ProductPageLayout = ({
                             height: "20px",
                             objectFit: "contain",
                           }}
+                          className={`${
+                            isOutOfStock || isSubmitting || !isFormValid
+                              ? "opacity-50"
+                              : ""
+                          }`}
                           loading="lazy"
                         />
-                        <span className="text-sm sm:text-base movetext-feed text-black">
+                        <span
+                          className={`text-sm sm:text-base movetext-feed text-black ${
+                            isOutOfStock || isSubmitting || !isFormValid
+                              ? "opacity-50"
+                              : ""
+                          }`}
+                        >
                           {placeOrderTitle}
                         </span>
                         <div className="absolute inset-0 pointer-events-none flex gap-2 justify-center items-center shimmer-overlay">
@@ -1622,7 +1609,10 @@ const ProductPageLayout = ({
           }}
           modalContent={
             <GeneratedOrderModal
-              onPayNow={() => setIsGenerateModalOpen(false)}
+              onPayNow={() => {
+                setIsGenerateModalOpen(false);
+                setOpenPayNowModal(true);
+              }}
               onPayLater={async () => {
                 setIsGenerateModalOpen(false);
                 await submitOrderAndOpenPayLaterModal();
@@ -1636,6 +1626,26 @@ const ProductPageLayout = ({
           modalWidth={"sm"}
           onClose={() => setOpenPayLaterModal(false)}
           modalContent={<PayLaterModal />}
+        />
+
+        <MainModal
+          isOpen={openPayNowModal}
+          modalWidth="xl"
+          onClose={async () => {
+            setIsGenerateModalOpen(false);
+            await submitOrderAndOpenPayLaterModal();
+          }}
+          modalContent={
+            <PayNowFinal
+              formData={formData}
+              product={product}
+              qty={qty}
+              sku={sku}
+              onUpdateFormData={(updatedFields) =>
+                setFormData((prev) => ({ ...prev, ...updatedFields }))
+              }
+            />
+          }
         />
       </div>
     </div>

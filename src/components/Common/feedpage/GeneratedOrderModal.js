@@ -1,5 +1,4 @@
 import { getAssetsUrl } from "@/components/utils/helpers";
-import { BsCheckCircleFill } from "react-icons/bs";
 
 const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
   <div className="relative flex flex-col items-center p-4">
@@ -38,7 +37,8 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
         <div className="animated-bg-button-container m-0 h-[54px]">
           <div className="animated-bg-button-shadow" />
           <button
-            type="submit"
+            type="button"
+            onClick={onPayNow}
             className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-14 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             <img

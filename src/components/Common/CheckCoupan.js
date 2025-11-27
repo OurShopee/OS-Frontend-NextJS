@@ -65,7 +65,6 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
 
   const checkcoupan = async (couponCode = null) => {
     const codeToUse = couponCode || coupancode;
- console.log("code",codeToUse);
     const computedCartIds =
       prodId && qty
         ? `${prodId}|${qty}|${price}`
@@ -75,7 +74,6 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
                 `${each.product_id}|${each.quantity}|${each.single_price}`
             )
             .join(",");
- console.log("computedCartIds",computedCartIds);
     const input_data = {
       cartIds: computedCartIds,
       coupon: codeToUse,
@@ -85,7 +83,6 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
         ? paymentMethods?.sub_total.replace(/[^\d.]/g, "")
         : cartlistdata?.data?.grand_total.replace(/[^\d.]/g, ""),
     };
-    console.log("input_data",input_data);
     try {
       const responseAction = await dispatch(checkCouponCodeapi(input_data));
       const resPayload = responseAction?.payload;

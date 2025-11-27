@@ -14,17 +14,15 @@ import useCurrentLocation from "@/hooks/useCurrentLocation";
 import { setselecteddefaultpaymentmethod } from "@/redux/paymentslice";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { AiOutlineEdit } from "react-icons/ai";
-import { FaLock } from "react-icons/fa6";
+import { BsShieldFillCheck } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import CheckCoupan from "../CheckCoupan";
 import Donation from "../Donation";
-import { BsShieldFillCheck } from "react-icons/bs";
 
 const PayNowFinal = ({
-  onPayNow = () => {},
   onUpdateFormData = () => {},
   formData = {},
   product = {},
