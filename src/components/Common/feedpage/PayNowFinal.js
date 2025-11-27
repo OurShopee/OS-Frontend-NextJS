@@ -685,7 +685,7 @@ const PayNowFinal = ({
                   <span className="text-[16px] font-medium text-[#43494B]">
                     {item.label}
                   </span>
-                  <span className={`text-[16px] font-medium text-[#191B1C]`}>
+                  <span className={`flex items-center text-[16px] font-medium text-[#191B1C]`}>
                     {currentcountry.currency === "AED" ? (
                       <img
                         src={getAssetsUrl("feed/aed-icon.svg")}
