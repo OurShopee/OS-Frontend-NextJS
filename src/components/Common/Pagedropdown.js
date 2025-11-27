@@ -31,7 +31,7 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
 
 export default function Pagedropdown({ logindata }) {
   const currentLanguage = useCurrentLanguage();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const dispatch = useDispatch();
@@ -70,14 +70,14 @@ export default function Pagedropdown({ logindata }) {
     }, 100);
   };
 
-  // const handleMouseEnter = () => {
-  //   // Clear the timeout if user re-enters
-  //   if (closeTimeoutRef.current) {
-  //     clearTimeout(closeTimeoutRef.current);
-  //     closeTimeoutRef.current = null;
-  //   }
-  //   setIsOpen(true);
-  // };
+  const handleMouseEnter = () => {
+    // Clear the timeout if user re-enters
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsOpen(true);
+  };
 
   const logoutclick = () => {
     Cookies.remove("jwt_token");
@@ -117,8 +117,8 @@ export default function Pagedropdown({ logindata }) {
     <div
       className="header-middle-rightsub countrydropdown relative"
       ref={dropdownRef}
-      // onMouseLeave={handleMouseLeave}
-      // onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
     >
       {/* Dropdown Toggle Button */}
       <div
