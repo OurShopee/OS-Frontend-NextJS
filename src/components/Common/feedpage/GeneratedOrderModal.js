@@ -23,7 +23,7 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
     {/* Content Card */}
     <div className="bg-white rounded-3xl py-[30px] px-5 w-full max-w-lg flex flex-col items-center backdrop-blur-[0px] gap-4">
       <p className="text-[22px] font-semibold text-[#191B1C] text-center">
-        Your order is now moving to the next step.{" "}
+        Your order is now moving to the<br /> next step.{" "}
         <span role="img" aria-label="party">
           🎉
         </span>

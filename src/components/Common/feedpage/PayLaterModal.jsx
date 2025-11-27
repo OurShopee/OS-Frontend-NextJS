@@ -6,7 +6,7 @@ const PayLaterModal = () => {
   const qrImage = getAssetsUrl("webFeed/qr.svg");
 
   return (
-    <div className="relative flex flex-col items-center px-8 py-6">
+    <div className="relative flex flex-col items-center px-8 pt-6 pb-3">
       {/* Top Section with Checkmark */}
       <img
         src={bgImage}
@@ -21,8 +21,8 @@ const PayLaterModal = () => {
         />
       </div>
       {/* Title */}
-      <p className="text-[22px] font-semibold text-[#191B1C] mb-3 whitespace-nowrap">
-        Your Order Is Being Generated!
+      <p className="text-[22px] font-semibold text-[#191B1C] mt-16 mb-1 whitespace-nowrap">
+        Your order request is generated!
       </p>
 
       {/* Content Card */}

@@ -82,6 +82,7 @@ const PayNowFinal = ({
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
+  const [hasManualLocation, setHasManualLocation] = useState(false);
   const mapContainerStyle = useMemo(
     () => ({
       width: "100%",
@@ -133,13 +134,14 @@ const PayNowFinal = ({
   }, [delivery_address, setAddress]);
 
   useEffect(() => {
+    if (!hasManualLocation) return;
     if (addressData && typeof addressData === "string") {
       setAddressForm((prev) => ({
         ...prev,
         delivery_address: addressData,
       }));
     }
-  }, [addressData]);
+  }, [addressData, hasManualLocation]);
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -248,6 +250,7 @@ const PayNowFinal = ({
       setShowGuide(true);
       return;
     }
+    setHasManualLocation(true);
     handleLocateme();
   };
 
@@ -357,7 +360,10 @@ const PayNowFinal = ({
         "cash",
       processing_fee: formattedProcessingFee.toFixed(2),
       tabbyType:
-        selectedMethod.tabbyType || selectedMethod.tabby_type || selectedMethod.tabby_type_id || 1,
+        selectedMethod.tabbyType ||
+        selectedMethod.tabby_type ||
+        selectedMethod.tabby_type_id ||
+        1,
       cartIds: `${product?.id || ""}|${qty}|${parseAmountValue(
         product?.display_price || feedData?.sub_total || 0
       ).toFixed(2)},`,
@@ -373,9 +379,12 @@ const PayNowFinal = ({
         product: sku || product?.sku || product?.product_code || "",
         emirate: addressForm.location || location || "",
         area: addressForm.area || area || "",
-        delivery_address: addressForm.delivery_address || delivery_address || "",
+        delivery_address:
+          addressForm.delivery_address || delivery_address || "",
         orderfrom: "WebFeed",
-        price: parseAmountValue(product?.display_price || feedData?.sub_total || 0),
+        price: parseAmountValue(
+          product?.display_price || feedData?.sub_total || 0
+        ),
         quantity: String(qty || 1),
         productid: product?.id,
         latitude: geoLocation?.lat || latitude || "",
@@ -393,12 +402,12 @@ const PayNowFinal = ({
               `/order/thanks/${response?.data?.orderRefId}?callUpdate=${response?.data?.callUpdateStatus}`
             );
           }
-  
+
           if (response.data.pmode === "credit_payfort") {
             const form = document.createElement("form");
             form.method = "POST";
             form.action = response.data.payfortURL;
-  
+
             const params = response.data.params;
             const orderId = params.merchant_extra
               .split(";")
@@ -418,7 +427,7 @@ const PayNowFinal = ({
               return_url: params.return_url,
               // return_url: `${window.location.origin}/order/thanks/${orderId}`,
             };
-  
+
             for (const key in fields) {
               const input = document.createElement("input");
               input.type = "hidden";
@@ -429,8 +438,11 @@ const PayNowFinal = ({
             document.body.appendChild(form);
             form.submit();
           }
-  
-          if (response.data.action === "REDIRECT" && response.data.hasOwnProperty("redirectionURL")) {
+
+          if (
+            response.data.action === "REDIRECT" &&
+            response.data.hasOwnProperty("redirectionURL")
+          ) {
             window.location.href = response.data.redirectionURL;
           }
         }
@@ -494,7 +506,7 @@ const PayNowFinal = ({
     <div className="bg-white">
       <div className="flex flex-col lg:flex-row gap-6 p-8">
         {/* Left column */}
-        <div className="flex-[1.57] w-full lg:w-[560px]">
+        <div className="flex-[1.57] w-full lg:w-[650px]">
           <div className="flex flex-col gap-5">
             <h2 className="text-[28px] font-semibold text-[#191B1C]">
               Order Summary
@@ -567,6 +579,7 @@ const PayNowFinal = ({
                                 position={mapCenter}
                                 draggable
                                 onDragEnd={(event) => {
+                                  setHasManualLocation(true);
                                   handleDragEnd(event);
                                   const lat = event.latLng.lat();
                                   const lng = event.latLng.lng();
@@ -944,17 +957,16 @@ const PayNowFinal = ({
                   </span>
                 </div>
               </div>
-            
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className={`flex justify-center items-center w-full rounded-2xl bg-[#FFC107] py-3 text-lg font-semibold text-[#1E1E1E] shadow-[0_10px_20px_rgba(255,193,7,0.35)] gap-2 ${
-                isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-            >
-              <div>{isSubmitting ? "Processing..." : "Pay Now"}</div>
-              <div className="flex items-center">
-               
+
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className={`flex justify-center items-center w-full rounded-2xl bg-[#FFC107] py-3 text-lg font-semibold text-[#1E1E1E] shadow-[0_10px_20px_rgba(255,193,7,0.35)] gap-2 ${
+                  isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+              >
+                <div>{isSubmitting ? "Processing..." : "Pay Now"}</div>
+                <div className="flex items-center">
                   {currentcountry.currency?.toUpperCase() === "AED" ? (
                     <img
                       src={getAssetsUrl("feed/aed-icon.svg")}

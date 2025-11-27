@@ -125,7 +125,7 @@ const ProductPageLayout = ({
   const [savedPrice, setSavedPrice] = useState(0);
   const [openFinalModal, setOpenFinalModal] = useState(false);
   const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
-  const [openPayNowModal, setOpenPayNowModal] = useState(false);
+  const [openPayNowModal, setOpenPayNowModal] = useState(true);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -1630,14 +1630,14 @@ const ProductPageLayout = ({
 
         <MainModal
           isOpen={openPayLaterModal}
-          modalWidth={"sm"}
+          modalWidth={"md"}
           onClose={() => setOpenPayLaterModal(false)}
           modalContent={<PayLaterModal />}
         />
 
         <MainModal
           isOpen={openPayNowModal}
-          modalWidth="xl"
+          
           onClose={async () => {
             setOpenPayNowModal(false);
             await submitOrderAndOpenPayLaterModal();

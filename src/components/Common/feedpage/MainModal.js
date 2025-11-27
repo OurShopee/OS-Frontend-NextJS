@@ -6,7 +6,7 @@ const MainModal = ({
   isOpen = false,
   onClose = () => {},
   modalContent,
-  modalWidth = "lg",
+  modalWidth = "",
 }) => {
   const { isMobile } = MediaQueries();
 
@@ -31,7 +31,7 @@ const MainModal = ({
         }`}
       >
         <div
-          className={`relative max-w-${modalWidth} overflow-scroll max-h-[85vh] ${
+          className={`relative w-auto md:max-w-${modalWidth} overflow-scroll max-h-[78vh] md:max-h-[85vh] ${
             isMobile
               ? "rounded-t-3xl animate-slide-up"
               : "rounded-3xl animate-scale-in"
