@@ -31,16 +31,22 @@ const MainModal = ({
         }`}
       >
         <div
-          className={`relative  max-w-${modalWidth} max-h-[85vh] ${
-            isMobile ? "rounded-t-3xl" : "rounded-3xl"
-          }  animate-slide-up`}
+          className={`relative max-w-${modalWidth} overflow-scroll max-h-[85vh] ${
+            isMobile
+              ? "rounded-t-3xl animate-slide-up"
+              : "rounded-3xl animate-scale-in"
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={`${isMobile ? "rounded-t-3xl" : "rounded-3xl"}`}>
+          <div
+            className={`overflow-hidden ${
+              isMobile ? "rounded-t-3xl" : "rounded-3xl"
+            }`}
+          >
             {modalContent}
           </div>
           <button
-            className="absolute top-4 right-4 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] hover:bg-gray-100 transition-colors z-10"
+            className="absolute top-4 right-4 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] z-10"
             onClick={onClose}
           >
             <IoCloseSharp className="w-5 h-5" />
