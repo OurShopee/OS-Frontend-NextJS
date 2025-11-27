@@ -1145,7 +1145,7 @@ const ProductPageLayout = ({
             </div>
           </div>
           <div
-            className="w-full lg:w-4/12 webfeed-order-form-sticky"
+            className="w-full flex justify-center lg:w-4/12 webfeed-order-form-sticky"
             {...(isMobile
               ? {
                   "data-aos": "fade-down",
@@ -1303,7 +1303,7 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="location"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
+                        className={`webfeed-form-select px-3 py-2 block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
                           errors.location ? "is-invalid" : ""
                         }`}
                         value={formData.location}
@@ -1345,7 +1345,7 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="area"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg ${
+                        className={`webfeed-form-select px-3 py-2 appearance-none block w-full border-2 product webfeed-form-input rounded-lg ${
                           errors.area ? "border-red-600" : "border-gray-300"
                         } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
                         value={formData.area}
@@ -1474,7 +1474,7 @@ const ProductPageLayout = ({
                       </div>
                     )}
 
-                    <div className="animated-bg-button-container col-span-4 sm:col-span-7">
+                    <div className="animated-bg-button-container lg:!mt-0 col-span-4 sm:col-span-7">
                       <div className="animated-bg-button-shadow" />
                       <button
                         disabled={isOutOfStock || isSubmitting || !isFormValid}
@@ -1575,7 +1575,6 @@ const ProductPageLayout = ({
 
                 {/* Place Order Button */}
                 <button
-                  disabled={isOutOfStock || areAllWebfeedsEmpty || !isFormValid}
                   className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => {
                     const element = document.getElementById("order-form");
