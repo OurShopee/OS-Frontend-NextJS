@@ -661,12 +661,12 @@ const PayNowFinal = ({
 
         {/* Right column */}
         <div className="flex-1 w-full">
-          <div className="rounded-3xl border border-[#F0F0F0] p-6 shadow-[0_10px_40px_rgba(0,0,0,0.06)] space-y-6">
+          <div className="flex flex-col gap-3 rounded-3xl border border-[#F0F0F0] p-6 shadow-[0_10px_40px_rgba(0,0,0,0.06)] ">
             <h3 className="text-xl font-semibold text-[#191B1C]">
               Price Details
             </h3>
 
-            <div className="space-y-3 text-[#4F4F4F] text-sm">
+            <div className="flex flex-col gap-2 text-[#4F4F4F] text-sm">
               {[
                 { label: "Subtotal", value: feedData?.sub_total },
                 { label: "Processing Fee", value: getProcessingFee() },
@@ -681,7 +681,7 @@ const PayNowFinal = ({
                     ]
                   : []),
               ].map((item) => (
-                <div key={item.label} className="flex justify-between">
+                <div key={item.label} className="flex items justify-between">
                   <span className="text-[16px] font-medium text-[#43494B]">
                     {item.label}
                   </span>
@@ -705,7 +705,7 @@ const PayNowFinal = ({
               ))}
             </div>
 
-            <div className="flex justify-between items-center border-t border-[#F3F4F6] pt-4">
+            <div className="flex justify-between items-center border-t border-[#F3F4F6] py-3">
               <div className="w-full flex justify-between items-center text-xl font-bold text-[#1E1E1E]">
                 <p className="text-[18px] text-[#191B1C] font-semibold">
                   Total
