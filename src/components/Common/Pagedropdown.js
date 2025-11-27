@@ -144,7 +144,7 @@ export default function Pagedropdown({ logindata }) {
                   onClick={closeDropdown}
                 >
                   <div className="flex items-center">
-                    <img src={item.img} alt={item.label} loading="lazy" className="w-6 h-6"/>
+                    <img src={item.img} alt={item.label} loading="lazy" className="w-5 h-5"/>
                     <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
                   </div>
                 </NavLink>
