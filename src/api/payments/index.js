@@ -64,3 +64,10 @@ export const getFeedPlaceOrder = async (input_data) => {
   })
   return res.data;
 };
+
+export const postFeedPlaceOrder = async (input_data) => {
+  const res = await axios.post("api/directBuyFeed", input_data, {
+    headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+  });
+  return res.data;
+};
