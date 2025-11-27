@@ -322,7 +322,7 @@ const Payment = () => {
                         className={`font-semibold select-none text-lg sm:text-xl text-[#191B1C] flex  gap-2 ${
                           isMobile
                             ? "items-start w-full"
-                            : "items-center justify-center"
+                            : "items-start justify-center"
                         }`}
                       >
                         <div className="flex flex-col gap-1">
@@ -383,43 +383,43 @@ const Payment = () => {
                       >
                         <div
                           className={`flex items-center gap-2 ${
-                            isMobile
-                              ? "justify-between w-full"
-                              : "sm:justify-end"
+                            isMobile ? "w-full" : "sm:justify-end"
                           }`}
                         >
                           <span>Used Balance:</span>
-                          <div className="font-semibold text-[#191B1C] text-xl flex items-center">
-                            {currentcountry?.currency == "AED" ? (
-                              <img
-                                src={getAssetsUrl("feed/aed-icon.svg")}
-                                alt="AED"
-                                className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] inline-block mix-blend-multiply ${
-                                  isRTL ? "ml-0.5" : "mr-0.5"
+                          <div className="flex items-center gap-2 ml-auto">
+                            <div className="font-semibold text-[#191B1C] text-xl flex items-center">
+                              {currentcountry?.currency == "AED" ? (
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
+                                  alt="AED"
+                                  className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] inline-block mix-blend-multiply ${
+                                    isRTL ? "ml-0.5" : "mr-0.5"
+                                  }`}
+                                  style={{ color: "black" }}
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <span
+                                  className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
+                                    isRTL ? "ml-0.5" : "mr-0.5"
+                                  }`}
+                                >
+                                  {currentcountry?.currency}
+                                </span>
+                              )}
+                              {(walletSelected ? usedWalletValue : 0).toFixed(2)}
+                            </div>
+                            {walletSelected && (
+                              <AiOutlineEdit
+                                className={`cursor-pointer ${
+                                  isMobile ? "shrink-0" : ""
                                 }`}
-                                style={{ color: "black" }}
-                                loading="lazy"
+                                fill="#3B82F6"
+                                onClick={() => setWalletUpdateModalOpen(true)}
                               />
-                            ) : (
-                              <span
-                                className={`text-[#191B1C] text-lg sm:text-xl font-semibold ${
-                                  isRTL ? "ml-0.5" : "mr-0.5"
-                                }`}
-                              >
-                                {currentcountry?.currency}
-                              </span>
                             )}
-                            {(walletSelected ? usedWalletValue : 0).toFixed(2)}
                           </div>
-                          {walletSelected && (
-                            <AiOutlineEdit
-                              className={`ml-1 cursor-pointer ${
-                                isMobile ? "shrink-0" : ""
-                              }`}
-                              fill="#3B82F6"
-                              onClick={() => setWalletUpdateModalOpen(true)}
-                            />
-                          )}
                         </div>
                       </div>
                     </div>

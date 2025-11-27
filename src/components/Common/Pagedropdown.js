@@ -9,7 +9,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useContent, useCurrentLanguage } from "@/hooks";
-
+import { IoWallet } from "react-icons/io5";
 
 const NavLink = ({ to, children, className, onClick, ...props }) => {
   const pathname = usePathname();
@@ -44,12 +44,13 @@ export default function Pagedropdown({ logindata }) {
   const address = useContent("header.address");
   const complaints = useContent("header.complaints");
   const logout = useContent("header.logout");
-
+  const wallet = useContent("header.wallet");
   const logoutText = useContent("header.logout");
 
   const dropdownItems = [
     { to: "/myaccount", img: getAssetsUrl("Profile.png"), label: myProfile },
     { to: "/my-orders", img: getAssetsUrl("order.png"), label: myOrder },
+    { to: "/wallet", img: getAssetsUrl("wallet-drop.svg"), label: wallet },
     { to: "/my-wishlist", img: getAssetsUrl("Stroke 1.png"), label: wishlist },
     { to: "/track-your-order", img: getAssetsUrl("Location.png"), label: trackOrder },
     { to: "/address", img: getAssetsUrl("Location.png"), label: address },
@@ -143,7 +144,7 @@ export default function Pagedropdown({ logindata }) {
                   onClick={closeDropdown}
                 >
                   <div className="flex items-center">
-                    <img src={item.img} alt={item.label} loading="lazy" />
+                    <img src={item.img} alt={item.label} loading="lazy" className="w-6 h-6"/>
                     <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
                   </div>
                 </NavLink>
