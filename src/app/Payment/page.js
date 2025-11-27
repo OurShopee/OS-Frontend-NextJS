@@ -31,6 +31,7 @@ const Payment = () => {
   const [walletSelected, setWalletSelected] = useState(false);
   const [usedWalletValue, setUsedWalletValue] = useState(0);
   const [walletUpdatedValue, setWalletUpdatedValue] = useState(usedWalletValue);
+  const [walletManuallyEdited, setWalletManuallyEdited] = useState(false);
   const [walletUpdateModalOpen, setWalletUpdateModalOpen] = useState(false);
   const [availableCoupon, setAvailableCoupon] = useState([]);
   const prodId = searchParams.get("prodId");
@@ -192,8 +193,10 @@ const Payment = () => {
     setWalletSelected(nextSelected);
     if (nextSelected) {
       setUsedWalletValue(maxWalletUsable);
+      setWalletManuallyEdited(false);
     } else {
       setUsedWalletValue(0);
+      setWalletManuallyEdited(false);
     }
   };
 
@@ -212,16 +215,26 @@ const Payment = () => {
 
   const handleSubmitWalletAmount = () => {
     setUsedWalletValue(clampWalletUsage(walletUpdatedValue));
+    setWalletManuallyEdited(true);
     setWalletUpdateModalOpen(false);
   };
 
   useEffect(() => {
     if (!walletSelected) return;
+
+    if (!walletManuallyEdited) {
+      const autoValue = clampWalletUsage(maxWalletUsable);
+      if (autoValue !== usedWalletValue) {
+        setUsedWalletValue(autoValue);
+      }
+      return;
+    }
+
     const clampedValue = clampWalletUsage(usedWalletValue);
     if (clampedValue !== usedWalletValue) {
       setUsedWalletValue(clampedValue);
     }
-  }, [walletSelected, maxWalletUsable, usedWalletValue]);
+  }, [walletSelected, walletManuallyEdited, maxWalletUsable, usedWalletValue]);
 
   return (
     <div className="mobile-marginbottom">
