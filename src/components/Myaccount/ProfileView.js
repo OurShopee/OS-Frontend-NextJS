@@ -43,7 +43,7 @@ const ProfileView = () => {
     const profilenotupdate = useSelector((state) => state.formslice.profilenotupdate);
     const updateMyProfileapidata = useSelector((state) => state.formslice.updateMyProfileapidata);
     const currentcountry = useSelector((state) => state.globalslice.currentcountry);
-
+console.log(changeprifilenumber)
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -60,9 +60,9 @@ const ProfileView = () => {
         dispatch(getMyProfileapi());
         dispatch(getnationalitydata());
     }, [dispatch]);
-
+console.log(user)
     useEffect(() => {
-        if (user && !changeprifilenumber) {
+        if (user && changeprifilenumber) {
             const mobile = user.mobile || "";
             const code = mobile.slice(0, 2);
             const number = mobile.length > currentcountry.number_count ? mobile.slice(-currentcountry.number_count) : mobile;
