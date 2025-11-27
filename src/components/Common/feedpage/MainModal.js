@@ -31,12 +31,18 @@ const MainModal = ({
         }`}
       >
         <div
-          className={`relative  max-w-${modalWidth} max-h-[85vh] ${
-            isMobile ? "rounded-t-3xl" : "rounded-3xl"
-          }  animate-slide-up`}
+          className={`relative max-w-${modalWidth} overflow-scroll max-h-[85vh] ${
+            isMobile
+              ? "rounded-t-3xl animate-slide-up"
+              : "rounded-3xl animate-scale-in"
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={`${isMobile ? "rounded-t-3xl" : "rounded-3xl"}`}>
+          <div
+            className={`overflow-hidden ${
+              isMobile ? "rounded-t-3xl" : "rounded-3xl"
+            }`}
+          >
             {modalContent}
           </div>
           <button

@@ -123,7 +123,7 @@ const ProductPageLayout = ({
   const [savedPrice, setSavedPrice] = useState(0);
   const [openFinalModal, setOpenFinalModal] = useState(false);
   const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
-  const [openPayNowModal , setOpenPayNowModal] = useState(false);
+  const [openPayNowModal, setOpenPayNowModal] = useState(false);
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -136,6 +136,8 @@ const ProductPageLayout = ({
     location: "",
     area: "",
     delivery_address: "",
+    latitude: "",
+    longitude: "",
     product: product?.sku || "",
     price: product?.display_price || "0.00",
     orderfrom: queryParams?.orderfrom || "Web",
@@ -658,93 +660,6 @@ const ProductPageLayout = ({
     }
   };
 
-  // Function to submit form after OTP verification
-  const submitFormAfterOTP = async (formDataToSubmit = null) => {
-    // Use passed data if available, otherwise fall back to state
-    const dataToSubmit = formDataToSubmit || pendingFormData;
-    if (!dataToSubmit) {
-      return false;
-    }
-
-    setIsSubmitting(true);
-    let isSuccessful = false;
-    try {
-      const result = await addFeed(dataToSubmit);
-
-      if (result.data.status === "success") {
-        isSuccessful = true;
-        setSubmissionStatus({
-          message: result.message || "Order submitted successfully!",
-          type: "success",
-        });
-        toast.success("Order submitted successfully!");
-
-        const selectedLocationName =
-          locations.find((loc) => loc.id === parseInt(dataToSubmit.emirate))
-            ?.name || "N/A";
-        pushToDataLayer("submitted_feed_order", currentcountry.name, {
-          form_name: dataToSubmit.form_name,
-          contact_no: dataToSubmit.contact_no,
-          product: dataToSubmit.product,
-          emirate: dataToSubmit.emirate,
-          area: dataToSubmit.area,
-          delivery_address: dataToSubmit.delivery_address,
-          source: dataToSubmit.orderfrom,
-          price: dataToSubmit.price,
-          quantity: dataToSubmit.quantity,
-          sku_id: product?.sku,
-          product_name: product?.name,
-          product_price: `${currentcountry.currency} ${
-            product?.display_price || "0.00"
-          }`,
-          location: selectedLocationName,
-          order_id: result.data.order_id || "",
-          order_status: "submitted",
-        });
-
-        // Reset form
-        setFormData({
-          form_name: "",
-          contact_no: "",
-          quantity: "1",
-          location: "",
-          area: "",
-          delivery_address: "",
-          product: product?.sku || "",
-          price: product?.display_price || "0.00",
-          orderfrom: queryParams?.orderfrom || "WebFeed",
-          source: queryParams?.source || "",
-          medium: queryParams?.medium || "",
-          campaign: queryParams?.campaign || "",
-          content: queryParams?.content || "",
-          term: queryParams?.term || "",
-        });
-        setAreas([]);
-        setMapCoords(null);
-        setPendingFormData(null);
-        setQty(1); // Reset quantity
-        dispatch(setotpmodal(false));
-      } else {
-        setSubmissionStatus({
-          message: result.message || "Submission failed. Please try again.",
-          type: "error",
-        });
-        toast.error("Submission failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Submission catch error:", error);
-      setSubmissionStatus({
-        message: "An unexpected error occurred during submission.",
-        type: "error",
-      });
-    } finally {
-      setIsSubmitting(false);
-      dispatch(setregisterapicall(false));
-    }
-
-    return isSuccessful;
-  };
-
   // Reusable function to submit order and open pay later modal
   const submitOrderAndOpenPayLaterModal = async (formDataToSubmit = null) => {
     // Use passed data if available, otherwise fall back to state
@@ -765,7 +680,6 @@ const ProductPageLayout = ({
           message: result.message || "Order submitted successfully!",
           type: "success",
         });
-        toast.success("Order submitted successfully!");
 
         const selectedLocationName =
           locations.find((loc) => loc.id === parseInt(dataToSubmit.emirate))
@@ -821,7 +735,6 @@ const ProductPageLayout = ({
           message: result.message || "Submission failed. Please try again.",
           type: "error",
         });
-        toast.error("Submission failed. Please try again.");
       }
     } catch (error) {
       console.error("Submission catch error:", error);
@@ -829,7 +742,6 @@ const ProductPageLayout = ({
         message: "An unexpected error occurred during submission.",
         type: "error",
       });
-      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -875,25 +787,30 @@ const ProductPageLayout = ({
 
   return (
     <div className="webfeed-bg relative">
-        <button 
-               className='w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed'
-               onClick={() => setOpenPayNowModal(true)}
-               >Click for modal</button>
-              <MainModal
-                isOpen={openPayNowModal}
-                modalWidth="xl"
-                onClose={() => setOpenPayNowModal(false)}
-                modalContent={
-                <PayNowFinal onPayNow={() => setIsGenerateModalOpen(false)}
-                onPayLater={() => setIsGenerateModalOpen(false)}
-                formData={formData}
-                product={product}
-                qty={qty}
-                sku={sku}
-                />
-              
-              }
-              />
+      <button
+        className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={() => setOpenPayNowModal(true)}
+      >
+        Click for modal
+      </button>
+      <MainModal
+        isOpen={openPayNowModal}
+        modalWidth="xl"
+        onClose={() => setOpenPayNowModal(false)}
+        modalContent={
+          <PayNowFinal
+            onPayNow={() => setIsGenerateModalOpen(false)}
+            onPayLater={() => setIsGenerateModalOpen(false)}
+            formData={formData}
+            product={product}
+            qty={qty}
+            sku={sku}
+            onUpdateFormData={(updatedFields) =>
+              setFormData((prev) => ({ ...prev, ...updatedFields }))
+            }
+          />
+        }
+      />
       <div className="sm:px-4 sm:py-4 container">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           {/* Left Side - Product Images and Overview */}
