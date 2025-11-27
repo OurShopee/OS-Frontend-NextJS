@@ -2379,7 +2379,7 @@ export const content = {
       ar: "طلبي",
     },
     wallet: {
-      en: "Wallet",
+      en: "Shopee Wallet",
       ar: "المحفظة",
     },
     wishlist: {

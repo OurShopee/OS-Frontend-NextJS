@@ -60,11 +60,11 @@ const Transactions = ({ transactions = [], limit = 5 }) => {
                 className="flex items-center justify-between w-full border-gray-100 pb-6 last:border-b-0 last:pb-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#7A5AF8] rounded-xl px-1"
               >
                 <div className="flex items-center gap-4">
-                  <div className="lg:w-[60px] lg:h-[60px] w-[40px] h-[40px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
+                  <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
                     <img
                       src={getAssetsUrl("wallet/transaction_wallet.svg")}
                       alt="Wallet"
-                      className="lg:w-10 lg:h-10 w-[30px] h-[30px]"
+                      className="lg:w-8 lg:h-8 w-[28px] h-[28px]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -109,10 +109,10 @@ const TransactionModalContent = ({ transaction, onClose }) => {
     "Wallet";
 
   return (
-    <div className="relative w-full max-w-md rounded-[32px] bg-[#F5F2FF] p-6 shadow-2xl">
+    <div className="relative lg:w-[400px] w-full max-w-md rounded-[32px] bg-[#F5F2FF] p-6 shadow-2xl">
       <div className="space-y-4">
         <div className="flex flex-col gap-2">
-          <p className="text-xl font-semibold text-gray-900">
+          <p className="text-xl font-semibold text-gray-900 pb-2">
             Transaction Summary
           </p>
           <div className="rounded-2xl bg-white p-4 shadow-sm">
@@ -122,7 +122,7 @@ const TransactionModalContent = ({ transaction, onClose }) => {
                   <img
                     src={getAssetsUrl("wallet/transaction_wallet.svg")}
                     alt="Transaction type"
-                    className="h-8 w-8"
+                    className="h-7 w-7"
                   />
                 </span>
                 <div className="flex flex-col">
@@ -136,13 +136,15 @@ const TransactionModalContent = ({ transaction, onClose }) => {
                 </div>
               </div>
               <span
-                className={`text-2xl font-semibold ${
+                className={`text-xl font-semibold ${
                   transaction.tx_type === "CREDIT"
                     ? "text-[#22C55E]"
                     : "text-[#F97316]"
                 }`}
               >
-                {formatAmount(transaction)}
+               <span className="text-[18px]">
+               {formatAmount(transaction)}
+               </span> 
               </span>
             </div>
           </div>
