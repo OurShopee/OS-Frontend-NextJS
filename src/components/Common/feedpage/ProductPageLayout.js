@@ -59,6 +59,8 @@ const validateInput = (value, fieldName, type = "text", country) => {
   return "";
 };
 
+
+
 const getPhonePlaceholder = (country) => {
   if (country.toLowerCase() === "uae") {
     return "5xxxxxxxx";
@@ -147,6 +149,7 @@ const ProductPageLayout = ({
     content: queryParams?.content || "",
     term: queryParams?.term || "",
   });
+
 
   const [errors, setErrors] = useState({});
   const [locations, setLocations] = useState([]);
@@ -565,6 +568,8 @@ const ProductPageLayout = ({
       productid: product?.id,
     };
 
+    
+
     // Check if OTP verification is enabled via environment variable
     // Properly parse the environment variable (handle string "false" and "true")
     // const checkOtpEnabled =
@@ -668,6 +673,8 @@ const ProductPageLayout = ({
       toast.error("No order data available. Please fill the form again.");
       return false;
     }
+
+    console.log("dataToSubmit.contact_no", dataToSubmit.contact_no);
 
     setIsSubmitting(true);
     let isSuccessful = false;
@@ -1632,7 +1639,7 @@ const ProductPageLayout = ({
           isOpen={openPayNowModal}
           modalWidth="xl"
           onClose={async () => {
-            setIsGenerateModalOpen(false);
+            setOpenPayNowModal(false);
             await submitOrderAndOpenPayLaterModal();
           }}
           modalContent={

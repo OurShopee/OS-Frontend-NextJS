@@ -368,7 +368,7 @@ const PayNowFinal = ({
         form_name,
         contact_no:
           contact_no && currentcountry?.country_code
-            ? `+${currentcountry.country_code}${contact_no}`
+            ? `${currentcountry.country_code}${contact_no}`
             : contact_no,
         product: sku || product?.sku || product?.product_code || "",
         emirate: addressForm.location || location || "",
