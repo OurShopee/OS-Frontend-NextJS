@@ -31,7 +31,7 @@ const NavLink = ({ to, children, className, onClick, ...props }) => {
 
 export default function Pagedropdown({ logindata }) {
   const currentLanguage = useCurrentLanguage();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const dropdownRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const dispatch = useDispatch();
@@ -57,6 +57,8 @@ export default function Pagedropdown({ logindata }) {
     { to: "/complaints", img: getAssetsUrl("Info Square.png"), label: complaints },
   ];
 
+  const isWallet = dropdownItems.find(item => item.to === "/wallet");
+
   const closeDropdown = () => setIsOpen(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -68,14 +70,14 @@ export default function Pagedropdown({ logindata }) {
     }, 100);
   };
 
-  const handleMouseEnter = () => {
-    // Clear the timeout if user re-enters
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-    setIsOpen(true);
-  };
+  // const handleMouseEnter = () => {
+  //   // Clear the timeout if user re-enters
+  //   if (closeTimeoutRef.current) {
+  //     clearTimeout(closeTimeoutRef.current);
+  //     closeTimeoutRef.current = null;
+  //   }
+  //   setIsOpen(true);
+  // };
 
   const logoutclick = () => {
     Cookies.remove("jwt_token");
@@ -115,8 +117,8 @@ export default function Pagedropdown({ logindata }) {
     <div
       className="header-middle-rightsub countrydropdown relative"
       ref={dropdownRef}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
+      // onMouseEnter={handleMouseEnter}
     >
       {/* Dropdown Toggle Button */}
       <div
@@ -133,7 +135,7 @@ export default function Pagedropdown({ logindata }) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className={`custom-dropdown-menu absolute top-full ${currentLanguage === "ar" ? "!left-0" : "right-0"} mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3`}>
+        <div className={`custom-dropdown-menu absolute top-full ${currentLanguage === "ar" ? "!left-0" : "right-0"} mt-3 bg-white shadow-lg rounded-md min-w-[200px] z-50 p-3`}>
           {dropdownItems.length > 0 &&
             dropdownItems.map((item, index) => (
               <div key={item.to} className="dropdown-item">
@@ -145,7 +147,18 @@ export default function Pagedropdown({ logindata }) {
                 >
                   <div className="flex items-center">
                     <img src={item.img} alt={item.label} loading="lazy" className="w-5 h-5"/>
-                    <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
+                    <div className={`flex items-center ${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>
+                      {item.label}
+                      {item.to === "/wallet" && (
+                        <span
+                          className={`rounded-full bg-[#5232C2] px-2 py-[2px] text-[10px] font-semibold uppercase text-white ${
+                            currentLanguage === "ar" ? "mr-2" : "ml-2"
+                          }`}
+                        >
+                          New
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </NavLink>
               </div>
