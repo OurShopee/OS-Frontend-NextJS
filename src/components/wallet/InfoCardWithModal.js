@@ -31,6 +31,10 @@ const InfoCardWithModal = ({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const renderedModalContent =
+    typeof modalContent === "function"
+      ? modalContent({ onClose: handleClose })
+      : modalContent;
 
   return (
     <>
@@ -88,12 +92,8 @@ const InfoCardWithModal = ({
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className={`${
-                isMobile ? "max-h-[90vh] overflow-y-auto" : ""
-              }`}
-            >
-              {modalContent}
+            <div className={`${isMobile ? "max-h-[90vh] overflow-y-auto" : ""}`}>
+              {renderedModalContent}
             </div>
             <button
               className="absolute -top-4 right-5 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] hover:bg-gray-100 transition-colors z-10"

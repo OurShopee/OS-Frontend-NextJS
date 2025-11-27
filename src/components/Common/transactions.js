@@ -1,5 +1,8 @@
-import React, { useMemo, useState } from "react";
+"use client";
+import React, { useMemo } from "react";
+import InfoCardWithModal from "@/components/wallet/InfoCardWithModal";
 import { getAssetsUrl } from "../utils/helpers";
+import { useRouter } from "next/navigation";
 
 const DATE_FORMAT_OPTIONS = {
   day: "2-digit",
@@ -8,8 +11,6 @@ const DATE_FORMAT_OPTIONS = {
 };
 
 const Transactions = ({ transactions = [], limit = 5 }) => {
-  const [activeTransaction, setActiveTransaction] = useState(null);
-
   const parsedTransactions = useMemo(
     () =>
       transactions.map((tx) => ({
@@ -32,12 +33,6 @@ const Transactions = ({ transactions = [], limit = 5 }) => {
     return parsedTransactions;
   }, [parsedTransactions, limit]);
 
-  const handleSeeMore = (tx) => {
-    setActiveTransaction(tx);
-  };
-
-  const closeModal = () => setActiveTransaction(null);
-
   if (!parsedTransactions.length) {
     return null;
   }
@@ -46,114 +41,141 @@ const Transactions = ({ transactions = [], limit = 5 }) => {
     <>
       <div className="flex flex-col gap-1 w-full">
         {visibleTransactions.map((tx) => (
-          <div
-            key={tx.id}
-            className="flex items-center justify-between w-full  border-gray-100 pb-6 last:border-b-0 last:pb-0"
-          >
-            <div className="flex items-center gap-4">
-              <div className="lg:w-[52px] lg:h-[52px] w-[40px] h-[40px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
-                <img
-                  src={getAssetsUrl("wallet/transaction_wallet.svg")}
-                  alt="Wallet"
-                  className="lg:w-10 lg:h-10 w-[30px] h-[30px]"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <p className="text-base lg:font-semibold font-medium text-gray-900">
-                  {tx.source_text || "Wallet Transaction"}
-                </p>
-                <p className="text-sm text-[#43494B] font-normal">
-                  Order ID:{" "}
-                  <span className="font-semibold text-gray-700">
-                    {tx.order_id || "--"}
-                  </span>
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-end gap-1">
-              <span className={`text-lg font-semibold ${tx.amountClass}`}>
-                {tx.amountLabel}
-              </span>
-              <span className="text-xs text-gray-500">{tx.formattedDate}</span>
-              {/* <button
-                type="button"
-                onClick={() => handleSeeMore(tx)}
-                className="text-xs font-semibold text-[#7A5AF8] hover:underline"
+          <InfoCardWithModal
+            key={tx.id || `${tx.order_id}-${tx.created_at}`}
+            modalContent={({ onClose }) => (
+              <TransactionModalContent transaction={tx} onClose={onClose} />
+            )}
+            renderTrigger={({ onOpen }) => (
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={onOpen}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onOpen();
+                  }
+                }}
+                className="flex items-center justify-between w-full border-gray-100 pb-6 last:border-b-0 last:pb-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#7A5AF8] rounded-xl px-1"
               >
-                See more
-              </button> */}
-            </div>
-          </div>
+                <div className="flex items-center gap-4">
+                  <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] rounded-2xl bg-[#EEEBFA] flex items-center justify-center">
+                    <img
+                      src={getAssetsUrl("wallet/transaction_wallet.svg")}
+                      alt="Wallet"
+                      className="lg:w-8 lg:h-8 w-[28px] h-[28px]"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-base lg:font-semibold font-medium text-gray-900">
+                      {tx.source_text || "Wallet Transaction"}
+                    </p>
+                    <p className="text-sm text-[#43494B] font-normal">
+                      Order ID:{" "}
+                      <span className="font-semibold text-gray-700">
+                        {tx.order_id || "--"}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-end gap-1">
+                  <span className={`text-lg font-semibold ${tx.amountClass}`}>
+                    {tx.amountLabel}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {tx.formattedDate}
+                  </span>
+                </div>
+              </div>
+            )}
+          />
         ))}
       </div>
-
-      {activeTransaction && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <p className="text-lg font-semibold text-gray-900">
-                  {activeTransaction.source_text || "Wallet Transaction"}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {formatDate(activeTransaction.created_at, {
-                    year: "numeric",
-                    month: "long",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
-              </div>
-              <button
-                onClick={closeModal}
-                className="text-gray-500 hover:text-gray-800 text-xl leading-none"
-                aria-label="Close modal"
-              >
-                &times;
-              </button>
-            </div>
-
-            <div className="space-y-3 text-sm text-gray-600">
-              <DetailRow
-                label="Transaction Type"
-                value={activeTransaction.tx_type}
-              />
-              <DetailRow
-                label="Amount"
-                value={formatAmount(activeTransaction)}
-              />
-              <DetailRow
-                label="Balance Before"
-                value={formatCurrency(activeTransaction.balance_before)}
-              />
-              <DetailRow
-                label="Balance After"
-                value={formatCurrency(activeTransaction.balance_after)}
-              />
-              <DetailRow
-                label="Order ID"
-                value={activeTransaction.order_id || "--"}
-              />
-              <DetailRow
-                label="Reason"
-                value={activeTransaction?.metadata?.reason || "--"}
-              />
-            </div>
-
-            <button
-              className="mt-6 w-full py-3 bg-[#7A5AF8] text-white rounded-xl font-semibold hover:bg-[#6843f5] transition-colors"
-              onClick={closeModal}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
+const TransactionModalContent = ({ transaction, onClose }) => {
+  console.log("transaction", transaction);
+  const router = useRouter();
+  if (!transaction) {
+    return null;
+  }
+
+  const paymentMode =
+    transaction?.metadata?.payment_mode ||
+    transaction.payment_mode ||
+    "Wallet";
+
+  return (
+    <div className="relative lg:w-[400px] w-full max-w-md rounded-[32px] bg-[#F5F2FF] p-6 shadow-2xl">
+      <div className="space-y-4">
+        <div className="flex flex-col gap-2">
+          <p className="text-xl font-semibold text-gray-900 pb-2">
+            Transaction Summary
+          </p>
+          <div className="rounded-2xl bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEEBFA]">
+                  <img
+                    src={getAssetsUrl("wallet/transaction_wallet.svg")}
+                    alt="Transaction type"
+                    className="h-7 w-7"
+                  />
+                </span>
+                <div className="flex flex-col">
+                  <span className="text-base font-semibold text-gray-900">
+                    {transaction.source_text ||
+                      (transaction.tx_type === "CREDIT"
+                        ? "Refund"
+                        : "Transaction")}
+                  </span>
+                  <span className="text-sm text-[#7C8183]">{paymentMode}</span>
+                </div>
+              </div>
+              <span
+                className={`text-xl font-semibold ${
+                  transaction.tx_type === "CREDIT"
+                    ? "text-[#22C55E]"
+                    : "text-[#F97316]"
+                }`}
+              >
+               <span className="text-[18px]">
+               {formatAmount(transaction)}
+               </span> 
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <div className="space-y-4 text-sm">
+            <DetailRow label="Order ID" value={transaction.order_id || "--"} />
+            <DetailRow label="Payment Mode" value={transaction?.order?.order_ref_code || "--"} />
+            <DetailRow
+              label="Date"
+              value={getFormattedDate(transaction.created_at)}
+            />
+            <DetailRow
+              label="Time"
+              value={getFormattedTime(transaction.created_at)}
+            />
+          </div>
+        </div>
+
+        <button
+          className="w-full rounded-[16px] bg-[#5C2FF1] py-3 text-sm font-semibold uppercase tracking-wide text-white hover:bg-[#4b25c4] transition-colors"
+          onClick={() => router.push("/my-orders")}
+        >
+          View Order Detail
+        </button>
+      </div>
+    </div>
+  );
+};
+
 
 const DetailRow = ({ label, value }) => (
   <div className="flex items-center justify-between">
@@ -182,6 +204,35 @@ const formatCurrency = (value) => {
   const numeric = Number(value);
   if (Number.isNaN(numeric)) return "--";
   return numeric.toFixed(2);
+};
+
+const getFormattedDate = (dateString) => {
+  try {
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return "--";
+    return date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  } catch (err) {
+    return "--";
+  }
+};
+
+const getFormattedTime = (dateString) => {
+  try {
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return "--";
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  } catch (err) {
+    return "--";
+  }
 };
 
 export default Transactions;

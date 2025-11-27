@@ -238,7 +238,12 @@ const Header = () => {
                 </div>
               </div>
             ) : (
+              <div className="flex items-center gap-2">
+                <NavLink to="/wallet" className="flex items-center gap-2">
+                <img src={getAssetsUrl("wallet-header.png")} alt="wallet" className="w-[30px] h-[30px]" />
+                </NavLink>
               <Pagedropdown logindata={logindata} />
+              </div>
             )}
             {/* Cart */}
             <NavLink

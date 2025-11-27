@@ -261,13 +261,16 @@ const page = () => {
                             <div ref={filterDropdownRef} className="relative">
                               <button
                                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className=" bg-[#E7E8E9] px-2 w-max py-2 rounded-[12px] "
+                                className="relative border border-[#E7E8E9] px-2 w-max py-2 rounded-[12px]"
                               >
                                 <img
                                   src={getAssetsUrl("wallet/Filter.svg")}
                                   alt="Filter"
                                   className="h-[18px] w-auto"
                                 />
+                                {isFilterUse && (
+                                  <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-[#3B82F6] border border-white"></span>
+                                )}
                               </button>
                               {isFilterOpen && (
                                 <div className="absolute select-none right-0 mt-2 bg-white rounded-[12px] shadow-lg border border-gray-200 z-50  overflow-hidden py-2">
@@ -347,10 +350,13 @@ const page = () => {
                             <div ref={sortDropdownRef} className="relative">
                               <button
                                 onClick={() => setIsSortOpen(!isSortOpen)}
-                                className="flex text-sm items-center justify-center gap-2 text-[#43494B] bg-[#E7E8E9] font-semibold w-full py-2 px-3 rounded-[12px]"
+                                className="relative flex text-sm items-center justify-center gap-2 text-[#43494B] border border-[#E7E8E9] font-semibold w-full py-2 px-3 rounded-[12px]"
                               >
                                 <HiArrowsUpDown className="text-lg" />
                                 {/* <span>{sortLabels[sortOption]}</span> */}
+                                {sortOption !== "NEWEST" && (
+                                  <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-[#3B82F6] border border-white"></span>
+                                )}
                               </button>
                               {isSortOpen && (
                                 <div className="absolute right-0 mt-2 bg-white rounded-[12px] shadow-lg border border-gray-200 z-50 overflow-hidden py-2 min-w-[180px]">

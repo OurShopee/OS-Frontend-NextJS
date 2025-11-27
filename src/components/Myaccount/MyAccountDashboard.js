@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setauthstatus } from "../../redux/formslice";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { getAssetsUrl } from "../../components/utils/helpers";
-
+import { IoIosWallet } from "react-icons/io";
 const MyAccountDashboard = () => {
     const pathname = usePathname()
     const dispatch = useDispatch()
@@ -102,7 +102,7 @@ const MyAccountDashboard = () => {
                   id: 1,
                   name: wallet,
                   url: 'wallet',
-                  icon: <img src={getAssetsUrl("wallet/walllet_icon.svg")} alt="Wallet" className="w-[20px] h-[20px]" />
+                  icon: <IoIosWallet size={20} color={pathname?.split('/')[1] == 'wallet' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
               }
           ]
       },

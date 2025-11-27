@@ -252,7 +252,7 @@ const Paymentdetails = ({
               {currentcountry?.currency == "AED" ? (
                 <>
                   <img
-                    src={getAssetsUrl("feed/aed-icon.svg")}
+                    src={getAssetsUrl("coupons/dirham.svg")}
                     alt="AED"
                     className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                     style={{ color: "black" }}

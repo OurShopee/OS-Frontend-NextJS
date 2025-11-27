@@ -2422,6 +2422,10 @@ export const content = {
       en: "My Order",
       ar: "طلبي",
     },
+    wallet: {
+      en: "Shopee Wallet",
+      ar: "المحفظة",
+    },
     wishlist: {
       en: "Wishlist",
       ar: "قائمة الرغبات",
@@ -2801,7 +2805,7 @@ export const content = {
       ar: "عرض المزيد",
     },
     paymentMethod: {
-      en: "Pay using Wallet Balance",
+      en: "Pay Using Wallet Balance",
       ar: "ادفع باستخدام رصيد المحفظة",
     },
     walletlabel: {
