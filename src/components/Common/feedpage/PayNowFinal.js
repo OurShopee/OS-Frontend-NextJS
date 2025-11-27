@@ -279,7 +279,7 @@ const PayNowFinal = ({
               Price Details
             </h3>
 
-            <div className="space-y-3 text-[#4F4F4F] text-sm">
+            <div className="flex flex-col gap-2 text-[#4F4F4F] text-sm">
               {[
                 { label: "Subtotal", value: feedData?.sub_total },
                 { label: "Processing Fee", value: getProcessingFee() },
@@ -318,7 +318,7 @@ const PayNowFinal = ({
               ))}
             </div>
 
-            <div className="flex justify-between items-center border-t border-[#F3F4F6] pt-4">
+            <div className="flex justify-between items-center border-t border-[#F3F4F6] pt-1">
               <div className="w-full flex justify-between items-center text-xl font-bold text-[#1E1E1E]">
                 <p className="text-[18px] text-[#191B1C] font-semibold">
                   Total
