@@ -136,11 +136,25 @@ const Orders = ({ orderlistdata }) => {
                             currentLanguage === "ar" ? "flex-row-reverse" : ""
                           }`}
                         >
-                          <div
-                            className="myorder-orderstatus d-flex align-items-center gap-2"
-                            style={{ background: "#FFDFDF", color: "#F34845" }}
-                          >
-                            {amountRefundedToWallet}
+                          <div className="flex items-center  gap-2">
+                            <div
+                              className="myorder-orderstatus d-flex align-items-center gap-2"
+                              style={{
+                                background: "#FFDFDF",
+                                color: "#F34845",
+                              }}
+                            >
+                              {cancelled}
+                            </div>
+                            <div
+                              className="myorder-orderstatus d-flex align-items-center gap-2"
+                              style={{
+                                background: "#FFDFDF",
+                                color: "#F34845",
+                              }}
+                            >
+                              {amountRefundedToWallet}
+                            </div>
                           </div>
                         </div>
                       ) : (
