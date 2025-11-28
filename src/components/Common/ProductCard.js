@@ -362,7 +362,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 ></path>
               </svg>
             ) : (
-              <img src={"/assets/vector_icons/shopping_cart.svg"} alt={"cart"} className="w-5 h-5" />
+              <img src={getAssetsUrl("vector_icons/shopping_cart.svg")} alt={"cart"} className="w-5 h-5" />
             )}
           </button>
         )}
@@ -499,7 +499,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 </>
               ) : (
                 <>
-                  <img src={"/assets/vector_icons/cart.png"} alt={"cart"} className="w-4 h-4" />
+                  <img src={getAssetsUrl("vector_icons/cart.png")} alt={"cart"} className="w-4 h-4" />
                   <span className="text-sm font-semibold">{addToCartText}</span>
                 </>
               )}
