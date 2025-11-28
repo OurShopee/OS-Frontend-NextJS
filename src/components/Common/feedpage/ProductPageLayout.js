@@ -1673,19 +1673,6 @@ const ProductPageLayout = ({
                       </button>
                     </div>
                   </div>
-
-                  {/* Submission Status Message */}
-                  {submissionStatus.message && (
-                    <div
-                      className={`mt-3 p-3 rounded ${
-                        submissionStatus.type === "success"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {submissionStatus.message}
-                    </div>
-                  )}
                 </form>
               </div>
             </div>
