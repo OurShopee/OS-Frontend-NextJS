@@ -31,7 +31,7 @@ const MainModal = ({
         }`}
       >
         <div
-          className={`relative w-auto md:max-w-${modalWidth} overflow-scroll max-h-[78vh] md:max-h-[85vh] ${
+          className={`relative w-auto md:max-w-${modalWidth} custom-scrollbar1 box-border pr-[10px] overflow-y-scroll mt-16 max-h-[78vh] md:max-h-[85vh] ${
             isMobile
               ? "rounded-t-3xl animate-slide-up"
               : "rounded-3xl animate-scale-in"
