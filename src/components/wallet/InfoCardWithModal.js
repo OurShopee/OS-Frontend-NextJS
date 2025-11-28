@@ -87,12 +87,12 @@ const InfoCardWithModal = ({
           <div
             className={`relative ${
               isMobile
-                ? "w-full max-h-[90vh] bg-white rounded-t-3xl animate-slide-up overflow-visible"
+                ? "w-full h-[60vh] sm:max-h-[90vh] bg-white rounded-t-3xl animate-slide-up overflow-visible"
                 : ""
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={`${isMobile ? "max-h-[90vh] overflow-y-auto" : ""}`}>
+            <div className={`${isMobile ? "max-h-[60vh] overflow-y-auto" : ""}`}>
               {renderedModalContent}
             </div>
             <button
