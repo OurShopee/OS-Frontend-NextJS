@@ -209,7 +209,41 @@ const Payment = () => {
       setWalletUpdatedValue(0);
       return;
     }
-    const clampedValue = clampWalletUsage(value);
+    
+    // Remove any non-numeric characters except decimal point
+    let numericValue = value.replace(/[^\d.]/g, '');
+    
+    // Handle zero replacement: if current value is "0" and new value starts with "0" followed by a non-zero digit (not decimal)
+    // This handles the case where user types a digit when value is "0", resulting in "05", "06", etc.
+    if (walletUpdatedValue === 0 && numericValue.length > 1) {
+      // If it starts with "0" and the second character is a digit (not "."), remove the leading zero
+      if (numericValue.startsWith('0') && numericValue[1] && numericValue[1] !== '.') {
+        numericValue = numericValue.replace(/^0+/, '') || '0';
+      }
+    } else {
+      // Remove leading zeros for non-zero values (e.g., "007" -> "7"), but preserve "0." pattern
+      if (!numericValue.startsWith('0.')) {
+        numericValue = numericValue.replace(/^0+(?=\d)/, '') || numericValue;
+      }
+    }
+    
+    // Prevent multiple decimal points - keep only the first one
+    const parts = numericValue.split('.');
+    if (parts.length > 2) {
+      numericValue = parts[0] + '.' + parts.slice(1).join('');
+    }
+    
+    // Limit to 2 decimal places
+    const decimalIndex = numericValue.indexOf('.');
+    if (decimalIndex !== -1) {
+      const integerPart = numericValue.substring(0, decimalIndex);
+      const decimalPart = numericValue.substring(decimalIndex + 1).substring(0, 2); // Limit to 2 decimal places
+      numericValue = integerPart + '.' + decimalPart;
+    }
+    
+    // Convert to number and clamp
+    const numValue = parseFloat(numericValue) || 0;
+    const clampedValue = clampWalletUsage(numValue);
     setWalletUpdatedValue(clampedValue);
   };
 
@@ -294,13 +328,13 @@ const Payment = () => {
             <div className="mt-4">
               <div className="Cart-titile">{shopeeWallet}</div>
               <div
-                className={`Cartitem-maindiv walletpaybg ${
+                className={`Cartitem-maindiv ${walletBalance === 0 ? "opacity-50" : ""} walletpaybg ${
                   walletSelected && "walletpaybg"
                 }`}
               >
                 <div>
                   <div
-                    className={`flex cursor-pointer select-none w-full ${
+                    className={`flex ${walletBalance === 0 ? "cursor-not-allowed" : "cursor-pointer"} select-none w-full ${
                       isMobile
                         ? " items-start gap-1"
                         : "items-start justify-between"
@@ -570,6 +604,7 @@ const Payment = () => {
                     type="number"
                     min={1}
                     max={maxWalletUsable}
+                    maxLength={10}
                     step="1"
                     value={walletUpdatedValue}
                     onChange={(e) => handleWalletAmountChange(e.target.value)}

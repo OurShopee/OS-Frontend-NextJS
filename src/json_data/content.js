@@ -1271,8 +1271,8 @@ export const content = {
       ar: "بيع سريع!",
     },
     expectedBy: {
-      en: "Expected By",
-      ar: "متوقع في",
+      en: "Expected ",
+      ar: "متوقع ",
     },
     outOfStock: {
       en: "Out of Stock",
@@ -2793,12 +2793,12 @@ export const content = {
       ar: "استخدم رصيد شوبي للمدفوعات السريعة وعملية دفع سلسة.",
     },
     transactionHistory: {
-      en: "Transaction History",
+      en: "Wallet History",
       ar: "سجل المعاملات",
     },
     noTransactionHistory: {
-      en: "No transaction history",
-      ar: "لا يوجد تاريخ معاملات",
+      en: "No Wallet History",
+      ar: "لا يوجد تاريخ محفظة",
     },
     seeMore: {
       en: "See more",
