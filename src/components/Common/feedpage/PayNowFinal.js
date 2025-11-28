@@ -400,7 +400,7 @@ const PayNowFinal = ({
       ).toFixed(2)},`,
       discount: getCouponDiscount().toFixed(2),
       fromCRM: formData?.fromCRM ?? true,
-      orderfrom: "WebFeed",
+      order_from: "WebFeed",
       userData: {
         form_name,
         contact_no:
@@ -412,7 +412,7 @@ const PayNowFinal = ({
         area: addressForm.area || area || "",
         delivery_address:
           addressForm.delivery_address || delivery_address || "",
-        orderfrom: "WebFeed",
+        order_from: "WebFeed",
         price: parseAmountValue(
           product?.display_price || feedData?.sub_total || 0
         ),
