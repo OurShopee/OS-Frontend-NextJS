@@ -4,25 +4,212 @@ import { GiDiamonds } from "react-icons/gi";
 const termsData = [
   {
     title: "Introduction",
-    content: [
-      "By using the OurShopee platform, you agree to comply with these Terms and Conditions, as well as all applicable laws and regulations. You are responsible for maintaining the confidentiality of your account and password and for restricting access to your device. You agree to be responsible for all activities that occur under your account.",
-      "You must not use OurShopee for any illegal or unauthorized purpose. You must not violate any laws in your jurisdiction. You agree not to engage in any activity that disrupts or interferes with the platform. You agree not to reproduce, duplicate, copy, sell, or exploit any portion of the platform.",
-      "Violation of these terms may result in termination of your account.",
-    ],
+    content: (
+      <>
+        These Terms and Conditions ("Terms") govern the use of the OurShopee
+        Wallet ("Wallet"). By using the Wallet, customers agree to these Terms.
+        If you do not agree, please stop using the Wallet service.
+      </>
+    ),
   },
   {
-    title: "Your account and amendment to the terms of use",
-    content: [
-      "When you create an account with OurShopee, you agree to provide accurate, current, and complete information. You are responsible for maintaining the confidentiality of your password and account and for all activities that occur under your account. OurShopee reserves the right to modify or revise these terms of use at any time.",
-    ],
+    title: "Eligibility",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          Wallet is available only to registered OurShopee customers within the
+          registered region.
+        </li>
+        <li>Customers must maintain accurate and valid account information.</li>
+      </ul>
+    ),
   },
   {
-    title: "Your account and amendment to the terms of use",
-    content: [
-      "When you create an account with OurShopee, you agree to provide accurate, current, and complete information. You are responsible for maintaining the confidentiality of your password and account and for all activities that occur under your account.",
-    ],
+    title: "Wallet Balance Structure",
+    content: (
+      <>
+        Your Wallet balance may consist of the following:
+        <ol className="list-decimal ml-5 mt-2">
+          <li>
+            <strong>Refund Amounts</strong> – credited for cancelled or returned
+            orders.
+          </li>
+          <li>
+            <strong>Adjustment Credits</strong> – manual credits added by
+            OurShopee support after verification.
+          </li>
+        </ol>
+        <p className="mt-3 font-semibold">Important</p>
+        <ul className="list-disc ml-5">
+          <li>
+            Wallet balance{" "}
+            <strong>cannot be transferred to bank account</strong>,{" "}
+            <strong>cannot be withdrawn as cash</strong>, and{" "}
+            <strong>cannot be exchanged for money</strong>.
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    title: "Adding Funds",
+    content: (
+      <>
+        Currently, customers <strong>cannot manually add money</strong> to the
+        Wallet.
+        <br />
+        Wallet balance is updated only through refunds or support adjustments.
+      </>
+    ),
+  },
+  {
+    title: "Using Wallet Balance",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          Wallet balance can be used to pay for orders placed on OurShopee
+          website/app.
+        </li>
+        <li>
+          If the wallet amount does not cover the full order total, customers
+          must pay the difference via available payment methods.
+        </li>
+        <li>
+          OurShopee reserves the right to set limits on wallet usage based on
+          region, order type, or payment mode.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Refunds to Wallet",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          Cancelled or returned orders are refunded{" "}
+          <strong>directly to the Wallet</strong> unless otherwise specified.
+        </li>
+        <li>
+          Refund will follow the standard{" "}
+          <strong>OurShopee Return & Refund Policy</strong> (link to be given).
+        </li>
+        <li>
+          Refund timelines vary by:
+          <ul className="list-disc ml-5 mt-1">
+            <li>payment method,</li>
+            <li>courier confirmation,</li>
+            <li>country-specific processing times.</li>
+          </ul>
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Wallet Transaction History",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          All credits and debits made to the Wallet will appear in the
+          customer's "Wallet Transactions."
+        </li>
+        <li>
+          Customers must check their Wallet regularly and report any issues
+          within <strong>7 working days</strong>.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Expiry of Credits",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          Refund amounts do <strong>not</strong> expire.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Restrictions / Prohibited Use",
+    content: (
+      <>
+        Customers may not:
+        <ul className="list-disc ml-5 mt-2">
+          <li>
+            Use the Wallet for fraudulent activities (multiple accounts, fake
+            returns, or manipulation).
+          </li>
+          <li>Transfer Wallet balance to other users.</li>
+          <li>
+            Withdraw Wallet balance to banks/cards (except in rare cases
+            approved by support for legitimate refundable amounts).
+          </li>
+        </ul>
+        <p className="mt-3">
+          OurShopee may block or reverse Wallet amounts if fraudulent activity
+          is detected.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Account Deactivation or Suspension",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          If an account is suspended due to policy violations, the Wallet
+          balance may be frozen or forfeited.
+        </li>
+        <li>
+          Customers with legitimate refundable amounts may request verification
+          through Customer Support.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Liability",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>
+          OurShopee is not responsible for Wallet misuse caused by sharing
+          passwords, OTPs, or account credentials.
+        </li>
+        <li>Customers must keep their login details confidential.</li>
+      </ul>
+    ),
+  },
+  {
+    title: "Changes to Wallet Terms",
+    content: (
+      <ul className="list-disc ml-5">
+        <li>OurShopee may update or modify these Terms at any time.</li>
+        <li>
+          Continued use of the Wallet after updates means acceptance of the new
+          Terms.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Customer Support",
+    content: (
+      <>
+        For questions, discrepancies, or Wallet-related concerns, customers can
+        contact:
+        <ul className="list-disc ml-5 mt-2">
+          <li>
+            <strong>Email:</strong> support@ourshopee.com
+          </li>
+          <li>
+            <strong>Hotline:</strong> Based on customer's country
+          </li>
+        </ul>
+      </>
+    ),
   },
 ];
+
 
 const TermsConditionsCard = () => (
   <div className="bg-white p-8 rounded-[32px] lg:w-[42rem] w-[100vw] h-[72vh] flex flex-col">
@@ -32,25 +219,14 @@ const TermsConditionsCard = () => (
         <div key={section.title} className="mb-6">
           <div className="flex items-center gap-2 mb-1.5">
             <GiDiamonds className="text-[#43494B] text-sm" />
-            <span
-              className={`font-semibold text-base ${
-                idx === 0 ? "text-[#191B1C]" : "text-[#191B1C]"
-              }`}
-            >
+            <span className="font-semibold text-base text-[#191B1C]">
               {section.title}
             </span>
           </div>
-          {section.content.map((text, subIdx) => (
-            <p
-              key={subIdx}
-              className="text-[#43494B] text-sm leading-relaxed mb-4 last:mb-0"
-            >
-              {text}
-            </p>
-          ))}
-          {idx < termsData.length - 1 && (
-            <hr className="" />
-          )}
+          <div className="text-[#43494B] text-sm leading-relaxed mb-4">
+            {section.content}
+          </div>
+          {idx < termsData.length - 1 && <hr className="my-4" />}
         </div>
       ))}
     </div>
