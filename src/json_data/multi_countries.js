@@ -4,8 +4,8 @@ const countriesData = [
   {
     id: 1,
     url: process.env.NEXT_PUBLIC_UAE_URL,
-    // dev_url: "http://192.168.1.63:3000",
-    dev_url: "http://localhost:3000",
+    dev_url: "http://192.168.1.37:3000",
+    // dev_url: "http://localhost:3000",
     name: "UAE",
     name_arabic: "الإمارات العربية المتحدة",
     currency: "AED",
@@ -103,7 +103,9 @@ const countriesData = [
         section_id: 0,
         infinite_required: true,
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
-        image: getAssetsUrl("vector_icons/Top_left_banner/Pre-owned_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Pre-owned_products.png"
+        ),
         status: 1,
       },
       {
@@ -132,7 +134,9 @@ const countriesData = [
         url: "/deals/Top-Selling-Products",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Top_selling_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Top_selling_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -140,7 +144,9 @@ const countriesData = [
         id: 9,
         title: "AED-1-to-20",
         url: "/AED-1-to-20",
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         section_id: 205,
         infinite_required: true,
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
@@ -151,7 +157,9 @@ const countriesData = [
         title: "bundle deals",
         url: "/bundle-deals",
         section_id: 19,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_required: true,
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
@@ -249,7 +257,9 @@ const countriesData = [
         url: "/categories/pre-owned",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Pre-owned_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Pre-owned_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -279,7 +289,9 @@ const countriesData = [
         url: "/deals/Top-Selling-Products",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Top_selling_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Top_selling_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -289,7 +301,9 @@ const countriesData = [
         url: "/OMR-0-to-2",
         section_id: 157,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -299,7 +313,9 @@ const countriesData = [
         url: "/bundle-deals",
         section_id: 120,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -397,7 +413,9 @@ const countriesData = [
         url: "/categories/pre-owned",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Pre-owned_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Pre-owned_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -417,7 +435,9 @@ const countriesData = [
         url: "/QAR-1-to-20",
         section_id: 154,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -427,7 +447,9 @@ const countriesData = [
         url: "/bundle-deals",
         section_id: 35,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -480,7 +502,7 @@ const countriesData = [
     isAreaCodeRequired: false,
     isDonationRequired: false,
     country_code: "+965",
-    
+
     fridaySaleSectionIds: {
       "Flash Sale": 88,
       "Lowest Price": 104,
@@ -525,7 +547,9 @@ const countriesData = [
         url: "/categories/pre-owned",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Pre-owned_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Pre-owned_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -555,7 +579,9 @@ const countriesData = [
         url: "/deals/Top-Selling-Products",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Top_selling_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Top_selling_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -565,7 +591,9 @@ const countriesData = [
         url: "/KD-0-to-2",
         section_id: 160,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         status: 0,
       },
       {
@@ -574,7 +602,9 @@ const countriesData = [
         url: "/bundle-deals",
         section_id: 171,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },
@@ -679,7 +709,9 @@ const countriesData = [
         url: "/BHD-0-to-2",
         section_id: 206,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         status: 0,
       },
       {
@@ -688,7 +720,9 @@ const countriesData = [
         url: "/categories/pre-owned",
         section_id: 0,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Pre-owned_products.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Pre-owned_products.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 1,
       },
@@ -717,7 +751,9 @@ const countriesData = [
         url: "/bundle-deals",
         section_id: 64,
         infinite_required: true,
-        image: getAssetsUrl("vector_icons/Top_left_banner/Sale_Beat_the_heat.png"),
+        image: getAssetsUrl(
+          "vector_icons/Top_left_banner/Sale_Beat_the_heat.png"
+        ),
         infinite_api: "sdsddsdsfdsfdfsdfsfds",
         status: 0,
       },

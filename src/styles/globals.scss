@@ -135,6 +135,28 @@ a {
   background: #7759d8;
 }
 
+.custom-scrollbar1 {
+  box-sizing: content-box; /* makes scrollbar inside box */
+}
+
+.custom-scrollbar1::-webkit-scrollbar {
+  width: 2px;
+}
+
+.custom-scrollbar1::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.custom-scrollbar1::-webkit-scrollbar-thumb {
+  background: #43494B;
+  border-radius: 10px;
+}
+
+.custom-scrollbar1::-webkit-scrollbar-thumb:hover {
+  background: #43494B;
+}
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

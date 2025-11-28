@@ -8,7 +8,7 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
       alt="Success"
       className="absolute object-cover -z-10 top-0 left-0 w-full h-full"
     />
-    <div className="flex justify-center mt-5 mb-3 rounded-full">
+    <div className="flex justify-center mt-3 mb-1 rounded-full">
       <img
         src={getAssetsUrl("webFeed/check-icon.png")}
         alt="Processing"
@@ -16,7 +16,7 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
       />
     </div>
     {/* Title */}
-    <p className="text-2xl font-bold text-white mb-10">
+    <p className="text-2xl font-bold text-white mb-6">
       Order Is Being Generated!
     </p>
 
