@@ -6,31 +6,38 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import he from "he";
 import Lottie from "lottie-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import ImageCarousel from "./ImageCarousel";
 import fire from "./fire.json";
+import ImageCarousel from "./ImageCarousel";
 import ProductDescription from "./ProductDescription";
 
 // --- ProductForm Imports ---
-import { toast } from "react-toastify";
+import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
+import { feedOtpCheck } from "@/api/payments";
+import { useCurrentLanguage, useDynamicContent } from "@/hooks";
+import { useContent } from "@/hooks/useContent";
 import {
-  checkmobileotpapi,
   setotpmodal,
   setregisterapicall,
   setregistermobile,
 } from "@/redux/formslice";
-import { pushToDataLayer } from "../../utils/dataUserpush";
+import { clearCoupon } from "@/redux/paymentslice";
+import { toast } from "react-toastify";
 import { MediaQueries } from "../../utils";
-import { addFeed, getAreasApi, getLocationsApi } from "@/api/others";
-import { useDynamicContent, useCurrentLanguage } from "@/hooks";
-import { useContent } from "@/hooks/useContent";
+import { pushToDataLayer } from "../../utils/dataUserpush";
 import { getAssetsUrl } from "../../utils/helpers";
+import GeneratedOrderModal from "./GeneratedOrderModal";
+import MainModal from "./MainModal";
+import PayLaterModal from "./PayLaterModal";
+import { TRUE } from "sass";
+import PayNowFinal from "./PayNowFinal";
+import CODOrderModal from "./CODOrderModal";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -98,7 +105,6 @@ const useElementVisibility = (elementId, options = {}) => {
 
 const ProductPageLayout = ({
   product,
-  locationsData = [],
   queryParams = {},
   country = "uae",
   Webfeed,
@@ -117,8 +123,13 @@ const ProductPageLayout = ({
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
+  const [openFinalModal, setOpenFinalModal] = useState(false);
+  const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
+  const [openPayNowModal, setOpenPayNowModal] = useState(false);
+  const [openCODModal, setOpenCODModal] = useState();
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
 
   // --- ProductForm State Integration ---
   const [formData, setFormData] = useState({
@@ -128,6 +139,8 @@ const ProductPageLayout = ({
     location: "",
     area: "",
     delivery_address: "",
+    latitude: "",
+    longitude: "",
     product: product?.sku || "",
     price: product?.display_price || "0.00",
     orderfrom: queryParams?.orderfrom || "Web",
@@ -145,6 +158,10 @@ const ProductPageLayout = ({
   const [loadingLocations, setLoadingLocations] = useState(false);
   const [loadingAreas, setLoadingAreas] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const helpCenter = useContent("product.helpCenter");
+  const securedPayments = useContent("product.securedPayments");
+  const easyReturn = useContent("product.easyReturn");
+  const cashOnDelivery = useContent("product.cashOnDelivery");
   const [submissionStatus, setSubmissionStatus] = useState({
     message: "",
     type: "",
@@ -169,11 +186,11 @@ const ProductPageLayout = ({
       delay: 200,
       duration: 500,
     });
-    pushToDataLayer('viewed_feed_page', country, {
+    pushToDataLayer("viewed_feed_page", country, {
       sku_id: product?.sku,
       product_name: product?.name,
-      product_price: `${product?.currency || ''} ${product?.display_price}`,
-      source_: 'WebFeed',
+      product_price: `${product?.currency || ""} ${product?.display_price}`,
+      source_: "WebFeed",
     });
     // Fix overflow-x-hidden breaking sticky positioning
     const overflowHiddenDiv = document.querySelector(".overflow-x-hidden");
@@ -191,40 +208,42 @@ const ProductPageLayout = ({
     };
   }, []);
 
-  const { galleryImages, isOutOfStock, productInfoDetails, areAllWebfeedsEmpty } = useMemo(
-    () => {
-      // Check if all web-feeds (alternateAttributes) are empty
-      // const alternateAttributes = product?.alternateAttributes || [];
-      // const hasEmptyWebfeeds = 
-      //   !alternateAttributes.length || 
-      //   alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
+  const {
+    galleryImages,
+    isOutOfStock,
+    productInfoDetails,
+    areAllWebfeedsEmpty,
+  } = useMemo(() => {
+    // Check if all web-feeds (alternateAttributes) are empty
+    // const alternateAttributes = product?.alternateAttributes || [];
+    // const hasEmptyWebfeeds =
+    //   !alternateAttributes.length ||
+    //   alternateAttributes.every((attr) => !attr?.list || !attr.list.length);
 
-      return {
-        displayPrice: product?.display_price || "Price not available",
-        oldPrice: product?.old_price,
-        galleryImages: product?.images?.length
-          ? product.images
-          : product?.image
-          ? [product.image]
-          : [],
-        isOutOfStock:
-          product?.stock?.toLowerCase() !== "in stock" ||
-          !product?.display_price ||
-          typeof product?.display_price !== "number",
-        productInfoDetails: [
-          ...(product?.small_desc_data || [])
-            .filter((item) => item.title && (item.value || item.value === 0))
-            .map((item) => ({
-              label: item.title,
-              value: item.value,
-            })),
-        ],
-        decodedDetails: product?.details ? he.decode(product.details) : "",
-        // areAllWebfeedsEmpty: hasEmptyWebfeeds,
-      };
-    },
-    [product]
-  );
+    return {
+      displayPrice: product?.display_price || "Price not available",
+      oldPrice: product?.old_price,
+      galleryImages: product?.images?.length
+        ? product.images
+        : product?.image
+        ? [product.image]
+        : [],
+      isOutOfStock:
+        product?.stock?.toLowerCase() !== "in stock" ||
+        !product?.display_price ||
+        typeof product?.display_price !== "number",
+      productInfoDetails: [
+        ...(product?.small_desc_data || [])
+          .filter((item) => item.title && (item.value || item.value === 0))
+          .map((item) => ({
+            label: item.title,
+            value: item.value,
+          })),
+      ],
+      decodedDetails: product?.details ? he.decode(product.details) : "",
+      // areAllWebfeedsEmpty: hasEmptyWebfeeds,
+    };
+  }, [product]);
 
   // Check if all required form fields are filled
   const isFormValid = useMemo(() => {
@@ -236,23 +255,44 @@ const ProductPageLayout = ({
       formData.delivery_address?.trim() !== "" &&
       qty > 0
     );
-  }, [formData.form_name, formData.contact_no, formData.location, formData.area, formData.delivery_address, qty]);
+  }, [
+    formData.form_name,
+    formData.contact_no,
+    formData.location,
+    formData.area,
+    formData.delivery_address,
+    qty,
+  ]);
+
+  const trustBadges = [
+    {
+      img: getAssetsUrl("vector_icons/Secure_Transaction.png"),
+      text: securedPayments,
+    },
+    {
+      img: getAssetsUrl("vector_icons/Pay_Delivery.png"),
+      text: cashOnDelivery,
+    },
+    {
+      img: getAssetsUrl("vector_icons/Exchange_Available.png"),
+      text: easyReturn,
+    },
+    {
+      img: getAssetsUrl("vector_icons/help-center.png"),
+      text: helpCenter,
+    },
+  ];
 
   // --- ProductForm Effects ---
-  // OTP verification success handler
   useEffect(() => {
-
-    if (registerapicall && pendingFormData && !optmodalopen) {
-      const submitForm = async () => {
-        try {
-          await submitFormAfterOTP();
-        } catch (error) {
-          console.error("Error submitting form after OTP:", error);
-        }
-      };
-      submitForm();
+    if (!registerapicall || !pendingFormData) {
+      return;
     }
-  }, [registerapicall, pendingFormData, optmodalopen]);
+
+    // When OTP is verified, just open the generate modal without calling addFeed
+    setIsGenerateModalOpen(true);
+    dispatch(setregisterapicall(false));
+  }, [dispatch, pendingFormData, registerapicall]);
 
   // Fetch locations on component mount
   useEffect(() => {
@@ -538,8 +578,9 @@ const ProductPageLayout = ({
 
     const apiData = {
       form_name: updatedFormData.form_name.trim(),
-      contact_no: `${currentcountry.country_code
-        }${updatedFormData.contact_no.trim()}`,
+      contact_no: `${
+        currentcountry.country_code
+      }${updatedFormData.contact_no.trim()}`,
       product: updatedFormData.product,
       emirate: updatedFormData.location,
       area: updatedFormData.area,
@@ -552,48 +593,86 @@ const ProductPageLayout = ({
 
     // Check if OTP verification is enabled via environment variable
     // Properly parse the environment variable (handle string "false" and "true")
-    const checkOtpEnabled = 
-      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" || 
-      process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === true;
-    
-    // If OTP check is disabled, directly submit the form
-    if (!checkOtpEnabled) {
-      setPendingFormData(apiData);
-      try {
-        // Pass apiData directly to avoid state timing issues
-        await submitFormAfterOTP(apiData);
-      } catch (error) {
-        console.error("Order submission error:", error);
-        toast.error("Failed to submit order. Please try again.");
-        setSubmissionStatus({
-          message: "Failed to submit order. Please try again.",
-          type: "error",
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
+    // const checkOtpEnabled =
+    //   process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === "true" ||
+    //   process.env.NEXT_PUBLIC_CHECK_OTP_WEBFEED === true;
+
+    // // If OTP check is disabled, directly submit the form
+    // if (!checkOtpEnabled) {
+    //   setPendingFormData(apiData);
+    //   try {
+    //     // Pass apiData directly to avoid state timing issues
+    //     await submitFormAfterOTP(apiData);
+    //   } catch (error) {
+    //     console.error("Order submission error:", error);
+    //     toast.error("Failed to submit order. Please try again.");
+    //     setSubmissionStatus({
+    //       message: "Failed to submit order. Please try again.",
+    //       type: "error",
+    //     });
+    //   } finally {
+    //     setIsSubmitting(false);
+    //   }
+    //   return;
+    // }
+
+    setPendingFormData(apiData);
+
+    const mobileNumber = updatedFormData.contact_no.trim();
+    dispatch(setregistermobile(mobileNumber));
+
+    if (!product?.category_id || !product?.subcategory_id) {
+      toast.error("Missing product category details. Please try again later.");
+      setSubmissionStatus({
+        message: "Missing product category details. Please try again later.",
+        type: "error",
+      });
+      setIsSubmitting(false);
       return;
     }
 
-    // OTP check is enabled, set pending data and proceed with OTP verification
-    setPendingFormData(apiData);
-
     try {
-      const mobileNumber = updatedFormData.contact_no.trim();
-      dispatch(setregistermobile(mobileNumber));
-      const result = await dispatch(
-        checkmobileotpapi({ mobile: mobileNumber })
-      );
+      const otpCheckPayload = {
+        category_id: product.category_id,
+        subcategory_id: product.subcategory_id,
+        mobile: mobileNumber,
+      };
 
-      if (result.payload.status === "success") {
-        dispatch(setotpmodal(true));
-      } else {
-        toast.error(result.payload.message || "Failed to send OTP");
-        setSubmissionStatus({
-          message:
-            result.payload.message || "Failed to send OTP. Please try again.",
-          type: "error",
-        });
+      const otpResponse = await feedOtpCheck(otpCheckPayload);
+      const otpStatus =
+        otpResponse?.otp_status ||
+        otpResponse?.data?.otp_status ||
+        otpResponse?.data?.status ||
+        otpResponse?.status;
+
+      switch (otpStatus) {
+        case "OTP_SENT":
+          dispatch(setotpmodal(true));
+          break;
+        case "OTP_DISABLED": {
+          // const submitted = await submitFormAfterOTP(apiData);
+          // if (submitted) {
+          //   setIsGenerateModalOpen(true);
+          // }
+          setIsGenerateModalOpen(true);
+          break;
+        }
+        case "OTP_BLOCKED":
+          toast.error(
+            "OTP verification limit exceeded. Please try again later."
+          );
+          setSubmissionStatus({
+            message: "OTP verification limit exceeded. Please try again later.",
+            type: "error",
+          });
+          break;
+        default:
+          toast.error("Failed to send OTP. Please try again.");
+          setSubmissionStatus({
+            message: "Failed to send OTP. Please try again.",
+            type: "error",
+          });
+          break;
       }
     } catch (error) {
       console.error("OTP send error:", error);
@@ -607,28 +686,28 @@ const ProductPageLayout = ({
     }
   };
 
-  // Function to submit form after OTP verification
-  const submitFormAfterOTP = async (formDataToSubmit = null) => {
+  // Reusable function to submit order and open pay later modal
+  const submitOrderAndOpenPayLaterModal = async (formDataToSubmit = null) => {
     // Use passed data if available, otherwise fall back to state
     const dataToSubmit = formDataToSubmit || pendingFormData;
-    console.log("submitFormAfterOTP called with data:", dataToSubmit);
     if (!dataToSubmit) {
-      console.log("No pending form data, returning early");
-      return;
+      toast.error("No order data available. Please fill the form again.");
+      return false;
     }
 
+    console.log("dataToSubmit.contact_no", dataToSubmit.contact_no);
+
     setIsSubmitting(true);
+    let isSuccessful = false;
     try {
-      console.log("Calling addFeed API...");
       const result = await addFeed(dataToSubmit);
-      console.log("addFeed API response:", result);
 
       if (result.data.status === "success") {
+        isSuccessful = true;
         setSubmissionStatus({
           message: result.message || "Order submitted successfully!",
           type: "success",
         });
-        toast.success("Order submitted successfully!");
 
         const selectedLocationName =
           locations.find((loc) => loc.id === parseInt(dataToSubmit.emirate))
@@ -645,8 +724,9 @@ const ProductPageLayout = ({
           quantity: dataToSubmit.quantity,
           sku_id: product?.sku,
           product_name: product?.name,
-          product_price: `${currentcountry.currency} ${product?.display_price || "0.00"
-            }`,
+          product_price: `${currentcountry.currency} ${
+            product?.display_price || "0.00"
+          }`,
           location: selectedLocationName,
           order_id: result.data.order_id || "",
           order_status: "submitted",
@@ -675,12 +755,14 @@ const ProductPageLayout = ({
         setQty(1); // Reset quantity
         dispatch(setotpmodal(false));
         dispatch(setregisterapicall(false));
+
+        // Open pay later modal
+        setOpenPayLaterModal(true);
       } else {
         setSubmissionStatus({
           message: result.message || "Submission failed. Please try again.",
           type: "error",
         });
-        toast.error("Submission failed. Please try again.");
       }
     } catch (error) {
       console.error("Submission catch error:", error);
@@ -691,6 +773,8 @@ const ProductPageLayout = ({
     } finally {
       setIsSubmitting(false);
     }
+
+    return isSuccessful;
   };
 
   const handleChangeQty = (action) => {
@@ -784,22 +868,28 @@ const ProductPageLayout = ({
                     )}
 
                     <div className="sm:mb-3.5 hidden sm:flex">
-                      <h1 className="font-medium text-[22px]">
-                        {productName}
-                      </h1>
+                      <h1 className="font-medium text-[22px]">{productName}</h1>
                     </div>
 
                     <div className="mb-4">
                       <div className="my-2 sm:my-0 flex">
                         <div className="flex items-center">
                           {currentcountry.currency == "AED" ? (
-                            <img src={getAssetsUrl("feed/aed-icon.svg")}
+                            <img
+                              src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
-                              className={`w-6 h-6 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
+                              className={`w-6 h-6 inline-block mix-blend-multiply ${
+                                currentLanguage === "ar" ? "ml-1" : "mr-1"
+                              }`}
                               style={{ color: "black" }}
-                            loading="lazy" />
+                              loading="lazy"
+                            />
                           ) : (
-                            <span className={`currency-symbol text-[24px] md:text-[26px] font-bold ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}>
+                            <span
+                              className={`currency-symbol text-[24px] md:text-[26px] font-bold ${
+                                currentLanguage === "ar" ? "ml-1" : "mr-1"
+                              }`}
+                            >
                               {currentcountry.currency}
                             </span>
                           )}
@@ -809,20 +899,28 @@ const ProductPageLayout = ({
                         </div>
                         {savedPrice > 0 && (
                           <div className="save-banner ml-4 px-3 py-2 flex items-center font-medium">
-                          <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon flex items-center justify-center`}>
-                          <img src={getAssetsUrl("vector_icons/Vector.png")}
+                            <span
+                              className={`${
+                                currentLanguage === "ar" ? "ml-2" : "mr-2"
+                              } badge-icon flex items-center justify-center`}
+                            >
+                              <img
+                                src={getAssetsUrl("vector_icons/Vector.png")}
                                 alt="%"
                                 className="discount-icon"
-                              loading="lazy" />
+                                loading="lazy"
+                              />
                             </span>
                             <span className="flex gap-1 items-center text-sm">
                               {youSaved}{" "}
                               {currentcountry.currency == "AED" ? (
-                                <img src={getAssetsUrl("feed/aed-icon.svg")}
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-4 h-4 inline-block mix-blend-multiply"
                                   style={{ color: "black" }}
-                                loading="lazy" />
+                                  loading="lazy"
+                                />
                               ) : (
                                 <span className="currency-symbol text-sm">
                                   {currentcountry.currency}
@@ -836,20 +934,36 @@ const ProductPageLayout = ({
 
                       {product?.hasOwnProperty("old_price") &&
                         Number(product?.display_price) <
-                        Number(product?.old_price) && (
+                          Number(product?.old_price) && (
                           <div className="old_price">
                             {currentcountry.currency == "AED" ? (
-                              <div className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                <img src={getAssetsUrl("feed/aed-icon.svg")}
+                              <div
+                                className={`flex justify-center items-center text-[#9ea5a8] line-through gap-1 ${
+                                  currentLanguage === "ar"
+                                    ? "flex-row-reverse"
+                                    : ""
+                                }`}
+                              >
+                                <img
+                                  src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className="w-4 h-4 grayscale mix-blend-multiply opacity-30"
                                   style={{ color: "#9ea5a8" }}
-                                loading="lazy" />
+                                  loading="lazy"
+                                />
                                 {product?.old_price}
                               </div>
                             ) : (
-                              <span className={`flex items-center ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                                {currentcountry.currency + " " + product?.old_price}
+                              <span
+                                className={`flex items-center ${
+                                  currentLanguage === "ar"
+                                    ? "flex-row-reverse"
+                                    : ""
+                                }`}
+                              >
+                                {currentcountry.currency +
+                                  " " +
+                                  product?.old_price}
                               </span>
                             )}
                             <div className="product_Detail_price_container">
@@ -858,7 +972,7 @@ const ProductPageLayout = ({
                               </div>
                             </div>
                             <p className="text-[#9EA5A8] mb-0 text-base">
-                                {incOfVat}
+                              {incOfVat}
                             </p>
                           </div>
                         )}
@@ -867,10 +981,12 @@ const ProductPageLayout = ({
                     {countdownTimestamp > now && (
                       <div className="hidden sm:flex items-center gap-2 mt-3">
                         <div className="flex items-center">
-                          <img src={getAssetsUrl("feed/clock.png")}
+                          <img
+                            src={getAssetsUrl("feed/clock.png")}
                             alt=""
                             className="w-16 h-full"
-                          loading="lazy" />
+                            loading="lazy"
+                          />
                           <FlipClockCountdown
                             to={countdownTimestamp}
                             labels={["Days", "Hrs", "Min", "Sec"]}
@@ -905,10 +1021,12 @@ const ProductPageLayout = ({
                     )}
 
                     <div className="w-[212px] mt-1 sm:mt-3">
-                      <img src={getAssetsUrl("feed/limited-offer.gif")}
+                      <img
+                        src={getAssetsUrl("feed/limited-offer.gif")}
                         className="w-full h-full"
                         alt=""
-                      loading="lazy" />
+                        loading="lazy"
+                      />
                     </div>
                   </div>
                 </div>
@@ -918,7 +1036,6 @@ const ProductPageLayout = ({
                 <h3 className="text-lg sm:text-xl font-semibold text-black mb-4">
                   Product Overview
                 </h3>
-
                 <div className="flex flex-wrap mb-2 -mx-2">
                   {product?.alternateAttributes
                     ?.slice()
@@ -953,10 +1070,11 @@ const ProductPageLayout = ({
                                   {attribute_item.code === "" ? (
                                     <Link
                                       href={`/feed/${attribute_item.sku}`}
-                                      className={`flex items-center cursor-pointer rounded-full px-10 py-3 border ${isActive
-                                        ? "border-webfeed font-semibold text-primary text-[14px]"
-                                        : "border-gray-300 text-[#91979A] font-medium bg-[#FCFCFC]"
-                                        }`}
+                                      className={`flex items-center cursor-pointer rounded-full px-10 py-3 border ${
+                                        isActive
+                                          ? "border-webfeed font-semibold text-primary text-[14px]"
+                                          : "border-gray-300 text-[#91979A] font-medium bg-[#FCFCFC]"
+                                      }`}
                                     >
                                       <h6 className="text-[14px] text-center mb-0">
                                         {attribute_item?.name}
@@ -968,18 +1086,20 @@ const ProductPageLayout = ({
                                       className="flex flex-col items-center cursor-pointer w-max max-w-16"
                                     >
                                       <div
-                                        className={`flex items-center justify-center w-7 h-7 rounded-full ${isActive
-                                          ? "border-webfeed1"
-                                          : "border-gray-300"
-                                          }`}
+                                        className={`flex items-center justify-center w-7 h-7 rounded-full ${
+                                          isActive
+                                            ? "border-webfeed1"
+                                            : "border-gray-300"
+                                        }`}
                                       >
                                         <div style={colorCircleStyle}></div>
                                       </div>
                                       <h6
-                                        className={`mt-3 text-[14px] mb-0 text-center ${isActive
-                                          ? "text-[#43494B] font-semibold text-[15px]"
-                                          : "text-[#91979A] font-medium"
-                                          }`}
+                                        className={`mt-3 text-[14px] mb-0 text-center ${
+                                          isActive
+                                            ? "text-[#43494B] font-semibold text-[15px]"
+                                            : "text-[#91979A] font-medium"
+                                        }`}
                                       >
                                         {attribute_item.name}
                                       </h6>
@@ -993,7 +1113,6 @@ const ProductPageLayout = ({
                       );
                     })}
                 </div>
-
                 {/* Product Details Table */}
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                   {productInfoDetails.map((detail, index) => (
@@ -1020,6 +1139,29 @@ const ProductPageLayout = ({
                   <ProductDescription product={product} />
                 )}
               </div>
+              <div className="my-4 rounded-[20px] p-4 feed-card bg-shadow-feed-form">
+                <div className="grid gap-2.5 grid-cols-2 xl:flex xl:justify-between">
+                  {trustBadges.map((badge, index) => (
+                    <div
+                      key={index}
+                      /* text-center gap-2 -> text-center gap-2 */
+                      className="flex text-center gap-2 items-center"
+                    >
+                      <img
+                        src={badge.img}
+                        alt={badge.text}
+                        width={isMobile ? 50 : 70}
+                        height={isMobile ? 50 : 70}
+                        /* mb-2 bg-light p-2 rounded-circle - loading="lazy"> mb-2 bg-gray-100 p-2 rounded-full */
+                        className="bg-gray-100 p-2 rounded-full"
+                      />
+                      <div className="flex items-center text-start sm:max-w-24 text-xs sm:text-sm font-semibold">
+                        {badge.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
               {isMobile && (
                 <div className="mt-[18px] rounded-[20px] p-4 pb-0 feed-card bg-shadow-feed-form">
                   {productDetails && <ProductDescription product={product} />}
@@ -1028,21 +1170,20 @@ const ProductPageLayout = ({
             </div>
           </div>
           <div
-            className="w-full lg:w-4/12 webfeed-order-form-sticky"
+            className="w-full flex justify-center lg:w-4/12 webfeed-order-form-sticky"
             {...(isMobile
               ? {
-                "data-aos": "fade-down",
-                "data-aos-easing": "ease-out-back",
-                "data-aos-duration": "1000",
-                "data-aos-delay": "100",
-              }
+                  "data-aos": "fade-down",
+                  "data-aos-easing": "ease-out-back",
+                  "data-aos-duration": "1000",
+                  "data-aos-delay": "100",
+                }
               : {})}
             id="order-form"
           >
             <div className="bg-white rounded-[20px] px-4 w-[92%] sm:w-full py-5 pb-2 bg-shadow-feed-form">
               <div>
                 <h4 className="font-bold mb-5 text-xl sm:text-2xl">
-                  Place Your Order Here
                   {placeOrderTitle}
                 </h4>
                 <form onSubmit={handlePlaceOrder}>
@@ -1053,8 +1194,9 @@ const ProductPageLayout = ({
                     <input
                       type="text"
                       name="form_name"
-                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${errors.form_name ? "border-red-600" : "border-gray-300"
-                        }`}
+                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${
+                        errors.form_name ? "border-red-600" : "border-gray-300"
+                      }`}
                       placeholder="Enter Full Name"
                       value={formData.form_name}
                       onChange={handleChange}
@@ -1084,10 +1226,11 @@ const ProductPageLayout = ({
                         <input
                           type="tel"
                           name="contact_no"
-                          className={`col-span-2 webfeed-form-input rounded-lg border px-4 py-2 text-gray-700 font-medium outline-none ${errors.contact_no
-                            ? "border-red-600"
-                            : "border-gray-300"
-                            }`}
+                          className={`col-span-2 webfeed-form-input rounded-lg border px-4 py-2 text-gray-700 font-medium outline-none ${
+                            errors.contact_no
+                              ? "border-red-600"
+                              : "border-gray-300"
+                          }`}
                           value={formData.contact_no}
                           onChange={handleChange}
                           placeholder={getPhonePlaceholder(
@@ -1109,7 +1252,7 @@ const ProductPageLayout = ({
 
                     {/* Quantity */}
                     <div className="hidden sm:block col-span-2">
-                      <label className="block text-[#454545] font-medium mb-2">
+                      <label className="block text-[#454545] font-medium">
                         Quantity<span className="text-red-600">*</span>
                       </label>
                       <div className="flex flex-col gap-4">
@@ -1122,8 +1265,9 @@ const ProductPageLayout = ({
                           >
                             <FiMinus
                               height={22}
-                              className={`${qty == 1 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 1 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
 
@@ -1167,8 +1311,9 @@ const ProductPageLayout = ({
                           >
                             <FiPlus
                               height={22}
-                              className={`${qty == 999 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 999 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
                         </div>
@@ -1183,8 +1328,9 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="location"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${errors.location ? "is-invalid" : ""
-                          }`}
+                        className={`webfeed-form-select px-3 py-2 block w-full border-2 product webfeed-form-input rounded-lg appearance-none pr-12 ${
+                          errors.location ? "is-invalid" : ""
+                        }`}
                         value={formData.location}
                         onChange={handleChange}
                         disabled={isSubmitting || loadingLocations}
@@ -1224,8 +1370,9 @@ const ProductPageLayout = ({
                     <div className="relative">
                       <select
                         name="area"
-                        className={`webfeed-form-select block w-full border-2 product webfeed-form-input rounded-lg ${errors.area ? "border-red-600" : "border-gray-300"
-                          } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
+                        className={`webfeed-form-select px-3 py-2 appearance-none block w-full border-2 product webfeed-form-input rounded-lg ${
+                          errors.area ? "border-red-600" : "border-gray-300"
+                        } ${!formData.location ? "bg-[#e9ecef]" : ""}`}
                         value={formData.area}
                         onChange={handleChange}
                         disabled={
@@ -1268,10 +1415,11 @@ const ProductPageLayout = ({
                     </label>
                     <textarea
                       name="delivery_address"
-                      className={`block w-full border-2 product webfeed-form-input rounded-lg px-3 py-2 ${errors.delivery_address
-                        ? "border-red-600"
-                        : "border-gray-300"
-                        }`}
+                      className={`block w-full border-2 product webfeed-form-input rounded-lg px-3 py-2 ${
+                        errors.delivery_address
+                          ? "border-red-600"
+                          : "border-gray-300"
+                      }`}
                       rows="4"
                       placeholder="Enter your delivery address"
                       value={formData.delivery_address}
@@ -1296,8 +1444,9 @@ const ProductPageLayout = ({
                           >
                             <FiMinus
                               height={22}
-                              className={`${qty == 1 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 1 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
 
@@ -1341,30 +1490,44 @@ const ProductPageLayout = ({
                           >
                             <FiPlus
                               height={22}
-                              className={`${qty == 999 && "text-[#ddd9d9] text-opacity-50"
-                                }`}
+                              className={`${
+                                qty == 999 && "text-[#ddd9d9] text-opacity-50"
+                              }`}
                             />
                           </button>
                         </div>
                       </div>
                     )}
 
-                    <div className="animated-bg-button-container col-span-4 sm:col-span-7">
+                    <div className="animated-bg-button-container lg:!mt-0 col-span-4 sm:col-span-7">
                       <div className="animated-bg-button-shadow" />
                       <button
                         disabled={isOutOfStock || isSubmitting || !isFormValid}
                         type="submit"
-                        className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-12 rounded-xl font-medium text-white overflow-hidden disabled:bg-[#e5e5e5] disabled:cursor-not-allowed"
                       >
-                        <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
+                        <img
+                          src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                           alt="flash"
                           style={{
                             width: "20px",
                             height: "20px",
                             objectFit: "contain",
                           }}
-                        loading="lazy" />
-                        <span className="text-sm sm:text-base movetext-feed text-black">
+                          className={`${
+                            isOutOfStock || isSubmitting || !isFormValid
+                              ? "opacity-50"
+                              : ""
+                          }`}
+                          loading="lazy"
+                        />
+                        <span
+                          className={`text-sm sm:text-base movetext-feed text-black ${
+                            isOutOfStock || isSubmitting || !isFormValid
+                              ? "opacity-50"
+                              : ""
+                          }`}
+                        >
                           {placeOrderTitle}
                         </span>
                         <div className="absolute inset-0 pointer-events-none flex gap-2 justify-center items-center shimmer-overlay">
@@ -1378,10 +1541,11 @@ const ProductPageLayout = ({
                   {/* Submission Status Message */}
                   {submissionStatus.message && (
                     <div
-                      className={`mt-3 p-3 rounded ${submissionStatus.type === "success"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                        }`}
+                      className={`mt-3 p-3 rounded ${
+                        submissionStatus.type === "success"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
                     >
                       {submissionStatus.message}
                     </div>
@@ -1395,10 +1559,11 @@ const ProductPageLayout = ({
         {isMobile && (
           <div
             id="fixed-bottom"
-            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg transition-all duration-300 ${isOrderFormVisible
-              ? "opacity-0 pointer-events-none translate-y-full"
-              : "opacity-100 pointer-events-auto translate-y-0"
-              }`}
+            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg transition-all duration-300 ${
+              isOrderFormVisible
+                ? "opacity-0 pointer-events-none translate-y-full"
+                : "opacity-100 pointer-events-auto translate-y-0"
+            }`}
           >
             <div className="px-4 py-3">
               <div className="flex items-center justify-between gap-2">
@@ -1406,10 +1571,12 @@ const ProductPageLayout = ({
                 {countdownTimestamp > now && (
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
-                      <img src={getAssetsUrl("feed/clock.png")}
+                      <img
+                        src={getAssetsUrl("feed/clock.png")}
                         alt=""
                         className="w-10 h-full"
-                      loading="lazy" />
+                        loading="lazy"
+                      />
                       <FlipClockCountdown
                         to={countdownTimestamp}
                         labels={["Days", "Hrs", "Min", "Sec"]}
@@ -1444,7 +1611,6 @@ const ProductPageLayout = ({
 
                 {/* Place Order Button */}
                 <button
-                  disabled={isOutOfStock || areAllWebfeedsEmpty || !isFormValid}
                   className="w-full h-[44px] place-order-button text-sm whitespace-nowrap border-none gap-2 uppercase select-none relative inline-flex items-center justify-center rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => {
                     const element = document.getElementById("order-form");
@@ -1460,14 +1626,16 @@ const ProductPageLayout = ({
                     }
                   }}
                 >
-                  <img src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
+                  <img
+                    src={getAssetsUrl("vector_icons/buy_now_flash_.gif")}
                     alt="flash"
                     style={{
                       width: "20px",
                       height: "20px",
                       objectFit: "contain",
                     }}
-                  loading="lazy" />
+                    loading="lazy"
+                  />
                   <span className="text-[#191B1C] font-bold text-sm">
                     {placeOrderTitle}
                   </span>
@@ -1480,6 +1648,60 @@ const ProductPageLayout = ({
             </div>
           </div>
         )}
+
+        <MainModal
+          modalWidth={"md"}
+          isOpen={isGenerateModalOpen}
+          onClose={async () => {
+            setIsGenerateModalOpen(false);
+            await submitOrderAndOpenPayLaterModal();
+          }}
+          modalContent={
+            <GeneratedOrderModal
+              onPayNow={() => {
+                setIsGenerateModalOpen(false);
+                setOpenPayNowModal(true);
+              }}
+              onPayLater={async () => {
+                setIsGenerateModalOpen(false);
+                await submitOrderAndOpenPayLaterModal();
+              }}
+            />
+          }
+        />
+
+        <MainModal
+          isOpen={openPayLaterModal}
+          modalWidth={"md"}
+          onClose={() => setOpenPayLaterModal(false)}
+          modalContent={<PayLaterModal />}
+        />
+        <MainModal
+          isOpen={openCODModal}
+          modalWidth={"md"}
+          onClose={() => setOpenCODModal(false)}
+          modalContent={<CODOrderModal />}
+        />
+
+        <MainModal
+          isOpen={openPayNowModal}
+          onClose={async () => {
+            setOpenPayNowModal(false);
+            dispatch(clearCoupon());
+            await submitOrderAndOpenPayLaterModal();
+          }}
+          modalContent={
+            <PayNowFinal
+              formData={formData}
+              product={product}
+              qty={qty}
+              sku={sku}
+              onUpdateFormData={(updatedFields) =>
+                setFormData((prev) => ({ ...prev, ...updatedFields }))
+              }
+            />
+          }
+        />
       </div>
     </div>
   );

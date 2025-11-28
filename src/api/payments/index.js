@@ -51,3 +51,23 @@ export const availableCoupons = async () => {
   });
   return res.data;
 };
+
+
+export const feedOtpCheck = async (input_data) => {
+  const res = await axios.post("/api/check-otp-and-send", input_data);
+  return res.data;
+};
+
+export const getFeedPlaceOrder = async (input_data) => {
+  const res = await axios.post("api/GetFeedPlaceOrder", {
+    ...input_data
+  })
+  return res.data;
+};
+
+export const postFeedPlaceOrder = async (input_data) => {
+  const res = await axios.post("api/directBuyFeed", input_data, {
+    headers: { authorization: "Bearer " + Cookies.get("jwt_token") },
+  });
+  return res.data;
+};
