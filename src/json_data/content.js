@@ -1566,13 +1566,29 @@ export const content = {
       en: "Secure Transaction",
       ar: "معاملة آمنة",
     },
+    securedPayments: {
+      en: "Secure Payments",
+      ar: "معاملة آمنة",
+    },
     exchangeAvailable: {
       en: "Exchange Available",
       ar: "التبادل متاح",
     },
+    easyReturn: {
+      en: "7 Days Easy Return",
+      ar: "إرجاع سهل خلال 7 أيام",
+    },
+    helpCenter: {
+      en: "24x7 Help Centre",
+      ar: "مركز المساعدة على مدار الساعة طوال أيام الأسبوع",
+    },
     cashPayOnDelivery: {
       en: "Cash/Pay On Delivery",
       ar: "الدفع نقدًا/عند الاستلام",
+    },
+    cashOnDelivery: {
+      en: "Cash On Delivery",
+      ar: "الدفع عند الاستلام",
     },
     similarProducts: {
       en: "Similar Products",
@@ -1608,7 +1624,7 @@ export const content = {
     },
     securePayment: {
       en: "Secure Payment",
-      ar: "دفع آمن",
+      ar: "الدفع الآمن",
     },
     priceRange: {
       en: "Price Range",

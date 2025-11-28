@@ -27,6 +27,7 @@ import {
   setregisterapicall,
   setregistermobile,
 } from "@/redux/formslice";
+import { clearCoupon } from "@/redux/paymentslice";
 import { toast } from "react-toastify";
 import { MediaQueries } from "../../utils";
 import { pushToDataLayer } from "../../utils/dataUserpush";
@@ -59,8 +60,6 @@ const validateInput = (value, fieldName, type = "text", country) => {
   }
   return "";
 };
-
-
 
 const getPhonePlaceholder = (country) => {
   if (country.toLowerCase() === "uae") {
@@ -127,7 +126,7 @@ const ProductPageLayout = ({
   const [openFinalModal, setOpenFinalModal] = useState(false);
   const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
   const [openPayNowModal, setOpenPayNowModal] = useState(false);
-  const [openCODModal, setOpenCODModal] = useState(true);
+  const [openCODModal, setOpenCODModal] = useState();
   const [qty, setQty] = useState(1);
   const { sku } = useParams();
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
@@ -152,7 +151,6 @@ const ProductPageLayout = ({
     term: queryParams?.term || "",
   });
 
-
   const [errors, setErrors] = useState({});
   const [locations, setLocations] = useState([]);
   const { isMobile } = MediaQueries();
@@ -160,6 +158,10 @@ const ProductPageLayout = ({
   const [loadingLocations, setLoadingLocations] = useState(false);
   const [loadingAreas, setLoadingAreas] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const helpCenter = useContent("product.helpCenter");
+  const securedPayments = useContent("product.securedPayments");
+  const easyReturn = useContent("product.easyReturn");
+  const cashOnDelivery = useContent("product.cashOnDelivery");
   const [submissionStatus, setSubmissionStatus] = useState({
     message: "",
     type: "",
@@ -261,6 +263,25 @@ const ProductPageLayout = ({
     formData.delivery_address,
     qty,
   ]);
+
+  const trustBadges = [
+    {
+      img: getAssetsUrl("vector_icons/Secure_Transaction.png"),
+      text: securedPayments,
+    },
+    {
+      img: getAssetsUrl("vector_icons/Pay_Delivery.png"),
+      text: cashOnDelivery,
+    },
+    {
+      img: getAssetsUrl("vector_icons/Exchange_Available.png"),
+      text: easyReturn,
+    },
+    {
+      img: getAssetsUrl("vector_icons/help-center.png"),
+      text: helpCenter,
+    },
+  ];
 
   // --- ProductForm Effects ---
   useEffect(() => {
@@ -569,8 +590,6 @@ const ProductPageLayout = ({
       quantity: updatedFormData.quantity,
       productid: product?.id,
     };
-
-    
 
     // Check if OTP verification is enabled via environment variable
     // Properly parse the environment variable (handle string "false" and "true")
@@ -1017,7 +1036,6 @@ const ProductPageLayout = ({
                 <h3 className="text-lg sm:text-xl font-semibold text-black mb-4">
                   Product Overview
                 </h3>
-
                 <div className="flex flex-wrap mb-2 -mx-2">
                   {product?.alternateAttributes
                     ?.slice()
@@ -1095,7 +1113,6 @@ const ProductPageLayout = ({
                       );
                     })}
                 </div>
-
                 {/* Product Details Table */}
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                   {productInfoDetails.map((detail, index) => (
@@ -1121,6 +1138,29 @@ const ProductPageLayout = ({
                 {!isMobile && productDetails && (
                   <ProductDescription product={product} />
                 )}
+              </div>
+              <div className="my-4 rounded-[20px] p-4 feed-card bg-shadow-feed-form">
+                <div className="grid gap-2.5 grid-cols-2 xl:flex xl:justify-between">
+                  {trustBadges.map((badge, index) => (
+                    <div
+                      key={index}
+                      /* text-center gap-2 -> text-center gap-2 */
+                      className="flex text-center gap-2 items-center"
+                    >
+                      <img
+                        src={badge.img}
+                        alt={badge.text}
+                        width={isMobile ? 50 : 70}
+                        height={isMobile ? 50 : 70}
+                        /* mb-2 bg-light p-2 rounded-circle - loading="lazy"> mb-2 bg-gray-100 p-2 rounded-full */
+                        className="bg-gray-100 p-2 rounded-full"
+                      />
+                      <div className="flex items-center text-start sm:max-w-24 text-xs sm:text-sm font-semibold">
+                        {badge.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
               {isMobile && (
                 <div className="mt-[18px] rounded-[20px] p-4 pb-0 feed-card bg-shadow-feed-form">
@@ -1645,9 +1685,9 @@ const ProductPageLayout = ({
 
         <MainModal
           isOpen={openPayNowModal}
-          
           onClose={async () => {
             setOpenPayNowModal(false);
+            dispatch(clearCoupon());
             await submitOrderAndOpenPayLaterModal();
           }}
           modalContent={
