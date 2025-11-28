@@ -407,11 +407,11 @@ const ProductPageLayout = ({
       if (value.length > 60) {
         return; // Don't update if exceeds 60 characters
       }
-      
+
       // Only prevent spaces in email
       const emailValue = value.replace(/\s/g, "");
       setFormData((prev) => ({ ...prev, [name]: emailValue }));
-      
+
       // Real-time email format validation - only validate after user has typed something meaningful
       const trimmedValue = emailValue.trim();
       if (trimmedValue === "") {
@@ -549,11 +549,11 @@ const ProductPageLayout = ({
       if (value.length > 60) {
         return; // Don't update if exceeds 60 characters
       }
-      
+
       // Only prevent spaces in email
       const emailValue = value.replace(/\s/g, "");
       setFormData((prev) => ({ ...prev, [mappedField]: emailValue }));
-      
+
       // Real-time email format validation - only validate after user has typed something meaningful
       const trimmedValue = emailValue.trim();
       if (trimmedValue === "") {
@@ -574,7 +574,8 @@ const ProductPageLayout = ({
           if (trimmedValue.includes("@") || trimmedValue.length >= 5) {
             setErrors((prev) => ({
               ...prev,
-              [mappedField]: "Please enter a valid email address (e.g., abc@mail.com)",
+              [mappedField]:
+                "Please enter a valid email address (e.g., abc@mail.com)",
             }));
           } else {
             // Clear error if they're still typing early on
@@ -1232,33 +1233,60 @@ const ProductPageLayout = ({
                   ))}
                 </div>
 
+                {!isMobile && (
+                  <div className="my-4">
+                    <div className="grid gap-2.5 grid-cols-2 xl:flex xl:justify-between">
+                      {trustBadges.map((badge, index) => (
+                        <div
+                          key={index}
+                          /* text-center gap-2 -> text-center gap-2 */
+                          className="flex text-center gap-2 items-center"
+                        >
+                          <img
+                            src={badge.img}
+                            alt={badge.text}
+                            width={isMobile ? 50 : 70}
+                            height={isMobile ? 50 : 70}
+                            /* mb-2 bg-light p-2 rounded-circle - loading="lazy"> mb-2 bg-gray-100 p-2 rounded-full */
+                            className="bg-gray-100 p-2 rounded-full"
+                          />
+                          <div className="flex items-center text-start sm:max-w-24 text-xs sm:text-sm font-semibold">
+                            {badge.text}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {!isMobile && productDetails && (
                   <ProductDescription product={product} />
                 )}
               </div>
-              <div className="my-4 rounded-[20px] p-4 feed-card bg-shadow-feed-form">
-                <div className="grid gap-2.5 grid-cols-2 xl:flex xl:justify-between">
-                  {trustBadges.map((badge, index) => (
-                    <div
-                      key={index}
-                      /* text-center gap-2 -> text-center gap-2 */
-                      className="flex text-center gap-2 items-center"
-                    >
-                      <img
-                        src={badge.img}
-                        alt={badge.text}
-                        width={isMobile ? 50 : 70}
-                        height={isMobile ? 50 : 70}
-                        /* mb-2 bg-light p-2 rounded-circle - loading="lazy"> mb-2 bg-gray-100 p-2 rounded-full */
-                        className="bg-gray-100 p-2 rounded-full"
-                      />
-                      <div className="flex items-center text-start sm:max-w-24 text-xs sm:text-sm font-semibold">
-                        {badge.text}
+              {isMobile && (
+                <div className="my-4 rounded-[20px] p-4 feed-card bg-shadow-feed-form">
+                  <div className="grid gap-2.5 grid-cols-2 xl:flex xl:justify-between">
+                    {trustBadges.map((badge, index) => (
+                      <div
+                        key={index}
+                        /* text-center gap-2 -> text-center gap-2 */
+                        className="flex text-center gap-2 items-center"
+                      >
+                        <img
+                          src={badge.img}
+                          alt={badge.text}
+                          width={isMobile ? 50 : 70}
+                          height={isMobile ? 50 : 70}
+                          /* mb-2 bg-light p-2 rounded-circle - loading="lazy"> mb-2 bg-gray-100 p-2 rounded-full */
+                          className="bg-gray-100 p-2 rounded-full"
+                        />
+                        <div className="flex items-center text-start sm:max-w-24 text-xs sm:text-sm font-semibold">
+                          {badge.text}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               {isMobile && (
                 <div className="mt-[18px] rounded-[20px] p-4 pb-0 feed-card bg-shadow-feed-form">
                   {productDetails && <ProductDescription product={product} />}
