@@ -58,6 +58,16 @@ const validateInput = (value, fieldName, type = "text", country) => {
       }
     }
   }
+  if (type === "email") {
+    const trimmedValue = String(value).trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedValue)) {
+      return "Please enter a valid email address (e.g., abc@mail.com)";
+    }
+    if (trimmedValue.length > 60) {
+      return "Email address must be maximum 60 characters";
+    }
+  }
   return "";
 };
 
@@ -135,6 +145,7 @@ const ProductPageLayout = ({
   const [formData, setFormData] = useState({
     form_name: "",
     contact_no: "",
+    email: "",
     quantity: "1",
     location: "",
     area: "",
@@ -250,6 +261,7 @@ const ProductPageLayout = ({
     return (
       formData.form_name?.trim() !== "" &&
       formData.contact_no?.trim() !== "" &&
+      formData.email?.trim() !== "" &&
       formData.location?.trim() !== "" &&
       formData.area?.trim() !== "" &&
       formData.delivery_address?.trim() !== "" &&
@@ -258,6 +270,7 @@ const ProductPageLayout = ({
   }, [
     formData.form_name,
     formData.contact_no,
+    formData.email,
     formData.location,
     formData.area,
     formData.delivery_address,
@@ -389,6 +402,44 @@ const ProductPageLayout = ({
     if (name === "contact_no") {
       const numericValue = value.replace(/[^\d]/g, "");
       setFormData((prev) => ({ ...prev, [name]: numericValue }));
+    } else if (name === "email") {
+      // Limit to 60 characters
+      if (value.length > 60) {
+        return; // Don't update if exceeds 60 characters
+      }
+      
+      // Only prevent spaces in email
+      const emailValue = value.replace(/\s/g, "");
+      setFormData((prev) => ({ ...prev, [name]: emailValue }));
+      
+      // Real-time email format validation - only validate after user has typed something meaningful
+      const trimmedValue = emailValue.trim();
+      if (trimmedValue === "") {
+        // Clear error if field is empty (will be validated on submit)
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      } else if (trimmedValue.length < 3 && !trimmedValue.includes("@")) {
+        // Don't show error if user is just starting to type (less than 3 chars and no @)
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      } else {
+        // Validate email format only after user has typed something meaningful
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(trimmedValue)) {
+          // Valid email format - clear error
+          setErrors((prev) => ({ ...prev, [name]: "" }));
+        } else {
+          // Invalid email format - show error only if they've typed enough to indicate they're entering an email
+          // Show error if they've typed @ or if length is 5+ characters
+          if (trimmedValue.includes("@") || trimmedValue.length >= 5) {
+            setErrors((prev) => ({
+              ...prev,
+              [name]: "Please enter a valid email address",
+            }));
+          } else {
+            // Clear error if they're still typing early on
+            setErrors((prev) => ({ ...prev, [name]: "" }));
+          }
+        }
+      }
     } else if (name === "form_name") {
       const namePattern = /^[A-Za-z\s]{0,50}$/;
 
@@ -452,10 +503,10 @@ const ProductPageLayout = ({
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
-    // Clear errors for fields other than form_name, location, and delivery_address
+    // Clear errors for fields other than form_name, location, delivery_address, and email
     if (
       errors[name] &&
-      !["form_name", "location", "delivery_address"].includes(name)
+      !["form_name", "location", "delivery_address", "email"].includes(name)
     ) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -481,6 +532,7 @@ const ProductPageLayout = ({
     const fieldMapping = {
       fullName: "form_name",
       phoneNumber: "contact_no",
+      email: "email",
       quantity: "quantity",
       location: "location",
       area: "area",
@@ -492,6 +544,44 @@ const ProductPageLayout = ({
     if (mappedField === "contact_no") {
       const numericValue = value.replace(/[^\d]/g, "");
       setFormData((prev) => ({ ...prev, [mappedField]: numericValue }));
+    } else if (mappedField === "email") {
+      // Limit to 60 characters
+      if (value.length > 60) {
+        return; // Don't update if exceeds 60 characters
+      }
+      
+      // Only prevent spaces in email
+      const emailValue = value.replace(/\s/g, "");
+      setFormData((prev) => ({ ...prev, [mappedField]: emailValue }));
+      
+      // Real-time email format validation - only validate after user has typed something meaningful
+      const trimmedValue = emailValue.trim();
+      if (trimmedValue === "") {
+        // Clear error if field is empty
+        setErrors((prev) => ({ ...prev, [mappedField]: "" }));
+      } else if (trimmedValue.length < 3 && !trimmedValue.includes("@")) {
+        // Don't show error if user is just starting to type (less than 3 chars and no @)
+        setErrors((prev) => ({ ...prev, [mappedField]: "" }));
+      } else {
+        // Validate email format only after user has typed something meaningful
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(trimmedValue)) {
+          // Valid email format - clear error
+          setErrors((prev) => ({ ...prev, [mappedField]: "" }));
+        } else {
+          // Invalid email format - show error only if they've typed enough to indicate they're entering an email
+          // Show error if they've typed @ or if length is 5+ characters
+          if (trimmedValue.includes("@") || trimmedValue.length >= 5) {
+            setErrors((prev) => ({
+              ...prev,
+              [mappedField]: "Please enter a valid email address (e.g., abc@mail.com)",
+            }));
+          } else {
+            // Clear error if they're still typing early on
+            setErrors((prev) => ({ ...prev, [mappedField]: "" }));
+          }
+        }
+      }
     } else {
       setFormData((prev) => ({ ...prev, [mappedField]: value }));
     }
@@ -531,6 +621,11 @@ const ProductPageLayout = ({
       "Contact Number",
       "phone",
       countryName
+    );
+    currentErrors.email = validateInput(
+      updatedFormData.email,
+      "Email",
+      "email"
     );
     currentErrors.location = validateInput(
       updatedFormData.location,
@@ -581,6 +676,7 @@ const ProductPageLayout = ({
       contact_no: `${
         currentcountry.country_code
       }${updatedFormData.contact_no.trim()}`,
+      email: updatedFormData.email.trim(),
       product: updatedFormData.product,
       emirate: updatedFormData.location,
       area: updatedFormData.area,
@@ -736,6 +832,7 @@ const ProductPageLayout = ({
         setFormData({
           form_name: "",
           contact_no: "",
+          email: "",
           quantity: "1",
           location: "",
           area: "",
@@ -1319,6 +1416,30 @@ const ProductPageLayout = ({
                         </div>
                       </div>
                     </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-[#454545] font-medium mb-2">
+                      Email<span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      className={`block w-full product webfeed-form-input rounded-lg px-3 py-2 ${
+                        errors.email ? "border-red-600" : "border-gray-300"
+                      }`}
+                      placeholder="Enter your email address"
+                      value={formData.email}
+                      onChange={handleChange}
+                      disabled={isSubmitting}
+                      required
+                      maxLength={60}
+                    />
+                    {errors.email && (
+                      <div className="text-red-600 text-sm mt-1">
+                        {errors.email}
+                      </div>
+                    )}
                   </div>
 
                   <div className="mb-4 relative">
