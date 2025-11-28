@@ -1040,6 +1040,14 @@ export const content = {
     },
   },
   forms: {
+    cancelled: {
+      en: "Cancelled",
+      ar: "إلغاء الطلب",
+    },
+    amountRefundedToWallet: {
+      en: "Amount Refunded to Wallet",
+      ar: "المبلغ المعاد للمحفظة",
+    },
     email: {
       en: "Email",
       ar: "البريد الإلكتروني",
@@ -1851,6 +1859,10 @@ export const content = {
     cancelled: {
       en: "Cancelled",
       ar: "ملغى",
+    },
+    amountRefundedToWallet: {
+      en: "Amount Refunded To Wallet",
+      ar: "تم استرداد المبلغ إلى المحفظة",
     },
     returned: {
       en: "Returned",
