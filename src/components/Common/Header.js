@@ -241,7 +241,11 @@ const Header = () => {
               ) : (
                 <>
                   <NavLink to="/wallet" className="flex items-center">
-                    <img src={getAssetsUrl("wallet-header.png")} alt="wallet" className="w-[30px] h-[30px]" />
+                    <img 
+                      src={getAssetsUrl("wallet-header.png")} 
+                      alt="wallet" 
+                      className="w-[30px] h-[30px] transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer" 
+                    />
                   </NavLink>
                   <Pagedropdown logindata={logindata} />
                 </>
