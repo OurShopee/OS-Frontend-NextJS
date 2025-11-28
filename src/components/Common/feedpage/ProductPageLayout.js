@@ -480,24 +480,11 @@ const ProductPageLayout = ({
         return;
       }
     } else if (name === "delivery_address") {
-      // Count words in the textarea
-      const wordCount = countWords(value);
+      const sanitizedInput = value.replace(/\s{2,}/g, " ").slice(0, 200);
+      setFormData((prev) => ({ ...prev, [name]: sanitizedInput }));
 
-      if (wordCount <= 200) {
-        setFormData((prev) => ({ ...prev, [name]: value }));
-
-        // Clear any existing error for this field if input is valid
-        if (errors[name]) {
-          setErrors((prev) => ({ ...prev, [name]: "" }));
-        }
-      } else {
-        // Set error if word count exceeds 200 words
-        setErrors((prev) => ({
-          ...prev,
-          [name]: `Delivery address must be maximum 200 words (currently ${wordCount} words)`,
-        }));
-        // Don't update the form data with invalid input
-        return;
+      if (errors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
       }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -516,15 +503,10 @@ const ProductPageLayout = ({
     }
   };
 
-  // Add this word counting function
-  const countWords = (text) => {
-    if (!text || text.trim() === "") return 0;
-
-    // Remove extra whitespaces and split by spaces
-    const words = text.trim().replace(/\s+/g, " ").split(" ");
-
-    // Filter out empty strings
-    return words.filter((word) => word !== "").length;
+  // Character counting helper
+  const getCharacterCount = (text) => {
+    if (!text) return 0;
+    return text.length;
   };
 
   const handleInputChange = (field, value) => {
@@ -583,6 +565,9 @@ const ProductPageLayout = ({
           }
         }
       }
+    } else if (mappedField === "delivery_address") {
+      const sanitizedInput = value.replace(/\s{2,}/g, " ").slice(0, 200);
+      setFormData((prev) => ({ ...prev, [mappedField]: sanitizedInput }));
     } else {
       setFormData((prev) => ({ ...prev, [mappedField]: value }));
     }
@@ -1574,10 +1559,12 @@ const ProductPageLayout = ({
                       value={formData.delivery_address}
                       onChange={handleChange}
                       disabled={isSubmitting}
+                      maxLength={200}
                       required
                     ></textarea>
                     <small className="text-muted mt-1 block">
-                      {countWords(formData.delivery_address || "")}/200 words
+                      {getCharacterCount(formData.delivery_address || "")}/200
+                      characters
                     </small>
                   </div>
 
