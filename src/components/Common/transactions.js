@@ -97,7 +97,6 @@ const Transactions = ({ transactions = [], limit = 5 }) => {
   );
 };
 const TransactionModalContent = ({ transaction, onClose }) => {
-  console.log("transaction", transaction);
   const router = useRouter();
   if (!transaction) {
     return null;
@@ -152,8 +151,8 @@ const TransactionModalContent = ({ transaction, onClose }) => {
 
         <div className="rounded-3xl bg-white p-5 shadow-sm">
           <div className="space-y-4 text-sm">
-            <DetailRow label="Order ID" value={transaction.order_id || "--"} />
-            <DetailRow label="Payment Mode" value={transaction?.order?.order_ref_code || "--"} />
+            <DetailRow label="Order ID" value={transaction?.order?.order_ref_code  || "--"} />
+            <DetailRow label="Payment Mode" value={transaction?.order?.payment_method || "--"} />
             <DetailRow
               label="Date"
               value={getFormattedDate(transaction.created_at)}
