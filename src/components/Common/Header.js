@@ -224,84 +224,86 @@ const Header = () => {
               <CountryDropdown countryDropdown={countryDropdown} />
             )}
 
-            {/* User */}
-            {!authstatus ? (
-              <div
-                className="header-middle-rightsub cursor-pointer"
-                onClick={loginclick}
-              >
-                <div className="cursor-pointer flex usermain items-center">
-                  <FaUser size={16} />
-                  <span className={`${currentLanguage === "ar" ? "pr-2" : "pl-2"} header-middle-right-title username`}>
-                    {loginText}
-                  </span>
+            {/* User, Wallet, and Cart */}
+            <div className="flex items-center gap-4">
+              {!authstatus ? (
+                <div
+                  className="header-middle-rightsub cursor-pointer"
+                  onClick={loginclick}
+                >
+                  <div className="cursor-pointer flex usermain items-center">
+                    <FaUser size={16} />
+                    <span className={`${currentLanguage === "ar" ? "pr-2" : "pl-2"} header-middle-right-title username`}>
+                      {loginText}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <NavLink to="/wallet" className="flex items-center gap-2">
-                <img src={getAssetsUrl("wallet-header.png")} alt="wallet" className="w-[30px] h-[30px]" />
-                </NavLink>
-              <Pagedropdown logindata={logindata} />
-              </div>
-            )}
-            {/* Cart */}
-            <NavLink
-              to="/cart"
-              className={`header-middle-rightsub flex cart-hover no-underline ${cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
-                }`}
-              onClick={() => trackCartClick(currentcountry.name, pageName)}
-            >
-              <div className="headercart-icon">
-                {/* Show when cart is empty */}
-                {(!cartlistdata?.data?.result?.length ||
-                  cartlistdata.data.result.length === 0) && (
+              ) : (
+                <>
+                  <NavLink to="/wallet" className="flex items-center">
+                    <img src={getAssetsUrl("wallet-header.png")} alt="wallet" className="w-[30px] h-[30px]" />
+                  </NavLink>
+                  <Pagedropdown logindata={logindata} />
+                </>
+              )}
+              {/* Cart */}
+              <NavLink
+                to="/cart"
+                className={`header-middle-rightsub flex cart-hover no-underline ${cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
+                  }`}
+                onClick={() => trackCartClick(currentcountry.name, pageName)}
+              >
+                <div className="headercart-icon">
+                  {/* Show when cart is empty */}
+                  {(!cartlistdata?.data?.result?.length ||
+                    cartlistdata.data.result.length === 0) && (
+                      <>
+                        <img
+                          src={getAssetsUrl("Buy.png")}
+                          alt="empty cart"
+                          className="cart-image-default"
+                        loading="lazy" />
+                        <img
+                          src={getAssetsUrl("Buy1.png")}
+                          alt="hover cart"
+                          className="cart-image-hover yellow-filter"
+                        loading="lazy" />
+                      </>
+                    )}
+
+                  {/* Show when cart has items */}
+                  {cartlistdata?.data?.result?.length > 0 && (
                     <>
-                      <img
-                        src={getAssetsUrl("Buy.png")}
-                        alt="empty cart"
-                        className="cart-image-default"
+                      <img src={getAssetsUrl("Buy1.png")}
+                        alt="filled cart"
+                        className="cart-image-default yellow-filter mb-1"
                       loading="lazy" />
-                      <img
-                        src={getAssetsUrl("Buy1.png")}
+                      <img src={getAssetsUrl("Buy1.png")}
                         alt="hover cart"
-                        className="cart-image-hover yellow-filter"
+                        className="cart-image-hover yellow-filter mb-1"
                       loading="lazy" />
                     </>
                   )}
 
-                {/* Show when cart has items */}
-                {cartlistdata?.data?.result?.length > 0 && (
-                  <>
-                    <img src={getAssetsUrl("Buy1.png")}
-                      alt="filled cart"
-                      className="cart-image-default yellow-filter mb-1"
-                    loading="lazy" />
-                    <img src={getAssetsUrl("Buy1.png")}
-                      alt="hover cart"
-                      className="cart-image-hover yellow-filter mb-1"
-                    loading="lazy" />
-                  </>
-                )}
+                  {cartlistdata?.data?.result?.length > 0 && (
+                    <div className="cartcount">
+                      {cartlistdata.data.result.length}
+                    </div>
+                  )}
+                </div>
 
-                {cartlistdata?.data?.result?.length > 0 && (
-                  <div className="cartcount">
-                    {cartlistdata.data.result.length}
-                  </div>
+                {isBigScreen && (
+                  <span
+                    className={`pl-1 ${cartlistdata?.data?.result?.length > 0
+                      ? "cartcolor"
+                      : "header-middle-right-title"
+                      }`}
+                  >
+                    {/* {cartText} */}
+                  </span>
                 )}
-              </div>
-
-              {isBigScreen && (
-                <span
-                  className={`pl-1 ${cartlistdata?.data?.result?.length > 0
-                    ? "cartcolor"
-                    : "header-middle-right-title"
-                    }`}
-                >
-                  {/* {cartText} */}
-                </span>
-              )}
-            </NavLink>
+              </NavLink>
+            </div>
             {/* </div> */}
           </div>
 
