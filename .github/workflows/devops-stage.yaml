@@ -13,7 +13,7 @@ env:
   PROFILE: "dev"
   HELM_REPO: 'OurShopee/helm-chart'      # Helm charts repo
   HELM_REPO_PATH: 'charts/application-fe'               # Path to chart inside Helm repo
-  HELM_REPO_BRANCH: 'stage'
+  HELM_REPO_BRANCH: 'main'
 
 permissions:
   id-token: write
@@ -97,4 +97,5 @@ jobs:
           git config user.email "actions@github.com"
           git add ${{ env.HELM_REPO_PATH }}/values-stage.yaml
           git commit -m "Update stage application-fe image to ${{ github.sha }}-${{ env.TS }}" || echo "No changes to commit"
+
           git push
