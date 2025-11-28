@@ -136,7 +136,7 @@ const Orders = ({ orderlistdata }) => {
                             currentLanguage === "ar" ? "flex-row-reverse" : ""
                           }`}
                         >
-                          <div className="flex items-center  gap-2">
+                          <div className="flex lg:flex-row flex-col lg:items-center items-start gap-2">
                             <div
                               className="myorder-orderstatus d-flex align-items-center gap-2"
                               style={{
@@ -149,8 +149,8 @@ const Orders = ({ orderlistdata }) => {
                             <div
                               className="myorder-orderstatus d-flex align-items-center gap-2"
                               style={{
-                                background: "#FFDFDF",
-                                color: "#F34845",
+                                background: "#ECF8E3",
+                                color: "#33B056",
                               }}
                             >
                               {amountRefundedToWallet}
