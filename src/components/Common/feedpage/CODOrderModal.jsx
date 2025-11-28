@@ -15,7 +15,7 @@ const CODOrderModal = () => {
         alt="Success"
         className="absolute object-cover -z-10 top-0 left-0 w-full h-full"
       />
-      <div className="flex justify-center my-4 rounded-full">
+      <div className="flex justify-center my-1 sm:my-4 rounded-full">
         <img
           src={getAssetsUrl("wallet/cod-icon.png")}
           alt="Processing"
@@ -23,7 +23,7 @@ const CODOrderModal = () => {
         />
       </div>
       {/* Title */}
-      <p className="text-[22px] font-semibold text-[#191B1C] mt-16 mb-1 whitespace-nowrap">
+      <p className="text-[22px] font-semibold text-[#191B1C] mt-[120px] sm:mt-16 mb-1 whitespace-nowrap">
         Your COD Order Is Confirmed.
       </p>
 

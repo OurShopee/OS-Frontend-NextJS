@@ -6,6 +6,8 @@ import {
 } from "@/api/payments";
 import { useContent, useCurrentLanguage } from "@/hooks";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import LocateMe from "@/components/LocateMe";
 import OdometerCounter from "@/components/OdometerCounter";
@@ -22,6 +24,8 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckCoupan from "../CheckCoupan";
 import Donation from "../Donation";
 import { MediaQueries } from "@/components/utils";
+import MainModal from "./MainModal";
+import CODOrderModal from "./CODOrderModal";
 
 const PayNowFinal = ({
   onUpdateFormData = () => {},
@@ -66,6 +70,8 @@ const PayNowFinal = ({
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showGif, setShowGif] = useState(false);
+  const [openCODModal, setOpenCODModal] = useState(false);
+  const router = useRouter();
   const dispatch = useDispatch();
   const selecteddefaultpaymentmethod = useSelector(
     (state) => state.paymentslice.selecteddefaultpaymentmethod
@@ -422,10 +428,10 @@ const PayNowFinal = ({
       const response = await postFeedPlaceOrder(payload);
       if (response.hasOwnProperty("status")) {
         if (response.status === "success") {
-          if (response.data.pmode === "cash") {
-            router.push(
-              `/order/thanks/${response?.data?.orderRefId}?callUpdate=${response?.data?.callUpdateStatus}`
-            );
+          const paymentMethod = payload.payment_method?.toLowerCase();
+          if (response.data.pmode === "cash" || paymentMethod === "cash") {
+            setOpenCODModal(true);
+            return;
           }
 
           if (response.data.pmode === "credit_payfort") {
@@ -1041,6 +1047,12 @@ const PayNowFinal = ({
         showGuide={showGuide}
         setShowGuide={setShowGuide}
         getLocation={handleLocateMeClick}
+      />
+      <MainModal
+        isOpen={openCODModal}
+        modalWidth="md"
+        onClose={() => setOpenCODModal(false)}
+        modalContent={<CODOrderModal />}
       />
       {isMobile && (
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#EAEAEA] px-4 py-3 shadow-[0_-6px_20px_rgba(0,0,0,0.08)] space-y-3">
