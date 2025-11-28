@@ -211,6 +211,13 @@ const PayNowFinal = ({
           area: "",
         };
       }
+      if (field === "delivery_address") {
+        const sanitized = value.replace(/\s{2,}/g, " ").slice(0, 200);
+        return {
+          ...prev,
+          delivery_address: sanitized,
+        };
+      }
       return {
         ...prev,
         [field]: value,
@@ -562,7 +569,7 @@ const PayNowFinal = ({
                     </button>
                   )}
                 </div>
-                <p className="text-[#43494B] mt-1 whitespace-pre-line">
+                <p className="text-[#43494B] mt-1 whitespace-pre-line overflow-hidden">
                   {delivery_address}
                 </p>
 
@@ -732,6 +739,7 @@ const PayNowFinal = ({
                             e.target.value
                           )
                         }
+                        maxLength={200}
                         placeholder="Enter your complete delivery address"
                       />
                     </div>
