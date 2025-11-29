@@ -31,22 +31,21 @@ const MainModal = ({
         }`}
       >
         <div
-          className={`relative w-auto md:max-w-${modalWidth} custom-scrollbar1 box-border pr-[10px] overflow-y-scroll mt-16 max-h-[78vh] md:max-h-[85vh] ${
+          className={`relative w-auto md:max-w-${modalWidth} mt-16 overflow-hidden ${
             isMobile
               ? "rounded-t-3xl animate-slide-up"
               : "rounded-3xl animate-scale-in"
-          }`}
+          }`} // hide native corners
           onClick={(e) => e.stopPropagation()}
         >
           <div
-            className={`overflow-hidden ${
-              isMobile ? "rounded-t-3xl" : "rounded-3xl"
-            }`}
+            className={`custom-scrollbar1 max-h-[78vh] overflow-y-auto md:max-h-[85vh] -pr-4`}
           >
             {modalContent}
           </div>
+
           <button
-            className="absolute top-4 right-4 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] z-10"
+            className="absolute top-4 right-5 p-2 shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] bg-[#FCFCFC] rounded-full text-[#191B1C] z-10"
             onClick={onClose}
           >
             <IoCloseSharp className="w-5 h-5" />

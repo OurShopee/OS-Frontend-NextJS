@@ -4,8 +4,8 @@ const countriesData = [
   {
     id: 1,
     url: process.env.NEXT_PUBLIC_UAE_URL,
-    dev_url: "http://192.168.1.37:3000",
-    // dev_url: "http://localhost:3000",
+    // dev_url: "http://192.168.1.37:3000",
+    dev_url: "http://localhost:3000",
     name: "UAE",
     name_arabic: "الإمارات العربية المتحدة",
     currency: "AED",
