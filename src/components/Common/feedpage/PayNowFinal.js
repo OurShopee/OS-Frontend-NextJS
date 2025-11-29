@@ -25,7 +25,6 @@ import CheckCoupan from "../CheckCoupan";
 import Donation from "../Donation";
 import { MediaQueries } from "@/components/utils";
 import MainModal from "./MainModal";
-import CODOrderModal from "./CODOrderModal";
 
 const PayNowFinal = ({
   onUpdateFormData = () => {},
@@ -33,6 +32,8 @@ const PayNowFinal = ({
   product = {},
   qty = 1,
   sku = "",
+  onClosePayNowModal = () => {},
+  onOpenCODModal = () => {},
 }) => {
   const {
     form_name = "",
@@ -71,7 +72,6 @@ const PayNowFinal = ({
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showGif, setShowGif] = useState(false);
-  const [openCODModal, setOpenCODModal] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const selecteddefaultpaymentmethod = useSelector(
@@ -439,7 +439,11 @@ const PayNowFinal = ({
         if (response.status === "success") {
           const paymentMethod = payload.payment_method?.toLowerCase();
           if (response.data.pmode === "cash" || paymentMethod === "cash") {
-            setOpenCODModal(true);
+            // Close PayNow modal first, then open COD modal
+            onClosePayNowModal();
+            setTimeout(() => {
+              onOpenCODModal();
+            }, 100);
             return;
           }
 
@@ -1057,12 +1061,6 @@ const PayNowFinal = ({
         showGuide={showGuide}
         setShowGuide={setShowGuide}
         getLocation={handleLocateMeClick}
-      />
-      <MainModal
-        isOpen={openCODModal}
-        modalWidth="md"
-        onClose={() => setOpenCODModal(false)}
-        modalContent={<CODOrderModal />}
       />
       {isMobile && (
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#EAEAEA] px-4 py-3 shadow-[0_-6px_20px_rgba(0,0,0,0.08)] space-y-3">

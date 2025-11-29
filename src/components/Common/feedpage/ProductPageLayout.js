@@ -1779,9 +1779,16 @@ const ProductPageLayout = ({
           }}
           modalContent={
             <GeneratedOrderModal
-              onPayNow={() => {
+              onPayNow={(e) => {
+                if (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
                 setIsGenerateModalOpen(false);
-                setOpenPayNowModal(true);
+                // Use setTimeout to ensure the modal closes before opening the new one
+                setTimeout(() => {
+                  setOpenPayNowModal(true);
+                }, 200);
               }}
               onPayLater={async () => {
                 setIsGenerateModalOpen(false);
@@ -1820,6 +1827,8 @@ const ProductPageLayout = ({
               onUpdateFormData={(updatedFields) =>
                 setFormData((prev) => ({ ...prev, ...updatedFields }))
               }
+              onClosePayNowModal={() => setOpenPayNowModal(false)}
+              onOpenCODModal={() => setOpenCODModal(true)}
             />
           }
         />

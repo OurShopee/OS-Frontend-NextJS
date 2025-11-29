@@ -23,7 +23,8 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
     {/* Content Card */}
     <div className="bg-white rounded-3xl py-[30px] px-5 w-full max-w-lg flex flex-col items-center backdrop-blur-[0px] gap-4">
       <p className="text-[22px] font-semibold text-[#191B1C] text-center">
-        Your order is now moving to the<br /> next step.{" "}
+        Your order is now moving to the
+        <br /> next step.{" "}
         <span role="img" aria-label="party">
           🎉
         </span>
@@ -38,7 +39,11 @@ const GeneratedOrderModal = ({ onPayNow, onPayLater }) => (
           <div className="animated-bg-button-shadow" />
           <button
             type="button"
-            onClick={onPayNow}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onPayNow(e);
+            }}
             className="w-full place-order-button border-none gap-2 uppercase select-none relative inline-flex items-center justify-center h-14 rounded-xl font-medium text-white overflow-hidden disabled:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             <img
