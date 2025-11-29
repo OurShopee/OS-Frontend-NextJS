@@ -1,6 +1,6 @@
 import React from "react";
-import starimg from "@/images/Sta5r.png";
 import { Container } from "react-bootstrap";
+import { getAssetsUrl } from "../utils/helpers";
 import BreadComp from "@/components/Myaccount/BreadComp";
 
 const WarrantyReturnPolicy = () => {
@@ -14,7 +14,7 @@ const WarrantyReturnPolicy = () => {
 
       {/* General Policy */}
       <div className="privacy-policy-min-titles">
-        <img className="starimg" src={starimg.src} alt="star" />
+        <img className="starimg" src={getAssetsUrl("Sta5r.png")} alt="star" loading="lazy" />
         General Policy
       </div>
       <div className="privacy-discription">
@@ -26,7 +26,7 @@ const WarrantyReturnPolicy = () => {
       {/* Customer Satisfaction */}
       <div className="footerpage-boderbottem"></div>
       <div className="privacy-policy-min-titles">
-        <img className="starimg" src={starimg} alt="star" />
+        <img className="starimg" src={getAssetsUrl("Sta5r.png")} alt="star" loading="lazy" />
         Customer Satisfaction Policy
       </div>
       <div className="privacy-discription">
@@ -40,7 +40,7 @@ const WarrantyReturnPolicy = () => {
       {/* Promotions & Deals */}
       <div className="footerpage-boderbottem"></div>
       <div className="privacy-policy-min-titles">
-        <img className="starimg" src={starimg} alt="star" />
+        <img className="starimg" src={getAssetsUrl("Sta5r.png")} alt="star" loading="lazy" />
         Promotional & Discount Products
       </div>
       <div className="privacy-discription">
@@ -55,7 +55,7 @@ const WarrantyReturnPolicy = () => {
       {/* Mobile Phones (Warrantied) */}
       <div className="footerpage-boderbottem"></div>
       <div className="privacy-policy-min-titles">
-        <img className="starimg" src={starimg} alt="star" />
+        <img className="starimg" src={getAssetsUrl("Sta5r.png")} alt="star" loading="lazy" />
         Mobile Phones & Smartphones (Warrantied Models Only)
       </div>
       <div className="privacy-discription">
@@ -71,7 +71,7 @@ const WarrantyReturnPolicy = () => {
       {/* Non-Acceptable Conditions */}
       <div className="footerpage-boderbottem"></div>
       <div className="privacy-policy-min-titles">
-        <img className="starimg" src={starimg} alt="star" />
+        <img className="starimg" src={getAssetsUrl("Sta5r.png")} alt="star" loading="lazy" />
         Conditions Not Accepted for Return/Warranty
       </div>
       <div className="privacy-discription">

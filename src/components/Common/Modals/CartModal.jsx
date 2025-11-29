@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/navigation";
 import { useContent, useCurrentLanguage, useDynamicContent } from "@/hooks";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
@@ -86,8 +87,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
 
             <div className="cart-item gap-3">
               <div className="relative inline-block">
-                <img
-                  src={productData.image}
+                <img src={productData.image}
                   alt={`${productName} product image`}
                   className="cart-item-image"
                   style={{
@@ -96,9 +96,8 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                     borderRadius: "8px",
                     objectFit: "cover",
                   }}
-                />
-                <img
-                  src="/assets/vector_icons/successfull.gif"
+                loading="lazy" />
+                <img src={getAssetsUrl("vector_icons/successfull.gif")}
                   alt=""
                   aria-hidden="true"
                   style={{
@@ -108,7 +107,7 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                     width: "28px",
                     height: "28px",
                   }}
-                />
+                loading="lazy" />
               </div>
 
               <div className="cart-item-info">
@@ -128,12 +127,11 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                 >
                   <div className="flex items-center">
                     {currentcountry?.currency == "AED" ? (
-                      <img
-                        src="/assets/feed/aed-icon.svg"
+                      <img src={getAssetsUrl("feed/aed-icon.svg")}
                         alt="AED"
                         className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                         style={{ color: "black" }}
-                      />
+                      loading="lazy" />
                     ) : (
                       <span>{currentcountry?.currency}&nbsp;</span>
                     )}
@@ -153,12 +151,11 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                       >
                         {currentcountry?.currency == "AED" ? (
                           <>
-                            <img
-                              src="/assets/feed/aed-icon.svg"
+                            <img src={getAssetsUrl("feed/aed-icon.svg")}
                               alt="AED"
                               className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                               style={{ color: "#9EA5A8" }}
-                            />
+                            loading="lazy" />
                             {Math.ceil(productData?.old_price * quantity)}
                           </>
                         ) : (
@@ -175,13 +172,12 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                       <div className="save-cartModal flex items-center justify-center px-2 gap-0">
                         <div className="py-2 flex items-center">
                         <span className={`${currentLanguage === "ar" ? "ml-2" : "mr-2" } badge-icon inline-flex items-center justify-center`}>
-                        <img
-                              src="/assets/vector_icons/Vector.png"
+                        <img src={getAssetsUrl("vector_icons/Vector.png")}
                               alt=""
                               aria-hidden="true"
                               width={13}
                               height={13}
-                            />
+                            loading="lazy" />
                           </span>
                           <span
                             style={{
@@ -199,12 +195,11 @@ const CartModal = ({ show, onHide, productData, quantity, onBuyNow }) => {
                               }}
                             >
                               {currentcountry?.currency == "AED" ? (
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className={`w-3 h-3 inline-block mix-blend-multiply ${currentLanguage === "ar" ? "ml-1" : "mr-1"}`}
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                               ) : (
                                 <>{currentcountry.currency}{" "}</>
                               )}

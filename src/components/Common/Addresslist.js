@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import deleteimg from "@/images/Delete.png";
-import editimg from "@/images/Edit.png";
 import { deleteUserAddressapi, saveDefaultAddressapi, getalladdressesapi } from "@/redux/addresslice";
+import { getAssetsUrl } from "../utils/helpers";
 import { FaPlus } from "react-icons/fa6";
 import { MediaQueries } from "@/components/utils";
 import MobileAddressModal from "./Modals/MobileAddressModal";
@@ -123,14 +122,14 @@ const Address = () => {
                                     </div>
                                     <div className={`edit-remove-main ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                         <div className="address-page-edit-remove-btn hoverbox-shadow" onClick={() => handleEditAddress(ele.idaddress)}>
-                                            <img src={editimg.src} alt="Edit" />
+                                            <img src={getAssetsUrl("Edit.png")} alt="Edit" loading="lazy" />
                                             <span className="btn-title">{edit}</span>
                                         </div>
                                         <div
                                             className="address-page-edit-remove-btn hoverbox-shadow"
                                             onClick={() => deleteAddress(ele.idaddress)}
                                         >
-                                            <img src={deleteimg.src} alt="Delete" />
+                                            <img src={getAssetsUrl("Delete.png")} alt="Delete" loading="lazy" />
                                             <span className="btn-title">{remove}</span>
                                         </div>
                                     </div>

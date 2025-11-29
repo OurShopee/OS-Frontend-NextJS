@@ -12,6 +12,7 @@ import { ProductCard } from "../Common";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { getDynamicContent, useContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 export default function TopSelling({
   type,
@@ -133,15 +134,14 @@ export default function TopSelling({
           </h2>
           {(topSellingData?.icon_image?.[0]?.mobileImage ||
             topSellingData?.icon_image?.[0]?.desktopImage) && (
-            <img
-              src={
+            <img src={
                 isMobile
                   ? topSellingData?.icon_image[0]?.mobileImage
                   : topSellingData?.icon_image[0]?.desktopImage
               }
               alt=""
               className="w-8 h-8"
-            />
+            loading="lazy" />
           )}
         </div>
         {/* <Link href={topSellingData?.icon_image?.[0]?.url || "/"} className="text-[#43494B] font-semibold gap-1 flex items-center">
@@ -166,19 +166,17 @@ export default function TopSelling({
           aria-disabled={leftArrowDisabled}
           aria-label="Previous"
         >
-          <img
-            src="/assets/vector_icons/arrow_left.svg"
+          <img src={getAssetsUrl("vector_icons/arrow_left.svg")}
             alt="Arrow"
             className={`w-4 h-4 grayscale transition-transform ${isRTL ? "rotate-180" : ""}`}
-          />
+          loading="lazy" />
         </button>
 
         {/* Optional left banner */}
         {imgUrl !== "" && (
           <Link href={imgRedirectionUrl}>
             <div className="min-w-[200px] lg:min-w-[300px]">
-              <img
-                data-aos="fade-right"
+              <img data-aos="fade-right"
                 data-aos-easing="ease-in-out"
                 src={imgUrl}
                 alt={imgUrl}
@@ -190,6 +188,7 @@ export default function TopSelling({
                     ? { height: `${swiperHeight}px` }
                     : {}
                 }
+                loading="lazy"
               />
             </div>
           </Link>
@@ -207,11 +206,10 @@ export default function TopSelling({
               disabled={leftArrowDisabled}
               aria-disabled={leftArrowDisabled}
             >
-              <img
-                src="/assets/vector_icons/arrow_left.svg"
+              <img src={getAssetsUrl("vector_icons/arrow_left.svg")}
                 alt="Arrow"
                 className={`w-6 h-6 cursor-pointer grayscale transition-transform`}
-              />
+              loading="lazy" />
             </button>
 
             {/* RIGHT ARROW – Mobile (edge) */}
@@ -223,11 +221,10 @@ export default function TopSelling({
               disabled={rightArrowDisabled}
               aria-disabled={rightArrowDisabled}
             >
-              <img
-                src="/assets/vector_icons/arrow_right.svg"
+              <img src={getAssetsUrl("vector_icons/arrow_right.svg")}
                 alt="Arrow"
                 className={`w-6 h-6 cursor-pointer grayscale transition-transform`}
-              />
+              loading="lazy" />
             </button>
 
             <Swiper
@@ -317,8 +314,7 @@ export default function TopSelling({
         {imgPostUrl !== "" && (
           <Link href={imgPostRedirectionUrl}>
             <div style={{ minWidth: "300px" }}>
-              <img
-                data-aos="fade-left"
+              <img data-aos="fade-left"
                 data-aos-easing="ease-in-out"
                 src={imgPostUrl}
                 alt={imgPostUrl}
@@ -330,6 +326,7 @@ export default function TopSelling({
                     ? { height: `${swiperHeight}px` }
                     : {}
                 }
+                loading="lazy"
               />
             </div>
           </Link>
@@ -344,11 +341,10 @@ export default function TopSelling({
           aria-disabled={rightArrowDisabled}
           aria-label="Next"
         >
-          <img
-            src="/assets/vector_icons/arrow_right.svg"
+          <img src={getAssetsUrl("vector_icons/arrow_right.svg")}
             alt="Arrow"
             className={`w-4 h-4 grayscale transition-transform ${isRTL ? "rotate-180" : ""}`}
-          />
+          loading="lazy" />
         </button>
       </div>
       <style jsx>{`

@@ -13,6 +13,7 @@ import { CiDiscount1 } from "react-icons/ci";
 import CouponModal from "./Modals/CouponModal";
 import { toast } from "react-toastify";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
+import { getAssetsUrl } from "../utils/helpers";
 
 const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
   const dispatch = useDispatch();
@@ -64,7 +65,6 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
 
   const checkcoupan = async (couponCode = null) => {
     const codeToUse = couponCode || coupancode;
-
     const computedCartIds =
       prodId && qty
         ? `${prodId}|${qty}|${price}`
@@ -74,7 +74,6 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
                 `${each.product_id}|${each.quantity}|${each.single_price}`
             )
             .join(",");
-
     const input_data = {
       cartIds: computedCartIds,
       coupon: codeToUse,
@@ -84,12 +83,11 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
         ? paymentMethods?.sub_total.replace(/[^\d.]/g, "")
         : cartlistdata?.data?.grand_total.replace(/[^\d.]/g, ""),
     };
-
     try {
       const responseAction = await dispatch(checkCouponCodeapi(input_data));
       const resPayload = responseAction?.payload;
       const status = resPayload?.status?.toLowerCase();
-    
+
       const message =
         resPayload?.msg || resPayload?.data?.msg || "Invalid Coupon";
       if (couponCode) {
@@ -97,7 +95,6 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
       }
 
       if (status === "failure") {
- 
         toast.error(message);
         setShowSuccessAnimation(false);
         return { status: "faliure", message };
@@ -105,7 +102,7 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
 
       // Show success animation when coupon is successfully applied
       setShowSuccessAnimation(true);
-      
+
       // Push to data layer after successful coupon application
       // We'll use a useEffect to track this after Redux state updates
       return { status: "success", message };
@@ -143,9 +140,11 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
   // Push to data layer when coupon is successfully applied
   useEffect(() => {
     if (coupon && coupon.discount > 0 && currentCountry?.name) {
-      const couponCode = coupon.code || coupon.coupon || coupon.promo_code || coupancode;
-      const discountAmount = coupon.discount || coupon.discount_amount || coupon.discount_value || 0;
-      
+      const couponCode =
+        coupon.code || coupon.coupon || coupon.promo_code || coupancode;
+      const discountAmount =
+        coupon.discount || coupon.discount_amount || coupon.discount_value || 0;
+
       // Prevent duplicate pushes for the same coupon
       if (lastPushedCouponRef.current !== couponCode) {
         pushToDataLayer(
@@ -153,11 +152,11 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
           currentCountry.name,
           {
             details: {
-            coupon_code: couponCode,
-            discount_amount: discountAmount,
-            currency: currentCountry.currency || "AED",
-            source: isSingleCheckoutFlow ? "pdp" : "cart",
-          }
+              coupon_code: couponCode,
+              discount_amount: discountAmount,
+              currency: currentCountry.currency || "AED",
+              source: isSingleCheckoutFlow ? "pdp" : "cart",
+            },
           },
           false
         );
@@ -177,8 +176,8 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
           className="flex text-lg font-extrabold items-center gap-[2px] cursor-pointer"
           onClick={() => setShowCouponModal(true)}
         >
-          <CiDiscount1 
-            className="!text-[#3B82F6] !w-[15px] !h-[15px] !text-lg" 
+          <CiDiscount1
+            className="!text-[#3B82F6] !w-[15px] !h-[15px] !text-lg"
             style={{ strokeWidth: 1 }}
           />
           <span className="!text-[#3B82F6] text-base font-medium cursor-pointer">
@@ -209,42 +208,45 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
             }}
           />
           {coupancode && (
-            <div >
-            <span
-            
-              onClick={() => {
-                if (!showSuccessAnimation) {
-                  dispatch(removeCoupon());
-                  setCoupancode("");
-                  setShowSuccessAnimation(false);
-                }
-              }}
-              className="flex justify-center items-center"
-              style={{
-                position: "absolute",
-                [isRTL ? "left" : "right"]: "10px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                cursor: showSuccessAnimation ? "default" : "pointer",
-                fontSize: "16px",
-                color: "#999",
-                zIndex: 1,
-              }}
-            >
-              {showSuccessAnimation ? (
-                <img
-                 ref={inputFieldRef}
-                  src="/assets/vector_icons/successfull.gif"
-                  alt="Success"
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                  }}
-                />
-              ) : (
-               <span className="flex justify-center items-center mr-1"> ✕</span>
-              )}
-            </span>
+            <div>
+              <span
+                onClick={() => {
+                  if (!showSuccessAnimation) {
+                    dispatch(removeCoupon());
+                    setCoupancode("");
+                    setShowSuccessAnimation(false);
+                  }
+                }}
+                className="flex justify-center items-center"
+                style={{
+                  position: "absolute",
+                  [isRTL ? "left" : "right"]: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: showSuccessAnimation ? "default" : "pointer",
+                  fontSize: "16px",
+                  color: "#999",
+                  zIndex: 1,
+                }}
+              >
+                {showSuccessAnimation ? (
+                  <img
+                    ref={inputFieldRef}
+                    src={getAssetsUrl("vector_icons/successfull.gif")}
+                    alt="Success"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                    }}
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="flex justify-center items-center mr-1">
+                    {" "}
+                    ✕
+                  </span>
+                )}
+              </span>
             </div>
           )}
         </div>
@@ -285,24 +287,27 @@ const CheckCoupan = ({ prodId, qty, sku, paymentMethods, price, coupons }) => {
         >
           <HiMiniCheckBadge className="text-xl" />
           <span className="flex items-center gap-[3px]">
-            <span className="text-black font-medium text-sm">{couponAppliedText}</span>
+            <span className="text-black font-medium text-sm">
+              {couponAppliedText}
+            </span>
             {currentCountry?.currency?.toUpperCase() === "AED" ? (
               <img
-                src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/dirham.svg"
+                src={getAssetsUrl("coupons/dirham.svg")}
                 alt="AED"
                 className={`w-[14px] h-[14px] inline-block mix-blend-multiply ${
                   isRTL ? "" : ""
                 }`}
                 style={{ color: "black" }}
+                loading="lazy"
               />
             ) : (
-              <span
-                className={`currencycode ${isRTL ? "" : ""}`}
-              >
+              <span className={`currencycode ${isRTL ? "" : ""}`}>
                 {currentCountry?.currency || "AED"}
               </span>
             )}
-            <span className="text-green-[#33B056] font-semibold text-sm">{coupon?.discount}</span>
+            <span className="text-green-[#33B056] font-semibold text-sm">
+              {coupon?.discount}
+            </span>
           </span>
         </div>
       )}

@@ -14,7 +14,8 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setauthstatus } from "../../redux/formslice";
 import { useContent, useCurrentLanguage } from "@/hooks";
-
+import { getAssetsUrl } from "../../components/utils/helpers";
+import { IoIosWallet } from "react-icons/io";
 const MyAccountDashboard = () => {
     const pathname = usePathname()
     const dispatch = useDispatch()
@@ -32,6 +33,7 @@ const MyAccountDashboard = () => {
     const wishlist = useContent("account.wishlist");
     const orderDetails = useContent("buttons.orderDetails");
     const myOrders = useContent("account.myOrders");
+    const wallet = useContent("account.wallet");
     const trackYourOrder = useContent("account.trackYourOrder");
     const helpCenter = useContent("buttons.helpCenter");
     const complaints = useContent("pages.complaints");
@@ -93,6 +95,18 @@ const MyAccountDashboard = () => {
             ]
         },
         {
+          id: 4,
+          card_title: wallet,
+          card_items: [
+              {
+                  id: 1,
+                  name: wallet,
+                  url: 'wallet',
+                  icon: <IoIosWallet size={20} color={pathname?.split('/')[1] == 'wallet' ? "var(--primary_color)" : 'rgba(67, 73, 75, 1)'} />
+              }
+          ]
+      },
+        {
             id: 3,
             card_title: helpCenter,
             card_items: [
@@ -104,7 +118,7 @@ const MyAccountDashboard = () => {
                 }
             ]
         }
-    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname]);
+    ], [accountSetting, profile, address, changePassword, wishlist, orderDetails, myOrders, trackYourOrder, helpCenter, complaints, isMobile, pathname, wallet]);
 
     return (
       <>
@@ -185,13 +199,12 @@ const MyAccountDashboard = () => {
                                 {card_item.name}
                               </h5>
                             </div>
-                            <img 
-                              src="/assets/vector_icons/arrow_right.png" 
+                            <img src={getAssetsUrl("vector_icons/arrow_right.png")} 
                               style={{
                                 transform: currentLanguage === "ar" ? "scaleX(-1)" : "none"
                               }}
                               alt="arrow"
-                            />
+                            loading="lazy" />
                           </Link>
                         ) : (
                           <Link

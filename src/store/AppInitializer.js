@@ -131,9 +131,19 @@ export default function AppInitializer() {
       },
       function (error) {
         if (error.response?.status === 401) {
-          logout();
-          dispatch(setformmodal(true));
-          dispatch(setformstatus(1));
+          // Skip opening login modal if we're on feed routes (feed orders don't require auth)
+          const currentPath =
+            typeof window !== "undefined"
+              ? window.location.pathname
+              : pathname || "";
+          const isFeedRoute = currentPath.startsWith("/feed/");
+
+          // Only open login modal if not on feed route
+          if (!isFeedRoute) {
+            logout();
+            dispatch(setformmodal(true));
+            dispatch(setformstatus(1));
+          }
         }
         return Promise.reject(error);
       }
@@ -143,7 +153,7 @@ export default function AppInitializer() {
     return () => {
       axios.interceptors.response.eject(interceptor);
     };
-  }, [logout, dispatch]);
+  }, [logout, dispatch, pathname]);
 
   // On App Load: Fetch Navigation Data (Only if not available from server)
   useMemo(() => {

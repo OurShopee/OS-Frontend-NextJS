@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import dangerimage from "@/images/Danger Triangle.png";
-import Openeye from "@/images/openeye.png";
-import Closedeye from "@/images/closeeye.png"
 import { useSelector } from "react-redux";
+import { getAssetsUrl } from "../utils/helpers";
 import Image from "next/image";
 
 const Inputbox = ({
@@ -59,10 +57,9 @@ const Inputbox = ({
             aria-label={showPassword ? "Hide password" : "Show password"}
             aria-pressed={showPassword}
           >
-            <img
-              src={showPassword ? Closedeye.src : Openeye.src}
+            <img src={showPassword ? getAssetsUrl("closeeye.png") : getAssetsUrl("openeye.png")}
               alt={showPassword ? "Hide password" : "Show password"}
-            />
+            loading="lazy" />
           </button>
         )}
       </div>
@@ -73,7 +70,7 @@ const Inputbox = ({
           id={`${id}-error`}
           role="alert"
         >
-          <img src={dangerimage.src} alt="Error" />
+          <img src={getAssetsUrl("Danger Triangle.png")} alt="Error" loading="lazy" />
           <span className="incooretinput pl-2">{error}</span>
         </div>
       )}

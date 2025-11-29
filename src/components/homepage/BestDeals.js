@@ -73,11 +73,10 @@ function BestDeals({ carousel_data, breakPointsProps }) {
           >
             {carousel_data?.map((item) => (
               <Carousel.Item key={item.brand_id} className="h-full relative">
-                <img
-                  src={item.image_slider}
+                <img src={item.image_slider}
                   alt=""
                   className="w-full h-full rounded-2xl"
-                />
+                loading="lazy" />
               </Carousel.Item>
             ))}
           </Carousel>

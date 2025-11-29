@@ -34,3 +34,12 @@ export const getImageUrl = (image) => {
     return `${baseUrl}${image}`;
   }
 };
+
+export const getAssetsUrl = (image) => {
+  if (image.startsWith("https")) {
+    return image;
+  } else {
+    const baseUrl = process.env.NEXT_PUBLIC_IMAGE_ASSETS;
+    return `${baseUrl}${image}`;
+  }
+};

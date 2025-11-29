@@ -111,21 +111,19 @@ const ShopByPopularCategoryMobile = ({ rows }) => {
           `}
             style={{ fontFamily: "'Bobby Jones Soft Regular', cursive" }}
           >
-            <img
-              src={leaf}
+            <img src={leaf}
               alt=""
               width={20}
               className="absolute -left-[25px] -top-[5px] w-5 h-auto"
-            />
+            loading="lazy" />
             HOT PICKS OF THE MOMENT
             <div className="flex absolute right-0 top-[2.4rem] justify-end h-[30px]">
-              <img
-                src={underline}
+              <img src={underline}
                 alt=""
                 width={120}
                 height={18}
                 className="object-contain"
-              />
+              loading="lazy" />
             </div>
           </div>
         </div>

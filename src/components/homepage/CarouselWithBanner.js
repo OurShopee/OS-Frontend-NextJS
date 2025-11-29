@@ -58,13 +58,12 @@ export default function CarouselWithBanner({
   }, [hasBanner, products, isMobile]);
 
   const bannerContent = (
-    <img
-      data-aos="fade-right"
+    <img data-aos="fade-right"
       data-aos-easing="ease-in-out"
       src={bannerImage}
       alt="Promotional banner"
       className={`w-full max-h-[310px] object-cover rounded-2xl ${bannerClassName}`}
-    />
+    loading="lazy" />
   );
 
   return (

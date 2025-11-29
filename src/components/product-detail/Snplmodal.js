@@ -8,6 +8,7 @@ import { setsnplmodal } from "@/redux/formslice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCurrentLanguage, useContent } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ to, children, className, ...props }) => {
@@ -165,8 +166,7 @@ const Snplmodal = ({ productcost }) => {
                         >
                           {currentcountry?.currency == "AED" ? (
                             <>
-                              <img
-                                src="/assets/feed/aed-icon.svg"
+                              <img src={getAssetsUrl("feed/aed-icon.svg")}
                                 alt="AED"
                                 className="w-4 h-4 inline-block mix-blend-multiply"
                                 style={{ 
@@ -174,7 +174,7 @@ const Snplmodal = ({ productcost }) => {
                                   marginRight: isRTL ? "4px" : "0",
                                   marginLeft: isRTL ? "0" : "4px"
                                 }}
-                              />
+                              loading="lazy" />
                               {productcost}
                             </>
                           ) : (

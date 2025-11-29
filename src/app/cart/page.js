@@ -6,7 +6,7 @@ import Paymentdetails from "@/components/Common/Paymentdetails";
 import { MediaQueries } from "@/components/utils";
 import { CalculatePaymentDetails } from "@/components/utils/Cart";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
-import deleteimg from "@/images/Delete.png";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import {
   cartlistWithoutLoaderapi,
   changeCartQuantityapi,
@@ -198,11 +198,10 @@ const freeGiftText = useContent("cart.freeGift");
                         href={`/details/${ele.url}`}
                         className={"text-decoration-none"}
                       >
-                        <img
-                          src={ele.image}
+                        <img src={ele.image}
                           className="cart-productimage"
                           alt="product"
-                        />
+                        loading="lazy" />
                       </Link>
                       <div className="cartproduct-details">
                         <Link
@@ -221,14 +220,13 @@ const freeGiftText = useContent("cart.freeGift");
                               }`}
                             >
                               {currentcountry?.currency == "AED" ? (
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className={`w-4 h-4 inline-block mix-blend-multiply ${
                                     currentLanguage === "ar" ? "ml-1" : "mr-1"
                                   }`}
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                               ) : (
                                 <span
                                   className={`currencycode ${
@@ -276,7 +274,7 @@ const freeGiftText = useContent("cart.freeGift");
                                   className="cart-product-quantitybtn hoverbox-shadow"
                                   onClick={() => removeproduct(ele.cart_id)}
                                 >
-                                  <img src={deleteimg.src} alt="delete" />
+                                  <img src={getAssetsUrl("Delete.png")} alt="delete" loading="lazy" />
                                   <span className="cartremone">
                                     {removeText}
                                   </span>
@@ -316,7 +314,7 @@ const freeGiftText = useContent("cart.freeGift");
                           className="cart-product-removebtn hoverbox-shadow"
                           onClick={() => removeproduct(ele.cart_id)}
                         >
-                          <img src={deleteimg.src} alt="delete" />
+                          <img src={getAssetsUrl("Delete.png")} alt="delete" loading="lazy" />
                           <span className="cartremone">{removeText}</span>
                         </div>
                       </div>
@@ -340,14 +338,13 @@ const freeGiftText = useContent("cart.freeGift");
                             </div>
                             <div className="payment-type-cost flex items-center">
                               {currentcountry?.currency == "AED" ? (
-                                <img
-                                  src="/assets/feed/aed-icon.svg"
+                                <img src={getAssetsUrl("feed/aed-icon.svg")}
                                   alt="AED"
                                   className={`w-3 h-3 inline-block mix-blend-multiply ${
                                     currentLanguage === "ar" ? "ml-1" : "mr-1"
                                   }`}
                                   style={{ color: "black" }}
-                                />
+                                loading="lazy" />
                               ) : (
                                 <span
                                   className={

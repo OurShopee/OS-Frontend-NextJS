@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from "react";
-import starimg from "@/images/Sta5r.png"
 import { Container } from "react-bootstrap";
 import BreadComp from "@/components/Myaccount/BreadComp";
+import { getAssetsUrl } from "../utils/helpers";
 const FAQs = () => {
     const [expanded, setExpanded] = useState(1);
 
@@ -294,14 +294,14 @@ const FAQs = () => {
                             <div className="mb-3">
                                 <div className="faq_item" onClick={() => handleClick(item.id)} style={{background : expanded != item.id && '#fff'}}>
                                     <div className="d-flex align-items-center justify-content-center">
-                                        <img src={starimg.src} />
+                                        <img src={getAssetsUrl("Sta5r.png")} loading="lazy" />
                                         <h6 className="ms-2 mb-0">{item.question}</h6>
                                     </div>
                                     {
                                         expanded == item.id ?
-                                            <img src={'/assets/vector_icons/arrow_up.png'} />
+                                            <img src={getAssetsUrl("vector_icons/arrow_up.png")} loading="lazy" />
                                             :
-                                            <img src={'/assets/vector_icons/arrow_down.png'} />
+                                            <img src={getAssetsUrl("vector_icons/arrow_down.png")} loading="lazy" />
 
                                     }
                                 </div>

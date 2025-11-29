@@ -66,13 +66,6 @@ export const getComplaintapi = createAsyncThunk(
     return res;
   }
 );
-export const trackdatabyreferencidapi = createAsyncThunk(
-  "fetchtrackdatabyorderidapi",
-  async (input_data) => {
-    const res = await trackdatabyreferencid(input_data);
-    return res;
-  }
-);
 export const CheckEmailapi = createAsyncThunk(
   "fetchcheckemailotp",
   async (input_data) => {
@@ -154,7 +147,6 @@ const formslice = createSlice({
     registermobile: "",
     checkotperror: "",
     orderlistdata: [],
-    trackorderlistdata: [],
     snplmodal: false,
     bankoffermodal: false,
     addressnumber: false,
@@ -400,13 +392,6 @@ const formslice = createSlice({
         // }
         // state.formmodal = false;
       })
-      //.............orders
-      .addCase(trackdatabyreferencidapi.fulfilled, (state, action) => {
-        // if (action.payload.status === "success") {
-        state.trackorderlistdata = action.payload;
-        // }
-        // state.formmodal = false;
-      });
   },
 });
 export const {

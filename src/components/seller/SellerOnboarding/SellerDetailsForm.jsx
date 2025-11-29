@@ -4,6 +4,7 @@ import "react-intl-tel-input/dist/main.css";
 import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
 import { sent_mobile_email_otp } from "@/api/seller";
 import { toast } from "react-toastify";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const docFields = [
   { label: "Trade License / Commercial Registration", name: "trade_license" },
@@ -317,11 +318,10 @@ const SellerDetailsForm = ({ formData, setFormData, onNext }) => {
                     borderBottomRightRadius: "0.5rem",
                   }}
                 >
-                  <img
-                    src="/assets/seller/attach_file.png"
-                    alt=""
+                  <img src={getAssetsUrl("seller/attach_file.png")}
+                    alt="Attach File"
                     className="w-2.5 h-3.5"
-                  />{" "}
+                  loading="lazy" />{" "}
                   &nbsp; Choose file
                 </label>
               </div>

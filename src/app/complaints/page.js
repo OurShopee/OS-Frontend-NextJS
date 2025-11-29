@@ -6,10 +6,8 @@ import { MediaQueries } from "@/components/utils";
 import MyAccountDashboard from "@/components/Myaccount/MyAccountDashboard";
 import BreadComp from "@/components/Myaccount/BreadComp";
 import Invitefriend from "@/components/Common/Invitefriend";
-import inviteimg from "@/images/invite.png"
-import editeemaiimg from "@/images/email edit.png"
-import trackcomplateimg from "@/images/Group.png"
 import withAuth from "@/components/Common/withAuth";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { useContent } from "@/hooks";
 // import righticon from "../../../public/assets/vector_icons/arrow_right.png"
 const Complaints = () => {
@@ -52,14 +50,14 @@ const Complaints = () => {
                                     <Col lg={6} md={6} sm={12} >
                                         <Link href="/place-a-complaints" className="complaintcard textdecoration-none">
 
-                                            <img className="compliantimg" src={editeemaiimg.src} />
+                                            <img className="compliantimg" src={getAssetsUrl("email edit.png")} loading="lazy" />
                                             <div className="complianttitle">{placeComplaint}</div>
                                         </Link>
                                     </Col>
                                     <Col lg={6} md={6} sm={12} >
                                         <Link href="/manage-complaint" className="complaintcard textdecoration-none">
 
-                                            <img className="compliantimg" src={trackcomplateimg.src} />
+                                            <img className="compliantimg" src={getAssetsUrl("Group.png")} loading="lazy" />
                                             <div className="complianttitle">{manageComplaints}</div>
                                         </Link>
                                     </Col>

@@ -2,8 +2,8 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import rightimg from "@/images/Arrow - Right 2.png";
 import BreadComp from "@/components/Myaccount/BreadComp";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import Link from "next/link";
 import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
 const Sitemap = () => {
@@ -41,12 +41,11 @@ const Sitemap = () => {
                       >
                         {
                           // isActive ?
-                          // <img className="blog-cat-rightarrowimg" src={activerightimg} alt="arrow" /> :
-                          <img
-                            className="blog-cat-rightarrowimg"
-                            src={rightimg.src}
+                          // <img className="blog-cat-rightarrowimg" src={activerightimg} alt="arrow" loading="lazy" /> :
+                          <img className="blog-cat-rightarrowimg"
+                            src={getAssetsUrl("Arrow - Right 2.png")}
                             alt="arrow"
-                          />
+                          loading="lazy" />
                         }
 
                         {getDynamicContent(sub, "sub_category_name", currentLanguage)}

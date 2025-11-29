@@ -22,16 +22,14 @@ const LowestPriceSection = ({ LowestPriceEver }) => {
         >
           <div className="relative flex items-center justify-center w-full">
             {/* Text: LOWEST PRICE EVER */}
-            <img
-              src="//cdn.ourshopee.com/ourshopee-img/blackFriday/web/lowestPrice/lowest_price.png"
+            <img src="//cdn.ourshopee.com/ourshopee-img/blackFriday/web/lowestPrice/lowest_price.png"
               alt="lowest price"
               className="relative z-20 transform -rotate-[5deg] w-[260px] h-[130px] drop-shadow-[2px_3px_2px_rgba(0,0,0,0.5)]"
-            />
-            <img
-              src="//cdn.ourshopee.com/ourshopee-img/blackFriday/web/lowestPrice/sale.gif"
+            loading="lazy" />
+            <img src="//cdn.ourshopee.com/ourshopee-img/blackFriday/web/lowestPrice/sale.gif"
               alt="sale"
               className="absolute z-10 transform -rotate-[13deg] translate-x-[90px] translate-y-[0px] w-[80px] h-auto"
-            />
+            loading="lazy" />
           </div>
 
           <CarouselProducts

@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import rightimg from "../../../public/images/Arrow - Right 2.png";
-import activerightimg from "../../../public/images/Arrow - Right  active.png";
 import { getDynamicContent, useCurrentLanguage } from "@/hooks";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const Blogcategory = ({ data }) => {
   const { slug } = useParams();
@@ -27,11 +26,10 @@ const Blogcategory = ({ data }) => {
                 : ""
             }`}
           >
-            <img
-              className="w-4 h-4 mr-1"
-              src={isActive ? activerightimg.src : rightimg.src}
+            <img className="w-4 h-4 mr-1"
+              src={isActive ? getAssetsUrl("Arrow - Right  active.png") : getAssetsUrl("Arrow - Right 2.png")}
               alt="arrow"
-            />
+            loading="lazy" />
             {getDynamicContent(ele, "name", currentLanguage)}
           </Link>
         );

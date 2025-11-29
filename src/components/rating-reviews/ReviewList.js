@@ -427,11 +427,11 @@ const ReviewList = () => {
                   <div className="flex gap-3 flex-wrap">
                     {review.images.slice(0, 3).map((image, index) => (
                       <div key={index} className="relative">
-                        <img
-                          src={image}
+                        <img src={image}
                           alt={`Review ${index + 1}`}
                           className="w-20 h-20 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-80"
                           onClick={() => window.open(image, "_blank")}
+                          loading="lazy"
                         />
                         {index === 2 && review.images?.length > 3 && (
                           <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center cursor-pointer">

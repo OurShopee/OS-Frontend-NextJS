@@ -1,5 +1,6 @@
 import CustomStarRating from "./CustomStarRating";
 import { useContent } from "@/hooks";
+import { getAssetsUrl } from "../utils/helpers";
 
 const RatingOverview = ({ productReviews }) => {
   const stats = productReviews?.stats;
@@ -11,11 +12,10 @@ const RatingOverview = ({ productReviews }) => {
       {/* Average Rating Display */}
       <div className="flex items-center gap-4 w-max">
         <div className="relative text-center gap-3 md:p-0 w-[142px] h-[130px] md:h-full md:w-full">
-          <img
-            className="md:hidden absolute h-full w-full left-0 top-0"
-            src="/assets/review/overview-border.svg"
-            alt=""
-          />
+          <img className="md:hidden absolute h-full w-full left-0 top-0"
+            src={getAssetsUrl("review/overview-border.svg")}
+            alt="Overview Border"
+          loading="lazy" />
           <div className="gap-1 flex items-center justify-center flex-col h-full">
             <div className="leading-3 text-[32px] md:text-5xl font-semibold text-black">
               {Number.isInteger(stats?.averageRating)

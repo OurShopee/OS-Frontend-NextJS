@@ -32,13 +32,14 @@ import {
 } from "@/api/review";
 import { ComponentHeader } from "../Common";
 import { MediaQueries } from "../utils";
-import { getImageUrl, useLoginModal } from "../utils/helpers";
-import useDebounce from "../utils/UseDebounce";
+import { getAssetsUrl, getImageUrl, useLoginModal } from "../utils/helpers";
+
 import CustomStarRating from "./CustomStarRating";
 import HasReview from "./HasReview";
 import PostReviewMainPage from "./PostReviewMainPage";
 import RatingOverview from "./RatingOverview";
 import { useContent, useCurrentLanguage } from "@/hooks";
+import useDebounce from "../utils/UseDebounce";
 
 const ReviewWithRating = ({
   setProductReviews,
@@ -597,16 +598,14 @@ const ReviewWithRating = ({
                 {/* Quote Icons - Only show when not authenticated */}
                 {!authstatus && (
                   <>
-                    <img
-                      src={"/assets/review/left-icon-review.png"}
+                    <img src={getAssetsUrl("review/left-icon-review.png")}
                       alt="Quote Left"
                       className="hidden md:block absolute left-[2%] top-[8%] -translate-y-1/2 w-[100px] z-1"
-                    />
-                    <img
-                      src={"/assets/review/left-icon-review.png"}
+                    loading="lazy" />
+                    <img src={getAssetsUrl("review/left-icon-review.png")}
                       alt="Quote Right"
                       className="hidden md:block absolute right-[2%] top-[90%] -translate-y-1/2 w-[100px] z-1 rotate-180"
-                    />
+                    loading="lazy" />
                   </>
                 )}
 
@@ -956,14 +955,14 @@ const ReviewWithRating = ({
                             {review?.image?.map((image, index) => {
                               return (
                                 <div key={index} className="relative">
-                                  <img
-                                    title={clickToViewAllImages}
+                                  <img title={clickToViewAllImages}
                                     src={getImageUrl(image)}
                                     alt={`Review ${index + 1}`}
                                     className="w-full h-14 md:h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-80 hover:scale-105 transition-all duration-200"
                                     onClick={() =>
                                       handleImageClick(review.image, index)
                                     }
+                                    loading="lazy"
                                   />
                                 </div>
                               );
@@ -1049,16 +1048,14 @@ const ReviewWithRating = ({
             >
               {!authstatus && (
                 <>
-                  <img
-                    src={"/assets/review/left-icon-review.png"}
+                  <img src={getAssetsUrl("review/left-icon-review.png")}
                     alt="Quote Left"
                     className="hidden xl:block absolute left-[2%] top-[8%] -translate-y-1/2 w-[100px] z-1"
-                  />
-                  <img
-                    src={"/assets/review/left-icon-review.png"}
+                  loading="lazy" />
+                  <img src={getAssetsUrl("review/left-icon-review.png")}
                     alt="Quote Right"
                     className="hidden xl:block absolute right-[2%] top-[90%] -translate-y-1/2 w-[100px] z-1 rotate-180"
-                  />
+                  loading="lazy" />
                 </>
               )}
 
@@ -1221,11 +1218,10 @@ const ReviewWithRating = ({
                     {selectedFiles.map((file) => (
                       <div key={file.id} className="relative group">
                         <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-                          <img
-                            src={file.preview}
+                          <img src={file.preview}
                             alt={file.name}
                             className="w-full h-full object-cover"
-                          />
+                          loading="lazy" />
                         </div>
 
                         {/* Remove Button */}
@@ -1304,11 +1300,10 @@ const ReviewWithRating = ({
                 {carouselImages.map((image, index) => (
                   <SwiperSlide key={index}>
                     <div className="w-full h-full flex items-center justify-center">
-                      <img
-                        src={getImageUrl(image)}
+                      <img src={getImageUrl(image)}
                         alt={`Review  ${index + 1}`}
                         className="max-w-full flex-grow max-h-full object-contain rounded-lg"
-                      />
+                      loading="lazy" />
                     </div>
                   </SwiperSlide>
                 ))}

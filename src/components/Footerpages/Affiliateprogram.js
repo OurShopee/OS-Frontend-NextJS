@@ -9,10 +9,10 @@ const Affiliateprogram = () => {
                 <BreadComp title={"FAQ’s"} />
             </div>
             <div className="single_banner pt-4">
-                <img src={'assets/banners/affriate.png'} />
+                <img src={'assets/banners/affriate.png'} loading="lazy" />
             </div>
             <div className="single_banner pt-4">
-                <img src={'assets/banners/company.png'} />
+                <img src={'assets/banners/company.png'} loading="lazy" />
             </div>
             <Row className="mt-5 mb-5">
                 <Col lg={6} md={12} className="affriatemain">

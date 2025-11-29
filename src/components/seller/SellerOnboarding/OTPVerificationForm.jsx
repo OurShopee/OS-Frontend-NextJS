@@ -5,6 +5,7 @@ import {
   verifyMobileOtpForSeller,
 } from "@/api/seller";
 import DoubleGradientButton from "@/components/Common/DoubleGradientButton";
+import { getAssetsUrl } from "../../utils/helpers";
 
 const OTPVerificationForm = ({ email, mobile, onNext, onBack }) => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -125,14 +126,13 @@ const OTPVerificationForm = ({ email, mobile, onNext, onBack }) => {
   return (
     <form className="space-y-4 sm:space-y-8 mb-4" onSubmit={handleSubmit}>
       <div className="sm:hidden w-full flex justify-center items-center">
-        <img
-          src="/assets/seller/otp-gif.png"
-          alt=""
+        <img src={getAssetsUrl("seller/otp-gif.png")}
+          alt="OTP GIF"
           className="w-60 h-auto"
           data-aos="bounce-fade-up"
           data-aos-easing="ease-in-out"
           data-aos-duration="600"
-        />
+        loading="lazy" />
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="font-bold text-[22px] sm:text-3xl mb-0">

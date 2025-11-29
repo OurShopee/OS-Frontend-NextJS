@@ -1,10 +1,6 @@
 import React from "react";
-import Hero from "@/images/Hero.png";
-import Wave from "@/images/Wave.png";
-import man from "@/images/man.png";
-import women from "@/images/women.png";
-import dash from "@/images/dash.png";
 import { FaArrowRight } from "react-icons/fa6";
+import { getAssetsUrl } from "../../utils/helpers";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -21,11 +17,10 @@ const SellerHeroSection = () => {
   }, []);
   return (
     <div className="relative h-[500px] xl:h-[660px] overflow-hidden select-none">
-      <img
-        src={Hero.src}
+      <img src={getAssetsUrl("Hero.png")}
         alt="Hero"
         className="w-full h-full object-cover z-1"
-      />
+      loading="lazy" />
       <div className="absolute inset-0 flex flex-col items-center pt-2 xl:justify-center z-15">
         <div
           data-aos="fade-down"
@@ -58,37 +53,33 @@ const SellerHeroSection = () => {
             </a>
           </div>
         </div>
-        <img
-          data-aos="fade-up"
+        <img data-aos="fade-up"
           data-aos-duration="800"
           data-aos-easing="ease-in-out"
-          src={dash.src}
+          src={getAssetsUrl("dash.png")}
           alt="Dashboard"
           className="absolute bottom-1 left-0 right-0 mx-auto w-full xl:relative max-w-[90%] xl:max-w-[45vw] rounded-2xl overflow-hidden shadow-2xl"
-        />
+        loading="lazy" />
       </div>
-      <img
-        data-aos="fade-up"
+      <img data-aos="fade-up"
         data-aos-duration="800"
         data-aos-easing="ease-in-out"
-        src={women.src}
+        src={getAssetsUrl("women.png")}
         alt="Person Left"
         className="hidden xl:block absolute left-14 bottom-8 h-[500px] z-21 object-contain"
-      />
-      <img
-        data-aos="fade-up"
+      loading="lazy" />
+      <img data-aos="fade-up"
         data-aos-duration="800"
         data-aos-easing="ease-in-out"
-        src={man.src}
+        src={getAssetsUrl("man.png")}
         alt="Person Right"
         className="hidden xl:block absolute right-0 bottom-20 h-[480px] z-21 object-contain"
-      />
-      <img
-        src={Wave.src}
+      loading="lazy" />
+      <img src={getAssetsUrl("Wave.png")}
         alt="Wave"
         className="absolute bottom-0 left-0 w-full z-22"
         style={{ pointerEvents: "none" }}
-      />
+      loading="lazy" />
     </div>
   );
 };

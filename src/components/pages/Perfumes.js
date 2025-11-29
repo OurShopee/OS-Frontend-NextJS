@@ -111,10 +111,9 @@ const Perfumes = () => {
                         key={banner.banner_id}
                       >
                         <Link className="brand_item" href={banner.url}>
-                          <img
-                            src={banner.desktopImage}
+                          <img src={banner.desktopImage}
                             alt={banner.heading || "Banner"}
-                          />
+                          loading="lazy" />
                         </Link>
                       </Col>
                     );
@@ -132,10 +131,9 @@ const Perfumes = () => {
                     return (
                       <Col key={banner.banner_id} className="pe-0">
                         <Link href={banner.url}>
-                          <img
-                            src={banner.sub_category_image}
+                          <img src={banner.sub_category_image}
                             alt={banner.heading || "Category"}
-                          />
+                          loading="lazy" />
                         </Link>
                       </Col>
                     );
@@ -160,10 +158,9 @@ const Perfumes = () => {
                           className="p-1"
                         >
                           <Link className="brand_item" href={banner.url}>
-                            <img
-                              src={banner.desktopImage}
+                            <img src={banner.desktopImage}
                               alt={banner.heading || "Brand"}
-                            />
+                            loading="lazy" />
                           </Link>
                         </Col>
                       );
@@ -179,12 +176,11 @@ const Perfumes = () => {
                   href={`${section.images.url}`}
                   key={section.images.desktopImage}
                 >
-                  <img
-                    src={section.images.desktopImage}
+                  <img src={section.images.desktopImage}
                     style={{ borderRadius: 20 }}
                     className="w-100 mt-4 mb-2"
                     alt="Banner"
-                  />
+                  loading="lazy" />
                 </Link>
               );
             }
@@ -292,10 +288,9 @@ const Perfumes = () => {
               loader={
                 has_more && (
                   <div style={{ textAlign: "center" }}>
-                    <img
-                      src="https://www.ourshopee.com/static/media/loader.b7845d8936c686dc2914.gif"
+                    <img src="https://www.ourshopee.com/static/media/loader.b7845d8936c686dc2914.gif"
                       alt="Loading..."
-                    />
+                    loading="lazy" />
                   </div>
                 )
               }

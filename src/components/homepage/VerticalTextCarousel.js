@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import Countdown, { zeroPad } from "react-countdown";
+import { getAssetsUrl } from "../utils/helpers";
 
 const VerticalTextCarousel = ({
   items = [],
@@ -26,11 +27,10 @@ const VerticalTextCarousel = ({
     }
     return (
       <div className="flex items-center justify-start gap-1 text-orange-500 font-semibold text-sm bg-yellow-50 rounded-lg px-3 py-2">
-        <img
-          className="w-4 h-4"
-          src="/assets/vector_icons/countdown.png"
+        <img className="w-4 h-4"
+          src={getAssetsUrl("vector_icons/countdown.png")}
           alt="countdown"
-        />
+        loading="lazy" />
         <span>{zeroPad(hours)} h</span>
         <span>:</span>
         <span>{zeroPad(minutes)} m</span>

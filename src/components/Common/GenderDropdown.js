@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import uparrow from "@/images/Vectoruparrow.png";
-import downarrow from "@/images/Vectordownarrow.png";
+import { getAssetsUrl } from "../utils/helpers";
 import Image from "next/image";
 import { useContent, useCurrentLanguage } from "@/hooks";
 
@@ -83,16 +82,16 @@ const GenderDropdown = ({ selectedGender, onSelect, title }) => {
           }}
         >
           {showDropdown ? (
-            <img
-              src={uparrow.src}
+            <img src={getAssetsUrl("Vectoruparrow.png")}
               alt="Collapse options"
               onClick={() => setShowDropdown(false)}
+              loading="lazy"
             />
           ) : (
-            <img
-              src={downarrow.src}
+            <img src={getAssetsUrl("Vectordownarrow.png")}
               alt="Expand options"
               onClick={() => setShowDropdown(true)}
+              loading="lazy"
             />
           )}
         </div>

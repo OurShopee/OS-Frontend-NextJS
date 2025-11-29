@@ -126,11 +126,10 @@ const ImageCarouselMobile = ({ images, product }) => {
                 product?.name || "Product image"
               }`}
             >
-              <img
-                src={img}
+              <img src={img}
                 alt={`${product?.name || "Product"} - Image ${index + 1}`}
                 className="w-full object-contain max-h-[300px]"
-              />
+              loading="lazy" />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -191,8 +190,7 @@ const ImageCarouselMobile = ({ images, product }) => {
                   }
                 }}
               >
-                <img
-                  src={img}
+                <img src={img}
                   alt=""
                   aria-hidden="true"
                   className="w-full p-3 h-[80px] object-contain rounded-lg"
@@ -201,7 +199,7 @@ const ImageCarouselMobile = ({ images, product }) => {
                     borderWidth: "1px",
                     borderColor: index === activeIndex ? "#9EA5A8" : "#E7E8E9",
                   }}
-                />
+                loading="lazy" />
               </SwiperSlide>
             ))}
           </Swiper>

@@ -1745,7 +1745,6 @@ html {
     width: 80px;
     border-radius: 12px;
   }
-
 }
 
 .swiper-seller .swiper {
@@ -1783,7 +1782,7 @@ html {
   background: #f9f9f9;
 }
 
-@media only screen and (max-width: 567px){
+@media only screen and (max-width: 567px) {
   .carousel-product-mweb {
     border: 1.75px solid #ebebeb;
     border-radius: 12px;
@@ -1796,4 +1795,36 @@ html {
   .carouselSwiper {
     padding-bottom: 0px !important;
   }
+}
+
+.wallet-cards-shadows {
+  box-shadow: 0px 4px 12px 0px #0000000f;
+}
+
+.walletpaybg {
+  background: linear-gradient(87.1deg, #FFFFFF 34.46%, #E2FBD2 100%) !important;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+.payment-option-card{
+  border: 1px solid #E7E8E9;
+  box-shadow: 0px 4px 8px 0px #00000005;
+  border-radius: 12px;
+  padding: 12px;
+  background: #FFFFFF;
+
 }

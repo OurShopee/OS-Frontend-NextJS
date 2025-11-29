@@ -1,10 +1,9 @@
 "use client";
 
-import notcartimg from "@/images/approval.png";
 import { updateCartStatusApi } from "@/api/cart";
 import { get_orderSuccessItems, getOrderPaymentStatus } from "@/api/payments";
 import { pushToDataLayer } from "@/components/utils/dataUserpush";
-import failImg from "@/images/payfail.png";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { setcartlistdata } from "@/redux/cartslice";
 import Image from "next/image";
 import Link from "next/link";
@@ -234,11 +233,10 @@ const Ordersuccess = () => {
     <div className="notlogin" dir={isRTL ? "rtl" : "ltr"}>
       {paymentStatus === "Due" && (
         <>
-          <img
-            className="w-[72px] h-[72px]"
-            src="/assets/GIF/loader.gif"
+          <img className="w-[72px] h-[72px]"
+            src={getAssetsUrl("GIF/loader.gif")}
             alt={loaderAlt}
-          />
+          loading="lazy" />
           <h1 className="notlogintitle mt-3">
             {processingTitle}
           </h1>
@@ -246,7 +244,7 @@ const Ordersuccess = () => {
       )}
       {paymentStatus === "Paid" && (
         <>
-          <img src={notcartimg.src} alt={orderSuccessAlt} />
+          <img src={getAssetsUrl("approval.png")} alt={orderSuccessAlt} loading="lazy" />
           <div className="notlogintitle">
             {successTitle}
           </div>
@@ -268,7 +266,7 @@ const Ordersuccess = () => {
       )}
       {paymentStatus === "Fail" && (
         <>
-          <img src={failImg.src} alt={paymentFailedAlt} />
+          <img src={getAssetsUrl("payfail.png")} alt={paymentFailedAlt} loading="lazy" />
           <div className="notlogintitle">{failTitle}</div>
           <div className="notloginsubtitle">{failDescription}</div>
           <div className="d-flex">
@@ -280,7 +278,7 @@ const Ordersuccess = () => {
       )}
       {paymentStatus === "Stuck" && (
         <>
-          <img src="/assets/orderhold.svg" alt={orderHoldAlt} />
+          <img src={getAssetsUrl("orderhold.svg")} alt={orderHoldAlt} loading="lazy" />
           <div className="notlogintitle">
             {stuckTitle}
           </div>

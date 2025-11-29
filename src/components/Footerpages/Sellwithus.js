@@ -14,7 +14,7 @@ const Sellwithus = () => {
             Sell with Us
             </div>
             <div className="single_banner pt-4">
-                <img src={'assets/banners/sellus.png'} />
+                <img src={'assets/banners/sellus.png'} loading="lazy" />
             </div>
 
         
@@ -67,7 +67,7 @@ const Sellwithus = () => {
                             <div className="aboutus-factor-title">Easy Dashboard</div>
                             <div className="aboutus-twobanner-subtitle">Fill the Registration Form & Read and accept our Seller Agreement</div>
                         </div>
-                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork1.png'} />
+                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork1.png'} loading="lazy" />
                     </div>
                 </Col>
                 <Col lg={12} md={12} sm={12} className="mb-4">
@@ -77,7 +77,7 @@ const Sellwithus = () => {
                             <div className="aboutus-factor-title">Upload Products</div>
                             <div className="aboutus-twobanner-subtitle">Upload your products to start selling</div>
                         </div>
-                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork2.png'} />
+                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork2.png'} loading="lazy" />
                     </div>
                 </Col>
                 <Col lg={12} md={12} sm={12} className="mb-4">
@@ -87,7 +87,7 @@ const Sellwithus = () => {
                             <div className="aboutus-factor-title">Get Orders</div>
                             <div className="aboutus-twobanner-subtitle">You'll be notified when your item is sold. Pack your item ready to send.</div>
                         </div>
-                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork3.png'} />
+                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork3.png'} loading="lazy" />
                     </div>
                 </Col>
                 <Col lg={12} md={12} sm={12} className="mb-4">
@@ -97,7 +97,7 @@ const Sellwithus = () => {
                             <div className="aboutus-factor-title">Ship</div>
                             <div className="aboutus-twobanner-subtitle">Handover the packed item to our courier partner at your doorstep for shipping.</div>
                         </div>
-                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork4.png'} />
+                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork4.png'} loading="lazy" />
                     </div>
                 </Col>
                 <Col lg={12} md={12} sm={12} className="mb-4">
@@ -107,7 +107,7 @@ const Sellwithus = () => {
                             <div className="aboutus-factor-title">Earn</div>
                             <div className="aboutus-twobanner-subtitle">Get payments quickly through your account as per ourshopee Term &Conditons.</div>
                         </div>
-                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork5.png'} />
+                        <img className="aboutwork-rightimg" src={'assets/banners/aboutwork5.png'} loading="lazy" />
                     </div>
                 </Col>
             

@@ -433,6 +433,7 @@ const AddressForm = () => {
               <Col lg={12} className="mb-3">
                 <div className={currentLanguage === "ar" ? "flex-row-reverse d-flex" : "d-flex"}>
                   <input
+                  className="z-0"
                     type="checkbox"
                     id="id_Checked"
                     checked={formValues.default_address}

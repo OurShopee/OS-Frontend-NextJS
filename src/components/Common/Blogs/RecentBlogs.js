@@ -15,11 +15,10 @@ const RecentBlogs = ({ data }) => {
           <div className="flex flex-wrap my-[10px]">
             {/* Image Column (50%) */}
             <div className="w-1/2 pr-2">
-              <img
-                src={ele.image}
+              <img src={ele.image}
                 alt={getDynamicContent(ele, "title", currentLanguage)}
                 className="w-full rounded-md object-cover"
-              />
+              loading="lazy" />
             </div>
 
             {/* Text Column (50%) */}

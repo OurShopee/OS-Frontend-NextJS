@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import notloginimg from "../../images/notlogin.png"
+import { getAssetsUrl } from "../utils/helpers";
 import { useDispatch, useSelector } from "react-redux";
 import { setformmodal, setformstatus, setauthstatus } from "../../redux/formslice";
 import { useContent, useCurrentLanguage } from "@/hooks";
@@ -23,7 +23,7 @@ const Notlogin = () => {
     
     return (
         <div className="notlogin" dir={isRTL ? "rtl" : "ltr"}>
-            <img src={notloginimg.src} alt="Not logged in" />
+            <img src={getAssetsUrl("notlogin.png")} alt="Not logged in" loading="lazy" />
             <div className="notlogintitle">{loginTitle}</div>
             <div className="notloginsubtitle">{loginSubtitle}</div>
             <button className="notloginbtn" onClick={loginclick}>{loginButton}</button>

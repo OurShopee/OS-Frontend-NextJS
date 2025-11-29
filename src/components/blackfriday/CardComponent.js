@@ -49,11 +49,10 @@ const DiscountCard = ({
 
       {/* Product image */}
       <div className="absolute -bottom-10 group-hover:-bottom-5 transition-all duration-1000 ease-in-out -right-[25px] w-36 h-40 flex-shrink-0 z-0">
-        <img
-          src={imageSrc}
+        <img src={imageSrc}
           alt={title}
           className="object-contain w-full h-[135px] aspect-[135/145] group-hover:scale-110 group-hover:-translate-x-3 group-hover:-translate-y-1 transition-all duration-1000 ease-in-out"
-        />
+        loading="lazy" />
       </div>
     </div>
   );

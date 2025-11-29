@@ -1,10 +1,5 @@
 "use client";
-import complaintsImg from "@/images/Info Square.png";
-import trackorder from "@/images/Location.png";
-import logoutImg from "@/images/Logout.png";
-import profileimg from "@/images/Profile.png";
-import whistlistimage from "@/images/Stroke 1.png";
-import orderimg from "@/images/order.png";
+import { getAssetsUrl } from "../utils/helpers";
 import { setcartlistdata } from "@/redux/cartslice";
 import { setauthstatus } from "@/redux/formslice";
 import Cookies from "js-cookie";
@@ -14,7 +9,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useContent, useCurrentLanguage } from "@/hooks";
-
+import { IoWallet } from "react-icons/io5";
 
 const NavLink = ({ to, children, className, onClick, ...props }) => {
   const pathname = usePathname();
@@ -49,17 +44,20 @@ export default function Pagedropdown({ logindata }) {
   const address = useContent("header.address");
   const complaints = useContent("header.complaints");
   const logout = useContent("header.logout");
-
+  const wallet = useContent("header.wallet");
   const logoutText = useContent("header.logout");
 
   const dropdownItems = [
-    { to: "/myaccount", img: profileimg.src, label: myProfile },
-    { to: "/my-orders", img: orderimg.src, label: myOrder },
-    { to: "/my-wishlist", img: whistlistimage.src, label: wishlist },
-    { to: "/track-your-order", img: trackorder.src, label: trackOrder },
-    { to: "/address", img: trackorder.src, label: address },
-    { to: "/complaints", img: complaintsImg.src, label: complaints },
+    { to: "/myaccount", img: getAssetsUrl("Profile.png"), label: myProfile },
+    { to: "/my-orders", img: getAssetsUrl("order.png"), label: myOrder },
+    { to: "/wallet", img: getAssetsUrl("wallet-drop.svg"), label: wallet },
+    { to: "/my-wishlist", img: getAssetsUrl("Stroke 1.png"), label: wishlist },
+    { to: "/track-your-order", img: getAssetsUrl("Location.png"), label: trackOrder },
+    { to: "/address", img: getAssetsUrl("Location.png"), label: address },
+    { to: "/complaints", img: getAssetsUrl("Info Square.png"), label: complaints },
   ];
+
+  const isWallet = dropdownItems.find(item => item.to === "/wallet");
 
   const closeDropdown = () => setIsOpen(false);
 
@@ -137,7 +135,7 @@ export default function Pagedropdown({ logindata }) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className={`custom-dropdown-menu absolute top-full ${currentLanguage === "ar" ? "!left-0" : "right-0"} mt-3 bg-white shadow-lg rounded-md min-w-[150px] z-50 p-3`}>
+        <div className={`custom-dropdown-menu absolute top-full ${currentLanguage === "ar" ? "!left-0" : "right-0"} mt-3 bg-white shadow-lg rounded-md min-w-[200px] z-50 p-3`}>
           {dropdownItems.length > 0 &&
             dropdownItems.map((item, index) => (
               <div key={item.to} className="dropdown-item">
@@ -148,15 +146,26 @@ export default function Pagedropdown({ logindata }) {
                   onClick={closeDropdown}
                 >
                   <div className="flex items-center">
-                    <img src={item.img} alt={item.label} />
-                    <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{item.label}</div>
+                    <img src={item.img} alt={item.label} loading="lazy" className="w-5 h-5"/>
+                    <div className={`flex items-center ${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>
+                      {item.label}
+                      {item.to === "/wallet" && (
+                        <span
+                          className={`rounded-full bg-[#5232C2] px-2 py-[2px] text-[10px] font-semibold uppercase text-white ${
+                            currentLanguage === "ar" ? "mr-2" : "ml-2"
+                          }`}
+                        >
+                          New
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </NavLink>
               </div>
             ))}
           <div className="dropdown-item" onClick={logoutclick}>
             <div className="userdropdown no-underline cursor-pointer">
-              <img src={logoutImg.src} alt="logout" />
+              <img src={getAssetsUrl("Logout.png")} alt="logout" loading="lazy" />
               <div className={`${currentLanguage === "ar" ? "pr-[10px]" : "pl-[10px]"}`}>{logoutText}</div>
             </div>
           </div>

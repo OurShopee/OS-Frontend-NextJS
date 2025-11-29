@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import deleteimg from "@/images/Delete.png";
-import editimg from "@/images/Edit.png";
 import { deleteUserAddressapi, saveDefaultAddressapi, getalladdressesapi } from "@/redux/addresslice";
+import { getAssetsUrl } from "@/components/utils/helpers";
 import { FaPlus } from "react-icons/fa6";
 import { MediaQueries } from "@/components/utils";
 import { toggleMobileAddressModal, setaddress_header } from "@/redux/addresslice";
@@ -29,7 +28,7 @@ const MobileAddress = () => {
     const addANewAddress = useContent("buttons.addANewAddress");
 
     useEffect(() => {
-        if (selectedAddressId === null && addresslistdata?.data?.length > 0) {
+        if (addresslistdata?.data?.length > 0) {
             const defaultAddress = addresslistdata.data.find(ele => ele.default_address === 1);
             if (defaultAddress) {
                 setSelectedAddressId(defaultAddress.idaddress);
@@ -38,7 +37,7 @@ const MobileAddress = () => {
     }, [addresslistdata, selectedAddressId]);
 
     const handleSelectAddress = async (idaddress) => {
-        setSelectedAddressId(idaddress);
+        // setSelectedAddressId(idaddress);
         await dispatch(saveDefaultAddressapi({ idaddress }));
         dispatch(getalladdressesapi(0));
         selectaddressclick("selected_address", currentcountry.name,idaddress)
@@ -100,7 +99,7 @@ const MobileAddress = () => {
                                             type="radio"
                                             name="defaultAddress"
                                             aria-label={`Select address of ${ele.first_name}`}
-                                            checked={ele.default_address === 1}
+                                            checked={selectedAddressId === ele.idaddress}
                                             onChange={() => handleSelectAddress(ele.idaddress)}
                                         />
                                     </div>
@@ -124,14 +123,14 @@ const MobileAddress = () => {
                                     </div>
                                     <div className={`edit-remove-main ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
                                         <div className="address-page-edit-remove-btn hoverbox-shadow" onClick={() => handleEditAddress(ele.idaddress)}>
-                                            <img src={editimg} alt="Edit" />
+                                            <img src={getAssetsUrl("Edit.png")} alt="Edit" loading="lazy" />
                                             <span className="btn-title">{edit}</span>
                                         </div>
                                         <div
                                             className="address-page-edit-remove-btn hoverbox-shadow"
                                             onClick={() => deleteAddress(ele.idaddress)}
                                         >
-                                            <img src={deleteimg} alt="Delete" />
+                                            <img src={getAssetsUrl("Delete.png")} alt="Delete" loading="lazy" />
                                             <span className="btn-title">{remove}</span>
                                         </div>
                                     </div>

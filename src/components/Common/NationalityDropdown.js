@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import uparrow from "@/images/Vectoruparrow.png";
-import downarrow from "@/images/Vectordownarrow.png";
+import { getAssetsUrl } from "../utils/helpers";
 import { useContent, useCurrentLanguage, getDynamicContent } from "@/hooks";
 
 const NationalityDropdown = ({
@@ -181,20 +180,20 @@ const NationalityDropdown = ({
           }}
         >
           {showDropdown ? (
-            <img
-              src={uparrow.src}
+            <img src={getAssetsUrl("Vectoruparrow.png")}
               alt="Collapse options"
               onClick={() => setShowDropdown(false)}
+              loading="lazy"
               className="cursor-pointer"
             />
           ) : (
-            <img
-              src={downarrow.src}
+            <img src={getAssetsUrl("Vectordownarrow.png")}
               alt="Expand options"
               onClick={() => {
                 setSearch("");
                 setShowDropdown(true);
               }}
+              loading="lazy"
               className="cursor-pointer"
             />
           )}

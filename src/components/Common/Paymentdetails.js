@@ -18,9 +18,19 @@ import { pushToDataLayer } from "../utils/dataUserpush";
 import Modal from "./Modal";
 import { checkoutSingleProd } from "@/api/payments";
 import { useContent } from "@/hooks/useContent";
+import { getAssetsUrl } from "../utils/helpers";
 
-const Paymentdetails = ({ prodId, qty, sku, address }) => {
-  const currentLanguage = useSelector((state) => state.globalslice.currentLanguage);
+const Paymentdetails = ({
+  prodId,
+  qty,
+  sku,
+  address,
+  walletSelected,
+  usedWalletValue,
+}) => {
+  const currentLanguage = useSelector(
+    (state) => state.globalslice.currentLanguage
+  );
   const placeOrder = useContent("checkout.placeOrder");
   const subtotal = useContent("cart.subtotal");
   const processingFee = useContent("forms.processingFee");
@@ -30,6 +40,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
   const inclusiveOfVat = useContent("forms.inclusiveOfVat");
   const total = useContent("checkout.total");
   const continueText = useContent("buttons.continue");
+  const walletLabel = useContent("wallet.walletlabel");
   const [paymentData, setPaymentData] = useState();
   const [singleCheckout, setSingleCheckout] = useState(false);
   const [cartIds, setCartIds] = useState("");
@@ -58,6 +69,7 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
   const isPaymentPage = pathname === "/Payment";
   const [isLoading, setIsLoading] = useState(false);
   const cartlistdata = useSelector((state) => state.cartslice.cartlistdata);
+  const isRTL = currentLanguage === "ar";
 
   useEffect(() => {
     const fetchCheckoutData = async () => {
@@ -139,6 +151,10 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         cartIds: cartIds,
         discount: coupon?.discount ? coupon.discount : "",
         addressId: address?.idaddress,
+        ...(walletSelected &&
+          usedWalletValue > 0 && {
+            wallet_amount: usedWalletValue,
+          }),
       };
       if (prodId && qty) {
         await SingleCheckout(input_data);
@@ -172,6 +188,10 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
     }
   };
 
+  const subTotal = paymentData?.sub_total || "";
+
+  const includesAED = subTotal.includes("AED");
+
   return (
     <div>
       <div>
@@ -179,7 +199,22 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         {
           <div className="payment-type">
             <div className="payment-type-title">{subtotal} </div>
-            <div className="payment-type-cost">{paymentData?.sub_total}</div>
+            {includesAED ? (
+              <div className="payment-type-cost flex items-center">
+                <img
+                  src={getAssetsUrl("feed/aed-icon.svg")}
+                  alt="AED"
+                  className={`w-3.5 h-3.5 inline-block mix-blend-multiply ${
+                    isRTL ? "ml-0.5" : "mr-0.5"
+                  }`}
+                  style={{ color: "black" }}
+                  loading="lazy"
+                />
+                <div>{subTotal.replace("AED", "").trim()}</div>
+              </div>
+            ) : (
+              <div className="payment-type-cost">{subTotal}</div>
+            )}
           </div>
         }
         {coupon && coupon.discount > 0 && (
@@ -208,6 +243,27 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
           <div className="payment-type">
             <div className="payment-type-title">{donationFeeTitle} </div>
             <div className="payment-type-cost">{donationfee}</div>
+          </div>
+        )}
+        {walletSelected && usedWalletValue > 0 && (
+          <div className="payment-type">
+            <div className="payment-type-title text-[#40B862]">{walletLabel}</div>
+            <div className="payment-type-cost" style={{ color: "green" }}>
+              {currentcountry?.currency == "AED" ? (
+                <>
+                  <img
+                    src={getAssetsUrl("coupons/dirham.svg")}
+                    alt="AED"
+                    className="w-4 h-4 inline-block mix-blend-multiply mr-1"
+                    style={{ color: "black" }}
+                    loading="lazy"
+                  />
+                  {usedWalletValue.toFixed(2)}
+                </>
+              ) : (
+                `-${currentcountry.currency} ${usedWalletValue.toFixed(2)}`
+              )}
+            </div>
           </div>
         )}
         {paymentData?.msg && (
@@ -239,9 +295,27 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
         {
           <div className="payment-type-shipping">
             <div className="payment-type-shippingtitle">{shipping} </div>
-            <div className="payment-type-shippingtitle">
-              {paymentData?.shipping_charge}
-            </div>
+            {includesAED ? (
+              <div className="payment-type-shippingtitle flex items-center">
+                <img
+                  src={getAssetsUrl("coupons/dirham.svg")}
+                  alt="AED"
+                  className={`w-3.5 h-3.5 inline-block mix-blend-multiply ${
+                    isRTL ? "ml-0.5" : "mr-0.5"
+                  }`}
+                  style={{ color: "black" }}
+                  loading="lazy"
+                />
+                <div>
+                  {paymentData?.shipping_charge.replace("AED", "").trim()}
+                </div>
+              </div>
+            ) : (
+              <div className="payment-type-shippingtitle">
+                {paymentData?.shipping_charge}
+              </div>
+            )}
+            {/* {paymentData?.shipping_charge} */}
           </div>
         }
         {!isMobile && <div className="form-border-bottom"></div>}
@@ -251,16 +325,24 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
             {
               <div className="payment-type pb-2">
                 <div className="payment-type-total">
-                  {total}<span className="totalvat">{inclusiveOfVat}</span>
+                  {total}
+                  <span className="totalvat">{inclusiveOfVat}</span>
                 </div>
 
-                <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
+                <div
+                  className={`payment-type-totalcost flex items-center ${
+                    currentLanguage === "ar"
+                      ? "flex-row-reverse justify-end"
+                      : ""
+                  }`}
+                >
                   {currentcountry?.currency == "AED" ? (
                     <img
-                      src="/assets/feed/aed-icon.svg"
+                      src={getAssetsUrl("feed/aed-icon.svg")}
                       alt="AED"
                       className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                       style={{ color: "black" }}
+                      loading="lazy"
                     />
                   ) : (
                     <span className="pe-2">{currentcountry.currency} </span>
@@ -273,7 +355,10 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                       ? Number(donationfee || 0)
                       : 0) +
                     Number(selecteddeafultoption?.[0]?.processing_fee || 0) -
-                    Number(coupon?.discount || 0)
+                    Number(coupon?.discount || 0) -
+                    (walletSelected && usedWalletValue > 0
+                      ? Number(usedWalletValue || 0)
+                      : 0)
                   ).toFixed(2)}
                 </div>
               </div>
@@ -348,14 +433,21 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                 <div className="payment-type-total">
                   Total<span className="totalvat">(Inclusive of VAT)</span>
                 </div>
-                <div className={`payment-type-totalcost flex items-center ${currentLanguage === "ar" ? "flex-row-reverse justify-end" : ""}`}>
+                <div
+                  className={`payment-type-totalcost flex items-center ${
+                    currentLanguage === "ar"
+                      ? "flex-row-reverse justify-end"
+                      : ""
+                  }`}
+                >
                   {" "}
                   {currentcountry?.currency == "AED" ? (
                     <img
-                      src="/assets/feed/aed-icon.svg"
+                      src={getAssetsUrl("feed/aed-icon.svg")}
                       alt="AED"
                       className="w-4 h-4 inline-block mix-blend-multiply mr-1"
                       style={{ color: "black" }}
+                      loading="lazy"
                     />
                   ) : (
                     <span className="pe-2">{currentcountry.currency} </span>
@@ -366,7 +458,10 @@ const Paymentdetails = ({ prodId, qty, sku, address }) => {
                     ) +
                     (showdonation ? Number(donationfee || 0) : 0) +
                     Number(selecteddeafultoption?.[0]?.processing_fee || 0) -
-                    Number(coupon?.discount || 0)
+                    Number(coupon?.discount || 0) -
+                    (walletSelected && usedWalletValue > 0
+                      ? Number(usedWalletValue || 0)
+                      : 0)
                   ).toFixed(2)}
                 </div>
               </div>

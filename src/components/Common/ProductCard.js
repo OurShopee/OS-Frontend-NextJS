@@ -13,6 +13,7 @@ import { useContent, useDynamicContent, useCurrentLanguage } from "@/hooks";
 import VerticalTextCarousel from "../homepage/VerticalTextCarousel";
 import Cookies from "js-cookie";
 import useCart from "@/hooks/useCart";
+import { getAssetsUrl } from "../utils/helpers";
 
 const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
   const youSaved = useContent("product.youSaved");
@@ -126,12 +127,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
             >
               {youSaved}{" "}
               {currentcountry?.currency == "AED" ? (
-                <img
-                  src="/assets/feed/aed-icon.svg"
+                <img src={getAssetsUrl("feed/aed-icon.svg")}
                   alt="AED"
                   className={`w-2.5 h-2.5 inline-block mix-blend-multiply ${isRTL ? "ml-0.5" : "mr-0.5"}`}
                   style={{ color: "black" }}
-                />
+                loading="lazy" />
               ) : (
                 <span className={`currency-symbol text-[12px] ${isRTL ? "ml-0.5" : "mr-0.5"}`}>
                   {currentcountry?.currency}
@@ -240,12 +240,12 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
               isRTL ? "justify-end" : "justify-start"
             }`}
           >
-            <img
-              src="/assets/vector_icons/Express_delivery.gif"
+            <img src={getAssetsUrl("vector_icons/Express_delivery.gif")}
               alt={expressDeliveryText || "Express Delivery"}
               width={isMobile ? 150 : 180}
               height={25}
               className="object-contain"
+              loading="lazy"
             />
           </div>
         ),
@@ -304,9 +304,9 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           </div>
         ) : (
           <div className="relative w-full flex items-center justify-center overflow-hidden rounded-2xl">
-            <img
-              src={item?.image}
+            <img src={item?.image}
               onError={() => setHasError(true)}
+              loading="lazy"
               className={`w-full h-full max-w-[100px] max-h-[100px] object-contain`}
               alt={itemName}
             />
@@ -362,7 +362,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 ></path>
               </svg>
             ) : (
-              <img src={"/assets/vector_icons/shopping_cart.svg"} alt={"cart"} className="w-5 h-5" />
+              <img src={getAssetsUrl("vector_icons/shopping_cart.svg")} alt={"cart"} className="w-5 h-5" />
             )}
           </button>
         )}
@@ -389,12 +389,11 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
           {/* Current Price - Currency always comes first */}
           <div className={`flex items-center gap-0.5 ${isRTL ? "flex-row-reverse" : ""}`}>
             {currentcountry?.currency == "AED" ? (
-              <img
-                src="/assets/feed/aed-icon.svg"
+              <img src={getAssetsUrl("feed/aed-icon.svg")}
                 alt="AED"
                 className={`w-[18px] h-[18px] inline-block mix-blend-multiply ${isRTL ? "ml-0.5" : "mr-0.5"}`}
                 style={{ color: "black" }}
-              />
+              loading="lazy" />
             ) : (
               <span className={`text-[#191B1C] text-xl font-semibold ${isRTL ? "ml-0.5" : "mr-0.5"}`}>
                 {currentcountry?.currency}
@@ -500,7 +499,7 @@ const ProductCard = ({ item, type, type2, eid_sale, section_name = "" }) => {
                 </>
               ) : (
                 <>
-                  <img src={"/assets/vector_icons/cart.png"} alt={"cart"} className="w-4 h-4" />
+                  <img src={getAssetsUrl("vector_icons/cart.png")} alt={"cart"} className="w-4 h-4" />
                   <span className="text-sm font-semibold">{addToCartText}</span>
                 </>
               )}

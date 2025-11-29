@@ -151,10 +151,9 @@ const DealoftheDay = () => {
                   loader={
                     has_more && (
                       <div style={{ textAlign: "center" }}>
-                        <img
-                          src="https://www.ourshopee.com/static/media/loader.b7845d8936c686dc2914.gif"
+                        <img src="https://www.ourshopee.com/static/media/loader.b7845d8936c686dc2914.gif"
                           alt="Loading..."
-                        />
+                        loading="lazy" />
                       </div>
                     )
                   }

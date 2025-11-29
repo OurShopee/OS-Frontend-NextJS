@@ -198,15 +198,14 @@ const ImageCarousel = ({
                 }}
                 className={webfeed && "shadow-sm"}
               >
-                <img
-                  src={img}
+                <img src={img}
                   alt=""
                   style={{
                     objectFit: "contain",
                     width: "100%",
                   }}
                   className={`${webfeed ? "!h-8" : "!h-20"}`}
-                />
+                loading="lazy" />
               </SwiperSlide>
             ))}
           </Swiper>

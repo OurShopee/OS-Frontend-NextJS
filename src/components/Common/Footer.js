@@ -12,15 +12,7 @@ import { TiSocialInstagram } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { useContent, getDynamicContent, useCurrentLanguage } from "@/hooks";
-
-import ConsumerRights from "@/images/ConsumerRights.png";
-import footerlogo from "@/images/Logo.svg";
-import appstore from "@/images/appstore.png";
-import Footerbottomimg2 from "@/images/footer-cash.png";
-import Footerbottomimg4 from "@/images/footer-master.png";
-import Footerbottomimg3 from "@/images/footer-tabby.png";
-import Footerbottomimg1 from "@/images/footer-visa.png";
-import playstore from "@/images/playstore.png";
+import { getAssetsUrl } from "../utils/helpers";
 
 // Custom NavLink component for Next.js App Router
 const NavLink = ({ href, children, className, ...props }) => {
@@ -87,14 +79,13 @@ const Footer = () => {
         <div className="container">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 lg:col-span-3">
-              <img src={footerlogo.src} alt="Footer Logo" />
+              <img src={getAssetsUrl("Logo.svg")} alt="Footer Logo" loading="lazy" />
               <div className="footer-discription">{aboutCompany}</div>
               <div>
-                <img
-                  src={ConsumerRights.src}
+                <img src={getAssetsUrl("ConsumerRights.png")}
                   alt="Consumer Rights"
                   className="w-20"
-                />
+                loading="lazy" />
                 {isBigScreen && (
                   <>
                     <div className="footer-titles">{connectWithUs}</div>
@@ -280,11 +271,10 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
-                      src={appstore.src}
+                    <img src={getAssetsUrl("appstore.png")}
                       className="pb-2 applinks"
                       alt="App Store"
-                    />
+                    loading="lazy" />
                   </Link>
                 </div>
                 <div className="mobileapplinks">
@@ -293,11 +283,10 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
-                      src={playstore.src}
+                    <img src={getAssetsUrl("playstore.png")}
                       className="pb-2 applinks"
                       alt="Play Store"
-                    />
+                    loading="lazy" />
                   </Link>
                 </div>
               </div>
@@ -311,26 +300,22 @@ const Footer = () => {
           <div className="grid grid-cols-12 gap-4">
             {!isBigScreen && (
               <div className="flex col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
-                <img
-                  className="pr-2 w-10"
-                  src={Footerbottomimg1.src}
+                <img className="pr-2 w-10"
+                  src={getAssetsUrl("footer-visa.png")}
                   alt="Footer Bottom 1"
-                />
-                <img
-                  className="pr-2 w-10"
-                  src={Footerbottomimg2.src}
+                loading="lazy" />
+                <img className="pr-2 w-10"
+                  src={getAssetsUrl("footer-cash.png")}
                   alt="Footer Bottom 2"
-                />
-                <img
-                  className="pr-2 w-10"
-                  src={Footerbottomimg3.src}
+                loading="lazy" />
+                <img className="pr-2 w-10"
+                  src={getAssetsUrl("footer-tabby.png")}
                   alt="Footer Bottom 3"
-                />
-                <img
-                  className="pr-2 w-10"
-                  src={Footerbottomimg4.src}
+                loading="lazy" />
+                <img className="pr-2 w-10"
+                  src={getAssetsUrl("footer-master.png")}
                   alt="Footer Bottom 4"
-                />
+                loading="lazy" />
               </div>
             )}
             <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
@@ -341,26 +326,22 @@ const Footer = () => {
             {isBigScreen && (
               <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6">
                 <div className="footerbottom">
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg1.src}
+                  <img className="pr-2 w-10"
+                    src={getAssetsUrl("footer-visa.png")}
                     alt="Footer Bottom 1"
-                  />
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg2.src}
+                  loading="lazy" />
+                  <img className="pr-2 w-10"
+                    src={getAssetsUrl("footer-cash.png")}
                     alt="Footer Bottom 2"
-                  />
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg3.src}
+                  loading="lazy" />
+                  <img className="pr-2 w-10"
+                    src={getAssetsUrl("footer-tabby.png")}
                     alt="Footer Bottom 3"
-                  />
-                  <img
-                    className="pr-2 w-10"
-                    src={Footerbottomimg4.src}
+                  loading="lazy" />
+                  <img className="pr-2 w-10"
+                    src={getAssetsUrl("footer-master.png")}
                     alt="Footer Bottom 4"
-                  />
+                  loading="lazy" />
                 </div>
               </div>
             )}

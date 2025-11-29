@@ -7,6 +7,7 @@ import { useContent, useCurrentLanguage } from "@/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillLike } from "react-icons/ai";
 import { MediaQueries } from "@/components/utils";
+import { getAssetsUrl } from "../../utils/helpers";
 const CouponModal = ({
   show,
   onHide,
@@ -96,12 +97,11 @@ const CouponModal = ({
     const isAED = countryCurrency.toUpperCase() === "AED";
 
     const indicator = isAED ? (
-      <img
-        src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/dirham.svg"
+      <img src={getAssetsUrl("coupons/dirham.svg")}
         alt="AED"
         className={`w-4 h-4 inline-block mix-blend-multiply ${appliedIndicatorClass}`}
         style={{ color: "black" }}
-      />
+      loading="lazy" />
     ) : (
       <span className={`currencycode ${appliedIndicatorClass}`}>
         {countryCurrency}
@@ -684,23 +684,21 @@ const CouponModal = ({
             className="relative rounded-[13px] overflow-hidden !bg-none p-0"
           >
             <div className="relative  h-[300px] lg:h-[376px] bg-gradient-to-b rounded-[32px]">
-              <img
-                src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/bg_sale.png"
+              <img src={getAssetsUrl("coupons/bg_sale.png")}
                 alt="Coupon Applied"
                 className="inset-0 w-full h-full object-cover"
                 style={{ 
                   mixBlendMode: 'multiply'
                 }}
                 onLoad={handleSuccessArtLoaded}
-              />
+              loading="lazy" />
             </div>
             {showGif && (
-              <img
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-3/4 object-contain"
-                src="/assets/animation.gif"
+              <img className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-3/4 object-contain"
+                src={getAssetsUrl("animation.gif")}
                 alt=""
                 aria-hidden="true"
-              />
+              loading="lazy" />
             )}
             <div className="absolute inset-x-0 lg:bottom-[3rem] bottom-[11px] text-center text-lg text-[#1E1E1E] font-medium">
               You saved{" "}
@@ -857,13 +855,12 @@ const CouponCard = ({
 
       {/* Ticket graphic */}
       <div className="flex-shrink-0 h-32 relative">
-        <img
-          src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
+        <img src={getAssetsUrl("coupons/Coupon.svg")}
           alt="Coupon"
           className={`w-full h-full object-contain ${
             expired ? "opacity-60" : ""
           }`}
-        />
+        loading="lazy" />
         <span
           className={`absolute inset-0 flex items-center justify-center text-white text-uppercase font-bold text-[18px] transform -rotate-90 whitespace-nowrap ${
             expired ? "text-gray-500" : ""
@@ -902,12 +899,11 @@ const CouponCard = ({
             >
               for order above{" "}
               {isAED ? (
-                <img
-                  src="/assets/feed/aed-icon.svg"
+                <img src={getAssetsUrl("feed/aed-icon.svg")}
                   alt="AED"
                   className="w-[14px] h-[14px] inline-block mix-blend-multiply"
                   style={{ color: "black" }}
-                />
+                loading="lazy" />
               ) : (
                 <span
                   className={`currencycode ${
@@ -1142,13 +1138,12 @@ const CouponCardMobile = ({
   
         {/* Left ticket stub */}
         <div className="flex-shrink-0 w-20 sm:w-24 min-h-[110px] relative flex items-center justify-center">
-          <img
-            src="https://cdn.ourshopee.com/ourshopee-img/assets/coupons/Coupon.svg"
+          <img src={getAssetsUrl("coupons/Coupon.svg")}
             alt="Coupon"
             className={`absolute inset-0 w-full h-full object-contain ${
               expired ? "opacity-60" : ""
             }`}
-          />
+          loading="lazy" />
           <span
             className={`relative text-white font-bold text-xs sm:text-sm tracking-wide transform -rotate-90 whitespace-nowrap ${
               expired ? "text-gray-500" : ""
@@ -1187,11 +1182,10 @@ const CouponCardMobile = ({
               >
                 <span>for order above</span>
                 {isAED ? (
-                  <img
-                    src="/assets/feed/aed-icon.svg"
+                  <img src={getAssetsUrl("feed/aed-icon.svg")}
                     alt="AED"
                     className="w-[12px] h-[12px] inline-block mix-blend-multiply"
-                  />
+                  loading="lazy" />
                 ) : (
                   <span className="currencycode">{countryCurrency}</span>
                 )}

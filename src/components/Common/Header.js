@@ -6,15 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import logo from "@/images/Logo.png";
-import buyimg from "@/images/Buy.png";
-import buy1img from "@/images/Buy1.png";
 import Pagedropdown from "./Pagedropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 
 import { MdOutlineQrCodeScanner } from "react-icons/md";
-import leftimg from "@/images/Arrow - Left 2.png";
+import { getAssetsUrl } from "../utils/helpers";
 import { setformmodal, setformstatus } from "@/redux/formslice";
 import Carousel3D from "../Carousel3D";
 import CategorySlider from "../CategorySlider";
@@ -166,7 +163,7 @@ const Header = () => {
               <NavLink to="/" className="flex items-center no-rtl-reverse">
                 <Image
                   className="companylogo flex items-center no-rtl-reverse"
-                  src={logo}
+                  src={getAssetsUrl("Logo.svg")}
                   alt="OurShopee Logo"
                   width={120}
                   height={40}
@@ -183,11 +180,10 @@ const Header = () => {
                 to={authstatus ? "/address" : "/address"}
                 className="headertop-leftcorner delivertext cursor-pointer !no-underline gap-1"
               >
-                <img
-                  src={"/assets/vector_icons/location.png"}
+                <img src={getAssetsUrl("vector_icons/location.png")}
                   className="headertop-icons"
                   alt="location"
-                />
+                loading="lazy" />
                 <span className="headertoptitle">{deliverToText}</span>
                 {!authstatus ? (
                   <CurrentLocation />
@@ -228,81 +224,90 @@ const Header = () => {
               <CountryDropdown countryDropdown={countryDropdown} />
             )}
 
-            {/* User */}
-            {!authstatus ? (
-              <div
-                className="header-middle-rightsub cursor-pointer"
-                onClick={loginclick}
-              >
-                <div className="cursor-pointer flex usermain items-center">
-                  <FaUser size={16} />
-                  <span className={`${currentLanguage === "ar" ? "pr-2" : "pl-2"} header-middle-right-title username`}>
-                    {loginText}
-                  </span>
+            {/* User, Wallet, and Cart */}
+            <div className="flex items-center gap-4">
+              {!authstatus ? (
+                <div
+                  className="header-middle-rightsub cursor-pointer"
+                  onClick={loginclick}
+                >
+                  <div className="cursor-pointer flex usermain items-center">
+                    <FaUser size={16} />
+                    <span className={`${currentLanguage === "ar" ? "pr-2" : "pl-2"} header-middle-right-title username`}>
+                      {loginText}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Pagedropdown logindata={logindata} />
-            )}
-            {/* Cart */}
-            <NavLink
-              to="/cart"
-              className={`header-middle-rightsub flex cart-hover no-underline ${cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
-                }`}
-              onClick={() => trackCartClick(currentcountry.name, pageName)}
-            >
-              <div className="headercart-icon">
-                {/* Show when cart is empty */}
-                {(!cartlistdata?.data?.result?.length ||
-                  cartlistdata.data.result.length === 0) && (
+              ) : (
+                <>
+                  <NavLink to="/wallet" className="flex items-center">
+                    <img 
+                      src={getAssetsUrl("wallet-header.png")} 
+                      alt="wallet" 
+                      className="w-[30px] h-[30px] transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer" 
+                    />
+                  </NavLink>
+                  <Pagedropdown logindata={logindata} />
+                </>
+              )}
+              {/* Cart */}
+              <NavLink
+                to="/cart"
+                className={`header-middle-rightsub flex cart-hover no-underline ${cartlistdata?.data?.result?.length > 0 ? "cart-not-empty" : ""
+                  }`}
+                onClick={() => trackCartClick(currentcountry.name, pageName)}
+              >
+                <div className="headercart-icon">
+                  {/* Show when cart is empty */}
+                  {(!cartlistdata?.data?.result?.length ||
+                    cartlistdata.data.result.length === 0) && (
+                      <>
+                        <img
+                          src={getAssetsUrl("Buy.png")}
+                          alt="empty cart"
+                          className="cart-image-default"
+                        loading="lazy" />
+                        <img
+                          src={getAssetsUrl("Buy1.png")}
+                          alt="hover cart"
+                          className="cart-image-hover yellow-filter"
+                        loading="lazy" />
+                      </>
+                    )}
+
+                  {/* Show when cart has items */}
+                  {cartlistdata?.data?.result?.length > 0 && (
                     <>
-                      <Image
-                        src={buyimg}
-                        alt="empty cart"
-                        className="cart-image-default"
-                      />
-                      <Image
-                        src={buy1img}
+                      <img src={getAssetsUrl("Buy1.png")}
+                        alt="filled cart"
+                        className="cart-image-default yellow-filter mb-1"
+                      loading="lazy" />
+                      <img src={getAssetsUrl("Buy1.png")}
                         alt="hover cart"
-                        className="cart-image-hover yellow-filter"
-                      />
+                        className="cart-image-hover yellow-filter mb-1"
+                      loading="lazy" />
                     </>
                   )}
 
-                {/* Show when cart has items */}
-                {cartlistdata?.data?.result?.length > 0 && (
-                  <>
-                    <img
-                      src={buy1img.src}
-                      alt="filled cart"
-                      className="cart-image-default yellow-filter mb-1"
-                    />
-                    <img
-                      src={buy1img.src}
-                      alt="hover cart"
-                      className="cart-image-hover yellow-filter mb-1"
-                    />
-                  </>
-                )}
+                  {cartlistdata?.data?.result?.length > 0 && (
+                    <div className="cartcount">
+                      {cartlistdata.data.result.length}
+                    </div>
+                  )}
+                </div>
 
-                {cartlistdata?.data?.result?.length > 0 && (
-                  <div className="cartcount">
-                    {cartlistdata.data.result.length}
-                  </div>
+                {isBigScreen && (
+                  <span
+                    className={`pl-1 ${cartlistdata?.data?.result?.length > 0
+                      ? "cartcolor"
+                      : "header-middle-right-title"
+                      }`}
+                  >
+                    {/* {cartText} */}
+                  </span>
                 )}
-              </div>
-
-              {isBigScreen && (
-                <span
-                  className={`pl-1 ${cartlistdata?.data?.result?.length > 0
-                    ? "cartcolor"
-                    : "header-middle-right-title"
-                    }`}
-                >
-                  {/* {cartText} */}
-                </span>
-              )}
-            </NavLink>
+              </NavLink>
+            </div>
             {/* </div> */}
           </div>
 
@@ -310,11 +315,11 @@ const Header = () => {
           {!isBigScreen && (
             <div className="mobile-header-search mt-1 mb-2">
               {pathname !== "/" && (
-                <Image
-                  className="header-leftimg cursor-pointer"
-                  src={leftimg}
+                <img className="header-leftimg cursor-pointer"
+                  src={getAssetsUrl("Arrow - Left 2.png")}
                   alt="Back"
                   onClick={() => router.back()}
+                  loading="lazy"
                 />
               )}
               <Search />
@@ -329,12 +334,11 @@ const Header = () => {
                   to="/address"
                   className="headertop-leftcorner delivertext cursor-pointer no-underline"
                 >
-                  <img
-                    src={"/assets/vector_icons/location.png"}
+                  <img src={getAssetsUrl("vector_icons/location.png")}
                     className="headertop-icons"
                     alt=""
                     width={15}
-                  />
+                  loading="lazy" />
                   {/* <span className="pl-1 headertoptitle">{deliverToText}</span> */}
                   <span className="pl-1 currentlocation-address">
                     {addressdata?.[0]?.address}
@@ -342,12 +346,11 @@ const Header = () => {
                 </NavLink>
               ) : (
                 <NavLink to="/address" className="headertop-leftcorner">
-                  <img
-                    src={"/assets/vector_icons/location.png"}
+                  <img src={getAssetsUrl("vector_icons/location.png")}
                     className="headertop-icons"
                     alt=""
                     width={15}
-                  />
+                  loading="lazy" />
                   {/* <span className="pl-1 headertoptitle">{deliverToText}</span> */}
                   <CurrentLocation />
                 </NavLink>
@@ -441,18 +444,16 @@ const Header = () => {
                       }}
                     >
                       <div className="w-[84px] h-[46px]">
-                        <img
-                          className="w-full h-full"
-                          src="/assets/homepage/sale-icon.png"
+                        <img className="w-full h-full"
+                          src={getAssetsUrl("homepage/sale-icon.png")}
                           alt=""
-                        />
+                        loading="lazy" />
                       </div>
                       <div className="w-[32px] h-[44px] animate-flash-pulse">
-                        <img
-                          className="w-full h-full"
-                          src="/assets/homepage/flash-icon.png"
+                        <img className="w-full h-full"
+                          src={getAssetsUrl("homepage/flash-icon.png")}
                           alt=""
-                        />
+                        loading="lazy" />
                       </div>
                     </motion.div>
                   ) : (
@@ -490,11 +491,10 @@ const Header = () => {
                         height: "90px",
                       }}
                     >
-                      <img
-                        className="flex justify-center items-center ml-4 w-full h-[90px] object-contain"
+                      <img className="flex justify-center items-center ml-4 w-full h-[90px] object-contain"
                         src={filteredItems?.[0]?.image}
                         alt=""
-                      />
+                      loading="lazy" />
                     </motion.div>
                   )}
                 </AnimatePresence>

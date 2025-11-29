@@ -112,7 +112,7 @@ export default function ProductCard({ product }) {
                   className={`h-[24px] flex items-center gap-1 text-xs font-semibold w-full ${item.textColor}`}
                 >
                   {item.icon.startsWith("data") ? (
-                    <img src={item.icon} alt={item.text} className="w-4 h-4" />
+                    <img src={item.icon} alt={item.text} className="w-4 h-4" loading="lazy" />
                   ) : (
                     <span>{item.icon}</span>
                   )}

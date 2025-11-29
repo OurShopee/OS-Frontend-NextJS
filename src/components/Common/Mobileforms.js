@@ -1,5 +1,5 @@
 "use client";
-import leftarrow from "@/images/Arrow - Left 2.png";
+import { getAssetsUrl } from "../utils/helpers";
 import { setformmodal, setotpmodal, setprofilenotupdate } from "@/redux/formslice";
 import { useRouter } from "next/navigation";
 import Modal from "react-bootstrap/Modal";
@@ -48,12 +48,11 @@ const Mobileforms = () => {
       <div className={`formsidebar ${formmodal ? "open" : ""}`}>
         <div className="form-topcontent">
           <div className="modalclose formmodal-topicons">
-            <img
-              src={leftarrow.src}
+            <img src={getAssetsUrl("Arrow - Left 2.png")}
               alt="Back arrow"
               onClick={modalbackaction}
               className="cursor-pointer"
-            />
+            loading="lazy" />
             <IoClose
               size={20}
               onClick={() => {

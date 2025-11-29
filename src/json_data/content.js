@@ -283,8 +283,8 @@ export const content = {
       ar: "اكمل",
     },
     placeOrder: {
-      en: "Place Order",
-      ar: "وضع الطلب",
+      en: "Place Your Order Here",
+      ar: "ضع طلبك هنا",
     },
     apply: {
       en: "Apply",
@@ -1040,6 +1040,14 @@ export const content = {
     },
   },
   forms: {
+    cancelled: {
+      en: "Cancelled",
+      ar: "إلغاء الطلب",
+    },
+    amountRefundedToWallet: {
+      en: "Amount Refunded to Wallet",
+      ar: "المبلغ المعاد للمحفظة",
+    },
     email: {
       en: "Email",
       ar: "البريد الإلكتروني",
@@ -1566,13 +1574,29 @@ export const content = {
       en: "Secure Transaction",
       ar: "معاملة آمنة",
     },
+    securedPayments: {
+      en: "Secure Payments",
+      ar: "معاملة آمنة",
+    },
     exchangeAvailable: {
       en: "Exchange Available",
       ar: "التبادل متاح",
     },
+    easyReturn: {
+      en: "7 Days Easy Return",
+      ar: "إرجاع سهل خلال 7 أيام",
+    },
+    helpCenter: {
+      en: "24x7 Help Centre",
+      ar: "مركز المساعدة على مدار الساعة طوال أيام الأسبوع",
+    },
     cashPayOnDelivery: {
       en: "Cash/Pay On Delivery",
       ar: "الدفع نقدًا/عند الاستلام",
+    },
+    cashOnDelivery: {
+      en: "Cash On Delivery",
+      ar: "الدفع عند الاستلام",
     },
     similarProducts: {
       en: "Similar Products",
@@ -1608,7 +1632,7 @@ export const content = {
     },
     securePayment: {
       en: "Secure Payment",
-      ar: "دفع آمن",
+      ar: "الدفع الآمن",
     },
     priceRange: {
       en: "Price Range",
@@ -1764,6 +1788,14 @@ export const content = {
       en: "You have no orders yet",
       ar: "ليس لديك طلبات بعد",
     },
+    noOrdersFound: {
+      en: "No orders found for the provided reference ID.",
+      ar: "لم يتم العثور على طلبات لرقم المرجع المقدم.",
+    },
+    fetchingOrderDetails: {
+      en: "Fetching order details...",
+      ar: "جاري تحميل تفاصيل الطلب...",
+    },
     orderId: {
       en: "Order ID",
       ar: "معرف الطلب",
@@ -1827,6 +1859,10 @@ export const content = {
     cancelled: {
       en: "Cancelled",
       ar: "ملغى",
+    },
+    amountRefundedToWallet: {
+      en: "Amount Refunded To Wallet",
+      ar: "تم استرداد المبلغ إلى المحفظة",
     },
     returned: {
       en: "Returned",
@@ -2014,6 +2050,10 @@ export const content = {
       en: "Select Payment Method",
       ar: "اختر طريقة الدفع",
     },
+    shopeeWallet: {
+      en: "Shopee Wallet",
+      ar: "محفظة شوبي",
+    },
     paymentOptions: {
       en: "Payment options",
       ar: "خيارات الدفع",
@@ -2052,6 +2092,10 @@ export const content = {
     },
   },
   account: {
+    wallet: {
+      en: "Wallet",
+      ar: "المحفظة",
+    },
     myAccount: {
       en: "My Account",
       ar: "حسابي",
@@ -2133,8 +2177,44 @@ export const content = {
       ar: "ضع شكواك وتتبع حالة شكواك.",
     },
     placeComplaint: {
-      en: "Place a complaints",
+      en: "Place a complaint",
       ar: "وضع شكوى",
+    },
+    trackYourComplaints: {
+      en: "Track your complaints",
+      ar: "تتبع شكاواك",
+    },
+    complaintSupportDescription: {
+      en: "Register your complaints here. Our Customer Care Executive will get back to you soon.",
+      ar: "سجّل شكاواك هنا. سيتواصل معك ممثل خدمة العملاء قريبًا.",
+    },
+    complaintSubmitted: {
+      en: "Complaint ID – {{complaint_id}} has been submitted successfully.",
+      ar: "تم تقديم الشكوى ذات المعرف – {{complaint_id}} بنجاح.",
+    },
+    weWillContactSoon: {
+      en: "We will get back to you soon.",
+      ar: "سنتواصل معك قريبًا.",
+    },
+    trackComplaintCta: {
+      en: "Track your complaint",
+      ar: "تتبع شكواك",
+    },
+    complaintReferencePlaceholder: {
+      en: "Order Id / Reference no.",
+      ar: "رقم الطلب / رقم المرجع",
+    },
+    complaintReferenceTitle: {
+      en: "Order Id / Reference ID",
+      ar: "رقم الطلب / معرف المرجع",
+    },
+    complaintCaptchaPlaceholder: {
+      en: "Enter reCAPTCHA",
+      ar: "أدخل رمز التحقق",
+    },
+    captchaMismatch: {
+      en: "Captcha mismatch!",
+      ar: "رمز التحقق غير متطابق!",
     },
   },
   contactUs: {
@@ -2370,6 +2450,10 @@ export const content = {
       en: "My Order",
       ar: "طلبي",
     },
+    wallet: {
+      en: "Shopee Wallet",
+      ar: "المحفظة",
+    },
     wishlist: {
       en: "Wishlist",
       ar: "قائمة الرغبات",
@@ -2567,6 +2651,32 @@ export const content = {
       ar: "قم بتسجيل الدخول لرؤية العناصر التي أضفتها سابقًا",
     },
   },
+  error: {
+    title: {
+      en: "Something went wrong!",
+      ar: "حدث خطأ ما!",
+    },
+    subtitle: {
+      en: "We encountered an unexpected error. Please try again.",
+      ar: "واجهنا خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    },
+    goBack: {
+      en: "Go Back",
+      ar: "العودة",
+    },
+    goHome: {
+      en: "Go to Home",
+      ar: "الذهاب إلى الصفحة الرئيسية",
+    },
+    tryAgain: {
+      en: "Try Again",
+      ar: "حاول مرة أخرى",
+    },
+    helpText: {
+      en: "If the problem persists, please contact our support team.",
+      ar: "إذا استمرت المشكلة، يرجى الاتصال بفريق الدعم لدينا.",
+    },
+  },
   tabby: {
     amI: {
       en: "Am I",
@@ -2691,6 +2801,44 @@ export const content = {
     processStep8: {
       en: "Once the details are submitted and approved, you will be redirected to the Order confirmed page.",
       ar: "بمجرد تقديم التفاصيل والموافقة عليها، سيتم توجيهك إلى صفحة تأكيد الطلب.",
+    },
+  },
+  wallet: {
+    walletHeading: {
+      en: "Shopee Wallet",
+      ar: "محفظة شوبي",
+    },
+    walletDescription: {
+      en: "View your transaction details, manage coupons, find FAQs, get simple instructions, and review our terms all in one place.",
+      ar: "اعرض تفاصيل المعاملات الخاصة بك، ادارة القسائم، العثور على الأسئلة الشائعة، الحصول على تعليمات بسيطة، ومراجعة الشروط الخاصة بنا في مكان واحد.",
+    },
+    totalAvailableBalance: {
+      en: "Total Available Balance",
+      ar: "إجمالي الرصيد المتاح",
+    },
+    balanceDescription: {
+      en: "Use Shopee Balance for quick payments and a seamless checkout process.",
+      ar: "استخدم رصيد شوبي للمدفوعات السريعة وعملية دفع سلسة.",
+    },
+    transactionHistory: {
+      en: "Wallet History",
+      ar: "سجل المعاملات",
+    },
+    noTransactionHistory: {
+      en: "No Wallet History",
+      ar: "لا يوجد تاريخ محفظة",
+    },
+    seeMore: {
+      en: "See more",
+      ar: "عرض المزيد",
+    },
+    paymentMethod: {
+      en: "Pay Using Wallet Balance",
+      ar: "ادفع باستخدام رصيد المحفظة",
+    },
+    walletlabel: {
+      en: "Wallet",
+      ar: "المحفظة",
     },
   },
 };
