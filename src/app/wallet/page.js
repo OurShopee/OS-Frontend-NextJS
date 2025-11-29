@@ -195,7 +195,11 @@ const page = () => {
         <Col lg={9}>
           <Row>
             <Col sm={12}>
-              <div className={`${!isMobile ? "complaintcard p-8 gap-8" : "p-1 gap-4"} flex flex-col`}>
+              <div
+                className={`${
+                  !isMobile ? "complaintcard p-8 gap-8" : "p-1 gap-4"
+                } flex flex-col`}
+              >
                 {!isMobile && (
                   <div className="flex justify-start flex-col w-full">
                     <h1 className="text-black text-xl font-semibold">
@@ -496,52 +500,56 @@ const TransactionsHistoryModalContent = ({
   const hasTransactions = transactions.length > 0;
 
   return (
-    <div className={`bg-white rounded-2xl w-[100vw]  lg:w-[42rem]   max-h-[72vh] shadow-2xl flex flex-col`}>
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+    <div
+      className={`bg-white rounded-2xl w-[100vw]  lg:w-[42rem] max-h-[72vh] shadow-2xl flex flex-col`}
+    >
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 ">
         <h3 className="text-lg font-semibold text-gray-900">{heading}</h3>
       </div>
-      <div
-        className="px-6 py-5 overflow-y-auto custom-scrollbar"
-        style={{ maxHeight: "70vh" }}
-        onScroll={handleScroll}
-      >
-        {hasTransactions ? (
-          <>
-            <Transactions transactions={transactions} limit={null} />
-            <div className="flex flex-col items-center justify-center gap-2 py-4 text-center">
-              {isLoading && (
-                <>
-                  <span className="w-5 h-5 border-2 border-[#7A5AF8]/30 border-t-[#7A5AF8] rounded-full animate-spin"></span>
-                  <span className="text-sm text-gray-500">
-                    Loading more transactions...
+      <div className="overflow-hidden rounded-b-2xl">
+        <div
+          className="px-6 py-5 -pr-4 overflow-y-auto custom-scrollbar"
+          style={{ maxHeight: "70vh" }}
+          onScroll={handleScroll}
+        >
+          {hasTransactions ? (
+            <>
+              <Transactions transactions={transactions} limit={null} />
+              <div className="flex flex-col items-center justify-center gap-2 py-4 text-center">
+                {isLoading && (
+                  <>
+                    <span className="w-5 h-5 border-2 border-[#7A5AF8]/30 border-t-[#7A5AF8] rounded-full animate-spin"></span>
+                    <span className="text-sm text-gray-500">
+                      Loading more transactions...
+                    </span>
+                  </>
+                )}
+                {!isLoading && hasMore && (
+                  <span className="text-xs text-gray-400">
+                    Scroll to load more transactions
                   </span>
-                </>
-              )}
-              {!isLoading && hasMore && (
-                <span className="text-xs text-gray-400">
-                  Scroll to load more transactions
-                </span>
-              )}
-              {!hasMore && !isLoading && (
-                <span className="text-xs text-gray-400">
-                  You have reached the end of the list.
-                </span>
-              )}
+                )}
+                {!hasMore && !isLoading && (
+                  <span className="text-xs text-gray-400">
+                    You have reached the end of the list.
+                  </span>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
+              <img
+                src={getAssetsUrl("no_transac.svg")}
+                alt="No transactions illustration"
+                className="w-[124px] h-[124px] object-contain"
+                loading="lazy"
+              />
+              <p className="text-base text-gray-500 font-medium">
+                {emptyMessage}
+              </p>
             </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
-            <img
-              src={getAssetsUrl("no_transac.svg")}
-              alt="No transactions illustration"
-              className="w-[124px] h-[124px] object-contain"
-              loading="lazy"
-            />
-            <p className="text-base text-gray-500 font-medium">
-              {emptyMessage}
-            </p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
