@@ -32,12 +32,11 @@ import { toast } from "react-toastify";
 import { MediaQueries } from "../../utils";
 import { pushToDataLayer } from "../../utils/dataUserpush";
 import { getAssetsUrl } from "../../utils/helpers";
+import CODOrderModal from "./CODOrderModal";
 import GeneratedOrderModal from "./GeneratedOrderModal";
 import MainModal from "./MainModal";
 import PayLaterModal from "./PayLaterModal";
-import { TRUE } from "sass";
 import PayNowFinal from "./PayNowFinal";
-import CODOrderModal from "./CODOrderModal";
 
 const PLACEHOLDER_IMAGE = "/images/placeholder.png";
 
@@ -133,7 +132,6 @@ const ProductPageLayout = ({
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [savedPrice, setSavedPrice] = useState(0);
-  const [openFinalModal, setOpenFinalModal] = useState(false);
   const [openPayLaterModal, setOpenPayLaterModal] = useState(false);
   const [openPayNowModal, setOpenPayNowModal] = useState(false);
   const [openCODModal, setOpenCODModal] = useState(false);
